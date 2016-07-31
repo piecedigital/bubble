@@ -7,6 +7,9 @@ app
 .get("/", function (req, res) {
   res.send(renderHTML("home"));
 })
+.get("/profile", function (req, res) {
+  res.send(renderHTML("profile"));
+})
 .get("/get-test-data", function (req, res) {
   res.json({
     title: "Burst or Blow | Bubble",

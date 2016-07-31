@@ -1,6 +1,7 @@
 import React from "react";
 import Home from "./home.jsx";
 import { ajax } from "../../modules/ajax";
+import { Link } from 'react-router';
 
 export default React.createClass({
   displayName: "Layout",
@@ -39,7 +40,7 @@ export default React.createClass({
     } = this.state;
     return (
       <div>
-        <nav>NAVIGATION ELEMENT</nav>
+        <nav><Link to={"/"}>Home</Link><Link to={"/profile"}>Profile</Link></nav>
         {
           function () {
             if(prePlaceData) {

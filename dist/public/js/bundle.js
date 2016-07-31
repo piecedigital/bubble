@@ -26144,18 +26144,22 @@ var _jsxLayoutJsx = require("./jsx/layout.jsx");
 
 var _jsxLayoutJsx2 = _interopRequireDefault(_jsxLayoutJsx);
 
-var _jsxHomeJsx = require("./jsx/home.jsx");
+var _jsxProfileJsx = require("./jsx/profile.jsx");
 
-var _jsxHomeJsx2 = _interopRequireDefault(_jsxHomeJsx);
+var _jsxProfileJsx2 = _interopRequireDefault(_jsxProfileJsx);
 
 var container = document.querySelector(".react-app");
 
 (0, _reactDom.render)(_react2["default"].createElement(
   _reactRouter.Router,
   { history: _reactRouter.browserHistory },
-  _react2["default"].createElement(_reactRouter.Route, { path: "/", component: _jsxLayoutJsx2["default"] })
+  _react2["default"].createElement(
+    _reactRouter.Route,
+    { path: "/", component: _jsxLayoutJsx2["default"] },
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", component: _jsxProfileJsx2["default"] })
+  )
 ), container);
-},{"./jsx/home.jsx":240,"./jsx/layout.jsx":241,"react":238,"react-dom":3,"react-router":33}],240:[function(require,module,exports){
+},{"./jsx/layout.jsx":241,"./jsx/profile.jsx":242,"react":238,"react-dom":3,"react-router":33}],240:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26198,6 +26202,8 @@ var _homeJsx = require("./home.jsx");
 var _homeJsx2 = _interopRequireDefault(_homeJsx);
 
 var _modulesAjax = require("../../modules/ajax");
+
+var _reactRouter = require('react-router');
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
@@ -26242,7 +26248,16 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(
         "nav",
         null,
-        "NAVIGATION ELEMENT"
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { to: "/" },
+          "Home"
+        ),
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { to: "/profile" },
+          "Profile"
+        )
       ),
       (function () {
         if (prePlaceData) {
@@ -26255,4 +26270,28 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/ajax":2,"./home.jsx":240,"react":238}]},{},[239]);
+},{"../../modules/ajax":2,"./home.jsx":240,"react":238,"react-router":33}],242:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+exports["default"] = _react2["default"].createClass({
+  displayName: "Home",
+  render: function render() {
+    return _react2["default"].createElement(
+      "h1",
+      null,
+      "I am groot"
+    );
+  }
+});
+module.exports = exports["default"];
+},{"react":238}]},{},[239]);

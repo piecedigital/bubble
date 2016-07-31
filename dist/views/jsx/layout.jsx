@@ -16,6 +16,8 @@ var _homeJsx2 = _interopRequireDefault(_homeJsx);
 
 var _modulesAjax = require("../../modules/ajax");
 
+var _reactRouter = require('react-router');
+
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
@@ -59,7 +61,16 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(
         "nav",
         null,
-        "NAVIGATION ELEMENT"
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { to: "/" },
+          "Home"
+        ),
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { to: "/profile" },
+          "Profile"
+        )
       ),
       (function () {
         if (prePlaceData) {
