@@ -23,34 +23,12 @@ var renderHTML = function renderHTML(fileName) {
   var Layout = require("../views/jsx/layout.jsx");
   var Page = require("../views/jsx/" + fileName + ".jsx");
 
-  var data = _reactDomServer2["default"].renderToStaticMarkup(_react2["default"].createElement(
-    "html",
-    null,
-    _react2["default"].createElement(
-      "head",
-      null,
-      _react2["default"].createElement("meta", { charSet: "utf-8" }),
-      _react2["default"].createElement(
-        "title",
-        null,
-        prePlaceData.title
-      )
-    ),
-    _react2["default"].createElement(
-      "body",
-      null,
-      _react2["default"].createElement(
-        "div",
-        { className: "react-app" },
-        _react2["default"].createElement(
-          Layout,
-          { data: prePlaceData },
-          _react2["default"].createElement(Page, { data: prePlaceData })
-        )
-      )
-    )
+  var data = _reactDomServer2["default"].renderToString(_react2["default"].createElement(
+    Layout,
+    { data: prePlaceData },
+    _react2["default"].createElement(Page, { data: prePlaceData })
   ));
-  return "<!DOCTYPE html>" + data;
+  return "<!DOCTYPE html><html><head><meta charSet=\"utf-8\" /><title>" + prePlaceData.title + "</title></head><body><div class=\"react-app\">" + data + "</div><script src=\"/js/bundle.js\"></script></body></html>";
 };
 exports.renderHTML = renderHTML;
 // console.log(renderHTML("home"));

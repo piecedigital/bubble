@@ -16,6 +16,11 @@ var app = (0, _express2["default"])();
 
 app.get("/", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("home"));
+}).get("/get-test-data", function (req, res) {
+  res.json({
+    title: "Burst or Blow | Bubble",
+    who: "WORLD"
+  });
 });
 
 exports["default"] = app;

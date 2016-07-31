@@ -1,9 +1,14 @@
 import fs from "fs";
-export const logOut = function (message, logIt, type, errorType) {
+export const logOut = function (message, logIt, options = {
+  type: ""
+}) {
+  const {
+    type
+  } = options;
   let time = `[${new Date().toUTCString()}]`;
   let milTime = `[${new Date().getTime()}]`;
-  let error = `[${errorType || "0"}]`;
-  let msg = `[${message}]`;
+  let error = `[${type || "0"}]`;
+  let msg = `[${message.message || message}]`;
   let outMessage = `${milTime} ${time} ${error} ${msg}\r\n`;
 
   new Promise(function(resolve, reject) {

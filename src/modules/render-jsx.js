@@ -8,21 +8,11 @@ export const renderHTML = function(fileName, prePlaceData = {
   var Layout = require(`../views/jsx/layout.jsx`);
   var Page = require(`../views/jsx/${fileName}.jsx`);
 
-  let data = RDS.renderToStaticMarkup(
-    <html>
-      <head>
-        <meta charSet="utf-8" />
-        <title>{prePlaceData.title}</title>
-      </head>
-      <body>
-        <div className="react-app">
-          <Layout data={prePlaceData}>
-            <Page data={prePlaceData} />
-          </Layout>
-        </div>
-      </body>
-    </html>
+  let data = RDS.renderToString(
+    <Layout data={prePlaceData}>
+      <Page data={prePlaceData} />
+    </Layout>
   );
-  return `<!DOCTYPE html>${data}`;
+  return `<!DOCTYPE html><html><head><meta charSet="utf-8" /><title>${prePlaceData.title}</title></head><body><div class="react-app">${data}</div><script src="/js/bundle.js"></script></body></html>`;
 };
 // console.log(renderHTML("home"));

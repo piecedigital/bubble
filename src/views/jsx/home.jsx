@@ -5,6 +5,6 @@ export default React.createClass({
   render() {
     return (
       <h1>Hello {this.props.data.who}</h1>
-    )
+    );
   }
 })

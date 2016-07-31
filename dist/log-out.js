@@ -10,11 +10,16 @@ var _fs = require("fs");
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var logOut = function logOut(message, logIt, type, errorType) {
+var logOut = function logOut(message, logIt) {
+  var options = arguments.length <= 2 || arguments[2] === undefined ? {
+    type: ""
+  } : arguments[2];
+  var type = options.type;
+
   var time = "[" + new Date().toUTCString() + "]";
   var milTime = "[" + new Date().getTime() + "]";
-  var error = "[" + (errorType || "0") + "]";
-  var msg = "[" + message + "]";
+  var error = "[" + (type || "0") + "]";
+  var msg = "[" + (message.message || message) + "]";
   var outMessage = milTime + " " + time + " " + error + " " + msg + "\r\n";
 
   new Promise(function (resolve, reject) {
