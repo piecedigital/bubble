@@ -20,16 +20,18 @@ var renderHTML = function renderHTML(fileName) {
     who: "WORLD"
   } : arguments[1];
 
+  console.log(prePlaceData);
   var Layout = require("../views/jsx/layout.jsx");
   var Page = require("../views/jsx/" + fileName + ".jsx");
 
-  var data = _reactDomServer2["default"].renderToString(_react2["default"].createElement(
+  var data = _reactDomServer2["default"].renderToStaticMarkup(_react2["default"].createElement(
     "html",
     null,
     _react2["default"].createElement(
       "head",
       null,
       _react2["default"].createElement("meta", { charSet: "utf-8" }),
+      _react2["default"].createElement("link", { rel: "stylesheet", href: "/css/style.css", media: "screen", title: "no title", charSet: "utf-8" }),
       _react2["default"].createElement(
         "title",
         null,
@@ -45,7 +47,7 @@ var renderHTML = function renderHTML(fileName) {
         _react2["default"].createElement(
           Layout,
           { data: prePlaceData },
-          _react2["default"].createElement(Page, { data: prePlaceData })
+          _react2["default"].createElement(Page, null)
         )
       ),
       _react2["default"].createElement("script", { src: "/js/bundle.js" })

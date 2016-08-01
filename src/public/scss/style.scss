@@ -1,0 +1,45 @@
+$em: 16px;
+$midGrey: rgba(125,125,125,1);
+$offBlack: rgba(30,30,30,1);
+
+@mixin displayInlineFlex {
+  display: -ms-inline-flex;
+  display: -moz-inline-flex;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+}
+
+@mixin displayFlex {
+  display: -ms-flex;
+  display: -moz-flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
+html {
+  font-family: Helvetica, sans-serif, arial;
+}
+
+body {
+  margin: 0;
+  background: $midGrey;
+}
+
+nav {
+  @include displayFlex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 14*$em;
+  margin: auto;
+  .nav-item {
+    background-color: $offBlack;
+    color: white;
+    padding: .5*$em 1*$em;
+    &.login {
+      box-shadow: inset 0 0 0 .25*$em #6441a4;
+    }
+  }
+}

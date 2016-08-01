@@ -5,7 +5,12 @@ const app = express();
 
 app
 .get("/", function (req, res) {
-  res.send(renderHTML("home"));
+  console.log(req.cookies);
+  res.send(renderHTML("home", {
+    auth: {
+      access_token: req.cookies["access_token"]
+    }
+  }));
 })
 .get("/profile", function (req, res) {
   res.send(renderHTML("profile"));

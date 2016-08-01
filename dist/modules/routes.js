@@ -15,7 +15,12 @@ var _renderJsx = require("./render-jsx");
 var app = (0, _express2["default"])();
 
 app.get("/", function (req, res) {
-  res.send((0, _renderJsx.renderHTML)("home"));
+  console.log(req.cookies);
+  res.send((0, _renderJsx.renderHTML)("home", {
+    auth: {
+      access_token: req.cookies["access_token"]
+    }
+  }));
 }).get("/profile", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("profile"));
 }).get("/get-test-data", function (req, res) {

@@ -4,3 +4,8 @@ var env = {
 };
 // would put other environment variables here
 cp.fork("./dist/app.js", env);
+
+process.on('uncaughtException', function (err) {
+  console.log("\n\r **Uncaught Exception event** \n\r");
+  console.log(err);
+});

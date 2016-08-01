@@ -10,6 +10,10 @@ var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
 
+var _cookieParser = require("cookie-parser");
+
+var _cookieParser2 = _interopRequireDefault(_cookieParser);
+
 var _modulesRoutes = require("./modules/routes");
 
 var _modulesRoutes2 = _interopRequireDefault(_modulesRoutes);
@@ -18,8 +22,14 @@ var _logOut = require("./log-out");
 
 var app = (0, _express2["default"])();
 app.use(_express2["default"]["static"](_path2["default"].join(__dirname, "public")));
+app.use(_cookieParser2["default"]);
 app.use(_modulesRoutes2["default"]);
 var PORT = process.env["PORT"] || 8080;
 
 app.listen(PORT);
 (0, _logOut.logOut)("Listening on port " + PORT, true);
+
+process.on('uncaughtException', function (err) {
+  console.log("\n\r **Uncaught Exception event** \n\r");
+  console.log(err);
+});

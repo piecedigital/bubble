@@ -1,0 +1,9 @@
+html { font-family: Helvetica, sans-serif, arial; }
+
+body { margin: 0; background: #7d7d7d; }
+
+nav { display: -ms-flex; display: -moz-flex; display: -webkit-box; display: -webkit-flex; display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 224px; margin: auto; }
+nav .nav-item { background-color: #1e1e1e; color: white; padding: 8px 16px; }
+nav .nav-item.login { box-shadow: inset 0 0 0 4px #6441a4; }
+
+/*# sourceMappingURL=style.css.map */

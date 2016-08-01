@@ -12,13 +12,27 @@ var _react2 = _interopRequireDefault(_react);
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Home",
+  getInitialState: function getInitialState() {
+    return {
+      posts: this.props.userData && this.props.userData.posts || {}
+    };
+  },
   render: function render() {
-    return _react2["default"].createElement(
-      "h1",
-      null,
-      "Hello ",
-      this.props.data.who
-    );
+    var auth = this.props.auth;
+
+    if (auth && this.props.userData) {
+      var posts = this.props.userData.posts;
+    } else {
+      return _react2["default"].createElement(
+        "ul",
+        null,
+        _react2["default"].createElement(
+          "div",
+          { className: "not-logged-in" },
+          "You must log in to see your feed"
+        )
+      );
+    }
   }
 });
 module.exports = exports["default"];
