@@ -48,6 +48,7 @@ exports["default"] = _react2["default"].createClass({
   loadData: function loadData(errorCB) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
+    options = Object.assign({}, options);
     options.stream_type = options.stream_type || "live";
     options.limit = options.limit || 20;
     var baseURL = "https://api.twitch.tv/kraken/";
@@ -64,6 +65,11 @@ exports["default"] = _react2["default"].createClass({
       games: function games(okayCB) {
         options.offset = options.offset || this.state.gameRequestOffset;
         return this.makeRequest(okayCB, "games");
+      },
+      users: function users(okayCB, username) {
+        delete options.stream_type;
+        delete options.limit;
+        return this.makeRequest(okayCB, "users/" + username);
       },
       makeRequest: function makeRequest(okayCB, path) {
         return new Promise(function (resolve, reject) {
@@ -87,6 +93,11 @@ exports["default"] = _react2["default"].createClass({
         });
       }
     };
+  },
+  appendStream: function appendStream(username) {
+    var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+    console.log("appending stream", username, isSolo);
   },
   componentDidMount: function componentDidMount() {
     var authData = {};
@@ -136,6 +147,7 @@ exports["default"] = _react2["default"].createClass({
         )
       ),
       _react2["default"].createElement(_homeJsx2["default"], { parent: this, auth: authData, methods: {
+          appendStream: this.appendStream,
           loadData: this.loadData
         } })
     );

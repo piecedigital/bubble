@@ -26809,9 +26809,50 @@ var ListItem = _react2["default"].createClass({
 // the displayed stream of the feature streams
 var FeaturedStream = _react2["default"].createClass({
   displayName: "FeaturedStream",
+  getInitialState: function getInitialState() {
+    return {
+      displayName: "",
+      bio: ""
+    };
+  },
+  fetchUserData: function fetchUserData() {
+    var _this = this;
+
+    this.setState({
+      displayName: "",
+      bio: ""
+    }, function () {
+      var _props2 = _this.props;
+      var loadData = _props2.methods.loadData;
+      var _props2$data$stream$channel = _props2.data.stream.channel;
+      var name = _props2$data$stream$channel.name;
+      var logo = _props2$data$stream$channel.logo;
+
+      loadData(function (e) {
+        console.error(e.stack);
+      }).users(null, name).then(function (data) {
+        _this.setState({
+          displayName: data.display_name,
+          bio: data.bio
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack);
+      });
+    });
+  },
+  componentDidMount: function componentDidMount() {
+    this.fetchUserData();
+  },
+  componentWillReceiveProps: function componentWillReceiveProps() {
+    this.fetchUserData();
+  },
   render: function render() {
-    console.log(this.props);
-    var name = this.props.data.stream.channel.name;
+    var _props3 = this.props;
+    var appendStream = _props3.methods.appendStream;
+    var name = _props3.data.stream.channel.name;
+    var _state = this.state;
+    var displayName = _state.displayName;
+    var bio = _state.bio;
 
     return _react2["default"].createElement(
       "div",
@@ -26820,12 +26861,37 @@ var FeaturedStream = _react2["default"].createClass({
         "div",
         { className: "stream" },
         _react2["default"].createElement("iframe", { src: "http://player.twitch.tv/?channel=" + name })
+      ),
+      displayName ? _react2["default"].createElement(
+        "div",
+        { className: "stream-info" },
+        _react2["default"].createElement(
+          "div",
+          { className: "display-name" },
+          displayName
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "bio" },
+          bio
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "watch", onClick: function () {
+              appendStream(name);
+            } },
+          "watch this stream"
+        )
+      ) : _react2["default"].createElement(
+        "div",
+        { className: "stream-info" },
+        "Loading channel info..."
       )
     );
   }
 });
 
-// primary section for the featured componentt
+// primary section for the featured component
 exports["default"] = _react2["default"].createClass({
   displayName: "FeaturedStreams",
   getInitialState: function getInitialState() {
@@ -26841,18 +26907,18 @@ exports["default"] = _react2["default"].createClass({
     });
   },
   componentDidMount: function componentDidMount() {
-    var _this = this;
+    var _this2 = this;
 
-    var loadData = this.props.loadData;
+    var loadData = this.props.methods.loadData;
 
     if (loadData) {
       loadData(function (e) {
         console.error(e.stack);
       }).featured().then(function (data) {
         // console.log(data);
-        _this.setState({
-          featuredRequestOffset: _this.state.featuredRequestOffset + 25,
-          featuredArray: Array.from(_this.state.featuredArray).concat(data.featured)
+        _this2.setState({
+          featuredRequestOffset: _this2.state.featuredRequestOffset + 25,
+          featuredArray: Array.from(_this2.state.featuredArray).concat(data.featured)
         });
       })["catch"](function (e) {
         return console.error(e.stack);
@@ -26860,18 +26926,22 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   render: function render() {
-    var _this2 = this;
+    var _this3 = this;
 
-    var _state = this.state;
-    var featuredRequestOffset = _state.featuredRequestOffset;
-    var featuredArray = _state.featuredArray;
-    var appendStream = this.props.methods.appendStream;
+    var _state2 = this.state;
+    var featuredRequestOffset = _state2.featuredRequestOffset;
+    var featuredArray = _state2.featuredArray;
+    var _props$methods = this.props.methods;
+    var appendStream = _props$methods.appendStream;
+    var loadData = _props$methods.loadData;
 
-    // console.log(featuredArray);
     return _react2["default"].createElement(
       "div",
       { className: "featured-streams" },
-      featuredArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: featuredArray[this.state.featuredStreamIndex] }) : null,
+      featuredArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: featuredArray[this.state.featuredStreamIndex], methods: {
+          appendStream: appendStream,
+          loadData: loadData
+        } }) : null,
       _react2["default"].createElement(
         "div",
         { className: "wrapper" },
@@ -26881,7 +26951,7 @@ exports["default"] = _react2["default"].createClass({
           featuredArray.map(function (itemData, ind) {
             return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData, methods: {
                 appendStream: appendStream,
-                displayStream: _this2.displayStream
+                displayStream: _this3.displayStream
               } });
           })
         )
@@ -26924,8 +26994,9 @@ exports["default"] = _react2["default"].createClass({
       "div",
       { className: "home-page" },
       _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], { methods: {
-          appendStream: appendStream
-        }, loadData: loadData })
+          appendStream: appendStream,
+          loadData: loadData
+        } })
     );
   }
 });
@@ -26986,6 +27057,7 @@ exports["default"] = _react2["default"].createClass({
   loadData: function loadData(errorCB) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
+    options = Object.assign({}, options);
     options.stream_type = options.stream_type || "live";
     options.limit = options.limit || 20;
     var baseURL = "https://api.twitch.tv/kraken/";
@@ -27002,6 +27074,11 @@ exports["default"] = _react2["default"].createClass({
       games: function games(okayCB) {
         options.offset = options.offset || this.state.gameRequestOffset;
         return this.makeRequest(okayCB, "games");
+      },
+      users: function users(okayCB, username) {
+        delete options.stream_type;
+        delete options.limit;
+        return this.makeRequest(okayCB, "users/" + username);
       },
       makeRequest: function makeRequest(okayCB, path) {
         return new Promise(function (resolve, reject) {
@@ -27025,6 +27102,11 @@ exports["default"] = _react2["default"].createClass({
         });
       }
     };
+  },
+  appendStream: function appendStream(username) {
+    var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+    console.log("appending stream", username, isSolo);
   },
   componentDidMount: function componentDidMount() {
     var authData = {};
@@ -27074,6 +27156,7 @@ exports["default"] = _react2["default"].createClass({
         )
       ),
       _react2["default"].createElement(_homeJsx2["default"], { parent: this, auth: authData, methods: {
+          appendStream: this.appendStream,
           loadData: this.loadData
         } })
     );

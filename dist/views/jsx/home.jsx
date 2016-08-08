@@ -31,8 +31,9 @@ exports["default"] = _react2["default"].createClass({
       "div",
       { className: "home-page" },
       _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], { methods: {
-          appendStream: appendStream
-        }, loadData: loadData })
+          appendStream: appendStream,
+          loadData: loadData
+        } })
     );
   }
 });

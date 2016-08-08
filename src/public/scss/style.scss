@@ -2,6 +2,7 @@ $em: 16px;
 $midGrey: rgba(125,125,125,1);
 $offWhite: rgba(235,235,235,1);
 $offBlack: rgba(30,30,30,1);
+$purple: #6441a4;
 $primary: rgba(0, 200, 250, 1);
 
 @mixin displayInlineFlex {
@@ -50,7 +51,8 @@ nav {
         border-right: 1px solid black;
       }
       &.login {
-        box-shadow: inset 0 0 0 .25*$em #6441a4;
+        background-color: $purple;
+        color: white;
       }
     }
   }

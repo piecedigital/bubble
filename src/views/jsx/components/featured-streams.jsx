@@ -51,9 +51,50 @@ const ListItem = React.createClass({
 // the displayed stream of the feature streams
 const FeaturedStream = React.createClass({
   displayName: "FeaturedStream",
+  getInitialState() {
+    return {
+      displayName: "",
+      bio: ""
+    }
+  },
+  fetchUserData() {
+    this.setState({
+      displayName: "",
+      bio: ""
+    }, () => {
+      const {
+        methods: {
+          loadData
+        },
+        data: {
+          stream: {
+            channel: {
+              name,
+              logo
+            }
+          }
+        }
+      } = this.props;
+      loadData(e => {
+        console.error(e.stack);
+      })
+      .users(null, name)
+      .then(data => {
+        this.setState({
+          displayName: data.display_name,
+          bio: data.bio
+        });
+      })
+      .catch(e => console.error(e.stack));
+    });
+  },
+  componentDidMount() { this.fetchUserData() },
+  componentWillReceiveProps() { this.fetchUserData() },
   render() {
-    console.log(this.props);
     const {
+      methods: {
+        appendStream
+      },
       data: {
         stream: {
           channel: {
@@ -62,17 +103,42 @@ const FeaturedStream = React.createClass({
         }
       }
     } = this.props;
+    const {
+      displayName,
+      bio
+    } = this.state;
     return (
       <div className="featured-stream">
         <div className="stream">
           <iframe src={`http://player.twitch.tv/?channel=${name}`} />
         </div>
+        {
+          displayName ? (
+            <div className="stream-info">
+              <div className="display-name">
+                {displayName}
+              </div>
+              <div className="bio">
+                {bio}
+              </div>
+              <div className="watch" onClick={() => {
+                appendStream(name);
+              }}>
+                {"watch this stream"}
+              </div>
+            </div>
+          ) : (
+            <div className="stream-info">
+              {"Loading channel info..."}
+            </div>
+          )
+        }
       </div>
     );
   }
 });
 
-// primary section for the featured componentt
+// primary section for the featured component
 export default React.createClass({
   displayName: "FeaturedStreams",
   getInitialState() {
@@ -89,7 +155,9 @@ export default React.createClass({
   },
   componentDidMount() {
     const {
-      loadData
+      methods: {
+        loadData
+      }
     } = this.props;
     if(loadData) {
       loadData(e => {
@@ -113,15 +181,18 @@ export default React.createClass({
     } = this.state;
     const {
       methods: {
-        appendStream
+        appendStream,
+        loadData
       }
     } = this.props
-    // console.log(featuredArray);
     return (
       <div className="featured-streams">
         {
           featuredArray.length > 0 ? (
-            <FeaturedStream data={featuredArray[this.state.featuredStreamIndex]} />
+            <FeaturedStream data={featuredArray[this.state.featuredStreamIndex]} methods={{
+              appendStream,
+              loadData
+            }} />
           ) : null
         }
         <div className="wrapper">

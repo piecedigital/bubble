@@ -28,6 +28,7 @@ export default React.createClass({
     }
   },
   loadData(errorCB, options = {}) {
+    options = Object.assign({}, options);
     options.stream_type = options.stream_type || "live";
     options.limit = options.limit || 20;
     let baseURL = "https://api.twitch.tv/kraken/";
@@ -44,6 +45,11 @@ export default React.createClass({
       games(okayCB) {
         options.offset = options.offset || this.state.gameRequestOffset;
         return this.makeRequest(okayCB, "games");
+      },
+      users(okayCB, username) {
+        delete options.stream_type;
+        delete options.limit;
+        return this.makeRequest(okayCB, `users/${username}`);
       },
       makeRequest(okayCB, path) {
         return new Promise((resolve, reject) => {
@@ -67,6 +73,9 @@ export default React.createClass({
         });
       }
     }
+  },
+  appendStream(username, isSolo = true) {
+    console.log("appending stream", username, isSolo);
   },
   componentDidMount() {
     let authData = {};
@@ -110,6 +119,7 @@ export default React.createClass({
           </div>
         </nav>
         <Home parent={this} auth={authData} methods={{
+          appendStream: this.appendStream,
           loadData: this.loadData
         }}/>
       </div>

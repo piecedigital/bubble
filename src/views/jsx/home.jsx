@@ -18,8 +18,9 @@ export default React.createClass({
     return (
       <div className="home-page">
         <Featured methods={{
-          appendStream
-        }} loadData={loadData} />
+          appendStream,
+          loadData
+        }} />
         {/*<Streams methods={{
           appendStream
         }} loadData={loadData} />*/}
