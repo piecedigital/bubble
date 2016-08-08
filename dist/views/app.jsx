@@ -25,7 +25,7 @@ var container = document.querySelector(".react-app");
   { history: _reactRouter.browserHistory },
   _react2["default"].createElement(
     _reactRouter.Route,
-    { path: "/", component: _jsxLayoutJsx2["default"] },
-    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", component: _jsxProfileJsx2["default"] })
+    { path: "/", location: "home", component: _jsxLayoutJsx2["default"] },
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: _jsxProfileJsx2["default"] })
   )
 ), container);

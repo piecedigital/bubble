@@ -1,6 +1,8 @@
 $em: 16px;
 $midGrey: rgba(125,125,125,1);
+$offWhite: rgba(235,235,235,1);
 $offBlack: rgba(30,30,30,1);
+$primary: rgba(0, 200, 250, 1);
 
 @mixin displayInlineFlex {
   display: -ms-inline-flex;
@@ -24,22 +26,32 @@ html {
 
 body {
   margin: 0;
-  background: $midGrey;
+  background: $offWhite;
 }
 
 nav {
-  @include displayFlex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 14*$em;
-  margin: auto;
-  .nav-item {
-    background-color: $offBlack;
-    color: white;
-    padding: .5*$em 1*$em;
-    &.login {
-      box-shadow: inset 0 0 0 .25*$em #6441a4;
+  text-align: right;
+  pointer-events: none;
+  > div {
+    @include displayInlineFlex;
+    flex-direction: row;
+    // justify-content: space-around;
+    justify-content: flex-end;
+    align-items: center;
+    // width: 14*$em;
+    pointer-events: auto;
+    .nav-item {
+      background-color: $primary;
+      color: black;
+      padding: .5*$em 1*$em;
+      text-decoration: none;
+      font-weight: bold;
+      &:not(:last-child) {
+        border-right: 1px solid black;
+      }
+      &.login {
+        box-shadow: inset 0 0 0 .25*$em #6441a4;
+      }
     }
   }
 }

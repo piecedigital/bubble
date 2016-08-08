@@ -18,7 +18,54 @@ export default React.createClass({
   displayName: "Layout",
   getInitialState() {
     return {
-      authData: (this.props.data && this.props.data.authData) || null
+      authData: (this.props.data && this.props.data.authData) || null,
+      featuredRequestOffset: 0,
+      streamRequestOffset: 0,
+      gameRequestOffset: 0,
+      featuredArray: [],
+      streamsArray: [],
+      gamesArray: [],
+    }
+  },
+  loadData(errorCB, options = {}) {
+    options.stream_type = options.stream_type || "live";
+    options.limit = options.limit || 20;
+    let baseURL = "https://api.twitch.tv/kraken/";
+    return {
+      featured(okayCB) {
+        options.limit = 25;
+        options.offset = 0;
+        return this.makeRequest(okayCB, "streams/featured");
+      },
+      streams(okayCB) {
+        options.offset = options.offset || this.state.streamRequestOffset;
+        return this.makeRequest(okayCB, "streams");
+      },
+      games(okayCB) {
+        options.offset = options.offset || this.state.gameRequestOffset;
+        return this.makeRequest(okayCB, "games");
+      },
+      makeRequest(okayCB, path) {
+        return new Promise((resolve, reject) => {
+          let requestURL = `${baseURL}${path}?`;
+          Object.keys(options).map(key => {
+            let value = options[key];
+            requestURL += `${key}=${value}&`
+          });
+          requestURL.replace(/&$/, "");
+          ajax({
+            url: requestURL,
+            success(data) {
+              data = JSON.parse(data);
+              resolve(data);
+              if(typeof okayCB === "function") okayCB(data);
+            },
+            error(error) {
+              console.error(error);
+            }
+          })
+        });
+      }
     }
   },
   componentDidMount() {
@@ -51,16 +98,20 @@ export default React.createClass({
     return (
       <div>
         <nav>
-          <Link className="nav-item" to={"/"}>Home</Link>
-          {
-            authData && authData.access_token ? (
-              <Link className="nav-item" to={"/profile"}>Profile</Link>
-            ) : (
-              <a className="nav-item login" href={url}>Login to Twitch</a>
-            )
-          }
+          <div>
+            <Link className="nav-item" to={"/"}>Home</Link>
+            {
+              authData && authData.access_token ? (
+                <Link className="nav-item" to={"/profile"}>Profile</Link>
+              ) : (
+                <a className="nav-item login" href={url}>Login to Twitch</a>
+              )
+            }
+          </div>
         </nav>
-        <Home auth={authData}/>
+        <Home parent={this} auth={authData} methods={{
+          loadData: this.loadData
+        }}/>
       </div>
     )
   }

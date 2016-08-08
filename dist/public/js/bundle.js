@@ -26737,11 +26737,11 @@ var container = document.querySelector(".react-app");
   { history: _reactRouter.browserHistory },
   _react2["default"].createElement(
     _reactRouter.Route,
-    { path: "/", component: _jsxLayoutJsx2["default"] },
-    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", component: _jsxProfileJsx2["default"] })
+    { path: "/", location: "home", component: _jsxLayoutJsx2["default"] },
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: _jsxProfileJsx2["default"] })
   )
 ), container);
-},{"./jsx/layout.jsx":243,"./jsx/profile.jsx":244,"react":240,"react-dom":5,"react-router":35}],242:[function(require,module,exports){
+},{"./jsx/layout.jsx":244,"./jsx/profile.jsx":245,"react":240,"react-dom":5,"react-router":35}],242:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26754,33 +26754,188 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-exports["default"] = _react2["default"].createClass({
-  displayName: "Home",
-  getInitialState: function getInitialState() {
-    return {
-      posts: this.props.userData && this.props.userData.posts || {}
-    };
-  },
+// list item for featured streams
+var ListItem = _react2["default"].createClass({
+  displayName: "feat-ListItem",
   render: function render() {
-    var auth = this.props.auth;
+    var _props = this.props;
+    var index = _props.index;
+    var displayStream = _props.methods.displayStream;
+    var _props$data$stream = _props.data.stream;
+    var game = _props$data$stream.game;
+    var viewers = _props$data$stream.viewers;
+    var title = _props$data$stream.title;
+    var id = _props$data$stream._id;
+    var preview = _props$data$stream.preview;
+    var _props$data$stream$channel = _props$data$stream.channel;
+    var mature = _props$data$stream$channel.mature;
+    var logo = _props$data$stream$channel.logo;
+    var name = _props$data$stream$channel.name;
+    var language = _props$data$stream$channel.language;
 
-    if (auth && this.props.userData) {
-      var posts = this.props.userData.posts;
-    } else {
-      return _react2["default"].createElement(
-        "ul",
-        null,
+    return _react2["default"].createElement(
+      "li",
+      { onClick: function () {
+          displayStream(index);
+        } },
+      _react2["default"].createElement(
+        "div",
+        { className: "image" },
+        _react2["default"].createElement("img", { src: preview.medium })
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "info" },
         _react2["default"].createElement(
           "div",
-          { className: "not-logged-in" },
-          "You must log in to see your feed"
+          { className: "channel-name" },
+          name
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "title" },
+          title
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "game" },
+          "Live with \"" + game + "\""
         )
-      );
+      )
+    );
+  }
+});
+
+// the displayed stream of the feature streams
+var FeaturedStream = _react2["default"].createClass({
+  displayName: "FeaturedStream",
+  render: function render() {
+    console.log(this.props);
+    var name = this.props.data.stream.channel.name;
+
+    return _react2["default"].createElement(
+      "div",
+      { className: "featured-stream" },
+      _react2["default"].createElement(
+        "div",
+        { className: "stream" },
+        _react2["default"].createElement("iframe", { src: "http://player.twitch.tv/?channel=" + name })
+      )
+    );
+  }
+});
+
+// primary section for the featured componentt
+exports["default"] = _react2["default"].createClass({
+  displayName: "FeaturedStreams",
+  getInitialState: function getInitialState() {
+    return {
+      featuredRequestOffset: 0,
+      featuredArray: [],
+      featuredStreamIndex: 0
+    };
+  },
+  displayStream: function displayStream(index) {
+    this.setState({
+      featuredStreamIndex: index
+    });
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    var loadData = this.props.loadData;
+
+    if (loadData) {
+      loadData(function (e) {
+        console.error(e.stack);
+      }).featured().then(function (data) {
+        // console.log(data);
+        _this.setState({
+          featuredRequestOffset: _this.state.featuredRequestOffset + 25,
+          featuredArray: Array.from(_this.state.featuredArray).concat(data.featured)
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack);
+      });
     }
+  },
+  render: function render() {
+    var _this2 = this;
+
+    var _state = this.state;
+    var featuredRequestOffset = _state.featuredRequestOffset;
+    var featuredArray = _state.featuredArray;
+    var appendStream = this.props.methods.appendStream;
+
+    // console.log(featuredArray);
+    return _react2["default"].createElement(
+      "div",
+      { className: "featured-streams" },
+      featuredArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: featuredArray[this.state.featuredStreamIndex] }) : null,
+      _react2["default"].createElement(
+        "div",
+        { className: "wrapper" },
+        _react2["default"].createElement(
+          "ul",
+          { className: "list" },
+          featuredArray.map(function (itemData, ind) {
+            return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData, methods: {
+                appendStream: appendStream,
+                displayStream: _this2.displayStream
+              } });
+          })
+        )
+      )
+    );
   }
 });
 module.exports = exports["default"];
 },{"react":240}],243:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _componentsFeaturedStreamsJsx = require("./components/featured-streams.jsx");
+
+var _componentsFeaturedStreamsJsx2 = _interopRequireDefault(_componentsFeaturedStreamsJsx);
+
+// import Streams from "./components/live-streams";
+// import Games from "./components/top-games";
+
+exports["default"] = _react2["default"].createClass({
+  displayName: "Home",
+  getInitialState: function getInitialState() {
+    return {};
+  },
+  render: function render() {
+    var _props$methods = this.props.methods;
+    var loadData = _props$methods.loadData;
+    var appendStream = _props$methods.appendStream;
+
+    return _react2["default"].createElement(
+      "div",
+      { className: "home-page" },
+      _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], { methods: {
+          appendStream: appendStream
+        }, loadData: loadData })
+    );
+  }
+});
+module.exports = exports["default"];
+/*<Streams methods={{
+ appendStream
+}} loadData={loadData} />*/ /*<Games methods={{
+                             appendStream
+                            }} loadData={loadData} />*/
+},{"./components/featured-streams.jsx":242,"react":240}],244:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26819,7 +26974,56 @@ exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
     return {
-      authData: this.props.data && this.props.data.authData || null
+      authData: this.props.data && this.props.data.authData || null,
+      featuredRequestOffset: 0,
+      streamRequestOffset: 0,
+      gameRequestOffset: 0,
+      featuredArray: [],
+      streamsArray: [],
+      gamesArray: []
+    };
+  },
+  loadData: function loadData(errorCB) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    options.stream_type = options.stream_type || "live";
+    options.limit = options.limit || 20;
+    var baseURL = "https://api.twitch.tv/kraken/";
+    return {
+      featured: function featured(okayCB) {
+        options.limit = 25;
+        options.offset = 0;
+        return this.makeRequest(okayCB, "streams/featured");
+      },
+      streams: function streams(okayCB) {
+        options.offset = options.offset || this.state.streamRequestOffset;
+        return this.makeRequest(okayCB, "streams");
+      },
+      games: function games(okayCB) {
+        options.offset = options.offset || this.state.gameRequestOffset;
+        return this.makeRequest(okayCB, "games");
+      },
+      makeRequest: function makeRequest(okayCB, path) {
+        return new Promise(function (resolve, reject) {
+          var requestURL = "" + baseURL + path + "?";
+          Object.keys(options).map(function (key) {
+            var value = options[key];
+            requestURL += key + "=" + value + "&";
+          });
+          requestURL.replace(/&$/, "");
+          (0, _modulesAjax.ajax)({
+            url: requestURL,
+            success: function success(data) {
+              data = JSON.parse(data);
+              resolve(data);
+              if (typeof okayCB === "function") okayCB(data);
+            },
+            error: function error(_error) {
+              console.error(_error);
+            }
+          });
+        });
+      }
     };
   },
   componentDidMount: function componentDidMount() {
@@ -26851,26 +27055,32 @@ exports["default"] = _react2["default"].createClass({
         "nav",
         null,
         _react2["default"].createElement(
-          _reactRouter.Link,
-          { className: "nav-item", to: "/" },
-          "Home"
-        ),
-        authData && authData.access_token ? _react2["default"].createElement(
-          _reactRouter.Link,
-          { className: "nav-item", to: "/profile" },
-          "Profile"
-        ) : _react2["default"].createElement(
-          "a",
-          { className: "nav-item login", href: url },
-          "Login to Twitch"
+          "div",
+          null,
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { className: "nav-item", to: "/" },
+            "Home"
+          ),
+          authData && authData.access_token ? _react2["default"].createElement(
+            _reactRouter.Link,
+            { className: "nav-item", to: "/profile" },
+            "Profile"
+          ) : _react2["default"].createElement(
+            "a",
+            { className: "nav-item login", href: url },
+            "Login to Twitch"
+          )
         )
       ),
-      _react2["default"].createElement(_homeJsx2["default"], { auth: authData })
+      _react2["default"].createElement(_homeJsx2["default"], { parent: this, auth: authData, methods: {
+          loadData: this.loadData
+        } })
     );
   }
 });
 module.exports = exports["default"];
-},{"../../modules/ajax":2,"./home.jsx":242,"firebase":3,"react":240,"react-router":35}],244:[function(require,module,exports){
+},{"../../modules/ajax":2,"./home.jsx":243,"firebase":3,"react":240,"react-router":35}],245:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

@@ -8,8 +8,8 @@ const container = document.querySelector(".react-app");
 
 render((
   <Router history={History}>
-    <Route path="/" component={Layout}>
-      <Route path="/profile" component={Profile}>
+    <Route path="/" location="home" component={Layout}>
+      <Route path="/profile" location="profile" component={Profile}>
       </Route>
     </Route>
   </Router>

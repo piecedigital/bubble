@@ -1,26 +1,32 @@
 import React from "react";
+import Featured from "./components/featured-streams.jsx";
+// import Streams from "./components/live-streams";
+// import Games from "./components/top-games";
 
 export default React.createClass({
   displayName: "Home",
   getInitialState() {
-    return {
-      posts: this.props.userData && this.props.userData.posts || {}
-    }
+    return {}
   },
   render() {
     const {
-      auth
+      methods: {
+        loadData,
+        appendStream
+      }
     } = this.props;
-    if(auth && this.props.userData) {
-      const {
-        posts
-      } = this.props.userData;
-    } else {
-      return (
-        <ul>
-          <div className="not-logged-in">You must log in to see your feed</div>
-        </ul>
-      );
-    }
+    return (
+      <div className="home-page">
+        <Featured methods={{
+          appendStream
+        }} loadData={loadData} />
+        {/*<Streams methods={{
+          appendStream
+        }} loadData={loadData} />*/}
+        {/*<Games methods={{
+          appendStream
+        }} loadData={loadData} />*/}
+      </div>
+    );
   }
 })

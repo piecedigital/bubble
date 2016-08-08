@@ -5,15 +5,17 @@ import routes from "./modules/routes";
 import { logOut } from "./log-out";
 
 const app = express();
-app.use(express.static(path.join(__dirname, "public")));
-app.use(cookieParser);
-app.use(routes);
 const PORT = process.env["PORT"] || 8080;
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser());
+app.use(routes);
 
 app.listen(PORT);
 logOut(`Listening on port ${PORT}`, true);
 
 process.on('uncaughtException', function (err) {
-  console.log("\n\r **Uncaught Exception event** \n\r");
-  console.log(err);
+  logOut("**Uncaught Exception event**", true, {
+    type: "error"
+  });
 });

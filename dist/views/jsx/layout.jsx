@@ -36,7 +36,56 @@ exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
     return {
-      authData: this.props.data && this.props.data.authData || null
+      authData: this.props.data && this.props.data.authData || null,
+      featuredRequestOffset: 0,
+      streamRequestOffset: 0,
+      gameRequestOffset: 0,
+      featuredArray: [],
+      streamsArray: [],
+      gamesArray: []
+    };
+  },
+  loadData: function loadData(errorCB) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    options.stream_type = options.stream_type || "live";
+    options.limit = options.limit || 20;
+    var baseURL = "https://api.twitch.tv/kraken/";
+    return {
+      featured: function featured(okayCB) {
+        options.limit = 25;
+        options.offset = 0;
+        return this.makeRequest(okayCB, "streams/featured");
+      },
+      streams: function streams(okayCB) {
+        options.offset = options.offset || this.state.streamRequestOffset;
+        return this.makeRequest(okayCB, "streams");
+      },
+      games: function games(okayCB) {
+        options.offset = options.offset || this.state.gameRequestOffset;
+        return this.makeRequest(okayCB, "games");
+      },
+      makeRequest: function makeRequest(okayCB, path) {
+        return new Promise(function (resolve, reject) {
+          var requestURL = "" + baseURL + path + "?";
+          Object.keys(options).map(function (key) {
+            var value = options[key];
+            requestURL += key + "=" + value + "&";
+          });
+          requestURL.replace(/&$/, "");
+          (0, _modulesAjax.ajax)({
+            url: requestURL,
+            success: function success(data) {
+              data = JSON.parse(data);
+              resolve(data);
+              if (typeof okayCB === "function") okayCB(data);
+            },
+            error: function error(_error) {
+              console.error(_error);
+            }
+          });
+        });
+      }
     };
   },
   componentDidMount: function componentDidMount() {
@@ -68,21 +117,27 @@ exports["default"] = _react2["default"].createClass({
         "nav",
         null,
         _react2["default"].createElement(
-          _reactRouter.Link,
-          { className: "nav-item", to: "/" },
-          "Home"
-        ),
-        authData && authData.access_token ? _react2["default"].createElement(
-          _reactRouter.Link,
-          { className: "nav-item", to: "/profile" },
-          "Profile"
-        ) : _react2["default"].createElement(
-          "a",
-          { className: "nav-item login", href: url },
-          "Login to Twitch"
+          "div",
+          null,
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { className: "nav-item", to: "/" },
+            "Home"
+          ),
+          authData && authData.access_token ? _react2["default"].createElement(
+            _reactRouter.Link,
+            { className: "nav-item", to: "/profile" },
+            "Profile"
+          ) : _react2["default"].createElement(
+            "a",
+            { className: "nav-item login", href: url },
+            "Login to Twitch"
+          )
         )
       ),
-      _react2["default"].createElement(_homeJsx2["default"], { auth: authData })
+      _react2["default"].createElement(_homeJsx2["default"], { parent: this, auth: authData, methods: {
+          loadData: this.loadData
+        } })
     );
   }
 });

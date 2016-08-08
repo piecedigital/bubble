@@ -15,7 +15,6 @@ var _renderJsx = require("./render-jsx");
 var app = (0, _express2["default"])();
 
 app.get("/", function (req, res) {
-  console.log(req.cookies);
   res.send((0, _renderJsx.renderHTML)("home", {
     auth: {
       access_token: req.cookies["access_token"]
@@ -28,6 +27,8 @@ app.get("/", function (req, res) {
     title: "Burst or Blow | Bubble",
     who: "WORLD"
   });
+}).get("*", function (req, res) {
+  res.status(404).send("not found");
 });
 
 exports["default"] = app;

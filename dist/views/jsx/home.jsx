@@ -10,29 +10,35 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _componentsFeaturedStreamsJsx = require("./components/featured-streams.jsx");
+
+var _componentsFeaturedStreamsJsx2 = _interopRequireDefault(_componentsFeaturedStreamsJsx);
+
+// import Streams from "./components/live-streams";
+// import Games from "./components/top-games";
+
 exports["default"] = _react2["default"].createClass({
   displayName: "Home",
   getInitialState: function getInitialState() {
-    return {
-      posts: this.props.userData && this.props.userData.posts || {}
-    };
+    return {};
   },
   render: function render() {
-    var auth = this.props.auth;
+    var _props$methods = this.props.methods;
+    var loadData = _props$methods.loadData;
+    var appendStream = _props$methods.appendStream;
 
-    if (auth && this.props.userData) {
-      var posts = this.props.userData.posts;
-    } else {
-      return _react2["default"].createElement(
-        "ul",
-        null,
-        _react2["default"].createElement(
-          "div",
-          { className: "not-logged-in" },
-          "You must log in to see your feed"
-        )
-      );
-    }
+    return _react2["default"].createElement(
+      "div",
+      { className: "home-page" },
+      _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], { methods: {
+          appendStream: appendStream
+        }, loadData: loadData })
+    );
   }
 });
 module.exports = exports["default"];
+/*<Streams methods={{
+ appendStream
+}} loadData={loadData} />*/ /*<Games methods={{
+                             appendStream
+                            }} loadData={loadData} />*/

@@ -1,11 +1,8 @@
 import React from "react";
 import RDS from "react-dom/server";
 
-export const renderHTML = function(fileName, prePlaceData = {
-  title: "Burst or Blow | Bubble",
-  who: "WORLD"
-}) {
-  console.log(prePlaceData);
+export const renderHTML = function(fileName, prePlaceData) {
+  prePlaceData.title = prePlaceData.title || "Q&A Aggregator for Twitch streamers | TwiQu21"
   var Layout = require(`../views/jsx/layout.jsx`);
   var Page = require(`../views/jsx/${fileName}.jsx`);
 

@@ -5,7 +5,6 @@ const app = express();
 
 app
 .get("/", function (req, res) {
-  console.log(req.cookies);
   res.send(renderHTML("home", {
     auth: {
       access_token: req.cookies["access_token"]
@@ -20,6 +19,9 @@ app
     title: "Burst or Blow | Bubble",
     who: "WORLD"
   });
+})
+.get("*", function (req, res) {
+  res.status(404).send("not found");
 });
 
 export default app;
