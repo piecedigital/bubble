@@ -26741,7 +26741,7 @@ var container = document.querySelector(".react-app");
     _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: _jsxProfileJsx2["default"] })
   )
 ), container);
-},{"./jsx/layout.jsx":244,"./jsx/profile.jsx":245,"react":240,"react-dom":5,"react-router":35}],242:[function(require,module,exports){
+},{"./jsx/layout.jsx":245,"./jsx/profile.jsx":246,"react":240,"react-dom":5,"react-router":35}],242:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26828,12 +26828,16 @@ var FeaturedStream = _react2["default"].createClass({
       var name = _props2$data$stream$channel.name;
       var logo = _props2$data$stream$channel.logo;
 
-      loadData(function (e) {
+      loadData.call(_this, function (e) {
         console.error(e.stack);
-      }).users(null, name).then(function (data) {
-        _this.setState({
-          displayName: data.display_name,
-          bio: data.bio
+      }).then(function (methods) {
+        methods.getUser(null, name).then(function (data) {
+          _this.setState({
+            displayName: data.display_name,
+            bio: data.bio
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
         });
       })["catch"](function (e) {
         return console.error(e.stack);
@@ -26847,6 +26851,8 @@ var FeaturedStream = _react2["default"].createClass({
     this.fetchUserData();
   },
   render: function render() {
+    var _this2 = this;
+
     var _props3 = this.props;
     var appendStream = _props3.methods.appendStream;
     var name = _props3.data.stream.channel.name;
@@ -26860,7 +26866,7 @@ var FeaturedStream = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "stream" },
-        _react2["default"].createElement("iframe", { src: "http://player.twitch.tv/?channel=" + name })
+        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
       ),
       displayName ? _react2["default"].createElement(
         "div",
@@ -26878,7 +26884,7 @@ var FeaturedStream = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "watch", onClick: function () {
-              appendStream(name);
+              appendStream.call(_this2, name);
             } },
           "watch this stream"
         )
@@ -26896,8 +26902,8 @@ exports["default"] = _react2["default"].createClass({
   displayName: "FeaturedStreams",
   getInitialState: function getInitialState() {
     return {
-      featuredRequestOffset: 0,
-      featuredArray: [],
+      requestOffset: 0,
+      dataArray: [],
       featuredStreamIndex: 0
     };
   },
@@ -26907,18 +26913,22 @@ exports["default"] = _react2["default"].createClass({
     });
   },
   componentDidMount: function componentDidMount() {
-    var _this2 = this;
+    var _this3 = this;
 
     var loadData = this.props.methods.loadData;
 
     if (loadData) {
-      loadData(function (e) {
+      loadData.call(this, function (e) {
         console.error(e.stack);
-      }).featured().then(function (data) {
-        // console.log(data);
-        _this2.setState({
-          featuredRequestOffset: _this2.state.featuredRequestOffset + 25,
-          featuredArray: Array.from(_this2.state.featuredArray).concat(data.featured)
+      }).then(function (methods) {
+        methods.featured().then(function (data) {
+          // console.log(data);
+          _this3.setState({
+            offset: _this3.state.requestOffset + 25,
+            dataArray: Array.from(_this3.state.dataArray).concat(data.featured)
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
         });
       })["catch"](function (e) {
         return console.error(e.stack);
@@ -26926,11 +26936,11 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   render: function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _state2 = this.state;
-    var featuredRequestOffset = _state2.featuredRequestOffset;
-    var featuredArray = _state2.featuredArray;
+    var requestOffset = _state2.requestOffset;
+    var dataArray = _state2.dataArray;
     var _props$methods = this.props.methods;
     var appendStream = _props$methods.appendStream;
     var loadData = _props$methods.loadData;
@@ -26938,7 +26948,7 @@ exports["default"] = _react2["default"].createClass({
     return _react2["default"].createElement(
       "div",
       { className: "featured-streams" },
-      featuredArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: featuredArray[this.state.featuredStreamIndex], methods: {
+      dataArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: dataArray[this.state.featuredStreamIndex], methods: {
           appendStream: appendStream,
           loadData: loadData
         } }) : null,
@@ -26948,10 +26958,10 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement(
           "ul",
           { className: "list" },
-          featuredArray.map(function (itemData, ind) {
+          dataArray.map(function (itemData, ind) {
             return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData, methods: {
                 appendStream: appendStream,
-                displayStream: _this3.displayStream
+                displayStream: _this4.displayStream
               } });
           })
         )
@@ -26973,12 +26983,135 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
+// list item for featured streams
+var ListItem = _react2["default"].createClass({
+  displayName: "feat-ListItem",
+  render: function render() {
+    var _props$data = this.props.data;
+    var channels = _props$data.channels;
+    var viewers = _props$data.viewers;
+    var _props$data$game = _props$data.game;
+    var name = _props$data$game.name;
+    var id = _props$data$game._id;
+    var box = _props$data$game.box;
+
+    return _react2["default"].createElement(
+      "li",
+      null,
+      _react2["default"].createElement(
+        _reactRouter.Link,
+        { to: "/search/game?q=" + name },
+        _react2["default"].createElement(
+          "div",
+          { className: "image" },
+          _react2["default"].createElement("img", { src: box.medium })
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "info" },
+          _react2["default"].createElement(
+            "div",
+            { className: "game-name" },
+            name
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "channel-count" },
+            channels + " total streams"
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "viewer-count" },
+            viewers + " total viewers"
+          )
+        )
+      )
+    );
+  }
+});
+
+// primary section for the featured component
+exports["default"] = _react2["default"].createClass({
+  displayName: "TopGames",
+  getInitialState: function getInitialState() {
+    return {
+      requestOffset: 0,
+      dataArray: []
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    var loadData = this.props.methods.loadData;
+
+    if (loadData) {
+      loadData.call(this, function (e) {
+        console.error(e.stack);
+      }).then(function (methods) {
+        methods.topGames().then(function (data) {
+          // console.log(data);
+          _this.setState({
+            offset: _this.state.requestOffset + 20,
+            dataArray: Array.from(_this.state.dataArray).concat(data.top)
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack);
+      });
+    }
+  },
+  render: function render() {
+    var _state = this.state;
+    var requestOffset = _state.requestOffset;
+    var dataArray = _state.dataArray;
+    var _props$methods = this.props.methods;
+    var appendStream = _props$methods.appendStream;
+    var loadData = _props$methods.loadData;
+
+    return _react2["default"].createElement(
+      "div",
+      { className: "top-games" },
+      _react2["default"].createElement(
+        "div",
+        { className: "wrapper" },
+        _react2["default"].createElement(
+          "ul",
+          { className: "list" },
+          dataArray.map(function (itemData, ind) {
+            return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData });
+          })
+        )
+      )
+    );
+  }
+});
+module.exports = exports["default"];
+},{"react":240,"react-router":35}],244:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
 var _componentsFeaturedStreamsJsx = require("./components/featured-streams.jsx");
 
 var _componentsFeaturedStreamsJsx2 = _interopRequireDefault(_componentsFeaturedStreamsJsx);
 
 // import Streams from "./components/live-streams";
-// import Games from "./components/top-games";
+
+var _componentsTopGamesJsx = require("./components/top-games.jsx");
+
+var _componentsTopGamesJsx2 = _interopRequireDefault(_componentsTopGamesJsx);
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Home",
@@ -26996,17 +27129,15 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], { methods: {
           appendStream: appendStream,
           loadData: loadData
+        } }),
+      _react2["default"].createElement(_componentsTopGamesJsx2["default"], { methods: {
+          loadData: loadData
         } })
     );
   }
 });
 module.exports = exports["default"];
-/*<Streams methods={{
- appendStream
-}} loadData={loadData} />*/ /*<Games methods={{
-                             appendStream
-                            }} loadData={loadData} />*/
-},{"./components/featured-streams.jsx":242,"react":240}],244:[function(require,module,exports){
+},{"./components/featured-streams.jsx":242,"./components/top-games.jsx":243,"react":240}],245:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27040,73 +27171,91 @@ var config = {
 };
 _firebase2["default"].initializeApp(config);
 var ref = _firebase2["default"].database().ref;
+function loadData(errorCB) {
+  var _this = this;
+
+  var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+  console.log(this);
+  options = Object.assign({}, options);
+  options.stream_type = options.stream_type || "live";
+  options.limit = options.limit || 20;
+  var baseURL = "https://api.twitch.tv/kraken/";
+  var makeRequest = function makeRequest(okayCB, path) {
+    return new Promise(function (resolve, reject) {
+      var requestURL = "" + baseURL + path + "?";
+      Object.keys(options).map(function (key) {
+        var value = options[key];
+        requestURL += key + "=" + value + "&";
+      });
+      requestURL.replace(/&$/, "");
+      (0, _modulesAjax.ajax)({
+        url: requestURL,
+        success: function success(data) {
+          data = JSON.parse(data);
+          resolve(data);
+          if (typeof okayCB === "function") okayCB(data);
+        },
+        error: function error(_error) {
+          console.error(_error);
+        }
+      });
+    });
+  };
+  return new Promise(function (resolve, reject) {
+    resolve({
+      featured: function featured(okayCB) {
+        // console.log(this);
+        options.limit = 25;
+        options.offset = 0;
+        return makeRequest(okayCB, "streams/featured");
+      },
+      topGames: function topGames(okayCB) {
+        // console.log(this);
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "games/top");
+      },
+      getUser: function getUser(okayCB, username) {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, "users/" + username);
+      },
+      followedStreams: function followedStreams(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "search/followed");
+      },
+      followedVideos: function followedVideos(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "videos/followed");
+      },
+      searchChannels: function searchChannels(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "search/channels");
+      },
+      searchStreams: function searchStreams(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "search/streams");
+      },
+      searchGame: function searchGame(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "search/games");
+      }
+    });
+  });
+};
+
+function appendStream(username) {
+  var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+  console.log("appending stream", username, isSolo);
+};
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
     return {
-      authData: this.props.data && this.props.data.authData || null,
-      featuredRequestOffset: 0,
-      streamRequestOffset: 0,
-      gameRequestOffset: 0,
-      featuredArray: [],
-      streamsArray: [],
-      gamesArray: []
+      authData: this.props.data && this.props.data.authData || null
     };
-  },
-  loadData: function loadData(errorCB) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    options = Object.assign({}, options);
-    options.stream_type = options.stream_type || "live";
-    options.limit = options.limit || 20;
-    var baseURL = "https://api.twitch.tv/kraken/";
-    return {
-      featured: function featured(okayCB) {
-        options.limit = 25;
-        options.offset = 0;
-        return this.makeRequest(okayCB, "streams/featured");
-      },
-      streams: function streams(okayCB) {
-        options.offset = options.offset || this.state.streamRequestOffset;
-        return this.makeRequest(okayCB, "streams");
-      },
-      games: function games(okayCB) {
-        options.offset = options.offset || this.state.gameRequestOffset;
-        return this.makeRequest(okayCB, "games");
-      },
-      users: function users(okayCB, username) {
-        delete options.stream_type;
-        delete options.limit;
-        return this.makeRequest(okayCB, "users/" + username);
-      },
-      makeRequest: function makeRequest(okayCB, path) {
-        return new Promise(function (resolve, reject) {
-          var requestURL = "" + baseURL + path + "?";
-          Object.keys(options).map(function (key) {
-            var value = options[key];
-            requestURL += key + "=" + value + "&";
-          });
-          requestURL.replace(/&$/, "");
-          (0, _modulesAjax.ajax)({
-            url: requestURL,
-            success: function success(data) {
-              data = JSON.parse(data);
-              resolve(data);
-              if (typeof okayCB === "function") okayCB(data);
-            },
-            error: function error(_error) {
-              console.error(_error);
-            }
-          });
-        });
-      }
-    };
-  },
-  appendStream: function appendStream(username) {
-    var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-    console.log("appending stream", username, isSolo);
   },
   componentDidMount: function componentDidMount() {
     var authData = {};
@@ -27156,14 +27305,14 @@ exports["default"] = _react2["default"].createClass({
         )
       ),
       _react2["default"].createElement(_homeJsx2["default"], { parent: this, auth: authData, methods: {
-          appendStream: this.appendStream,
-          loadData: this.loadData
+          appendStream: appendStream,
+          loadData: loadData
         } })
     );
   }
 });
 module.exports = exports["default"];
-},{"../../modules/ajax":2,"./home.jsx":243,"firebase":3,"react":240,"react-router":35}],245:[function(require,module,exports){
+},{"../../modules/ajax":2,"./home.jsx":244,"firebase":3,"react":240,"react-router":35}],246:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

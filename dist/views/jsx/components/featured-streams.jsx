@@ -84,12 +84,16 @@ var FeaturedStream = _react2["default"].createClass({
       var name = _props2$data$stream$channel.name;
       var logo = _props2$data$stream$channel.logo;
 
-      loadData(function (e) {
+      loadData.call(_this, function (e) {
         console.error(e.stack);
-      }).users(null, name).then(function (data) {
-        _this.setState({
-          displayName: data.display_name,
-          bio: data.bio
+      }).then(function (methods) {
+        methods.getUser(null, name).then(function (data) {
+          _this.setState({
+            displayName: data.display_name,
+            bio: data.bio
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
         });
       })["catch"](function (e) {
         return console.error(e.stack);
@@ -103,6 +107,8 @@ var FeaturedStream = _react2["default"].createClass({
     this.fetchUserData();
   },
   render: function render() {
+    var _this2 = this;
+
     var _props3 = this.props;
     var appendStream = _props3.methods.appendStream;
     var name = _props3.data.stream.channel.name;
@@ -116,7 +122,7 @@ var FeaturedStream = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "stream" },
-        _react2["default"].createElement("iframe", { src: "http://player.twitch.tv/?channel=" + name })
+        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
       ),
       displayName ? _react2["default"].createElement(
         "div",
@@ -134,7 +140,7 @@ var FeaturedStream = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "watch", onClick: function () {
-              appendStream(name);
+              appendStream.call(_this2, name);
             } },
           "watch this stream"
         )
@@ -152,8 +158,8 @@ exports["default"] = _react2["default"].createClass({
   displayName: "FeaturedStreams",
   getInitialState: function getInitialState() {
     return {
-      featuredRequestOffset: 0,
-      featuredArray: [],
+      requestOffset: 0,
+      dataArray: [],
       featuredStreamIndex: 0
     };
   },
@@ -163,18 +169,22 @@ exports["default"] = _react2["default"].createClass({
     });
   },
   componentDidMount: function componentDidMount() {
-    var _this2 = this;
+    var _this3 = this;
 
     var loadData = this.props.methods.loadData;
 
     if (loadData) {
-      loadData(function (e) {
+      loadData.call(this, function (e) {
         console.error(e.stack);
-      }).featured().then(function (data) {
-        // console.log(data);
-        _this2.setState({
-          featuredRequestOffset: _this2.state.featuredRequestOffset + 25,
-          featuredArray: Array.from(_this2.state.featuredArray).concat(data.featured)
+      }).then(function (methods) {
+        methods.featured().then(function (data) {
+          // console.log(data);
+          _this3.setState({
+            offset: _this3.state.requestOffset + 25,
+            dataArray: Array.from(_this3.state.dataArray).concat(data.featured)
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
         });
       })["catch"](function (e) {
         return console.error(e.stack);
@@ -182,11 +192,11 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   render: function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _state2 = this.state;
-    var featuredRequestOffset = _state2.featuredRequestOffset;
-    var featuredArray = _state2.featuredArray;
+    var requestOffset = _state2.requestOffset;
+    var dataArray = _state2.dataArray;
     var _props$methods = this.props.methods;
     var appendStream = _props$methods.appendStream;
     var loadData = _props$methods.loadData;
@@ -194,7 +204,7 @@ exports["default"] = _react2["default"].createClass({
     return _react2["default"].createElement(
       "div",
       { className: "featured-streams" },
-      featuredArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: featuredArray[this.state.featuredStreamIndex], methods: {
+      dataArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: dataArray[this.state.featuredStreamIndex], methods: {
           appendStream: appendStream,
           loadData: loadData
         } }) : null,
@@ -204,10 +214,10 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement(
           "ul",
           { className: "list" },
-          featuredArray.map(function (itemData, ind) {
+          dataArray.map(function (itemData, ind) {
             return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData, methods: {
                 appendStream: appendStream,
-                displayStream: _this3.displayStream
+                displayStream: _this4.displayStream
               } });
           })
         )

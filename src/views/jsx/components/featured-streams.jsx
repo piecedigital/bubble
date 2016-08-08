@@ -75,15 +75,19 @@ const FeaturedStream = React.createClass({
           }
         }
       } = this.props;
-      loadData(e => {
+      loadData.call(this, e => {
         console.error(e.stack);
       })
-      .users(null, name)
-      .then(data => {
-        this.setState({
-          displayName: data.display_name,
-          bio: data.bio
-        });
+      .then(methods => {
+        methods
+        .getUser(null, name)
+        .then(data => {
+          this.setState({
+            displayName: data.display_name,
+            bio: data.bio
+          });
+        })
+        .catch(e => console.error(e.stack));
       })
       .catch(e => console.error(e.stack));
     });
@@ -110,7 +114,7 @@ const FeaturedStream = React.createClass({
     return (
       <div className="featured-stream">
         <div className="stream">
-          <iframe src={`http://player.twitch.tv/?channel=${name}`} />
+          <iframe src={`https://player.twitch.tv/?channel=${name}`} frameBorder="0" scrolling="no" />
         </div>
         {
           displayName ? (
@@ -122,7 +126,7 @@ const FeaturedStream = React.createClass({
                 {bio}
               </div>
               <div className="watch" onClick={() => {
-                appendStream(name);
+                appendStream.call(this, name);
               }}>
                 {"watch this stream"}
               </div>
@@ -143,8 +147,8 @@ export default React.createClass({
   displayName: "FeaturedStreams",
   getInitialState() {
     return {
-      featuredRequestOffset: 0,
-      featuredArray: [],
+      requestOffset: 0,
+      dataArray: [],
       featuredStreamIndex: 0
     }
   },
@@ -160,24 +164,28 @@ export default React.createClass({
       }
     } = this.props;
     if(loadData) {
-      loadData(e => {
+      loadData.call(this, e => {
         console.error(e.stack);
       })
-      .featured()
-      .then(data => {
-        // console.log(data);
-        this.setState({
-          featuredRequestOffset: this.state.featuredRequestOffset + 25,
-          featuredArray: Array.from(this.state.featuredArray).concat(data.featured)
-        });
+      .then(methods => {
+        methods
+        .featured()
+        .then(data => {
+          // console.log(data);
+          this.setState({
+            offset: this.state.requestOffset + 25,
+            dataArray: Array.from(this.state.dataArray).concat(data.featured)
+          });
+        })
+        .catch(e => console.error(e.stack));
       })
       .catch(e => console.error(e.stack));
     }
   },
   render() {
     const {
-      featuredRequestOffset,
-      featuredArray
+      requestOffset,
+      dataArray
     } = this.state;
     const {
       methods: {
@@ -188,8 +196,8 @@ export default React.createClass({
     return (
       <div className="featured-streams">
         {
-          featuredArray.length > 0 ? (
-            <FeaturedStream data={featuredArray[this.state.featuredStreamIndex]} methods={{
+          dataArray.length > 0 ? (
+            <FeaturedStream data={dataArray[this.state.featuredStreamIndex]} methods={{
               appendStream,
               loadData
             }} />
@@ -198,7 +206,7 @@ export default React.createClass({
         <div className="wrapper">
           <ul className="list">
             {
-              featuredArray.map((itemData, ind) => {
+              dataArray.map((itemData, ind) => {
                 return <ListItem key={ind} index={ind} data={itemData} methods={{
                   appendStream,
                   displayStream: this.displayStream

@@ -15,7 +15,10 @@ var _componentsFeaturedStreamsJsx = require("./components/featured-streams.jsx")
 var _componentsFeaturedStreamsJsx2 = _interopRequireDefault(_componentsFeaturedStreamsJsx);
 
 // import Streams from "./components/live-streams";
-// import Games from "./components/top-games";
+
+var _componentsTopGamesJsx = require("./components/top-games.jsx");
+
+var _componentsTopGamesJsx2 = _interopRequireDefault(_componentsTopGamesJsx);
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Home",
@@ -33,13 +36,11 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], { methods: {
           appendStream: appendStream,
           loadData: loadData
+        } }),
+      _react2["default"].createElement(_componentsTopGamesJsx2["default"], { methods: {
+          loadData: loadData
         } })
     );
   }
 });
 module.exports = exports["default"];
-/*<Streams methods={{
- appendStream
-}} loadData={loadData} />*/ /*<Games methods={{
-                             appendStream
-                            }} loadData={loadData} />*/

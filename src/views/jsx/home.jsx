@@ -1,7 +1,7 @@
 import React from "react";
 import Featured from "./components/featured-streams.jsx";
 // import Streams from "./components/live-streams";
-// import Games from "./components/top-games";
+import Games from "./components/top-games.jsx";
 
 export default React.createClass({
   displayName: "Home",
@@ -21,12 +21,9 @@ export default React.createClass({
           appendStream,
           loadData
         }} />
-        {/*<Streams methods={{
-          appendStream
-        }} loadData={loadData} />*/}
-        {/*<Games methods={{
-          appendStream
-        }} loadData={loadData} />*/}
+        <Games methods={{
+          loadData
+        }}/>
       </div>
     );
   }

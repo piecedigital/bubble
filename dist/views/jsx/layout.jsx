@@ -31,73 +31,91 @@ var config = {
 };
 _firebase2["default"].initializeApp(config);
 var ref = _firebase2["default"].database().ref;
+function loadData(errorCB) {
+  var _this = this;
+
+  var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+  console.log(this);
+  options = Object.assign({}, options);
+  options.stream_type = options.stream_type || "live";
+  options.limit = options.limit || 20;
+  var baseURL = "https://api.twitch.tv/kraken/";
+  var makeRequest = function makeRequest(okayCB, path) {
+    return new Promise(function (resolve, reject) {
+      var requestURL = "" + baseURL + path + "?";
+      Object.keys(options).map(function (key) {
+        var value = options[key];
+        requestURL += key + "=" + value + "&";
+      });
+      requestURL.replace(/&$/, "");
+      (0, _modulesAjax.ajax)({
+        url: requestURL,
+        success: function success(data) {
+          data = JSON.parse(data);
+          resolve(data);
+          if (typeof okayCB === "function") okayCB(data);
+        },
+        error: function error(_error) {
+          console.error(_error);
+        }
+      });
+    });
+  };
+  return new Promise(function (resolve, reject) {
+    resolve({
+      featured: function featured(okayCB) {
+        // console.log(this);
+        options.limit = 25;
+        options.offset = 0;
+        return makeRequest(okayCB, "streams/featured");
+      },
+      topGames: function topGames(okayCB) {
+        // console.log(this);
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "games/top");
+      },
+      getUser: function getUser(okayCB, username) {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, "users/" + username);
+      },
+      followedStreams: function followedStreams(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "search/followed");
+      },
+      followedVideos: function followedVideos(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "videos/followed");
+      },
+      searchChannels: function searchChannels(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "search/channels");
+      },
+      searchStreams: function searchStreams(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "search/streams");
+      },
+      searchGame: function searchGame(okayCB) {
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "search/games");
+      }
+    });
+  });
+};
+
+function appendStream(username) {
+  var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+  console.log("appending stream", username, isSolo);
+};
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
     return {
-      authData: this.props.data && this.props.data.authData || null,
-      featuredRequestOffset: 0,
-      streamRequestOffset: 0,
-      gameRequestOffset: 0,
-      featuredArray: [],
-      streamsArray: [],
-      gamesArray: []
+      authData: this.props.data && this.props.data.authData || null
     };
-  },
-  loadData: function loadData(errorCB) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    options = Object.assign({}, options);
-    options.stream_type = options.stream_type || "live";
-    options.limit = options.limit || 20;
-    var baseURL = "https://api.twitch.tv/kraken/";
-    return {
-      featured: function featured(okayCB) {
-        options.limit = 25;
-        options.offset = 0;
-        return this.makeRequest(okayCB, "streams/featured");
-      },
-      streams: function streams(okayCB) {
-        options.offset = options.offset || this.state.streamRequestOffset;
-        return this.makeRequest(okayCB, "streams");
-      },
-      games: function games(okayCB) {
-        options.offset = options.offset || this.state.gameRequestOffset;
-        return this.makeRequest(okayCB, "games");
-      },
-      users: function users(okayCB, username) {
-        delete options.stream_type;
-        delete options.limit;
-        return this.makeRequest(okayCB, "users/" + username);
-      },
-      makeRequest: function makeRequest(okayCB, path) {
-        return new Promise(function (resolve, reject) {
-          var requestURL = "" + baseURL + path + "?";
-          Object.keys(options).map(function (key) {
-            var value = options[key];
-            requestURL += key + "=" + value + "&";
-          });
-          requestURL.replace(/&$/, "");
-          (0, _modulesAjax.ajax)({
-            url: requestURL,
-            success: function success(data) {
-              data = JSON.parse(data);
-              resolve(data);
-              if (typeof okayCB === "function") okayCB(data);
-            },
-            error: function error(_error) {
-              console.error(_error);
-            }
-          });
-        });
-      }
-    };
-  },
-  appendStream: function appendStream(username) {
-    var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-    console.log("appending stream", username, isSolo);
   },
   componentDidMount: function componentDidMount() {
     var authData = {};
@@ -147,8 +165,8 @@ exports["default"] = _react2["default"].createClass({
         )
       ),
       _react2["default"].createElement(_homeJsx2["default"], { parent: this, auth: authData, methods: {
-          appendStream: this.appendStream,
-          loadData: this.loadData
+          appendStream: appendStream,
+          loadData: loadData
         } })
     );
   }

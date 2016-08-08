@@ -13,69 +13,85 @@ var config = {
 };
 Firebase.initializeApp(config);
 const ref = Firebase.database().ref;
+function loadData(errorCB, options = {}) {
+  console.log(this);
+  options = Object.assign({}, options);
+  options.stream_type = options.stream_type || "live";
+  options.limit = options.limit || 20;
+  let baseURL = "https://api.twitch.tv/kraken/";
+  const makeRequest = function(okayCB, path) {
+    return new Promise((resolve, reject) => {
+      let requestURL = `${baseURL}${path}?`;
+      Object.keys(options).map(key => {
+        let value = options[key];
+        requestURL += `${key}=${value}&`
+      });
+      requestURL.replace(/&$/, "");
+      ajax({
+        url: requestURL,
+        success(data) {
+          data = JSON.parse(data);
+          resolve(data);
+          if(typeof okayCB === "function") okayCB(data);
+        },
+        error(error) {
+          console.error(error);
+        }
+      })
+    });
+  };
+  return new Promise((resolve, reject) => {
+    resolve({
+      featured: (okayCB) => {
+        // console.log(this);
+        options.limit = 25;
+        options.offset = 0;
+        return makeRequest(okayCB, "streams/featured");
+      },
+      topGames: (okayCB) => {
+        // console.log(this);
+        options.offset = options.offset || this.state.requestOffset;
+        return makeRequest(okayCB, "games/top");
+      },
+      getUser: (okayCB, username) => {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, `users/${username}`);
+      },
+      followedStreams: (okayCB) => {
+        options.offset = options.offset || this.state.requestOffset;
+        return makeRequest(okayCB, "search/followed");
+      },
+      followedVideos: (okayCB) => {
+        options.offset = options.offset || this.state.requestOffset;
+        return makeRequest(okayCB, "videos/followed");
+      },
+      searchChannels: (okayCB) => {
+        options.offset = options.offset || this.state.requestOffset;
+        return makeRequest(okayCB, "search/channels");
+      },
+      searchStreams: (okayCB) => {
+        options.offset = options.offset || this.state.requestOffset;
+        return makeRequest(okayCB, "search/streams");
+      },
+      searchGame: (okayCB) => {
+        options.offset = options.offset || this.state.requestOffset;
+        return makeRequest(okayCB, "search/games");
+      }
+    });
+  });
+};
+
+function appendStream(username, isSolo = true) {
+  console.log("appending stream", username, isSolo);
+};
 
 export default React.createClass({
   displayName: "Layout",
   getInitialState() {
     return {
-      authData: (this.props.data && this.props.data.authData) || null,
-      featuredRequestOffset: 0,
-      streamRequestOffset: 0,
-      gameRequestOffset: 0,
-      featuredArray: [],
-      streamsArray: [],
-      gamesArray: [],
+      authData: (this.props.data && this.props.data.authData) || null
     }
-  },
-  loadData(errorCB, options = {}) {
-    options = Object.assign({}, options);
-    options.stream_type = options.stream_type || "live";
-    options.limit = options.limit || 20;
-    let baseURL = "https://api.twitch.tv/kraken/";
-    return {
-      featured(okayCB) {
-        options.limit = 25;
-        options.offset = 0;
-        return this.makeRequest(okayCB, "streams/featured");
-      },
-      streams(okayCB) {
-        options.offset = options.offset || this.state.streamRequestOffset;
-        return this.makeRequest(okayCB, "streams");
-      },
-      games(okayCB) {
-        options.offset = options.offset || this.state.gameRequestOffset;
-        return this.makeRequest(okayCB, "games");
-      },
-      users(okayCB, username) {
-        delete options.stream_type;
-        delete options.limit;
-        return this.makeRequest(okayCB, `users/${username}`);
-      },
-      makeRequest(okayCB, path) {
-        return new Promise((resolve, reject) => {
-          let requestURL = `${baseURL}${path}?`;
-          Object.keys(options).map(key => {
-            let value = options[key];
-            requestURL += `${key}=${value}&`
-          });
-          requestURL.replace(/&$/, "");
-          ajax({
-            url: requestURL,
-            success(data) {
-              data = JSON.parse(data);
-              resolve(data);
-              if(typeof okayCB === "function") okayCB(data);
-            },
-            error(error) {
-              console.error(error);
-            }
-          })
-        });
-      }
-    }
-  },
-  appendStream(username, isSolo = true) {
-    console.log("appending stream", username, isSolo);
   },
   componentDidMount() {
     let authData = {};
@@ -119,8 +135,8 @@ export default React.createClass({
           </div>
         </nav>
         <Home parent={this} auth={authData} methods={{
-          appendStream: this.appendStream,
-          loadData: this.loadData
+          appendStream: appendStream,
+          loadData: loadData
         }}/>
       </div>
     )
