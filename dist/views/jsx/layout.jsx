@@ -36,7 +36,6 @@ function loadData(errorCB) {
 
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-  console.log(this);
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;

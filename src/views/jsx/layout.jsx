@@ -14,7 +14,6 @@ var config = {
 Firebase.initializeApp(config);
 const ref = Firebase.database().ref;
 function loadData(errorCB, options = {}) {
-  console.log(this);
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
