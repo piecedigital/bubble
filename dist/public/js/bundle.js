@@ -26726,9 +26726,17 @@ var _jsxLayoutJsx = require("./jsx/layout.jsx");
 
 var _jsxLayoutJsx2 = _interopRequireDefault(_jsxLayoutJsx);
 
+var _jsxHomeJsx = require("./jsx/home.jsx");
+
+var _jsxHomeJsx2 = _interopRequireDefault(_jsxHomeJsx);
+
 var _jsxProfileJsx = require("./jsx/profile.jsx");
 
 var _jsxProfileJsx2 = _interopRequireDefault(_jsxProfileJsx);
+
+var _jsxSearchJsx = require("./jsx/search.jsx");
+
+var _jsxSearchJsx2 = _interopRequireDefault(_jsxSearchJsx);
 
 var container = document.querySelector(".react-app");
 
@@ -26737,11 +26745,13 @@ var container = document.querySelector(".react-app");
   { history: _reactRouter.browserHistory },
   _react2["default"].createElement(
     _reactRouter.Route,
-    { path: "/", location: "home", component: _jsxLayoutJsx2["default"] },
-    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: _jsxProfileJsx2["default"] })
+    { path: "", location: "root", component: _jsxLayoutJsx2["default"] },
+    _react2["default"].createElement(_reactRouter.Route, { path: "/", location: "home", component: _jsxHomeJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: _jsxProfileJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })
   )
 ), container);
-},{"./jsx/layout.jsx":245,"./jsx/profile.jsx":246,"react":240,"react-dom":5,"react-router":35}],242:[function(require,module,exports){
+},{"./jsx/home.jsx":245,"./jsx/layout.jsx":246,"./jsx/profile.jsx":247,"./jsx/search.jsx":248,"react":240,"react-dom":5,"react-router":35}],242:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26983,11 +26993,80 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+// list item for featured streams
+var ListItem = _react2["default"].createClass({
+  displayName: "stream-ListItem",
+  render: function render() {
+    console.log(this.props);
+    var name = this.props.data;
+
+    return _react2["default"].createElement(
+      "li",
+      { className: "stream" },
+      _react2["default"].createElement(
+        "div",
+        { className: "video" },
+        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "chat" },
+        _react2["default"].createElement("iframe", { src: "https://www.twitch.tv/" + name + "/chat", frameBorder: "0", scrolling: "no" })
+      )
+    );
+  }
+});
+
+// primary section for the search component
+exports["default"] = _react2["default"].createClass({
+  displayName: "Player",
+  getInitialState: function getInitialState() {
+    return {};
+  },
+  render: function render() {
+    var _props = this.props;
+    var spliceStream = _props.methods.spliceStream;
+    var dataObject = _props.data.dataObject;
+
+    return _react2["default"].createElement(
+      "div",
+      { className: "player" },
+      _react2["default"].createElement(
+        "div",
+        { className: "wrapper" },
+        _react2["default"].createElement(
+          "ul",
+          { className: "list" },
+          dataObject ? Object.keys(dataObject).map(function (channelName) {
+            var channelData = dataObject[channelName];
+            return _react2["default"].createElement(ListItem, { key: channelName, data: channelName, methods: {
+                spliceStream: spliceStream
+              } });
+          }) : null
+        )
+      )
+    );
+  }
+});
+module.exports = exports["default"];
+},{"react":240}],244:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
 var _reactRouter = require('react-router');
 
 // list item for featured streams
 var ListItem = _react2["default"].createClass({
-  displayName: "feat-ListItem",
+  displayName: "game-ListItem",
   render: function render() {
     var _props$data = this.props.data;
     var channels = _props$data.channels;
@@ -27002,7 +27081,7 @@ var ListItem = _react2["default"].createClass({
       null,
       _react2["default"].createElement(
         _reactRouter.Link,
-        { to: "/search/game?q=" + name },
+        { to: "/search/streams?q=" + name },
         _react2["default"].createElement(
           "div",
           { className: "image" },
@@ -27032,7 +27111,7 @@ var ListItem = _react2["default"].createClass({
   }
 });
 
-// primary section for the featured component
+// primary section for the top games component
 exports["default"] = _react2["default"].createClass({
   displayName: "TopGames",
   getInitialState: function getInitialState() {
@@ -27090,7 +27169,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"react":240,"react-router":35}],244:[function(require,module,exports){
+},{"react":240,"react-router":35}],245:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27106,8 +27185,6 @@ var _react2 = _interopRequireDefault(_react);
 var _componentsFeaturedStreamsJsx = require("./components/featured-streams.jsx");
 
 var _componentsFeaturedStreamsJsx2 = _interopRequireDefault(_componentsFeaturedStreamsJsx);
-
-// import Streams from "./components/live-streams";
 
 var _componentsTopGamesJsx = require("./components/top-games.jsx");
 
@@ -27137,7 +27214,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/featured-streams.jsx":242,"./components/top-games.jsx":243,"react":240}],245:[function(require,module,exports){
+},{"./components/featured-streams.jsx":242,"./components/top-games.jsx":244,"react":240}],246:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27150,9 +27227,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _homeJsx = require("./home.jsx");
+var _componentsPlayerJsx = require("./components/player.jsx");
 
-var _homeJsx2 = _interopRequireDefault(_homeJsx);
+var _componentsPlayerJsx2 = _interopRequireDefault(_componentsPlayerJsx);
 
 var _modulesAjax = require("../../modules/ajax");
 
@@ -27235,7 +27312,7 @@ function loadData(errorCB) {
         options.offset = options.offset || _this.state.requestOffset;
         return makeRequest(okayCB, "search/streams");
       },
-      searchGame: function searchGame(okayCB) {
+      searchGames: function searchGames(okayCB) {
         options.offset = options.offset || _this.state.requestOffset;
         return makeRequest(okayCB, "search/games");
       }
@@ -27243,18 +27320,35 @@ function loadData(errorCB) {
   });
 };
 
-function appendStream(username) {
-  var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-  console.log("appending stream", username, isSolo);
-};
-
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
     return {
-      authData: this.props.data && this.props.data.authData || null
+      authData: this.props.data && this.props.data.authData || null,
+      streamersInPlayer: {}
     };
+  },
+  appendStream: function appendStream(username) {
+    var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+    console.log("appending stream", username, isSolo);
+    if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
+      var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+      streamersInPlayer[username] = username;
+      console.log("New streamersInPlayer:", streamersInPlayer);
+      this.setState({
+        streamersInPlayer: streamersInPlayer
+      });
+    }
+  },
+  spliceStream: function spliceStream(username) {
+    console.log("removing stream", username);
+    var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    delete streamersInPlayer[username];
+    console.log("New streamersInPlayer:", streamersInPlayer);
+    this.setState({
+      streamersInPlayer: streamersInPlayer
+    });
   },
   componentDidMount: function componentDidMount() {
     var authData = {};
@@ -27275,7 +27369,9 @@ exports["default"] = _react2["default"].createClass({
     window.location.hash = "";
   },
   render: function render() {
-    var authData = this.state.authData;
+    var _state = this.state;
+    var authData = _state.authData;
+    var dataObject = _state.streamersInPlayer;
 
     var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read;";
     return _react2["default"].createElement(
@@ -27303,15 +27399,24 @@ exports["default"] = _react2["default"].createClass({
           )
         )
       ),
-      _react2["default"].createElement(_homeJsx2["default"], { parent: this, auth: authData, methods: {
-          appendStream: appendStream,
+      _react2["default"].createElement(_componentsPlayerJsx2["default"], { data: {
+          dataObject: dataObject
+        }, methods: {
+          spliceStream: this.spliceStream
+        } }),
+      this.props.children ? _react2["default"].cloneElement(this.props.children, {
+        parent: this,
+        auth: authData,
+        methods: {
+          appendStream: this.appendStream,
           loadData: loadData
-        } })
+        }
+      }) : null
     );
   }
 });
 module.exports = exports["default"];
-},{"../../modules/ajax":2,"./home.jsx":244,"firebase":3,"react":240,"react-router":35}],246:[function(require,module,exports){
+},{"../../modules/ajax":2,"./components/player.jsx":243,"firebase":3,"react":240,"react-router":35}],247:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27332,6 +27437,167 @@ exports["default"] = _react2["default"].createClass({
       null,
       "I am groot"
     );
+  }
+});
+module.exports = exports["default"];
+},{"react":240}],248:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+// components
+var components = {};
+
+// list item for featured streams
+components.StreamsListItem = _react2["default"].createClass({
+  displayName: "stream-ListItem",
+  render: function render() {
+    console.log(this.props);
+    var _props = this.props;
+    var index = _props.index;
+    var appendStream = _props.methods.appendStream;
+    var _props$data = _props.data;
+    var game = _props$data.game;
+    var viewers = _props$data.viewers;
+    var title = _props$data.title;
+    var id = _props$data._id;
+    var preview = _props$data.preview;
+    var _props$data$channel = _props$data.channel;
+    var mature = _props$data$channel.mature;
+    var logo = _props$data$channel.logo;
+    var name = _props$data$channel.name;
+    var language = _props$data$channel.language;
+
+    return _react2["default"].createElement(
+      "li",
+      { onClick: function () {
+          appendStream(name);
+        } },
+      _react2["default"].createElement(
+        "div",
+        { className: "image" },
+        _react2["default"].createElement("img", { src: preview.medium })
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "info" },
+        _react2["default"].createElement(
+          "div",
+          { className: "channel-name" },
+          name
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "title" },
+          title
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "game" },
+          "Live with \"" + game + "\""
+        )
+      )
+    );
+  }
+});
+
+// primary section for the search component
+exports["default"] = _react2["default"].createClass({
+  displayName: "SearchPage",
+  getInitialState: function getInitialState() {
+    return {
+      requestOffset: 0,
+      dataArray: []
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    var _props2 = this.props;
+    var loadData = _props2.methods.loadData;
+    var params = _props2.params;
+    var location = _props2.location;
+
+    if (loadData) {
+      (function () {
+        var capitalType = params.searchtype.replace(/^(.)/, function (_, letter) {
+          return letter.toUpperCase();
+        });
+        var searchType = "search" + capitalType;
+        _this.setState({
+          offset: _this.state.requestOffset + 25
+        });
+        loadData.call(_this, function (e) {
+          console.error(e.stack);
+        }, {
+          query: location.query.q
+        }).then(function (methods) {
+          methods[searchType]().then(function (data) {
+            _this.setState({
+              // offset: this.state.requestOffset + 25,
+              dataArray: Array.from(_this.state.dataArray).concat(data.channels || data.streams || data.games),
+              component: capitalType + "ListItem"
+            });
+          })["catch"](function (e) {
+            return console.error(e.stack);
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
+        });
+      })();
+    }
+  },
+  render: function render() {
+    var _state = this.state;
+    var requestOffset = _state.requestOffset;
+    var dataArray = _state.dataArray;
+    var component = _state.component;
+    var _props3 = this.props;
+    var _props3$methods = _props3.methods;
+    var appendStream = _props3$methods.appendStream;
+    var loadData = _props3$methods.loadData;
+    var location = _props3.location;
+
+    if (component) {
+      var _ret2 = (function () {
+        var ListItem = components[component];
+        return {
+          v: _react2["default"].createElement(
+            "div",
+            { className: "search-page" },
+            _react2["default"].createElement(
+              "div",
+              { className: "wrapper" },
+              _react2["default"].createElement(
+                "ul",
+                { className: "list" },
+                dataArray.map(function (itemData, ind) {
+                  return _react2["default"].createElement(ListItem, { key: ind, index: ind, methods: {
+                      appendStream: appendStream
+                    } });
+                })
+              )
+            )
+          )
+        };
+      })();
+
+      if (typeof _ret2 === "object") return _ret2.v;
+    } else {
+      return _react2["default"].createElement(
+        "div",
+        { className: "search-page" },
+        "Loading streams for " + (location.query.q || location.query.query) + "..."
+      );
+    }
   }
 });
 module.exports = exports["default"];

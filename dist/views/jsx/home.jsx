@@ -14,8 +14,6 @@ var _componentsFeaturedStreamsJsx = require("./components/featured-streams.jsx")
 
 var _componentsFeaturedStreamsJsx2 = _interopRequireDefault(_componentsFeaturedStreamsJsx);
 
-// import Streams from "./components/live-streams";
-
 var _componentsTopGamesJsx = require("./components/top-games.jsx");
 
 var _componentsTopGamesJsx2 = _interopRequireDefault(_componentsTopGamesJsx);

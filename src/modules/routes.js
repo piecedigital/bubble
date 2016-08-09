@@ -11,6 +11,9 @@ app
     }
   }));
 })
+.get("/search/:searchtype", function (req, res) {
+  res.send(renderHTML("profile"));
+})
 .get("/profile", function (req, res) {
   res.send(renderHTML("profile"));
 })

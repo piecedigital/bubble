@@ -10,9 +10,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _homeJsx = require("./home.jsx");
+var _componentsPlayerJsx = require("./components/player.jsx");
 
-var _homeJsx2 = _interopRequireDefault(_homeJsx);
+var _componentsPlayerJsx2 = _interopRequireDefault(_componentsPlayerJsx);
 
 var _modulesAjax = require("../../modules/ajax");
 
@@ -95,7 +95,7 @@ function loadData(errorCB) {
         options.offset = options.offset || _this.state.requestOffset;
         return makeRequest(okayCB, "search/streams");
       },
-      searchGame: function searchGame(okayCB) {
+      searchGames: function searchGames(okayCB) {
         options.offset = options.offset || _this.state.requestOffset;
         return makeRequest(okayCB, "search/games");
       }
@@ -103,18 +103,35 @@ function loadData(errorCB) {
   });
 };
 
-function appendStream(username) {
-  var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-  console.log("appending stream", username, isSolo);
-};
-
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
     return {
-      authData: this.props.data && this.props.data.authData || null
+      authData: this.props.data && this.props.data.authData || null,
+      streamersInPlayer: {}
     };
+  },
+  appendStream: function appendStream(username) {
+    var isSolo = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+    console.log("appending stream", username, isSolo);
+    if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
+      var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+      streamersInPlayer[username] = username;
+      console.log("New streamersInPlayer:", streamersInPlayer);
+      this.setState({
+        streamersInPlayer: streamersInPlayer
+      });
+    }
+  },
+  spliceStream: function spliceStream(username) {
+    console.log("removing stream", username);
+    var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    delete streamersInPlayer[username];
+    console.log("New streamersInPlayer:", streamersInPlayer);
+    this.setState({
+      streamersInPlayer: streamersInPlayer
+    });
   },
   componentDidMount: function componentDidMount() {
     var authData = {};
@@ -135,7 +152,9 @@ exports["default"] = _react2["default"].createClass({
     window.location.hash = "";
   },
   render: function render() {
-    var authData = this.state.authData;
+    var _state = this.state;
+    var authData = _state.authData;
+    var dataObject = _state.streamersInPlayer;
 
     var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read;";
     return _react2["default"].createElement(
@@ -163,10 +182,19 @@ exports["default"] = _react2["default"].createClass({
           )
         )
       ),
-      _react2["default"].createElement(_homeJsx2["default"], { parent: this, auth: authData, methods: {
-          appendStream: appendStream,
+      _react2["default"].createElement(_componentsPlayerJsx2["default"], { data: {
+          dataObject: dataObject
+        }, methods: {
+          spliceStream: this.spliceStream
+        } }),
+      this.props.children ? _react2["default"].cloneElement(this.props.children, {
+        parent: this,
+        auth: authData,
+        methods: {
+          appendStream: this.appendStream,
           loadData: loadData
-        } })
+        }
+      }) : null
     );
   }
 });

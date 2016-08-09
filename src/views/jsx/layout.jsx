@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "./home.jsx";
+import Player from "./components/player.jsx";
 import { ajax } from "../../modules/ajax";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
@@ -73,7 +73,7 @@ function loadData(errorCB, options = {}) {
         options.offset = options.offset || this.state.requestOffset;
         return makeRequest(okayCB, "search/streams");
       },
-      searchGame: (okayCB) => {
+      searchGames: (okayCB) => {
         options.offset = options.offset || this.state.requestOffset;
         return makeRequest(okayCB, "search/games");
       }
@@ -81,16 +81,33 @@ function loadData(errorCB, options = {}) {
   });
 };
 
-function appendStream(username, isSolo = true) {
-  console.log("appending stream", username, isSolo);
-};
-
 export default React.createClass({
   displayName: "Layout",
   getInitialState() {
     return {
-      authData: (this.props.data && this.props.data.authData) || null
+      authData: (this.props.data && this.props.data.authData) || null,
+      streamersInPlayer: {}
     }
+  },
+  appendStream(username, isSolo = true) {
+    console.log("appending stream", username, isSolo);
+    if(!this.state.streamersInPlayer.hasOwnProperty(username)) {
+      let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+      streamersInPlayer[username] = username;
+      console.log("New streamersInPlayer:", streamersInPlayer);
+      this.setState({
+        streamersInPlayer
+      });
+    }
+  },
+  spliceStream(username) {
+    console.log("removing stream", username);
+    let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    delete streamersInPlayer[username];
+    console.log("New streamersInPlayer:", streamersInPlayer);
+    this.setState({
+      streamersInPlayer
+    });
   },
   componentDidMount() {
     let authData = {};
@@ -112,7 +129,8 @@ export default React.createClass({
   },
   render() {
     const {
-      authData
+      authData,
+      streamersInPlayer: dataObject
     } = this.state;
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
     "?response_type=token"+
@@ -133,10 +151,27 @@ export default React.createClass({
             }
           </div>
         </nav>
-        <Home parent={this} auth={authData} methods={{
-          appendStream: appendStream,
-          loadData: loadData
-        }}/>
+        {
+          <Player data={{
+            dataObject
+          }} methods={{
+            spliceStream: this.spliceStream
+          }}/>
+        }
+        {
+          this.props.children ? (
+            React.cloneElement(this.props.children, {
+              parent: this,
+              auth: authData,
+              methods: {
+                appendStream: this.appendStream,
+                loadData: loadData
+              }
+            })
+          ) : (
+            null
+          )
+        }
       </div>
     )
   }

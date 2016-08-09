@@ -3,7 +3,7 @@ import { Link, browserHistory as History } from 'react-router';
 
 // list item for featured streams
 const ListItem = React.createClass({
-  displayName: "feat-ListItem",
+  displayName: "game-ListItem",
   render() {
     const {
       data: {
@@ -18,7 +18,7 @@ const ListItem = React.createClass({
     } = this.props;
     return (
       <li>
-        <Link to={`/search/game?q=${name}`}>
+        <Link to={`/search/streams?q=${name}`}>
           <div className="image">
             <img src={box.medium} />
           </div>
@@ -39,7 +39,7 @@ const ListItem = React.createClass({
   }
 })
 
-// primary section for the featured component
+// primary section for the top games component
 export default React.createClass({
   displayName: "TopGames",
   getInitialState() {

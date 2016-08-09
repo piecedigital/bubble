@@ -14,7 +14,7 @@ var _reactRouter = require('react-router');
 
 // list item for featured streams
 var ListItem = _react2["default"].createClass({
-  displayName: "feat-ListItem",
+  displayName: "game-ListItem",
   render: function render() {
     var _props$data = this.props.data;
     var channels = _props$data.channels;
@@ -29,7 +29,7 @@ var ListItem = _react2["default"].createClass({
       null,
       _react2["default"].createElement(
         _reactRouter.Link,
-        { to: "/search/game?q=" + name },
+        { to: "/search/streams?q=" + name },
         _react2["default"].createElement(
           "div",
           { className: "image" },
@@ -59,7 +59,7 @@ var ListItem = _react2["default"].createClass({
   }
 });
 
-// primary section for the featured component
+// primary section for the top games component
 exports["default"] = _react2["default"].createClass({
   displayName: "TopGames",
   getInitialState: function getInitialState() {

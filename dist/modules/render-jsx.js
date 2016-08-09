@@ -14,7 +14,9 @@ var _reactDomServer = require("react-dom/server");
 
 var _reactDomServer2 = _interopRequireDefault(_reactDomServer);
 
-var renderHTML = function renderHTML(fileName, prePlaceData) {
+var renderHTML = function renderHTML(fileName) {
+  var prePlaceData = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
   prePlaceData.title = prePlaceData.title || "Q&A Aggregator for Twitch streamers | TwiQu21";
   var Layout = require("../views/jsx/layout.jsx");
   var Page = require("../views/jsx/" + fileName + ".jsx");

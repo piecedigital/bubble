@@ -20,6 +20,8 @@ app.get("/", function (req, res) {
       access_token: req.cookies["access_token"]
     }
   }));
+}).get("/search/:searchtype", function (req, res) {
+  res.send((0, _renderJsx.renderHTML)("profile"));
 }).get("/profile", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("profile"));
 }).get("/get-test-data", function (req, res) {

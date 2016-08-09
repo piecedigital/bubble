@@ -1,0 +1,160 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+// components
+var components = {};
+
+// list item for featured streams
+components.StreamsListItem = _react2["default"].createClass({
+  displayName: "stream-ListItem",
+  render: function render() {
+    console.log(this.props);
+    var _props = this.props;
+    var index = _props.index;
+    var appendStream = _props.methods.appendStream;
+    var _props$data = _props.data;
+    var game = _props$data.game;
+    var viewers = _props$data.viewers;
+    var title = _props$data.title;
+    var id = _props$data._id;
+    var preview = _props$data.preview;
+    var _props$data$channel = _props$data.channel;
+    var mature = _props$data$channel.mature;
+    var logo = _props$data$channel.logo;
+    var name = _props$data$channel.name;
+    var language = _props$data$channel.language;
+
+    return _react2["default"].createElement(
+      "li",
+      { onClick: function () {
+          appendStream(name);
+        } },
+      _react2["default"].createElement(
+        "div",
+        { className: "image" },
+        _react2["default"].createElement("img", { src: preview.medium })
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "info" },
+        _react2["default"].createElement(
+          "div",
+          { className: "channel-name" },
+          name
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "title" },
+          title
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "game" },
+          "Live with \"" + game + "\""
+        )
+      )
+    );
+  }
+});
+
+// primary section for the search component
+exports["default"] = _react2["default"].createClass({
+  displayName: "SearchPage",
+  getInitialState: function getInitialState() {
+    return {
+      requestOffset: 0,
+      dataArray: []
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    var _props2 = this.props;
+    var loadData = _props2.methods.loadData;
+    var params = _props2.params;
+    var location = _props2.location;
+
+    if (loadData) {
+      (function () {
+        var capitalType = params.searchtype.replace(/^(.)/, function (_, letter) {
+          return letter.toUpperCase();
+        });
+        var searchType = "search" + capitalType;
+        _this.setState({
+          offset: _this.state.requestOffset + 25
+        });
+        loadData.call(_this, function (e) {
+          console.error(e.stack);
+        }, {
+          query: location.query.q
+        }).then(function (methods) {
+          methods[searchType]().then(function (data) {
+            _this.setState({
+              // offset: this.state.requestOffset + 25,
+              dataArray: Array.from(_this.state.dataArray).concat(data.channels || data.streams || data.games),
+              component: capitalType + "ListItem"
+            });
+          })["catch"](function (e) {
+            return console.error(e.stack);
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
+        });
+      })();
+    }
+  },
+  render: function render() {
+    var _state = this.state;
+    var requestOffset = _state.requestOffset;
+    var dataArray = _state.dataArray;
+    var component = _state.component;
+    var _props3 = this.props;
+    var _props3$methods = _props3.methods;
+    var appendStream = _props3$methods.appendStream;
+    var loadData = _props3$methods.loadData;
+    var location = _props3.location;
+
+    if (component) {
+      var _ret2 = (function () {
+        var ListItem = components[component];
+        return {
+          v: _react2["default"].createElement(
+            "div",
+            { className: "search-page" },
+            _react2["default"].createElement(
+              "div",
+              { className: "wrapper" },
+              _react2["default"].createElement(
+                "ul",
+                { className: "list" },
+                dataArray.map(function (itemData, ind) {
+                  return _react2["default"].createElement(ListItem, { key: ind, index: ind, methods: {
+                      appendStream: appendStream
+                    } });
+                })
+              )
+            )
+          )
+        };
+      })();
+
+      if (typeof _ret2 === "object") return _ret2.v;
+    } else {
+      return _react2["default"].createElement(
+        "div",
+        { className: "search-page" },
+        "Loading streams for " + (location.query.q || location.query.query) + "..."
+      );
+    }
+  }
+});
+module.exports = exports["default"];
