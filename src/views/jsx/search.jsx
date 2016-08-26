@@ -44,6 +44,9 @@ components.StreamsListItem = React.createClass({
           <div className="game">
             {`Live with "${game}"`}
           </div>
+          <div className="viewers">
+            {`Streaming to ${viewers} viewer${viewers > 1 ? "s" : ""}`}
+          </div>
         </div>
       </li>
     )
@@ -116,7 +119,7 @@ export default React.createClass({
             <ul className="list">
               {
                 dataArray.map((itemData, ind) => {
-                  return <ListItem key={ind} index={ind} methods={{
+                  return <ListItem key={ind} data={itemData} index={ind} methods={{
                     appendStream
                   }} />
                 })

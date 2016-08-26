@@ -27503,6 +27503,11 @@ components.StreamsListItem = _react2["default"].createClass({
           "div",
           { className: "game" },
           "Live with \"" + game + "\""
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "viewers" },
+          "Streaming to " + viewers + " viewer" + (viewers > 1 ? "s" : "")
         )
       )
     );
@@ -27580,7 +27585,7 @@ exports["default"] = _react2["default"].createClass({
                 "ul",
                 { className: "list" },
                 dataArray.map(function (itemData, ind) {
-                  return _react2["default"].createElement(ListItem, { key: ind, index: ind, methods: {
+                  return _react2["default"].createElement(ListItem, { key: ind, data: itemData, index: ind, methods: {
                       appendStream: appendStream
                     } });
                 })
