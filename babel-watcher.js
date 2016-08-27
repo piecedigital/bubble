@@ -12,10 +12,12 @@ var failure = false;
 watcher.on("ready", function() { console.log("ready", arguments); });
 watcher.on("success", function(filepath) {
   console.log("Transpiled ", filepath);
-  timer += 5;
-  executing = false;
-  failure = false;
-  brfy();
+  if(filepath.match(/\.jsx$/)) {
+    timer += 5;
+    executing = false;
+    failure = false;
+    brfy();
+  }
 });
 watcher.on("failure", function(filepath, e) {
   failure = true;

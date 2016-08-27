@@ -704,3 +704,35 @@ Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bub
     at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
     at FSReqWrap.oncomplete (fs.js:82:15)
 ]
+[1472255735801] [Fri, 26 Aug 2016 23:55:35 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/games.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1472255796090] [Fri, 26 Aug 2016 23:56:36 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/games.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1472256066625] [Sat, 27 Aug 2016 00:01:06 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/general-page.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1472256360373] [Sat, 27 Aug 2016 00:06:00 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/general-page.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]

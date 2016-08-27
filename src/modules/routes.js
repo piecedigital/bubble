@@ -12,10 +12,24 @@ app
   }));
 })
 .get("/search/:searchtype", function (req, res) {
-  res.send(renderHTML("profile"));
+  res.send(renderHTML("search", {
+    query: {
+      q: req.query.q || req.query.query
+    }
+  }));
 })
 .get("/profile", function (req, res) {
   res.send(renderHTML("profile"));
+})
+.get("/streams", function (req, res) {
+  res.send(renderHTML("general-page", {
+    page: "streams"
+  }));
+})
+.get("/games", function (req, res) {
+  res.send(renderHTML("general-page", {
+    page: "games"
+  }));
 })
 .get("/get-test-data", function (req, res) {
   res.json({

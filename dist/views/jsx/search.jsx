@@ -13,7 +13,7 @@ var _react2 = _interopRequireDefault(_react);
 // components
 var components = {};
 
-// list item for featured streams
+// list item for streams matching the search
 components.StreamsListItem = _react2["default"].createClass({
   displayName: "stream-ListItem",
   render: function render() {
@@ -95,7 +95,7 @@ exports["default"] = _react2["default"].createClass({
         });
         var searchType = "search" + capitalType;
         _this.setState({
-          offset: _this.state.requestOffset + 25
+          requestOffset: _this.state.requestOffset + 25
         });
         loadData.call(_this, function (e) {
           console.error(e.stack);
@@ -123,6 +123,7 @@ exports["default"] = _react2["default"].createClass({
     var dataArray = _state.dataArray;
     var component = _state.component;
     var _props3 = this.props;
+    var data = _props3.data;
     var _props3$methods = _props3.methods;
     var appendStream = _props3$methods.appendStream;
     var loadData = _props3$methods.loadData;
@@ -134,7 +135,7 @@ exports["default"] = _react2["default"].createClass({
         return {
           v: _react2["default"].createElement(
             "div",
-            { className: "search-page" },
+            { className: "top-level-component search-page" },
             _react2["default"].createElement(
               "div",
               { className: "wrapper" },
@@ -157,7 +158,7 @@ exports["default"] = _react2["default"].createClass({
       return _react2["default"].createElement(
         "div",
         { className: "search-page" },
-        "Loading streams for " + (location.query.q || location.query.query) + "..."
+        "Loading streams for " + (location ? location.query.q || location.query.query : data.query.q || data.query.query) + "..."
       );
     }
   }

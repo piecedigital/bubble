@@ -74,6 +74,11 @@ function loadData(errorCB) {
         options.offset = options.offset || _this.state.requestOffset;
         return makeRequest(okayCB, "games/top");
       },
+      topStreams: function topStreams(okayCB) {
+        // console.log(this);
+        options.offset = options.offset || _this.state.requestOffset;
+        return makeRequest(okayCB, "streams");
+      },
       getUser: function getUser(okayCB, username) {
         delete options.stream_type;
         delete options.limit;
@@ -155,6 +160,7 @@ exports["default"] = _react2["default"].createClass({
     var _state = this.state;
     var authData = _state.authData;
     var dataObject = _state.streamersInPlayer;
+    var data = this.props.data;
 
     var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read;";
     return _react2["default"].createElement(
@@ -170,6 +176,16 @@ exports["default"] = _react2["default"].createClass({
             _reactRouter.Link,
             { className: "nav-item", to: "/" },
             "Home"
+          ),
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { className: "nav-item", to: "/streams" },
+            "Streams"
+          ),
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { className: "nav-item", to: "/games" },
+            "Games"
           ),
           authData && authData.access_token ? _react2["default"].createElement(
             _reactRouter.Link,
@@ -190,6 +206,7 @@ exports["default"] = _react2["default"].createClass({
       this.props.children ? _react2["default"].cloneElement(this.props.children, {
         parent: this,
         auth: authData,
+        data: data,
         methods: {
           appendStream: this.appendStream,
           loadData: loadData

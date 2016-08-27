@@ -15,7 +15,7 @@ export default React.createClass({
       }
     } = this.props;
     return (
-      <div className="home-page">
+      <div className="top-level-component home-page">
         <Featured methods={{
           appendStream,
           loadData

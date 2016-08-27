@@ -52,6 +52,11 @@ function loadData(errorCB, options = {}) {
         options.offset = options.offset || this.state.requestOffset;
         return makeRequest(okayCB, "games/top");
       },
+      topStreams: (okayCB) => {
+        // console.log(this);
+        options.offset = options.offset || this.state.requestOffset;
+        return makeRequest(okayCB, "streams");
+      },
       getUser: (okayCB, username) => {
         delete options.stream_type;
         delete options.limit;
@@ -132,6 +137,9 @@ export default React.createClass({
       authData,
       streamersInPlayer: dataObject
     } = this.state;
+    const {
+      data
+    } = this.props;
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
     "?response_type=token"+
     "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy"+
@@ -142,6 +150,8 @@ export default React.createClass({
         <nav>
           <div>
             <Link className="nav-item" to={"/"}>Home</Link>
+            <Link className="nav-item" to={"/streams"}>Streams</Link>
+            <Link className="nav-item" to={"/games"}>Games</Link>
             {
               authData && authData.access_token ? (
                 <Link className="nav-item" to={"/profile"}>Profile</Link>
@@ -163,6 +173,7 @@ export default React.createClass({
             React.cloneElement(this.props.children, {
               parent: this,
               auth: authData,
+              data,
               methods: {
                 appendStream: this.appendStream,
                 loadData: loadData

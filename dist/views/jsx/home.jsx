@@ -30,7 +30,7 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "div",
-      { className: "home-page" },
+      { className: "top-level-component home-page" },
       _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], { methods: {
           appendStream: appendStream,
           loadData: loadData

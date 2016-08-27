@@ -1,12 +1,15 @@
 import React from "react";
 
-// list item for featured streams
-const ListItem = React.createClass({
-  displayName: "stream-ListItem",
+// stream component for player
+const PlayerStream = React.createClass({
+  displayName: "PlayerStream",
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const {
-      data: name
+      data: name,
+      methods: {
+        spliceStream
+      }
     } = this.props;
     return (
       <li className="stream">
@@ -16,12 +19,17 @@ const ListItem = React.createClass({
         <div className="chat">
           <iframe src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
         </div>
+        <div className="tools" onClick={spliceStream.bind(null, name)}>
+          <div className="closer">
+            x
+          </div>
+        </div>
       </li>
     )
   }
 })
 
-// primary section for the search component
+// player component to house streams
 export default React.createClass({
   displayName: "Player",
   getInitialState() {
@@ -43,7 +51,7 @@ export default React.createClass({
             {
               dataObject ? Object.keys(dataObject).map(channelName => {
                 let channelData = dataObject[channelName];
-                return <ListItem key={channelName} data={channelName} methods={{
+                return <PlayerStream key={channelName} data={channelName} methods={{
                   spliceStream
                 }} />
               }) : null

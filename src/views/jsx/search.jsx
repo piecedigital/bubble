@@ -3,7 +3,7 @@ import React from "react";
 // components
 let components = {};
 
-// list item for featured streams
+// list item for streams matching the search
 components.StreamsListItem = React.createClass({
   displayName: "stream-ListItem",
   render() {
@@ -76,7 +76,7 @@ export default React.createClass({
       });
       let searchType = `search${capitalType}`;
       this.setState({
-        offset: this.state.requestOffset + 25
+        requestOffset: this.state.requestOffset + 25
       });
       loadData.call(this, e => {
         console.error(e.stack);
@@ -105,6 +105,7 @@ export default React.createClass({
       component
     } = this.state;
     const {
+      data,
       methods: {
         appendStream,
         loadData
@@ -114,7 +115,7 @@ export default React.createClass({
     if(component) {
       const ListItem = components[component];
       return (
-        <div className="search-page">
+        <div className="top-level-component search-page">
           <div className="wrapper">
             <ul className="list">
               {
@@ -131,7 +132,7 @@ export default React.createClass({
     } else {
       return (
         <div className="search-page">
-          {`Loading streams for ${location.query.q || location.query.query}...`}
+          {`Loading streams for ${location ? location.query.q || location.query.query : data.query.q || data.query.query}...`}
         </div>
       );
     }
