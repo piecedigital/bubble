@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
+import loadData from "../../../../modules/load-data";
 
 // components
 let components = {
@@ -27,6 +28,7 @@ let components = {
           }
         }
       } = this.props;
+      let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       return (
         <li onClick={() => {
           appendStream(name)
@@ -45,7 +47,7 @@ let components = {
               {`Live with "${game}"`}
             </div>
             <div className="viewers">
-              {`Streaming to ${viewers} viewer${viewers > 1 ? "s" : ""}`}
+              {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
             </div>
           </div>
         </li>
@@ -65,32 +67,32 @@ export default React.createClass({
     }
   },
   gatherData() {
+    const limit = 25;
     const {
       methods: {
-        loadData
+        // loadData
       },
-      params,
       location
     } = this.props;
     if(loadData) {
-      let capitalType = params.page.replace(/^(.)/, (_, letter) => {
-        return letter.toUpperCase();
-      });
-      let searchType = `top${capitalType}`;
+      let offset = this.state.requestOffset;
       this.setState({
-        requestOffset: this.state.requestOffset + 25
+        requestOffset: this.state.requestOffset + limit
       });
       loadData.call(this, e => {
         console.error(e.stack);
-      }, {})
+      }, {
+        offset,
+        limit: limit
+      })
       .then(methods => {
         methods
-        [searchType]()
+        .followedStreams()
         .then(data => {
           this.setState({
             // offset: this.state.requestOffset + 25,
             dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top),
-            component: `${capitalType}ListItem`
+            component: `StreamsListItem`
           });
         })
         .catch(e => console.error(e.stack));
@@ -99,19 +101,6 @@ export default React.createClass({
     }
   },
   componentDidMount() { this.gatherData(); },
-  componentWillReceiveProps(nextProps) {
-    console.log("updated");
-    if(this.props.params.page !== nextProps.params.page) {
-      setTimeout(() => {
-        this.setState({
-          dataArray: [],
-          requestOffset: 0
-        }, () => {
-          this.gatherData();
-        });
-      });
-    }
-  },
   render() {
     const {
       requestOffset,
@@ -123,13 +112,12 @@ export default React.createClass({
       methods: {
         appendStream,
         loadData
-      },
-      params
+      }
     } = this.props;
     if(component) {
       const ListItem = components[component];
       return (
-        <div className={`top-level-component general-page ${params ? params.page : data.page}`}>
+        <div className={`top-level-component general-page profile`}>
           <div className="wrapper">
             <ul className="list">
               {
@@ -150,8 +138,8 @@ export default React.createClass({
       );
     } else {
       return (
-        <div className={`top-level-component general-page ${params ? params.page : data.page}`}>
-          {`Loading ${params ? params.page : data.page}...`}
+        <div className={`top-level-component general-page profile`}>
+          {`Loading followed streams...`}
         </div>
       );
     }

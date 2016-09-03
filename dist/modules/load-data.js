@@ -7,14 +7,16 @@ Object.defineProperty(exports, "__esModule", {
 var _ajax = require("./ajax");
 
 exports["default"] = function (errorCB) {
+  var _this = this;
+
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
+  options.headers = options.headers || {};
   var baseURL = "https://api.twitch.tv/kraken/";
   var makeRequest = function makeRequest(okayCB, path) {
-    console.log("options", options);
     return new Promise(function (resolve, reject) {
       var requestURL = "" + baseURL + path + "?";
       Object.keys(options).map(function (key) {
@@ -24,6 +26,13 @@ exports["default"] = function (errorCB) {
       requestURL.replace(/&$/, "");
       (0, _ajax.ajax)({
         url: requestURL,
+        beforeSend: function beforeSend(xhr) {
+          if (options.headers) {
+            Object.keys(options.headers).map(function (header) {
+              xhr.setRequestHeader(header, options.headers[header]);
+            });
+          }
+        },
         success: function success(data) {
           data = JSON.parse(data);
           resolve(data);
@@ -60,7 +69,8 @@ exports["default"] = function (errorCB) {
       },
       followedStreams: function followedStreams(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
-        return makeRequest(okayCB, "search/followed");
+        options.headers.Authorization = "OAuth " + _this.props.auth.access_token;
+        return makeRequest(okayCB, "streams/followed");
       },
       followedVideos: function followedVideos(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;

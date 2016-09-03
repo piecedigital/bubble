@@ -127,6 +127,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var ajax = function ajax(optionsObj) {
 	optionsObj = optionsObj || {};
+	// console.log(optionsObj.data);
 
 	var httpRequest = new XMLHttpRequest();
 	if (typeof optionsObj.upload === "function") httpRequest.upload.addEventListener("progress", optionsObj.upload, false);
@@ -159,7 +160,10 @@ var ajax = function ajax(optionsObj) {
 	};
 
 	httpRequest.open((optionsObj.type || "").toUpperCase() || "GET", optionsObj.url, optionsObj.multipart || true);
-	if (optionsObj.dataType) httpRequest.setRequestHeader("Content-Type", "" + contentTypes[optionsObj.dataType || "text"]);
+	if (optionsObj.dataType) httpRequest.setRequestHeader("Content-Type", "" + contentTypes[optionsObj.dataType.toLowerCase() || "text"]);
+	if (typeof optionsObj.beforeSend == "function") {
+		optionsObj.beforeSend(httpRequest);
+	}
 	httpRequest.send(optionsObj.data || null);
 };
 exports.ajax = ajax;
@@ -173,14 +177,16 @@ Object.defineProperty(exports, "__esModule", {
 var _ajax = require("./ajax");
 
 exports["default"] = function (errorCB) {
+  var _this = this;
+
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
+  options.headers = options.headers || {};
   var baseURL = "https://api.twitch.tv/kraken/";
   var makeRequest = function makeRequest(okayCB, path) {
-    console.log("options", options);
     return new Promise(function (resolve, reject) {
       var requestURL = "" + baseURL + path + "?";
       Object.keys(options).map(function (key) {
@@ -190,6 +196,13 @@ exports["default"] = function (errorCB) {
       requestURL.replace(/&$/, "");
       (0, _ajax.ajax)({
         url: requestURL,
+        beforeSend: function beforeSend(xhr) {
+          if (options.headers) {
+            Object.keys(options.headers).map(function (header) {
+              xhr.setRequestHeader(header, options.headers[header]);
+            });
+          }
+        },
         success: function success(data) {
           data = JSON.parse(data);
           resolve(data);
@@ -226,7 +239,8 @@ exports["default"] = function (errorCB) {
       },
       followedStreams: function followedStreams(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
-        return makeRequest(okayCB, "search/followed");
+        options.headers.Authorization = "OAuth " + _this.props.auth.access_token;
+        return makeRequest(okayCB, "streams/followed");
       },
       followedVideos: function followedVideos(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
@@ -26844,7 +26858,7 @@ var container = document.querySelector(".react-app");
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })
   )
 ), container);
-},{"./jsx/general-page.jsx":246,"./jsx/home.jsx":247,"./jsx/layout.jsx":248,"./jsx/profile.jsx":249,"./jsx/search.jsx":250,"react":241,"react-dom":6,"react-router":36}],243:[function(require,module,exports){
+},{"./jsx/general-page.jsx":247,"./jsx/home.jsx":248,"./jsx/layout.jsx":249,"./jsx/profile.jsx":250,"./jsx/search.jsx":251,"react":241,"react-dom":6,"react-router":36}],243:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27311,6 +27325,195 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _modulesLoadData = require("../../../../modules/load-data");
+
+var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+
+// components
+var components = {
+  // list item for streams matching the search
+  StreamsListItem: _react2["default"].createClass({
+    displayName: "stream-ListItem",
+    render: function render() {
+      // console.log(this.props);
+      var _props = this.props;
+      var index = _props.index;
+      var appendStream = _props.methods.appendStream;
+      var _props$data = _props.data;
+      var game = _props$data.game;
+      var viewers = _props$data.viewers;
+      var title = _props$data.title;
+      var id = _props$data._id;
+      var preview = _props$data.preview;
+      var _props$data$channel = _props$data.channel;
+      var mature = _props$data$channel.mature;
+      var logo = _props$data$channel.logo;
+      var name = _props$data$channel.name;
+      var language = _props$data$channel.language;
+
+      var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+      return _react2["default"].createElement(
+        "li",
+        { onClick: function () {
+            appendStream(name);
+          } },
+        _react2["default"].createElement(
+          "div",
+          { className: "image" },
+          _react2["default"].createElement("img", { src: preview.medium })
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "info" },
+          _react2["default"].createElement(
+            "div",
+            { className: "channel-name" },
+            name
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "title" },
+            title
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "game" },
+            "Live with \"" + game + "\""
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "viewers" },
+            "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+          )
+        )
+      );
+    }
+  })
+};
+
+// primary section for the search component
+exports["default"] = _react2["default"].createClass({
+  displayName: "FollowedStreams",
+  getInitialState: function getInitialState() {
+    return {
+      requestOffset: 0,
+      dataArray: []
+    };
+  },
+  gatherData: function gatherData() {
+    var _this = this;
+
+    var limit = 25;
+    var _props2 = this.props;
+
+    _objectDestructuringEmpty(_props2.methods);
+
+    var
+    // loadData
+    location = _props2.location;
+
+    if (_modulesLoadData2["default"]) {
+      var offset = this.state.requestOffset;
+      this.setState({
+        requestOffset: this.state.requestOffset + limit
+      });
+      _modulesLoadData2["default"].call(this, function (e) {
+        console.error(e.stack);
+      }, {
+        offset: offset,
+        limit: limit
+      }).then(function (methods) {
+        methods.followedStreams().then(function (data) {
+          _this.setState({
+            // offset: this.state.requestOffset + 25,
+            dataArray: Array.from(_this.state.dataArray).concat(data.channels || data.streams || data.games || data.top),
+            component: "StreamsListItem"
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack);
+      });
+    }
+  },
+  componentDidMount: function componentDidMount() {
+    this.gatherData();
+  },
+  render: function render() {
+    var _this2 = this;
+
+    var _state = this.state;
+    var requestOffset = _state.requestOffset;
+    var dataArray = _state.dataArray;
+    var component = _state.component;
+    var _props3 = this.props;
+    var data = _props3.data;
+    var _props3$methods = _props3.methods;
+    var appendStream = _props3$methods.appendStream;
+    var loadData = _props3$methods.loadData;
+
+    if (component) {
+      var _ret = (function () {
+        var ListItem = components[component];
+        return {
+          v: _react2["default"].createElement(
+            "div",
+            { className: "top-level-component general-page profile" },
+            _react2["default"].createElement(
+              "div",
+              { className: "wrapper" },
+              _react2["default"].createElement(
+                "ul",
+                { className: "list" },
+                dataArray.map(function (itemData, ind) {
+                  return _react2["default"].createElement(ListItem, { key: ind, data: itemData, index: ind, methods: {
+                      appendStream: appendStream
+                    } });
+                })
+              )
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "tools" },
+              _react2["default"].createElement(
+                "div",
+                { className: "btn-default load-more", onClick: _this2.gatherData },
+                "Load More"
+              )
+            )
+          )
+        };
+      })();
+
+      if (typeof _ret === "object") return _ret.v;
+    } else {
+      return _react2["default"].createElement(
+        "div",
+        { className: "top-level-component general-page profile" },
+        "Loading followed streams..."
+      );
+    }
+  }
+});
+module.exports = exports["default"];
+},{"../../../../modules/load-data":3,"react":241,"react-router":36}],247:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
 var _modulesLoadData = require("../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
@@ -27559,7 +27762,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":3,"react":241,"react-router":36}],247:[function(require,module,exports){
+},{"../../modules/load-data":3,"react":241,"react-router":36}],248:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27604,7 +27807,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/featured-streams.jsx":243,"./components/top-games.jsx":245,"react":241}],248:[function(require,module,exports){
+},{"./components/featured-streams.jsx":243,"./components/top-games.jsx":245,"react":241}],249:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27673,6 +27876,14 @@ exports["default"] = _react2["default"].createClass({
       streamersInPlayer: streamersInPlayer
     });
   },
+  logout: function logout() {
+    var newAuthData = Object.assign({}, this.state.authData);
+    delete newAuthData.access_token;
+    this.setState({
+      authData: newAuthData
+    });
+    document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
+  },
   componentDidMount: function componentDidMount() {
     var authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
@@ -27682,10 +27893,11 @@ exports["default"] = _react2["default"].createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
       authData[key] = value;
     });
-    if (!Object.keys(authData).length) {
-      authData = null;
-    }
-    console.log(authData);
+    // if(!Object.keys(authData).length) {
+    //   authData = null;
+    // }
+    // console.log(authData);
+
     this.setState({
       authData: authData
     });
@@ -27723,13 +27935,22 @@ exports["default"] = _react2["default"].createClass({
             "Games"
           ),
           authData && authData.access_token ? _react2["default"].createElement(
-            _reactRouter.Link,
-            { className: "nav-item", to: "/profile" },
-            "Profile"
+            "span",
+            null,
+            _react2["default"].createElement(
+              _reactRouter.Link,
+              { className: "nav-item", to: "/profile" },
+              "Profile"
+            ),
+            _react2["default"].createElement(
+              "a",
+              { className: "nav-item", href: "#", onClick: this.logout },
+              "Disconnect"
+            )
           ) : _react2["default"].createElement(
             "a",
             { className: "nav-item login", href: url },
-            "Login to Twitch"
+            "Connect to Twitch"
           )
         )
       ),
@@ -27751,7 +27972,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/ajax":2,"../../modules/load-data":3,"./components/player.jsx":244,"firebase":4,"react":241,"react-router":36}],249:[function(require,module,exports){
+},{"../../modules/ajax":2,"../../modules/load-data":3,"./components/player.jsx":244,"firebase":4,"react":241,"react-router":36}],250:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27764,18 +27985,40 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
+var _componentsUserFollowedStreamsJsx = require("./components/user/followed-streams.jsx");
+
+var _componentsUserFollowedStreamsJsx2 = _interopRequireDefault(_componentsUserFollowedStreamsJsx);
+
 exports["default"] = _react2["default"].createClass({
-  displayName: "Home",
+  displayName: "Profile",
+  checkAuth: function checkAuth() {
+    console.log(this.props);
+    if (this.props.auth && !this.props.auth.access_token) {
+      _reactRouter.browserHistory.push("/");
+    }
+  },
+  componentDidMount: function componentDidMount() {
+    this.checkAuth();
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    this.checkAuth();
+  },
   render: function render() {
     return _react2["default"].createElement(
-      "h1",
-      null,
-      "I am groot"
+      "div",
+      { className: "profile" },
+      _react2["default"].createElement(
+        "div",
+        { className: "followed-streams" },
+        this.props.auth && this.props.auth.access_token ? _react2["default"].createElement(_componentsUserFollowedStreamsJsx2["default"], this.props) : null
+      )
     );
   }
 });
 module.exports = exports["default"];
-},{"react":241}],250:[function(require,module,exports){
+},{"./components/user/followed-streams.jsx":246,"react":241,"react-router":36}],251:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

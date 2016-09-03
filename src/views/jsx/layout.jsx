@@ -43,6 +43,14 @@ export default React.createClass({
       streamersInPlayer
     });
   },
+  logout() {
+    var newAuthData = Object.assign({}, this.state.authData);
+    delete newAuthData.access_token;
+    this.setState({
+      authData: newAuthData
+    });
+    document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
+  },
   componentDidMount() {
     let authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
@@ -52,10 +60,11 @@ export default React.createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
       authData[key] = value;
     });
-    if(!Object.keys(authData).length) {
-      authData = null;
-    }
-    console.log(authData);
+    // if(!Object.keys(authData).length) {
+    //   authData = null;
+    // }
+    // console.log(authData);
+
     this.setState({
       authData
     });
@@ -83,9 +92,12 @@ export default React.createClass({
             <Link className="nav-item" to={"/games"}>Games</Link>
             {
               authData && authData.access_token ? (
-                <Link className="nav-item" to={"/profile"}>Profile</Link>
+                <span>
+                  <Link className="nav-item" to={"/profile"}>Profile</Link>
+                  <a className="nav-item" href="#" onClick={this.logout}>Disconnect</a>
+                </span>
               ) : (
-                <a className="nav-item login" href={url}>Login to Twitch</a>
+                <a className="nav-item login" href={url}>Connect to Twitch</a>
               )
             }
           </div>

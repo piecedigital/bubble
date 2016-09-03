@@ -66,6 +66,14 @@ exports["default"] = _react2["default"].createClass({
       streamersInPlayer: streamersInPlayer
     });
   },
+  logout: function logout() {
+    var newAuthData = Object.assign({}, this.state.authData);
+    delete newAuthData.access_token;
+    this.setState({
+      authData: newAuthData
+    });
+    document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
+  },
   componentDidMount: function componentDidMount() {
     var authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
@@ -75,10 +83,11 @@ exports["default"] = _react2["default"].createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
       authData[key] = value;
     });
-    if (!Object.keys(authData).length) {
-      authData = null;
-    }
-    console.log(authData);
+    // if(!Object.keys(authData).length) {
+    //   authData = null;
+    // }
+    // console.log(authData);
+
     this.setState({
       authData: authData
     });
@@ -116,13 +125,22 @@ exports["default"] = _react2["default"].createClass({
             "Games"
           ),
           authData && authData.access_token ? _react2["default"].createElement(
-            _reactRouter.Link,
-            { className: "nav-item", to: "/profile" },
-            "Profile"
+            "span",
+            null,
+            _react2["default"].createElement(
+              _reactRouter.Link,
+              { className: "nav-item", to: "/profile" },
+              "Profile"
+            ),
+            _react2["default"].createElement(
+              "a",
+              { className: "nav-item", href: "#", onClick: this.logout },
+              "Disconnect"
+            )
           ) : _react2["default"].createElement(
             "a",
             { className: "nav-item login", href: url },
-            "Login to Twitch"
+            "Connect to Twitch"
           )
         )
       ),

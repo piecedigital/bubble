@@ -3,9 +3,9 @@ export default function(errorCB, options = {}) {
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
+  options.headers = options.headers || {};
   let baseURL = "https://api.twitch.tv/kraken/";
   const makeRequest = function(okayCB, path) {
-    console.log("options", options);
     return new Promise((resolve, reject) => {
       let requestURL = `${baseURL}${path}?`;
       Object.keys(options).map(key => {
@@ -15,6 +15,13 @@ export default function(errorCB, options = {}) {
       requestURL.replace(/&$/, "");
       ajax({
         url: requestURL,
+        beforeSend: function(xhr) {
+          if(options.headers) {
+            Object.keys(options.headers).map(header => {
+              xhr.setRequestHeader(header, options.headers[header]);
+            });
+          }
+        },
         success(data) {
           data = JSON.parse(data);
           resolve(data);
@@ -51,7 +58,8 @@ export default function(errorCB, options = {}) {
       },
       followedStreams: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
-        return makeRequest(okayCB, "search/followed");
+        options.headers.Authorization = `OAuth ${this.props.auth.access_token}`;
+        return makeRequest(okayCB, "streams/followed");
       },
       followedVideos: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;

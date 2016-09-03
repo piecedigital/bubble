@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var ajax = function ajax(optionsObj) {
 	optionsObj = optionsObj || {};
+	// console.log(optionsObj.data);
 
 	var httpRequest = new XMLHttpRequest();
 	if (typeof optionsObj.upload === "function") httpRequest.upload.addEventListener("progress", optionsObj.upload, false);
@@ -37,7 +38,10 @@ var ajax = function ajax(optionsObj) {
 	};
 
 	httpRequest.open((optionsObj.type || "").toUpperCase() || "GET", optionsObj.url, optionsObj.multipart || true);
-	if (optionsObj.dataType) httpRequest.setRequestHeader("Content-Type", "" + contentTypes[optionsObj.dataType || "text"]);
+	if (optionsObj.dataType) httpRequest.setRequestHeader("Content-Type", "" + contentTypes[optionsObj.dataType.toLowerCase() || "text"]);
+	if (typeof optionsObj.beforeSend == "function") {
+		optionsObj.beforeSend(httpRequest);
+	}
 	httpRequest.send(optionsObj.data || null);
 };
 exports.ajax = ajax;
