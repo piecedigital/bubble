@@ -10,6 +10,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _modulesLoadData = require("../../../modules/load-data");
+
+var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+
 // stream component for player
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",

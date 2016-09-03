@@ -6,17 +6,11 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
-
-var _modulesLoadData = require("../../modules/load-data");
-
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
 // components
 var components = {
@@ -39,15 +33,6 @@ var components = {
       var logo = _props$data$channel.logo;
       var name = _props$data$channel.name;
       var language = _props$data$channel.language;
-
-      // let viewersString = viewers.toString().split("").reverse().join("").replace(/(\d{3})/g, function(_, group) {
-      //   console.log(arguments)
-      //   return `${group},`;
-      // }).replace(/,$/, "").split("").reverse().join("");
-
-      // let viewersString = viewers.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2') // https://www.livecoding.tv/efleming969/
-
-      var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
 
       return _react2["default"].createElement(
         "li",
@@ -80,53 +65,7 @@ var components = {
           _react2["default"].createElement(
             "div",
             { className: "viewers" },
-            "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-          )
-        )
-      );
-    }
-  }),
-  GamesListItem: _react2["default"].createClass({
-    displayName: "games-ListItem",
-    render: function render() {
-      // console.log(this.props);
-      var _props2 = this.props;
-      var index = _props2.index;
-      var appendStream = _props2.methods.appendStream;
-      var _props2$data = _props2.data;
-      var _props2$data$game = _props2$data.game;
-      var name = _props2$data$game.name;
-      var box = _props2$data$game.box;
-      var id = _props2$data$game._id;
-      var viewers = _props2$data.viewers;
-      var channels = _props2$data.channels;
-
-      var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      var channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      return _react2["default"].createElement(
-        "li",
-        null,
-        _react2["default"].createElement(
-          _reactRouter.Link,
-          { to: "/search/streams?q=" + encodeURIComponent(name) },
-          _react2["default"].createElement(
-            "div",
-            { className: "image" },
-            _react2["default"].createElement("img", { src: box.medium })
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "info" },
-            _react2["default"].createElement(
-              "div",
-              { className: "game-name" },
-              name
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "count" },
-              channelsString + " streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-            )
+            "Streaming to " + viewers + " viewer" + (viewers > 1 ? "s" : "")
           )
         )
       );
@@ -136,7 +75,7 @@ var components = {
 
 // primary section for the search component
 exports["default"] = _react2["default"].createClass({
-  displayName: "StreamsPage",
+  displayName: "FollowedStreams",
   getInitialState: function getInitialState() {
     return {
       requestOffset: 0,
@@ -146,31 +85,23 @@ exports["default"] = _react2["default"].createClass({
   gatherData: function gatherData() {
     var _this = this;
 
-    var _props3 = this.props;
+    var _props2 = this.props;
+    var loadData = _props2.methods.loadData;
+    var params = _props2.params;
+    var location = _props2.location;
 
-    _objectDestructuringEmpty(_props3.methods);
-
-    var
-    // loadData
-    params = _props3.params;
-    var location = _props3.location;
-
-    if (_modulesLoadData2["default"]) {
+    if (loadData) {
       (function () {
         var capitalType = params.page.replace(/^(.)/, function (_, letter) {
           return letter.toUpperCase();
         });
         var searchType = "top" + capitalType;
-        var offset = _this.state.requestOffset;
         _this.setState({
           requestOffset: _this.state.requestOffset + 25
         });
-        _modulesLoadData2["default"].call(_this, function (e) {
+        loadData.call(_this, function (e) {
           console.error(e.stack);
-        }, {
-          offset: offset,
-          limit: 25
-        }).then(function (methods) {
+        }, {}).then(function (methods) {
           methods[searchType]().then(function (data) {
             _this.setState({
               // offset: this.state.requestOffset + 25,
@@ -211,12 +142,12 @@ exports["default"] = _react2["default"].createClass({
     var requestOffset = _state.requestOffset;
     var dataArray = _state.dataArray;
     var component = _state.component;
-    var _props4 = this.props;
-    var data = _props4.data;
-    var _props4$methods = _props4.methods;
-    var appendStream = _props4$methods.appendStream;
-    var loadData = _props4$methods.loadData;
-    var params = _props4.params;
+    var _props3 = this.props;
+    var data = _props3.data;
+    var _props3$methods = _props3.methods;
+    var appendStream = _props3$methods.appendStream;
+    var loadData = _props3$methods.loadData;
+    var params = _props3.params;
 
     if (component) {
       var _ret2 = (function () {

@@ -7,4 +7,4 @@ export default React.createClass({
       <h1>I am groot</h1>
     );
   }
-})
+});

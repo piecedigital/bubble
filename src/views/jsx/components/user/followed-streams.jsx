@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
-import loadData from "../../modules/load-data";
 
 // components
 let components = {
@@ -28,15 +27,6 @@ let components = {
           }
         }
       } = this.props;
-      // let viewersString = viewers.toString().split("").reverse().join("").replace(/(\d{3})/g, function(_, group) {
-      //   console.log(arguments)
-      //   return `${group},`;
-      // }).replace(/,$/, "").split("").reverse().join("");
-
-      // let viewersString = viewers.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2') // https://www.livecoding.tv/efleming969/
-
-      let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-
       return (
         <li onClick={() => {
           appendStream(name)
@@ -55,58 +45,19 @@ let components = {
               {`Live with "${game}"`}
             </div>
             <div className="viewers">
-              {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+              {`Streaming to ${viewers} viewer${viewers > 1 ? "s" : ""}`}
             </div>
           </div>
-        </li>
-      )
-    }
-  }),
-  GamesListItem: React.createClass({
-    displayName: "games-ListItem",
-    render() {
-      // console.log(this.props);
-      const {
-        index,
-        methods: {
-          appendStream
-        },
-        data: {
-          game: {
-            name,
-            box,
-            _id: id
-          },
-          viewers,
-          channels
-        }
-      } = this.props;
-      let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      let channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      return (
-        <li>
-          <Link to={`/search/streams?q=${encodeURIComponent(name)}`}>
-            <div className="image">
-              <img src={box.medium} />
-            </div>
-            <div className="info">
-              <div className="game-name">
-                {name}
-              </div>
-              <div className="count">
-                {`${channelsString} streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-              </div>
-            </div>
-          </Link>
         </li>
       )
     }
   })
 };
 
+
 // primary section for the search component
 export default React.createClass({
-  displayName: "StreamsPage",
+  displayName: "FollowedStreams",
   getInitialState() {
     return {
       requestOffset: 0,
@@ -116,7 +67,7 @@ export default React.createClass({
   gatherData() {
     const {
       methods: {
-        // loadData
+        loadData
       },
       params,
       location
@@ -126,16 +77,12 @@ export default React.createClass({
         return letter.toUpperCase();
       });
       let searchType = `top${capitalType}`;
-      let offset = this.state.requestOffset;
       this.setState({
         requestOffset: this.state.requestOffset + 25
       });
       loadData.call(this, e => {
         console.error(e.stack);
-      }, {
-        offset,
-        limit: 25
-      })
+      }, {})
       .then(methods => {
         methods
         [searchType]()

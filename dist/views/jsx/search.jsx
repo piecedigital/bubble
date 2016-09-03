@@ -6,9 +6,15 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _modulesLoadData = require("../../modules/load-data");
+
+var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
 // components
 var components = {};
@@ -33,6 +39,7 @@ components.StreamsListItem = _react2["default"].createClass({
     var name = _props$data$channel.name;
     var language = _props$data$channel.language;
 
+    var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
       "li",
       { onClick: function () {
@@ -64,7 +71,7 @@ components.StreamsListItem = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "viewers" },
-          "Streaming to " + viewers + " viewer" + (viewers > 1 ? "s" : "")
+          "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
         )
       )
     );
@@ -84,23 +91,31 @@ exports["default"] = _react2["default"].createClass({
     var _this = this;
 
     var _props2 = this.props;
-    var loadData = _props2.methods.loadData;
-    var params = _props2.params;
+
+    _objectDestructuringEmpty(_props2.methods);
+
+    var
+    // loadData
+    params = _props2.params;
     var location = _props2.location;
 
-    if (loadData) {
+    if (_modulesLoadData2["default"]) {
       (function () {
         var capitalType = params.searchtype.replace(/^(.)/, function (_, letter) {
           return letter.toUpperCase();
         });
         var searchType = "search" + capitalType;
+        var offset = _this.state.requestOffset;
         _this.setState({
           requestOffset: _this.state.requestOffset + 25
         });
-        loadData.call(_this, function (e) {
+        console.log(_this);
+        _modulesLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
         }, {
-          query: location.query.q
+          query: location.query.q,
+          offset: offset,
+          limit: 25
         }).then(function (methods) {
           methods[searchType]().then(function (data) {
             _this.setState({

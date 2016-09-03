@@ -6,9 +6,15 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _modulesLoadData = require("../../../modules/load-data");
+
+var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
 // list item for featured streams
 var ListItem = _react2["default"].createClass({
@@ -29,6 +35,7 @@ var ListItem = _react2["default"].createClass({
     var name = _props$data$stream$channel.name;
     var language = _props$data$stream$channel.language;
 
+    var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
       "li",
       { onClick: function () {
@@ -55,7 +62,7 @@ var ListItem = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "game" },
-          "Live with \"" + game + "\""
+          "Live with \"" + (game || null) + "\", streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
         )
       )
     );
@@ -79,12 +86,14 @@ var FeaturedStream = _react2["default"].createClass({
       bio: ""
     }, function () {
       var _props2 = _this.props;
-      var loadData = _props2.methods.loadData;
+
+      _objectDestructuringEmpty(_props2.methods);
+
       var _props2$data$stream$channel = _props2.data.stream.channel;
       var name = _props2$data$stream$channel.name;
       var logo = _props2$data$stream$channel.logo;
 
-      loadData.call(_this, function (e) {
+      _modulesLoadData2["default"].call(_this, function (e) {
         console.error(e.stack);
       }).then(function (methods) {
         methods.getUser(null, name).then(function (data) {
@@ -226,3 +235,5 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
+
+// loadData

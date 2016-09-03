@@ -1,5 +1,5 @@
 import React from "react";
-
+import loadData from "../../modules/load-data";
 // components
 let components = {};
 
@@ -27,6 +27,7 @@ components.StreamsListItem = React.createClass({
         }
       }
     } = this.props;
+    let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return (
       <li onClick={() => {
         appendStream(name)
@@ -45,7 +46,7 @@ components.StreamsListItem = React.createClass({
             {`Live with "${game}"`}
           </div>
           <div className="viewers">
-            {`Streaming to ${viewers} viewer${viewers > 1 ? "s" : ""}`}
+            {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
           </div>
         </div>
       </li>
@@ -65,7 +66,7 @@ export default React.createClass({
   componentDidMount() {
     const {
       methods: {
-        loadData
+        // loadData
       },
       params,
       location
@@ -75,13 +76,17 @@ export default React.createClass({
         return letter.toUpperCase();
       });
       let searchType = `search${capitalType}`;
+      let offset = this.state.requestOffset
       this.setState({
         requestOffset: this.state.requestOffset + 25
       });
+      console.log(this);
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
-        query: location.query.q
+        query: location.query.q,
+        offset,
+        limit: 25
       })
       .then(methods => {
         methods

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
+import loadData from "../../../modules/load-data";
 
 // list item for featured streams
 const ListItem = React.createClass({
@@ -16,6 +17,8 @@ const ListItem = React.createClass({
         }
       }
     } = this.props;
+    let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+    let channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return (
       <li>
         <Link to={`/search/streams?q=${name}`}>
@@ -27,10 +30,10 @@ const ListItem = React.createClass({
               {name}
             </div>
             <div className="channel-count">
-              {`${channels} total streams`}
+              {`${channelsString} total streams`}
             </div>
             <div className="viewer-count">
-              {`${viewers} total viewers`}
+              {`${viewersString} total viewers`}
             </div>
           </div>
         </Link>

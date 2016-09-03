@@ -1,6 +1,7 @@
 import React from "react";
 import Player from "./components/player.jsx";
 import { ajax } from "../../modules/ajax";
+import loadData from "../../modules/load-data";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
 
@@ -13,78 +14,6 @@ var config = {
 };
 Firebase.initializeApp(config);
 const ref = Firebase.database().ref;
-function loadData(errorCB, options = {}) {
-  options = Object.assign({}, options);
-  options.stream_type = options.stream_type || "live";
-  options.limit = options.limit || 20;
-  let baseURL = "https://api.twitch.tv/kraken/";
-  const makeRequest = function(okayCB, path) {
-    return new Promise((resolve, reject) => {
-      let requestURL = `${baseURL}${path}?`;
-      Object.keys(options).map(key => {
-        let value = options[key];
-        requestURL += `${key}=${value}&`
-      });
-      requestURL.replace(/&$/, "");
-      ajax({
-        url: requestURL,
-        success(data) {
-          data = JSON.parse(data);
-          resolve(data);
-          if(typeof okayCB === "function") okayCB(data);
-        },
-        error(error) {
-          console.error(error);
-        }
-      })
-    });
-  };
-  return new Promise((resolve, reject) => {
-    resolve({
-      featured: (okayCB) => {
-        // console.log(this);
-        options.limit = 25;
-        options.offset = 0;
-        return makeRequest(okayCB, "streams/featured");
-      },
-      topGames: (okayCB) => {
-        // console.log(this);
-        options.offset = options.offset || this.state.requestOffset;
-        return makeRequest(okayCB, "games/top");
-      },
-      topStreams: (okayCB) => {
-        // console.log(this);
-        options.offset = options.offset || this.state.requestOffset;
-        return makeRequest(okayCB, "streams");
-      },
-      getUser: (okayCB, username) => {
-        delete options.stream_type;
-        delete options.limit;
-        return makeRequest(okayCB, `users/${username}`);
-      },
-      followedStreams: (okayCB) => {
-        options.offset = options.offset || this.state.requestOffset;
-        return makeRequest(okayCB, "search/followed");
-      },
-      followedVideos: (okayCB) => {
-        options.offset = options.offset || this.state.requestOffset;
-        return makeRequest(okayCB, "videos/followed");
-      },
-      searchChannels: (okayCB) => {
-        options.offset = options.offset || this.state.requestOffset;
-        return makeRequest(okayCB, "search/channels");
-      },
-      searchStreams: (okayCB) => {
-        options.offset = options.offset || this.state.requestOffset;
-        return makeRequest(okayCB, "search/streams");
-      },
-      searchGames: (okayCB) => {
-        options.offset = options.offset || this.state.requestOffset;
-        return makeRequest(okayCB, "search/games");
-      }
-    });
-  });
-};
 
 export default React.createClass({
   displayName: "Layout",

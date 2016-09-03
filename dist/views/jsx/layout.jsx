@@ -16,6 +16,10 @@ var _componentsPlayerJsx2 = _interopRequireDefault(_componentsPlayerJsx);
 
 var _modulesAjax = require("../../modules/ajax");
 
+var _modulesLoadData = require("../../modules/load-data");
+
+var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+
 var _reactRouter = require('react-router');
 
 var _firebase = require("firebase");
@@ -31,82 +35,6 @@ var config = {
 };
 _firebase2["default"].initializeApp(config);
 var ref = _firebase2["default"].database().ref;
-function loadData(errorCB) {
-  var _this = this;
-
-  var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-  options = Object.assign({}, options);
-  options.stream_type = options.stream_type || "live";
-  options.limit = options.limit || 20;
-  var baseURL = "https://api.twitch.tv/kraken/";
-  var makeRequest = function makeRequest(okayCB, path) {
-    return new Promise(function (resolve, reject) {
-      var requestURL = "" + baseURL + path + "?";
-      Object.keys(options).map(function (key) {
-        var value = options[key];
-        requestURL += key + "=" + value + "&";
-      });
-      requestURL.replace(/&$/, "");
-      (0, _modulesAjax.ajax)({
-        url: requestURL,
-        success: function success(data) {
-          data = JSON.parse(data);
-          resolve(data);
-          if (typeof okayCB === "function") okayCB(data);
-        },
-        error: function error(_error) {
-          console.error(_error);
-        }
-      });
-    });
-  };
-  return new Promise(function (resolve, reject) {
-    resolve({
-      featured: function featured(okayCB) {
-        // console.log(this);
-        options.limit = 25;
-        options.offset = 0;
-        return makeRequest(okayCB, "streams/featured");
-      },
-      topGames: function topGames(okayCB) {
-        // console.log(this);
-        options.offset = options.offset || _this.state.requestOffset;
-        return makeRequest(okayCB, "games/top");
-      },
-      topStreams: function topStreams(okayCB) {
-        // console.log(this);
-        options.offset = options.offset || _this.state.requestOffset;
-        return makeRequest(okayCB, "streams");
-      },
-      getUser: function getUser(okayCB, username) {
-        delete options.stream_type;
-        delete options.limit;
-        return makeRequest(okayCB, "users/" + username);
-      },
-      followedStreams: function followedStreams(okayCB) {
-        options.offset = options.offset || _this.state.requestOffset;
-        return makeRequest(okayCB, "search/followed");
-      },
-      followedVideos: function followedVideos(okayCB) {
-        options.offset = options.offset || _this.state.requestOffset;
-        return makeRequest(okayCB, "videos/followed");
-      },
-      searchChannels: function searchChannels(okayCB) {
-        options.offset = options.offset || _this.state.requestOffset;
-        return makeRequest(okayCB, "search/channels");
-      },
-      searchStreams: function searchStreams(okayCB) {
-        options.offset = options.offset || _this.state.requestOffset;
-        return makeRequest(okayCB, "search/streams");
-      },
-      searchGames: function searchGames(okayCB) {
-        options.offset = options.offset || _this.state.requestOffset;
-        return makeRequest(okayCB, "search/games");
-      }
-    });
-  });
-};
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
@@ -209,7 +137,7 @@ exports["default"] = _react2["default"].createClass({
         data: data,
         methods: {
           appendStream: this.appendStream,
-          loadData: loadData
+          loadData: _modulesLoadData2["default"]
         }
       }) : null
     );

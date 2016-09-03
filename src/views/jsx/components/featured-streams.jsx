@@ -1,4 +1,5 @@
 import React from "react";
+import loadData from "../../../modules/load-data";
 
 // list item for featured streams
 const ListItem = React.createClass({
@@ -25,6 +26,7 @@ const ListItem = React.createClass({
         }
       }
     } = this.props;
+    let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return (
       <li onClick={() => {
         displayStream(index)
@@ -40,13 +42,13 @@ const ListItem = React.createClass({
             {title}
           </div>
           <div className="game">
-            {`Live with "${game}"`}
+            {`Live with "${game || null}", streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
           </div>
         </div>
       </li>
     )
   }
-})
+});
 
 // the displayed stream of the feature streams
 const FeaturedStream = React.createClass({
@@ -64,7 +66,7 @@ const FeaturedStream = React.createClass({
     }, () => {
       const {
         methods: {
-          loadData
+          // loadData
         },
         data: {
           stream: {

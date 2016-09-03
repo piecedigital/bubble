@@ -1,4 +1,5 @@
 import React from "react";
+import loadData from "../../../modules/load-data";
 
 // stream component for player
 const PlayerStream = React.createClass({
@@ -49,12 +50,14 @@ export default React.createClass({
         <div className="wrapper">
           <ul className="list">
             {
-              dataObject ? Object.keys(dataObject).map(channelName => {
-                let channelData = dataObject[channelName];
-                return <PlayerStream key={channelName} data={channelName} methods={{
-                  spliceStream
-                }} />
-              }) : null
+              dataObject ? (
+                Object.keys(dataObject).map(channelName => {
+                  let channelData = dataObject[channelName];
+                  return <PlayerStream key={channelName} data={channelName} methods={{
+                    spliceStream
+                  }} />
+                })
+              ) : null
             }
           </ul>
         </div>

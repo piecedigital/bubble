@@ -12,6 +12,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _modulesLoadData = require("../../../modules/load-data");
+
+var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+
 // list item for featured streams
 var ListItem = _react2["default"].createClass({
   displayName: "game-ListItem",
@@ -24,6 +28,8 @@ var ListItem = _react2["default"].createClass({
     var id = _props$data$game._id;
     var box = _props$data$game.box;
 
+    var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+    var channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
       "li",
       null,
@@ -46,12 +52,12 @@ var ListItem = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "channel-count" },
-            channels + " total streams"
+            channelsString + " total streams"
           ),
           _react2["default"].createElement(
             "div",
             { className: "viewer-count" },
-            viewers + " total viewers"
+            viewersString + " total viewers"
           )
         )
       )
