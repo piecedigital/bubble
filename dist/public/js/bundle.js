@@ -26845,6 +26845,22 @@ var _jsxSearchJsx2 = _interopRequireDefault(_jsxSearchJsx);
 
 var container = document.querySelector(".react-app");
 
+function checkAuth(Component, props) {
+  if (props.auth) {
+    if (props.auth.access_token) {
+      return _react2["default"].createElement(Component, props);
+    } else {
+      _reactRouter.browserHistory.push("/");
+      return null;
+    }
+  } else {
+    return _react2["default"].createElement(
+      "span",
+      null,
+      "Validating authorization..."
+    );
+  }
+}
 (0, _reactDom.render)(_react2["default"].createElement(
   _reactRouter.Router,
   { history: _reactRouter.browserHistory },
@@ -26852,7 +26868,7 @@ var container = document.querySelector(".react-app");
     _reactRouter.Route,
     { path: "", location: "root", component: _jsxLayoutJsx2["default"] },
     _react2["default"].createElement(_reactRouter.Route, { path: "/", location: "home", component: _jsxHomeJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: _jsxProfileJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", location: "streams", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", location: "games", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })
@@ -27993,18 +28009,6 @@ var _componentsUserFollowedStreamsJsx2 = _interopRequireDefault(_componentsUserF
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Profile",
-  checkAuth: function checkAuth() {
-    console.log(this.props);
-    if (this.props.auth && !this.props.auth.access_token) {
-      _reactRouter.browserHistory.push("/");
-    }
-  },
-  componentDidMount: function componentDidMount() {
-    this.checkAuth();
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    this.checkAuth();
-  },
   render: function render() {
     return _react2["default"].createElement(
       "div",
@@ -28012,7 +28016,7 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "followed-streams" },
-        this.props.auth && this.props.auth.access_token ? _react2["default"].createElement(_componentsUserFollowedStreamsJsx2["default"], this.props) : null
+        _react2["default"].createElement(_componentsUserFollowedStreamsJsx2["default"], this.props)
       )
     );
   }

@@ -9,12 +9,24 @@ import SearchPage from "./jsx/search.jsx";
 
 const container = document.querySelector(".react-app");
 
+function checkAuth(Component, props) {
+  if(props.auth) {
+    if(props.auth.access_token) {
+      return (<Component {...props} />);
+    } else {
+      History.push("/");
+      return null;
+    }
+  } else {
+    return (<span>Validating authorization...</span>);
+  }
+}
 render((
   <Router history={History}>
     <Route path="" location="root" component={Layout}>
       <Route path="/" location="home" component={Home}>
       </Route>
-      <Route path="/profile" location="profile" component={Profile}>
+      <Route path="/profile" location="profile" component={checkAuth.bind(null, Profile)}>
       </Route>
       <Route path="/:page" location="streams" component={GeneralPage}>
       </Route>

@@ -18,18 +18,6 @@ var _componentsUserFollowedStreamsJsx2 = _interopRequireDefault(_componentsUserF
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Profile",
-  checkAuth: function checkAuth() {
-    console.log(this.props);
-    if (this.props.auth && !this.props.auth.access_token) {
-      _reactRouter.browserHistory.push("/");
-    }
-  },
-  componentDidMount: function componentDidMount() {
-    this.checkAuth();
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    this.checkAuth();
-  },
   render: function render() {
     return _react2["default"].createElement(
       "div",
@@ -37,7 +25,7 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "followed-streams" },
-        this.props.auth && this.props.auth.access_token ? _react2["default"].createElement(_componentsUserFollowedStreamsJsx2["default"], this.props) : null
+        _react2["default"].createElement(_componentsUserFollowedStreamsJsx2["default"], this.props)
       )
     );
   }

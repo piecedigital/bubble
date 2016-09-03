@@ -32,6 +32,22 @@ var _jsxSearchJsx2 = _interopRequireDefault(_jsxSearchJsx);
 
 var container = document.querySelector(".react-app");
 
+function checkAuth(Component, props) {
+  if (props.auth) {
+    if (props.auth.access_token) {
+      return _react2["default"].createElement(Component, props);
+    } else {
+      _reactRouter.browserHistory.push("/");
+      return null;
+    }
+  } else {
+    return _react2["default"].createElement(
+      "span",
+      null,
+      "Validating authorization..."
+    );
+  }
+}
 (0, _reactDom.render)(_react2["default"].createElement(
   _reactRouter.Router,
   { history: _reactRouter.browserHistory },
@@ -39,7 +55,7 @@ var container = document.querySelector(".react-app");
     _reactRouter.Route,
     { path: "", location: "root", component: _jsxLayoutJsx2["default"] },
     _react2["default"].createElement(_reactRouter.Route, { path: "/", location: "home", component: _jsxHomeJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: _jsxProfileJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", location: "streams", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", location: "games", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })
