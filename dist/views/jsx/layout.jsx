@@ -75,6 +75,8 @@ exports["default"] = _react2["default"].createClass({
     document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
   },
   componentDidMount: function componentDidMount() {
+    var _this = this;
+
     var authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
       authData[key] = value;
@@ -83,19 +85,30 @@ exports["default"] = _react2["default"].createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
       authData[key] = value;
     });
-    // if(!Object.keys(authData).length) {
-    //   authData = null;
-    // }
-    // console.log(authData);
-
-    this.setState({
-      authData: authData
+    // load user data
+    _modulesLoadData2["default"].call(this, function (e) {
+      console.error(e.stack);
+    }, {
+      access_token: authData.access_token
+    }).then(function (methods) {
+      methods.getCurrentUser().then(function (data) {
+        _this.setState({
+          userData: data,
+          authData: authData
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack);
+      });
+    })["catch"](function (e) {
+      return console.error(e.stack);
     });
+
     window.location.hash = "";
   },
   render: function render() {
     var _state = this.state;
     var authData = _state.authData;
+    var userData = _state.userData;
     var dataObject = _state.streamersInPlayer;
     var data = this.props.data;
 
@@ -152,6 +165,7 @@ exports["default"] = _react2["default"].createClass({
       this.props.children ? _react2["default"].cloneElement(this.props.children, {
         parent: this,
         auth: authData,
+        userData: userData,
         data: data,
         methods: {
           appendStream: this.appendStream,

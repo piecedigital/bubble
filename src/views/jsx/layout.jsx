@@ -60,19 +60,31 @@ export default React.createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
       authData[key] = value;
     });
-    // if(!Object.keys(authData).length) {
-    //   authData = null;
-    // }
-    // console.log(authData);
+    // load user data
+    loadData.call(this, e => {
+      console.error(e.stack);
+    }, {
+      access_token: authData.access_token
+    })
+    .then(methods => {
+      methods
+      .getCurrentUser()
+      .then(data => {
+        this.setState({
+          userData: data,
+          authData
+        });
+      })
+      .catch(e => console.error(e.stack));
+    })
+    .catch(e => console.error(e.stack));
 
-    this.setState({
-      authData
-    });
     window.location.hash = "";
   },
   render() {
     const {
       authData,
+      userData,
       streamersInPlayer: dataObject
     } = this.state;
     const {
@@ -114,6 +126,7 @@ export default React.createClass({
             React.cloneElement(this.props.children, {
               parent: this,
               auth: authData,
+              userData: userData,
               data,
               methods: {
                 appendStream: this.appendStream,

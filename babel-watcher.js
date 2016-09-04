@@ -4,7 +4,7 @@ var cp = require("child_process");
 
 var srcDir = "./src";
 var destDir = "./dist";
-var options = { glob: ["**/*.js", "**/*.jsx"] };
+var options = { glob: ["**/**/*.js", "**/**/*.jsx"] };
 var watcher = watchBabel(srcDir, destDir, options);
 var timer = 0;
 var executing = false;

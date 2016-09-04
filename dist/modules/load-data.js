@@ -14,7 +14,6 @@ exports["default"] = function (errorCB) {
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
-  options.headers = options.headers || {};
   var baseURL = "https://api.twitch.tv/kraken/";
   var makeRequest = function makeRequest(okayCB, path) {
     return new Promise(function (resolve, reject) {
@@ -62,15 +61,28 @@ exports["default"] = function (errorCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         return makeRequest(okayCB, "streams");
       },
-      getUser: function getUser(okayCB, username) {
+      getUserByName: function getUserByName(okayCB) {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, "users/" + username);
+        return makeRequest(okayCB, "users/" + options.username);
+      },
+      getCurrentUser: function getCurrentUser(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        options.headers = options.headers || {};
+        options.headers.Authorization = "OAuth " + (options.access_token || _this.props.auth.access_token);
+        return makeRequest(okayCB, "user");
+      },
+      getStreamByName: function getStreamByName(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, "streams/" + options.username);
       },
       followedStreams: function followedStreams(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
-        options.headers.Authorization = "OAuth " + _this.props.auth.access_token;
-        return makeRequest(okayCB, "streams/followed");
+        options.headers = options.headers || {};
+        options.headers.Authorization = "OAuth " + (options.access_token || _this.props.auth.access_token);
+        return makeRequest(okayCB, "users/" + (options.name || _this.props.userData.name) + "/follows/channels");
       },
       followedVideos: function followedVideos(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;

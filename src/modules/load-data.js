@@ -3,7 +3,6 @@ export default function(errorCB, options = {}) {
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
-  options.headers = options.headers || {};
   let baseURL = "https://api.twitch.tv/kraken/";
   const makeRequest = function(okayCB, path) {
     return new Promise((resolve, reject) => {
@@ -51,15 +50,28 @@ export default function(errorCB, options = {}) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         return makeRequest(okayCB, "streams");
       },
-      getUser: (okayCB, username) => {
+      getUserByName: (okayCB) => {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, `users/${username}`);
+        return makeRequest(okayCB, `users/${options.username}`);
+      },
+      getCurrentUser: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        options.headers = options.headers || {};
+        options.headers.Authorization = `OAuth ${options.access_token || this.props.auth.access_token}`;
+        return makeRequest(okayCB, `user`);
+      },
+      getStreamByName: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, `streams/${options.username}`);
       },
       followedStreams: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
-        options.headers.Authorization = `OAuth ${this.props.auth.access_token}`;
-        return makeRequest(okayCB, "streams/followed");
+        options.headers = options.headers || {};
+        options.headers.Authorization = `OAuth ${options.access_token || this.props.auth.access_token}`;
+        return makeRequest(okayCB, `users/${options.name || this.props.userData.name}/follows/channels`);
       },
       followedVideos: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
