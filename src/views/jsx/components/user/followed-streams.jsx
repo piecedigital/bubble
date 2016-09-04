@@ -236,7 +236,7 @@ export default React.createClass({
             </ul>
           </div>
           <div className="tools">
-            <div className="btn-default load-more" onClick={this.refresh}>
+            <div className="btn-default refresh" onClick={this.refresh}>
               Refresh Streams
             </div>
             <div className="btn-default load-more" onClick={this.gatherData}>

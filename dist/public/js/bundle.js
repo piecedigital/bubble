@@ -27624,7 +27624,7 @@ exports["default"] = _react2["default"].createClass({
               { className: "tools" },
               _react2["default"].createElement(
                 "div",
-                { className: "btn-default load-more", onClick: _this3.refresh },
+                { className: "btn-default refresh", onClick: _this3.refresh },
                 "Refresh Streams"
               ),
               _react2["default"].createElement(
