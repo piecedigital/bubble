@@ -20,7 +20,8 @@ export default React.createClass({
   getInitialState() {
     return {
       authData: (this.props.data && this.props.data.authData) || null,
-      streamersInPlayer: {}
+      streamersInPlayer: {},
+      playerCollapsed: false
     }
   },
   appendStream(username, isSolo = true) {
@@ -50,6 +51,21 @@ export default React.createClass({
       authData: newAuthData
     });
     document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
+  },
+  expandPlayer() {
+    this.setState({
+      playerCollapsed: false
+    });
+  },
+  collapsePlayer() {
+    this.setState({
+      playerCollapsed: true
+    });
+  },
+  togglePlayer() {
+    this.setState({
+      playerCollapsed: !this.state.playerCollapsed
+    });
   },
   componentDidMount() {
     let authData = {};
@@ -85,18 +101,20 @@ export default React.createClass({
     const {
       authData,
       userData,
+      collapsed,
       streamersInPlayer: dataObject
     } = this.state;
     const {
       data
     } = this.props;
+    var playerHasStreamers = Object.keys(streamersInPlayer).length > 0;
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
     "?response_type=token"+
     "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy"+
     "&redirect_uri=http://localhost:8080"+
     "&scope=user_read;";
     return (
-      <div>
+      <div className={`root${playerHasStreamers && playerCollapsed ? " collapsed" : ""}`}>
         <nav>
           <div>
             <Link className="nav-item" to={"/"}>Home</Link>
@@ -118,7 +136,10 @@ export default React.createClass({
           <Player data={{
             dataObject
           }} methods={{
-            spliceStream: this.spliceStream
+            spliceStream: this.spliceStream,
+            expandPlayer: this.expandPlayer,
+            collapsePlayer: this.collapsePlayer,
+            togglePlayer: this.togglePlayer,
           }}/>
         }
         {

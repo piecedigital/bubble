@@ -1,6 +1,7 @@
 var watchBabel = require("watch-babel");
 var logOut = require("./dist/log-out").logOut;
 var cp = require("child_process");
+var fs = require("fs");
 
 var srcDir = "./src";
 var destDir = "./dist";
@@ -51,4 +52,28 @@ function brfy() {
       }
     }
   }, 1000)
+}
+
+fs.watch("./src", {
+  recursive: true
+}, function (eventType, filename) {
+  console.log(eventType, filename);
+  if(eventType === "change" && filename.match(/(\/|\\)[a-z\-]+\.scss$/i)) {
+    console.log("totally a Sass file change!");
+    cp.exec(`sass ./src/${filename} ./dist/${cssNameChange(filename)} --style=nested`, function (err) {
+      if(err) {
+        logOut(err, true, {
+          type: "error"
+        });
+      } else {
+        logOut("sass compilation complete", true)
+      }
+    });
+  }
+});
+
+function cssNameChange(str) {
+  var t = str.replace(/(\.scss)$/, ".css").replace(/scss/, "css");
+  console.log(t);
+  return t;
 }

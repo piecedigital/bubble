@@ -744,3 +744,67 @@ Error: Cannot find module './user/followed-streams.jsx' from 'E:\GIT FILES\Sites
     at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
     at FSReqWrap.oncomplete (fs.js:82:15)
 ]
+[1473817277795] [Wed, 14 Sep 2016 01:41:17 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.css
+  Use --trace for backtrace.
+]
+[1473817277803] [Wed, 14 Sep 2016 01:41:17 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.css
+  Use --trace for backtrace.
+]
+[1473817398569] [Wed, 14 Sep 2016 01:43:18 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473817398570] [Wed, 14 Sep 2016 01:43:18 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473817431287] [Wed, 14 Sep 2016 01:43:51 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473817431289] [Wed, 14 Sep 2016 01:43:51 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473817463504] [Wed, 14 Sep 2016 01:44:23 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public --style=nested"
+Errno::EISDIR: Is a directory @ rb_sysopen - ./dist/public
+  Use --trace for backtrace.
+]
+[1473817463528] [Wed, 14 Sep 2016 01:44:23 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public --style=nested"
+Errno::EISDIR: Is a directory @ rb_sysopen - ./dist/public
+  Use --trace for backtrace.
+]
+[1473818069360] [Wed, 14 Sep 2016 01:54:29 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public:./dist/public --style=nested"
+Errno::EISDIR: Is a directory @ rb_sysopen - ./src/public
+  Use --trace for backtrace.
+]
+[1473818069361] [Wed, 14 Sep 2016 01:54:29 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public:./dist/public --style=nested"
+Errno::EISDIR: Is a directory @ rb_sysopen - ./src/public
+  Use --trace for backtrace.
+]
+[1473818152998] [Wed, 14 Sep 2016 01:55:52 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473818152999] [Wed, 14 Sep 2016 01:55:52 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473822684816] [Wed, 14 Sep 2016 03:11:24 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\components\_nav.scss ./dist/public\css\components\_nav.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
+  Use --trace for backtrace.
+]
+[1473822684827] [Wed, 14 Sep 2016 03:11:24 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\components\_nav.scss ./dist/public\css\components\_nav.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
+  Use --trace for backtrace.
+]
+[1473822898496] [Wed, 14 Sep 2016 03:14:58 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\components\_nav.scss ./dist/public\css\components\_nav.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
+  Use --trace for backtrace.
+]
+[1473822898497] [Wed, 14 Sep 2016 03:14:58 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\components\_nav.scss ./dist/public\css\components\_nav.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
+  Use --trace for backtrace.
+]
