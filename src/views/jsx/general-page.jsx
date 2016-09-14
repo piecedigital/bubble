@@ -195,8 +195,12 @@ export default React.createClass({
             </ul>
           </div>
           <div className="tools">
-            <div className="btn-default load-more" onClick={this.gatherData}>
-              Load More
+            <div className="parent">
+              <div className="scroll">
+                <div className="btn-default load-more" onClick={this.gatherData}>
+                  Load More
+                </div>
+              </div>
             </div>
           </div>
         </div>

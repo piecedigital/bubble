@@ -243,8 +243,16 @@ exports["default"] = _react2["default"].createClass({
               { className: "tools" },
               _react2["default"].createElement(
                 "div",
-                { className: "btn-default load-more", onClick: _this3.gatherData },
-                "Load More"
+                { className: "parent" },
+                _react2["default"].createElement(
+                  "div",
+                  { className: "scroll" },
+                  _react2["default"].createElement(
+                    "div",
+                    { className: "btn-default load-more", onClick: _this3.gatherData },
+                    "Load More"
+                  )
+                )
               )
             )
           )

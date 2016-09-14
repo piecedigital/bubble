@@ -87,7 +87,7 @@ exports["default"] = _react2["default"].createClass({
       dataArray: []
     };
   },
-  componentDidMount: function componentDidMount() {
+  gatherData: function gatherData() {
     var _this = this;
 
     var _props2 = this.props;
@@ -132,7 +132,12 @@ exports["default"] = _react2["default"].createClass({
       })();
     }
   },
+  componentDidMount: function componentDidMount() {
+    this.gatherData();
+  },
   render: function render() {
+    var _this2 = this;
+
     var _state = this.state;
     var requestOffset = _state.requestOffset;
     var dataArray = _state.dataArray;
@@ -162,6 +167,23 @@ exports["default"] = _react2["default"].createClass({
                       appendStream: appendStream
                     } });
                 })
+              )
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "tools" },
+              _react2["default"].createElement(
+                "div",
+                { className: "parent" },
+                _react2["default"].createElement(
+                  "div",
+                  { className: "scroll" },
+                  _react2["default"].createElement(
+                    "div",
+                    { className: "btn-default load-more", onClick: _this2.gatherData },
+                    "Load More"
+                  )
+                )
               )
             )
           )

@@ -65,7 +65,7 @@ let components = {
           }
         }
       } = this.props;
-      console.log(`getting stream data for ${name}`);
+      // console.log(`getting stream data for ${name}`);
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
@@ -75,6 +75,7 @@ let components = {
         methods
         .getStreamByName()
         .then(data => {
+          console.log(name, ", data:", data);
           this.setState({
             streamData: data
           });
@@ -89,6 +90,7 @@ let components = {
       // console.log(this.props);
       const {
         index,
+        filter,
         methods: {
           appendStream
         },
@@ -106,21 +108,27 @@ let components = {
           stream
         }
       } = this.state;
-      if(!stream) return (
-        <li>
-          <div className="image">
-            <img src={logo} />
-          </div>
-          <div className="info">
-            <div className="channel-name">
-              {name}
-            </div>
-            <div className="game">
-              {`Offline`}
-            </div>
-          </div>
-        </li>
-      );
+      if(!stream) {
+        if(filter === "all" || filter === "offline") {
+          return (
+            <li>
+              <div className="image">
+                <img src={logo} />
+              </div>
+              <div className="info">
+                <div className="channel-name">
+                  {name}
+                </div>
+                <div className="game">
+                  {`Offline`}
+                </div>
+              </div>
+            </li>
+          );
+        } else {
+          return null;
+        }
+      }
       const {
         game,
         viewers,
@@ -129,29 +137,33 @@ let components = {
         preview,
       } = stream;
       let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      return (
-        <li onClick={() => {
-          appendStream(name)
-        }}>
-          <div className="image">
-            <img src={logo} />
-          </div>
-          <div className="info">
-            <div className="channel-name">
-              {name}
+      if(filter === "all" || filter === "online") {
+        return (
+          <li onClick={() => {
+            appendStream(name)
+          }}>
+            <div className="image">
+              <img src={logo} />
             </div>
-            <div className="title">
-              {title}
+            <div className="info">
+              <div className="channel-name">
+                {name}
+              </div>
+              <div className="title">
+                {title}
+              </div>
+              <div className="game">
+                {`Live with "${game}"`}
+              </div>
+              <div className="viewers">
+                {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+              </div>
             </div>
-            <div className="game">
-              {`Live with "${game}"`}
-            </div>
-            <div className="viewers">
-              {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-            </div>
-          </div>
-        </li>
-      )
+          </li>
+        );
+      } else {
+        return null;
+      }
     }
   })
 };
@@ -163,12 +175,13 @@ export default React.createClass({
   getInitialState() {
     return {
       requestOffset: 0,
-      dataArray: []
+      dataArray: [],
+      filter: "all"
     }
   },
-  gatherData() {
+  gatherData(limit) {
+    typeof limit === "number" ? limit = limit : limit = 25;
     console.log("gathering data");
-    const limit = 25;
     const {
       methods: {
         // loadData
@@ -206,12 +219,33 @@ export default React.createClass({
       stream.ref.getStreamData();
     });
   },
+  capitalize(string) {
+    return string.toLowerCase().split(" ").map(word => word.replace(/^(\.)/, (_, l) => {
+      return l.toUpperCase();
+    })).join(" ");
+  },
+  applyFilter() {
+    const filter = this.refs.filterSelect.value;
+    console.log(filter);
+    this.setState({
+      filter
+    });
+  },
+  refreshList(length) {
+    if(length > 100) {
+      this.gatherData(100);
+      this.refreshList(length - 100);
+    } else {
+      this.gatherData(length);
+    }
+  },
   componentDidMount() { this.gatherData(); },
   render() {
     const {
       requestOffset,
       dataArray,
-      component
+      component,
+      filter
     } = this.state;
     const {
       data,
@@ -228,7 +262,7 @@ export default React.createClass({
             <ul className="list">
               {
                 dataArray.map((itemData, ind) => {
-                  return <ListItem ref={r => dataArray[ind].ref = r} key={ind} data={itemData} index={ind} methods={{
+                  return <ListItem ref={r => dataArray[ind].ref = r} key={itemData.channel.name} data={itemData} index={ind} filter={filter} methods={{
                     appendStream
                   }} />
                 })
@@ -236,11 +270,31 @@ export default React.createClass({
             </ul>
           </div>
           <div className="tools">
-            <div className="btn-default refresh" onClick={this.refresh}>
-              Refresh Streams
-            </div>
-            <div className="btn-default load-more" onClick={this.gatherData}>
-              Load More
+            <div className="parent">
+              <div className="scroll">
+                <div className="btn-default refresh" onClick={this.refresh}>
+                  Refresh Streams
+                </div>
+                <div className="btn-default load-more" onClick={this.gatherData}>
+                  Load More
+                </div>
+                <div className="btn-default filters">
+                  <div className="btn-default filter-status">
+                    <span>
+                      Show:
+                    </span>
+                    <select ref="filterSelect" onChange={this.applyFilter} defaultValue="all">
+                      {
+                        ["all", "online", "offline"].map(filter => {
+                          return (
+                            <option key={filter} value={filter}>{this.capitalize(filter)}</option>
+                          );
+                        })
+                      }
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
