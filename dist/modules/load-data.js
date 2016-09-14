@@ -70,8 +70,12 @@ exports["default"] = function (errorCB) {
         delete options.stream_type;
         delete options.limit;
         options.headers = options.headers || {};
-        options.headers.Authorization = "OAuth " + (options.access_token || _this.props.auth.access_token);
-        return makeRequest(okayCB, "user");
+        var access_token = options.access_token || _this.props.auth ? _this.props.auth.access_token : null;
+        options.headers.Authorization = "OAuth " + access_token;
+        if (access_token) return makeRequest(okayCB, "user");
+        return new Promise(function (resolve, reject) {
+          reject("no access token");
+        });
       },
       getStreamByName: function getStreamByName(okayCB) {
         delete options.stream_type;

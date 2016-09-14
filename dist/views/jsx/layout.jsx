@@ -50,11 +50,11 @@ exports["default"] = _react2["default"].createClass({
 
     console.log("appending stream", username, isSolo);
     if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
-      var _streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-      _streamersInPlayer[username] = username;
-      console.log("New streamersInPlayer:", _streamersInPlayer);
+      var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+      streamersInPlayer[username] = username;
+      console.log("New streamersInPlayer:", streamersInPlayer);
       this.setState({
-        streamersInPlayer: _streamersInPlayer
+        streamersInPlayer: streamersInPlayer
       });
     }
   },
@@ -101,6 +101,7 @@ exports["default"] = _react2["default"].createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
       authData[key] = value;
     });
+    console.log(authData, "auth data");
     // load user data
     _modulesLoadData2["default"].call(this, function (e) {
       console.error(e.stack);
@@ -113,10 +114,10 @@ exports["default"] = _react2["default"].createClass({
           authData: authData
         });
       })["catch"](function (e) {
-        return console.error(e.stack);
+        return console.error(e.stack || e);
       });
     })["catch"](function (e) {
-      return console.error(e.stack);
+      return console.error(e.stack || e);
     });
 
     window.location.hash = "";
@@ -129,11 +130,11 @@ exports["default"] = _react2["default"].createClass({
     var dataObject = _state.streamersInPlayer;
     var data = this.props.data;
 
-    var playerHasStreamers = Object.keys(streamersInPlayer).length > 0;
+    var playerHasStreamers = Object.keys(dataObject).length > 0;
     var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read;";
     return _react2["default"].createElement(
       "div",
-      { className: "root" + (playerHasStreamers && playerCollapsed ? " collapsed" : "") },
+      { className: "root" + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") },
       _react2["default"].createElement(
         "nav",
         null,

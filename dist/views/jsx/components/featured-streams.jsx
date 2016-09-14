@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -85,18 +83,17 @@ var FeaturedStream = _react2["default"].createClass({
       displayName: "",
       bio: ""
     }, function () {
-      var _props2 = _this.props;
-
-      _objectDestructuringEmpty(_props2.methods);
-
-      var _props2$data$stream$channel = _props2.data.stream.channel;
-      var name = _props2$data$stream$channel.name;
-      var logo = _props2$data$stream$channel.logo;
+      var _props$data$stream$channel2 = _this.props.data.stream.channel;
+      var name = _props$data$stream$channel2.name;
+      var logo = _props$data$stream$channel2.logo;
 
       _modulesLoadData2["default"].call(_this, function (e) {
         console.error(e.stack);
+      }, {
+        username: name
       }).then(function (methods) {
-        methods.getUser(null, name).then(function (data) {
+        methods.getUserByName().then(function (data) {
+          console.log("feature data", data);
           _this.setState({
             displayName: data.display_name,
             bio: data.bio
@@ -118,9 +115,9 @@ var FeaturedStream = _react2["default"].createClass({
   render: function render() {
     var _this2 = this;
 
-    var _props3 = this.props;
-    var appendStream = _props3.methods.appendStream;
-    var name = _props3.data.stream.channel.name;
+    var _props2 = this.props;
+    var appendStream = _props2.methods.appendStream;
+    var name = _props2.data.stream.channel.name;
     var _state = this.state;
     var displayName = _state.displayName;
     var bio = _state.bio;
@@ -235,5 +232,3 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-
-// loadData

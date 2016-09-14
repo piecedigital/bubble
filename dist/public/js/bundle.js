@@ -240,8 +240,12 @@ exports["default"] = function (errorCB) {
         delete options.stream_type;
         delete options.limit;
         options.headers = options.headers || {};
-        options.headers.Authorization = "OAuth " + (options.access_token || _this.props.auth.access_token);
-        return makeRequest(okayCB, "user");
+        var access_token = options.access_token || _this.props.auth ? _this.props.auth.access_token : null;
+        options.headers.Authorization = "OAuth " + access_token;
+        if (access_token) return makeRequest(okayCB, "user");
+        return new Promise(function (resolve, reject) {
+          reject("no access token");
+        });
       },
       getStreamByName: function getStreamByName(okayCB) {
         delete options.stream_type;
@@ -26895,8 +26899,6 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -26974,18 +26976,17 @@ var FeaturedStream = _react2["default"].createClass({
       displayName: "",
       bio: ""
     }, function () {
-      var _props2 = _this.props;
-
-      _objectDestructuringEmpty(_props2.methods);
-
-      var _props2$data$stream$channel = _props2.data.stream.channel;
-      var name = _props2$data$stream$channel.name;
-      var logo = _props2$data$stream$channel.logo;
+      var _props$data$stream$channel2 = _this.props.data.stream.channel;
+      var name = _props$data$stream$channel2.name;
+      var logo = _props$data$stream$channel2.logo;
 
       _modulesLoadData2["default"].call(_this, function (e) {
         console.error(e.stack);
+      }, {
+        username: name
       }).then(function (methods) {
-        methods.getUser(null, name).then(function (data) {
+        methods.getUserByName().then(function (data) {
+          console.log("feature data", data);
           _this.setState({
             displayName: data.display_name,
             bio: data.bio
@@ -27007,9 +27008,9 @@ var FeaturedStream = _react2["default"].createClass({
   render: function render() {
     var _this2 = this;
 
-    var _props3 = this.props;
-    var appendStream = _props3.methods.appendStream;
-    var name = _props3.data.stream.channel.name;
+    var _props2 = this.props;
+    var appendStream = _props2.methods.appendStream;
+    var name = _props2.data.stream.channel.name;
     var _state = this.state;
     var displayName = _state.displayName;
     var bio = _state.bio;
@@ -27124,8 +27125,6 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-
-// loadData
 },{"../../../modules/load-data":3,"react":241}],244:[function(require,module,exports){
 "use strict";
 
@@ -28087,11 +28086,11 @@ exports["default"] = _react2["default"].createClass({
 
     console.log("appending stream", username, isSolo);
     if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
-      var _streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-      _streamersInPlayer[username] = username;
-      console.log("New streamersInPlayer:", _streamersInPlayer);
+      var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+      streamersInPlayer[username] = username;
+      console.log("New streamersInPlayer:", streamersInPlayer);
       this.setState({
-        streamersInPlayer: _streamersInPlayer
+        streamersInPlayer: streamersInPlayer
       });
     }
   },
@@ -28138,6 +28137,7 @@ exports["default"] = _react2["default"].createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
       authData[key] = value;
     });
+    console.log(authData, "auth data");
     // load user data
     _modulesLoadData2["default"].call(this, function (e) {
       console.error(e.stack);
@@ -28150,10 +28150,10 @@ exports["default"] = _react2["default"].createClass({
           authData: authData
         });
       })["catch"](function (e) {
-        return console.error(e.stack);
+        return console.error(e.stack || e);
       });
     })["catch"](function (e) {
-      return console.error(e.stack);
+      return console.error(e.stack || e);
     });
 
     window.location.hash = "";
@@ -28166,11 +28166,11 @@ exports["default"] = _react2["default"].createClass({
     var dataObject = _state.streamersInPlayer;
     var data = this.props.data;
 
-    var playerHasStreamers = Object.keys(streamersInPlayer).length > 0;
+    var playerHasStreamers = Object.keys(dataObject).length > 0;
     var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read;";
     return _react2["default"].createElement(
       "div",
-      { className: "root" + (playerHasStreamers && playerCollapsed ? " collapsed" : "") },
+      { className: "root" + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") },
       _react2["default"].createElement(
         "nav",
         null,

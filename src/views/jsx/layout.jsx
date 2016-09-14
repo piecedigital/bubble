@@ -76,6 +76,7 @@ export default React.createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
       authData[key] = value;
     });
+    console.log(authData, "auth data");
     // load user data
     loadData.call(this, e => {
       console.error(e.stack);
@@ -91,9 +92,9 @@ export default React.createClass({
           authData
         });
       })
-      .catch(e => console.error(e.stack));
+      .catch(e => console.error(e.stack || e));
     })
-    .catch(e => console.error(e.stack));
+    .catch(e => console.error(e.stack || e));
 
     window.location.hash = "";
   },
@@ -107,14 +108,14 @@ export default React.createClass({
     const {
       data
     } = this.props;
-    var playerHasStreamers = Object.keys(streamersInPlayer).length > 0;
+    var playerHasStreamers = Object.keys(dataObject).length > 0;
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
     "?response_type=token"+
     "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy"+
     "&redirect_uri=http://localhost:8080"+
     "&scope=user_read;";
     return (
-      <div className={`root${playerHasStreamers && playerCollapsed ? " collapsed" : ""}`}>
+      <div className={`root${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""}`}>
         <nav>
           <div>
             <Link className="nav-item" to={"/"}>Home</Link>

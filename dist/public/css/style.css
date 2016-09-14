@@ -30,4 +30,8 @@ nav {
         background-color: #6441a4;
         color: white; }
 
+.stream .video iframe, .stream .chat iframe {
+  width: 100%;
+  height: 100%; }
+
 /*# sourceMappingURL=style.css.map */

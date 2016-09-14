@@ -65,9 +65,6 @@ const FeaturedStream = React.createClass({
       bio: ""
     }, () => {
       const {
-        methods: {
-          // loadData
-        },
         data: {
           stream: {
             channel: {
@@ -79,11 +76,14 @@ const FeaturedStream = React.createClass({
       } = this.props;
       loadData.call(this, e => {
         console.error(e.stack);
+      }, {
+        username: name
       })
       .then(methods => {
         methods
-        .getUser(null, name)
+        .getUserByName()
         .then(data => {
+          console.log("feature data", data);
           this.setState({
             displayName: data.display_name,
             bio: data.bio

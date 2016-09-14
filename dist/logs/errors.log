@@ -808,3 +808,15 @@ Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\compon
 Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
   Use --trace for backtrace.
 ]
+[1473825458403] [Wed, 14 Sep 2016 03:57:38 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Error: Invalid CSS after "      height": expected ";", was ": 100%;"
+        on line 12 of src/public/scss/components/_player.scss
+        from line 34 of ./src/public\scss\style.scss
+  Use --trace for backtrace.
+]
+[1473825458404] [Wed, 14 Sep 2016 03:57:38 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Error: Invalid CSS after "      height": expected ";", was ": 100%;"
+        on line 12 of src/public/scss/components/_player.scss
+        from line 34 of ./src/public\scss\style.scss
+  Use --trace for backtrace.
+]
