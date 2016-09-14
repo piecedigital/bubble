@@ -14,6 +14,8 @@ exports["default"] = function (errorCB) {
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
+  options.headers = options.headers || {};
+  options.headers["Client-ID"] = "cye2hnlwj24qq7fezcbq9predovf6yy";
   var baseURL = "https://api.twitch.tv/kraken/";
   var makeRequest = function makeRequest(okayCB, path) {
     return new Promise(function (resolve, reject) {
@@ -70,7 +72,7 @@ exports["default"] = function (errorCB) {
         delete options.stream_type;
         delete options.limit;
         options.headers = options.headers || {};
-        var access_token = options.access_token || _this.props.auth ? _this.props.auth.access_token : null;
+        var access_token = options.access_token || (_this.props.auth ? _this.props.auth.access_token : null);
         options.headers.Authorization = "OAuth " + access_token;
         if (access_token) return makeRequest(okayCB, "user");
         return new Promise(function (resolve, reject) {

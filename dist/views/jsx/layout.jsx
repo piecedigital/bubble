@@ -101,7 +101,7 @@ exports["default"] = _react2["default"].createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
       authData[key] = value;
     });
-    console.log(authData, "auth data");
+    // console.log(authData, "auth data");
     // load user data
     _modulesLoadData2["default"].call(this, function (e) {
       console.error(e.stack);
@@ -159,11 +159,11 @@ exports["default"] = _react2["default"].createClass({
           authData && authData.access_token ? _react2["default"].createElement(
             "span",
             null,
-            _react2["default"].createElement(
+            userData ? _react2["default"].createElement(
               _reactRouter.Link,
-              { className: "nav-item", to: "/profile" },
+              { className: "nav-item", to: "/user/" + userData.name },
               "Profile"
-            ),
+            ) : null,
             _react2["default"].createElement(
               "a",
               { className: "nav-item", href: "#", onClick: this.logout },

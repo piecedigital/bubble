@@ -76,7 +76,7 @@ export default React.createClass({
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
       authData[key] = value;
     });
-    console.log(authData, "auth data");
+    // console.log(authData, "auth data");
     // load user data
     loadData.call(this, e => {
       console.error(e.stack);
@@ -124,7 +124,7 @@ export default React.createClass({
             {
               authData && authData.access_token ? (
                 <span>
-                  <Link className="nav-item" to={"/profile"}>Profile</Link>
+                  { userData ? <Link className="nav-item" to={`/user/${userData.name}`}>Profile</Link> : null }
                   <a className="nav-item" href="#" onClick={this.logout}>Disconnect</a>
                 </span>
               ) : (
