@@ -4,6 +4,7 @@ $offWhite: rgba(235,235,235,1);
 $offBlack: rgba(30,30,30,1);
 $purple: #6441a4;
 $primary: rgba(0, 200, 250, 1);
+$secondary: rgba(0, 170, 220, 1);
 
 @mixin displayInlineFlex {
   display: -ms-inline-flex;
@@ -21,6 +22,10 @@ $primary: rgba(0, 200, 250, 1);
   display: flex;
 }
 
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 html {
   font-family: Helvetica, sans-serif, arial;
 }
@@ -30,5 +35,6 @@ body {
   background: $offWhite;
 }
 
+@import "components/_root.scss";
 @import "components/_nav.scss";
 @import "components/_player.scss";

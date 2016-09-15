@@ -2,36 +2,89 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 0%;
+  height: 0%;
+  background-color: $primary;
+  overflow: hidden;
   .wrapper {
     position: relative;
+    width: 100%;
+    height: 100%;
     .list {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
       overflow-x: auto;
       overflow-y: hidden;
     }
+    > .tools {
+      display: block;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      > * {
+        background: $secondary;
+        padding: .45*$em .5*$em;
+      }
+      .closer {}
+    }
   }
 }
-.stream {
+.player-stream {
   @include displayFlex;
+  position: relative;
+  height: 100%;
   .video, .chat {
+    position: relative;
+    background-color: black;
+    .nested {
+      position: relative;
+    }
     iframe {
+      position: absolute;
       width: 100%;
       height: 100%;
     }
   }
   .video {
     width: 100%;
+    padding-top: 2*$em;
+    .nested {
+      width: 100%;
+      height: 100%;
+    }
   }
   .chat {
     width: 24*$em;
   }
   .tools {
-    display: block;
-    position: fixed;
+    @include displayFlex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    > * {
+      background: $primary;
+      padding: .45*$em .5*$em;
+      &:not(:first-child) {
+        border-right: 2px solid black;
+      }
+    }
+    a {
+      color: black;
+      font-weight: bold;
+    }
     .closer {}
   }
 }
-.root.player-collapsed .player {
-
+.root {
+  &.player-open .player {
+    width: 100%;
+    height: 100%;
+    padding-top: 2*$em;
+    overflow: visible;
+  }
+  &.player-collapsed .player {
+    width: 24*$em;
+  }
 }

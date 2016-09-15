@@ -39,7 +39,7 @@ let components = {
 
       return (
         <li onClick={() => {
-          appendStream(name)
+          appendStream.call(null, name, displayName);
         }}>
           <div className="image">
             <img src={preview.medium} />

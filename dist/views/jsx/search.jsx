@@ -43,7 +43,7 @@ components.StreamsListItem = _react2["default"].createClass({
     return _react2["default"].createElement(
       "li",
       { onClick: function () {
-          appendStream(name);
+          appendStream.call(null, name, displayName);
         } },
       _react2["default"].createElement(
         "div",

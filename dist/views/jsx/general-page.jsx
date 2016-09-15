@@ -52,7 +52,7 @@ var components = {
       return _react2["default"].createElement(
         "li",
         { onClick: function () {
-            appendStream(name);
+            appendStream.call(null, name, displayName);
           } },
         _react2["default"].createElement(
           "div",

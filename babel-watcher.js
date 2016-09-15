@@ -23,7 +23,7 @@ if(cluster.isMaster) {
 function babelWatcher() {
   var srcDir = "./src";
   var destDir = "./dist";
-  var options = { glob: ["**/**/**/**/**/**/**/**/**/**/**/**/*.js", "**/**/**/**/**/**/**/**/**/**/**/**/*.jsx"] };
+  var options = { glob: ["**/**/**/**/**/**/**/**/**/**/**/*.js", "**/**/**/**/**/**/**/**/**/**/**/*.jsx"] };
   var watcher = watchBabel(srcDir, destDir, options);
   var timer = 0;
   var executing = false;
@@ -74,23 +74,35 @@ function babelWatcher() {
 }
 
 function sassWatcher() {
-  fs.watch("./src", {
-    recursive: true
-  }, function (eventType, filename) {
-    console.log(eventType, filename);
-    if(eventType === "change" && filename.match(/(\/|\\)[a-z\-]+\.scss$/i)) {
-      console.log("totally a Sass file change!");
-      cp.exec(`sass ./src/${filename} ./dist/${cssNameChange(filename)} --style=nested`, function (err) {
-        if(err) {
-          logOut(err, true, {
-            type: "error"
-          });
-        } else {
-          logOut("sass compilation complete", true)
-        }
+  cp.exec(`sass --watch src/public/scss:dist/public/css --style=nested`, function (err, stdout, stderr) {
+    if(err) {
+      logOut(err, true, {
+        type: "error"
+      });
+    } else {
+      logOut(stdout, true)
+      logOut(stderr, true, {
+        type: "error"
       });
     }
   });
+  // fs.watch("./src", {
+  //   recursive: true
+  // }, function (eventType, filename) {
+  //   console.log(eventType, filename);
+  //   if(eventType === "change" && filename.match(/(\/|\\)[a-z\-]+\.scss$/i)) {
+  //     console.log("totally a Sass file change!");
+  //     cp.exec(`sass ./src/${filename} ./dist/${cssNameChange(filename)} --style=nested`, function (err) {
+  //       if(err) {
+  //         logOut(err, true, {
+  //           type: "error"
+  //         });
+  //       } else {
+  //         logOut("sass compilation complete", true)
+  //       }
+  //     });
+  //   }
+  // });
 
   function cssNameChange(str) {
     var t = str.replace(/(\.scss)$/, ".css").replace(/scss/, "css");

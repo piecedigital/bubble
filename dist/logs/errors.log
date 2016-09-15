@@ -820,3 +820,16 @@ Error: Invalid CSS after "      height": expected ";", was ": 100%;"
         from line 34 of ./src/public\scss\style.scss
   Use --trace for backtrace.
 ]
+[1473889855838] [Wed, 14 Sep 2016 21:50:55 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Errno::EACCES: Permission denied @ unlink_internal - ./.sass-cache/6713b81d3d90bab990cff24be0d1952f3e7f10fd/style.scssc
+  Use --trace for backtrace.
+]
+[1473889855838] [Wed, 14 Sep 2016 21:50:55 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Errno::EACCES: Permission denied @ unlink_internal - ./.sass-cache/6713b81d3d90bab990cff24be0d1952f3e7f10fd/style.scssc
+  Use --trace for backtrace.
+]
+[1473889855978] [Wed, 14 Sep 2016 21:50:55 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Error: File to import not found or unreadable: components/_root.scss.
+        on line 33 of ./src/public\scss\style.scss
+  Use --trace for backtrace.
+]

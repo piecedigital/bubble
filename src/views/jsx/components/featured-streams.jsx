@@ -83,7 +83,7 @@ const FeaturedStream = React.createClass({
         methods
         .getUserByName()
         .then(data => {
-          console.log("feature data", data);
+          // console.log("feature data", data);
           this.setState({
             displayName: data.display_name,
             bio: data.bio
@@ -128,7 +128,7 @@ const FeaturedStream = React.createClass({
                 {bio}
               </div>
               <div className="watch" onClick={() => {
-                appendStream.call(this, name);
+                appendStream.call(null, name, displayName);
               }}>
                 {"watch this stream"}
               </div>

@@ -93,7 +93,7 @@ var FeaturedStream = _react2["default"].createClass({
         username: name
       }).then(function (methods) {
         methods.getUserByName().then(function (data) {
-          console.log("feature data", data);
+          // console.log("feature data", data);
           _this.setState({
             displayName: data.display_name,
             bio: data.bio
@@ -113,8 +113,6 @@ var FeaturedStream = _react2["default"].createClass({
     this.fetchUserData();
   },
   render: function render() {
-    var _this2 = this;
-
     var _props2 = this.props;
     var appendStream = _props2.methods.appendStream;
     var name = _props2.data.stream.channel.name;
@@ -146,7 +144,7 @@ var FeaturedStream = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "watch", onClick: function () {
-              appendStream.call(_this2, name);
+              appendStream.call(null, name, displayName);
             } },
           "watch this stream"
         )
@@ -175,7 +173,7 @@ exports["default"] = _react2["default"].createClass({
     });
   },
   componentDidMount: function componentDidMount() {
-    var _this3 = this;
+    var _this2 = this;
 
     var loadData = this.props.methods.loadData;
 
@@ -185,9 +183,9 @@ exports["default"] = _react2["default"].createClass({
       }).then(function (methods) {
         methods.featured().then(function (data) {
           // console.log(data);
-          _this3.setState({
-            offset: _this3.state.requestOffset + 25,
-            dataArray: Array.from(_this3.state.dataArray).concat(data.featured)
+          _this2.setState({
+            offset: _this2.state.requestOffset + 25,
+            dataArray: Array.from(_this2.state.dataArray).concat(data.featured)
           });
         })["catch"](function (e) {
           return console.error(e.stack);
@@ -198,7 +196,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   render: function render() {
-    var _this4 = this;
+    var _this3 = this;
 
     var _state2 = this.state;
     var requestOffset = _state2.requestOffset;
@@ -223,7 +221,7 @@ exports["default"] = _react2["default"].createClass({
           dataArray.map(function (itemData, ind) {
             return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData, methods: {
                 appendStream: appendStream,
-                displayStream: _this4.displayStream
+                displayStream: _this3.displayStream
               } });
           })
         )

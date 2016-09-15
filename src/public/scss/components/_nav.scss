@@ -1,4 +1,10 @@
 nav {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  right: 0;
+  max-height: 2*$em;
+  overflow: hidden;
   text-align: right;
   pointer-events: none;
   > div {
@@ -12,7 +18,7 @@ nav {
     .nav-item {
       background-color: $primary;
       color: black;
-      padding: .5*$em 1*$em;
+      padding: .45*$em 1*$em;
       text-decoration: none;
       font-weight: bold;
       &:not(:last-child) {

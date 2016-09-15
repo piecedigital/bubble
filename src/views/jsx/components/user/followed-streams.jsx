@@ -31,7 +31,7 @@ let components = {
       let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       return (
         <li className="stream" onClick={() => {
-          appendStream(name)
+          appendStream.call(null, name, displayName);
         }}>
           <div className="image">
             <img src={preview.medium} />

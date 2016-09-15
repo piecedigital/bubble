@@ -14,22 +14,30 @@ var _modulesLoadData = require("../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _reactRouter = require('react-router');
+
 // stream component for player
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
   render: function render() {
     // console.log(this.props);
     var _props = this.props;
-    var name = _props.data;
+    var name = _props.name;
+    var display_name = _props.display_name;
     var spliceStream = _props.methods.spliceStream;
 
+    console.log(name, display_name, this.props);
     return _react2["default"].createElement(
       "li",
-      { className: "stream" },
+      { className: "player-stream" },
       _react2["default"].createElement(
         "div",
         { className: "video" },
-        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
+        _react2["default"].createElement(
+          "div",
+          { className: "nested" },
+          _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
+        )
       ),
       _react2["default"].createElement(
         "div",
@@ -38,11 +46,20 @@ var PlayerStream = _react2["default"].createClass({
       ),
       _react2["default"].createElement(
         "div",
-        { className: "tools", onClick: spliceStream.bind(null, name) },
+        { className: "tools" },
         _react2["default"].createElement(
           "div",
-          { className: "closer" },
-          "x"
+          { className: "streamer" },
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { to: "/user/" + name },
+            display_name
+          )
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "closer", onClick: spliceStream.bind(null, name) },
+          "Close"
         )
       )
     );
@@ -71,10 +88,23 @@ exports["default"] = _react2["default"].createClass({
           { className: "list" },
           dataObject ? Object.keys(dataObject).map(function (channelName) {
             var channelData = dataObject[channelName];
-            return _react2["default"].createElement(PlayerStream, { key: channelName, data: channelName, methods: {
+            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], methods: {
                 spliceStream: spliceStream
               } });
           }) : null
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "tools" },
+          _react2["default"].createElement(
+            "div",
+            { title: "Closing the player will remove all current streams", className: "closer", onClick: function () {
+                Object.keys(dataObject).map(function (channelName) {
+                  spliceStream(channelName);
+                });
+              } },
+            "Close Player"
+          )
         )
       )
     );

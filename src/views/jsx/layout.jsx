@@ -24,11 +24,11 @@ export default React.createClass({
       playerCollapsed: false
     }
   },
-  appendStream(username, isSolo = true) {
+  appendStream(username, displayName, isSolo = true) {
     console.log("appending stream", username, isSolo);
     if(!this.state.streamersInPlayer.hasOwnProperty(username)) {
       let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-      streamersInPlayer[username] = username;
+      streamersInPlayer[username] = displayName;
       console.log("New streamersInPlayer:", streamersInPlayer);
       this.setState({
         streamersInPlayer
@@ -103,19 +103,21 @@ export default React.createClass({
       authData,
       userData,
       collapsed,
-      streamersInPlayer: dataObject
+      streamersInPlayer: dataObject,
+      playerCollapsed,
     } = this.state;
     const {
       data
     } = this.props;
     var playerHasStreamers = Object.keys(dataObject).length > 0;
+    console.log(dataObject);
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
     "?response_type=token"+
     "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy"+
     "&redirect_uri=http://localhost:8080"+
     "&scope=user_read;";
     return (
-      <div className={`root${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""}`}>
+      <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""}`}>
         <nav>
           <div>
             <Link className="nav-item" to={"/"}>Home</Link>
