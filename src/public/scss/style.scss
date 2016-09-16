@@ -4,7 +4,8 @@ $offWhite: rgba(235,235,235,1);
 $offBlack: rgba(30,30,30,1);
 $purple: #6441a4;
 $primary: rgba(0, 200, 250, 1);
-$secondary: rgba(0, 170, 220, 1);
+$dim: rgba(0, 170, 220, 1);
+$light: rgba(150, 230, 255, 1);
 
 @mixin displayInlineFlex {
   display: -ms-inline-flex;
@@ -24,6 +25,7 @@ $secondary: rgba(0, 170, 220, 1);
 
 *, *:before, *:after {
   box-sizing: border-box;
+  transition: .2s all;
 }
 
 html {

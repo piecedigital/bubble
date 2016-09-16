@@ -14,8 +14,6 @@ var _componentsPlayerJsx = require("./components/player.jsx");
 
 var _componentsPlayerJsx2 = _interopRequireDefault(_componentsPlayerJsx);
 
-var _modulesAjax = require("../../modules/ajax");
-
 var _modulesLoadData = require("../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
@@ -71,7 +69,8 @@ exports["default"] = _react2["default"].createClass({
     var newAuthData = Object.assign({}, this.state.authData);
     delete newAuthData.access_token;
     this.setState({
-      authData: newAuthData
+      authData: newAuthData,
+      userData: null
     });
     document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
   },
@@ -122,6 +121,10 @@ exports["default"] = _react2["default"].createClass({
 
     window.location.hash = "";
   },
+  alertAuthNeeded: function alertAuthNeeded() {
+    console.log("Auth needed");
+    alert("You must connect with Twitch to perform this action");
+  },
   render: function render() {
     var _state = this.state;
     var authData = _state.authData;
@@ -132,8 +135,8 @@ exports["default"] = _react2["default"].createClass({
     var data = this.props.data;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
-    console.log(dataObject);
-    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read;";
+
+    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read user_follows_edit";
     return _react2["default"].createElement(
       "div",
       { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") },
@@ -180,11 +183,15 @@ exports["default"] = _react2["default"].createClass({
       ),
       _react2["default"].createElement(_componentsPlayerJsx2["default"], { data: {
           dataObject: dataObject
-        }, methods: {
+        },
+        userData: userData,
+        auth: authData,
+        methods: {
           spliceStream: this.spliceStream,
           expandPlayer: this.expandPlayer,
           collapsePlayer: this.collapsePlayer,
-          togglePlayer: this.togglePlayer
+          togglePlayer: this.togglePlayer,
+          alertAuthNeeded: this.alertAuthNeeded
         } }),
       this.props.children ? _react2["default"].cloneElement(this.props.children, {
         parent: this,

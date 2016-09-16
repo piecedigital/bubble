@@ -21,8 +21,9 @@ nav {
       padding: .45*$em 1*$em;
       text-decoration: none;
       font-weight: bold;
-      &:not(:last-child) {
-        border-right: 1px solid black;
+      border-left: 1px solid black;
+      &:hover {
+        background-color: $light
       }
       &.login {
         background-color: $purple;

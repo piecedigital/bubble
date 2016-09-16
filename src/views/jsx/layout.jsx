@@ -1,6 +1,5 @@
 import React from "react";
 import Player from "./components/player.jsx";
-import { ajax } from "../../modules/ajax";
 import loadData from "../../modules/load-data";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
@@ -48,7 +47,8 @@ export default React.createClass({
     var newAuthData = Object.assign({}, this.state.authData);
     delete newAuthData.access_token;
     this.setState({
-      authData: newAuthData
+      authData: newAuthData,
+      userData: null
     });
     document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
   },
@@ -98,6 +98,10 @@ export default React.createClass({
 
     window.location.hash = "";
   },
+  alertAuthNeeded() {
+    console.log("Auth needed");
+    alert("You must connect with Twitch to perform this action");
+  },
   render() {
     const {
       authData,
@@ -110,12 +114,12 @@ export default React.createClass({
       data
     } = this.props;
     var playerHasStreamers = Object.keys(dataObject).length > 0;
-    console.log(dataObject);
+
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
     "?response_type=token"+
     "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy"+
     "&redirect_uri=http://localhost:8080"+
-    "&scope=user_read;";
+    "&scope=user_read user_follows_edit";
     return (
       <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""}`}>
         <nav>
@@ -138,11 +142,15 @@ export default React.createClass({
         {
           <Player data={{
             dataObject
-          }} methods={{
+          }}
+          userData={userData}
+          auth={authData}
+          methods={{
             spliceStream: this.spliceStream,
             expandPlayer: this.expandPlayer,
             collapsePlayer: this.collapsePlayer,
             togglePlayer: this.togglePlayer,
+            alertAuthNeeded: this.alertAuthNeeded,
           }}/>
         }
         {
@@ -150,7 +158,7 @@ export default React.createClass({
             React.cloneElement(this.props.children, {
               parent: this,
               auth: authData,
-              userData: userData,
+              userData,
               data,
               methods: {
                 appendStream: this.appendStream,

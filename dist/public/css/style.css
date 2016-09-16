@@ -1,5 +1,6 @@
 *, *:before, *:after {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  transition: .2s all; }
 
 html {
   font-family: Helvetica, sans-serif, arial; }
@@ -9,7 +10,7 @@ body {
   background: #ebebeb; }
 
 .root.player-collapsed {
-  padding-left: 25%; }
+  padding-left: 208px; }
 
 nav {
   z-index: 10;
@@ -35,9 +36,10 @@ nav {
       color: black;
       padding: 7.2px 16px;
       text-decoration: none;
-      font-weight: bold; }
-      nav > div .nav-item:not(:last-child) {
-        border-right: 1px solid black; }
+      font-weight: bold;
+      border-left: 1px solid black; }
+      nav > div .nav-item:hover {
+        background-color: #96e6ff; }
       nav > div .nav-item.login {
         background-color: #6441a4;
         color: white; }
@@ -62,13 +64,22 @@ nav {
       overflow-x: auto;
       overflow-y: hidden; }
     .player .wrapper > .tools {
-      display: block;
+      display: -ms-flex;
+      display: -moz-flex;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
       position: absolute;
       bottom: 100%;
       left: 0; }
       .player .wrapper > .tools > * {
-        background: #00aadc;
-        padding: 7.2px 8px; }
+        background-color: #00aadc;
+        padding: 7.2px 8px;
+        cursor: pointer; }
+        .player .wrapper > .tools > *:hover {
+          background-color: #96e6ff; }
+        .player .wrapper > .tools > *:not(:last-child) {
+          border-right: 2px solid black; }
 
 .player-stream {
   display: -ms-flex;
@@ -105,13 +116,19 @@ nav {
     top: 0;
     left: 0; }
     .player-stream .tools > * {
-      background: #00c8fa;
-      padding: 7.2px 8px; }
-      .player-stream .tools > *:not(:first-child) {
+      background-color: #00c8fa;
+      padding: 7.2px 8px;
+      cursor: pointer; }
+      .player-stream .tools > *:hover {
+        background-color: #96e6ff; }
+      .player-stream .tools > *:not(:last-child) {
         border-right: 2px solid black; }
     .player-stream .tools a {
       color: black;
       font-weight: bold; }
+
+.player-stream.hide-chat .chat {
+  width: 0; }
 
 .root.player-open .player {
   width: 100%;
@@ -119,6 +136,8 @@ nav {
   padding-top: 32px;
   overflow: visible; }
 .root.player-collapsed .player {
-  width: 384px; }
+  width: 192px; }
+  .root.player-collapsed .player .wrapper .list .player-stream .chat {
+    width: 0; }
 
 /*# sourceMappingURL=style.css.map */

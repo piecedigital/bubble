@@ -19,13 +19,20 @@
       overflow-y: hidden;
     }
     > .tools {
-      display: block;
+      @include displayFlex;
       position: absolute;
       bottom: 100%;
       left: 0;
       > * {
-        background: $secondary;
+        background-color: $dim;
         padding: .45*$em .5*$em;
+        cursor: pointer;
+        &:hover {
+          background-color: $light
+        }
+        &:not(:last-child) {
+          border-right: 2px solid black;
+        }
       }
       .closer {}
     }
@@ -64,9 +71,13 @@
     top: 0;
     left: 0;
     > * {
-      background: $primary;
+      background-color: $primary;
       padding: .45*$em .5*$em;
-      &:not(:first-child) {
+      cursor: pointer;
+      &:hover {
+        background-color: $light
+      }
+      &:not(:last-child) {
         border-right: 2px solid black;
       }
     }
@@ -77,6 +88,28 @@
     .closer {}
   }
 }
+
+.player-stream.hide-chat {
+  .video, .chat {
+    .nested {}
+    iframe {}
+  }
+  .video {
+    .nested {}
+  }
+  .chat {
+    width: 0;
+  }
+  .tools {
+    > * {
+      &:hover {}
+      &:not(:last-child) {}
+    }
+    a {}
+    .closer {}
+  }
+}
+
 .root {
   &.player-open .player {
     width: 100%;
@@ -85,6 +118,15 @@
     overflow: visible;
   }
   &.player-collapsed .player {
-    width: 24*$em;
+    width: 12*$em;
+    .wrapper {
+      .list {
+        .player-stream {
+          .chat {
+            width: 0;
+          }
+        }
+      }
+    }
   }
 }

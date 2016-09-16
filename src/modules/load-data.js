@@ -10,12 +10,16 @@ export default function(errorCB, options = {}) {
     return new Promise((resolve, reject) => {
       let requestURL = `${baseURL}${path}?`;
       Object.keys(options).map(key => {
-        let value = options[key];
-        requestURL += `${key}=${value}&`
+        const exceptions = ["type", "headers"];
+        if(exceptions.indexOf(key) < 0) {
+          let value = options[key];
+          requestURL += `${key}=${value}&`
+        }
       });
       requestURL.replace(/&$/, "");
       ajax({
         url: requestURL,
+        type: options.type || null,
         beforeSend: function(xhr) {
           if(options.headers) {
             Object.keys(options.headers).map(header => {
@@ -24,15 +28,27 @@ export default function(errorCB, options = {}) {
           }
         },
         success(data) {
-          data = JSON.parse(data);
-          resolve(data);
-          if(typeof okayCB === "function") okayCB(data);
+          try {
+            data = JSON.parse(data);
+          } catch (e) {
+            console.log(data);
+            console.error(e.stack || e);
+          } finally {
+            resolve(data);
+            if(typeof okayCB === "function") okayCB(data);
+          }
         },
         error(error) {
           console.error(error);
+          reject();
         }
       })
     });
+  };
+  const needAuth = function (options) {
+    var access_token = options.access_token || (this.props.auth ? this.props.auth.access_token : null);
+    options.headers.Authorization = `OAuth ${access_token}`;
+    return access_token;
   };
   return new Promise((resolve, reject) => {
     resolve({
@@ -61,8 +77,7 @@ export default function(errorCB, options = {}) {
         delete options.stream_type;
         delete options.limit;
         options.headers = options.headers || {};
-        var access_token = options.access_token || (this.props.auth ? this.props.auth.access_token : null);
-        options.headers.Authorization = `OAuth ${access_token}`;
+        const access_token = needAuth.call(this, options);
         if(access_token) return makeRequest(okayCB, `user`);
         return new Promise(function(resolve, reject) {
           reject("no access token");
@@ -72,6 +87,26 @@ export default function(errorCB, options = {}) {
         delete options.stream_type;
         delete options.limit;
         return makeRequest(okayCB, `streams/${options.username}`);
+      },
+      getFollowStatus: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, `users/${options.username}/follows/channels/${options.target}`);
+      },
+      followStream: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        options.type = "PUT";
+        options.notifications = true;
+        needAuth.call(this, options);
+        return makeRequest(okayCB, `users/${options.username}/follows/channels/${options.target}`);
+      },
+      unfollowStream: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        options.type = "DELETE";
+        needAuth.call(this, options);
+        return makeRequest(okayCB, `users/${options.username}/follows/channels/${options.target}`);
       },
       followedStreams: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
