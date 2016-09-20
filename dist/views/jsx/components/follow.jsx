@@ -26,13 +26,13 @@ exports["default"] = _react2["default"].createClass({
 
     var _props = this.props;
     var name = _props.name;
-    var target = _props.target;
+    var targetName = _props.targetName;
 
     _modulesLoadData2["default"].call(this, function (e) {
       console.error(e.stack);
     }, {
       username: name,
-      target: target.toLowerCase()
+      targetName: targetName.toLowerCase()
     }).then(function (methods) {
       methods.getFollowStatus().then(function (data) {
         _this.setState({
@@ -53,7 +53,7 @@ exports["default"] = _react2["default"].createClass({
 
     var _props2 = this.props;
     var name = _props2.name;
-    var target = _props2.target;
+    var targetName = _props2.targetName;
 
     var method = action + "Stream";
     console.log(method);
@@ -61,7 +61,7 @@ exports["default"] = _react2["default"].createClass({
       console.error(e.stack);
     }, {
       username: name,
-      target: target.toLowerCase()
+      target: targetName
     }).then(function (methods) {
       methods[method]().then(function (data) {
         console.log("action", method, "completed");
@@ -88,7 +88,7 @@ exports["default"] = _react2["default"].createClass({
   },
   render: function render() {
     var isFollowing = this.state.isFollowing;
-    var target = this.props.target;
+    var targetDisplay = this.props.targetDisplay;
 
     if (isFollowing === null) return null;
     return _react2["default"].createElement(
@@ -99,7 +99,7 @@ exports["default"] = _react2["default"].createClass({
         { onClick: this.toggleFollow },
         isFollowing ? "Unfollow" : "Follow",
         " ",
-        target
+        targetDisplay
       )
     );
   }

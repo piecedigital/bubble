@@ -22,6 +22,12 @@ $light: rgba(150, 230, 255, 1);
   display: -webkit-flex;
   display: flex;
 }
+@mixin userSelect {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
 
 *, *:before, *:after {
   box-sizing: border-box;

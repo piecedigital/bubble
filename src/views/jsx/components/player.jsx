@@ -6,22 +6,46 @@ import FollowButton from "./follow.jsx";
 // stream component for player
 const PlayerStream = React.createClass({
   displayName: "PlayerStream",
-  getInitialState: () => ({ chatOpen: true }),
-  openChat() {
-    this.setState({
-      chatOpen: true
-    });
+  getInitialState: () => ({ chatOpen: true, menuOpen: false }),
+  toggleChat(type) {
+    switch (type) {
+      case "close":
+        this.setState({
+          chatOpen: false
+        });
+        break;
+      case "open":
+        this.setState({
+          chatOpen: true
+        });
+        break;
+      case "toggle":
+      default:
+        console.log("no type match:", type);
+        this.setState({
+          chatOpen: !this.state.chatOpen
+        });
+    }
   },
-  closeChat() {
-    this.setState({
-      chatOpen: false
-    });
-  },
-  toggleChat() {
-    console.log("toggling chat", this.state.chatOpen, !this.state.chatOpen);
-    this.setState({
-      chatOpen: !this.state.chatOpen
-    });
+  toggleMenu(type) {
+    switch (type) {
+      case "close":
+        this.setState({
+          menuOpen: false
+        });
+        break;
+      case "open":
+        this.setState({
+          menuOpen: true
+        });
+        break;
+      case "toggle":
+      default:
+        console.log("no type match:", type);
+        this.setState({
+          menuOpen: !this.state.menuOpen
+        });
+    }
   },
   render() {
     // console.log(this.props);
@@ -32,14 +56,15 @@ const PlayerStream = React.createClass({
       auth,
       methods: {
         spliceStream,
-        collapsePlayer,
+        togglePlayer,
         alertAuthNeeded
       }
     } = this.props;
     const {
-      chatOpen
+      chatOpen,
+      menuOpen,
     } = this.state;
-    // console.log(name, display_name, this.props);
+
     return (
       <li className={`player-stream${!chatOpen ? " hide-chat" : ""}`}>
         <div className="video">
@@ -50,25 +75,36 @@ const PlayerStream = React.createClass({
         <div className="chat">
           <iframe src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
         </div>
-        <div className="tools">
+        <div className={`tools${menuOpen ? " menu-open" : ""}`}>
           <div className="streamer">
-            <Link to={`/user/${name}`} onClick={collapsePlayer}>{display_name}</Link>
+            <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z\_]+$/i) ? `(${name})` : ""}</Link>
           </div>
           <div className="closer" onClick={spliceStream.bind(null, name)}>
             Close
           </div>
-          <div className="hide" onClick={this.toggleChat}>
+          <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
             {chatOpen ? "Hide" : "Show"} Chat
           </div>
           {
             userData ? (
-              <FollowButton name={userData.name} target={display_name} auth={auth}/>
+              <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth}/>
             ) : (
               <div className="follow need-auth" onClick={alertAuthNeeded}>
                 Follow {name}
               </div>
             )
           }
+          <div className="mobile">
+            <div className="name">
+              <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z\_]+$/i) ? `(${name})` : ""}</Link>
+            </div>
+            <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+
+          </div>
         </div>
       </li>
     )
@@ -85,15 +121,17 @@ export default React.createClass({
     const {
       userData,
       auth,
+      playerState,
       methods: {
         spliceStream,
-        collapsePlayer,
+        togglePlayer,
         alertAuthNeeded
       },
       data: {
         dataObject
       }
     } = this.props;
+
     return (
       <div className="player">
         <div className="wrapper">
@@ -105,7 +143,7 @@ export default React.createClass({
                   return (
                     <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} methods={{
                       spliceStream,
-                      collapsePlayer,
+                      togglePlayer,
                       alertAuthNeeded
                     }} />
                   );
@@ -113,16 +151,16 @@ export default React.createClass({
               ) : null
             }
           </ul>
-          <div className="tools">
+          <div className={`tools`}>
             <div title="Closing the player will remove all current streams" className="closer" onClick={() => {
               Object.keys(dataObject).map(channelName => {
                 spliceStream(channelName);
               });
             }}>
-              Close Player
+              Close
             </div>
-            <div title="Shrink the player to the side of the browser" className="closer" onClick={collapsePlayer}>
-              Collapse Player
+            <div title="Shrink the player to the side of the browser" className="closer" onClick={togglePlayer.bind(null, "toggle")}>
+              {playerState.playerCollapsed ? "Expand" : "Collapse"}
             </div>
           </div>
         </div>

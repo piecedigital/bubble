@@ -74,20 +74,25 @@ exports["default"] = _react2["default"].createClass({
     });
     document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
   },
-  expandPlayer: function expandPlayer() {
-    this.setState({
-      playerCollapsed: false
-    });
-  },
-  collapsePlayer: function collapsePlayer() {
-    this.setState({
-      playerCollapsed: true
-    });
-  },
-  togglePlayer: function togglePlayer() {
-    this.setState({
-      playerCollapsed: !this.state.playerCollapsed
-    });
+  togglePlayer: function togglePlayer(type) {
+    switch (type) {
+      case "close":
+        this.setState({
+          playerCollapsed: true
+        });
+        break;
+      case "open":
+        this.setState({
+          playerCollapsed: true
+        });
+        break;
+      case "toggle":
+      default:
+        console.log("no type match:", type);
+        this.setState({
+          playerCollapsed: !this.state.playerCollapsed
+        });
+    }
   },
   componentDidMount: function componentDidMount() {
     var _this = this;
@@ -129,7 +134,6 @@ exports["default"] = _react2["default"].createClass({
     var _state = this.state;
     var authData = _state.authData;
     var userData = _state.userData;
-    var collapsed = _state.collapsed;
     var dataObject = _state.streamersInPlayer;
     var playerCollapsed = _state.playerCollapsed;
     var data = this.props.data;
@@ -139,7 +143,7 @@ exports["default"] = _react2["default"].createClass({
     var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read user_follows_edit";
     return _react2["default"].createElement(
       "div",
-      { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") },
+      { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + Object.keys(dataObject).length },
       _react2["default"].createElement(
         "nav",
         null,
@@ -186,6 +190,9 @@ exports["default"] = _react2["default"].createClass({
         },
         userData: userData,
         auth: authData,
+        playerState: {
+          playerCollapsed: playerCollapsed
+        },
         methods: {
           spliceStream: this.spliceStream,
           expandPlayer: this.expandPlayer,

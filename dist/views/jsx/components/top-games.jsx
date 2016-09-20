@@ -29,7 +29,7 @@ var ListItem = _react2["default"].createClass({
     var box = _props$data$game.box;
 
     var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-    var channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+    var channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
       "li",
       null,

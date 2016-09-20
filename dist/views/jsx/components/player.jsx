@@ -24,23 +24,47 @@ var _followJsx2 = _interopRequireDefault(_followJsx);
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
   getInitialState: function getInitialState() {
-    return { chatOpen: true };
+    return { chatOpen: true, menuOpen: false };
   },
-  openChat: function openChat() {
-    this.setState({
-      chatOpen: true
-    });
+  toggleChat: function toggleChat(type) {
+    switch (type) {
+      case "close":
+        this.setState({
+          chatOpen: false
+        });
+        break;
+      case "open":
+        this.setState({
+          chatOpen: true
+        });
+        break;
+      case "toggle":
+      default:
+        console.log("no type match:", type);
+        this.setState({
+          chatOpen: !this.state.chatOpen
+        });
+    }
   },
-  closeChat: function closeChat() {
-    this.setState({
-      chatOpen: false
-    });
-  },
-  toggleChat: function toggleChat() {
-    console.log("toggling chat", this.state.chatOpen, !this.state.chatOpen);
-    this.setState({
-      chatOpen: !this.state.chatOpen
-    });
+  toggleMenu: function toggleMenu(type) {
+    switch (type) {
+      case "close":
+        this.setState({
+          menuOpen: false
+        });
+        break;
+      case "open":
+        this.setState({
+          menuOpen: true
+        });
+        break;
+      case "toggle":
+      default:
+        console.log("no type match:", type);
+        this.setState({
+          menuOpen: !this.state.menuOpen
+        });
+    }
   },
   render: function render() {
     // console.log(this.props);
@@ -51,11 +75,12 @@ var PlayerStream = _react2["default"].createClass({
     var auth = _props.auth;
     var _props$methods = _props.methods;
     var spliceStream = _props$methods.spliceStream;
-    var collapsePlayer = _props$methods.collapsePlayer;
+    var togglePlayer = _props$methods.togglePlayer;
     var alertAuthNeeded = _props$methods.alertAuthNeeded;
-    var chatOpen = this.state.chatOpen;
+    var _state = this.state;
+    var chatOpen = _state.chatOpen;
+    var menuOpen = _state.menuOpen;
 
-    // console.log(name, display_name, this.props);
     return _react2["default"].createElement(
       "li",
       { className: "player-stream" + (!chatOpen ? " hide-chat" : "") },
@@ -75,14 +100,15 @@ var PlayerStream = _react2["default"].createClass({
       ),
       _react2["default"].createElement(
         "div",
-        { className: "tools" },
+        { className: "tools" + (menuOpen ? " menu-open" : "") },
         _react2["default"].createElement(
           "div",
           { className: "streamer" },
           _react2["default"].createElement(
             _reactRouter.Link,
-            { to: "/user/" + name, onClick: collapsePlayer },
-            display_name
+            { to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+            display_name,
+            !display_name.match(/^[a-z\_]+$/i) ? "(" + name + ")" : ""
           )
         ),
         _react2["default"].createElement(
@@ -92,15 +118,36 @@ var PlayerStream = _react2["default"].createClass({
         ),
         _react2["default"].createElement(
           "div",
-          { className: "hide", onClick: this.toggleChat },
+          { className: "hide", onClick: this.toggleChat.bind(this, "toggle") },
           chatOpen ? "Hide" : "Show",
           " Chat"
         ),
-        userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, target: display_name, auth: auth }) : _react2["default"].createElement(
+        userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
           "div",
           { className: "follow need-auth", onClick: alertAuthNeeded },
           "Follow ",
           name
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "mobile" },
+          _react2["default"].createElement(
+            "div",
+            { className: "name" },
+            _react2["default"].createElement(
+              _reactRouter.Link,
+              { to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+              display_name,
+              !display_name.match(/^[a-z\_]+$/i) ? "(" + name + ")" : ""
+            )
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "lines", onClick: this.toggleMenu.bind(this, "toggle") },
+            _react2["default"].createElement("div", null),
+            _react2["default"].createElement("div", null),
+            _react2["default"].createElement("div", null)
+          )
         )
       )
     );
@@ -117,9 +164,10 @@ exports["default"] = _react2["default"].createClass({
     var _props2 = this.props;
     var userData = _props2.userData;
     var auth = _props2.auth;
+    var playerState = _props2.playerState;
     var _props2$methods = _props2.methods;
     var spliceStream = _props2$methods.spliceStream;
-    var collapsePlayer = _props2$methods.collapsePlayer;
+    var togglePlayer = _props2$methods.togglePlayer;
     var alertAuthNeeded = _props2$methods.alertAuthNeeded;
     var dataObject = _props2.data.dataObject;
 
@@ -136,7 +184,7 @@ exports["default"] = _react2["default"].createClass({
             var channelData = dataObject[channelName];
             return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, methods: {
                 spliceStream: spliceStream,
-                collapsePlayer: collapsePlayer,
+                togglePlayer: togglePlayer,
                 alertAuthNeeded: alertAuthNeeded
               } });
           }) : null
@@ -151,12 +199,12 @@ exports["default"] = _react2["default"].createClass({
                   spliceStream(channelName);
                 });
               } },
-            "Close Player"
+            "Close"
           ),
           _react2["default"].createElement(
             "div",
-            { title: "Shrink the player to the side of the browser", className: "closer", onClick: collapsePlayer },
-            "Collapse Player"
+            { title: "Shrink the player to the side of the browser", className: "closer", onClick: togglePlayer.bind(null, "toggle") },
+            playerState.playerCollapsed ? "Expand" : "Collapse"
           )
         )
       )

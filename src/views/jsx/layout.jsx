@@ -52,20 +52,25 @@ export default React.createClass({
     });
     document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
   },
-  expandPlayer() {
-    this.setState({
-      playerCollapsed: false
-    });
-  },
-  collapsePlayer() {
-    this.setState({
-      playerCollapsed: true
-    });
-  },
-  togglePlayer() {
-    this.setState({
-      playerCollapsed: !this.state.playerCollapsed
-    });
+  togglePlayer(type) {
+    switch (type) {
+      case "close":
+      this.setState({
+        playerCollapsed: true
+      });
+        break;
+      case "open":
+      this.setState({
+        playerCollapsed: true
+      });
+        break;
+      case "toggle":
+      default:
+        console.log("no type match:", type);
+        this.setState({
+          playerCollapsed: !this.state.playerCollapsed
+        });
+    }
   },
   componentDidMount() {
     let authData = {};
@@ -106,7 +111,6 @@ export default React.createClass({
     const {
       authData,
       userData,
-      collapsed,
       streamersInPlayer: dataObject,
       playerCollapsed,
     } = this.state;
@@ -121,7 +125,7 @@ export default React.createClass({
     "&redirect_uri=http://localhost:8080"+
     "&scope=user_read user_follows_edit";
     return (
-      <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""}`}>
+      <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${Object.keys(dataObject).length}`}>
         <nav>
           <div>
             <Link className="nav-item" to={"/"}>Home</Link>
@@ -145,6 +149,9 @@ export default React.createClass({
           }}
           userData={userData}
           auth={authData}
+          playerState={{
+            playerCollapsed
+          }}
           methods={{
             spliceStream: this.spliceStream,
             expandPlayer: this.expandPlayer,

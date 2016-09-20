@@ -10,7 +10,7 @@ body {
   background: #ebebeb; }
 
 .root.player-collapsed {
-  padding-left: 208px; }
+  padding-left: 240px; }
 
 nav {
   z-index: 10;
@@ -74,6 +74,7 @@ nav {
       left: 0; }
       .player .wrapper > .tools > * {
         background-color: #00aadc;
+        max-height: 32px;
         padding: 7.2px 8px;
         cursor: pointer; }
         .player .wrapper > .tools > *:hover {
@@ -123,6 +124,8 @@ nav {
         background-color: #96e6ff; }
       .player-stream .tools > *:not(:last-child) {
         border-right: 2px solid black; }
+    .player-stream .tools .mobile {
+      display: none; }
     .player-stream .tools a {
       color: black;
       font-weight: bold; }
@@ -130,14 +133,96 @@ nav {
 .player-stream.hide-chat .chat {
   width: 0; }
 
-.root.player-open .player {
+.root.player-open.layout-1 .player {
   width: 100%;
   height: 100%;
   padding-top: 32px;
   overflow: visible; }
-.root.player-collapsed .player {
-  width: 192px; }
-  .root.player-collapsed .player .wrapper .list .player-stream .chat {
-    width: 0; }
+.root.player-open.layout-2 .player {
+  width: 100%;
+  height: 50%;
+  padding-top: 32px;
+  overflow: visible; }
+.root.player-collapsed.layout-1 .player, .root.player-collapsed.layout-2 .player, .root.player-collapsed.layout-3 .player, .root.player-collapsed.layout-4 .player, .root.player-collapsed.layout-5 .player, .root.player-collapsed.layout-6 .player {
+  width: 224px;
+  box-shadow: 0 0 8px 0 black; }
+  .root.player-collapsed.layout-1 .player .wrapper .list .player-stream, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream {
+    max-height: 240px; }
+    .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .chat {
+      width: 0; }
+    .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools {
+      top: 32px;
+      flex-direction: column;
+      background-color: black;
+      padding: 2px;
+      text-align: center; }
+      .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools > *:not(.mobile) {
+        width: 100%;
+        max-height: 0;
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-right: none;
+        overflow: hidden; }
+        .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child) {
+          border-bottom: 2px solid black; }
+      .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile) {
+        max-height: 100%;
+        height: auto;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        overflow: hidden; }
+      .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
+        position: relative;
+        top: 6px;
+        transform: rotateZ(45deg); }
+      .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
+        left: 50%;
+        max-width: 0; }
+      .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
+        position: relative;
+        top: -6px;
+        transform: rotateZ(-45deg); }
+      .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile {
+        display: -ms-flex;
+        display: -moz-flex;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        height: 32px;
+        border: none;
+        box-shadow: inset 0 0 0 2px black;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        cursor: default; }
+        .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name {
+          padding-right: 4px; }
+        .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.lines {
+          display: -ms-flex;
+          display: -moz-flex;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          width: 32px;
+          padding-left: 4px;
+          border-left: 2px solid black;
+          cursor: pointer; }
+          .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.lines div {
+            position: relative;
+            top: 0;
+            left: 0;
+            max-width: 100%;
+            height: 2px;
+            margin: auto 0;
+            background-color: black;
+            text-align: center; }
 
 /*# sourceMappingURL=style.css.map */

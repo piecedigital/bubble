@@ -9,13 +9,13 @@ export default React.createClass({
   checkStatus() {
     const {
       name,
-      target
+      targetName
     } = this.props;
     loadData.call(this, e => {
       console.error(e.stack);
     }, {
       username: name,
-      target: target.toLowerCase()
+      targetName: targetName.toLowerCase()
     })
     .then(methods => {
       methods
@@ -37,7 +37,7 @@ export default React.createClass({
   followOrUnfollow(action, bool) {
     const {
       name,
-      target
+      targetName
     } = this.props;
     const method = `${action}Stream`;
     console.log(method);
@@ -45,7 +45,7 @@ export default React.createClass({
       console.error(e.stack);
     }, {
       username: name,
-      target: target.toLowerCase()
+      target: targetName
     })
     .then(methods => {
       methods
@@ -74,12 +74,12 @@ export default React.createClass({
       isFollowing
     } = this.state
     const {
-      target
+      targetDisplay
     } = this.props;
     if(isFollowing === null) return null;
     return (
       <div className="follow">
-        <div onClick={this.toggleFollow}>{isFollowing ? "Unfollow" : "Follow"} {target}</div>
+        <div onClick={this.toggleFollow}>{isFollowing ? "Unfollow" : "Follow"} {targetDisplay}</div>
       </div>
     );
   }

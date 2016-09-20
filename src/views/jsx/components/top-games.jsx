@@ -18,7 +18,7 @@ const ListItem = React.createClass({
       }
     } = this.props;
     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-    let channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+    let channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return (
       <li>
         <Link to={`/search/streams?q=${name}`}>
