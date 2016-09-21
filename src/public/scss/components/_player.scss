@@ -78,7 +78,10 @@
       padding: .45*$em .5*$em;
       cursor: pointer;
       &:hover {
-        background-color: $light
+        background-color: $light;
+        &:after {
+          box-shadow: -0.5*$em 0 0.5*$em 0 $primary;
+        }
       }
       &:not(:last-child) {
         border-right: 2px solid $dimmer;
@@ -149,7 +152,7 @@
         .player-stream {
           max-height: 15*$em;
           &:not(:last-child) {
-            margin-bottom: .5*$em;
+            border-bottom: .5*$em solid $dim;
           }
           .chat {
             width: 0;
@@ -157,6 +160,7 @@
           .tools {
             top: 2*$em;
             flex-direction: column;
+            width: 100%;
             background-color: $dimmer;
             padding: 0;
             text-align: center;
@@ -220,7 +224,26 @@
               cursor: default;
               div {
                 &.name {
+                  position: relative;
+                  min-width: 11*$em;
+                  max-width: 11*$em;
                   padding-right: 4px;
+                  overflow: hidden;
+                  &:after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 30px;
+                    height: 100%;
+                    background-image: linear-gradient(90deg, transparent, $primary);
+                  }
+                  // &:hover {
+                  //   a {
+                  //     position: absolute;
+                  //     right: 0;
+                  //   }
+                  // }
                 }
                 &.lines {
                   @include displayFlex;

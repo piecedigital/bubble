@@ -37,7 +37,7 @@ nav {
       padding: 7.2px 16px;
       text-decoration: none;
       font-weight: bold;
-      border-left: 1px solid black; }
+      border-left: 2px solid #0082b4; }
       nav > div .nav-item:hover {
         background-color: #96e6ff; }
       nav > div .nav-item.login {
@@ -124,6 +124,8 @@ nav {
       cursor: pointer; }
       .player-stream .tools > *:hover {
         background-color: #96e6ff; }
+        .player-stream .tools > *:hover:after {
+          box-shadow: -8px 0 8px 0 #00c8fa; }
       .player-stream .tools > *:not(:last-child) {
         border-right: 2px solid #0082b4; }
     .player-stream .tools .mobile {
@@ -154,12 +156,13 @@ nav {
   .root.player-collapsed.layout-1 .player .wrapper .list .player-stream, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream {
     max-height: 240px; }
     .root.player-collapsed.layout-1 .player .wrapper .list .player-stream:not(:last-child), .root.player-collapsed.layout-2 .player .wrapper .list .player-stream:not(:last-child), .root.player-collapsed.layout-3 .player .wrapper .list .player-stream:not(:last-child), .root.player-collapsed.layout-4 .player .wrapper .list .player-stream:not(:last-child), .root.player-collapsed.layout-5 .player .wrapper .list .player-stream:not(:last-child), .root.player-collapsed.layout-6 .player .wrapper .list .player-stream:not(:last-child) {
-      margin-bottom: 8px; }
+      border-bottom: 8px solid #00aadc; }
     .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .chat, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .chat {
       width: 0; }
     .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools {
       top: 32px;
       flex-direction: column;
+      width: 100%;
       background-color: #0082b4;
       padding: 0;
       text-align: center; }
@@ -213,7 +216,19 @@ nav {
         user-select: none;
         cursor: default; }
         .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name {
-          padding-right: 4px; }
+          position: relative;
+          min-width: 176px;
+          max-width: 176px;
+          padding-right: 4px;
+          overflow: hidden; }
+          .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background-image: linear-gradient(90deg, transparent, #00c8fa); }
         .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.lines {
           display: -ms-flex;
           display: -moz-flex;

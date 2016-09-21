@@ -21,7 +21,7 @@ nav {
       padding: .45*$em 1*$em;
       text-decoration: none;
       font-weight: bold;
-      border-left: 1px solid black;
+      border-left: 2px solid $dimmer;
       &:hover {
         background-color: $light
       }

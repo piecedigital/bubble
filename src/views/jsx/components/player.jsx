@@ -89,7 +89,7 @@ const PlayerStream = React.createClass({
         <div className={`tools${menuOpen ? " menu-open" : ""}`}>
           <div className="mobile">
             <div className="name">
-              <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z\_]+$/i) ? `(${name})` : ""}</Link>
+              <Link title={name} to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
             </div>
             <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
               <div></div>
@@ -98,7 +98,7 @@ const PlayerStream = React.createClass({
             </div>
           </div>
           <div className="streamer">
-            <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z\_]+$/i) ? `(${name})` : ""}</Link>
+            <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
           </div>
           <div className="closer" onClick={spliceStream.bind(null, name)}>
             Close
