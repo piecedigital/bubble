@@ -47,6 +47,17 @@ const PlayerStream = React.createClass({
         });
     }
   },
+  refresh(iframe) {
+    console.log(iframe, this.refs[iframe].src);
+    switch (iframe) {
+      case "video":
+        this.refs.video.src = this.refs.video.src;
+        break;
+      case "chat":
+        this.refs.chat.src = this.refs.chat.src;
+        break;
+    }
+  },
   render() {
     // console.log(this.props);
     const {
@@ -69,13 +80,23 @@ const PlayerStream = React.createClass({
       <li className={`player-stream${!chatOpen ? " hide-chat" : ""}`}>
         <div className="video">
           <div className="nested">
-            <iframe src={`https://player.twitch.tv/?channel=${name}`} frameBorder="0" scrolling="no"></iframe>
+            <iframe ref="video" src={`https://player.twitch.tv/?channel=${name}`} frameBorder="0" scrolling="no"></iframe>
           </div>
         </div>
         <div className="chat">
-          <iframe src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
+          <iframe ref="chat" src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
         </div>
         <div className={`tools${menuOpen ? " menu-open" : ""}`}>
+          <div className="mobile">
+            <div className="name">
+              <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z\_]+$/i) ? `(${name})` : ""}</Link>
+            </div>
+            <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
           <div className="streamer">
             <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z\_]+$/i) ? `(${name})` : ""}</Link>
           </div>
@@ -84,6 +105,12 @@ const PlayerStream = React.createClass({
           </div>
           <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
             {chatOpen ? "Hide" : "Show"} Chat
+          </div>
+          <div className="refresh-video" onClick={this.refresh.bind(this, "video")}>
+            Refresh Video
+          </div>
+          <div className="refresh-chat" onClick={this.refresh.bind(this, "chat")}>
+            Refresh Chat
           </div>
           {
             userData ? (
@@ -94,17 +121,6 @@ const PlayerStream = React.createClass({
               </div>
             )
           }
-          <div className="mobile">
-            <div className="name">
-              <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z\_]+$/i) ? `(${name})` : ""}</Link>
-            </div>
-            <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-
-          </div>
         </div>
       </li>
     )

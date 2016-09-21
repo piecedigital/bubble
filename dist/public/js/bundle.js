@@ -27337,6 +27337,17 @@ var PlayerStream = _react2["default"].createClass({
         });
     }
   },
+  refresh: function refresh(iframe) {
+    console.log(iframe, this.refs[iframe].src);
+    switch (iframe) {
+      case "video":
+        this.refs.video.src = this.refs.video.src;
+        break;
+      case "chat":
+        this.refs.chat.src = this.refs.chat.src;
+        break;
+    }
+  },
   render: function render() {
     // console.log(this.props);
     var _props = this.props;
@@ -27361,17 +27372,38 @@ var PlayerStream = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "nested" },
-          _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
+          _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
         )
       ),
       _react2["default"].createElement(
         "div",
         { className: "chat" },
-        _react2["default"].createElement("iframe", { src: "https://www.twitch.tv/" + name + "/chat", frameBorder: "0", scrolling: "no" })
+        _react2["default"].createElement("iframe", { ref: "chat", src: "https://www.twitch.tv/" + name + "/chat", frameBorder: "0", scrolling: "no" })
       ),
       _react2["default"].createElement(
         "div",
         { className: "tools" + (menuOpen ? " menu-open" : "") },
+        _react2["default"].createElement(
+          "div",
+          { className: "mobile" },
+          _react2["default"].createElement(
+            "div",
+            { className: "name" },
+            _react2["default"].createElement(
+              _reactRouter.Link,
+              { to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+              display_name,
+              !display_name.match(/^[a-z\_]+$/i) ? "(" + name + ")" : ""
+            )
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "lines", onClick: this.toggleMenu.bind(this, "toggle") },
+            _react2["default"].createElement("div", null),
+            _react2["default"].createElement("div", null),
+            _react2["default"].createElement("div", null)
+          )
+        ),
         _react2["default"].createElement(
           "div",
           { className: "streamer" },
@@ -27393,32 +27425,21 @@ var PlayerStream = _react2["default"].createClass({
           chatOpen ? "Hide" : "Show",
           " Chat"
         ),
+        _react2["default"].createElement(
+          "div",
+          { className: "refresh-video", onClick: this.refresh.bind(this, "video") },
+          "Refresh Video"
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "refresh-chat", onClick: this.refresh.bind(this, "chat") },
+          "Refresh Chat"
+        ),
         userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
           "div",
           { className: "follow need-auth", onClick: alertAuthNeeded },
           "Follow ",
           name
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "mobile" },
-          _react2["default"].createElement(
-            "div",
-            { className: "name" },
-            _react2["default"].createElement(
-              _reactRouter.Link,
-              { to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
-              display_name,
-              !display_name.match(/^[a-z\_]+$/i) ? "(" + name + ")" : ""
-            )
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "lines", onClick: this.toggleMenu.bind(this, "toggle") },
-            _react2["default"].createElement("div", null),
-            _react2["default"].createElement("div", null),
-            _react2["default"].createElement("div", null)
-          )
         )
       )
     );
