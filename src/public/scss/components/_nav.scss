@@ -4,6 +4,7 @@ nav {
   top: 0;
   right: 0;
   max-height: 2*$em;
+  border-bottom: 2px solid $dimmer;
   overflow: hidden;
   text-align: right;
   pointer-events: none;

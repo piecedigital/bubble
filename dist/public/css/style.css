@@ -18,6 +18,7 @@ nav {
   top: 0;
   right: 0;
   max-height: 32px;
+  border-bottom: 2px solid #0082b4;
   overflow: hidden;
   text-align: right;
   pointer-events: none; }
@@ -124,8 +125,8 @@ nav {
       cursor: pointer; }
       .player-stream .tools > *:hover {
         background-color: #96e6ff; }
-        .player-stream .tools > *:hover:after {
-          box-shadow: -8px 0 8px 0 #00c8fa; }
+        .player-stream .tools > *:hover.mobile .name:after {
+          background-image: linear-gradient(90deg, transparent, #96e6ff) !important; }
       .player-stream .tools > *:not(:last-child) {
         border-right: 2px solid #0082b4; }
     .player-stream .tools .mobile {
@@ -144,11 +145,16 @@ nav {
   height: 100%;
   padding-top: 32px;
   overflow: visible; }
-.root.player-open.layout-2 .player {
-  width: 100%;
-  height: 50%;
-  padding-top: 32px;
-  overflow: visible; }
+.root.player-open.layout-2 .player .wrapper .list .player-stream {
+  height: 50%; }
+.root.player-open.layout-3 .player .wrapper .list .player-stream {
+  height: 50%; }
+.root.player-open.layout-4 .player .wrapper .list .player-stream {
+  height: 50%; }
+.root.player-open.layout-5 .player .wrapper .list .player-stream {
+  height: 50%; }
+.root.player-open.layout-6 .player .wrapper .list .player-stream {
+  height: 50%; }
 .root.player-collapsed.layout-1 .player, .root.player-collapsed.layout-2 .player, .root.player-collapsed.layout-3 .player, .root.player-collapsed.layout-4 .player, .root.player-collapsed.layout-5 .player, .root.player-collapsed.layout-6 .player {
   width: 224px;
   height: 100%;
@@ -207,6 +213,7 @@ nav {
         position: absolute;
         bottom: 100%;
         left: 0;
+        width: 100%;
         height: 32px;
         border: none;
         box-shadow: inset 0 0 0 2px #0082b4;
@@ -217,8 +224,8 @@ nav {
         cursor: default; }
         .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name {
           position: relative;
-          min-width: 176px;
-          max-width: 176px;
+          min-width: 160px;
+          max-width: 160px;
           padding-right: 4px;
           overflow: hidden; }
           .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name:after {
