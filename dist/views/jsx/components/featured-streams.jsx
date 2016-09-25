@@ -80,8 +80,8 @@ var FeaturedStream = _react2["default"].createClass({
     var _this = this;
 
     this.setState({
-      displayName: "",
-      bio: ""
+      // displayName: "",
+      // bio: ""
     }, function () {
       var _props$data$stream$channel2 = _this.props.data.stream.channel;
       var name = _props$data$stream$channel2.name;

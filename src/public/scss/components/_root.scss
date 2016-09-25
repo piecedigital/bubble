@@ -1,4 +1,6 @@
 .root {
+  height: 100vh;
+  overflow: auto;
   &.player-collapsed {
     padding-left: 15*$em;
   }

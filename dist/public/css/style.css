@@ -7,18 +7,25 @@ html {
 
 body {
   margin: 0;
-  background: #ebebeb; }
+  background: #ebebeb;
+  overflow: hidden; }
 
-.root.player-collapsed {
-  padding-left: 240px; }
+.react-app {
+  padding-top: 33.6px; }
+
+.root {
+  height: 100vh;
+  overflow: auto; }
+  .root.player-collapsed {
+    padding-left: 240px; }
 
 nav {
   z-index: 10;
   position: fixed;
   top: 0;
-  right: 0;
+  right: 16px;
   max-height: 32px;
-  border-bottom: 2px solid #0082b4;
+  box-shadow: 0 2px 0 0 #0082b4;
   overflow: hidden;
   text-align: right;
   pointer-events: none; }
@@ -79,6 +86,7 @@ nav {
         background-color: #00aadc;
         max-height: 32px;
         padding: 7.2px 8px;
+        border: none;
         cursor: pointer; }
         .player .wrapper > .tools > *:hover {
           background-color: #96e6ff; }
@@ -140,7 +148,7 @@ nav {
 .player-stream.hide-chat .chat {
   width: 0; }
 
-.root.player-open .player, .root.player-open.layout-1 .player {
+.root.player-open .player, .root.player-open.layout-linear .player, .root.player-open.layout-1 .player {
   width: 100%;
   height: 100%;
   padding-top: 32px;
@@ -169,6 +177,7 @@ nav {
       top: 32px;
       flex-direction: column;
       width: 100%;
+      max-width: 224px;
       background-color: #0082b4;
       padding: 0;
       text-align: center; }
@@ -224,8 +233,7 @@ nav {
         cursor: default; }
         .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name {
           position: relative;
-          min-width: 160px;
-          max-width: 160px;
+          width: 100%;
           padding-right: 4px;
           overflow: hidden; }
           .root.player-collapsed.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-collapsed.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name:after {
@@ -257,5 +265,99 @@ nav {
             margin: auto 0;
             background-color: black;
             text-align: center; }
+
+@media (max-width: 1024px) {
+  .root.player-open.layout-1 .player .wrapper .list .player-stream .tools, .root.player-open.layout-2 .player .wrapper .list .player-stream .tools, .root.player-open.layout-3 .player .wrapper .list .player-stream .tools, .root.player-open.layout-4 .player .wrapper .list .player-stream .tools, .root.player-open.layout-5 .player .wrapper .list .player-stream .tools, .root.player-open.layout-6 .player .wrapper .list .player-stream .tools {
+    top: 32px;
+    flex-direction: column;
+    width: 100%;
+    max-width: 224px;
+    background-color: #0082b4;
+    padding: 0;
+    text-align: center; }
+    .root.player-open.layout-1 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-open.layout-2 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-open.layout-3 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-open.layout-4 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-open.layout-5 .player .wrapper .list .player-stream .tools > *:not(.mobile), .root.player-open.layout-6 .player .wrapper .list .player-stream .tools > *:not(.mobile) {
+      width: 100%;
+      max-height: 0;
+      height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-right: none;
+      overflow: hidden; }
+      .root.player-open.layout-1 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-2 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-4 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-5 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-6 .player .wrapper .list .player-stream .tools > *:not(.mobile):not(:last-child) {
+        border-bottom: 0px solid #0082b4; }
+    .root.player-open.layout-1 .player .wrapper .list .player-stream .tools.menu-open, .root.player-open.layout-2 .player .wrapper .list .player-stream .tools.menu-open, .root.player-open.layout-3 .player .wrapper .list .player-stream .tools.menu-open, .root.player-open.layout-4 .player .wrapper .list .player-stream .tools.menu-open, .root.player-open.layout-5 .player .wrapper .list .player-stream .tools.menu-open, .root.player-open.layout-6 .player .wrapper .list .player-stream .tools.menu-open {
+      padding: 2px; }
+      .root.player-open.layout-1 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-2 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-3 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-4 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-5 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-6 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile) {
+        max-height: 100%;
+        height: auto;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        overflow: hidden; }
+        .root.player-open.layout-1 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-2 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-4 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-5 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-6 .player .wrapper .list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
+          border-bottom: 2px solid #0082b4; }
+      .root.player-open.layout-1 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-2 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-3 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-4 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-5 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-6 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
+        position: relative;
+        top: 6px;
+        transform: rotateZ(45deg); }
+      .root.player-open.layout-1 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-2 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-3 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-4 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-5 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-6 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
+        left: 50%;
+        max-width: 0; }
+      .root.player-open.layout-1 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-2 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-3 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-4 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-5 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-6 .player .wrapper .list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
+        position: relative;
+        top: -6px;
+        transform: rotateZ(-45deg); }
+    .root.player-open.layout-1 .player .wrapper .list .player-stream .tools .mobile, .root.player-open.layout-2 .player .wrapper .list .player-stream .tools .mobile, .root.player-open.layout-3 .player .wrapper .list .player-stream .tools .mobile, .root.player-open.layout-4 .player .wrapper .list .player-stream .tools .mobile, .root.player-open.layout-5 .player .wrapper .list .player-stream .tools .mobile, .root.player-open.layout-6 .player .wrapper .list .player-stream .tools .mobile {
+      display: -ms-flex;
+      display: -moz-flex;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      flex-direction: row;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      width: 100%;
+      height: 32px;
+      border: none;
+      box-shadow: inset 0 0 0 2px #0082b4;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      cursor: default; }
+      .root.player-open.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-open.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-open.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-open.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-open.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name, .root.player-open.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name {
+        position: relative;
+        width: 100%;
+        padding-right: 4px;
+        overflow: hidden; }
+        .root.player-open.layout-1 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-open.layout-2 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-open.layout-3 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-open.layout-4 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-open.layout-5 .player .wrapper .list .player-stream .tools .mobile div.name:after, .root.player-open.layout-6 .player .wrapper .list .player-stream .tools .mobile div.name:after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 30px;
+          height: 100%;
+          background-image: linear-gradient(90deg, transparent, #00c8fa); }
+      .root.player-open.layout-1 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-open.layout-2 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-open.layout-3 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-open.layout-4 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-open.layout-5 .player .wrapper .list .player-stream .tools .mobile div.lines, .root.player-open.layout-6 .player .wrapper .list .player-stream .tools .mobile div.lines {
+        display: -ms-flex;
+        display: -moz-flex;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 32px;
+        padding-left: 4px;
+        border-left: 2px solid #0082b4;
+        cursor: pointer; }
+        .root.player-open.layout-1 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-open.layout-2 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-open.layout-3 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-open.layout-4 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-open.layout-5 .player .wrapper .list .player-stream .tools .mobile div.lines div, .root.player-open.layout-6 .player .wrapper .list .player-stream .tools .mobile div.lines div {
+          position: relative;
+          top: 0;
+          left: 0;
+          max-width: 100%;
+          height: 2px;
+          margin: auto 0;
+          background-color: black;
+          text-align: center; } }
 
 /*# sourceMappingURL=style.css.map */

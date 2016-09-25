@@ -61,8 +61,8 @@ const FeaturedStream = React.createClass({
   },
   fetchUserData() {
     this.setState({
-      displayName: "",
-      bio: ""
+      // displayName: "",
+      // bio: ""
     }, () => {
       const {
         data: {

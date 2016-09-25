@@ -42,6 +42,11 @@ html {
 body {
   margin: 0;
   background: $offWhite;
+  overflow: hidden;
+}
+
+.react-app {
+  padding-top: 2.1*$em;
 }
 
 @import "components/_root.scss";

@@ -179,7 +179,47 @@ var PlayerStream = _react2["default"].createClass({
 exports["default"] = _react2["default"].createClass({
   displayName: "Player",
   getInitialState: function getInitialState() {
-    return {};
+    return {
+      canScroll: true,
+      streamInView: 0,
+      scrollTop: 0
+    };
+  },
+  linearLayout: function linearLayout(type) {
+    var param = this.refs.selectLayout.value;
+    var l = this.refs.list;
+    switch (type) {
+      case "setStreamToView":
+        l.scrollTop = l.offsetHeight * param;
+        break;
+    }
+  },
+  listScroll: function listScroll(e) {
+    // if(this.state.canScroll) {
+    //   let streamInView = this.state.streamInView;
+    //   switch (this.state.scrollTop > this.refs.list.scrollTop) {
+    //     case true:
+    //       streamInView++;
+    //     break;
+    //     case false:
+    //       streamInView--;
+    //     break;
+    //   }
+    //   if(streamInView > Object.keys(this.props.data.dataObject).length-1) streamInView = 0;
+    //   if(streamInView < 0) streamInView = Object.keys(this.props.data.dataObject).length-1;
+    //   console.log(this.state.scrollTop, this.refs.list.scrollTop, streamInView);
+    //   this.linearLayout("setStreamToView", streamInView);
+    //   this.setState({
+    //     canScroll: false,
+    //     scrollTop: this.refs.list.scrollTop
+    //   }, () => {
+    //     setTimeout(() => {
+    //       this.setState({
+    //         canScroll: true
+    //       });
+    //     }, 500);
+    //   });
+    // }
   },
   render: function render() {
     var _props2 = this.props;
@@ -200,7 +240,7 @@ exports["default"] = _react2["default"].createClass({
         { className: "wrapper" },
         _react2["default"].createElement(
           "ul",
-          { className: "list" },
+          { ref: "list", onScroll: this.listScroll, className: "list" },
           dataObject ? Object.keys(dataObject).map(function (channelName) {
             var channelData = dataObject[channelName];
             return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, methods: {
@@ -226,6 +266,17 @@ exports["default"] = _react2["default"].createClass({
             "div",
             { title: "Shrink the player to the side of the browser", className: "closer", onClick: togglePlayer.bind(null, "toggle") },
             playerState.playerCollapsed ? "Expand" : "Collapse"
+          ),
+          _react2["default"].createElement(
+            "select",
+            { ref: "selectLayout", className: "layout", defaultValue: 0, onChange: this.linearLayout.bind(null, "setStreamToView") },
+            dataObject ? Object.keys(dataObject).map(function (channelName, ind) {
+              return _react2["default"].createElement(
+                "option",
+                { key: channelName, value: ind },
+                channelName
+              );
+            }) : null
           )
         )
       )

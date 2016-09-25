@@ -131,7 +131,47 @@ const PlayerStream = React.createClass({
 export default React.createClass({
   displayName: "Player",
   getInitialState() {
-    return {}
+    return {
+      canScroll: true,
+      streamInView: 0,
+      scrollTop: 0
+    }
+  },
+  linearLayout(type) {
+    var param = this.refs.selectLayout.value;
+    let l = this.refs.list;
+    switch (type) {
+      case "setStreamToView":
+        l.scrollTop = l.offsetHeight * param
+        break;
+    }
+  },
+  listScroll(e) {
+    // if(this.state.canScroll) {
+    //   let streamInView = this.state.streamInView;
+    //   switch (this.state.scrollTop > this.refs.list.scrollTop) {
+    //     case true:
+    //       streamInView++;
+    //     break;
+    //     case false:
+    //       streamInView--;
+    //     break;
+    //   }
+    //   if(streamInView > Object.keys(this.props.data.dataObject).length-1) streamInView = 0;
+    //   if(streamInView < 0) streamInView = Object.keys(this.props.data.dataObject).length-1;
+    //   console.log(this.state.scrollTop, this.refs.list.scrollTop, streamInView);
+    //   this.linearLayout("setStreamToView", streamInView);
+    //   this.setState({
+    //     canScroll: false,
+    //     scrollTop: this.refs.list.scrollTop
+    //   }, () => {
+    //     setTimeout(() => {
+    //       this.setState({
+    //         canScroll: true
+    //       });
+    //     }, 500);
+    //   });
+    // }
   },
   render() {
     const {
@@ -151,7 +191,7 @@ export default React.createClass({
     return (
       <div className="player">
         <div className="wrapper">
-          <ul className="list">
+          <ul ref="list" onScroll={this.listScroll} className="list">
             {
               dataObject ? (
                 Object.keys(dataObject).map(channelName => {
@@ -178,6 +218,17 @@ export default React.createClass({
             <div title="Shrink the player to the side of the browser" className="closer" onClick={togglePlayer.bind(null, "toggle")}>
               {playerState.playerCollapsed ? "Expand" : "Collapse"}
             </div>
+            <select ref="selectLayout" className="layout" defaultValue={0} onChange={this.linearLayout.bind(null, "setStreamToView")}>
+              {
+                dataObject ? (
+                  Object.keys(dataObject).map((channelName, ind) => {
+                    return (
+                      <option key={channelName} value={ind}>{channelName}</option>
+                    );
+                  })
+                ) : null
+              }
+            </select>
           </div>
         </div>
       </div>
