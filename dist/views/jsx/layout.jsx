@@ -40,7 +40,8 @@ exports["default"] = _react2["default"].createClass({
     return {
       authData: this.props.data && this.props.data.authData || null,
       streamersInPlayer: {},
-      playerCollapsed: false
+      playerCollapsed: false,
+      layout: ""
     };
   },
   appendStream: function appendStream(username, displayName) {
@@ -130,12 +131,31 @@ exports["default"] = _react2["default"].createClass({
     console.log("Auth needed");
     alert("You must connect with Twitch to perform this action");
   },
+  setLayout: function setLayout(layout) {
+    switch (layout) {
+      case "linear":
+        this.setState({
+          layout: layout
+        });
+        break;
+      case "by 3":
+        this.setState({
+          layout: "by-3"
+        });
+        break;
+      default:
+        this.setState({
+          layout: ""
+        });
+    }
+  },
   render: function render() {
     var _state = this.state;
     var authData = _state.authData;
     var userData = _state.userData;
     var dataObject = _state.streamersInPlayer;
     var playerCollapsed = _state.playerCollapsed;
+    var layout = _state.layout;
     var data = this.props.data;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
@@ -143,7 +163,7 @@ exports["default"] = _react2["default"].createClass({
     var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read user_follows_edit";
     return _react2["default"].createElement(
       "div",
-      { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + Object.keys(dataObject).length },
+      { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + (layout || Object.keys(dataObject).length) },
       _react2["default"].createElement(
         "nav",
         null,
@@ -193,12 +213,14 @@ exports["default"] = _react2["default"].createClass({
         playerState: {
           playerCollapsed: playerCollapsed
         },
+        layout: layout,
         methods: {
           spliceStream: this.spliceStream,
           expandPlayer: this.expandPlayer,
           collapsePlayer: this.collapsePlayer,
           togglePlayer: this.togglePlayer,
-          alertAuthNeeded: this.alertAuthNeeded
+          alertAuthNeeded: this.alertAuthNeeded,
+          setLayout: this.setLayout
         } }),
       this.props.children ? _react2["default"].cloneElement(this.props.children, {
         parent: this,

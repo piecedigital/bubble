@@ -20,7 +20,8 @@ export default React.createClass({
     return {
       authData: (this.props.data && this.props.data.authData) || null,
       streamersInPlayer: {},
-      playerCollapsed: false
+      playerCollapsed: false,
+      layout: ""
     }
   },
   appendStream(username, displayName, isSolo = true) {
@@ -107,12 +108,31 @@ export default React.createClass({
     console.log("Auth needed");
     alert("You must connect with Twitch to perform this action");
   },
+  setLayout(layout) {
+    switch (layout) {
+      case "linear":
+      this.setState({
+        layout
+      });
+      break;
+      case "by 3":
+        this.setState({
+          layout: "by-3"
+        });
+        break;
+      default:
+        this.setState({
+          layout: ""
+        });
+    }
+  },
   render() {
     const {
       authData,
       userData,
       streamersInPlayer: dataObject,
       playerCollapsed,
+      layout,
     } = this.state;
     const {
       data
@@ -125,7 +145,7 @@ export default React.createClass({
     "&redirect_uri=http://localhost:8080"+
     "&scope=user_read user_follows_edit";
     return (
-      <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${Object.keys(dataObject).length}`}>
+      <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${layout || Object.keys(dataObject).length}`}>
         <nav>
           <div>
             <Link className="nav-item" to={"/"}>Home</Link>
@@ -152,12 +172,14 @@ export default React.createClass({
           playerState={{
             playerCollapsed
           }}
+          layout={layout}
           methods={{
             spliceStream: this.spliceStream,
             expandPlayer: this.expandPlayer,
             collapsePlayer: this.collapsePlayer,
             togglePlayer: this.togglePlayer,
             alertAuthNeeded: this.alertAuthNeeded,
+            setLayout: this.setLayout,
           }}/>
         }
         {

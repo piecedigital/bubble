@@ -65,6 +65,7 @@ const PlayerStream = React.createClass({
       name,
       display_name,
       auth,
+      inView,
       methods: {
         spliceStream,
         togglePlayer,
@@ -83,44 +84,46 @@ const PlayerStream = React.createClass({
             <iframe ref="video" src={`https://player.twitch.tv/?channel=${name}`} frameBorder="0" scrolling="no"></iframe>
           </div>
         </div>
-        <div className="chat">
+        <div className={`chat${inView ? " in-view" : ""}`}>
           <iframe ref="chat" src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
         </div>
-        <div className={`tools${menuOpen ? " menu-open" : ""}`}>
-          <div className="mobile">
-            <div className="name">
-              <Link title={name} to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
-            </div>
-            <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-          <div className="streamer">
-            <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
-          </div>
-          <div className="closer" onClick={spliceStream.bind(null, name)}>
-            Close
-          </div>
-          <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
-            {chatOpen ? "Hide" : "Show"} Chat
-          </div>
-          <div className="refresh-video" onClick={this.refresh.bind(this, "video")}>
-            Refresh Video
-          </div>
-          <div className="refresh-chat" onClick={this.refresh.bind(this, "chat")}>
-            Refresh Chat
-          </div>
-          {
-            userData ? (
-              <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth}/>
-            ) : (
-              <div className="follow need-auth" onClick={alertAuthNeeded}>
-                Follow {name}
+        <div className="tools-wrapper">
+          <div className={`tools${menuOpen ? " menu-open" : ""}`}>
+            <div className="mobile">
+              <div className="name">
+                <Link title={name} to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
               </div>
-            )
-          }
+              <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <div className="streamer">
+              <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+            </div>
+            <div className="closer" onClick={spliceStream.bind(null, name)}>
+              Close
+            </div>
+            <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
+              {chatOpen ? "Hide" : "Show"} Chat
+            </div>
+            <div className="refresh-video" onClick={this.refresh.bind(this, "video")}>
+              Refresh Video
+            </div>
+            <div className="refresh-chat" onClick={this.refresh.bind(this, "chat")}>
+              Refresh Chat
+            </div>
+            {
+              userData ? (
+                <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth}/>
+              ) : (
+                <div className="follow need-auth" onClick={alertAuthNeeded}>
+                  Follow {name}
+                </div>
+              )
+            }
+          </div>
         </div>
       </li>
     )
@@ -137,13 +140,15 @@ export default React.createClass({
       scrollTop: 0
     }
   },
-  linearLayout(type) {
-    var param = this.refs.selectLayout.value;
+  layoutTools(type) {
     let l = this.refs.list;
     switch (type) {
       case "setStreamToView":
-        l.scrollTop = l.offsetHeight * param
-        break;
+        l.scrollTop = l.offsetHeight * this.refs.selectStream.value
+      break;
+      case "setLayout":
+        this.props.methods.setLayout(this.refs.selectLayout.value);
+      break;
     }
   },
   listScroll(e) {
@@ -174,30 +179,36 @@ export default React.createClass({
     // }
   },
   render() {
-    const {
+    let {
       userData,
       auth,
       playerState,
       methods: {
         spliceStream,
         togglePlayer,
-        alertAuthNeeded
+        alertAuthNeeded,
+        setLayout,
       },
       data: {
         dataObject
-      }
+      },
+      layout,
     } = this.props;
-
+    const {
+      streamInView
+    } = this.state;
+    var dataArray = Object.keys(dataObject);
+    layout = layout || `layout-${Object.keys(dataObject).length}`;
     return (
       <div className="player">
         <div className="wrapper">
-          <ul ref="list" onScroll={this.listScroll} className="list">
+          <ul ref="list" onScroll={this.listScroll} className={`list`}>
             {
               dataObject ? (
-                Object.keys(dataObject).map(channelName => {
+                dataArray.map((channelName, ind) => {
                   let channelData = dataObject[channelName];
                   return (
-                    <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} methods={{
+                    <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} methods={{
                       spliceStream,
                       togglePlayer,
                       alertAuthNeeded
@@ -218,17 +229,32 @@ export default React.createClass({
             <div title="Shrink the player to the side of the browser" className="closer" onClick={togglePlayer.bind(null, "toggle")}>
               {playerState.playerCollapsed ? "Expand" : "Collapse"}
             </div>
-            <select ref="selectLayout" className="layout" defaultValue={0} onChange={this.linearLayout.bind(null, "setStreamToView")}>
+            <select title="Choose a layout for the streams" ref="selectLayout" className="layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setLayout")}>
               {
-                dataObject ? (
-                  Object.keys(dataObject).map((channelName, ind) => {
-                    return (
-                      <option key={channelName} value={ind}>{channelName}</option>
-                    );
-                  })
-                ) : null
+                ["", "Linear", "By 3"].map(layoutName => {
+                  return (
+                    <option key={layoutName} value={layoutName.toLowerCase()}>{layoutName || "Auto"}</option>
+                  );
+                })
               }
             </select>
+            {
+              dataObject &&
+              layout === "linear" ||
+              layout === "layout-4" ? (
+                <select title="Choose which stream appears as the main or in-view stream" ref="selectStream" className="layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setStreamToView")}>
+                  {
+                    dataObject ? (
+                      dataArray.map((channelName, ind) => {
+                        return (
+                          <option key={channelName} value={ind}>{channelName}</option>
+                        );
+                      })
+                    ) : null
+                  }
+                </select>
+              ) : null
+            }
           </div>
         </div>
       </div>

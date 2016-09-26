@@ -19,6 +19,10 @@
       padding: 0;
       overflow-x: hidden;
       overflow-y: auto;
+      &.flex-column {
+        @include displayFlex;
+        flex-direction: column;
+      }
     }
     > .tools {
       @include displayFlex;
@@ -31,11 +35,9 @@
         padding: .45*$em .5*$em;
         border: none;
         cursor: pointer;
+        border-right: 2px solid $dimmer;
         &:hover {
           background-color: $light
-        }
-        &:not(:last-child) {
-          border-right: 2px solid $dimmer;
         }
       }
       .closer {}
@@ -44,7 +46,7 @@
 }
 .player-stream {
   @include displayFlex;
-  position: relative;
+  // position: relative;
   height: 100%;
   .video, .chat {
     position: relative;
@@ -69,152 +71,158 @@
   .chat {
     width: 24*$em;
   }
-  .tools {
-    @include displayFlex;
+  .tools-wrapper {
     position: absolute;
-    top: 0;
-    left: 0;
-    > * {
-      background-color: $primary;
-      padding: .45*$em .5*$em;
-      cursor: pointer;
-      &:hover {
-        background-color: $light;
-        &.mobile {
-          .name {
-            &:after {
-              background-image: linear-gradient(90deg, transparent, $light) !important;
+    width: 100%;
+    .tools {
+      @include displayFlex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      > * {
+        background-color: $primary;
+        padding: .45*$em .5*$em;
+        cursor: pointer;
+        &:hover {
+          background-color: $light;
+          &.mobile {
+            .name {
+              &:after {
+                background-image: linear-gradient(90deg, transparent, $light) !important;
+              }
             }
           }
         }
+        &:not(:last-child) {
+          border-right: 2px solid $dimmer;
+        }
       }
-      &:not(:last-child) {
-        border-right: 2px solid $dimmer;
+      .mobile {
+        display: none;
       }
+      .follow.need-auth {
+        color: rgba(black, .5);
+      }
+      a {
+        color: black;
+        font-weight: bold;
+      }
+      .closer {}
     }
-    .mobile {
-      display: none;
-    }
-    .follow.need-auth {
-      color: rgba(black, .5);
-    }
-    a {
-      color: black;
-      font-weight: bold;
-    }
-    .closer {}
   }
 }
 
 @mixin streamTools {
-  .tools {
-    top: 2*$em;
-    flex-direction: column;
-    width: 100%;
-    max-width: 14*$em;
-    background-color: $dimmer;
-    padding: 0;
-    text-align: center;
-    > *:not(.mobile) {
+  .tools-wrapper {
+    .tools {
+      top: 2*$em;
+      flex-direction: column;
       width: 100%;
-      max-height: 0;
-      height: 0;
-      padding-top: 0;
-      padding-bottom: 0;
-      border-right: none;
-      overflow: hidden;
-      &:not(:last-child) {
-        border-bottom: 0px solid $dimmer;
-      }
-    }
-    &.menu-open {
-      padding: 2px;
+      max-width: 14*$em;
+      background-color: $dimmer;
+      padding: 0;
+      text-align: center;
       > *:not(.mobile) {
-        max-height: 100%;
-        height: auto;
-        padding-top: .25*$em;
-        padding-bottom: .25*$em;
+        width: 100%;
+        max-height: 0;
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-right: none;
         overflow: hidden;
         &:not(:last-child) {
-          border-bottom: 2px solid $dimmer;
+          border-bottom: 0px solid $dimmer;
         }
       }
-      .mobile {
-        div {
-          &.lines {
-            div {
-              &:nth-child(1) {
-                position: relative;
-                top: 6px;
-                transform: rotateZ(45deg);
-              }
-              &:nth-child(2) {
-                left: 50%;
-                max-width: 0;
-              }
-              &:nth-child(3) {
-                position: relative;
-                top: -6px;
-                transform: rotateZ(-45deg);
+      &.menu-open {
+        padding: 2px;
+        > *:not(.mobile) {
+          max-height: 100%;
+          height: auto;
+          padding-top: .25*$em;
+          padding-bottom: .25*$em;
+          overflow: hidden;
+          &:not(:last-child) {
+            border-bottom: 2px solid $dimmer;
+          }
+        }
+        .mobile {
+          div {
+            &.lines {
+              div {
+                &:nth-child(1) {
+                  position: relative;
+                  top: 6px;
+                  transform: rotateZ(45deg);
+                }
+                &:nth-child(2) {
+                  left: 50%;
+                  max-width: 0;
+                }
+                &:nth-child(3) {
+                  position: relative;
+                  top: -6px;
+                  transform: rotateZ(-45deg);
+                }
               }
             }
           }
         }
       }
-    }
-    .mobile {
-      @include displayFlex;
-      flex-direction: row;
-      position: absolute;
-      bottom: 100%;
-      left: 0;
-      width: 100%;
-      height: 2*$em;
-      border: none;
-      box-shadow: inset 0 0 0 2px $dimmer;
-      @include userSelect;
-      cursor: default;
-      div {
-        &.name {
-          position: relative;
-          width: 100%;
-          // min-width: 10*$em;
-          // max-width: 10*$em;
-          padding-right: 4px;
-          overflow: hidden;
-          &:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 100%;
-            background-image: linear-gradient(90deg, transparent, $primary);
-          }
-          // &:hover {
-          //   a {
-          //     position: absolute;
-          //     right: 0;
-          //   }
-          // }
-        }
-        &.lines {
-          @include displayFlex;
-          flex-direction: column;
-          justify-content: space-around;
-          width: 2*$em;
-          padding-left: 4px;
-          border-left: 2px solid $dimmer;
-          cursor: pointer;
-          div {
+      .mobile {
+        @include displayFlex;
+        flex-direction: row;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        width: 100%;
+        height: 2*$em;
+        border: none;
+        box-shadow: inset 0 0 0 2px $dimmer;
+        @include userSelect;
+        cursor: default;
+        div {
+          &.name {
             position: relative;
-            top: 0;
-            left: 0;
-            max-width: 100%;
-            height: 2px;
-            margin: auto 0;
-            background-color: black;
-            text-align: center;
+            width: 100%;
+            // min-width: 10*$em;
+            // max-width: 10*$em;
+            padding-right: 4px;
+            overflow: hidden;
+            &:after {
+              content: "";
+              position: absolute;
+              top: 0;
+              right: 0;
+              width: 30px;
+              height: 100%;
+              background-image: linear-gradient(90deg, transparent, $primary);
+            }
+            // &:hover {
+            //   a {
+            //     position: absolute;
+            //     right: 0;
+            //   }
+            // }
+          }
+          &.lines {
+            @include displayFlex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2*$em;
+            padding-left: 4px;
+            border-left: 2px solid $dimmer;
+            cursor: pointer;
+            div {
+              position: relative;
+              top: 0;
+              left: 0;
+              max-width: 100%;
+              height: 2px;
+              margin: auto 0;
+              background-color: black;
+              text-align: center;
+            }
           }
         }
       }
@@ -262,11 +270,11 @@
         }
       }
     }
-    &.layout-3 .player {
+    &.layout-by-3 .player, &.layout-3 .player {
       .wrapper {
         .list {
           .player-stream {
-            height: 50%;
+            height: 33.3333333%;
             .chat {
             }
           }
@@ -276,9 +284,20 @@
     &.layout-4 .player {
       .wrapper {
         .list {
+          padding-right: 24*$em;
+          overflow-y: hidden;
           .player-stream {
+            @include displayInlineFlex;
+            width: 50%;
             height: 50%;
             .chat {
+              position: absolute;
+              top: 0;
+              right: 0;
+              height: 100%;
+              &:not(.in-view) {
+                display: none;
+              }
             }
           }
         }
@@ -319,8 +338,15 @@
     box-shadow: 0 0 0.5*$em 0 $dimmer;
     .wrapper {
       .list {
+        padding: 0;
+        overflow-y: auto;
         .player-stream {
+          width: 100%;
           max-height: 15*$em;
+          order: 2;
+          .in-view {
+            order: 1;
+          }
           &:not(:last-child) {
             border-bottom: .5*$em solid $dim;
           }
@@ -334,7 +360,7 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .root {
     &.player-open {
       &.layout-1 .player,
