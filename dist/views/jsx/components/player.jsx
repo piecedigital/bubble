@@ -244,6 +244,7 @@ exports["default"] = _react2["default"].createClass({
 
     var dataArray = Object.keys(dataObject);
     layout = layout || "layout-" + Object.keys(dataObject).length;
+    console.log(layout);
     return _react2["default"].createElement(
       "div",
       { className: "player" },

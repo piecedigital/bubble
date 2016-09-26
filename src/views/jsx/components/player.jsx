@@ -199,6 +199,7 @@ export default React.createClass({
     } = this.state;
     var dataArray = Object.keys(dataObject);
     layout = layout || `layout-${Object.keys(dataObject).length}`;
+    console.log(layout);
     return (
       <div className="player">
         <div className="wrapper">

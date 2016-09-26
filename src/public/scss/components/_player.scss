@@ -337,6 +337,7 @@
     height: 100%;
     box-shadow: 0 0 0.5*$em 0 $dimmer;
     .wrapper {
+      overflow: hidden;
       .list {
         padding: 0;
         overflow-y: auto;
