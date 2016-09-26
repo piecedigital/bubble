@@ -134,13 +134,10 @@ exports["default"] = _react2["default"].createClass({
   setLayout: function setLayout(layout) {
     switch (layout) {
       case "linear":
-        this.setState({
-          layout: layout
-        });
-        break;
+      case "by 2":
       case "by 3":
         this.setState({
-          layout: "by-3"
+          layout: layout.replace(/\s/g, "-")
         });
         break;
       default:

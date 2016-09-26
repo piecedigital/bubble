@@ -27356,6 +27356,7 @@ var PlayerStream = _react2["default"].createClass({
     var display_name = _props.display_name;
     var auth = _props.auth;
     var inView = _props.inView;
+    var isFor = _props.isFor;
     var _props$methods = _props.methods;
     var spliceStream = _props$methods.spliceStream;
     var togglePlayer = _props$methods.togglePlayer;
@@ -27364,90 +27365,101 @@ var PlayerStream = _react2["default"].createClass({
     var chatOpen = _state.chatOpen;
     var menuOpen = _state.menuOpen;
 
-    return _react2["default"].createElement(
-      "li",
-      { className: "player-stream" + (!chatOpen ? " hide-chat" : "") },
-      _react2["default"].createElement(
-        "div",
-        { className: "video" },
-        _react2["default"].createElement(
-          "div",
-          { className: "nested" },
-          _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
-        )
-      ),
-      _react2["default"].createElement(
-        "div",
-        { className: "chat" + (inView ? " in-view" : "") },
-        _react2["default"].createElement("iframe", { ref: "chat", src: "https://www.twitch.tv/" + name + "/chat", frameBorder: "0", scrolling: "no" })
-      ),
-      _react2["default"].createElement(
-        "div",
-        { className: "tools-wrapper" },
-        _react2["default"].createElement(
-          "div",
-          { className: "tools" + (menuOpen ? " menu-open" : "") },
+    switch (isFor) {
+      case "video":
+        return _react2["default"].createElement(
+          "li",
+          { className: "player-stream" + (!chatOpen ? " hide-chat" : "") + (inView ? " in-view" : "") },
           _react2["default"].createElement(
             "div",
-            { className: "mobile" },
+            { className: "video" },
             _react2["default"].createElement(
               "div",
-              { className: "name" },
+              { className: "nested" },
+              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
+            )
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "tools-wrapper" },
+            _react2["default"].createElement(
+              "div",
+              { className: "tools" + (menuOpen ? " menu-open" : "") },
               _react2["default"].createElement(
-                _reactRouter.Link,
-                { title: name, to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
-                display_name,
-                !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                "div",
+                { className: "mobile" },
+                _react2["default"].createElement(
+                  "div",
+                  { className: "name" },
+                  _react2["default"].createElement(
+                    _reactRouter.Link,
+                    { title: name, to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+                    display_name,
+                    !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                  )
+                ),
+                _react2["default"].createElement(
+                  "div",
+                  { className: "lines", onClick: this.toggleMenu.bind(this, "toggle") },
+                  _react2["default"].createElement("div", null),
+                  _react2["default"].createElement("div", null),
+                  _react2["default"].createElement("div", null)
+                )
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "streamer" },
+                _react2["default"].createElement(
+                  _reactRouter.Link,
+                  { to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+                  display_name,
+                  !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                )
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "closer", onClick: spliceStream.bind(null, name) },
+                "Close"
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "hide", onClick: this.toggleChat.bind(this, "toggle") },
+                chatOpen ? "Hide" : "Show",
+                " Chat"
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "refresh-video", onClick: this.refresh.bind(this, "video") },
+                "Refresh Video"
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "refresh-chat", onClick: this.refresh.bind(this, "chat") },
+                "Refresh Chat"
+              ),
+              userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
+                "div",
+                { className: "follow need-auth", onClick: alertAuthNeeded },
+                "Follow ",
+                name
               )
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "lines", onClick: this.toggleMenu.bind(this, "toggle") },
-              _react2["default"].createElement("div", null),
-              _react2["default"].createElement("div", null),
-              _react2["default"].createElement("div", null)
             )
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "streamer" },
-            _react2["default"].createElement(
-              _reactRouter.Link,
-              { to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
-              display_name,
-              !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
-            )
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "closer", onClick: spliceStream.bind(null, name) },
-            "Close"
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "hide", onClick: this.toggleChat.bind(this, "toggle") },
-            chatOpen ? "Hide" : "Show",
-            " Chat"
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "refresh-video", onClick: this.refresh.bind(this, "video") },
-            "Refresh Video"
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "refresh-chat", onClick: this.refresh.bind(this, "chat") },
-            "Refresh Chat"
-          ),
-          userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
-            "div",
-            { className: "follow need-auth", onClick: alertAuthNeeded },
-            "Follow ",
-            name
           )
-        )
-      )
-    );
+        );
+      case "chat":
+        return _react2["default"].createElement(
+          "li",
+          { className: "player-stream" + (!chatOpen ? " hide-chat" : "") + (inView ? " in-view" : "") },
+          _react2["default"].createElement(
+            "div",
+            { className: "chat" },
+            _react2["default"].createElement("iframe", { ref: "chat", src: "https://www.twitch.tv/" + name + "/chat", frameBorder: "0", scrolling: "no" })
+          )
+        );
+      default:
+        console.error("Player needs to know whether to give video or give chat");
+        return null;
+    }
   }
 });
 
@@ -27462,10 +27474,16 @@ exports["default"] = _react2["default"].createClass({
     };
   },
   layoutTools: function layoutTools(type) {
-    var l = this.refs.list;
+    var videoList = this.refs.videoList;
+    var chatList = this.refs.chatList;
+
     switch (type) {
       case "setStreamToView":
-        l.scrollTop = l.offsetHeight * this.refs.selectStream.value;
+        // videoList.scrollTop = videoList.offsetHeight * this.refs.selectStream.value
+        // chatList.scrollTop = chatList.offsetHeight * this.refs.selectStream.value
+        this.setState({
+          streamInView: parseInt(this.refs.selectStream.value)
+        });
         break;
       case "setLayout":
         this.props.methods.setLayout(this.refs.selectLayout.value);
@@ -27515,7 +27533,7 @@ exports["default"] = _react2["default"].createClass({
 
     var dataArray = Object.keys(dataObject);
     layout = layout || "layout-" + Object.keys(dataObject).length;
-    console.log(layout);
+
     return _react2["default"].createElement(
       "div",
       { className: "player" },
@@ -27524,10 +27542,23 @@ exports["default"] = _react2["default"].createClass({
         { className: "wrapper" },
         _react2["default"].createElement(
           "ul",
-          { ref: "list", onScroll: this.listScroll, className: "list" },
+          { ref: "videoList", onScroll: this.listScroll, className: "list video-list" },
           dataObject ? dataArray.map(function (channelName, ind) {
             var channelData = dataObject[channelName];
-            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, methods: {
+            console.log(streamInView, ind, streamInView === ind);
+            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", methods: {
+                spliceStream: spliceStream,
+                togglePlayer: togglePlayer,
+                alertAuthNeeded: alertAuthNeeded
+              } });
+          }) : null
+        ),
+        _react2["default"].createElement(
+          "ul",
+          { ref: "chatList", onScroll: this.listScroll, className: "list chat-list" },
+          dataObject ? dataArray.map(function (channelName, ind) {
+            var channelData = dataObject[channelName];
+            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {
                 spliceStream: spliceStream,
                 togglePlayer: togglePlayer,
                 alertAuthNeeded: alertAuthNeeded
@@ -27554,17 +27585,17 @@ exports["default"] = _react2["default"].createClass({
           _react2["default"].createElement(
             "select",
             { title: "Choose a layout for the streams", ref: "selectLayout", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setLayout") },
-            ["", "Linear", "By 3"].map(function (layoutName) {
-              return _react2["default"].createElement(
+            ["", "Linear", dataArray.length > 2 ? "By 2" : null, dataArray.length > 3 ? "By 3" : null].map(function (layoutName) {
+              if (layoutName !== null) return _react2["default"].createElement(
                 "option",
                 { key: layoutName, value: layoutName.toLowerCase() },
                 layoutName || "Auto"
               );
             })
           ),
-          dataObject && layout === "linear" || layout === "layout-4" ? _react2["default"].createElement(
+          dataObject && layout === "linear" || layout !== "layout-1" ? _react2["default"].createElement(
             "select",
-            { title: "Choose which stream appears as the main or in-view stream", ref: "selectStream", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
+            { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
             dataObject ? dataArray.map(function (channelName, ind) {
               return _react2["default"].createElement(
                 "option",
@@ -28540,13 +28571,10 @@ exports["default"] = _react2["default"].createClass({
   setLayout: function setLayout(layout) {
     switch (layout) {
       case "linear":
-        this.setState({
-          layout: layout
-        });
-        break;
+      case "by 2":
       case "by 3":
         this.setState({
-          layout: "by-3"
+          layout: layout.replace(/\s/g, "-")
         });
         break;
       default:

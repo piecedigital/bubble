@@ -111,15 +111,12 @@ export default React.createClass({
   setLayout(layout) {
     switch (layout) {
       case "linear":
+      case "by 2":
+      case "by 3":
       this.setState({
-        layout
+        layout: layout.replace(/\s/g, "-")
       });
       break;
-      case "by 3":
-        this.setState({
-          layout: "by-3"
-        });
-        break;
       default:
         this.setState({
           layout: ""
