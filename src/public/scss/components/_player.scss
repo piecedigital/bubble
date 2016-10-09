@@ -20,10 +20,10 @@
       padding: 0;
       overflow-x: hidden;
       overflow-y: auto;
-      &.flex-column {
-        @include displayFlex;
-        flex-direction: column;
-      }
+      // &.flex-column {
+      //   @include displayFlex;
+      //   flex-direction: column;
+      // }
       &.chat-list {
         width: 24*$em;
       }
@@ -279,7 +279,7 @@
         }
       }
     }
-    &.layout-2 .player {
+    &.layout-by-2 .player, &.layout-2 .player {
       .wrapper {
         .list.video-list {
           .player-stream {
@@ -310,6 +310,8 @@
     &.layout-4 .player {
       .wrapper {
         .list.video-list {
+          @include displayFlex;
+          flex-wrap: wrap;
           overflow-y: hidden;
           .player-stream {
             @include displayInlineFlex;
@@ -328,11 +330,21 @@
     &.layout-5 .player {
       .wrapper {
         .list.video-list {
+          @include displayFlex;
+          flex-wrap: wrap;
+          overflow-y: hidden;
           .player-stream {
-            height: 50%;
+            @include displayInlineFlex;
+            width: 50%;
+            height: 33.3333333%;
+            @include streamTools;
+            &:last-child {
+              width: 100%;
+            }
           }
         }
         .list.chat-list {
+          overflow-y: hidden;
           .player-stream {
             .chat {}
           }
@@ -342,11 +354,18 @@
     &.layout-6 .player {
       .wrapper {
         .list.video-list {
+          @include displayFlex;
+          flex-wrap: wrap;
+          overflow-y: hidden;
           .player-stream {
-            height: 50%;
+            @include displayInlineFlex;
+            width: 50%;
+            height: 33.3333333%;
+            @include streamTools;
           }
         }
         .list.chat-list {
+          overflow-y: hidden;
           .player-stream {
             .chat {}
           }
