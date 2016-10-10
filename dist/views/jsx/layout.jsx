@@ -41,20 +41,24 @@ exports["default"] = _react2["default"].createClass({
       authData: this.props.data && this.props.data.authData || null,
       streamersInPlayer: {},
       playerCollapsed: false,
-      layout: ""
+      layout: "",
+      playerStreamMax: 6
     };
   },
   appendStream: function appendStream(username, displayName) {
     var isSolo = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
     console.log("appending stream", username, isSolo);
-    if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
-      var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-      streamersInPlayer[username] = displayName;
-      console.log("New streamersInPlayer:", streamersInPlayer);
-      this.setState({
-        streamersInPlayer: streamersInPlayer
-      });
+    // only append if below the mas
+    if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
+      if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
+        var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+        streamersInPlayer[username] = displayName;
+        console.log("New streamersInPlayer:", streamersInPlayer);
+        this.setState({
+          streamersInPlayer: streamersInPlayer
+        });
+      }
     }
   },
   spliceStream: function spliceStream(username) {

@@ -338,7 +338,7 @@
             width: 50%;
             height: 33.3333333%;
             @include streamTools;
-            &:last-child {
+            &:first-child {
               width: 100%;
             }
           }

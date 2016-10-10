@@ -21,18 +21,22 @@ export default React.createClass({
       authData: (this.props.data && this.props.data.authData) || null,
       streamersInPlayer: {},
       playerCollapsed: false,
-      layout: ""
+      layout: "",
+      playerStreamMax: 6
     }
   },
   appendStream(username, displayName, isSolo = true) {
     console.log("appending stream", username, isSolo);
-    if(!this.state.streamersInPlayer.hasOwnProperty(username)) {
-      let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-      streamersInPlayer[username] = displayName;
-      console.log("New streamersInPlayer:", streamersInPlayer);
-      this.setState({
-        streamersInPlayer
-      });
+    // only append if below the mas
+    if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
+      if(!this.state.streamersInPlayer.hasOwnProperty(username)) {
+        let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+        streamersInPlayer[username] = displayName;
+        console.log("New streamersInPlayer:", streamersInPlayer);
+        this.setState({
+          streamersInPlayer
+        });
+      }
     }
   },
   spliceStream(username) {

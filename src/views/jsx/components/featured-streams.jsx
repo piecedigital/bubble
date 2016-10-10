@@ -162,7 +162,8 @@ export default React.createClass({
   componentDidMount() {
     const {
       methods: {
-        loadData
+        loadData,
+        appendStream
       }
     } = this.props;
     if(loadData) {

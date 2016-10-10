@@ -387,7 +387,7 @@ nav {
             margin: auto 0;
             background-color: black;
             text-align: center; }
-    .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream:last-child {
+    .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream:first-child {
       width: 100%; }
 .root.player-open.layout-5 .player .wrapper .list.chat-list {
   overflow-y: hidden; }

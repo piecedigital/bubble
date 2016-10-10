@@ -175,7 +175,9 @@ exports["default"] = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this2 = this;
 
-    var loadData = this.props.methods.loadData;
+    var _props$methods = this.props.methods;
+    var loadData = _props$methods.loadData;
+    var appendStream = _props$methods.appendStream;
 
     if (loadData) {
       loadData.call(this, function (e) {
@@ -201,9 +203,9 @@ exports["default"] = _react2["default"].createClass({
     var _state2 = this.state;
     var requestOffset = _state2.requestOffset;
     var dataArray = _state2.dataArray;
-    var _props$methods = this.props.methods;
-    var appendStream = _props$methods.appendStream;
-    var loadData = _props$methods.loadData;
+    var _props$methods2 = this.props.methods;
+    var appendStream = _props$methods2.appendStream;
+    var loadData = _props$methods2.loadData;
 
     return _react2["default"].createElement(
       "div",

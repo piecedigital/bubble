@@ -208,7 +208,18 @@ exports["default"] = _react2["default"].createClass({
 
     switch (type) {
       case "setStreamToView":
-        // videoList.scrollTop = videoList.offsetHeight * this.refs.selectStream.value
+        var count = 1;
+        console.log("layout", this.props.layout);
+        switch (this.props.layout) {
+          case "by-2":
+            count = 2;
+            break;
+          case "by-3":
+            count = 3;
+            break;
+        }
+        console.log("scroll value", videoList.offsetHeight / count * this.refs.selectStream.value);
+        videoList.scrollTop = videoList.offsetHeight / count * this.refs.selectStream.value;
         // chatList.scrollTop = chatList.offsetHeight * this.refs.selectStream.value
         this.setState({
           streamInView: parseInt(this.refs.selectStream.value)
@@ -219,33 +230,7 @@ exports["default"] = _react2["default"].createClass({
         break;
     }
   },
-  listScroll: function listScroll(e) {
-    // if(this.state.canScroll) {
-    //   let streamInView = this.state.streamInView;
-    //   switch (this.state.scrollTop > this.refs.list.scrollTop) {
-    //     case true:
-    //       streamInView++;
-    //     break;
-    //     case false:
-    //       streamInView--;
-    //     break;
-    //   }
-    //   if(streamInView > Object.keys(this.props.data.dataObject).length-1) streamInView = 0;
-    //   if(streamInView < 0) streamInView = Object.keys(this.props.data.dataObject).length-1;
-    //   console.log(this.state.scrollTop, this.refs.list.scrollTop, streamInView);
-    //   this.linearLayout("setStreamToView", streamInView);
-    //   this.setState({
-    //     canScroll: false,
-    //     scrollTop: this.refs.list.scrollTop
-    //   }, () => {
-    //     setTimeout(() => {
-    //       this.setState({
-    //         canScroll: true
-    //       });
-    //     }, 500);
-    //   });
-    // }
-  },
+  listScroll: function listScroll(e) {},
   render: function render() {
     var _props2 = this.props;
     var userData = _props2.userData;
@@ -322,7 +307,7 @@ exports["default"] = _react2["default"].createClass({
               );
             })
           ),
-          dataObject && layout === "linear" || layout !== "layout-1" ? _react2["default"].createElement(
+          dataObject && layout === "linear" || layout !== "layout-1" || layout !== "layout-by-2" || layout !== "layout-by-3" ? _react2["default"].createElement(
             "select",
             { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
             dataObject ? dataArray.map(function (channelName, ind) {

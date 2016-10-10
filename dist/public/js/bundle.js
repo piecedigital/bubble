@@ -27105,7 +27105,9 @@ exports["default"] = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this2 = this;
 
-    var loadData = this.props.methods.loadData;
+    var _props$methods = this.props.methods;
+    var loadData = _props$methods.loadData;
+    var appendStream = _props$methods.appendStream;
 
     if (loadData) {
       loadData.call(this, function (e) {
@@ -27131,9 +27133,9 @@ exports["default"] = _react2["default"].createClass({
     var _state2 = this.state;
     var requestOffset = _state2.requestOffset;
     var dataArray = _state2.dataArray;
-    var _props$methods = this.props.methods;
-    var appendStream = _props$methods.appendStream;
-    var loadData = _props$methods.loadData;
+    var _props$methods2 = this.props.methods;
+    var appendStream = _props$methods2.appendStream;
+    var loadData = _props$methods2.loadData;
 
     return _react2["default"].createElement(
       "div",
@@ -27479,7 +27481,18 @@ exports["default"] = _react2["default"].createClass({
 
     switch (type) {
       case "setStreamToView":
-        // videoList.scrollTop = videoList.offsetHeight * this.refs.selectStream.value
+        var count = 1;
+        console.log("layout", this.props.layout);
+        switch (this.props.layout) {
+          case "by-2":
+            count = 2;
+            break;
+          case "by-3":
+            count = 3;
+            break;
+        }
+        console.log("scroll value", videoList.offsetHeight / count * this.refs.selectStream.value);
+        videoList.scrollTop = videoList.offsetHeight / count * this.refs.selectStream.value;
         // chatList.scrollTop = chatList.offsetHeight * this.refs.selectStream.value
         this.setState({
           streamInView: parseInt(this.refs.selectStream.value)
@@ -27490,33 +27503,7 @@ exports["default"] = _react2["default"].createClass({
         break;
     }
   },
-  listScroll: function listScroll(e) {
-    // if(this.state.canScroll) {
-    //   let streamInView = this.state.streamInView;
-    //   switch (this.state.scrollTop > this.refs.list.scrollTop) {
-    //     case true:
-    //       streamInView++;
-    //     break;
-    //     case false:
-    //       streamInView--;
-    //     break;
-    //   }
-    //   if(streamInView > Object.keys(this.props.data.dataObject).length-1) streamInView = 0;
-    //   if(streamInView < 0) streamInView = Object.keys(this.props.data.dataObject).length-1;
-    //   console.log(this.state.scrollTop, this.refs.list.scrollTop, streamInView);
-    //   this.linearLayout("setStreamToView", streamInView);
-    //   this.setState({
-    //     canScroll: false,
-    //     scrollTop: this.refs.list.scrollTop
-    //   }, () => {
-    //     setTimeout(() => {
-    //       this.setState({
-    //         canScroll: true
-    //       });
-    //     }, 500);
-    //   });
-    // }
-  },
+  listScroll: function listScroll(e) {},
   render: function render() {
     var _props2 = this.props;
     var userData = _props2.userData;
@@ -27593,7 +27580,7 @@ exports["default"] = _react2["default"].createClass({
               );
             })
           ),
-          dataObject && layout === "linear" || layout !== "layout-1" ? _react2["default"].createElement(
+          dataObject && layout === "linear" || layout !== "layout-1" || layout !== "layout-by-2" || layout !== "layout-by-3" ? _react2["default"].createElement(
             "select",
             { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
             dataObject ? dataArray.map(function (channelName, ind) {
@@ -28478,20 +28465,24 @@ exports["default"] = _react2["default"].createClass({
       authData: this.props.data && this.props.data.authData || null,
       streamersInPlayer: {},
       playerCollapsed: false,
-      layout: ""
+      layout: "",
+      playerStreamMax: 6
     };
   },
   appendStream: function appendStream(username, displayName) {
     var isSolo = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
     console.log("appending stream", username, isSolo);
-    if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
-      var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-      streamersInPlayer[username] = displayName;
-      console.log("New streamersInPlayer:", streamersInPlayer);
-      this.setState({
-        streamersInPlayer: streamersInPlayer
-      });
+    // only append if below the mas
+    if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
+      if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
+        var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+        streamersInPlayer[username] = displayName;
+        console.log("New streamersInPlayer:", streamersInPlayer);
+        this.setState({
+          streamersInPlayer: streamersInPlayer
+        });
+      }
     }
   },
   spliceStream: function spliceStream(username) {
