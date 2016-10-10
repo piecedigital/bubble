@@ -6,7 +6,7 @@ export default React.createClass({
   displayName: "Profile",
   render() {
     return (
-      <div className="profile">
+      <div className="top-level-component profile">
         <div className="followed-streams">
           <FollowedStreams {...this.props} />
         </div>

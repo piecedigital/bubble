@@ -421,6 +421,9 @@
 @media (max-width: 1200px) {
   .root {
     &.player-open {
+      &.layout-linear .player,
+      &.layout-by-2 .player,
+      &.layout-by-3 .player,
       &.layout-1 .player,
       &.layout-2 .player,
       &.layout-3 .player,

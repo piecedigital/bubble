@@ -191,7 +191,7 @@ exports["default"] = _react2["default"].createClass({
             null,
             userData ? _react2["default"].createElement(
               _reactRouter.Link,
-              { className: "nav-item", to: "/user/" + userData.name },
+              { className: "nav-item", to: "/Profile" },
               "Profile"
             ) : null,
             _react2["default"].createElement(

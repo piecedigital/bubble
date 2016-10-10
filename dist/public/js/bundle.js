@@ -27934,6 +27934,7 @@ exports["default"] = _react2["default"].createClass({
   getInitialState: function getInitialState() {
     return {
       requestOffset: 0,
+      limit: 25,
       dataArray: [],
       filter: "all"
     };
@@ -27941,7 +27942,7 @@ exports["default"] = _react2["default"].createClass({
   gatherData: function gatherData(limit) {
     var _this2 = this;
 
-    typeof limit === "number" ? limit = limit : limit = 25;
+    typeof limit === "number" ? limit = limit : limit = this.state.limit || 25;
     console.log("gathering data");
     var _props3 = this.props;
 
@@ -27995,19 +27996,27 @@ exports["default"] = _react2["default"].createClass({
       filter: filter
     });
   },
-  refreshList: function refreshList(length) {
-    if (length > 100) {
-      this.gatherData(100);
-      this.refreshList(length - 100);
-    } else {
-      this.gatherData(length);
-    }
+  refreshList: function refreshList(reset, length) {
+    var _this3 = this;
+
+    console.log(reset, length);
+    this.setState({
+      requestOffset: reset ? 0 : this.state.requestOffset,
+      dataArray: reset ? [] : this.state.dataArray
+    }, function () {
+      if (length > 100) {
+        _this3.gatherData(100);
+        _this3.refreshList(false, length - 100);
+      } else {
+        _this3.gatherData(length);
+      }
+    });
   },
   componentDidMount: function componentDidMount() {
     this.gatherData();
   },
   render: function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -28053,12 +28062,17 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "btn-default refresh", onClick: _this3.refresh },
+                    { className: "btn-default refresh", onClick: _this4.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "btn-default load-more", onClick: _this3.gatherData },
+                    { className: "btn-default refresh", onClick: _this4.refreshList.bind(_this4, true) },
+                    "Refresh Listing"
+                  ),
+                  _react2["default"].createElement(
+                    "div",
+                    { className: "btn-default load-more", onClick: _this4.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -28074,12 +28088,12 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { ref: "filterSelect", onChange: _this3.applyFilter, defaultValue: "all" },
+                        { ref: "filterSelect", onChange: _this4.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
-                            _this3.capitalize(filter)
+                            _this4.capitalize(filter)
                           );
                         })
                       )
@@ -28615,7 +28629,7 @@ exports["default"] = _react2["default"].createClass({
             null,
             userData ? _react2["default"].createElement(
               _reactRouter.Link,
-              { className: "nav-item", to: "/user/" + userData.name },
+              { className: "nav-item", to: "/Profile" },
               "Profile"
             ) : null,
             _react2["default"].createElement(
@@ -28685,7 +28699,7 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     return _react2["default"].createElement(
       "div",
-      { className: "profile" },
+      { className: "top-level-component profile" },
       _react2["default"].createElement(
         "div",
         { className: "followed-streams" },

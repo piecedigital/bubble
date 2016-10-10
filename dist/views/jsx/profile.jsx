@@ -21,7 +21,7 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     return _react2["default"].createElement(
       "div",
-      { className: "profile" },
+      { className: "top-level-component profile" },
       _react2["default"].createElement(
         "div",
         { className: "followed-streams" },

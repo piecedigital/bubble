@@ -175,12 +175,13 @@ export default React.createClass({
   getInitialState() {
     return {
       requestOffset: 0,
+      limit: 25,
       dataArray: [],
       filter: "all"
     }
   },
   gatherData(limit) {
-    typeof limit === "number" ? limit = limit : limit = 25;
+    typeof limit === "number" ? limit = limit : limit = this.state.limit || 25;
     console.log("gathering data");
     const {
       methods: {
@@ -231,13 +232,19 @@ export default React.createClass({
       filter
     });
   },
-  refreshList(length) {
-    if(length > 100) {
-      this.gatherData(100);
-      this.refreshList(length - 100);
-    } else {
-      this.gatherData(length);
-    }
+  refreshList(reset, length) {
+    console.log(reset, length);
+    this.setState({
+      requestOffset: reset ? 0 : this.state.requestOffset,
+      dataArray: reset ? [] : this.state.dataArray
+    }, () => {
+      if(length > 100) {
+        this.gatherData(100);
+        this.refreshList(false, length - 100);
+      } else {
+        this.gatherData(length);
+      }
+    });
   },
   componentDidMount() { this.gatherData(); },
   render() {
@@ -274,6 +281,9 @@ export default React.createClass({
               <div className="scroll">
                 <div className="btn-default refresh" onClick={this.refresh}>
                   Refresh Streams
+                </div>
+                <div className="btn-default refresh" onClick={this.refreshList.bind(this, true)}>
+                  Refresh Listing
                 </div>
                 <div className="btn-default load-more" onClick={this.gatherData}>
                   Load More
