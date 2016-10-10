@@ -270,10 +270,12 @@ exports["default"] = _react2["default"].createClass({
       filter: filter
     });
   },
-  refreshList: function refreshList(reset, length) {
+  refreshList: function refreshList(reset, _) {
     var _this3 = this;
 
-    console.log(reset, length);
+    var length = arguments.length <= 2 || arguments[2] === undefined ? this.state.dataArray.length : arguments[2];
+
+    console.log(reset, length, arguments);
     this.setState({
       requestOffset: reset ? 0 : this.state.requestOffset,
       dataArray: reset ? [] : this.state.dataArray

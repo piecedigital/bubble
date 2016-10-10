@@ -232,8 +232,8 @@ export default React.createClass({
       filter
     });
   },
-  refreshList(reset, length) {
-    console.log(reset, length);
+  refreshList(reset, _, length = this.state.dataArray.length) {
+    console.log(reset, length, arguments);
     this.setState({
       requestOffset: reset ? 0 : this.state.requestOffset,
       dataArray: reset ? [] : this.state.dataArray
