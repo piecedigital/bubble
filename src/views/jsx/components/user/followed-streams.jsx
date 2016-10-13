@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/load-data";
+import FollowButton from "../follow.jsx";
 
 // components
 let components = {
@@ -84,13 +85,24 @@ let components = {
       })
       .catch(e => console.error(e.stack));
     },
+    followCallback(follow) {
+      if(follow) {
+        // following channel
+        if(typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
+      } else {
+        // unfollowing channel
+        if(typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
+      }
+    },
     componentDidMount() { this.getStreamData() },
     render() {
       if(!this.state.streamData) return null;
       // console.log(this.props);
       const {
+        auth,
         index,
         filter,
+        userData,
         methods: {
           appendStream
         },
@@ -99,6 +111,7 @@ let components = {
             mature,
             logo,
             name,
+            display_name,
             language
           }
         }
@@ -108,10 +121,24 @@ let components = {
           stream
         }
       } = this.state;
+
+      let hoverOptions = (
+        <div className={`hover-options`}>
+          <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth} callback={this.followCallback}/>
+          {
+            stream ? (
+              <div className="append-stream">
+                <div onClick={this.appendStream.bind(this, name, display_name)}>Watch Stream</div>
+              </div>
+            ) : null
+          }
+        </div>
+      );
+
       if(!stream) {
         if(filter === "all" || filter === "offline") {
           return (
-            <li>
+            <li className={`channel-list-item`}>
               <div className="image">
                 <img src={logo} />
               </div>
@@ -123,6 +150,7 @@ let components = {
                   {`Offline`}
                 </div>
               </div>
+              {hoverOptions}
             </li>
           );
         } else {
@@ -140,7 +168,7 @@ let components = {
       if(filter === "all" || filter === "online") {
         return (
           <li onClick={() => {
-            appendStream(name)
+            appendStream(name, display_name)
           }}>
             <div className="image">
               <img src={logo} />
@@ -159,6 +187,7 @@ let components = {
                 {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
               </div>
             </div>
+            {hoverOptions}
           </li>
         );
       } else {
@@ -215,6 +244,10 @@ export default React.createClass({
       .catch(e => console.error(e.stack));
     }
   },
+  removeFromDataArray(index) {
+    var newDataArray = JSON.parse(JSON.stringify(this.state.dataArray));
+    newDataArray.splice(parseInt(index), 1);
+  },
   refresh() {
     this.state.dataArray.map(stream => {
       stream.ref.getStreamData();
@@ -255,7 +288,9 @@ export default React.createClass({
       filter
     } = this.state;
     const {
+      auth,
       data,
+      userData,
       methods: {
         appendStream,
         loadData
@@ -269,8 +304,9 @@ export default React.createClass({
             <ul className="list">
               {
                 dataArray.map((itemData, ind) => {
-                  return <ListItem ref={r => dataArray[ind].ref = r} key={itemData.channel.name} data={itemData} index={ind} filter={filter} methods={{
-                    appendStream
+                  return <ListItem ref={r => dataArray[ind].ref = r} key={itemData.channel.name} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} methods={{
+                    appendStream,
+                    removeFromDataArray: this.removeFromDataArray
                   }} />
                 })
               }

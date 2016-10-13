@@ -32,7 +32,7 @@ exports["default"] = _react2["default"].createClass({
       console.error(e.stack);
     }, {
       username: name,
-      targetName: targetName.toLowerCase()
+      target: targetName.toLowerCase()
     }).then(function (methods) {
       methods.getFollowStatus().then(function (data) {
         _this.setState({
@@ -52,8 +52,10 @@ exports["default"] = _react2["default"].createClass({
     var _this2 = this;
 
     var _props2 = this.props;
+    var auth = _props2.auth;
     var name = _props2.name;
     var targetName = _props2.targetName;
+    var callback = _props2.callback;
 
     var method = action + "Stream";
     console.log(method);
@@ -61,13 +63,15 @@ exports["default"] = _react2["default"].createClass({
       console.error(e.stack);
     }, {
       username: name,
-      target: targetName
+      target: targetName,
+      access_token: auth.access_token
     }).then(function (methods) {
       methods[method]().then(function (data) {
         console.log("action", method, "completed");
         _this2.setState({
           isFollowing: bool
         });
+        if (typeof callback === "function") callback(bool);
       })["catch"](function (e) {
         return console.error(e.stack || e);
       });

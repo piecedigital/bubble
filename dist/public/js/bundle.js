@@ -227,9 +227,9 @@ exports["default"] = function (errorCB) {
     });
   };
   var needAuth = function needAuth(options) {
-    var access_token = options.access_token || (this.props.auth ? this.props.auth.access_token : null);
+    var access_token = options.access_token;
     options.headers.Authorization = "OAuth " + access_token;
-    return access_token;
+    return options;
   };
   return new Promise(function (resolve, reject) {
     resolve({
@@ -279,15 +279,23 @@ exports["default"] = function (errorCB) {
         delete options.limit;
         options.type = "PUT";
         options.notifications = true;
-        needAuth.call(_this, options);
-        return makeRequest(okayCB, "users/" + options.username + "/follows/channels/" + options.target);
+        options = needAuth(options);
+        var username = options.username,
+            target = options.target;
+        delete options.username;
+        delete options.target;
+        return makeRequest(okayCB, "users/" + username + "/follows/channels/" + target);
       },
       unfollowStream: function unfollowStream(okayCB) {
         delete options.stream_type;
         delete options.limit;
         options.type = "DELETE";
-        needAuth.call(_this, options);
-        return makeRequest(okayCB, "users/" + options.username + "/follows/channels/" + options.target);
+        options = needAuth(options);
+        var username = options.username,
+            target = options.target;
+        delete options.username;
+        delete options.target;
+        return makeRequest(okayCB, "users/" + username + "/follows/channels/" + target);
       },
       followedStreams: function followedStreams(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
@@ -27197,7 +27205,7 @@ exports["default"] = _react2["default"].createClass({
       console.error(e.stack);
     }, {
       username: name,
-      targetName: targetName.toLowerCase()
+      target: targetName.toLowerCase()
     }).then(function (methods) {
       methods.getFollowStatus().then(function (data) {
         _this.setState({
@@ -27217,8 +27225,10 @@ exports["default"] = _react2["default"].createClass({
     var _this2 = this;
 
     var _props2 = this.props;
+    var auth = _props2.auth;
     var name = _props2.name;
     var targetName = _props2.targetName;
+    var callback = _props2.callback;
 
     var method = action + "Stream";
     console.log(method);
@@ -27226,13 +27236,15 @@ exports["default"] = _react2["default"].createClass({
       console.error(e.stack);
     }, {
       username: name,
-      target: targetName
+      target: targetName,
+      access_token: auth.access_token
     }).then(function (methods) {
       methods[method]().then(function (data) {
         console.log("action", method, "completed");
         _this2.setState({
           isFollowing: bool
         });
+        if (typeof callback === "function") callback(bool);
       })["catch"](function (e) {
         return console.error(e.stack || e);
       });
@@ -27744,6 +27756,10 @@ var _modulesLoadData = require("../../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _followJsx = require("../follow.jsx");
+
+var _followJsx2 = _interopRequireDefault(_followJsx);
+
 // components
 var components = {
   // list item for streams matching the search
@@ -27832,6 +27848,15 @@ var components = {
         return console.error(e.stack);
       });
     },
+    followCallback: function followCallback(follow) {
+      if (follow) {
+        // following channel
+        if (typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
+      } else {
+        // unfollowing channel
+        if (typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
+      }
+    },
     componentDidMount: function componentDidMount() {
       this.getStreamData();
     },
@@ -27839,21 +27864,39 @@ var components = {
       if (!this.state.streamData) return null;
       // console.log(this.props);
       var _props2 = this.props;
+      var auth = _props2.auth;
       var index = _props2.index;
       var filter = _props2.filter;
+      var userData = _props2.userData;
       var appendStream = _props2.methods.appendStream;
       var _props2$data$channel = _props2.data.channel;
       var mature = _props2$data$channel.mature;
       var logo = _props2$data$channel.logo;
       var name = _props2$data$channel.name;
+      var display_name = _props2$data$channel.display_name;
       var language = _props2$data$channel.language;
       var stream = this.state.streamData.stream;
+
+      var hoverOptions = _react2["default"].createElement(
+        "div",
+        { className: "hover-options" },
+        _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: this.followCallback }),
+        stream ? _react2["default"].createElement(
+          "div",
+          { className: "append-stream" },
+          _react2["default"].createElement(
+            "div",
+            { onClick: this.appendStream.bind(this, name, display_name) },
+            "Watch Stream"
+          )
+        ) : null
+      );
 
       if (!stream) {
         if (filter === "all" || filter === "offline") {
           return _react2["default"].createElement(
             "li",
-            null,
+            { className: "channel-list-item" },
             _react2["default"].createElement(
               "div",
               { className: "image" },
@@ -27872,7 +27915,8 @@ var components = {
                 { className: "game" },
                 "Offline"
               )
-            )
+            ),
+            hoverOptions
           );
         } else {
           return null;
@@ -27889,7 +27933,7 @@ var components = {
         return _react2["default"].createElement(
           "li",
           { onClick: function () {
-              appendStream(name);
+              appendStream(name, display_name);
             } },
           _react2["default"].createElement(
             "div",
@@ -27919,7 +27963,8 @@ var components = {
               { className: "viewers" },
               "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
             )
-          )
+          ),
+          hoverOptions
         );
       } else {
         return null;
@@ -27977,6 +28022,10 @@ exports["default"] = _react2["default"].createClass({
       });
     }
   },
+  removeFromDataArray: function removeFromDataArray(index) {
+    var newDataArray = JSON.parse(JSON.stringify(this.state.dataArray));
+    newDataArray.splice(parseInt(index), 1);
+  },
   refresh: function refresh() {
     this.state.dataArray.map(function (stream) {
       stream.ref.getStreamData();
@@ -28026,7 +28075,9 @@ exports["default"] = _react2["default"].createClass({
     var component = _state.component;
     var filter = _state.filter;
     var _props4 = this.props;
+    var auth = _props4.auth;
     var data = _props4.data;
+    var userData = _props4.userData;
     var _props4$methods = _props4.methods;
     var appendStream = _props4$methods.appendStream;
     var loadData = _props4$methods.loadData;
@@ -28047,8 +28098,9 @@ exports["default"] = _react2["default"].createClass({
                 dataArray.map(function (itemData, ind) {
                   return _react2["default"].createElement(ListItem, { ref: function (r) {
                       return dataArray[ind].ref = r;
-                    }, key: itemData.channel.name, data: itemData, index: ind, filter: filter, methods: {
-                      appendStream: appendStream
+                    }, key: itemData.channel.name, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
+                      appendStream: appendStream,
+                      removeFromDataArray: _this4.removeFromDataArray
                     } });
                 })
               )
@@ -28119,7 +28171,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../../../modules/load-data":3,"react":241,"react-router":36}],248:[function(require,module,exports){
+},{"../../../../modules/load-data":3,"../follow.jsx":244,"react":241,"react-router":36}],248:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28545,7 +28597,7 @@ exports["default"] = _react2["default"].createClass({
     var authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
       authData[key] = value;
-      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 12).toUTCString();
+      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
     });
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
       authData[key] = value;
@@ -28601,7 +28653,7 @@ exports["default"] = _react2["default"].createClass({
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
-    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read user_follows_edit";
+    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read+user_follows_edit";
     return _react2["default"].createElement(
       "div",
       { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + (layout || Object.keys(dataObject).length) },
@@ -28670,6 +28722,7 @@ exports["default"] = _react2["default"].createClass({
         data: data,
         methods: {
           appendStream: this.appendStream,
+          spliceStream: this.spliceStream,
           loadData: _modulesLoadData2["default"]
         }
       }) : null

@@ -81,7 +81,7 @@ export default React.createClass({
     let authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
       authData[key] = value;
-      document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 12).toUTCString()}`
+      document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
     });
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
       authData[key] = value;
@@ -144,7 +144,7 @@ export default React.createClass({
     "?response_type=token"+
     "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy"+
     "&redirect_uri=http://localhost:8080"+
-    "&scope=user_read user_follows_edit";
+    "&scope=user_read+user_follows_edit";
     return (
       <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${layout || Object.keys(dataObject).length}`}>
         <nav>
@@ -192,7 +192,8 @@ export default React.createClass({
               data,
               methods: {
                 appendStream: this.appendStream,
-                loadData: loadData
+                spliceStream: this.spliceStream,
+                loadData: loadData,
               }
             })
           ) : (

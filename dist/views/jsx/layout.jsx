@@ -105,7 +105,7 @@ exports["default"] = _react2["default"].createClass({
     var authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
       authData[key] = value;
-      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 12).toUTCString();
+      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
     });
     document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
       authData[key] = value;
@@ -161,7 +161,7 @@ exports["default"] = _react2["default"].createClass({
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
-    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read user_follows_edit";
+    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read+user_follows_edit";
     return _react2["default"].createElement(
       "div",
       { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + (layout || Object.keys(dataObject).length) },
@@ -230,6 +230,7 @@ exports["default"] = _react2["default"].createClass({
         data: data,
         methods: {
           appendStream: this.appendStream,
+          spliceStream: this.spliceStream,
           loadData: _modulesLoadData2["default"]
         }
       }) : null

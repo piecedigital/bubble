@@ -46,9 +46,9 @@ export default function(errorCB, options = {}) {
     });
   };
   const needAuth = function (options) {
-    var access_token = options.access_token || (this.props.auth ? this.props.auth.access_token : null);
+    var access_token = options.access_token;
     options.headers.Authorization = `OAuth ${access_token}`;
-    return access_token;
+    return options;
   };
   return new Promise((resolve, reject) => {
     resolve({
@@ -98,15 +98,21 @@ export default function(errorCB, options = {}) {
         delete options.limit;
         options.type = "PUT";
         options.notifications = true;
-        needAuth.call(this, options);
-        return makeRequest(okayCB, `users/${options.username}/follows/channels/${options.target}`);
+        options = needAuth(options);
+        let username = options.username, target = options.target;
+        delete options.username;
+        delete options.target;
+        return makeRequest(okayCB, `users/${username}/follows/channels/${target}`);
       },
       unfollowStream: (okayCB) => {
         delete options.stream_type;
         delete options.limit;
         options.type = "DELETE";
-        needAuth.call(this, options);
-        return makeRequest(okayCB, `users/${options.username}/follows/channels/${options.target}`);
+        options = needAuth(options);
+        let username = options.username, target = options.target;
+        delete options.username;
+        delete options.target;
+        return makeRequest(okayCB, `users/${username}/follows/channels/${target}`);
       },
       followedStreams: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;

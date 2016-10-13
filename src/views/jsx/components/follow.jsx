@@ -15,7 +15,7 @@ export default React.createClass({
       console.error(e.stack);
     }, {
       username: name,
-      targetName: targetName.toLowerCase()
+      target: targetName.toLowerCase()
     })
     .then(methods => {
       methods
@@ -36,8 +36,10 @@ export default React.createClass({
   },
   followOrUnfollow(action, bool) {
     const {
+      auth,
       name,
-      targetName
+      targetName,
+      callback
     } = this.props;
     const method = `${action}Stream`;
     console.log(method);
@@ -45,7 +47,8 @@ export default React.createClass({
       console.error(e.stack);
     }, {
       username: name,
-      target: targetName
+      target: targetName,
+      access_token: auth.access_token
     })
     .then(methods => {
       methods
@@ -55,6 +58,7 @@ export default React.createClass({
         this.setState({
           isFollowing: bool
         });
+        if(typeof callback === "function") callback(bool);
       })
       .catch(e => console.error(e.stack || e));
     })
