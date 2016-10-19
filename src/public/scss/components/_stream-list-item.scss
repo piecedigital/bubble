@@ -1,0 +1,23 @@
+.stream-list-item {
+  place: holder;
+  padding: .5*$em;
+  background-color: $primary;
+  list-style: none;
+  .image {
+    place: holder;
+    img {
+      place: holder;
+    }
+  }
+  .info {
+    .channel-name {
+      place: holder;
+    }
+    .title {
+      place: holder;
+    }
+    .game {
+      place: holder;
+    }
+  }
+}

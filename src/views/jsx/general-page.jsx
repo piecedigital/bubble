@@ -38,7 +38,7 @@ let components = {
       let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
 
       return (
-        <li onClick={() => {
+        <li className={`stream-list-item`} onClick={() => {
           appendStream.call(null, name, displayName);
         }}>
           <div className="image">
@@ -84,7 +84,7 @@ let components = {
       let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       let channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       return (
-        <li>
+        <li className={`game-list-item`}>
           <Link to={`/search/streams?q=${encodeURIComponent(name)}`}>
             <div className="image">
               <img src={box.medium} />

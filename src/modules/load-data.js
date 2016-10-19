@@ -77,8 +77,8 @@ export default function(errorCB, options = {}) {
         delete options.stream_type;
         delete options.limit;
         options.headers = options.headers || {};
-        const access_token = needAuth.call(this, options);
-        if(access_token) return makeRequest(okayCB, `user`);
+        options = needAuth(options);
+        if(options.access_token) return makeRequest(okayCB, `user`);
         return new Promise(function(resolve, reject) {
           reject("no access token");
         });

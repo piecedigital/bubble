@@ -51,7 +51,7 @@ var components = {
 
       return _react2["default"].createElement(
         "li",
-        { onClick: function () {
+        { className: "stream-list-item", onClick: function () {
             appendStream.call(null, name, displayName);
           } },
         _react2["default"].createElement(
@@ -105,7 +105,7 @@ var components = {
       var channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       return _react2["default"].createElement(
         "li",
-        null,
+        { className: "game-list-item" },
         _react2["default"].createElement(
           _reactRouter.Link,
           { to: "/search/streams?q=" + encodeURIComponent(name) },

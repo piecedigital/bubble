@@ -32,7 +32,7 @@ var ListItem = _react2["default"].createClass({
     var channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
       "li",
-      null,
+      { className: "game-list-item" },
       _react2["default"].createElement(
         _reactRouter.Link,
         { to: "/search/streams?q=" + name },

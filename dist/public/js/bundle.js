@@ -258,8 +258,8 @@ exports["default"] = function (errorCB) {
         delete options.stream_type;
         delete options.limit;
         options.headers = options.headers || {};
-        var access_token = needAuth.call(_this, options);
-        if (access_token) return makeRequest(okayCB, "user");
+        options = needAuth(options);
+        if (options.access_token) return makeRequest(okayCB, "user");
         return new Promise(function (resolve, reject) {
           reject("no access token");
         });
@@ -26959,7 +26959,9 @@ var ListItem = _react2["default"].createClass({
     var _props = this.props;
     var index = _props.index;
     var displayStream = _props.methods.displayStream;
-    var _props$data$stream = _props.data.stream;
+    var _props$data = _props.data;
+    var stream = _props$data.stream;
+    var _props$data$stream = _props$data.stream;
     var game = _props$data$stream.game;
     var viewers = _props$data$stream.viewers;
     var title = _props$data$stream.title;
@@ -26974,7 +26976,7 @@ var ListItem = _react2["default"].createClass({
     var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
       "li",
-      { onClick: function () {
+      { className: "stream-list-item", onClick: function () {
           displayStream(index);
         } },
       _react2["default"].createElement(
@@ -27644,7 +27646,7 @@ var ListItem = _react2["default"].createClass({
     var channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
       "li",
-      null,
+      { className: "game-list-item" },
       _react2["default"].createElement(
         _reactRouter.Link,
         { to: "/search/streams?q=" + name },
@@ -28225,7 +28227,7 @@ var components = {
 
       return _react2["default"].createElement(
         "li",
-        { onClick: function () {
+        { className: "stream-list-item", onClick: function () {
             appendStream.call(null, name, displayName);
           } },
         _react2["default"].createElement(
@@ -28279,7 +28281,7 @@ var components = {
       var channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       return _react2["default"].createElement(
         "li",
-        null,
+        { className: "game-list-item" },
         _react2["default"].createElement(
           _reactRouter.Link,
           { to: "/search/streams?q=" + encodeURIComponent(name) },

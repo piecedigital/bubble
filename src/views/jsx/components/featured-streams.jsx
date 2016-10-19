@@ -11,6 +11,7 @@ const ListItem = React.createClass({
         displayStream
       },
       data: {
+        stream,
         stream: {
           game,
           viewers,
@@ -28,7 +29,7 @@ const ListItem = React.createClass({
     } = this.props;
     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return (
-      <li onClick={() => {
+      <li className={`stream-list-item`} onClick={() => {
         displayStream(index)
       }}>
         <div className="image">
