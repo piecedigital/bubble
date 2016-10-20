@@ -14,6 +14,166 @@ body {
   height: 100vh;
   padding-top: 33.6px; }
 
+.separator-1-0 {
+  height: 1px;
+  background-color: white; }
+
+.separator-1-1 {
+  height: 1px;
+  background-color: #7d7d7d; }
+
+.separator-1-2 {
+  height: 1px;
+  background-color: #ebebeb; }
+
+.separator-1-3 {
+  height: 1px;
+  background-color: #1e1e1e; }
+
+.separator-1-4 {
+  height: 1px;
+  background-color: #6441a4; }
+
+.separator-1-5 {
+  height: 1px;
+  background-color: #00c8fa; }
+
+.separator-1-6 {
+  height: 1px;
+  background-color: #00aadc; }
+
+.separator-1-7 {
+  height: 1px;
+  background-color: #0082b4; }
+
+.separator-1-8 {
+  height: 1px;
+  background-color: #96e6ff; }
+
+.separator-1-9 {
+  height: 1px;
+  background-color: black; }
+
+.separator-2-0 {
+  height: 2px;
+  background-color: white; }
+
+.separator-2-1 {
+  height: 2px;
+  background-color: #7d7d7d; }
+
+.separator-2-2 {
+  height: 2px;
+  background-color: #ebebeb; }
+
+.separator-2-3 {
+  height: 2px;
+  background-color: #1e1e1e; }
+
+.separator-2-4 {
+  height: 2px;
+  background-color: #6441a4; }
+
+.separator-2-5 {
+  height: 2px;
+  background-color: #00c8fa; }
+
+.separator-2-6 {
+  height: 2px;
+  background-color: #00aadc; }
+
+.separator-2-7 {
+  height: 2px;
+  background-color: #0082b4; }
+
+.separator-2-8 {
+  height: 2px;
+  background-color: #96e6ff; }
+
+.separator-2-9 {
+  height: 2px;
+  background-color: black; }
+
+.separator-3-0 {
+  height: 3px;
+  background-color: white; }
+
+.separator-3-1 {
+  height: 3px;
+  background-color: #7d7d7d; }
+
+.separator-3-2 {
+  height: 3px;
+  background-color: #ebebeb; }
+
+.separator-3-3 {
+  height: 3px;
+  background-color: #1e1e1e; }
+
+.separator-3-4 {
+  height: 3px;
+  background-color: #6441a4; }
+
+.separator-3-5 {
+  height: 3px;
+  background-color: #00c8fa; }
+
+.separator-3-6 {
+  height: 3px;
+  background-color: #00aadc; }
+
+.separator-3-7 {
+  height: 3px;
+  background-color: #0082b4; }
+
+.separator-3-8 {
+  height: 3px;
+  background-color: #96e6ff; }
+
+.separator-3-9 {
+  height: 3px;
+  background-color: black; }
+
+.separator-4-0 {
+  height: 4px;
+  background-color: white; }
+
+.separator-4-1 {
+  height: 4px;
+  background-color: #7d7d7d; }
+
+.separator-4-2 {
+  height: 4px;
+  background-color: #ebebeb; }
+
+.separator-4-3 {
+  height: 4px;
+  background-color: #1e1e1e; }
+
+.separator-4-4 {
+  height: 4px;
+  background-color: #6441a4; }
+
+.separator-4-5 {
+  height: 4px;
+  background-color: #00c8fa; }
+
+.separator-4-6 {
+  height: 4px;
+  background-color: #00aadc; }
+
+.separator-4-7 {
+  height: 4px;
+  background-color: #0082b4; }
+
+.separator-4-8 {
+  height: 4px;
+  background-color: #96e6ff; }
+
+.separator-4-9 {
+  height: 4px;
+  background-color: black; }
+
 .root {
   height: 100%;
   overflow: auto; }
@@ -40,13 +200,15 @@ nav {
     justify-content: flex-end;
     align-items: center;
     pointer-events: auto; }
+    nav > div > span {
+      display: flex; }
     nav > div .nav-item {
-      background-color: #00c8fa;
       color: black;
       padding: 7.2px 16px;
       text-decoration: none;
       font-weight: bold;
-      border-left: 2px solid #0082b4; }
+      border-left: 2px solid #0082b4;
+      background-color: #00c8fa; }
       nav > div .nav-item:hover {
         background-color: #96e6ff; }
       nav > div .nav-item.login {
@@ -725,7 +887,8 @@ nav {
   display: -moz-flex;
   display: -webkit-box;
   display: -webkit-flex;
-  display: flex; }
+  display: flex;
+  max-height: 448px; }
   .top-level-component.home-page .featured-streams .featured-stream {
     display: -ms-inline-flex;
     display: -moz-inline-flex;
@@ -735,19 +898,37 @@ nav {
     width: 100%; }
     .top-level-component.home-page .featured-streams .featured-stream .stream {
       width: 100%;
-      height: 100%;
-      max-height: 448px; }
+      height: 100%; }
       .top-level-component.home-page .featured-streams .featured-stream .stream iframe {
         width: 100%;
         height: 100%; }
     .top-level-component.home-page .featured-streams .featured-stream .stream-info {
       width: 320px;
-      background-color: #7d7d7d; }
+      padding: 8px;
+      background-color: #1e1e1e;
+      color: white;
+      overflow-x: hidden;
+      overflow-y: auto; }
+      .top-level-component.home-page .featured-streams .featured-stream .stream-info .image img {
+        max-width: 100%; }
+      .top-level-component.home-page .featured-streams .featured-stream .stream-info .display-name {
+        margin-bottom: 3.2px;
+        color: #96e6ff;
+        font-size: 20.8px; }
+      .top-level-component.home-page .featured-streams .featured-stream .stream-info .watch {
+        display: block;
+        margin: 6.4px 0;
+        color: white;
+        text-decoration: underline;
+        cursor: pointer; }
   .top-level-component.home-page .featured-streams .wrapper {
-    width: 480px; }
+    width: 320px; }
     .top-level-component.home-page .featured-streams .wrapper .list {
+      height: 100%;
       margin: 0;
-      padding: 0; }
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: auto; }
 
 .stream-list-item {
   place: holder;
@@ -757,7 +938,8 @@ nav {
   .stream-list-item .image {
     place: holder; }
     .stream-list-item .image img {
-      place: holder; }
+      place: holder;
+      width: 100%; }
   .stream-list-item .info .channel-name {
     place: holder; }
   .stream-list-item .info .title {

@@ -16,13 +16,16 @@ nav {
     align-items: center;
     // width: 14*$em;
     pointer-events: auto;
+    > span {
+      display: flex;
+    }
     .nav-item {
-      background-color: $primary;
       color: black;
       padding: .45*$em 1*$em;
       text-decoration: none;
       font-weight: bold;
       border-left: 2px solid $dimmer;
+      background-color: $primary;
       &:hover {
         background-color: $light
       }

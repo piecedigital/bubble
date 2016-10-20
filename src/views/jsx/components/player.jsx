@@ -82,7 +82,7 @@ const PlayerStream = React.createClass({
         <li className={`player-stream${!chatOpen ? " hide-chat" : ""}${inView ? " in-view" : ""}`}>
           <div className="video">
             <div className="nested">
-              <iframe ref="video" src={`https://player.twitch.tv/?channel=${name}`} frameBorder="0" scrolling="no"></iframe>
+              <iframe ref="video" src={`https://player.twitch.tv/?channel=${name}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
             </div>
           </div>
           <div className="tools-wrapper">

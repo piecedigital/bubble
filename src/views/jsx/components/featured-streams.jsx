@@ -29,24 +29,27 @@ const ListItem = React.createClass({
     } = this.props;
     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return (
-      <li className={`stream-list-item`} onClick={() => {
-        displayStream(index)
-      }}>
-        <div className="image">
-          <img src={preview.medium} />
-        </div>
-        <div className="info">
-          <div className="channel-name">
-            {name}
+      <span>
+        <li className={`stream-list-item`} onClick={() => {
+          displayStream(index)
+        }}>
+          <div className="image">
+            <img src={preview.medium} />
           </div>
-          <div className="title">
-            {title}
+          <div className="info">
+            <div className="channel-name">
+              {name}
+            </div>
+            <div className="title">
+              {title}
+            </div>
+            <div className="game">
+              {`Live with "${game || null}", streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+            </div>
           </div>
-          <div className="game">
-            {`Live with "${game || null}", streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-          </div>
-        </div>
-      </li>
+        </li>
+        <div className={`separator-4-6`}></div>
+      </span>
     )
   }
 });
@@ -105,7 +108,8 @@ const FeaturedStream = React.createClass({
       data: {
         stream: {
           channel: {
-            name
+            name,
+            logo
           }
         }
       }
@@ -117,21 +121,26 @@ const FeaturedStream = React.createClass({
     return (
       <div className="featured-stream">
         <div className="stream">
-          <iframe src={`https://player.twitch.tv/?channel=${name}`} frameBorder="0" scrolling="no" />
+          <iframe src={`https://player.twitch.tv/?channel=${name}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
         </div>
         {
           displayName ? (
             <div className="stream-info">
+              <div className="image">
+                <img src={logo} alt={`profile image of ${name}`} />
+              </div>
               <div className="display-name">
                 {displayName}
               </div>
-              <div className="bio">
-                {bio}
-              </div>
-              <div className="watch" onClick={() => {
+              <div className={`separator-1-1`}></div>
+              <a href="#" className="watch" onClick={() => {
                 appendStream.call(null, name, displayName);
               }}>
-                {"watch this stream"}
+              {"watch this stream"}
+              </a>
+              <div className={`separator-1-1`}></div>
+              <div className="bio">
+                {bio}
               </div>
             </div>
           ) : (

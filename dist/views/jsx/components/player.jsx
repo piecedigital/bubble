@@ -105,7 +105,7 @@ var PlayerStream = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "nested" },
-              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
+              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
             )
           ),
           _react2["default"].createElement(

@@ -26975,34 +26975,39 @@ var ListItem = _react2["default"].createClass({
 
     var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
-      "li",
-      { className: "stream-list-item", onClick: function () {
-          displayStream(index);
-        } },
+      "span",
+      null,
       _react2["default"].createElement(
-        "div",
-        { className: "image" },
-        _react2["default"].createElement("img", { src: preview.medium })
-      ),
-      _react2["default"].createElement(
-        "div",
-        { className: "info" },
+        "li",
+        { className: "stream-list-item", onClick: function () {
+            displayStream(index);
+          } },
         _react2["default"].createElement(
           "div",
-          { className: "channel-name" },
-          name
+          { className: "image" },
+          _react2["default"].createElement("img", { src: preview.medium })
         ),
         _react2["default"].createElement(
           "div",
-          { className: "title" },
-          title
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "game" },
-          "Live with \"" + (game || null) + "\", streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+          { className: "info" },
+          _react2["default"].createElement(
+            "div",
+            { className: "channel-name" },
+            name
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "title" },
+            title
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "game" },
+            "Live with \"" + (game || null) + "\", streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+          )
         )
-      )
+      ),
+      _react2["default"].createElement("div", { className: "separator-4-6" })
     );
   }
 });
@@ -27055,7 +27060,9 @@ var FeaturedStream = _react2["default"].createClass({
   render: function render() {
     var _props2 = this.props;
     var appendStream = _props2.methods.appendStream;
-    var name = _props2.data.stream.channel.name;
+    var _props2$data$stream$channel = _props2.data.stream.channel;
+    var name = _props2$data$stream$channel.name;
+    var logo = _props2$data$stream$channel.logo;
     var _state = this.state;
     var displayName = _state.displayName;
     var bio = _state.bio;
@@ -27066,27 +27073,34 @@ var FeaturedStream = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "stream" },
-        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
+        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
       ),
       displayName ? _react2["default"].createElement(
         "div",
         { className: "stream-info" },
         _react2["default"].createElement(
           "div",
+          { className: "image" },
+          _react2["default"].createElement("img", { src: logo, alt: "profile image of " + name })
+        ),
+        _react2["default"].createElement(
+          "div",
           { className: "display-name" },
           displayName
         ),
+        _react2["default"].createElement("div", { className: "separator-1-1" }),
+        _react2["default"].createElement(
+          "a",
+          { href: "#", className: "watch", onClick: function () {
+              appendStream.call(null, name, displayName);
+            } },
+          "watch this stream"
+        ),
+        _react2["default"].createElement("div", { className: "separator-1-1" }),
         _react2["default"].createElement(
           "div",
           { className: "bio" },
           bio
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "watch", onClick: function () {
-              appendStream.call(null, name, displayName);
-            } },
-          "watch this stream"
         )
       ) : _react2["default"].createElement(
         "div",
@@ -27392,7 +27406,7 @@ var PlayerStream = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "nested" },
-              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?channel=" + name, frameBorder: "0", scrolling: "no" })
+              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
             )
           ),
           _react2["default"].createElement(

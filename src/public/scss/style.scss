@@ -7,6 +7,16 @@ $primary: rgba(0, 200, 250, 1);
 $dim: rgba(0, 170, 220, 1);
 $dimmer: rgba(0, 130, 180, 1);
 $light: rgba(150, 230, 255, 1);
+$allColors: (
+$midGrey, // 1
+$offWhite, // 2
+$offBlack, // 3
+$purple, // 4
+$primary, // 5
+$dim, // 6
+$dimmer, // 7
+$light // 8
+);
 
 @mixin displayInlineFlex {
   display: -ms-inline-flex;
@@ -48,6 +58,24 @@ body {
 .react-app {
   height: 100vh;
   padding-top: 2.1*$em;
+}
+
+@for $L from 1 to 5 {
+  .separator-#{$L}-0 {
+    height: #{$L}px;
+    background-color: white;
+  }
+  @each $color in $allColors {
+    $i: index($allColors, $color);
+    .separator-#{$L}-#{$i} {
+      height: #{$L}px;
+      background-color: #{$color};
+    }
+  }
+  .separator-#{$L}-#{length($allColors)+1} {
+    height: #{$L}px;
+    background-color: black;
+  }
 }
 
 @import "components/_root.scss";
