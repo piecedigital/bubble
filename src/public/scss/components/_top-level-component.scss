@@ -2,7 +2,8 @@
   &.home-page {
     .featured-streams {
       @include displayFlex;
-      max-height: 28*$em;
+      max-height: 42*$em;
+      // max-height: 28*$em;
       .featured-stream {
         @include displayInlineFlex;
         width: 100%;
@@ -48,6 +49,29 @@
         .list {
           height: 100%;
           margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+          overflow-y: auto;
+        }
+      }
+    }
+    .top-games {
+      .title {
+        margin: .5*$em;
+        font-size: 1.6*$em;
+        font-weight: bold;
+      }
+      .wrapper {
+        // width: 20*$em;
+        // height: 100%;
+        background-color: $offBlack;
+        .list {
+          @include displayFlex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          max-width: 60*$em;
+          // height: 100%;
+          margin: 0 auto;
           padding: 0;
           overflow-x: hidden;
           overflow-y: auto;

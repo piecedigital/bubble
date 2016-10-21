@@ -30,7 +30,7 @@ const ListItem = React.createClass({
     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return (
       <span>
-        <li className={`stream-list-item`} onClick={() => {
+        <li className={`stream-list-item clickable`} onClick={() => {
           displayStream(index)
         }}>
           <div className="image">
@@ -40,6 +40,7 @@ const ListItem = React.createClass({
             <div className="channel-name">
               {name}
             </div>
+            <div className={`separator-1-7`}></div>
             <div className="title">
               {title}
             </div>
@@ -136,7 +137,7 @@ const FeaturedStream = React.createClass({
               <a href="#" className="watch" onClick={() => {
                 appendStream.call(null, name, displayName);
               }}>
-              {"watch this stream"}
+              {"Watch in Player"}
               </a>
               <div className={`separator-1-1`}></div>
               <div className="bio">

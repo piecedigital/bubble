@@ -14,6 +14,9 @@ body {
   height: 100vh;
   padding-top: 33.6px; }
 
+.clickable {
+  cursor: pointer; }
+
 .separator-1-0 {
   height: 1px;
   background-color: white; }
@@ -888,7 +891,7 @@ nav {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  max-height: 448px; }
+  max-height: 672px; }
   .top-level-component.home-page .featured-streams .featured-stream {
     display: -ms-inline-flex;
     display: -moz-inline-flex;
@@ -929,22 +932,66 @@ nav {
       padding: 0;
       overflow-x: hidden;
       overflow-y: auto; }
+.top-level-component.home-page .top-games .title {
+  margin: 8px;
+  font-size: 25.6px;
+  font-weight: bold; }
+.top-level-component.home-page .top-games .wrapper {
+  background-color: #1e1e1e; }
+  .top-level-component.home-page .top-games .wrapper .list {
+    display: -ms-flex;
+    display: -moz-flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto; }
 
 .stream-list-item {
-  place: holder;
   padding: 8px;
   background-color: #00c8fa;
   list-style: none; }
+  .stream-list-item:hover {
+    background-color: #96e6ff; }
   .stream-list-item .image {
     place: holder; }
     .stream-list-item .image img {
-      place: holder;
       width: 100%; }
   .stream-list-item .info .channel-name {
-    place: holder; }
+    font-weight: bold;
+    margin-bottom: 3.2px; }
   .stream-list-item .info .title {
     place: holder; }
   .stream-list-item .info .game {
+    margin-top: 3.2px; }
+
+.game-list-item {
+  width: 20%;
+  padding: 8px;
+  background-color: #00c8fa;
+  list-style: none; }
+  .game-list-item a {
+    text-decoration: none; }
+  .game-list-item:hover {
+    background-color: #96e6ff; }
+  .game-list-item .image {
     place: holder; }
+    .game-list-item .image img {
+      display: block;
+      width: 100%; }
+  .game-list-item .info {
+    color: black; }
+    .game-list-item .info .game-name {
+      font-weight: bold;
+      margin-bottom: 3.2px; }
+    .game-list-item .info .channel-count {
+      margin-top: 3.2px; }
+    .game-list-item .info .viewer-count {
+      place: holder; }
 
 /*# sourceMappingURL=style.css.map */

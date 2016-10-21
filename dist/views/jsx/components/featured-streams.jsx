@@ -41,7 +41,7 @@ var ListItem = _react2["default"].createClass({
       null,
       _react2["default"].createElement(
         "li",
-        { className: "stream-list-item", onClick: function () {
+        { className: "stream-list-item clickable", onClick: function () {
             displayStream(index);
           } },
         _react2["default"].createElement(
@@ -57,6 +57,7 @@ var ListItem = _react2["default"].createClass({
             { className: "channel-name" },
             name
           ),
+          _react2["default"].createElement("div", { className: "separator-1-7" }),
           _react2["default"].createElement(
             "div",
             { className: "title" },
@@ -156,7 +157,7 @@ var FeaturedStream = _react2["default"].createClass({
           { href: "#", className: "watch", onClick: function () {
               appendStream.call(null, name, displayName);
             } },
-          "watch this stream"
+          "Watch in Player"
         ),
         _react2["default"].createElement("div", { className: "separator-1-1" }),
         _react2["default"].createElement(

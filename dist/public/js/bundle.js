@@ -26979,7 +26979,7 @@ var ListItem = _react2["default"].createClass({
       null,
       _react2["default"].createElement(
         "li",
-        { className: "stream-list-item", onClick: function () {
+        { className: "stream-list-item clickable", onClick: function () {
             displayStream(index);
           } },
         _react2["default"].createElement(
@@ -26995,6 +26995,7 @@ var ListItem = _react2["default"].createClass({
             { className: "channel-name" },
             name
           ),
+          _react2["default"].createElement("div", { className: "separator-1-7" }),
           _react2["default"].createElement(
             "div",
             { className: "title" },
@@ -27094,7 +27095,7 @@ var FeaturedStream = _react2["default"].createClass({
           { href: "#", className: "watch", onClick: function () {
               appendStream.call(null, name, displayName);
             } },
-          "watch this stream"
+          "Watch in Player"
         ),
         _react2["default"].createElement("div", { className: "separator-1-1" }),
         _react2["default"].createElement(
@@ -27677,6 +27678,7 @@ var ListItem = _react2["default"].createClass({
             { className: "game-name" },
             name
           ),
+          _react2["default"].createElement("div", { className: "separator-1-7" }),
           _react2["default"].createElement(
             "div",
             { className: "channel-count" },
@@ -27710,11 +27712,13 @@ exports["default"] = _react2["default"].createClass({
     if (loadData) {
       loadData.call(this, function (e) {
         console.error(e.stack);
+      }, {
+        limit: 10
       }).then(function (methods) {
         methods.topGames().then(function (data) {
           // console.log(data);
           _this.setState({
-            offset: _this.state.requestOffset + 20,
+            offset: _this.state.requestOffset + 10,
             dataArray: Array.from(_this.state.dataArray).concat(data.top)
           });
         })["catch"](function (e) {
@@ -27736,6 +27740,11 @@ exports["default"] = _react2["default"].createClass({
     return _react2["default"].createElement(
       "div",
       { className: "top-games" },
+      _react2["default"].createElement(
+        "div",
+        { className: "title" },
+        "Top Games"
+      ),
       _react2["default"].createElement(
         "div",
         { className: "wrapper" },

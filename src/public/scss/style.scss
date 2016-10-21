@@ -60,6 +60,10 @@ body {
   padding-top: 2.1*$em;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 @for $L from 1 to 5 {
   .separator-#{$L}-0 {
     height: #{$L}px;
@@ -83,3 +87,4 @@ body {
 @import "components/_player.scss";
 @import "components/_top-level-component.scss";
 @import "components/_stream-list-item.scss";
+@import "components/_game-list-item.scss";

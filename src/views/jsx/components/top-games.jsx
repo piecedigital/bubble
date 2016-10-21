@@ -29,6 +29,7 @@ const ListItem = React.createClass({
             <div className="game-name">
               {name}
             </div>
+            <div className={`separator-1-7`}></div>
             <div className="channel-count">
               {`${channelsString} total streams`}
             </div>
@@ -60,6 +61,8 @@ export default React.createClass({
     if(loadData) {
       loadData.call(this, e => {
         console.error(e.stack);
+      }, {
+        limit: 10
       })
       .then(methods => {
         methods
@@ -67,7 +70,7 @@ export default React.createClass({
         .then(data => {
           // console.log(data);
           this.setState({
-            offset: this.state.requestOffset + 20,
+            offset: this.state.requestOffset + 10,
             dataArray: Array.from(this.state.dataArray).concat(data.top)
           });
         })
@@ -89,11 +92,15 @@ export default React.createClass({
     } = this.props
     return (
       <div className="top-games">
+        <div className={`title`}>Top Games</div>
         <div className="wrapper">
           <ul className="list">
             {
               dataArray.map((itemData, ind) => {
-                return <ListItem key={ind} index={ind} data={itemData} />
+                return (
+                  <ListItem key={ind} index={ind} data={itemData} />
+                );
+
               })
             }
           </ul>

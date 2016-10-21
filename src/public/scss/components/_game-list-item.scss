@@ -1,26 +1,32 @@
-.stream-list-item {
+.game-list-item {
+  width: percentage(1/5);
   padding: .5*$em;
   background-color: $primary;
   list-style: none;
+  a {
+    text-decoration: none;
+  }
   &:hover {
     background-color: $light;
   }
   .image {
     place: holder;
     img {
+      display: block;
       width: 100%;
     }
   }
   .info {
-    .channel-name {
+    color: black;
+    .game-name {
       font-weight: bold;
       margin-bottom: .2*$em;
     }
-    .title {
-      place: holder;
-    }
-    .game {
+    .channel-count {
       margin-top: .2*$em;
+    }
+    .viewer-count {
+      place: holder;
     }
   }
 }
