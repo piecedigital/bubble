@@ -35,6 +35,7 @@ exports["default"] = _react2["default"].createClass({
           appendStream: appendStream,
           loadData: loadData
         } }),
+      _react2["default"].createElement("div", { className: "separator-4-black" }),
       _react2["default"].createElement(_componentsTopGamesJsx2["default"], { methods: {
           loadData: loadData
         } })

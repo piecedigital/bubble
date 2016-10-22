@@ -1,0 +1,15 @@
+.follow, .append-stream {
+  display: inline-block;
+  color: inherit;
+  a {
+    color: inherit;
+  }
+}
+
+.btn-default {
+  display: inline-block;
+  padding: .5*$em;
+  border-radius: .5*$em;
+  background-color: $primary;
+  cursor: pointer;
+}

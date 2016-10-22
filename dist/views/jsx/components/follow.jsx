@@ -18,7 +18,7 @@ exports["default"] = _react2["default"].createClass({
   displayName: "FollowButton",
   getInitialState: function getInitialState() {
     return {
-      isFollowing: null
+      isFollowing: false
     };
   },
   checkStatus: function checkStatus() {
@@ -99,8 +99,8 @@ exports["default"] = _react2["default"].createClass({
       "div",
       { className: "follow" },
       _react2["default"].createElement(
-        "div",
-        { onClick: this.toggleFollow },
+        "a",
+        { href: "#", onClick: this.toggleFollow },
         isFollowing ? "Unfollow" : "Follow",
         " ",
         targetDisplay

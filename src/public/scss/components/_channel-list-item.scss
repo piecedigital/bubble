@@ -1,0 +1,103 @@
+.channel-list-item {
+  position: relative;
+  width: percentage(1/6);
+  padding: .25*$em;
+  list-style: none;
+  > .wrapper {
+    display: block;
+    height: 100%;
+    padding: .5*$em;
+    background-color: $offWhite;
+    text-decoration: none;
+    cursor: default;
+    &:hover {
+      background-color: $light;
+      .hover-options {
+        top: 50%;
+        max-height: 10*$em;
+        padding: .5*$em;
+        transform: translate(0, -50%);
+      }
+    }
+  }
+  .image {
+    place: holder;
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+  .info {
+    color: black;
+    .live-indicator {
+      &.offline, &.online {
+        display: inline-block;
+        position: absolute;
+        width: 1*$em;
+        top: .5*$em;
+        left: 1*$em;
+        height: 1*$em;
+        margin: .5*$em .5*$em 0 0;
+        border-radius: 100%;
+        &:after {
+          border-radius: .4*$em;
+          background-color: rgba(black, .2);
+          color: white;
+          margin-left: 1.5*$em;
+        }
+      }
+      &.offline {
+        background-color: red;
+        &:after {
+          content: "Offline";
+        }
+      }
+      &.online {
+        background-color: $primary;
+        &:after {
+          content: "Live";
+        }
+      }
+    }
+    .channel-name {
+      font-weight: bold;
+      margin-bottom: .2*$em;
+    }
+    .title {
+      place: holder;
+    }
+    .game {
+      margin-top: .2*$em;
+    }
+  }
+  .hover-options {
+    @include displayFlex;
+    flex-direction: column;
+    align-items: center;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 0*$em;
+    padding: 0 .5*$em;
+    background-color: rgba(black, .4);
+    text-align: center;
+    overflow: hidden;
+    .follow, .append-stream {
+      display: inline-block;
+      margin: .5*$em 0;
+      padding: .2*$em;
+      border-radius: .2*$em;
+      background-color: $primary;
+      color: black;
+      cursor: pointer;
+      a {
+        text-decoration: none;
+      }
+    }
+    .follow {}
+    .append-stream {}
+  }
+}

@@ -17,9 +17,13 @@ body {
 .clickable {
   cursor: pointer; }
 
-.separator-1-0 {
+.separator-1-white {
   height: 1px;
   background-color: white; }
+
+.separator-1-black {
+  height: 1px;
+  background-color: black; }
 
 .separator-1-1 {
   height: 1px;
@@ -53,13 +57,13 @@ body {
   height: 1px;
   background-color: #96e6ff; }
 
-.separator-1-9 {
-  height: 1px;
-  background-color: black; }
-
-.separator-2-0 {
+.separator-2-white {
   height: 2px;
   background-color: white; }
+
+.separator-2-black {
+  height: 2px;
+  background-color: black; }
 
 .separator-2-1 {
   height: 2px;
@@ -93,13 +97,13 @@ body {
   height: 2px;
   background-color: #96e6ff; }
 
-.separator-2-9 {
-  height: 2px;
-  background-color: black; }
-
-.separator-3-0 {
+.separator-3-white {
   height: 3px;
   background-color: white; }
+
+.separator-3-black {
+  height: 3px;
+  background-color: black; }
 
 .separator-3-1 {
   height: 3px;
@@ -133,13 +137,13 @@ body {
   height: 3px;
   background-color: #96e6ff; }
 
-.separator-3-9 {
-  height: 3px;
-  background-color: black; }
-
-.separator-4-0 {
+.separator-4-white {
   height: 4px;
   background-color: white; }
+
+.separator-4-black {
+  height: 4px;
+  background-color: black; }
 
 .separator-4-1 {
   height: 4px;
@@ -172,10 +176,6 @@ body {
 .separator-4-8 {
   height: 4px;
   background-color: #96e6ff; }
-
-.separator-4-9 {
-  height: 4px;
-  background-color: black; }
 
 .root {
   height: 100%;
@@ -219,6 +219,7 @@ nav {
         color: white; }
 
 .player {
+  z-index: 10;
   position: fixed;
   top: 0;
   left: 0;
@@ -885,13 +886,27 @@ nav {
           margin: auto 0;
           background-color: black;
           text-align: center; } }
+.follow, .append-stream {
+  display: inline-block;
+  color: inherit; }
+  .follow a, .append-stream a {
+    color: inherit; }
+
+.btn-default {
+  display: inline-block;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #00c8fa;
+  cursor: pointer; }
+
 .top-level-component.home-page .featured-streams {
   display: -ms-flex;
   display: -moz-flex;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  max-height: 672px; }
+  max-height: 672px;
+  margin-bottom: 16px; }
   .top-level-component.home-page .featured-streams .featured-stream {
     display: -ms-inline-flex;
     display: -moz-inline-flex;
@@ -924,9 +939,11 @@ nav {
         color: white;
         text-decoration: underline;
         cursor: pointer; }
-  .top-level-component.home-page .featured-streams .wrapper {
+      .top-level-component.home-page .featured-streams .featured-stream .stream-info .bio {
+        margin-top: 8px; }
+  .top-level-component.home-page .featured-streams > .wrapper {
     width: 320px; }
-    .top-level-component.home-page .featured-streams .wrapper .list {
+    .top-level-component.home-page .featured-streams > .wrapper .list {
       height: 100%;
       margin: 0;
       padding: 0;
@@ -936,9 +953,9 @@ nav {
   margin: 8px;
   font-size: 25.6px;
   font-weight: bold; }
-.top-level-component.home-page .top-games .wrapper {
+.top-level-component.home-page .top-games > .wrapper {
   background-color: #1e1e1e; }
-  .top-level-component.home-page .top-games .wrapper .list {
+  .top-level-component.home-page .top-games > .wrapper .list {
     display: -ms-flex;
     display: -moz-flex;
     display: -webkit-box;
@@ -951,6 +968,55 @@ nav {
     padding: 0;
     overflow-x: hidden;
     overflow-y: auto; }
+.top-level-component.profile .general-page.profile .title {
+  margin: 8px;
+  font-size: 25.6px;
+  font-weight: bold; }
+.top-level-component.profile .general-page.profile > .wrapper {
+  background-color: #1e1e1e; }
+  .top-level-component.profile .general-page.profile > .wrapper .list {
+    display: -ms-flex;
+    display: -moz-flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto; }
+.top-level-component.profile .general-page.profile .tools {
+  position: absolute;
+  top: 84px;
+  left: 8px; }
+  .top-level-component.profile .general-page.profile .tools .parent .scroll {
+    display: -ms-flex;
+    display: -moz-flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column; }
+    .top-level-component.profile .general-page.profile .tools .parent .scroll .option {
+      padding: 4px;
+      margin: 4px 0; }
+      .top-level-component.profile .general-page.profile .tools .parent .scroll .option.filters {
+        cursor: default; }
+        .top-level-component.profile .general-page.profile .tools .parent .scroll .option.filters .filter-status {
+          display: -ms-flex;
+          display: -moz-flex;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          padding-top: 1.6px; }
+          .top-level-component.profile .general-page.profile .tools .parent .scroll .option.filters .filter-status select {
+            width: 100%;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            background-color: transparent;
+            border: none;
+            font-weight: bold;
+            font-size: 16px; }
 
 .stream-list-item {
   padding: 8px;
@@ -970,15 +1036,103 @@ nav {
   .stream-list-item .info .game {
     margin-top: 3.2px; }
 
+.channel-list-item {
+  position: relative;
+  width: 16.66667%;
+  padding: 4px;
+  list-style: none; }
+  .channel-list-item > .wrapper {
+    display: block;
+    height: 100%;
+    padding: 8px;
+    background-color: #ebebeb;
+    text-decoration: none;
+    cursor: default; }
+    .channel-list-item > .wrapper:hover {
+      background-color: #96e6ff; }
+      .channel-list-item > .wrapper:hover .hover-options {
+        top: 50%;
+        max-height: 160px;
+        padding: 8px;
+        transform: translate(0, -50%); }
+  .channel-list-item .image {
+    place: holder; }
+    .channel-list-item .image img {
+      display: block;
+      width: 100%; }
+  .channel-list-item .info {
+    color: black; }
+    .channel-list-item .info .live-indicator.offline, .channel-list-item .info .live-indicator.online {
+      display: inline-block;
+      position: absolute;
+      width: 16px;
+      top: 8px;
+      left: 16px;
+      height: 16px;
+      margin: 8px 8px 0 0;
+      border-radius: 100%; }
+      .channel-list-item .info .live-indicator.offline:after, .channel-list-item .info .live-indicator.online:after {
+        border-radius: 6.4px;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: white;
+        margin-left: 24px; }
+    .channel-list-item .info .live-indicator.offline {
+      background-color: red; }
+      .channel-list-item .info .live-indicator.offline:after {
+        content: "Offline"; }
+    .channel-list-item .info .live-indicator.online {
+      background-color: #00c8fa; }
+      .channel-list-item .info .live-indicator.online:after {
+        content: "Live"; }
+    .channel-list-item .info .channel-name {
+      font-weight: bold;
+      margin-bottom: 3.2px; }
+    .channel-list-item .info .title {
+      place: holder; }
+    .channel-list-item .info .game {
+      margin-top: 3.2px; }
+  .channel-list-item .hover-options {
+    display: -ms-flex;
+    display: -moz-flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 0px;
+    padding: 0 8px;
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    overflow: hidden; }
+    .channel-list-item .hover-options .follow, .channel-list-item .hover-options .append-stream {
+      display: inline-block;
+      margin: 8px 0;
+      padding: 3.2px;
+      border-radius: 3.2px;
+      background-color: #00c8fa;
+      color: black;
+      cursor: pointer; }
+      .channel-list-item .hover-options .follow a, .channel-list-item .hover-options .append-stream a {
+        text-decoration: none; }
+
 .game-list-item {
   width: 20%;
-  padding: 8px;
-  background-color: #00c8fa;
+  padding: 4px;
   list-style: none; }
   .game-list-item a {
+    display: block;
+    height: 100%;
+    padding: 8px;
+    background-color: #ebebeb;
     text-decoration: none; }
-  .game-list-item:hover {
-    background-color: #96e6ff; }
+    .game-list-item a:hover {
+      background-color: #96e6ff; }
   .game-list-item .image {
     place: holder; }
     .game-list-item .image img {
@@ -988,7 +1142,7 @@ nav {
     color: black; }
     .game-list-item .info .game-name {
       font-weight: bold;
-      margin-bottom: 3.2px; }
+      margin: 3.2px 0; }
     .game-list-item .info .channel-count {
       margin-top: 3.2px; }
     .game-list-item .info .viewer-count {

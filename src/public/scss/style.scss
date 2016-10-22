@@ -65,9 +65,13 @@ body {
 }
 
 @for $L from 1 to 5 {
-  .separator-#{$L}-0 {
+  .separator-#{$L}-white {
     height: #{$L}px;
     background-color: white;
+  }
+  .separator-#{$L}-black {
+    height: #{$L}px;
+    background-color: black;
   }
   @each $color in $allColors {
     $i: index($allColors, $color);
@@ -76,15 +80,13 @@ body {
       background-color: #{$color};
     }
   }
-  .separator-#{$L}-#{length($allColors)+1} {
-    height: #{$L}px;
-    background-color: black;
-  }
 }
 
 @import "components/_root.scss";
 @import "components/_nav.scss";
 @import "components/_player.scss";
+@import "components/_buttons.scss";
 @import "components/_top-level-component.scss";
 @import "components/_stream-list-item.scss";
+@import "components/_channel-list-item.scss";
 @import "components/_game-list-item.scss";

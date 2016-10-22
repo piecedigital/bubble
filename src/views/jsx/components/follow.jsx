@@ -4,7 +4,7 @@ import loadData from "../../../modules/load-data";
 export default React.createClass({
   displayName: "FollowButton",
   getInitialState: () => ({
-    isFollowing: null
+    isFollowing: false
   }),
   checkStatus() {
     const {
@@ -83,7 +83,7 @@ export default React.createClass({
     if(isFollowing === null) return null;
     return (
       <div className="follow">
-        <div onClick={this.toggleFollow}>{isFollowing ? "Unfollow" : "Follow"} {targetDisplay}</div>
+        <a href="#" onClick={this.toggleFollow}>{isFollowing ? "Unfollow" : "Follow"} {targetDisplay}</a>
       </div>
     );
   }

@@ -119,6 +119,9 @@ var components = {
         if (typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
       }
     },
+    appendStream: function appendStream(name, display_name) {
+      this.props.methods.appendStream(name, display_name);
+    },
     componentDidMount: function componentDidMount() {
       this.getStreamData();
     },
@@ -130,7 +133,6 @@ var components = {
       var index = _props2.index;
       var filter = _props2.filter;
       var userData = _props2.userData;
-      var appendStream = _props2.methods.appendStream;
       var _props2$data$channel = _props2.data.channel;
       var mature = _props2$data$channel.mature;
       var logo = _props2$data$channel.logo;
@@ -147,8 +149,8 @@ var components = {
           "div",
           { className: "append-stream" },
           _react2["default"].createElement(
-            "div",
-            { onClick: this.appendStream.bind(this, name, display_name) },
+            "a",
+            { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
             "Watch Stream"
           )
         ) : null
@@ -161,24 +163,29 @@ var components = {
             { className: "channel-list-item" },
             _react2["default"].createElement(
               "div",
-              { className: "image" },
-              _react2["default"].createElement("img", { src: logo })
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "info" },
+              { className: "wrapper" },
               _react2["default"].createElement(
                 "div",
-                { className: "channel-name" },
-                name
+                { className: "image" },
+                _react2["default"].createElement("img", { src: logo })
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "game" },
-                "Offline"
-              )
-            ),
-            hoverOptions
+                { className: "info" },
+                _react2["default"].createElement("div", { className: "live-indicator offline" }),
+                _react2["default"].createElement(
+                  "div",
+                  { className: "channel-name" },
+                  name
+                ),
+                _react2["default"].createElement(
+                  "div",
+                  { className: "game" },
+                  "Offline"
+                )
+              ),
+              hoverOptions
+            )
           );
         } else {
           return null;
@@ -194,39 +201,44 @@ var components = {
       if (filter === "all" || filter === "online") {
         return _react2["default"].createElement(
           "li",
-          { onClick: function () {
+          { className: "channel-list-item", onClick: function () {
               appendStream(name, display_name);
             } },
           _react2["default"].createElement(
             "div",
-            { className: "image" },
-            _react2["default"].createElement("img", { src: logo })
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "info" },
+            { className: "wrapper" },
             _react2["default"].createElement(
               "div",
-              { className: "channel-name" },
-              name
+              { className: "image" },
+              _react2["default"].createElement("img", { src: logo })
             ),
             _react2["default"].createElement(
               "div",
-              { className: "title" },
-              title
+              { className: "info" },
+              _react2["default"].createElement("div", { className: "live-indicator online" }),
+              _react2["default"].createElement(
+                "div",
+                { className: "channel-name" },
+                name
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "title" },
+                title
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "game" },
+                "Live with \"" + game + "\""
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "viewers" },
+                "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+              )
             ),
-            _react2["default"].createElement(
-              "div",
-              { className: "game" },
-              "Live with \"" + game + "\""
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "viewers" },
-              "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-            )
-          ),
-          hoverOptions
+            hoverOptions
+          )
         );
       } else {
         return null;
@@ -350,7 +362,12 @@ exports["default"] = _react2["default"].createClass({
         return {
           v: _react2["default"].createElement(
             "div",
-            { className: "top-level-component general-page profile" },
+            { className: "general-page profile" },
+            _react2["default"].createElement(
+              "div",
+              { className: "title" },
+              "Followed Channels"
+            ),
             _react2["default"].createElement(
               "div",
               { className: "wrapper" },
@@ -378,33 +395,33 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "btn-default refresh", onClick: _this4.refresh },
+                    { className: "option btn-default refresh", onClick: _this4.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "btn-default refresh", onClick: _this4.refreshList.bind(_this4, true) },
+                    { className: "option btn-default refresh", onClick: _this4.refreshList.bind(_this4, true) },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "btn-default load-more", onClick: _this4.gatherData },
+                    { className: "option btn-default load-more", onClick: _this4.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "btn-default filters" },
+                    { className: "option btn-default filters" },
                     _react2["default"].createElement(
                       "div",
-                      { className: "btn-default filter-status" },
+                      { className: "filter-status" },
                       _react2["default"].createElement(
-                        "span",
-                        null,
-                        "Show:"
+                        "label",
+                        { htmlFor: "filter-select" },
+                        "Show"
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { ref: "filterSelect", onChange: _this4.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this4.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",

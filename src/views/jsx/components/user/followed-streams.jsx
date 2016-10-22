@@ -94,6 +94,9 @@ let components = {
         if(typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
       }
     },
+    appendStream(name, display_name) {
+      this.props.methods.appendStream(name, display_name);
+    },
     componentDidMount() { this.getStreamData() },
     render() {
       if(!this.state.streamData) return null;
@@ -103,9 +106,6 @@ let components = {
         index,
         filter,
         userData,
-        methods: {
-          appendStream
-        },
         data: {
           channel: {
             mature,
@@ -128,7 +128,7 @@ let components = {
           {
             stream ? (
               <div className="append-stream">
-                <div onClick={this.appendStream.bind(this, name, display_name)}>Watch Stream</div>
+                <a href="#" onClick={this.appendStream.bind(this, name, display_name)}>Watch Stream</a>
               </div>
             ) : null
           }
@@ -139,18 +139,21 @@ let components = {
         if(filter === "all" || filter === "offline") {
           return (
             <li className={`channel-list-item`}>
-              <div className="image">
-                <img src={logo} />
-              </div>
-              <div className="info">
-                <div className="channel-name">
-                  {name}
+              <div className="wrapper">
+                <div className="image">
+                  <img src={logo} />
                 </div>
-                <div className="game">
-                  {`Offline`}
+                <div className="info">
+                  <div className={`live-indicator offline`} />
+                  <div className="channel-name">
+                    {name}
+                  </div>
+                  <div className="game">
+                    {`Offline`}
+                  </div>
                 </div>
+                {hoverOptions}
               </div>
-              {hoverOptions}
             </li>
           );
         } else {
@@ -167,27 +170,30 @@ let components = {
       let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       if(filter === "all" || filter === "online") {
         return (
-          <li onClick={() => {
+          <li className={`channel-list-item`} onClick={() => {
             appendStream(name, display_name)
           }}>
-            <div className="image">
-              <img src={logo} />
+            <div className="wrapper">
+              <div className="image">
+                <img src={logo} />
+              </div>
+              <div className="info">
+                <div className={`live-indicator online`} />
+                <div className="channel-name">
+                  {name}
+                </div>
+                <div className="title">
+                  {title}
+                </div>
+                <div className="game">
+                  {`Live with "${game}"`}
+                </div>
+                <div className="viewers">
+                  {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+                </div>
+              </div>
+              {hoverOptions}
             </div>
-            <div className="info">
-              <div className="channel-name">
-                {name}
-              </div>
-              <div className="title">
-                {title}
-              </div>
-              <div className="game">
-                {`Live with "${game}"`}
-              </div>
-              <div className="viewers">
-                {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-              </div>
-            </div>
-            {hoverOptions}
           </li>
         );
       } else {
@@ -299,7 +305,8 @@ export default React.createClass({
     if(component) {
       const ListItem = components[component];
       return (
-        <div className={`top-level-component general-page profile`}>
+        <div className={`general-page profile`}>
+          <div className={`title`}>Followed Channels</div>
           <div className="wrapper">
             <ul className="list">
               {
@@ -315,21 +322,21 @@ export default React.createClass({
           <div className="tools">
             <div className="parent">
               <div className="scroll">
-                <div className="btn-default refresh" onClick={this.refresh}>
+                <div className="option btn-default refresh" onClick={this.refresh}>
                   Refresh Streams
                 </div>
-                <div className="btn-default refresh" onClick={this.refreshList.bind(this, true)}>
+                <div className="option btn-default refresh" onClick={this.refreshList.bind(this, true)}>
                   Refresh Listing
                 </div>
-                <div className="btn-default load-more" onClick={this.gatherData}>
+                <div className="option btn-default load-more" onClick={this.gatherData}>
                   Load More
                 </div>
-                <div className="btn-default filters">
-                  <div className="btn-default filter-status">
-                    <span>
-                      Show:
-                    </span>
-                    <select ref="filterSelect" onChange={this.applyFilter} defaultValue="all">
+                <div className="option btn-default filters">
+                  <div className="filter-status">
+                    <label htmlFor="filter-select">
+                      Show
+                    </label>
+                    <select id="filter-select" className="" ref="filterSelect" onChange={this.applyFilter} defaultValue="all">
                       {
                         ["all", "online", "offline"].map(filter => {
                           return (

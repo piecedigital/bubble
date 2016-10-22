@@ -20,6 +20,7 @@ export default React.createClass({
           appendStream,
           loadData
         }} />
+        <div className={`separator-4-black`}></div>
         <Games methods={{
           loadData
         }}/>

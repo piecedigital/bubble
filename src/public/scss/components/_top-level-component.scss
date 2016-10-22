@@ -4,6 +4,7 @@
       @include displayFlex;
       max-height: 42*$em;
       // max-height: 28*$em;
+      margin-bottom: 1*$em;
       .featured-stream {
         @include displayInlineFlex;
         width: 100%;
@@ -40,10 +41,12 @@
             text-decoration: underline;
             cursor: pointer;
           }
-          .bio {}
+          .bio {
+            margin-top: .5*$em;
+          }
         }
       }
-      .wrapper {
+      > .wrapper {
         width: 20*$em;
         // height: 100%;
         .list {
@@ -61,7 +64,7 @@
         font-size: 1.6*$em;
         font-weight: bold;
       }
-      .wrapper {
+      > .wrapper {
         // width: 20*$em;
         // height: 100%;
         background-color: $offBlack;
@@ -75,6 +78,62 @@
           padding: 0;
           overflow-x: hidden;
           overflow-y: auto;
+        }
+      }
+    }
+  }
+  &.profile {
+    .general-page.profile {
+      .title {
+        margin: .5*$em;
+        font-size: 1.6*$em;
+        font-weight: bold;
+      }
+      > .wrapper {
+        // width: 20*$em;
+        // height: 100%;
+        background-color: $offBlack;
+        .list {
+          @include displayFlex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          max-width: 60*$em;
+          // height: 100%;
+          margin: 0 auto;
+          padding: 0;
+          overflow-x: hidden;
+          overflow-y: auto;
+        }
+      }
+      .tools {
+        position: absolute;
+        top: 5.25*$em;
+        left: .5*$em;
+        .parent {
+          .scroll {
+            @include displayFlex;
+            flex-direction: column;
+            .option {
+              padding: .25*$em;
+              margin: .25*$em 0;
+              &.filters {
+                cursor: default;
+                .filter-status {
+                  @include displayFlex;
+                  padding-top: .1*$em;
+                  label {}
+                  select {
+                    width: 100%;
+                    border-bottom: 1px solid rgba(black, .2);
+                    background-color: transparent;
+                    border: none;
+                    font-weight: bold;
+                    font-size: 16px;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

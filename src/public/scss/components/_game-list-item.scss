@@ -1,13 +1,16 @@
 .game-list-item {
   width: percentage(1/5);
-  padding: .5*$em;
-  background-color: $primary;
+  padding: .25*$em;
   list-style: none;
   a {
+    display: block;
+    height: 100%;
+    padding: .5*$em;
+    background-color: $offWhite;
     text-decoration: none;
-  }
-  &:hover {
-    background-color: $light;
+    &:hover {
+      background-color: $light;
+    }
   }
   .image {
     place: holder;
@@ -20,7 +23,7 @@
     color: black;
     .game-name {
       font-weight: bold;
-      margin-bottom: .2*$em;
+      margin: .2*$em 0;
     }
     .channel-count {
       margin-top: .2*$em;
