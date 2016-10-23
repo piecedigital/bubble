@@ -340,7 +340,7 @@ export default React.createClass({
                       {
                         ["all", "online", "offline"].map(filter => {
                           return (
-                            <option key={filter} value={filter}>{this.capitalize(filter)}</option>
+                            <option key={filter} value={filter}>Show {this.capitalize(filter)}</option>
                           );
                         })
                       }

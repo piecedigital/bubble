@@ -28189,6 +28189,7 @@ exports["default"] = _react2["default"].createClass({
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
+                            "Show ",
                             _this4.capitalize(filter)
                           );
                         })

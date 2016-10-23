@@ -121,13 +121,18 @@
                 .filter-status {
                   @include displayFlex;
                   padding-top: .1*$em;
-                  label {}
+                  label {
+                    display: none;
+                    margin-right: -2.5*$em;
+                    pointer-events: none;
+                  }
                   select {
                     width: 100%;
+                    // padding-left: 2.5*$em;
                     border-bottom: 1px solid rgba(black, .2);
                     background-color: transparent;
                     border: none;
-                    font-weight: bold;
+                    // font-weight: bold;
                     font-size: 16px;
                   }
                 }

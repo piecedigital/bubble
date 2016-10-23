@@ -1010,12 +1010,15 @@ nav {
           display: -webkit-flex;
           display: flex;
           padding-top: 1.6px; }
+          .top-level-component.profile .general-page.profile .tools .parent .scroll .option.filters .filter-status label {
+            display: none;
+            margin-right: -40px;
+            pointer-events: none; }
           .top-level-component.profile .general-page.profile .tools .parent .scroll .option.filters .filter-status select {
             width: 100%;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
             background-color: transparent;
             border: none;
-            font-weight: bold;
             font-size: 16px; }
 
 .stream-list-item {
