@@ -149,6 +149,65 @@
   }
 }
 
+.root {
+  &.player-open {
+    &.player-collapsed {
+      .top-level-component {
+        &.home-page {
+          .featured-streams {
+            .featured-stream {
+              .stream {
+                iframe {}
+              }
+              .stream-info {
+                .image {
+                  img {}
+                }
+                .display-name {}
+                .watch {}
+                .bio {}
+              }
+            }
+            > .wrapper {
+              .list {}
+            }
+          }
+          .top-games {
+            .title {}
+            > .wrapper {
+              .list {}
+            }
+          }
+        }
+        &.profile {
+          .general-page.profile {
+            .title {
+            }
+            > .wrapper {
+              .list {}
+            }
+            .tools {
+              left: 15*$em;
+              .parent {
+                .scroll {
+                  .option {
+                    &.filters {
+                      .filter-status {
+                        label {}
+                        select {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 1266px) {
   .top-level-component {
     &.home-page {

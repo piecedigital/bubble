@@ -181,10 +181,10 @@ body {
   height: 100%;
   overflow: auto; }
   .root.player-collapsed {
-    padding-left: 240px; }
+    padding-left: 224px; }
 
 nav {
-  z-index: 10;
+  z-index: 11;
   position: fixed;
   top: 0;
   right: 0;
@@ -1024,6 +1024,9 @@ nav {
             background-color: transparent;
             border: none;
             font-size: 16px; }
+
+.root.player-open.player-collapsed .top-level-component.profile .general-page.profile .tools {
+  left: 240px; }
 
 @media (max-width: 1266px) {
   .top-level-component.profile .general-page.profile > .wrapper {
