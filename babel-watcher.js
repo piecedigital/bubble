@@ -33,7 +33,7 @@ function babelWatcher() {
     console.log("Transpiled ", filepath);
     // if(!filepath.match(/(routes.js|render-jsx.js)$/)) {
     // }
-    timer += 5;
+    timer += 2;
     executing = false;
     failure = false;
     brfy();

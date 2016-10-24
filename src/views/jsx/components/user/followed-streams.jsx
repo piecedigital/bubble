@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/load-data";
+import { browserNotification as notification } from "../../../../modules/helper-tools";
 import FollowButton from "../follow.jsx";
 
 // components
@@ -62,7 +63,8 @@ let components = {
       const {
         data: {
           channel: {
-            name
+            name,
+            display_name
           }
         }
       } = this.props;
@@ -96,6 +98,29 @@ let components = {
     },
     appendStream(name, display_name) {
       this.props.methods.appendStream(name, display_name);
+    },
+    componentWillUpdate(_, nextState) {
+      const {
+        data: {
+          channel: {
+            name,
+            display_name
+          }
+        }
+      } = this.props;
+      console.log(this.state.streamData, nextState.streamData);
+      if(!this.state.streamData || this.state.streamData.stream !== nextState.streamData.stream) {
+        // console.log(this.state.streamData.stream !== nextState.streamData.stream);
+        if(nextState.streamData.stream) {
+          notification({
+            type: "stream_online",
+            channelName: display_name,
+            callback: () => {
+              this.appendStream(name, display_name);
+            }
+          });
+        }
+      }
     },
     componentDidMount() { this.getStreamData() },
     render() {
@@ -212,10 +237,16 @@ export default React.createClass({
       requestOffset: 0,
       limit: 25,
       dataArray: [],
-      filter: "all"
+      filter: "all",
+      loadingQueue: []
     }
   },
   gatherData(limit) {
+    let loadingQueue = ( JSON.parse(JSON.stringify(this.state.loadingQueue)) );
+    loadingQueue.push(true);
+    this.setState({
+      loadingQueue
+    });
     typeof limit === "number" ? limit = limit : limit = this.state.limit || 25;
     console.log("gathering data");
     const {
@@ -240,9 +271,11 @@ export default React.createClass({
         methods
         .followedStreams()
         .then(data => {
+          loadingQueue.pop();
           this.setState({
             dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
-            component: `ChannelsListItem`
+            component: `ChannelsListItem`,
+            loadingQueue
           });
         })
         .catch(e => console.error(e.stack));
@@ -291,7 +324,9 @@ export default React.createClass({
       requestOffset,
       dataArray,
       component,
-      filter
+      filter,
+      limit,
+      loadingQueue
     } = this.state;
     const {
       auth,
@@ -302,6 +337,7 @@ export default React.createClass({
         loadData
       }
     } = this.props;
+    console.log(loadingQueue)
     if(component) {
       const ListItem = components[component];
       return (
@@ -329,7 +365,7 @@ export default React.createClass({
                   Refresh Listing
                 </div>
                 <div className="option btn-default load-more" onClick={this.gatherData}>
-                  Load More
+                  {loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"}
                 </div>
                 <div className="option btn-default filters">
                   <div className="filter-status">

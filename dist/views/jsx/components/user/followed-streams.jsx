@@ -18,6 +18,8 @@ var _modulesLoadData = require("../../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _modulesHelperTools = require("../../../../modules/helper-tools");
+
 var _followJsx = require("../follow.jsx");
 
 var _followJsx2 = _interopRequireDefault(_followJsx);
@@ -90,7 +92,9 @@ var components = {
     getStreamData: function getStreamData() {
       var _this = this;
 
-      var name = this.props.data.channel.name;
+      var _props$data$channel2 = this.props.data.channel;
+      var name = _props$data$channel2.name;
+      var display_name = _props$data$channel2.display_name;
 
       // console.log(`getting stream data for ${name}`);
       _modulesLoadData2["default"].call(this, function (e) {
@@ -121,6 +125,27 @@ var components = {
     },
     appendStream: function appendStream(name, display_name) {
       this.props.methods.appendStream(name, display_name);
+    },
+    componentWillUpdate: function componentWillUpdate(_, nextState) {
+      var _this2 = this;
+
+      var _props$data$channel3 = this.props.data.channel;
+      var name = _props$data$channel3.name;
+      var display_name = _props$data$channel3.display_name;
+
+      console.log(this.state.streamData, nextState.streamData);
+      if (!this.state.streamData || this.state.streamData.stream !== nextState.streamData.stream) {
+        // console.log(this.state.streamData.stream !== nextState.streamData.stream);
+        if (nextState.streamData.stream) {
+          (0, _modulesHelperTools.browserNotification)({
+            type: "stream_online",
+            channelName: display_name,
+            callback: function callback() {
+              _this2.appendStream(name, display_name);
+            }
+          });
+        }
+      }
     },
     componentDidMount: function componentDidMount() {
       this.getStreamData();
@@ -255,12 +280,18 @@ exports["default"] = _react2["default"].createClass({
       requestOffset: 0,
       limit: 25,
       dataArray: [],
-      filter: "all"
+      filter: "all",
+      loadingQueue: []
     };
   },
   gatherData: function gatherData(limit) {
-    var _this2 = this;
+    var _this3 = this;
 
+    var loadingQueue = JSON.parse(JSON.stringify(this.state.loadingQueue));
+    loadingQueue.push(true);
+    this.setState({
+      loadingQueue: loadingQueue
+    });
     typeof limit === "number" ? limit = limit : limit = this.state.limit || 25;
     console.log("gathering data");
     var _props3 = this.props;
@@ -284,9 +315,11 @@ exports["default"] = _react2["default"].createClass({
         stream_type: "all"
       }).then(function (methods) {
         methods.followedStreams().then(function (data) {
-          _this2.setState({
-            dataArray: Array.from(_this2.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
-            component: "ChannelsListItem"
+          loadingQueue.pop();
+          _this3.setState({
+            dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
+            component: "ChannelsListItem",
+            loadingQueue: loadingQueue
           });
         })["catch"](function (e) {
           return console.error(e.stack);
@@ -320,7 +353,7 @@ exports["default"] = _react2["default"].createClass({
     });
   },
   refreshList: function refreshList(reset, _) {
-    var _this3 = this;
+    var _this4 = this;
 
     var length = arguments.length <= 2 || arguments[2] === undefined ? this.state.dataArray.length : arguments[2];
 
@@ -330,10 +363,10 @@ exports["default"] = _react2["default"].createClass({
       dataArray: reset ? [] : this.state.dataArray
     }, function () {
       if (length > 100) {
-        _this3.gatherData(100);
-        _this3.refreshList(false, length - 100);
+        _this4.gatherData(100);
+        _this4.refreshList(false, length - 100);
       } else {
-        _this3.gatherData(length);
+        _this4.gatherData(length);
       }
     });
   },
@@ -341,13 +374,15 @@ exports["default"] = _react2["default"].createClass({
     this.gatherData();
   },
   render: function render() {
-    var _this4 = this;
+    var _this5 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
     var dataArray = _state.dataArray;
     var component = _state.component;
     var filter = _state.filter;
+    var limit = _state.limit;
+    var loadingQueue = _state.loadingQueue;
     var _props4 = this.props;
     var auth = _props4.auth;
     var data = _props4.data;
@@ -356,6 +391,7 @@ exports["default"] = _react2["default"].createClass({
     var appendStream = _props4$methods.appendStream;
     var loadData = _props4$methods.loadData;
 
+    console.log(loadingQueue);
     if (component) {
       var _ret = (function () {
         var ListItem = components[component];
@@ -379,7 +415,7 @@ exports["default"] = _react2["default"].createClass({
                       return dataArray[ind].ref = r;
                     }, key: itemData.channel.name, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
                       appendStream: appendStream,
-                      removeFromDataArray: _this4.removeFromDataArray
+                      removeFromDataArray: _this5.removeFromDataArray
                     } });
                 })
               )
@@ -395,18 +431,18 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this4.refresh },
+                    { className: "option btn-default refresh", onClick: _this5.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this4.refreshList.bind(_this4, true) },
+                    { className: "option btn-default refresh", onClick: _this5.refreshList.bind(_this5, true) },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this4.gatherData },
-                    "Load More"
+                    { className: "option btn-default load-more", onClick: _this5.gatherData },
+                    loadingQueue.length > 0 ? "Loading " + limit * loadingQueue.length + " More" : "Load More"
                   ),
                   _react2["default"].createElement(
                     "div",
@@ -421,13 +457,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this4.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this5.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this4.capitalize(filter)
+                            _this5.capitalize(filter)
                           );
                         })
                       )

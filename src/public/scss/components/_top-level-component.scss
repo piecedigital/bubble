@@ -67,6 +67,7 @@
       > .wrapper {
         // width: 20*$em;
         // height: 100%;
+        padding: .25*$em 0;
         background-color: $offBlack;
         .list {
           @include displayFlex;
@@ -92,6 +93,8 @@
       > .wrapper {
         // width: 20*$em;
         // height: 100%;
+        padding: .25*$em 0;
+        transition: 0s all;
         background-color: $offBlack;
         .list {
           @include displayFlex;
@@ -103,6 +106,7 @@
           padding: 0;
           overflow-x: hidden;
           overflow-y: auto;
+          transition: 0s all;
         }
       }
       .tools {
@@ -144,3 +148,115 @@
     }
   }
 }
+
+@media (max-width: 1266px) {
+  .top-level-component {
+    &.home-page {
+      .featured-streams {
+        .featured-stream {
+          .stream {
+            iframe {}
+          }
+          .stream-info {
+            .image {
+              img {}
+            }
+            .display-name {}
+            .watch {}
+            .bio {}
+          }
+        }
+        > .wrapper {
+          .list {}
+        }
+      }
+      .top-games {
+        .title {}
+        > .wrapper {
+          .list {}
+        }
+      }
+    }
+    &.profile {
+      .general-page.profile {
+        .title {
+        }
+        > .wrapper {
+          padding-left: 9*$em;
+          .list {
+            margin: 0;
+          }
+        }
+        .tools {
+          .parent {
+            .scroll {
+              .option {
+                &.filters {
+                  .filter-status {
+                    label {}
+                    select {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// @media (max-width: xpx) {
+//   .top-level-component {
+//     &.home-page {
+//       .featured-streams {
+//         .featured-stream {
+//           .stream {
+//             iframe {}
+//           }
+//           .stream-info {
+//             .image {
+//               img {}
+//             }
+//             .display-name {}
+//             .watch {}
+//             .bio {}
+//           }
+//         }
+//         > .wrapper {
+//           .list {}
+//         }
+//       }
+//       .top-games {
+//         .title {}
+//         > .wrapper {
+//           .list {}
+//         }
+//       }
+//     }
+//     &.profile {
+//       .general-page.profile {
+//         .title {
+//         }
+//         > .wrapper {
+//           .list {}
+//         }
+//         .tools {
+//           .parent {
+//             .scroll {
+//               .option {
+//                 &.filters {
+//                   .filter-status {
+//                     label {}
+//                     select {}
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

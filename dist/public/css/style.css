@@ -954,6 +954,7 @@ nav {
   font-size: 25.6px;
   font-weight: bold; }
 .top-level-component.home-page .top-games > .wrapper {
+  padding: 4px 0;
   background-color: #1e1e1e; }
   .top-level-component.home-page .top-games > .wrapper .list {
     display: -ms-flex;
@@ -973,6 +974,8 @@ nav {
   font-size: 25.6px;
   font-weight: bold; }
 .top-level-component.profile .general-page.profile > .wrapper {
+  padding: 4px 0;
+  transition: 0s all;
   background-color: #1e1e1e; }
   .top-level-component.profile .general-page.profile > .wrapper .list {
     display: -ms-flex;
@@ -986,7 +989,8 @@ nav {
     margin: 0 auto;
     padding: 0;
     overflow-x: hidden;
-    overflow-y: auto; }
+    overflow-y: auto;
+    transition: 0s all; }
 .top-level-component.profile .general-page.profile .tools {
   position: absolute;
   top: 84px;
@@ -1021,6 +1025,11 @@ nav {
             border: none;
             font-size: 16px; }
 
+@media (max-width: 1266px) {
+  .top-level-component.profile .general-page.profile > .wrapper {
+    padding-left: 144px; }
+    .top-level-component.profile .general-page.profile > .wrapper .list {
+      margin: 0; } }
 .stream-list-item {
   padding: 8px;
   background-color: #00c8fa;
@@ -1089,7 +1098,8 @@ nav {
         content: "Live"; }
     .channel-list-item .info .channel-name {
       font-weight: bold;
-      margin-bottom: 3.2px; }
+      margin-bottom: 3.2px;
+      word-wrap: break-word; }
     .channel-list-item .info .title {
       place: holder; }
     .channel-list-item .info .game {
@@ -1124,6 +1134,21 @@ nav {
       .channel-list-item .hover-options .follow a, .channel-list-item .hover-options .append-stream a {
         text-decoration: none; }
 
+@media (max-width: 1024px) {
+  .channel-list-item {
+    width: 20%; } }
+@media (max-width: 880px) {
+  .channel-list-item {
+    width: 25%; } }
+@media (max-width: 740px) {
+  .channel-list-item {
+    width: 33.33333%; } }
+@media (max-width: 600px) {
+  .channel-list-item {
+    width: 50%; } }
+@media (max-width: 460px) {
+  .channel-list-item {
+    width: 100%; } }
 .game-list-item {
   width: 20%;
   padding: 4px;
