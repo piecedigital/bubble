@@ -109,7 +109,7 @@ let components = {
         }
       } = this.props;
       console.log(this.state.streamData, nextState.streamData);
-      if(!this.state.streamData || this.state.streamData.stream !== nextState.streamData.stream) {
+      if(!this.state.streamData || this.state.streamData.stream === null && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if(nextState.streamData.stream) {
           notification({

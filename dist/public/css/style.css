@@ -330,7 +330,7 @@ nav {
     width: 0;
     height: 0;
     overflow: hidden; }
-.root.player-open.layout-linear .player .wrapper .list.video-list .player-stream:not(.in-view) {
+.root.player-open.layout-linear:not(.player-collapsed) .player .wrapper .list.video-list .player-stream:not(.in-view) {
   width: 0;
   height: 0;
   overflow: hidden; }

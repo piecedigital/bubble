@@ -134,7 +134,7 @@ var components = {
       var display_name = _props$data$channel3.display_name;
 
       console.log(this.state.streamData, nextState.streamData);
-      if (!this.state.streamData || this.state.streamData.stream !== nextState.streamData.stream) {
+      if (!this.state.streamData || this.state.streamData.stream === null && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if (nextState.streamData.stream) {
           (0, _modulesHelperTools.browserNotification)({

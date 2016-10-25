@@ -268,7 +268,7 @@
         }
       }
     }
-    &.layout-linear .player {
+    &.layout-linear:not(.player-collapsed) .player {
       .wrapper {
         .list.video-list {
           .player-stream {
