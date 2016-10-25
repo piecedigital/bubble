@@ -27488,7 +27488,7 @@ var PlayerStream = _react2["default"].createClass({
                   { className: "name" },
                   _react2["default"].createElement(
                     _reactRouter.Link,
-                    { title: name, to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+                    { title: name, to: "/user/" + name, onClick: togglePlayer.bind(null, "close"), target: "_blank" },
                     display_name,
                     !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                   )

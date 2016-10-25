@@ -313,7 +313,8 @@ nav {
     .player-stream .tools .mobile {
       display: none; }
     .player-stream .tools .follow.need-auth {
-      color: rgba(0, 0, 0, 0.5); }
+      color: rgba(0, 0, 0, 0.5);
+      text-decoration: none; }
     .player-stream .tools a {
       color: black;
       font-weight: bold; }
