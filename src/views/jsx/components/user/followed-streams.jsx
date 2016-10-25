@@ -108,7 +108,7 @@ let components = {
           }
         }
       } = this.props;
-      console.log(this.state.streamData, nextState.streamData);
+      // console.log(this.state.streamData, nextState.streamData);
       if(!this.state.streamData || this.state.streamData.stream === null && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if(nextState.streamData.stream) {
@@ -365,7 +365,8 @@ export default React.createClass({
                   Refresh Listing
                 </div>
                 <div className="option btn-default load-more" onClick={this.gatherData}>
-                  {loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"}
+                  {/*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/}
+                  Load More
                 </div>
                 <div className="option btn-default filters">
                   <div className="filter-status">

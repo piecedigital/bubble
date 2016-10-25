@@ -27430,19 +27430,32 @@ var PlayerStream = _react2["default"].createClass({
         break;
     }
   },
-  render: function render() {
-    // console.log(this.props);
+  swapOut: function swapOut() {
     var _props = this.props;
-    var userData = _props.userData;
     var name = _props.name;
-    var display_name = _props.display_name;
-    var auth = _props.auth;
-    var inView = _props.inView;
-    var isFor = _props.isFor;
     var _props$methods = _props.methods;
     var spliceStream = _props$methods.spliceStream;
-    var togglePlayer = _props$methods.togglePlayer;
-    var alertAuthNeeded = _props$methods.alertAuthNeeded;
+    var layoutTools = _props$methods.layoutTools;
+
+    spliceStream(name);
+    setTimeout(function () {
+      layoutTools("setStreamToView");
+    }, 100);
+  },
+  render: function render() {
+    // console.log(this.props);
+    var _props2 = this.props;
+    var userData = _props2.userData;
+    var name = _props2.name;
+    var display_name = _props2.display_name;
+    var auth = _props2.auth;
+    var inView = _props2.inView;
+    var isFor = _props2.isFor;
+    var _props2$methods = _props2.methods;
+    var spliceStream = _props2$methods.spliceStream;
+    var togglePlayer = _props2$methods.togglePlayer;
+    var alertAuthNeeded = _props2$methods.alertAuthNeeded;
+    var layoutTools = _props2$methods.layoutTools;
     var _state = this.state;
     var chatOpen = _state.chatOpen;
     var menuOpen = _state.menuOpen;
@@ -27500,7 +27513,7 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "closer", onClick: spliceStream.bind(null, name) },
+                { className: "closer", onClick: this.swapOut },
                 "Close"
               ),
               _react2["default"].createElement(
@@ -27572,10 +27585,11 @@ exports["default"] = _react2["default"].createClass({
             break;
         }
         console.log("scroll value", videoList.offsetHeight / count * this.refs.selectStream.value);
+        console.log("select value", this.refs.selectStream.value);
         videoList.scrollTop = videoList.offsetHeight / count * this.refs.selectStream.value;
         // chatList.scrollTop = chatList.offsetHeight * this.refs.selectStream.value
         this.setState({
-          streamInView: parseInt(this.refs.selectStream.value)
+          streamInView: parseInt(this.refs.selectStream.value || 0)
         });
         break;
       case "setLayout":
@@ -27585,17 +27599,19 @@ exports["default"] = _react2["default"].createClass({
   },
   listScroll: function listScroll(e) {},
   render: function render() {
-    var _props2 = this.props;
-    var userData = _props2.userData;
-    var auth = _props2.auth;
-    var playerState = _props2.playerState;
-    var _props2$methods = _props2.methods;
-    var spliceStream = _props2$methods.spliceStream;
-    var togglePlayer = _props2$methods.togglePlayer;
-    var alertAuthNeeded = _props2$methods.alertAuthNeeded;
-    var setLayout = _props2$methods.setLayout;
-    var dataObject = _props2.data.dataObject;
-    var layout = _props2.layout;
+    var _this = this;
+
+    var _props3 = this.props;
+    var userData = _props3.userData;
+    var auth = _props3.auth;
+    var playerState = _props3.playerState;
+    var _props3$methods = _props3.methods;
+    var spliceStream = _props3$methods.spliceStream;
+    var togglePlayer = _props3$methods.togglePlayer;
+    var alertAuthNeeded = _props3$methods.alertAuthNeeded;
+    var setLayout = _props3$methods.setLayout;
+    var dataObject = _props3.data.dataObject;
+    var layout = _props3.layout;
     var streamInView = this.state.streamInView;
 
     var dataArray = Object.keys(dataObject);
@@ -27616,7 +27632,8 @@ exports["default"] = _react2["default"].createClass({
             return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", methods: {
                 spliceStream: spliceStream,
                 togglePlayer: togglePlayer,
-                alertAuthNeeded: alertAuthNeeded
+                alertAuthNeeded: alertAuthNeeded,
+                layoutTools: _this.layoutTools
               } });
           }) : null
         ),
@@ -27947,7 +27964,7 @@ var components = {
       var name = _props$data$channel3.name;
       var display_name = _props$data$channel3.display_name;
 
-      console.log(this.state.streamData, nextState.streamData);
+      // console.log(this.state.streamData, nextState.streamData);
       if (!this.state.streamData || this.state.streamData.stream === null && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if (nextState.streamData.stream) {
@@ -28256,7 +28273,7 @@ exports["default"] = _react2["default"].createClass({
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default load-more", onClick: _this5.gatherData },
-                    loadingQueue.length > 0 ? "Loading " + limit * loadingQueue.length + " More" : "Load More"
+                    "Load More"
                   ),
                   _react2["default"].createElement(
                     "div",
@@ -28301,6 +28318,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
+/*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/
 },{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../follow.jsx":245,"react":242,"react-router":37}],249:[function(require,module,exports){
 "use strict";
 

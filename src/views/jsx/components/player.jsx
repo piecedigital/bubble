@@ -58,6 +58,19 @@ const PlayerStream = React.createClass({
         break;
     }
   },
+  swapOut() {
+    const {
+      name,
+      methods: {
+        spliceStream,
+        layoutTools
+      }
+    } = this.props;
+    spliceStream(name);
+    setTimeout(() => {
+      layoutTools("setStreamToView");
+    }, 100);
+  },
   render() {
     // console.log(this.props);
     const {
@@ -70,7 +83,8 @@ const PlayerStream = React.createClass({
       methods: {
         spliceStream,
         togglePlayer,
-        alertAuthNeeded
+        alertAuthNeeded,
+        layoutTools
       }
     } = this.props;
     const {
@@ -100,7 +114,7 @@ const PlayerStream = React.createClass({
               <div className="streamer">
                 <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
               </div>
-              <div className="closer" onClick={spliceStream.bind(null, name)}>
+              <div className="closer" onClick={this.swapOut}>
                 Close
               </div>
               <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
@@ -165,10 +179,11 @@ export default React.createClass({
           break;
         }
         console.log("scroll value", (videoList.offsetHeight / count) * this.refs.selectStream.value);
+        console.log("select value", this.refs.selectStream.value);
         videoList.scrollTop = (videoList.offsetHeight / count) * this.refs.selectStream.value;
         // chatList.scrollTop = chatList.offsetHeight * this.refs.selectStream.value
         this.setState({
-          streamInView: parseInt(this.refs.selectStream.value)
+          streamInView: parseInt(this.refs.selectStream.value || 0)
         });
       break;
       case "setLayout":
@@ -212,7 +227,8 @@ export default React.createClass({
                     <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="video" methods={{
                       spliceStream,
                       togglePlayer,
-                      alertAuthNeeded
+                      alertAuthNeeded,
+                      layoutTools: this.layoutTools
                     }} />
                   );
                 })

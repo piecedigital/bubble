@@ -133,7 +133,7 @@ var components = {
       var name = _props$data$channel3.name;
       var display_name = _props$data$channel3.display_name;
 
-      console.log(this.state.streamData, nextState.streamData);
+      // console.log(this.state.streamData, nextState.streamData);
       if (!this.state.streamData || this.state.streamData.stream === null && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if (nextState.streamData.stream) {
@@ -442,7 +442,7 @@ exports["default"] = _react2["default"].createClass({
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default load-more", onClick: _this5.gatherData },
-                    loadingQueue.length > 0 ? "Loading " + limit * loadingQueue.length + " More" : "Load More"
+                    "Load More"
                   ),
                   _react2["default"].createElement(
                     "div",
@@ -487,3 +487,4 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
+/*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/
