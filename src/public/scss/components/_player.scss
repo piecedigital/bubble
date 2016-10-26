@@ -300,7 +300,11 @@
       .wrapper {
         .list.video-list {
           .player-stream {
-            height: 33.3333333%;
+            height: 50%;
+            &:not(:first-child) {
+              @include displayInlineFlex;
+              width: 50%;
+            }
           }
         }
         .list.chat-list {
@@ -393,7 +397,7 @@
           padding: 0;
           overflow-y: auto;
           .player-stream {
-            width: 100%;
+            width: 100% !important;
             max-height: 15*$em;
             &:not(:last-child) {
               border-bottom: .5*$em solid $dim;

@@ -338,7 +338,14 @@ nav {
 .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream {
   height: 50%; }
 .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream {
-  height: 33.3333333%; }
+  height: 50%; }
+  .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) {
+    display: -ms-inline-flex;
+    display: -moz-inline-flex;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    width: 50%; }
 .root.player-open.layout-4 .player .wrapper .list.video-list {
   display: -ms-flex;
   display: -moz-flex;
@@ -677,7 +684,7 @@ nav {
     padding: 0;
     overflow-y: auto; }
     .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream {
-      width: 100%;
+      width: 100% !important;
       max-height: 240px; }
       .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child) {
         border-bottom: 8px solid #00aadc; }
