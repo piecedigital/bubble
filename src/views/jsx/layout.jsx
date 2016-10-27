@@ -5,7 +5,7 @@ import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
 
 const clientID = process.env["NODE_ENV"] === "prod" ? "2lbl5iik3q140d45q5bddj3paqekpbi" : "cye2hnlwj24qq7fezcbq9predovf6yy";
-
+const redirectURI = process.env["NODE_ENV"] === "prod" ? "http://twinchill.herokuapp.com" : "http://localhost:8080"
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
@@ -150,7 +150,7 @@ export default React.createClass({
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
     "?response_type=token"+
     `&client_id=${clientID}`+
-    "&redirect_uri=http://localhost:8080"+
+    `&redirect_uri=${redirectURI}`+
     "&scope=user_read+user_follows_edit";
     return (
       <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${layout || Object.keys(dataObject).length}`}>
