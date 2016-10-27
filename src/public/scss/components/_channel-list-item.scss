@@ -86,7 +86,7 @@
     background-color: rgba(black, .4);
     text-align: center;
     overflow: hidden;
-    .follow, .append-stream {
+    > * {
       display: inline-block;
       margin: .5*$em 0;
       padding: .2*$em;

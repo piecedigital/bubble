@@ -91,7 +91,7 @@
         &.mobile {
           .name {
             &:after {
-              background-image: linear-gradient(90deg, transparent, $light) !important;
+              background-image: singular-gradient(90deg, transparent, $light) !important;
             }
           }
         }
@@ -198,7 +198,7 @@
             right: 0;
             width: 30px;
             height: 100%;
-            background-image: linear-gradient(90deg, transparent, $primary);
+            background-image: singular-gradient(90deg, transparent, $primary);
           }
           // &:hover {
           //   a {
@@ -231,30 +231,13 @@
   }
 }
 
-.player-stream.hide-chat {
-  .video, .chat {
-    .nested {}
-    iframe {}
-  }
-  .video {
-    .nested {}
-  }
-  .chat {
-    width: 0;
-  }
-  .tools {
-    > * {
-      &:hover {}
-      &:not(:last-child) {}
-    }
-    a {}
-    .closer {}
-  }
+.chat-list.hide-chat {
+  width: 0 !important;
 }
 
 .root {
   &.player-open {
-    .player, &.layout-linear .player, &.layout-1 .player {
+    .player, &.layout-singular .player, &.layout-1 .player {
       width: 100%;
       height: 100%;
       padding-top: 2*$em;
@@ -269,7 +252,7 @@
         }
       }
     }
-    &.layout-linear:not(.player-collapsed) .player {
+    &.layout-singular:not(.player-collapsed) .player {
       .wrapper {
         .list.video-list {
           .player-stream {
@@ -415,8 +398,10 @@
         }
         .tools {
           > * {
-            &:nth-child(4n) {
-              display: none;
+            @for $i from 3 to 6 {
+              &:nth-child(#{$i}n) {
+                display: none;
+              }
             }
           }
         }
@@ -428,7 +413,7 @@
 @media (max-width: 1200px) {
   .root {
     &.player-open {
-      &.layout-linear .player,
+      &.layout-singular .player,
       &.layout-by-2 .player,
       &.layout-by-3 .player,
       &.layout-1 .player,

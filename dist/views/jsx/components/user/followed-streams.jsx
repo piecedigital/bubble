@@ -169,6 +169,15 @@ var components = {
       var hoverOptions = _react2["default"].createElement(
         "div",
         { className: "hover-options" },
+        _react2["default"].createElement(
+          "div",
+          { className: "go-to-channel" },
+          _react2["default"].createElement(
+            "a",
+            { href: "https://twitch.tv/" + name, target: "_blank" },
+            "Go To Channel"
+          )
+        ),
         _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: this.followCallback }),
         stream ? _react2["default"].createElement(
           "div",
@@ -178,7 +187,15 @@ var components = {
             { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
             "Watch Stream"
           )
-        ) : null
+        ) : _react2["default"].createElement(
+          "div",
+          { className: "append-stream" },
+          _react2["default"].createElement(
+            "a",
+            { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
+            "Open Stream"
+          )
+        )
       );
 
       if (!stream) {
@@ -226,9 +243,7 @@ var components = {
       if (filter === "all" || filter === "online") {
         return _react2["default"].createElement(
           "li",
-          { className: "channel-list-item", onClick: function () {
-              appendStream(name, display_name);
-            } },
+          { className: "channel-list-item" },
           _react2["default"].createElement(
             "div",
             { className: "wrapper" },

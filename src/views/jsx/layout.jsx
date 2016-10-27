@@ -20,7 +20,7 @@ export default React.createClass({
     return {
       authData: (this.props.data && this.props.data.authData) || null,
       streamersInPlayer: {},
-      playerCollapsed: false,
+      playerCollapsed: true,
       layout: "",
       playerStreamMax: 6
     }
@@ -46,6 +46,11 @@ export default React.createClass({
     console.log("New streamersInPlayer:", streamersInPlayer);
     this.setState({
       streamersInPlayer
+    });
+  },
+  clearPlayer() {
+    this.setState({
+      streamersInPlayer: {}
     });
   },
   logout() {
@@ -114,7 +119,7 @@ export default React.createClass({
   },
   setLayout(layout) {
     switch (layout) {
-      case "linear":
+      case "singular":
       case "by 2":
       case "by 3":
       this.setState({
@@ -176,6 +181,7 @@ export default React.createClass({
           layout={layout}
           methods={{
             spliceStream: this.spliceStream,
+            clearPlayer: this.clearPlayer,
             expandPlayer: this.expandPlayer,
             collapsePlayer: this.collapsePlayer,
             togglePlayer: this.togglePlayer,

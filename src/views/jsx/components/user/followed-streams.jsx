@@ -149,13 +149,18 @@ let components = {
 
       let hoverOptions = (
         <div className={`hover-options`}>
+          <div className="go-to-channel">
+            <a href={`https://twitch.tv/${name}`} target="_blank">Go To Channel</a>
+          </div>
           <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth} callback={this.followCallback}/>
           {
             stream ? (
               <div className="append-stream">
                 <a href="#" onClick={this.appendStream.bind(this, name, display_name)}>Watch Stream</a>
               </div>
-            ) : null
+            ) : <div className="append-stream">
+              <a href="#" onClick={this.appendStream.bind(this, name, display_name)}>Open Stream</a>
+            </div>
           }
         </div>
       );
@@ -195,9 +200,7 @@ let components = {
       let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       if(filter === "all" || filter === "online") {
         return (
-          <li className={`channel-list-item`} onClick={() => {
-            appendStream(name, display_name)
-          }}>
+          <li className={`channel-list-item`}>
             <div className="wrapper">
               <div className="image">
                 <img src={logo} />

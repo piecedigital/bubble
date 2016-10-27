@@ -7,26 +7,6 @@ import FollowButton from "./follow.jsx";
 const PlayerStream = React.createClass({
   displayName: "PlayerStream",
   getInitialState: () => ({ chatOpen: true, menuOpen: false }),
-  toggleChat(type) {
-    switch (type) {
-      case "close":
-        this.setState({
-          chatOpen: false
-        });
-        break;
-      case "open":
-        this.setState({
-          chatOpen: true
-        });
-        break;
-      case "toggle":
-      default:
-        console.log("no type match:", type);
-        this.setState({
-          chatOpen: !this.state.chatOpen
-        });
-    }
-  },
   toggleMenu(type) {
     switch (type) {
       case "close":
@@ -88,12 +68,11 @@ const PlayerStream = React.createClass({
       }
     } = this.props;
     const {
-      chatOpen,
       menuOpen,
     } = this.state;
     switch (isFor) {
       case "video": return (
-        <li className={`player-stream${!chatOpen ? " hide-chat" : ""}${inView ? " in-view" : ""}`}>
+        <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className="video">
             <div className="nested">
               <iframe ref="video" src={`https://player.twitch.tv/?channel=${name}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
@@ -117,9 +96,6 @@ const PlayerStream = React.createClass({
               <div className="closer" onClick={this.swapOut}>
                 Close
               </div>
-              <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
-                {chatOpen ? "Hide" : "Show"} Chat
-              </div>
               <div className="refresh-video" onClick={this.refresh.bind(this, "video")}>
                 Refresh Video
               </div>
@@ -140,7 +116,7 @@ const PlayerStream = React.createClass({
         </li>
       );
       case "chat": return (
-        <li className={`player-stream${!chatOpen ? " hide-chat" : ""}${inView ? " in-view" : ""}`}>
+        <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className={`chat`}>
             <iframe ref="chat" src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
           </div>
@@ -160,7 +136,8 @@ export default React.createClass({
     return {
       canScroll: true,
       streamInView: 0,
-      scrollTop: 0
+      scrollTop: 0,
+      chatOpen: true
     }
   },
   layoutTools(type) {
@@ -192,6 +169,26 @@ export default React.createClass({
     }
   },
   listScroll(e) {},
+  toggleChat(type) {
+    switch (type) {
+      case "close":
+        this.setState({
+          chatOpen: false
+        });
+        break;
+      case "open":
+        this.setState({
+          chatOpen: true
+        });
+        break;
+      case "toggle":
+      default:
+        console.log("no type match:", type);
+        this.setState({
+          chatOpen: !this.state.chatOpen
+        });
+    }
+  },
   render() {
     let {
       userData,
@@ -199,6 +196,7 @@ export default React.createClass({
       playerState,
       methods: {
         spliceStream,
+        clearPlayer,
         togglePlayer,
         alertAuthNeeded,
         setLayout,
@@ -209,7 +207,8 @@ export default React.createClass({
       layout,
     } = this.props;
     const {
-      streamInView
+      streamInView,
+      chatOpen
     } = this.state;
     var dataArray = Object.keys(dataObject);
     layout = layout || `layout-${Object.keys(dataObject).length}`;
@@ -235,7 +234,7 @@ export default React.createClass({
               ) : null
             }
           </ul>
-          <ul ref="chatList" onScroll={this.listScroll} className={`list chat-list`}>
+          <ul ref="chatList" onScroll={this.listScroll} className={`list chat-list${!chatOpen ? " hide-chat" : ""}`}>
             {
               dataObject ? (
                 dataArray.map((channelName, ind) => {
@@ -252,20 +251,19 @@ export default React.createClass({
             }
           </ul>
           <div className={`tools`}>
-            <div title="Closing the player will remove all current streams" className="closer" onClick={() => {
-              Object.keys(dataObject).map(channelName => {
-                spliceStream(channelName);
-              });
-            }}>
+            <div title="Closing the player will remove all current streams" className="closer" onClick={clearPlayer}>
               Close
             </div>
             <div title="Shrink the player to the side of the browser" className="closer" onClick={togglePlayer.bind(null, "toggle")}>
               {playerState.playerCollapsed ? "Expand" : "Collapse"}
             </div>
+            <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
+              {chatOpen ? "Hide" : "Show"} Chat
+            </div>
             <select title="Choose a layout for the streams" ref="selectLayout" className="layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setLayout")}>
               {
                 ["",
-                "Linear",
+                "Singular",
                 dataArray.length > 2 ? "By 2" : null,
                 dataArray.length > 3 ? "By 3" : null].map(layoutName => {
                   if(layoutName !== null) return (
@@ -276,7 +274,7 @@ export default React.createClass({
             </select>
             {
               dataObject &&
-              layout === "linear" ||
+              layout === "singular" ||
               layout !== "layout-1" ||
               layout !== "layout-by-2" ||
               layout !== "layout-by-3" ? (

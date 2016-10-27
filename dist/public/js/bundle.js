@@ -27379,26 +27379,6 @@ var PlayerStream = _react2["default"].createClass({
   getInitialState: function getInitialState() {
     return { chatOpen: true, menuOpen: false };
   },
-  toggleChat: function toggleChat(type) {
-    switch (type) {
-      case "close":
-        this.setState({
-          chatOpen: false
-        });
-        break;
-      case "open":
-        this.setState({
-          chatOpen: true
-        });
-        break;
-      case "toggle":
-      default:
-        console.log("no type match:", type);
-        this.setState({
-          chatOpen: !this.state.chatOpen
-        });
-    }
-  },
   toggleMenu: function toggleMenu(type) {
     switch (type) {
       case "close":
@@ -27456,15 +27436,13 @@ var PlayerStream = _react2["default"].createClass({
     var togglePlayer = _props2$methods.togglePlayer;
     var alertAuthNeeded = _props2$methods.alertAuthNeeded;
     var layoutTools = _props2$methods.layoutTools;
-    var _state = this.state;
-    var chatOpen = _state.chatOpen;
-    var menuOpen = _state.menuOpen;
+    var menuOpen = this.state.menuOpen;
 
     switch (isFor) {
       case "video":
         return _react2["default"].createElement(
           "li",
-          { className: "player-stream" + (!chatOpen ? " hide-chat" : "") + (inView ? " in-view" : "") },
+          { className: "player-stream" + (inView ? " in-view" : "") },
           _react2["default"].createElement(
             "div",
             { className: "video" },
@@ -27518,12 +27496,6 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "hide", onClick: this.toggleChat.bind(this, "toggle") },
-                chatOpen ? "Hide" : "Show",
-                " Chat"
-              ),
-              _react2["default"].createElement(
-                "div",
                 { className: "refresh-video", onClick: this.refresh.bind(this, "video") },
                 "Refresh Video"
               ),
@@ -27544,7 +27516,7 @@ var PlayerStream = _react2["default"].createClass({
       case "chat":
         return _react2["default"].createElement(
           "li",
-          { className: "player-stream" + (!chatOpen ? " hide-chat" : "") + (inView ? " in-view" : "") },
+          { className: "player-stream" + (inView ? " in-view" : "") },
           _react2["default"].createElement(
             "div",
             { className: "chat" },
@@ -27565,7 +27537,8 @@ exports["default"] = _react2["default"].createClass({
     return {
       canScroll: true,
       streamInView: 0,
-      scrollTop: 0
+      scrollTop: 0,
+      chatOpen: true
     };
   },
   layoutTools: function layoutTools(type) {
@@ -27598,6 +27571,26 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   listScroll: function listScroll(e) {},
+  toggleChat: function toggleChat(type) {
+    switch (type) {
+      case "close":
+        this.setState({
+          chatOpen: false
+        });
+        break;
+      case "open":
+        this.setState({
+          chatOpen: true
+        });
+        break;
+      case "toggle":
+      default:
+        console.log("no type match:", type);
+        this.setState({
+          chatOpen: !this.state.chatOpen
+        });
+    }
+  },
   render: function render() {
     var _this = this;
 
@@ -27607,12 +27600,15 @@ exports["default"] = _react2["default"].createClass({
     var playerState = _props3.playerState;
     var _props3$methods = _props3.methods;
     var spliceStream = _props3$methods.spliceStream;
+    var clearPlayer = _props3$methods.clearPlayer;
     var togglePlayer = _props3$methods.togglePlayer;
     var alertAuthNeeded = _props3$methods.alertAuthNeeded;
     var setLayout = _props3$methods.setLayout;
     var dataObject = _props3.data.dataObject;
     var layout = _props3.layout;
-    var streamInView = this.state.streamInView;
+    var _state = this.state;
+    var streamInView = _state.streamInView;
+    var chatOpen = _state.chatOpen;
 
     var dataArray = Object.keys(dataObject);
     layout = layout || "layout-" + Object.keys(dataObject).length;
@@ -27639,7 +27635,7 @@ exports["default"] = _react2["default"].createClass({
         ),
         _react2["default"].createElement(
           "ul",
-          { ref: "chatList", onScroll: this.listScroll, className: "list chat-list" },
+          { ref: "chatList", onScroll: this.listScroll, className: "list chat-list" + (!chatOpen ? " hide-chat" : "") },
           dataObject ? dataArray.map(function (channelName, ind) {
             var channelData = dataObject[channelName];
             return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {
@@ -27654,11 +27650,7 @@ exports["default"] = _react2["default"].createClass({
           { className: "tools" },
           _react2["default"].createElement(
             "div",
-            { title: "Closing the player will remove all current streams", className: "closer", onClick: function () {
-                Object.keys(dataObject).map(function (channelName) {
-                  spliceStream(channelName);
-                });
-              } },
+            { title: "Closing the player will remove all current streams", className: "closer", onClick: clearPlayer },
             "Close"
           ),
           _react2["default"].createElement(
@@ -27667,9 +27659,15 @@ exports["default"] = _react2["default"].createClass({
             playerState.playerCollapsed ? "Expand" : "Collapse"
           ),
           _react2["default"].createElement(
+            "div",
+            { className: "hide", onClick: this.toggleChat.bind(this, "toggle") },
+            chatOpen ? "Hide" : "Show",
+            " Chat"
+          ),
+          _react2["default"].createElement(
             "select",
             { title: "Choose a layout for the streams", ref: "selectLayout", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setLayout") },
-            ["", "Linear", dataArray.length > 2 ? "By 2" : null, dataArray.length > 3 ? "By 3" : null].map(function (layoutName) {
+            ["", "Singular", dataArray.length > 2 ? "By 2" : null, dataArray.length > 3 ? "By 3" : null].map(function (layoutName) {
               if (layoutName !== null) return _react2["default"].createElement(
                 "option",
                 { key: layoutName, value: layoutName.toLowerCase() },
@@ -27677,7 +27675,7 @@ exports["default"] = _react2["default"].createClass({
               );
             })
           ),
-          dataObject && layout === "linear" || layout !== "layout-1" || layout !== "layout-by-2" || layout !== "layout-by-3" ? _react2["default"].createElement(
+          dataObject && layout === "singular" || layout !== "layout-1" || layout !== "layout-by-2" || layout !== "layout-by-3" ? _react2["default"].createElement(
             "select",
             { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
             dataObject ? dataArray.map(function (channelName, ind) {
@@ -28000,6 +27998,15 @@ var components = {
       var hoverOptions = _react2["default"].createElement(
         "div",
         { className: "hover-options" },
+        _react2["default"].createElement(
+          "div",
+          { className: "go-to-channel" },
+          _react2["default"].createElement(
+            "a",
+            { href: "https://twitch.tv/" + name, target: "_blank" },
+            "Go To Channel"
+          )
+        ),
         _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: this.followCallback }),
         stream ? _react2["default"].createElement(
           "div",
@@ -28009,7 +28016,15 @@ var components = {
             { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
             "Watch Stream"
           )
-        ) : null
+        ) : _react2["default"].createElement(
+          "div",
+          { className: "append-stream" },
+          _react2["default"].createElement(
+            "a",
+            { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
+            "Open Stream"
+          )
+        )
       );
 
       if (!stream) {
@@ -28057,9 +28072,7 @@ var components = {
       if (filter === "all" || filter === "online") {
         return _react2["default"].createElement(
           "li",
-          { className: "channel-list-item", onClick: function () {
-              appendStream(name, display_name);
-            } },
+          { className: "channel-list-item" },
           _react2["default"].createElement(
             "div",
             { className: "wrapper" },
@@ -28681,7 +28694,7 @@ exports["default"] = _react2["default"].createClass({
     return {
       authData: this.props.data && this.props.data.authData || null,
       streamersInPlayer: {},
-      playerCollapsed: false,
+      playerCollapsed: true,
       layout: "",
       playerStreamMax: 6
     };
@@ -28709,6 +28722,11 @@ exports["default"] = _react2["default"].createClass({
     console.log("New streamersInPlayer:", streamersInPlayer);
     this.setState({
       streamersInPlayer: streamersInPlayer
+    });
+  },
+  clearPlayer: function clearPlayer() {
+    this.setState({
+      streamersInPlayer: {}
     });
   },
   logout: function logout() {
@@ -28778,7 +28796,7 @@ exports["default"] = _react2["default"].createClass({
   },
   setLayout: function setLayout(layout) {
     switch (layout) {
-      case "linear":
+      case "singular":
       case "by 2":
       case "by 3":
         this.setState({
@@ -28858,6 +28876,7 @@ exports["default"] = _react2["default"].createClass({
         layout: layout,
         methods: {
           spliceStream: this.spliceStream,
+          clearPlayer: this.clearPlayer,
           expandPlayer: this.expandPlayer,
           collapsePlayer: this.collapsePlayer,
           togglePlayer: this.togglePlayer,
