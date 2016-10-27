@@ -28652,7 +28652,6 @@ exports["default"] = _react2["default"].createClass({
 });
 module.exports = exports["default"];
 },{"./components/featured-streams.jsx":244,"./components/top-games.jsx":247,"react":242}],251:[function(require,module,exports){
-(function (process){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28680,7 +28679,7 @@ var _firebase = require("firebase");
 var _firebase2 = _interopRequireDefault(_firebase);
 
 var clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
-var redirectURI = process.env["NODE_ENV"] === "prod" ? "https://twinchill.herokuapp.com" : "http://localhost:8080";
+var redirectURI = "https://" + location.hostname;
 console.log(redirectURI);
 // Initialize Firebase
 var config = {
@@ -28902,8 +28901,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-}).call(this,require('_process'))
-},{"../../modules/load-data":4,"./components/player.jsx":246,"_process":1,"firebase":5,"react":242,"react-router":37}],252:[function(require,module,exports){
+},{"../../modules/load-data":4,"./components/player.jsx":246,"firebase":5,"react":242,"react-router":37}],252:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
