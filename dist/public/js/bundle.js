@@ -28652,6 +28652,7 @@ exports["default"] = _react2["default"].createClass({
 });
 module.exports = exports["default"];
 },{"./components/featured-streams.jsx":244,"./components/top-games.jsx":247,"react":242}],251:[function(require,module,exports){
+(function (process){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28677,6 +28678,8 @@ var _reactRouter = require('react-router');
 var _firebase = require("firebase");
 
 var _firebase2 = _interopRequireDefault(_firebase);
+
+var clientID = process.env["NODE_ENV"] === "prod" ? "2lbl5iik3q140d45q5bddj3paqekpbi" : "cye2hnlwj24qq7fezcbq9predovf6yy";
 
 // Initialize Firebase
 var config = {
@@ -28820,7 +28823,7 @@ exports["default"] = _react2["default"].createClass({
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
-    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + "&client_id=cye2hnlwj24qq7fezcbq9predovf6yy" + "&redirect_uri=http://localhost:8080" + "&scope=user_read+user_follows_edit";
+    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + ("&client_id=" + clientID) + "&redirect_uri=http://localhost:8080" + "&scope=user_read+user_follows_edit";
     return _react2["default"].createElement(
       "div",
       { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + (layout || Object.keys(dataObject).length) },
@@ -28898,7 +28901,8 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"./components/player.jsx":246,"firebase":5,"react":242,"react-router":37}],252:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"../../modules/load-data":4,"./components/player.jsx":246,"_process":1,"firebase":5,"react":242,"react-router":37}],252:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

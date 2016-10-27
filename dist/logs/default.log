@@ -1774,3 +1774,6 @@ milliseconds;time;error;message
 [1477536784231] [Thu, 27 Oct 2016 02:53:04 GMT] [0] [browserification complete]
 [1477536840628] [Thu, 27 Oct 2016 02:54:00 GMT] [0] [browserification complete]
 [1477536845315] [Thu, 27 Oct 2016 02:54:05 GMT] [0] [browserification complete]
+[1477608158366] [Thu, 27 Oct 2016 22:42:38 GMT] [0] [Listening on port 8080]
+[1477608179343] [Thu, 27 Oct 2016 22:42:59 GMT] [0] [browserification complete]
+[1477608179673] [Thu, 27 Oct 2016 22:42:59 GMT] [0] [Listening on port 8080]
