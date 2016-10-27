@@ -5,7 +5,7 @@ import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
 
 const clientID = process.env["NODE_ENV"] === "prod" ? "2lbl5iik3q140d45q5bddj3paqekpbi" : "cye2hnlwj24qq7fezcbq9predovf6yy";
-const redirectURI = process.env["NODE_ENV"] === "prod" ? "http://twinchill.herokuapp.com" : "http://localhost:8080"
+const redirectURI = process.env["NODE_ENV"] === "prod" ? "https://twinchill.herokuapp.com" : "http://localhost:8080"
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
