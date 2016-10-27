@@ -1,0 +1,851 @@
+milliseconds;time;error;message
+
+[1469929693463] [Sun, 31 Jul 2016 01:48:13 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+events.js:141
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOENT: no such file or directory, open 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js'
+    at Error (native)
+]
+[1469929693628] [Sun, 31 Jul 2016 01:48:13 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+events.js:141
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOENT: no such file or directory, open 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js'
+    at Error (native)
+]
+[1469929693880] [Sun, 31 Jul 2016 01:48:13 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+events.js:141
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOENT: no such file or directory, open 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js'
+    at Error (native)
+]
+[1469929694030] [Sun, 31 Jul 2016 01:48:14 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+events.js:141
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOENT: no such file or directory, open 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js'
+    at Error (native)
+]
+[1469929694030] [Sun, 31 Jul 2016 01:48:14 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+events.js:141
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOENT: no such file or directory, open 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js'
+    at Error (native)
+]
+[1469929694473] [Sun, 31 Jul 2016 01:48:14 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+events.js:141
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOENT: no such file or directory, open 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js'
+    at Error (native)
+]
+[1469929694521] [Sun, 31 Jul 2016 01:48:14 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+events.js:141
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOENT: no such file or directory, open 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js'
+    at Error (native)
+]
+[1469932888738] [Sun, 31 Jul 2016 02:41:28 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './home' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469932923203] [Sun, 31 Jul 2016 02:42:03 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './home' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469932923308] [Sun, 31 Jul 2016 02:42:03 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './home' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469932923438] [Sun, 31 Jul 2016 02:42:03 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './home' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469933022408] [Sun, 31 Jul 2016 02:43:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './home' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469934489643] [Sun, 31 Jul 2016 03:08:09 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module '../../modules/ajax' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469934489698] [Sun, 31 Jul 2016 03:08:09 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/jsx/layout.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module '../../modules/ajax' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936509874] [Sun, 31 Jul 2016 03:41:49 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/layout' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936509874] [Sun, 31 Jul 2016 03:41:49 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/layout' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936510083] [Sun, 31 Jul 2016 03:41:50 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/layout' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936510084] [Sun, 31 Jul 2016 03:41:50 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/layout' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936510332] [Sun, 31 Jul 2016 03:41:50 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/layout' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936510492] [Sun, 31 Jul 2016 03:41:50 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/layout' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936511396] [Sun, 31 Jul 2016 03:41:51 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/layout' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936640398] [Sun, 31 Jul 2016 03:44:00 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/home' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1469936640456] [Sun, 31 Jul 2016 03:44:00 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/home' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619625879] [Mon, 08 Aug 2016 01:27:05 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619625880] [Mon, 08 Aug 2016 01:27:05 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619625880] [Mon, 08 Aug 2016 01:27:05 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619626133] [Mon, 08 Aug 2016 01:27:06 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619629052] [Mon, 08 Aug 2016 01:27:09 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619629053] [Mon, 08 Aug 2016 01:27:09 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619631668] [Mon, 08 Aug 2016 01:27:11 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619696033] [Mon, 08 Aug 2016 01:28:16 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619696034] [Mon, 08 Aug 2016 01:28:16 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619696034] [Mon, 08 Aug 2016 01:28:16 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619696034] [Mon, 08 Aug 2016 01:28:16 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619696034] [Mon, 08 Aug 2016 01:28:16 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619696034] [Mon, 08 Aug 2016 01:28:16 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619696034] [Mon, 08 Aug 2016 01:28:16 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619696722] [Mon, 08 Aug 2016 01:28:16 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619697019] [Mon, 08 Aug 2016 01:28:17 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619697078] [Mon, 08 Aug 2016 01:28:17 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619708135] [Mon, 08 Aug 2016 01:28:28 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619708169] [Mon, 08 Aug 2016 01:28:28 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619722016] [Mon, 08 Aug 2016 01:28:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619722038] [Mon, 08 Aug 2016 01:28:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619722067] [Mon, 08 Aug 2016 01:28:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619722157] [Mon, 08 Aug 2016 01:28:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619722453] [Mon, 08 Aug 2016 01:28:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619722754] [Mon, 08 Aug 2016 01:28:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470619722773] [Mon, 08 Aug 2016 01:28:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620086463] [Mon, 08 Aug 2016 01:34:46 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620086464] [Mon, 08 Aug 2016 01:34:46 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620086464] [Mon, 08 Aug 2016 01:34:46 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620086464] [Mon, 08 Aug 2016 01:34:46 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620086541] [Mon, 08 Aug 2016 01:34:46 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620087636] [Mon, 08 Aug 2016 01:34:47 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620087636] [Mon, 08 Aug 2016 01:34:47 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620087987] [Mon, 08 Aug 2016 01:34:47 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620088150] [Mon, 08 Aug 2016 01:34:48 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620088228] [Mon, 08 Aug 2016 01:34:48 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470620088546] [Mon, 08 Aug 2016 01:34:48 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/featured-streams' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470684993934] [Mon, 08 Aug 2016 19:36:33 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/top-games' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470684993934] [Mon, 08 Aug 2016 19:36:33 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/top-games' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470684994132] [Mon, 08 Aug 2016 19:36:34 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/top-games' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470685044039] [Mon, 08 Aug 2016 19:37:24 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/top-games' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470685044066] [Mon, 08 Aug 2016 19:37:24 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/top-games' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470685203090] [Mon, 08 Aug 2016 19:40:03 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/top-games' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470685203230] [Mon, 08 Aug 2016 19:40:03 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/top-games' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470685203339] [Mon, 08 Aug 2016 19:40:03 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/top-games' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470705854152] [Tue, 09 Aug 2016 01:24:14 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/search-page.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713499219] [Tue, 09 Aug 2016 03:31:39 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713499530] [Tue, 09 Aug 2016 03:31:39 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713554866] [Tue, 09 Aug 2016 03:32:34 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713554867] [Tue, 09 Aug 2016 03:32:34 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713554867] [Tue, 09 Aug 2016 03:32:34 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713555082] [Tue, 09 Aug 2016 03:32:35 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713555634] [Tue, 09 Aug 2016 03:32:35 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713555664] [Tue, 09 Aug 2016 03:32:35 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713555931] [Tue, 09 Aug 2016 03:32:35 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713639276] [Tue, 09 Aug 2016 03:33:59 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713639289] [Tue, 09 Aug 2016 03:33:59 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713639350] [Tue, 09 Aug 2016 03:33:59 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713639833] [Tue, 09 Aug 2016 03:33:59 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713640143] [Tue, 09 Aug 2016 03:34:00 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713640200] [Tue, 09 Aug 2016 03:34:00 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470713640900] [Tue, 09 Aug 2016 03:34:00 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470714032905] [Tue, 09 Aug 2016 03:40:32 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470714102432] [Tue, 09 Aug 2016 03:41:42 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1470714227535] [Tue, 09 Aug 2016 03:43:47 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './components/player.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1472255735801] [Fri, 26 Aug 2016 23:55:35 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/games.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1472255796090] [Fri, 26 Aug 2016 23:56:36 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/games.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1472256066625] [Sat, 27 Aug 2016 00:01:06 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/general-page.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1472256360373] [Sat, 27 Aug 2016 00:06:00 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './jsx/general-page.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1472875587826] [Sat, 03 Sep 2016 04:06:27 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './user/followed-streams.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1473817277795] [Wed, 14 Sep 2016 01:41:17 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.css
+  Use --trace for backtrace.
+]
+[1473817277803] [Wed, 14 Sep 2016 01:41:17 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.css
+  Use --trace for backtrace.
+]
+[1473817398569] [Wed, 14 Sep 2016 01:43:18 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473817398570] [Wed, 14 Sep 2016 01:43:18 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473817431287] [Wed, 14 Sep 2016 01:43:51 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473817431289] [Wed, 14 Sep 2016 01:43:51 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473817463504] [Wed, 14 Sep 2016 01:44:23 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public --style=nested"
+Errno::EISDIR: Is a directory @ rb_sysopen - ./dist/public
+  Use --trace for backtrace.
+]
+[1473817463528] [Wed, 14 Sep 2016 01:44:23 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss:./dist/public --style=nested"
+Errno::EISDIR: Is a directory @ rb_sysopen - ./dist/public
+  Use --trace for backtrace.
+]
+[1473818069360] [Wed, 14 Sep 2016 01:54:29 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public:./dist/public --style=nested"
+Errno::EISDIR: Is a directory @ rb_sysopen - ./src/public
+  Use --trace for backtrace.
+]
+[1473818069361] [Wed, 14 Sep 2016 01:54:29 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public:./dist/public --style=nested"
+Errno::EISDIR: Is a directory @ rb_sysopen - ./src/public
+  Use --trace for backtrace.
+]
+[1473818152998] [Wed, 14 Sep 2016 01:55:52 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473818152999] [Wed, 14 Sep 2016 01:55:52 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\scss\style.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\scss\style.scss.css
+  Use --trace for backtrace.
+]
+[1473822684816] [Wed, 14 Sep 2016 03:11:24 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\components\_nav.scss ./dist/public\css\components\_nav.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
+  Use --trace for backtrace.
+]
+[1473822684827] [Wed, 14 Sep 2016 03:11:24 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\components\_nav.scss ./dist/public\css\components\_nav.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
+  Use --trace for backtrace.
+]
+[1473822898496] [Wed, 14 Sep 2016 03:14:58 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\components\_nav.scss ./dist/public\css\components\_nav.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
+  Use --trace for backtrace.
+]
+[1473822898497] [Wed, 14 Sep 2016 03:14:58 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\components\_nav.scss ./dist/public\css\components\_nav.scss.css --style=nested"
+Errno::ENOENT: No such file or directory @ rb_sysopen - ./dist/public\css\components\_nav.scss.css
+  Use --trace for backtrace.
+]
+[1473825458403] [Wed, 14 Sep 2016 03:57:38 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Error: Invalid CSS after "      height": expected ";", was ": 100%;"
+        on line 12 of src/public/scss/components/_player.scss
+        from line 34 of ./src/public\scss\style.scss
+  Use --trace for backtrace.
+]
+[1473825458404] [Wed, 14 Sep 2016 03:57:38 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Error: Invalid CSS after "      height": expected ";", was ": 100%;"
+        on line 12 of src/public/scss/components/_player.scss
+        from line 34 of ./src/public\scss\style.scss
+  Use --trace for backtrace.
+]
+[1473889855838] [Wed, 14 Sep 2016 21:50:55 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Errno::EACCES: Permission denied @ unlink_internal - ./.sass-cache/6713b81d3d90bab990cff24be0d1952f3e7f10fd/style.scssc
+  Use --trace for backtrace.
+]
+[1473889855838] [Wed, 14 Sep 2016 21:50:55 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Errno::EACCES: Permission denied @ unlink_internal - ./.sass-cache/6713b81d3d90bab990cff24be0d1952f3e7f10fd/style.scssc
+  Use --trace for backtrace.
+]
+[1473889855978] [Wed, 14 Sep 2016 21:50:55 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "sass ./src/public\scss\style.scss ./dist/public\css\style.css --style=nested"
+Error: File to import not found or unreadable: components/_root.scss.
+        on line 33 of ./src/public\scss\style.scss
+  Use --trace for backtrace.
+]
+[1473996723873] [Fri, 16 Sep 2016 03:32:03 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module '../../modules/load-data' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1473996838646] [Fri, 16 Sep 2016 03:33:58 GMT] [error] [Command failed: C:\Windows\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module '../../modules/load-data' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
