@@ -28679,8 +28679,9 @@ var _firebase = require("firebase");
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var clientID = process.env["NODE_ENV"] === "prod" ? "2lbl5iik3q140d45q5bddj3paqekpbi" : "cye2hnlwj24qq7fezcbq9predovf6yy";
+var clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
 var redirectURI = process.env["NODE_ENV"] === "prod" ? "https://twinchill.herokuapp.com" : "http://localhost:8080";
+console.log(redirectURI);
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
