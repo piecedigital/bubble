@@ -5,7 +5,7 @@ import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
 
 const clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
-const redirectURI = location ? `https://${location.hostname}` : "http://localhost";
+const redirectURI = typeof location === "object" ? `https://${location.hostname}` : "http://localhost";
 console.log(redirectURI);
 // Initialize Firebase
 var config = {

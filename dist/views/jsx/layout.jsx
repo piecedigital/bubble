@@ -25,7 +25,7 @@ var _firebase = require("firebase");
 var _firebase2 = _interopRequireDefault(_firebase);
 
 var clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
-var redirectURI = location ? "https://" + location.hostname : "http://localhost";
+var redirectURI = typeof location === "object" ? "https://" + location.hostname : "http://localhost";
 console.log(redirectURI);
 // Initialize Firebase
 var config = {
