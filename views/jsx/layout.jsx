@@ -24,9 +24,9 @@ var _firebase = require("firebase");
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
-var redirectURI = typeof location === "object" ? "https://" + location.hostname : "http://localhost";
-console.log(redirectURI);
+var redirectURI = typeof location === "object" ? "http://" + location.host : "http://localhost:8080";
+var clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
+console.log(redirectURI, clientID);
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
@@ -45,7 +45,8 @@ exports["default"] = _react2["default"].createClass({
       streamersInPlayer: {},
       playerCollapsed: true,
       layout: "",
-      playerStreamMax: 6
+      playerStreamMax: 6,
+      panelData: []
     };
   },
   appendStream: function appendStream(username, displayName) {
@@ -106,6 +107,28 @@ exports["default"] = _react2["default"].createClass({
           playerCollapsed: !this.state.playerCollapsed
         });
     }
+  },
+  openPanels: function openPanels(name) {
+    console.log("This would open panels for:", name);
+    alert("Feature coming soon (I hope...)");
+    // loadData.call(this, e => {
+    //   console.error(e.stack);
+    // }, {
+    //   // access_token: this.state.authData.access_token,
+    //   username: name
+    // })
+    // .then(methods => {
+    //   methods
+    //   .getPanels()
+    //   .then(data => {
+    //     console.log("panel data", data);
+    //     this.setState({
+    //       panelData: data,
+    //     });
+    //   })
+    //   .catch(e => console.error(e.stack || e));
+    // })
+    // .catch(e => console.error(e.stack || e));
   },
   componentDidMount: function componentDidMount() {
     var _this = this;
@@ -230,7 +253,8 @@ exports["default"] = _react2["default"].createClass({
           collapsePlayer: this.collapsePlayer,
           togglePlayer: this.togglePlayer,
           alertAuthNeeded: this.alertAuthNeeded,
-          setLayout: this.setLayout
+          setLayout: this.setLayout,
+          openPanels: this.openPanels
         } }),
       this.props.children ? _react2["default"].cloneElement(this.props.children, {
         parent: this,
