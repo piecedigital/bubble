@@ -154,6 +154,7 @@ var ajax = function ajax(optionsObj) {
 		}
 	};
 	var contentTypes = {
+		jsonp: "application/javascript; charset=UTF-8",
 		json: "application/json; charset=UTF-8",
 		text: "text/plain; charset=UTF-8",
 		formdata: "multipart/form-data; boundary=---------------------------file0123456789end"
@@ -236,11 +237,15 @@ exports["default"] = function (errorCB) {
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
   options.headers = options.headers || {};
-  options.headers["Client-ID"] = "cye2hnlwj24qq7fezcbq9predovf6yy";
+
+  var redirectURI = typeof location === "object" ? "http://" + location.host : "http://localhost:8080";
+  var clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
+
+  options.headers["Client-ID"] = clientID;
   var baseURL = "https://api.twitch.tv/kraken/";
-  var makeRequest = function makeRequest(okayCB, path) {
+  var makeRequest = function makeRequest(okayCB, path, omitBase) {
     return new Promise(function (resolve, reject) {
-      var requestURL = "" + baseURL + path + "?";
+      var requestURL = "" + (!omitBase ? baseURL : "") + path + "?";
       Object.keys(options).map(function (key) {
         var exceptions = ["type", "headers"];
         if (exceptions.indexOf(key) < 0) {
@@ -324,6 +329,17 @@ exports["default"] = function (errorCB) {
         delete options.stream_type;
         delete options.limit;
         return makeRequest(okayCB, "users/" + options.username + "/follows/channels/" + options.target);
+      },
+      getPanels: function getPanels(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        var username = options.username;
+        delete options.username;
+        options.client_id = options.headers["Client-ID"];
+        options.callback = "";
+        options.type = "JSON";
+        // options.headers = options.headers || {};
+        return makeRequest(okayCB, "https://api.twitch.tv/api/channels/" + username + "/panels", true);
       },
       followStream: function followStream(okayCB) {
         delete options.stream_type;
@@ -27436,6 +27452,7 @@ var PlayerStream = _react2["default"].createClass({
     var togglePlayer = _props2$methods.togglePlayer;
     var alertAuthNeeded = _props2$methods.alertAuthNeeded;
     var layoutTools = _props2$methods.layoutTools;
+    var openPanels = _props2$methods.openPanels;
     var menuOpen = this.state.menuOpen;
 
     switch (isFor) {
@@ -27466,7 +27483,7 @@ var PlayerStream = _react2["default"].createClass({
                   { className: "name" },
                   _react2["default"].createElement(
                     _reactRouter.Link,
-                    { title: name, to: "/user/" + name, onClick: togglePlayer.bind(null, "close"), target: "_blank" },
+                    { title: name, to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
                     display_name,
                     !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                   )
@@ -27491,6 +27508,15 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
+                { className: "to-channel" },
+                _react2["default"].createElement(
+                  _reactRouter.Link,
+                  { to: "https://twitch.tv/" + name, target: "_blank", onClick: togglePlayer.bind(null, "close") },
+                  "Go To Channel"
+                )
+              ),
+              _react2["default"].createElement(
+                "div",
                 { className: "closer", onClick: this.swapOut },
                 "Close"
               ),
@@ -27503,6 +27529,11 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "refresh-chat", onClick: this.refresh.bind(this, "chat") },
                 "Refresh Chat"
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "open-panels", onClick: openPanels.bind(this, name) },
+                "Open Panels"
               ),
               userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
                 "div",
@@ -27604,6 +27635,7 @@ exports["default"] = _react2["default"].createClass({
     var togglePlayer = _props3$methods.togglePlayer;
     var alertAuthNeeded = _props3$methods.alertAuthNeeded;
     var setLayout = _props3$methods.setLayout;
+    var openPanels = _props3$methods.openPanels;
     var dataObject = _props3.data.dataObject;
     var layout = _props3.layout;
     var _state = this.state;
@@ -27628,6 +27660,7 @@ exports["default"] = _react2["default"].createClass({
             return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", methods: {
                 spliceStream: spliceStream,
                 togglePlayer: togglePlayer,
+                openPanels: openPanels,
                 alertAuthNeeded: alertAuthNeeded,
                 layoutTools: _this.layoutTools
               } });
@@ -27638,11 +27671,7 @@ exports["default"] = _react2["default"].createClass({
           { ref: "chatList", onScroll: this.listScroll, className: "list chat-list" + (!chatOpen ? " hide-chat" : "") },
           dataObject ? dataArray.map(function (channelName, ind) {
             var channelData = dataObject[channelName];
-            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {
-                spliceStream: spliceStream,
-                togglePlayer: togglePlayer,
-                alertAuthNeeded: alertAuthNeeded
-              } });
+            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
           }) : null
         ),
         _react2["default"].createElement(
@@ -27677,7 +27706,7 @@ exports["default"] = _react2["default"].createClass({
           ),
           dataObject && layout === "singular" || layout !== "layout-1" || layout !== "layout-by-2" || layout !== "layout-by-3" ? _react2["default"].createElement(
             "select",
-            { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
+            { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "streamers", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
             dataObject ? dataArray.map(function (channelName, ind) {
               return _react2["default"].createElement(
                 "option",
@@ -27809,7 +27838,7 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "title" },
-        "Top Games"
+        "Top 10 Games"
       ),
       _react2["default"].createElement(
         "div",
@@ -28678,9 +28707,9 @@ var _firebase = require("firebase");
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
-var redirectURI = typeof location === "object" ? "https://" + location.hostname : "http://localhost";
-console.log(redirectURI);
+var redirectURI = typeof location === "object" ? "http://" + location.host : "http://localhost:8080";
+var clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
+console.log(redirectURI, clientID);
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
@@ -28699,7 +28728,8 @@ exports["default"] = _react2["default"].createClass({
       streamersInPlayer: {},
       playerCollapsed: true,
       layout: "",
-      playerStreamMax: 6
+      playerStreamMax: 6,
+      panelData: []
     };
   },
   appendStream: function appendStream(username, displayName) {
@@ -28760,6 +28790,28 @@ exports["default"] = _react2["default"].createClass({
           playerCollapsed: !this.state.playerCollapsed
         });
     }
+  },
+  openPanels: function openPanels(name) {
+    console.log("This would open panels for:", name);
+    alert("Feature coming soon (I hope...)");
+    // loadData.call(this, e => {
+    //   console.error(e.stack);
+    // }, {
+    //   // access_token: this.state.authData.access_token,
+    //   username: name
+    // })
+    // .then(methods => {
+    //   methods
+    //   .getPanels()
+    //   .then(data => {
+    //     console.log("panel data", data);
+    //     this.setState({
+    //       panelData: data,
+    //     });
+    //   })
+    //   .catch(e => console.error(e.stack || e));
+    // })
+    // .catch(e => console.error(e.stack || e));
   },
   componentDidMount: function componentDidMount() {
     var _this = this;
@@ -28884,7 +28936,8 @@ exports["default"] = _react2["default"].createClass({
           collapsePlayer: this.collapsePlayer,
           togglePlayer: this.togglePlayer,
           alertAuthNeeded: this.alertAuthNeeded,
-          setLayout: this.setLayout
+          setLayout: this.setLayout,
+          openPanels: this.openPanels
         } }),
       this.props.children ? _react2["default"].cloneElement(this.props.children, {
         parent: this,

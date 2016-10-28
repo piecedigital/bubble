@@ -114,7 +114,7 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "title" },
-        "Top Games"
+        "Top 10 Games"
       ),
       _react2["default"].createElement(
         "div",

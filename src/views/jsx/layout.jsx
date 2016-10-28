@@ -4,9 +4,9 @@ import loadData from "../../modules/load-data";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
 
-const clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
-const redirectURI = typeof location === "object" ? `https://${location.hostname}` : "http://localhost";
-console.log(redirectURI);
+const redirectURI = typeof location === "object" ? `http://${location.host}` : "http://localhost:8080";
+const clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
+console.log(redirectURI, clientID);
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
@@ -25,7 +25,8 @@ export default React.createClass({
       streamersInPlayer: {},
       playerCollapsed: true,
       layout: "",
-      playerStreamMax: 6
+      playerStreamMax: 6,
+      panelData: [],
     }
   },
   appendStream(username, displayName, isSolo = true) {
@@ -84,6 +85,28 @@ export default React.createClass({
           playerCollapsed: !this.state.playerCollapsed
         });
     }
+  },
+  openPanels(name) {
+    console.log("This would open panels for:", name);
+    alert("Feature coming soon (I hope...)")
+    // loadData.call(this, e => {
+    //   console.error(e.stack);
+    // }, {
+    //   // access_token: this.state.authData.access_token,
+    //   username: name
+    // })
+    // .then(methods => {
+    //   methods
+    //   .getPanels()
+    //   .then(data => {
+    //     console.log("panel data", data);
+    //     this.setState({
+    //       panelData: data,
+    //     });
+    //   })
+    //   .catch(e => console.error(e.stack || e));
+    // })
+    // .catch(e => console.error(e.stack || e));
   },
   componentDidMount() {
     let authData = {};
@@ -190,6 +213,7 @@ export default React.createClass({
             togglePlayer: this.togglePlayer,
             alertAuthNeeded: this.alertAuthNeeded,
             setLayout: this.setLayout,
+            openPanels: this.openPanels,
           }}/>
         }
         {

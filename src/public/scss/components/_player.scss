@@ -42,6 +42,9 @@
         border: none;
         cursor: pointer;
         border-right: 2px solid $dimmer;
+        &.streamers {
+          font-weight: bold;
+        }
         &:hover {
           background-color: $light
         }
@@ -144,6 +147,9 @@
         padding-top: .25*$em;
         padding-bottom: .25*$em;
         overflow: hidden;
+        &.streamer {
+          display: none;
+        }
         &:not(:last-child) {
           border-bottom: 2px solid $dimmer;
         }
@@ -396,7 +402,7 @@
             }
           }
         }
-        .tools {
+        > .tools {
           > * {
             @for $i from 3 to 6 {
               &:nth-child(#{$i}n) {

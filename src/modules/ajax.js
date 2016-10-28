@@ -27,6 +27,7 @@ export var ajax = function(optionsObj) {
 		}
 	};
 	var contentTypes = {
+		jsonp: "application/javascript; charset=UTF-8",
 		json: "application/json; charset=UTF-8",
 		text: "text/plain; charset=UTF-8",
 		formdata: "multipart/form-data; boundary=---------------------------file0123456789end"

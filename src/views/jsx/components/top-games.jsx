@@ -92,7 +92,7 @@ export default React.createClass({
     } = this.props
     return (
       <div className="top-games">
-        <div className={`title`}>Top Games</div>
+        <div className={`title`}>Top 10 Games</div>
         <div className="wrapper">
           <ul className="list">
             {

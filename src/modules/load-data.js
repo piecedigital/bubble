@@ -4,11 +4,15 @@ export default function(errorCB, options = {}) {
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
   options.headers = options.headers || {};
-  options.headers["Client-ID"] = "cye2hnlwj24qq7fezcbq9predovf6yy";
+
+  const redirectURI = typeof location === "object" ? `http://${location.host}` : "http://localhost:8080";
+  const clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
+
+  options.headers["Client-ID"] = clientID;
   let baseURL = "https://api.twitch.tv/kraken/";
-  const makeRequest = function(okayCB, path) {
+  const makeRequest = function(okayCB, path, omitBase) {
     return new Promise((resolve, reject) => {
-      let requestURL = `${baseURL}${path}?`;
+      let requestURL = `${!omitBase ? baseURL : ""}${path}?`;
       Object.keys(options).map(key => {
         const exceptions = ["type", "headers"];
         if(exceptions.indexOf(key) < 0) {
@@ -92,6 +96,17 @@ export default function(errorCB, options = {}) {
         delete options.stream_type;
         delete options.limit;
         return makeRequest(okayCB, `users/${options.username}/follows/channels/${options.target}`);
+      },
+      getPanels: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        let username = options.username;
+        delete options.username;
+        options.client_id = options.headers["Client-ID"];
+        options.callback = "";
+        options.type = "JSON"
+        // options.headers = options.headers || {};
+        return makeRequest(okayCB, `https://api.twitch.tv/api/channels/${username}/panels`, true);
       },
       followStream: (okayCB) => {
         delete options.stream_type;

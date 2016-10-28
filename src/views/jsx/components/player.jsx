@@ -64,7 +64,8 @@ const PlayerStream = React.createClass({
         spliceStream,
         togglePlayer,
         alertAuthNeeded,
-        layoutTools
+        layoutTools,
+        openPanels,
       }
     } = this.props;
     const {
@@ -82,7 +83,7 @@ const PlayerStream = React.createClass({
             <div className={`tools${menuOpen ? " menu-open" : ""}`}>
               <div className="mobile">
                 <div className="name">
-                  <Link title={name} to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")} target="_blank">{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                  <Link title={name} to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
                 </div>
                 <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
                   <div></div>
@@ -93,6 +94,9 @@ const PlayerStream = React.createClass({
               <div className="streamer">
                 <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
               </div>
+              <div className="to-channel">
+                <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={togglePlayer.bind(null, "close")}>Go To Channel</Link>
+              </div>
               <div className="closer" onClick={this.swapOut}>
                 Close
               </div>
@@ -101,6 +105,9 @@ const PlayerStream = React.createClass({
               </div>
               <div className="refresh-chat" onClick={this.refresh.bind(this, "chat")}>
                 Refresh Chat
+              </div>
+              <div className="open-panels" onClick={openPanels.bind(this, name)}>
+                Open Panels
               </div>
               {
                 userData ? (
@@ -200,6 +207,7 @@ export default React.createClass({
         togglePlayer,
         alertAuthNeeded,
         setLayout,
+        openPanels,
       },
       data: {
         dataObject
@@ -226,6 +234,7 @@ export default React.createClass({
                     <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="video" methods={{
                       spliceStream,
                       togglePlayer,
+                      openPanels,
                       alertAuthNeeded,
                       layoutTools: this.layoutTools
                     }} />
@@ -240,11 +249,7 @@ export default React.createClass({
                 dataArray.map((channelName, ind) => {
                   let channelData = dataObject[channelName];
                   return (
-                    <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{
-                      spliceStream,
-                      togglePlayer,
-                      alertAuthNeeded
-                    }} />
+                    <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
                   );
                 })
               ) : null
@@ -278,7 +283,7 @@ export default React.createClass({
               layout !== "layout-1" ||
               layout !== "layout-by-2" ||
               layout !== "layout-by-3" ? (
-                <select title="Choose which stream and chat appears as the main or in-view stream" ref="selectStream" className="layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setStreamToView")}>
+                <select title="Choose which stream and chat appears as the main or in-view stream" ref="selectStream" className="streamers" defaultValue={0} onChange={this.layoutTools.bind(null, "setStreamToView")}>
                   {
                     dataObject ? (
                       dataArray.map((channelName, ind) => {
