@@ -65,7 +65,7 @@ const PlayerStream = React.createClass({
         togglePlayer,
         alertAuthNeeded,
         layoutTools,
-        openPanels,
+        panelsHandler,
       }
     } = this.props;
     const {
@@ -106,7 +106,7 @@ const PlayerStream = React.createClass({
               <div className="refresh-chat" onClick={this.refresh.bind(this, "chat")}>
                 Refresh Chat
               </div>
-              <div className="open-panels" onClick={openPanels.bind(this, name)}>
+              <div className="open-panels" onClick={panelsHandler.bind(null, "open", name)}>
                 Open Panels
               </div>
               {
@@ -207,7 +207,7 @@ export default React.createClass({
         togglePlayer,
         alertAuthNeeded,
         setLayout,
-        openPanels,
+        panelsHandler,
       },
       data: {
         dataObject
@@ -234,7 +234,7 @@ export default React.createClass({
                     <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="video" methods={{
                       spliceStream,
                       togglePlayer,
-                      openPanels,
+                      panelsHandler,
                       alertAuthNeeded,
                       layoutTools: this.layoutTools
                     }} />

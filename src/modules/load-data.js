@@ -103,10 +103,8 @@ export default function(errorCB, options = {}) {
         let username = options.username;
         delete options.username;
         options.client_id = options.headers["Client-ID"];
-        options.callback = "alert";
-        options.type = "JSONP";
         // options.headers = options.headers || {};
-        return makeRequest(okayCB, `https://api.twitch.tv/api/channels/${username}/panels`, true);
+        return makeRequest(okayCB, `/get-panels/${username}`, true);
       },
       followStream: (okayCB) => {
         delete options.stream_type;
