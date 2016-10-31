@@ -196,6 +196,29 @@ export default React.createClass({
         });
     }
   },
+  componentWillReceiveProps(nextProps) {
+    const {
+      data: {
+        dataObject
+      }
+    } = nextProps;
+    const {
+      streamInView
+    } = this.state;
+    console.log("receiving props", nextProps, this.props);
+    const count = Object.keys(dataObject).length;
+    console.log("setting view", streamInView, count);
+    if( streamInView > (count - 1) ) {
+      this.setState({
+        streamInView: count - 1
+      })
+    } else
+    if( streamInView < 0 ) {
+      this.setState({
+        streamInView: 0
+      })
+    }
+  },
   render() {
     let {
       userData,

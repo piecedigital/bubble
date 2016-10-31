@@ -194,6 +194,7 @@ exports["default"] = _react2["default"].createClass({
     var dataObject = _state.streamersInPlayer;
     var playerCollapsed = _state.playerCollapsed;
     var layout = _state.layout;
+    var panelData = _state.panelData;
     var data = this.props.data;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
@@ -248,6 +249,7 @@ exports["default"] = _react2["default"].createClass({
         },
         userData: userData,
         auth: authData,
+        panelData: panelData,
         playerState: {
           playerCollapsed: playerCollapsed
         },

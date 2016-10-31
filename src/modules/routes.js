@@ -57,7 +57,7 @@ app
       buffer += d;
     });
     XHRResponse.on("end", function () {
-      console.log("res end", buffer);
+      // console.log("res end", buffer);
       res.send(buffer);
     })
   });

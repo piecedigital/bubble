@@ -170,6 +170,7 @@ export default React.createClass({
       streamersInPlayer: dataObject,
       playerCollapsed,
       layout,
+      panelData,
     } = this.state;
     const {
       data
@@ -206,6 +207,7 @@ export default React.createClass({
           }}
           userData={userData}
           auth={authData}
+          panelData={panelData}
           playerState={{
             playerCollapsed
           }}
