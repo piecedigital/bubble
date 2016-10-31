@@ -33,7 +33,8 @@ var _jsxSearchJsx2 = _interopRequireDefault(_jsxSearchJsx);
 var container = document.querySelector(".react-app");
 
 function checkAuth(Component, props) {
-  if (props.auth) {
+  // console.log("check auth", props.auth);
+  if (props.auth !== null) {
     if (props.auth.access_token) {
       return _react2["default"].createElement(Component, props);
     } else {
@@ -41,11 +42,9 @@ function checkAuth(Component, props) {
       return null;
     }
   } else {
-    return _react2["default"].createElement(
-      "span",
-      null,
-      "Validating authorization..."
-    );
+    _reactRouter.browserHistory.push("/");
+    return null;
+    // return (<span>Validating authorization...</span>);
   }
 }
 (0, _reactDom.render)(_react2["default"].createElement(

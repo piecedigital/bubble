@@ -109,29 +109,30 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   openPanels: function openPanels(name) {
+    var _this = this;
+
     console.log("This would open panels for:", name);
-    alert("Feature coming soon (I hope...)");
-    // loadData.call(this, e => {
-    //   console.error(e.stack);
-    // }, {
-    //   // access_token: this.state.authData.access_token,
-    //   username: name
-    // })
-    // .then(methods => {
-    //   methods
-    //   .getPanels()
-    //   .then(data => {
-    //     console.log("panel data", data);
-    //     this.setState({
-    //       panelData: data,
-    //     });
-    //   })
-    //   .catch(e => console.error(e.stack || e));
-    // })
-    // .catch(e => console.error(e.stack || e));
+    // alert("Feature coming soon (I hope...)")
+    _modulesLoadData2["default"].call(this, function (e) {
+      console.error(e.stack);
+    }, {
+      // access_token: this.state.authData.access_token,
+      username: name
+    }).then(function (methods) {
+      methods.getPanels().then(function (data) {
+        console.log("panel data", data);
+        _this.setState({
+          panelData: data
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack || e);
+      });
+    })["catch"](function (e) {
+      return console.error(e.stack || e);
+    });
   },
   componentDidMount: function componentDidMount() {
-    var _this = this;
+    var _this2 = this;
 
     var authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
@@ -149,7 +150,7 @@ exports["default"] = _react2["default"].createClass({
       access_token: authData.access_token
     }).then(function (methods) {
       methods.getCurrentUser().then(function (data) {
-        _this.setState({
+        _this2.setState({
           userData: data,
           authData: authData
         });

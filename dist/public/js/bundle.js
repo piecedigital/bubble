@@ -336,8 +336,8 @@ exports["default"] = function (errorCB) {
         var username = options.username;
         delete options.username;
         options.client_id = options.headers["Client-ID"];
-        options.callback = "";
-        options.type = "JSON";
+        options.callback = "alert";
+        options.type = "JSONP";
         // options.headers = options.headers || {};
         return makeRequest(okayCB, "https://api.twitch.tv/api/channels/" + username + "/panels", true);
       },
@@ -26974,7 +26974,8 @@ var _jsxSearchJsx2 = _interopRequireDefault(_jsxSearchJsx);
 var container = document.querySelector(".react-app");
 
 function checkAuth(Component, props) {
-  if (props.auth) {
+  // console.log("check auth", props.auth);
+  if (props.auth !== null) {
     if (props.auth.access_token) {
       return _react2["default"].createElement(Component, props);
     } else {
@@ -26982,11 +26983,9 @@ function checkAuth(Component, props) {
       return null;
     }
   } else {
-    return _react2["default"].createElement(
-      "span",
-      null,
-      "Validating authorization..."
-    );
+    _reactRouter.browserHistory.push("/");
+    return null;
+    // return (<span>Validating authorization...</span>);
   }
 }
 (0, _reactDom.render)(_react2["default"].createElement(
@@ -28792,29 +28791,30 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   openPanels: function openPanels(name) {
+    var _this = this;
+
     console.log("This would open panels for:", name);
-    alert("Feature coming soon (I hope...)");
-    // loadData.call(this, e => {
-    //   console.error(e.stack);
-    // }, {
-    //   // access_token: this.state.authData.access_token,
-    //   username: name
-    // })
-    // .then(methods => {
-    //   methods
-    //   .getPanels()
-    //   .then(data => {
-    //     console.log("panel data", data);
-    //     this.setState({
-    //       panelData: data,
-    //     });
-    //   })
-    //   .catch(e => console.error(e.stack || e));
-    // })
-    // .catch(e => console.error(e.stack || e));
+    // alert("Feature coming soon (I hope...)")
+    _modulesLoadData2["default"].call(this, function (e) {
+      console.error(e.stack);
+    }, {
+      // access_token: this.state.authData.access_token,
+      username: name
+    }).then(function (methods) {
+      methods.getPanels().then(function (data) {
+        console.log("panel data", data);
+        _this.setState({
+          panelData: data
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack || e);
+      });
+    })["catch"](function (e) {
+      return console.error(e.stack || e);
+    });
   },
   componentDidMount: function componentDidMount() {
-    var _this = this;
+    var _this2 = this;
 
     var authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
@@ -28832,7 +28832,7 @@ exports["default"] = _react2["default"].createClass({
       access_token: authData.access_token
     }).then(function (methods) {
       methods.getCurrentUser().then(function (data) {
-        _this.setState({
+        _this2.setState({
           userData: data,
           authData: authData
         });

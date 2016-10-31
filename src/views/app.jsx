@@ -10,7 +10,8 @@ import SearchPage from "./jsx/search.jsx";
 const container = document.querySelector(".react-app");
 
 function checkAuth(Component, props) {
-  if(props.auth) {
+  // console.log("check auth", props.auth);
+  if(props.auth !== null) {
     if(props.auth.access_token) {
       return (<Component {...props} />);
     } else {
@@ -18,7 +19,9 @@ function checkAuth(Component, props) {
       return null;
     }
   } else {
-    return (<span>Validating authorization...</span>);
+    History.push("/");
+    return null;
+    // return (<span>Validating authorization...</span>);
   }
 }
 render((

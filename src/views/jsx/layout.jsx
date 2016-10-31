@@ -88,25 +88,25 @@ export default React.createClass({
   },
   openPanels(name) {
     console.log("This would open panels for:", name);
-    alert("Feature coming soon (I hope...)")
-    // loadData.call(this, e => {
-    //   console.error(e.stack);
-    // }, {
-    //   // access_token: this.state.authData.access_token,
-    //   username: name
-    // })
-    // .then(methods => {
-    //   methods
-    //   .getPanels()
-    //   .then(data => {
-    //     console.log("panel data", data);
-    //     this.setState({
-    //       panelData: data,
-    //     });
-    //   })
-    //   .catch(e => console.error(e.stack || e));
-    // })
-    // .catch(e => console.error(e.stack || e));
+    // alert("Feature coming soon (I hope...)")
+    loadData.call(this, e => {
+      console.error(e.stack);
+    }, {
+      // access_token: this.state.authData.access_token,
+      username: name
+    })
+    .then(methods => {
+      methods
+      .getPanels()
+      .then(data => {
+        console.log("panel data", data);
+        this.setState({
+          panelData: data,
+        });
+      })
+      .catch(e => console.error(e.stack || e));
+    })
+    .catch(e => console.error(e.stack || e));
   },
   componentDidMount() {
     let authData = {};
