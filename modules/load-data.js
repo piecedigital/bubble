@@ -114,8 +114,8 @@ exports["default"] = function (errorCB) {
         var username = options.username;
         delete options.username;
         options.client_id = options.headers["Client-ID"];
-        options.callback = "";
-        options.type = "JSON";
+        options.callback = "alert";
+        options.type = "JSONP";
         // options.headers = options.headers || {};
         return makeRequest(okayCB, "https://api.twitch.tv/api/channels/" + username + "/panels", true);
       },
