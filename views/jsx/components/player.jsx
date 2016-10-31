@@ -83,7 +83,7 @@ var PlayerStream = _react2["default"].createClass({
     var togglePlayer = _props2$methods.togglePlayer;
     var alertAuthNeeded = _props2$methods.alertAuthNeeded;
     var layoutTools = _props2$methods.layoutTools;
-    var openPanels = _props2$methods.openPanels;
+    var panelsHandler = _props2$methods.panelsHandler;
     var menuOpen = this.state.menuOpen;
 
     switch (isFor) {
@@ -163,7 +163,7 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "open-panels", onClick: openPanels.bind(this, name) },
+                { className: "open-panels", onClick: panelsHandler.bind(null, "open", name) },
                 "Open Panels"
               ),
               userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
@@ -266,7 +266,7 @@ exports["default"] = _react2["default"].createClass({
     var togglePlayer = _props3$methods.togglePlayer;
     var alertAuthNeeded = _props3$methods.alertAuthNeeded;
     var setLayout = _props3$methods.setLayout;
-    var openPanels = _props3$methods.openPanels;
+    var panelsHandler = _props3$methods.panelsHandler;
     var dataObject = _props3.data.dataObject;
     var layout = _props3.layout;
     var _state = this.state;
@@ -291,7 +291,7 @@ exports["default"] = _react2["default"].createClass({
             return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", methods: {
                 spliceStream: spliceStream,
                 togglePlayer: togglePlayer,
-                openPanels: openPanels,
+                panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
                 layoutTools: _this.layoutTools
               } });

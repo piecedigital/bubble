@@ -24,7 +24,7 @@ var _firebase = require("firebase");
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var redirectURI = typeof location === "object" ? "http://" + location.host : "http://localhost:8080";
+var redirectURI = typeof location === "object" ? "https://" + location.host : "http://localhost:8080";
 var clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
 console.log(redirectURI, clientID);
 // Initialize Firebase
@@ -108,28 +108,33 @@ exports["default"] = _react2["default"].createClass({
         });
     }
   },
-  openPanels: function openPanels(name) {
+  panelsHandler: function panelsHandler(type, name) {
     var _this = this;
 
-    console.log("This would open panels for:", name);
-    // alert("Feature coming soon (I hope...)")
-    _modulesLoadData2["default"].call(this, function (e) {
-      console.error(e.stack);
-    }, {
-      // access_token: this.state.authData.access_token,
-      username: name
-    }).then(function (methods) {
-      methods.getPanels().then(function (data) {
-        console.log("panel data", data);
-        _this.setState({
-          panelData: data
+    switch (type) {
+      case "open":
+        console.log("This would open panels for:", name);
+        // alert("Feature coming soon (I hope...)")
+        _modulesLoadData2["default"].call(this, function (e) {
+          console.error(e.stack);
+        }, {
+          // access_token: this.state.authData.access_token,
+          username: name
+        }).then(function (methods) {
+          methods.getPanels().then(function (data) {
+            console.log("panel data", data);
+            _this.setState({
+              panelData: data
+            });
+          })["catch"](function (e) {
+            return console.error(e.stack || e);
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack || e);
         });
-      })["catch"](function (e) {
-        return console.error(e.stack || e);
-      });
-    })["catch"](function (e) {
-      return console.error(e.stack || e);
-    });
+        break;
+      default:
+    }
   },
   componentDidMount: function componentDidMount() {
     var _this2 = this;
@@ -255,7 +260,7 @@ exports["default"] = _react2["default"].createClass({
           togglePlayer: this.togglePlayer,
           alertAuthNeeded: this.alertAuthNeeded,
           setLayout: this.setLayout,
-          openPanels: this.openPanels
+          panelsHandler: this.panelsHandler
         } }),
       this.props.children ? _react2["default"].cloneElement(this.props.children, {
         parent: this,
