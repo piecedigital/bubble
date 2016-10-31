@@ -27456,7 +27456,7 @@ var PlayerStream = _react2["default"].createClass({
     var togglePlayer = _props2$methods.togglePlayer;
     var alertAuthNeeded = _props2$methods.alertAuthNeeded;
     var layoutTools = _props2$methods.layoutTools;
-    var openPanels = _props2$methods.openPanels;
+    var panelsHandler = _props2$methods.panelsHandler;
     var menuOpen = this.state.menuOpen;
 
     switch (isFor) {
@@ -27536,7 +27536,7 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "open-panels", onClick: openPanels.bind(this, name) },
+                { className: "open-panels", onClick: panelsHandler.bind(null, "open", name) },
                 "Open Panels"
               ),
               userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
@@ -27639,7 +27639,7 @@ exports["default"] = _react2["default"].createClass({
     var togglePlayer = _props3$methods.togglePlayer;
     var alertAuthNeeded = _props3$methods.alertAuthNeeded;
     var setLayout = _props3$methods.setLayout;
-    var openPanels = _props3$methods.openPanels;
+    var panelsHandler = _props3$methods.panelsHandler;
     var dataObject = _props3.data.dataObject;
     var layout = _props3.layout;
     var _state = this.state;
@@ -27664,7 +27664,7 @@ exports["default"] = _react2["default"].createClass({
             return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", methods: {
                 spliceStream: spliceStream,
                 togglePlayer: togglePlayer,
-                openPanels: openPanels,
+                panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
                 layoutTools: _this.layoutTools
               } });
@@ -28711,7 +28711,7 @@ var _firebase = require("firebase");
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var redirectURI = typeof location === "object" ? "http://" + location.host : "http://localhost:8080";
+var redirectURI = typeof location === "object" ? "https://" + location.host : "http://localhost:8080";
 var clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
 console.log(redirectURI, clientID);
 // Initialize Firebase
@@ -28795,28 +28795,33 @@ exports["default"] = _react2["default"].createClass({
         });
     }
   },
-  openPanels: function openPanels(name) {
+  panelsHandler: function panelsHandler(type, name) {
     var _this = this;
 
-    console.log("This would open panels for:", name);
-    // alert("Feature coming soon (I hope...)")
-    _modulesLoadData2["default"].call(this, function (e) {
-      console.error(e.stack);
-    }, {
-      // access_token: this.state.authData.access_token,
-      username: name
-    }).then(function (methods) {
-      methods.getPanels().then(function (data) {
-        console.log("panel data", data);
-        _this.setState({
-          panelData: data
+    switch (type) {
+      case "open":
+        console.log("This would open panels for:", name);
+        // alert("Feature coming soon (I hope...)")
+        _modulesLoadData2["default"].call(this, function (e) {
+          console.error(e.stack);
+        }, {
+          // access_token: this.state.authData.access_token,
+          username: name
+        }).then(function (methods) {
+          methods.getPanels().then(function (data) {
+            console.log("panel data", data);
+            _this.setState({
+              panelData: data
+            });
+          })["catch"](function (e) {
+            return console.error(e.stack || e);
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack || e);
         });
-      })["catch"](function (e) {
-        return console.error(e.stack || e);
-      });
-    })["catch"](function (e) {
-      return console.error(e.stack || e);
-    });
+        break;
+      default:
+    }
   },
   componentDidMount: function componentDidMount() {
     var _this2 = this;
@@ -28942,7 +28947,7 @@ exports["default"] = _react2["default"].createClass({
           togglePlayer: this.togglePlayer,
           alertAuthNeeded: this.alertAuthNeeded,
           setLayout: this.setLayout,
-          openPanels: this.openPanels
+          panelsHandler: this.panelsHandler
         } }),
       this.props.children ? _react2["default"].cloneElement(this.props.children, {
         parent: this,
