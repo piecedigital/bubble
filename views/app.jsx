@@ -33,7 +33,7 @@ var _jsxSearchJsx2 = _interopRequireDefault(_jsxSearchJsx);
 var container = document.querySelector(".react-app");
 
 function checkAuth(Component, props) {
-  // console.log("check auth", props.auth);
+  console.log("check auth", props.auth);
   if (props.auth !== null) {
     if (props.auth.access_token) {
       return _react2["default"].createElement(Component, props);
@@ -42,9 +42,16 @@ function checkAuth(Component, props) {
       return null;
     }
   } else {
-    _reactRouter.browserHistory.push("/");
-    return null;
-    // return (<span>Validating authorization...</span>);
+    if (document.cookie.match(/access_token/g)) {
+      return _react2["default"].createElement(
+        "span",
+        null,
+        "Validating authorization..."
+      );
+    } else {
+      _reactRouter.browserHistory.push("/");
+      return null;
+    }
   }
 }
 (0, _reactDom.render)(_react2["default"].createElement(

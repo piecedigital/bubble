@@ -36,4 +36,7 @@ process.on('uncaughtException', function (err) {
   (0, _logOut.logOut)("**Uncaught Exception event**", true, {
     type: "error"
   });
+  (0, _logOut.logOut)(err, true, {
+    type: "error"
+  });
 });

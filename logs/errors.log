@@ -849,3 +849,4 @@ Error: Cannot find module '../../modules/load-data' from 'E:\GIT FILES\Sites\bub
     at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
     at FSReqWrap.oncomplete (fs.js:82:15)
 ]
+[1477878276536] [Mon, 31 Oct 2016 01:44:36 GMT] [error] [**Uncaught Exception event**]
