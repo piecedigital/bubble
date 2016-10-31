@@ -27626,6 +27626,23 @@ exports["default"] = _react2["default"].createClass({
         });
     }
   },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var dataObject = nextProps.data.dataObject;
+    var streamInView = this.state.streamInView;
+
+    console.log("receiving props", nextProps, this.props);
+    var count = Object.keys(dataObject).length;
+    console.log("setting view", streamInView, count);
+    if (streamInView > count - 1) {
+      this.setState({
+        streamInView: count - 1
+      });
+    } else if (streamInView < 0) {
+      this.setState({
+        streamInView: 0
+      });
+    }
+  },
   render: function render() {
     var _this = this;
 
@@ -28881,6 +28898,7 @@ exports["default"] = _react2["default"].createClass({
     var dataObject = _state.streamersInPlayer;
     var playerCollapsed = _state.playerCollapsed;
     var layout = _state.layout;
+    var panelData = _state.panelData;
     var data = this.props.data;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
@@ -28935,6 +28953,7 @@ exports["default"] = _react2["default"].createClass({
         },
         userData: userData,
         auth: authData,
+        panelData: panelData,
         playerState: {
           playerCollapsed: playerCollapsed
         },
