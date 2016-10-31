@@ -90,7 +90,7 @@ export default React.createClass({
     switch (type) {
       case "open":
         console.log("This would open panels for:", name);
-        // alert("Feature coming soon (I hope...)")
+        alert("Feature coming soon (I hope...)")
         loadData.call(this, e => {
           console.error(e.stack);
         }, {

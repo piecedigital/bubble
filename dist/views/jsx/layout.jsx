@@ -114,7 +114,7 @@ exports["default"] = _react2["default"].createClass({
     switch (type) {
       case "open":
         console.log("This would open panels for:", name);
-        // alert("Feature coming soon (I hope...)")
+        alert("Feature coming soon (I hope...)");
         _modulesLoadData2["default"].call(this, function (e) {
           console.error(e.stack);
         }, {
