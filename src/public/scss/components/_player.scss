@@ -292,6 +292,7 @@
             height: 50%;
             &:not(:first-child) {
               @include displayInlineFlex;
+              @include streamTools;
               width: 50%;
             }
           }

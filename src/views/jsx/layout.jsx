@@ -4,8 +4,8 @@ import loadData from "../../modules/load-data";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
 
-const redirectURI = typeof location === "object" ? `https://${location.host}` : "http://localhost:8080";
-const clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
+const redirectURI = typeof location === "object" && !location.host.match(/localhost/) ? `https://${location.host}` : "http://localhost:8080";
+const clientID = redirectURI.match(/http(s)?\:\/\/localhost\:[0-9]{4,5}/) ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
 console.log(redirectURI, clientID);
 // Initialize Firebase
 var config = {
