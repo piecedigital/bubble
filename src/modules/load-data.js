@@ -133,6 +133,12 @@ export default function(errorCB, options = {}) {
         options.headers.Authorization = `OAuth ${options.access_token || this.props.auth.access_token}`;
         return makeRequest(okayCB, `users/${options.name || this.props.userData.name}/follows/channels`);
       },
+      followingStreams: (okayCB) => {
+        options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
+        options.headers = options.headers || {};
+        options.headers.Authorization = `OAuth ${options.access_token || this.props.auth.access_token}`;
+        return makeRequest(okayCB, `channels/${options.name || this.props.userData.name}/follows`);
+      },
       followedVideos: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         return makeRequest(okayCB, "videos/followed");

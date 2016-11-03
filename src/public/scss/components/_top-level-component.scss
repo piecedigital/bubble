@@ -84,7 +84,13 @@
     }
   }
   &.profile {
-    .general-page.profile {
+    .followed-streams.profile, .following-streams.profile {
+      &.locked {
+        position: relative;
+      }
+      &:not(:last-child) {
+        margin-bottom: 1*$em;
+      }
       .title {
         margin: .5*$em;
         font-size: 1.6*$em;
@@ -111,8 +117,27 @@
       }
       .tools {
         position: absolute;
-        top: 5.25*$em;
+        // top: 5.25*$em;
+        top: 0;
         left: .5*$em;
+        max-height: 100%;
+        // padding-top: 5.5*$em;
+        padding-top: .25*$em;
+        padding-bottom: .25*$em;
+        margin-top: 4.75*$em;
+        overflow: hidden;
+        transform: translate(0, -0%);
+        transition: .0s all;
+        &.locked {
+          top: 100%;
+          margin-top: 0;
+          transform: translate(0, -100%);
+          // bottom: .25*$em;
+        }
+        &.locked-top {
+          // top: 2.5*$em;
+          // bottom: initial;
+        }
         .parent {
           .scroll {
             @include displayFlex;

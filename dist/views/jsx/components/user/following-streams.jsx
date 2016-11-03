@@ -24,6 +24,8 @@ var _followJsx = require("../follow.jsx");
 
 var _followJsx2 = _interopRequireDefault(_followJsx);
 
+var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+
 // components
 var components = {
   // list item for streams matching the search
@@ -92,9 +94,12 @@ var components = {
     getStreamData: function getStreamData() {
       var _this = this;
 
-      var _props$data$channel2 = this.props.data.channel;
-      var name = _props$data$channel2.name;
-      var display_name = _props$data$channel2.display_name;
+      var data = this.props.data;
+
+      var _ref = data.channel || data.user;
+
+      var name = _ref.name;
+      var display_name = _ref.display_name;
 
       // console.log(`getting stream data for ${name}`);
       _modulesLoadData2["default"].call(this, function (e) {
@@ -129,9 +134,12 @@ var components = {
     componentWillUpdate: function componentWillUpdate(_, nextState) {
       var _this2 = this;
 
-      var _props$data$channel3 = this.props.data.channel;
-      var name = _props$data$channel3.name;
-      var display_name = _props$data$channel3.display_name;
+      var data = this.props.data;
+
+      var _ref2 = data.channel || data.user;
+
+      var name = _ref2.name;
+      var display_name = _ref2.display_name;
 
       // console.log(this.state.streamData, nextState.streamData);
       if (!this.state.streamData || this.state.streamData.stream === null && nextState.streamData.stream !== null) {
@@ -158,12 +166,15 @@ var components = {
       var index = _props2.index;
       var filter = _props2.filter;
       var userData = _props2.userData;
-      var _props2$data$channel = _props2.data.channel;
-      var mature = _props2$data$channel.mature;
-      var logo = _props2$data$channel.logo;
-      var name = _props2$data$channel.name;
-      var display_name = _props2$data$channel.display_name;
-      var language = _props2$data$channel.language;
+      var data = _props2.data;
+
+      var _ref3 = data.channel || data.user;
+
+      var mature = _ref3.mature;
+      var logo = _ref3.logo;
+      var name = _ref3.name;
+      var display_name = _ref3.display_name;
+      var language = _ref3.language;
       var stream = this.state.streamData.stream;
 
       var hoverOptions = _react2["default"].createElement(
@@ -209,7 +220,7 @@ var components = {
               _react2["default"].createElement(
                 "div",
                 { className: "image" },
-                _react2["default"].createElement("img", { src: logo })
+                _react2["default"].createElement("img", { src: logo || missingLogo })
               ),
               _react2["default"].createElement(
                 "div",
@@ -250,7 +261,7 @@ var components = {
             _react2["default"].createElement(
               "div",
               { className: "image" },
-              _react2["default"].createElement("img", { src: logo })
+              _react2["default"].createElement("img", { src: logo || missingLogo })
             ),
             _react2["default"].createElement(
               "div",
@@ -297,8 +308,8 @@ exports["default"] = _react2["default"].createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      locked: false,
-      lockedTop: false
+      locked: true,
+      lockedTop: true
     };
   },
   gatherData: function gatherData(limit) {
@@ -331,8 +342,9 @@ exports["default"] = _react2["default"].createClass({
         limit: limit,
         stream_type: "all"
       }).then(function (methods) {
-        methods.followedStreams().then(function (data) {
+        methods.followingStreams().then(function (data) {
           loadingQueue.pop();
+          // console.log(data);
           _this3.setState({
             dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
             component: "ChannelsListItem",
@@ -444,17 +456,18 @@ exports["default"] = _react2["default"].createClass({
     var appendStream = _props4$methods.appendStream;
     var loadData = _props4$methods.loadData;
 
+    // console.log(loadingQueue)
     if (component) {
       var _ret = (function () {
         var ListItem = components[component];
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: "followed-streams profile" + (locked ? " locked" : "") },
+            { ref: "root", className: "following-streams profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              "Followed Channels"
+              "Following Channels"
             ),
             _react2["default"].createElement(
               "div",
@@ -465,7 +478,7 @@ exports["default"] = _react2["default"].createClass({
                 dataArray.map(function (itemData, ind) {
                   return _react2["default"].createElement(ListItem, { ref: function (r) {
                       return dataArray[ind].ref = r;
-                    }, key: itemData.channel.name, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
+                    }, key: itemData.channel ? itemData.channel.name : itemData.user.name, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
                       appendStream: appendStream,
                       removeFromDataArray: _this6.removeFromDataArray
                     } });
@@ -523,7 +536,8 @@ exports["default"] = _react2["default"].createClass({
                   )
                 )
               )
-            )
+            ),
+            "}"
           )
         };
       })();
@@ -533,7 +547,7 @@ exports["default"] = _react2["default"].createClass({
       return _react2["default"].createElement(
         "div",
         { className: "top-level-component general-page profile" },
-        "Loading followed streams..."
+        "Loading following streams..."
       );
     }
   }
