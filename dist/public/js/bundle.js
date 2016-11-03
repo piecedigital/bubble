@@ -27457,12 +27457,14 @@ var PlayerStream = _react2["default"].createClass({
     var auth = _props2.auth;
     var inView = _props2.inView;
     var isFor = _props2.isFor;
+    var index = _props2.index;
     var _props2$methods = _props2.methods;
     var spliceStream = _props2$methods.spliceStream;
     var togglePlayer = _props2$methods.togglePlayer;
     var alertAuthNeeded = _props2$methods.alertAuthNeeded;
     var layoutTools = _props2$methods.layoutTools;
     var panelsHandler = _props2$methods.panelsHandler;
+    var putInView = _props2$methods.putInView;
     var menuOpen = this.state.menuOpen;
 
     switch (isFor) {
@@ -27522,7 +27524,7 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   _reactRouter.Link,
                   { to: "https://twitch.tv/" + name, target: "_blank", onClick: togglePlayer.bind(null, "close") },
-                  "Go To Channel"
+                  "Visit On Twitch"
                 )
               ),
               _react2["default"].createElement(
@@ -27539,6 +27541,11 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "refresh-chat", onClick: this.refresh.bind(this, "chat") },
                 "Refresh Chat"
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "put-in-view", onClick: putInView.bind(null, index) },
+                "Put In View"
               ),
               _react2["default"].createElement(
                 "div",
@@ -27632,6 +27639,15 @@ exports["default"] = _react2["default"].createClass({
         });
     }
   },
+  putInView: function putInView(index) {
+    console.log(this.refs.selectStream, this.refs.selectStream.value, index);
+    if (this.refs.selectStream) {
+      this.refs.selectStream.value = index;
+      this.setState({
+        streamInView: index
+      });
+    }
+  },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var dataObject = nextProps.data.dataObject;
     var streamInView = this.state.streamInView;
@@ -27683,13 +27699,14 @@ exports["default"] = _react2["default"].createClass({
           { ref: "videoList", onScroll: this.listScroll, className: "list video-list" },
           dataObject ? dataArray.map(function (channelName, ind) {
             var channelData = dataObject[channelName];
-            console.log(streamInView, ind, streamInView === ind);
-            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", methods: {
+            // console.log(streamInView, ind, streamInView === ind);
+            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", index: ind, methods: {
                 spliceStream: spliceStream,
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
-                layoutTools: _this.layoutTools
+                layoutTools: _this.layoutTools,
+                putInView: _this.putInView
               } });
           }) : null
         ),
@@ -28353,7 +28370,6 @@ exports["default"] = _react2["default"].createClass({
               removeFromDataArray: _this6.removeFromDataArray
             } });
         });
-        console.log(_this6.props.follow === "followMe" ? list : "");
         return {
           v: _react2["default"].createElement(
             "div",

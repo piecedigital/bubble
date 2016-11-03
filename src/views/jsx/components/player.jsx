@@ -60,12 +60,14 @@ const PlayerStream = React.createClass({
       auth,
       inView,
       isFor,
+      index,
       methods: {
         spliceStream,
         togglePlayer,
         alertAuthNeeded,
         layoutTools,
         panelsHandler,
+        putInView,
       }
     } = this.props;
     const {
@@ -95,7 +97,7 @@ const PlayerStream = React.createClass({
                 <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
               </div>
               <div className="to-channel">
-                <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={togglePlayer.bind(null, "close")}>Go To Channel</Link>
+                <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={togglePlayer.bind(null, "close")}>Visit On Twitch</Link>
               </div>
               <div className="closer" onClick={this.swapOut}>
                 Close
@@ -105,6 +107,9 @@ const PlayerStream = React.createClass({
               </div>
               <div className="refresh-chat" onClick={this.refresh.bind(this, "chat")}>
                 Refresh Chat
+              </div>
+              <div className="put-in-view" onClick={putInView.bind(null, index)}>
+                Put In View
               </div>
               <div className="open-panels" onClick={panelsHandler.bind(null, "open", name)}>
                 Open Panels
@@ -196,6 +201,15 @@ export default React.createClass({
         });
     }
   },
+  putInView(index) {
+    console.log(this.refs.selectStream, this.refs.selectStream.value, index);
+    if(this.refs.selectStream) {
+      this.refs.selectStream.value = index;
+      this.setState({
+        streamInView: index
+      });
+    }
+  },
   componentWillReceiveProps(nextProps) {
     const {
       data: {
@@ -252,14 +266,15 @@ export default React.createClass({
               dataObject ? (
                 dataArray.map((channelName, ind) => {
                   let channelData = dataObject[channelName];
-                  console.log(streamInView, ind, streamInView === ind);
+                  // console.log(streamInView, ind, streamInView === ind);
                   return (
-                    <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="video" methods={{
+                    <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="video" index={ind} methods={{
                       spliceStream,
                       togglePlayer,
                       panelsHandler,
                       alertAuthNeeded,
-                      layoutTools: this.layoutTools
+                      layoutTools: this.layoutTools,
+                      putInView: this.putInView
                     }} />
                   );
                 })

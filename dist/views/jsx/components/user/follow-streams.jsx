@@ -468,7 +468,6 @@ exports["default"] = _react2["default"].createClass({
               removeFromDataArray: _this6.removeFromDataArray
             } });
         });
-        console.log(_this6.props.follow === "followMe" ? list : "");
         return {
           v: _react2["default"].createElement(
             "div",

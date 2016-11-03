@@ -243,8 +243,7 @@ nav {
       height: 100%;
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
-      overflow-y: auto; }
+      overflow: hidden; }
       .player .wrapper .list.chat-list {
         width: 384px; }
     .player .wrapper > .tools {

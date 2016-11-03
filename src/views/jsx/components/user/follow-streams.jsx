@@ -387,7 +387,6 @@ export default React.createClass({
           removeFromDataArray: this.removeFromDataArray
         }} />
       });
-      console.log(this.props.follow === "followMe" ? list : "");
       return (
         <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
           <div className={`title`}>{this.props.follow === "IFollow" ? "Followed" : "Following"} Channels</div>
