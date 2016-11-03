@@ -87,7 +87,7 @@ let components = {
         <li className={`game-list-item`}>
           <Link to={`/search/streams?q=${encodeURIComponent(name)}`}>
             <div className="image">
-              <img src={box.medium} />
+              <img src={box ? box.medium : ""} />
             </div>
             <div className="info">
               <div className="game-name">

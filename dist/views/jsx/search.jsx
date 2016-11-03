@@ -23,7 +23,7 @@ var components = {};
 components.StreamsListItem = _react2["default"].createClass({
   displayName: "stream-ListItem",
   render: function render() {
-    console.log(this.props);
+    // console.log(this.props);
     var _props = this.props;
     var index = _props.index;
     var appendStream = _props.methods.appendStream;

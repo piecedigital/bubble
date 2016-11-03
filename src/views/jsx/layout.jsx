@@ -1,6 +1,7 @@
 import React from "react";
 import Player from "./components/player.jsx";
 import loadData from "../../modules/load-data";
+import Nav from "./components/nav.jsx";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
 
@@ -35,13 +36,16 @@ export default React.createClass({
     if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if(!this.state.streamersInPlayer.hasOwnProperty(username)) {
         let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-        streamersInPlayer[username] = displayName;
+        streamersInPlayer[username] = displayName || username;
         console.log("New streamersInPlayer:", streamersInPlayer);
         this.setState({
           streamersInPlayer
         });
       }
     }
+  },
+  search(query) {
+    History.push(encodeURI(`/search/streams?q=${query}`));
   },
   spliceStream(username) {
     console.log("removing stream", username);
@@ -184,23 +188,11 @@ export default React.createClass({
     "&scope=user_read+user_follows_edit";
     return (
       <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${layout || Object.keys(dataObject).length}`}>
-        <nav>
-          <div>
-            <Link className="nav-item" to={"/"}>Home</Link>
-            <Link className="nav-item" to={"/streams"}>Streams</Link>
-            <Link className="nav-item" to={"/games"}>Games</Link>
-            {
-              authData && authData.access_token ? (
-                <span>
-                  { userData ? <Link className="nav-item" to={`/Profile`}>Profile</Link> : null }
-                  <a className="nav-item" href="#" onClick={this.logout}>Disconnect</a>
-                </span>
-              ) : (
-                <a className="nav-item login" href={url}>Connect to Twitch</a>
-              )
-            }
-          </div>
-        </nav>
+        <Nav authData={authData} userData={userData} url={url} methods={{
+          search: this.search,
+          appendStream: this.appendStream,
+          logout: this.logout
+        }} />
         {
           <Player data={{
             dataObject

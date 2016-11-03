@@ -112,7 +112,7 @@ var components = {
           _react2["default"].createElement(
             "div",
             { className: "image" },
-            _react2["default"].createElement("img", { src: box.medium })
+            _react2["default"].createElement("img", { src: box ? box.medium : "" })
           ),
           _react2["default"].createElement(
             "div",

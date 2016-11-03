@@ -7,7 +7,7 @@ let components = {};
 components.StreamsListItem = React.createClass({
   displayName: "stream-ListItem",
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const {
       index,
       methods: {

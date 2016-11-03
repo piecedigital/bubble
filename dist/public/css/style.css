@@ -217,6 +217,33 @@ nav {
       nav > div .nav-item.login {
         background-color: #6441a4;
         color: white; }
+      nav > div .nav-item.input {
+        position: relative;
+        padding-left: 14.4px;
+        padding-right: 0;
+        width: 0;
+        overflow: hidden; }
+        nav > div .nav-item.input.open {
+          width: auto;
+          padding-left: 17.6px;
+          padding-right: 1.6px; }
+        nav > div .nav-item.input .symbol {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 16px;
+          height: 100%;
+          padding: 8px 0;
+          box-shadow: 1.6px 0 0 0 #0082b4;
+          text-align: center;
+          cursor: pointer; }
+        nav > div .nav-item.input input {
+          background-color: transparent;
+          border: none;
+          box-shadow: inset 0 -1px 0 0 black;
+          color: black; }
+          nav > div .nav-item.input input:focus {
+            background-color: rgba(0, 0, 0, 0.1); }
 
 .player {
   z-index: 10;

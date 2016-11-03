@@ -33,6 +33,38 @@ nav {
         background-color: $purple;
         color: white;
       }
+      &.input {
+        position: relative;
+        padding-left: .9*$em;
+        padding-right: 0;
+        width: 0;
+        overflow: hidden;
+        &.open {
+          width: auto;
+          padding-left: 1.1*$em;
+          padding-right: .1*$em;
+        }
+        .symbol {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 1*$em;
+          height: 100%;
+          padding: .5*$em 0;
+          box-shadow: .1*$em 0 0 0 $dimmer;
+          text-align: center;
+          cursor: pointer;
+        }
+        input {
+          background-color: transparent;
+          border: none;
+          box-shadow: inset 0 -1px 0 0 black;
+          color: black;
+          &:focus {
+            background-color: rgba(black, .1);
+          }
+        }
+      }
     }
   }
 }
