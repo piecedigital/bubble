@@ -144,7 +144,7 @@ var components = {
       // console.log(this.state.streamData, nextState.streamData);
       if (!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
-        if (nextState.streamData.stream) {
+        if (nextState.streamData && nextState.streamData.stream) {
           (0, _modulesHelperTools.browserNotification)({
             type: "stream_online",
             channelName: display_name,
@@ -240,7 +240,6 @@ var components = {
             )
           );
         } else {
-          console.log("returning null");
           return null;
         }
       }
