@@ -240,8 +240,8 @@ export default React.createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      locked: false,
-      lockedTop: false,
+      locked: this.props.follow === "IFollow" ? false : true,
+      lockedTop: this.props.follow === "IFollow" ? false : true,
     }
   },
   gatherData(limit) {
