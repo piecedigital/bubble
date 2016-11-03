@@ -134,7 +134,7 @@ var components = {
       var display_name = _props$data$channel3.display_name;
 
       // console.log(this.state.streamData, nextState.streamData);
-      if (!this.state.streamData || this.state.streamData.stream === null && nextState.streamData.stream !== null) {
+      if (!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if (nextState.streamData.stream) {
           (0, _modulesHelperTools.browserNotification)({
@@ -395,26 +395,28 @@ exports["default"] = _react2["default"].createClass({
       var root = _refs.root;
       var tools = _refs.tools;
 
-      var trueRoot = document.body.querySelector(".react-app .root");
-      // console.log("root", root.offsetTop + root.offsetHeight);
-      // console.log("trueRoot", trueRoot.scrollTop);
-      var bottom = root.offsetTop + root.offsetHeight - tools.offsetHeight - 16 * 4.75;
-      // console.log("bottom", bottom);
-      if (trueRoot.scrollTop <= root.offsetTop) {
-        _this5.setState({
-          locked: true,
-          lockedTop: true
-        });
-      } else if (trueRoot.scrollTop >= bottom) {
-        _this5.setState({
-          locked: true,
-          lockedTop: false
-        });
-      } else {
-        _this5.setState({
-          locked: false,
-          lockedTop: false
-        });
+      if (root && tools) {
+        var trueRoot = document.body.querySelector(".react-app .root");
+        // console.log("root", root.offsetTop + root.offsetHeight);
+        // console.log("trueRoot", trueRoot.scrollTop);
+        var bottom = root.offsetTop + root.offsetHeight - tools.offsetHeight - 16 * 4.75;
+        // console.log("bottom", bottom);
+        if (trueRoot.scrollTop <= root.offsetTop) {
+          _this5.setState({
+            locked: true,
+            lockedTop: true
+          });
+        } else if (trueRoot.scrollTop >= bottom) {
+          _this5.setState({
+            locked: true,
+            lockedTop: false
+          });
+        } else {
+          _this5.setState({
+            locked: false,
+            lockedTop: false
+          });
+        }
       }
     }, 200);
   },

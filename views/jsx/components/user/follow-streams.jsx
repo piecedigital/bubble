@@ -308,8 +308,8 @@ exports["default"] = _react2["default"].createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      locked: true,
-      lockedTop: true
+      locked: false,
+      lockedTop: false
     };
   },
   gatherData: function gatherData(limit) {
@@ -342,9 +342,8 @@ exports["default"] = _react2["default"].createClass({
         limit: limit,
         stream_type: "all"
       }).then(function (methods) {
-        methods.followingStreams().then(function (data) {
+        methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
           loadingQueue.pop();
-          // console.log(data);
           _this3.setState({
             dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
             component: "ChannelsListItem",
@@ -458,18 +457,27 @@ exports["default"] = _react2["default"].createClass({
     var appendStream = _props4$methods.appendStream;
     var loadData = _props4$methods.loadData;
 
-    // console.log(loadingQueue)
     if (component) {
       var _ret = (function () {
         var ListItem = components[component];
+        var list = dataArray.map(function (itemData, ind) {
+          return _react2["default"].createElement(ListItem, { ref: function (r) {
+              return dataArray[ind].ref = r;
+            }, key: itemData.channel ? itemData.channel.name : itemData.user.name, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
+              appendStream: appendStream,
+              removeFromDataArray: _this6.removeFromDataArray
+            } });
+        });
+        console.log(_this6.props.follow === "followMe" ? list : "");
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: "following-streams profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this6.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              "Following Channels"
+              _this6.props.follow === "IFollow" ? "Followed" : "Following",
+              " Channels"
             ),
             _react2["default"].createElement(
               "div",
@@ -477,14 +485,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "ul",
                 { className: "list" },
-                dataArray.map(function (itemData, ind) {
-                  return _react2["default"].createElement(ListItem, { ref: function (r) {
-                      return dataArray[ind].ref = r;
-                    }, key: itemData.channel ? itemData.channel.name : itemData.user.name, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
-                      appendStream: appendStream,
-                      removeFromDataArray: _this6.removeFromDataArray
-                    } });
-                })
+                list
               )
             ),
             _react2["default"].createElement(
@@ -538,8 +539,7 @@ exports["default"] = _react2["default"].createClass({
                   )
                 )
               )
-            ),
-            "}"
+            )
           )
         };
       })();
@@ -549,7 +549,7 @@ exports["default"] = _react2["default"].createClass({
       return _react2["default"].createElement(
         "div",
         { className: "top-level-component general-page profile" },
-        "Loading following streams..."
+        "Loading " + (this.props.follow === "IFollow" ? "followed" : "following") + " streams..."
       );
     }
   }
