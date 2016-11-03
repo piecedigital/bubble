@@ -164,7 +164,6 @@ let components = {
         </div>
       );
       if(!stream) {
-        console.log(stream, filter);
         if(filter === "all" || filter === "offline") {
           return (
             <li className={`channel-list-item null`}>
