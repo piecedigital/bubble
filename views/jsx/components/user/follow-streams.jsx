@@ -142,7 +142,7 @@ var components = {
       var display_name = _ref2.display_name;
 
       // console.log(this.state.streamData, nextState.streamData);
-      if (!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData.stream !== null) {
+      if (!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if (nextState.streamData.stream) {
           (0, _modulesHelperTools.browserNotification)({
@@ -208,12 +208,12 @@ var components = {
           )
         )
       );
-
       if (!stream) {
+        console.log(stream, filter);
         if (filter === "all" || filter === "offline") {
           return _react2["default"].createElement(
             "li",
-            { className: "channel-list-item" },
+            { className: "channel-list-item null" },
             _react2["default"].createElement(
               "div",
               { className: "wrapper" },
@@ -241,6 +241,7 @@ var components = {
             )
           );
         } else {
+          console.log("returning null");
           return null;
         }
       }
@@ -430,6 +431,9 @@ exports["default"] = _react2["default"].createClass({
         }
       }
     }, 200);
+  },
+  componentWillReceiveProps: function componentWillReceiveProps() {
+    this.scrollEvent();
   },
   componentDidMount: function componentDidMount() {
     this.gatherData();
