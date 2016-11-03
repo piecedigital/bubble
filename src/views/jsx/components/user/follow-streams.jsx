@@ -231,7 +231,7 @@ let components = {
 
 // primary section for the search component
 export default React.createClass({
-  displayName: "FollowedStreams",
+  displayName: "FollowStreams",
   getInitialState() {
     return {
       requestOffset: 0,
@@ -308,16 +308,18 @@ export default React.createClass({
   },
   refreshList(reset, _, length = this.state.dataArray.length) {
     console.log(reset, length, arguments);
-    this.setState({
+    let obj = {
       requestOffset: reset ? 0 : this.state.requestOffset,
-      dataArray: reset ? [] : this.state.dataArray
-    }, () => {
-      if(length > 100) {
-        this.gatherData(100);
-        this.refreshList(false, length - 100);
-      } else {
-        this.gatherData(length);
-      }
+    };
+    if(reset) obj.dataArray = [];
+    this.setState(obj, () => {
+      this.gatherData(100);
+      // if(length > 100) {
+      //   this.gatherData(100);
+      //   this.refreshList(false, length - 100);
+      // } else {
+      //   this.gatherData(length);
+      // }
     });
   },
   scrollEvent(e) {
@@ -384,11 +386,12 @@ export default React.createClass({
     if(component) {
       const ListItem = components[component];
       const list = dataArray.map((itemData, ind) => {
-        return <ListItem ref={r => dataArray[ind].ref = r} key={itemData.channel ? itemData.channel.name : itemData.user.name} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} methods={{
+        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${ind}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} methods={{
           appendStream,
           removeFromDataArray: this.removeFromDataArray
         }} />
       });
+
       return (
         <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
           <div className={`title`}>{this.props.follow === "IFollow" ? "Followed" : "Following"} Channels</div>

@@ -28356,7 +28356,7 @@ var components = {
 
 // primary section for the search component
 exports["default"] = _react2["default"].createClass({
-  displayName: "FollowedStreams",
+  displayName: "FollowStreams",
   getInitialState: function getInitialState() {
     return {
       requestOffset: 0,
@@ -28442,16 +28442,18 @@ exports["default"] = _react2["default"].createClass({
     var length = arguments.length <= 2 || arguments[2] === undefined ? this.state.dataArray.length : arguments[2];
 
     console.log(reset, length, arguments);
-    this.setState({
-      requestOffset: reset ? 0 : this.state.requestOffset,
-      dataArray: reset ? [] : this.state.dataArray
-    }, function () {
-      if (length > 100) {
-        _this4.gatherData(100);
-        _this4.refreshList(false, length - 100);
-      } else {
-        _this4.gatherData(length);
-      }
+    var obj = {
+      requestOffset: reset ? 0 : this.state.requestOffset
+    };
+    if (reset) obj.dataArray = [];
+    this.setState(obj, function () {
+      _this4.gatherData(100);
+      // if(length > 100) {
+      //   this.gatherData(100);
+      //   this.refreshList(false, length - 100);
+      // } else {
+      //   this.gatherData(length);
+      // }
     });
   },
   scrollEvent: function scrollEvent(e) {
@@ -28522,11 +28524,12 @@ exports["default"] = _react2["default"].createClass({
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               return dataArray[ind].ref = r;
-            }, key: itemData.channel ? itemData.channel.name : itemData.user.name, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
+            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name) + ind, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
               appendStream: appendStream,
               removeFromDataArray: _this6.removeFromDataArray
             } });
         });
+
         return {
           v: _react2["default"].createElement(
             "div",
