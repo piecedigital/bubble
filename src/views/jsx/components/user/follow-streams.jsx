@@ -4,6 +4,8 @@ import loadData from "../../../../modules/load-data";
 import { browserNotification as notification } from "../../../../modules/helper-tools";
 import FollowButton from "../follow.jsx";
 
+const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+
 // components
 let components = {
   // list item for streams matching the search
@@ -61,13 +63,12 @@ let components = {
     getInitialState: () => ({ streamData: null }),
     getStreamData() {
       const {
-        data: {
-          channel: {
-            name,
-            display_name
-          }
-        }
+        data
       } = this.props;
+      const {
+        name,
+        display_name
+      } = data.channel || data.user;
       // console.log(`getting stream data for ${name}`);
       loadData.call(this, e => {
         console.error(e.stack);
@@ -101,13 +102,12 @@ let components = {
     },
     componentWillUpdate(_, nextState) {
       const {
-        data: {
-          channel: {
-            name,
-            display_name
-          }
-        }
+        data
       } = this.props;
+      const {
+        name,
+        display_name
+      } = data.channel || data.user;
       // console.log(this.state.streamData, nextState.streamData);
       if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
@@ -131,16 +131,15 @@ let components = {
         index,
         filter,
         userData,
-        data: {
-          channel: {
-            mature,
-            logo,
-            name,
-            display_name,
-            language
-          }
-        }
+        data
       } = this.props;
+      const {
+        mature,
+        logo,
+        name,
+        display_name,
+        language
+      } = data.channel || data.user;
       const {
         streamData: {
           stream
@@ -171,7 +170,7 @@ let components = {
             <li className={`channel-list-item`}>
               <div className="wrapper">
                 <div className="image">
-                  <img src={logo} />
+                  <img src={logo || missingLogo} />
                 </div>
                 <div className="info">
                   <div className={`live-indicator offline`} />
@@ -203,7 +202,7 @@ let components = {
           <li className={`channel-list-item`}>
             <div className="wrapper">
               <div className="image">
-                <img src={logo} />
+                <img src={logo || missingLogo} />
               </div>
               <div className="info">
                 <div className={`live-indicator online`} />
@@ -273,7 +272,7 @@ export default React.createClass({
       })
       .then(methods => {
         methods
-        .followedStreams()
+        [this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]()
         .then(data => {
           loadingQueue.pop();
           this.setState({
@@ -382,19 +381,19 @@ export default React.createClass({
     } = this.props;
     if(component) {
       const ListItem = components[component];
+      const list = dataArray.map((itemData, ind) => {
+        return <ListItem ref={r => dataArray[ind].ref = r} key={itemData.channel ? itemData.channel.name : itemData.user.name} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} methods={{
+          appendStream,
+          removeFromDataArray: this.removeFromDataArray
+        }} />
+      });
+      console.log(this.props.follow === "followMe" ? list : "");
       return (
-        <div ref="root" className={`followed-streams profile${locked ? " locked" : ""}`}>
-          <div className={`title`}>Followed Channels</div>
+        <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
+          <div className={`title`}>{this.props.follow === "IFollow" ? "Followed" : "Following"} Channels</div>
           <div className="wrapper">
             <ul className="list">
-              {
-                dataArray.map((itemData, ind) => {
-                  return <ListItem ref={r => dataArray[ind].ref = r} key={itemData.channel.name} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} methods={{
-                    appendStream,
-                    removeFromDataArray: this.removeFromDataArray
-                  }} />
-                })
-              }
+              {list}
             </ul>
           </div>
           <div ref="tools" className={`tools${lockedTop ? " locked-top" : locked ? " locked" : ""}`}>
@@ -434,7 +433,7 @@ export default React.createClass({
     } else {
       return (
         <div className={`top-level-component general-page profile`}>
-          {`Loading followed streams...`}
+          {`Loading ${this.props.follow === "IFollow" ? "followed" : "following"} streams...`}
         </div>
       );
     }

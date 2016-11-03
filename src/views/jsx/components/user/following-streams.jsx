@@ -109,7 +109,7 @@ let components = {
         display_name
       } = data.channel || data.user;
       // console.log(this.state.streamData, nextState.streamData);
-      if(!this.state.streamData || this.state.streamData.stream === null && nextState.streamData.stream !== null) {
+      if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if(nextState.streamData.stream) {
           notification({
@@ -230,7 +230,6 @@ let components = {
   })
 };
 
-
 // primary section for the search component
 export default React.createClass({
   displayName: "FollowedStreams",
@@ -329,27 +328,29 @@ export default React.createClass({
         root,
         tools
       } = this.refs;
-      let trueRoot = document.body.querySelector(".react-app .root");
-      // console.log("root", root.offsetTop + root.offsetHeight);
-      // console.log("trueRoot", trueRoot.scrollTop);
-      const bottom = (root.offsetTop + root.offsetHeight) - tools.offsetHeight  - (16 * 4.75);
-      // console.log("bottom", bottom);
-      if(trueRoot.scrollTop <= root.offsetTop) {
-        this.setState({
-          locked: true,
-          lockedTop: true,
-        });
-      } else
-      if(trueRoot.scrollTop >= bottom) {
-        this.setState({
-          locked: true,
-          lockedTop: false,
-        });
-      } else {
-        this.setState({
-          locked: false,
-          lockedTop: false,
-        });
+      if(root && tools) {
+        let trueRoot = document.body.querySelector(".react-app .root");
+        // console.log("root", root.offsetTop + root.offsetHeight);
+        // console.log("trueRoot", trueRoot.scrollTop);
+        const bottom = (root.offsetTop + root.offsetHeight) - tools.offsetHeight  - (16 * 4.75);
+        // console.log("bottom", bottom);
+        if(trueRoot.scrollTop <= root.offsetTop) {
+          this.setState({
+            locked: true,
+            lockedTop: true,
+          });
+        } else
+        if(trueRoot.scrollTop >= bottom) {
+          this.setState({
+            locked: true,
+            lockedTop: false,
+          });
+        } else {
+          this.setState({
+            locked: false,
+            lockedTop: false,
+          });
+        }
       }
     }, 200);
   },

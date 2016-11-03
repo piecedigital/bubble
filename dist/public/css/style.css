@@ -1109,6 +1109,7 @@ nav {
     flex-direction: row;
     flex-wrap: wrap;
     max-width: 960px;
+    min-height: 176px;
     margin: 0 auto;
     padding: 0;
     overflow-x: hidden;

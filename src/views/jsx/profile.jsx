@@ -1,7 +1,8 @@
 import React from "react";
 import { browserHistory as History } from 'react-router';
-import FollowedStreams from "./components/user/followed-streams.jsx";
-import FollowingStreams from "./components/user/following-streams.jsx";
+import FollowStreams from "./components/user/follow-streams.jsx";
+// import FollowedStreams from "./components/user/followed-streams.jsx";
+// import FollowingStreams from "./components/user/following-streams.jsx";
 
 export default React.createClass({
   displayName: "Profile",
@@ -9,9 +10,9 @@ export default React.createClass({
     return (
       <div className="top-level-component profile">
         <div className="general-page profile">
-          {<FollowedStreams {...this.props} />}
+          <FollowStreams follow={"IFollow"} {...this.props} />
           <div className="separator-4-black" />
-          <FollowingStreams {...this.props} />
+          <FollowStreams follow={"followMe"} {...this.props}/>
         </div>
       </div>
     );
