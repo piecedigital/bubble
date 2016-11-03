@@ -1159,8 +1159,8 @@ nav {
             border: none;
             font-size: 16px; }
 
-.root.player-open.player-collapsed .top-level-component.profile .general-page.profile .tools {
-  left: 240px; }
+.root.player-open.player-collapsed .top-level-component.profile .followed-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.profile .following-streams.profile .tools:not(.locked):not(.locked-top) {
+  left: 232px; }
 
 @media (max-width: 1266px) {
   .top-level-component.profile .general-page.profile > .wrapper {

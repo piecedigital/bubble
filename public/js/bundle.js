@@ -27550,7 +27550,7 @@ var PlayerStream = _react2["default"].createClass({
               _react2["default"].createElement(
                 "div",
                 { className: "open-panels", onClick: panelsHandler.bind(null, "open", name) },
-                "Open Panels"
+                "Open Stream Panels"
               ),
               userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
                 "div",
