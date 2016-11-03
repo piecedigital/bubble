@@ -18,6 +18,10 @@ var _modulesLoadData = require("../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _componentsNavJsx = require("./components/nav.jsx");
+
+var _componentsNavJsx2 = _interopRequireDefault(_componentsNavJsx);
+
 var _reactRouter = require('react-router');
 
 var _firebase = require("firebase");
@@ -57,13 +61,16 @@ exports["default"] = _react2["default"].createClass({
     if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
         var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-        streamersInPlayer[username] = displayName;
+        streamersInPlayer[username] = displayName || username;
         console.log("New streamersInPlayer:", streamersInPlayer);
         this.setState({
           streamersInPlayer: streamersInPlayer
         });
       }
     }
+  },
+  search: function search(query) {
+    _reactRouter.browserHistory.push(encodeURI("/search/streams?q=" + query));
   },
   spliceStream: function spliceStream(username) {
     console.log("removing stream", username);
@@ -203,47 +210,11 @@ exports["default"] = _react2["default"].createClass({
     return _react2["default"].createElement(
       "div",
       { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + (layout || Object.keys(dataObject).length) },
-      _react2["default"].createElement(
-        "nav",
-        null,
-        _react2["default"].createElement(
-          "div",
-          null,
-          _react2["default"].createElement(
-            _reactRouter.Link,
-            { className: "nav-item", to: "/" },
-            "Home"
-          ),
-          _react2["default"].createElement(
-            _reactRouter.Link,
-            { className: "nav-item", to: "/streams" },
-            "Streams"
-          ),
-          _react2["default"].createElement(
-            _reactRouter.Link,
-            { className: "nav-item", to: "/games" },
-            "Games"
-          ),
-          authData && authData.access_token ? _react2["default"].createElement(
-            "span",
-            null,
-            userData ? _react2["default"].createElement(
-              _reactRouter.Link,
-              { className: "nav-item", to: "/Profile" },
-              "Profile"
-            ) : null,
-            _react2["default"].createElement(
-              "a",
-              { className: "nav-item", href: "#", onClick: this.logout },
-              "Disconnect"
-            )
-          ) : _react2["default"].createElement(
-            "a",
-            { className: "nav-item login", href: url },
-            "Connect to Twitch"
-          )
-        )
-      ),
+      _react2["default"].createElement(_componentsNavJsx2["default"], { authData: authData, userData: userData, url: url, methods: {
+          search: this.search,
+          appendStream: this.appendStream,
+          logout: this.logout
+        } }),
       _react2["default"].createElement(_componentsPlayerJsx2["default"], { data: {
           dataObject: dataObject
         },

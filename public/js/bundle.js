@@ -27012,7 +27012,7 @@ function checkAuth(Component, props) {
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })
   )
 ), container);
-},{"./jsx/general-page.jsx":249,"./jsx/home.jsx":250,"./jsx/layout.jsx":251,"./jsx/profile.jsx":252,"./jsx/search.jsx":253,"react":242,"react-dom":7,"react-router":37}],244:[function(require,module,exports){
+},{"./jsx/general-page.jsx":250,"./jsx/home.jsx":251,"./jsx/layout.jsx":252,"./jsx/profile.jsx":253,"./jsx/search.jsx":254,"react":242,"react-dom":7,"react-router":37}],244:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27377,6 +27377,161 @@ exports["default"] = _react2["default"].createClass({
 });
 module.exports = exports["default"];
 },{"../../../modules/load-data":4,"react":242}],246:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var SlideInput = _react2["default"].createClass({
+  displayName: "SlideInput",
+  submit: function submit(e) {
+    e.preventDefault();
+    var _props = this.props;
+    var callback = _props.callback;
+    var commandValue = _props.commandValue;
+    var toggleCallback = _props.methods.toggleCallback;
+
+    if (callback) callback(this.refs.input.value);
+    toggleCallback(commandValue);
+  },
+  render: function render() {
+    var _props2 = this.props;
+    var open = _props2.open;
+    var commandValue = _props2.commandValue;
+    var symbol = _props2.symbol;
+    var placeholder = _props2.placeholder;
+    var _props2$methods = _props2.methods;
+    var focusCallback = _props2$methods.focusCallback;
+    var toggleCallback = _props2$methods.toggleCallback;
+
+    return _react2["default"].createElement(
+      "div",
+      { className: "nav-item input" + (open ? " open" : ""), onClick: focusCallback.bind(null, commandValue) },
+      _react2["default"].createElement(
+        "div",
+        { title: placeholder, className: "symbol", onClick: toggleCallback.bind(null, commandValue) },
+        symbol
+      ),
+      _react2["default"].createElement(
+        "form",
+        { title: placeholder, onSubmit: this.submit },
+        _react2["default"].createElement("input", { placeholder: placeholder, ref: "input", type: "text" })
+      )
+    );
+  }
+});
+
+exports["default"] = _react2["default"].createClass({
+  displayName: "Nav",
+  getInitialState: function getInitialState() {
+    return { addOpen: false, searchOpen: false };
+  },
+  focusInput: function focusInput(input) {
+    switch (input) {
+      case "add":
+        this.refs.addInput.refs.input.focus();
+        break;
+      case "search":
+        this.refs.searchInput.refs.input.focus();
+        break;
+    }
+  },
+  toggleInput: function toggleInput(input) {
+    switch (input) {
+      case "add":
+        this.setState({
+          addOpen: !this.state.addOpen,
+          searchOpen: false
+        });
+        break;
+      case "search":
+        this.setState({
+          addOpen: false,
+          searchOpen: !this.state.searchOpen
+        });
+        break;
+      default:
+        this.setState({
+          addOpen: false,
+          searchOpen: false
+        });
+    }
+  },
+  render: function render() {
+    var _state = this.state;
+    var addOpen = _state.addOpen;
+    var searchOpen = _state.searchOpen;
+    var _props3 = this.props;
+    var authData = _props3.authData;
+    var userData = _props3.userData;
+    var url = _props3.url;
+    var _props3$methods = _props3.methods;
+    var logout = _props3$methods.logout;
+    var appendStream = _props3$methods.appendStream;
+    var search = _props3$methods.search;
+
+    return _react2["default"].createElement(
+      "nav",
+      null,
+      _react2["default"].createElement(
+        "div",
+        null,
+        _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: appendStream, methods: {
+            focusCallback: this.focusInput,
+            toggleCallback: this.toggleInput
+          } }),
+        _react2["default"].createElement(SlideInput, { ref: "searchInput", commandValue: "search", symbol: "S", open: searchOpen, placeholder: "Search Twitch", callback: search, methods: {
+            focusCallback: this.focusInput,
+            toggleCallback: this.toggleInput
+          } }),
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { className: "nav-item", to: "/" },
+          "Home"
+        ),
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { className: "nav-item", to: "/streams" },
+          "Streams"
+        ),
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { className: "nav-item", to: "/games" },
+          "Games"
+        ),
+        authData && authData.access_token ? _react2["default"].createElement(
+          "span",
+          null,
+          userData ? _react2["default"].createElement(
+            _reactRouter.Link,
+            { className: "nav-item", to: "/Profile" },
+            "Profile"
+          ) : null,
+          _react2["default"].createElement(
+            "a",
+            { className: "nav-item", href: "#", onClick: logout },
+            "Disconnect"
+          )
+        ) : _react2["default"].createElement(
+          "a",
+          { className: "nav-item login", href: url },
+          "Connect to Twitch"
+        )
+      )
+    );
+  }
+});
+module.exports = exports["default"];
+},{"react":242,"react-router":37}],247:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27765,7 +27920,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../../modules/load-data":4,"./follow.jsx":245,"react":242,"react-router":37}],247:[function(require,module,exports){
+},{"../../../modules/load-data":4,"./follow.jsx":245,"react":242,"react-router":37}],248:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27899,7 +28054,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../../modules/load-data":4,"react":242,"react-router":37}],248:[function(require,module,exports){
+},{"../../../modules/load-data":4,"react":242,"react-router":37}],249:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28459,7 +28614,7 @@ exports["default"] = _react2["default"].createClass({
 });
 module.exports = exports["default"];
 /*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/
-},{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../follow.jsx":245,"react":242,"react-router":37}],249:[function(require,module,exports){
+},{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../follow.jsx":245,"react":242,"react-router":37}],250:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28574,7 +28729,7 @@ var components = {
           _react2["default"].createElement(
             "div",
             { className: "image" },
-            _react2["default"].createElement("img", { src: box.medium })
+            _react2["default"].createElement("img", { src: box ? box.medium : "" })
           ),
           _react2["default"].createElement(
             "div",
@@ -28732,7 +28887,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"react":242,"react-router":37}],250:[function(require,module,exports){
+},{"../../modules/load-data":4,"react":242,"react-router":37}],251:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28778,7 +28933,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/featured-streams.jsx":244,"./components/top-games.jsx":247,"react":242}],251:[function(require,module,exports){
+},{"./components/featured-streams.jsx":244,"./components/top-games.jsx":248,"react":242}],252:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28798,6 +28953,10 @@ var _componentsPlayerJsx2 = _interopRequireDefault(_componentsPlayerJsx);
 var _modulesLoadData = require("../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+
+var _componentsNavJsx = require("./components/nav.jsx");
+
+var _componentsNavJsx2 = _interopRequireDefault(_componentsNavJsx);
 
 var _reactRouter = require('react-router');
 
@@ -28838,13 +28997,16 @@ exports["default"] = _react2["default"].createClass({
     if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
         var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-        streamersInPlayer[username] = displayName;
+        streamersInPlayer[username] = displayName || username;
         console.log("New streamersInPlayer:", streamersInPlayer);
         this.setState({
           streamersInPlayer: streamersInPlayer
         });
       }
     }
+  },
+  search: function search(query) {
+    _reactRouter.browserHistory.push(encodeURI("/search/streams?q=" + query));
   },
   spliceStream: function spliceStream(username) {
     console.log("removing stream", username);
@@ -28984,47 +29146,11 @@ exports["default"] = _react2["default"].createClass({
     return _react2["default"].createElement(
       "div",
       { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + (layout || Object.keys(dataObject).length) },
-      _react2["default"].createElement(
-        "nav",
-        null,
-        _react2["default"].createElement(
-          "div",
-          null,
-          _react2["default"].createElement(
-            _reactRouter.Link,
-            { className: "nav-item", to: "/" },
-            "Home"
-          ),
-          _react2["default"].createElement(
-            _reactRouter.Link,
-            { className: "nav-item", to: "/streams" },
-            "Streams"
-          ),
-          _react2["default"].createElement(
-            _reactRouter.Link,
-            { className: "nav-item", to: "/games" },
-            "Games"
-          ),
-          authData && authData.access_token ? _react2["default"].createElement(
-            "span",
-            null,
-            userData ? _react2["default"].createElement(
-              _reactRouter.Link,
-              { className: "nav-item", to: "/Profile" },
-              "Profile"
-            ) : null,
-            _react2["default"].createElement(
-              "a",
-              { className: "nav-item", href: "#", onClick: this.logout },
-              "Disconnect"
-            )
-          ) : _react2["default"].createElement(
-            "a",
-            { className: "nav-item login", href: url },
-            "Connect to Twitch"
-          )
-        )
-      ),
+      _react2["default"].createElement(_componentsNavJsx2["default"], { authData: authData, userData: userData, url: url, methods: {
+          search: this.search,
+          appendStream: this.appendStream,
+          logout: this.logout
+        } }),
       _react2["default"].createElement(_componentsPlayerJsx2["default"], { data: {
           dataObject: dataObject
         },
@@ -29060,7 +29186,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"./components/player.jsx":246,"firebase":5,"react":242,"react-router":37}],252:[function(require,module,exports){
+},{"../../modules/load-data":4,"./components/nav.jsx":246,"./components/player.jsx":247,"firebase":5,"react":242,"react-router":37}],253:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29101,7 +29227,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/user/follow-streams.jsx":248,"react":242,"react-router":37}],253:[function(require,module,exports){
+},{"./components/user/follow-streams.jsx":249,"react":242,"react-router":37}],254:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29127,7 +29253,7 @@ var components = {};
 components.StreamsListItem = _react2["default"].createClass({
   displayName: "stream-ListItem",
   render: function render() {
-    console.log(this.props);
+    // console.log(this.props);
     var _props = this.props;
     var index = _props.index;
     var appendStream = _props.methods.appendStream;
