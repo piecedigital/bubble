@@ -112,7 +112,7 @@ const PlayerStream = React.createClass({
                 Put In View
               </div>
               <div className="open-panels" onClick={panelsHandler.bind(null, "open", name)}>
-                Open Panels
+                Open Stream Panels
               </div>
               {
                 userData ? (

@@ -206,14 +206,16 @@
           }
         }
         &.profile {
-          .general-page.profile {
+          .followed-streams.profile, .following-streams.profile {
             .title {
             }
             > .wrapper {
               .list {}
             }
             .tools {
-              left: 15*$em;
+              &:not(.locked):not(.locked-top) {
+                left: 14.5*$em;
+              }
               .parent {
                 .scroll {
                   .option {
