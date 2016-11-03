@@ -109,7 +109,7 @@ let components = {
         display_name
       } = data.channel || data.user;
       // console.log(this.state.streamData, nextState.streamData);
-      if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData.stream !== null) {
+      if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if(nextState.streamData.stream) {
           notification({
@@ -163,11 +163,11 @@ let components = {
           }
         </div>
       );
-
       if(!stream) {
+        console.log(stream, filter);
         if(filter === "all" || filter === "offline") {
           return (
-            <li className={`channel-list-item`}>
+            <li className={`channel-list-item null`}>
               <div className="wrapper">
                 <div className="image">
                   <img src={logo || missingLogo} />
@@ -186,6 +186,7 @@ let components = {
             </li>
           );
         } else {
+          console.log("returning null");
           return null;
         }
       }
@@ -352,6 +353,9 @@ export default React.createClass({
         }
       }
     }, 200);
+  },
+  componentWillReceiveProps() {
+    this.scrollEvent();
   },
   componentDidMount() {
     this.gatherData();
