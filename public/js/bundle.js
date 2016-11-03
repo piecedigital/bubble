@@ -28111,7 +28111,6 @@ var components = {
         )
       );
       if (!stream) {
-        console.log(stream, filter);
         if (filter === "all" || filter === "offline") {
           return _react2["default"].createElement(
             "li",
