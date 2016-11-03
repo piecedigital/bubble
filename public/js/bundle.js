@@ -28210,8 +28210,8 @@ exports["default"] = _react2["default"].createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      locked: false,
-      lockedTop: false
+      locked: this.props.follow === "IFollow" ? false : true,
+      lockedTop: this.props.follow === "IFollow" ? false : true
     };
   },
   gatherData: function gatherData(limit) {
