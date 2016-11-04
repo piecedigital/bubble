@@ -27678,7 +27678,7 @@ var PlayerStream = _react2["default"].createClass({
                 { className: "to-channel" },
                 _react2["default"].createElement(
                   _reactRouter.Link,
-                  { to: "https://twitch.tv/" + name, target: "_blank", onClick: togglePlayer.bind(null, "close") },
+                  { to: "https://twitch.tv/" + name, target: "_blank" },
                   "Visit On Twitch"
                 )
               ),
