@@ -311,16 +311,11 @@ exports["default"] = _react2["default"].createClass({
       lockedTop: this.props.follow === "IFollow" ? false : true
     };
   },
-  gatherData: function gatherData(limit) {
+  gatherData: function gatherData(limit, offset, callback) {
     var _this3 = this;
 
-    var loadingQueue = JSON.parse(JSON.stringify(this.state.loadingQueue));
-    loadingQueue.push(true);
-    this.setState({
-      loadingQueue: loadingQueue
-    });
-    typeof limit === "number" ? limit = limit : limit = this.state.limit || 25;
-    // console.log("gathering data");
+    limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     var _props3 = this.props;
 
     _objectDestructuringEmpty(_props3.methods);
@@ -330,10 +325,10 @@ exports["default"] = _react2["default"].createClass({
     location = _props3.location;
 
     if (_modulesLoadData2["default"]) {
-      var offset = this.state.requestOffset;
       this.setState({
-        requestOffset: this.state.requestOffset + limit
+        requestOffset: offset + limit
       });
+      console.log("gathering data", limit, offset);
       _modulesLoadData2["default"].call(this, function (e) {
         console.error(e.stack);
       }, {
@@ -342,11 +337,12 @@ exports["default"] = _react2["default"].createClass({
         stream_type: "all"
       }).then(function (methods) {
         methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
-          loadingQueue.pop();
           _this3.setState({
             dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
-            component: "ChannelsListItem",
-            loadingQueue: loadingQueue
+            component: "ChannelsListItem"
+          }, function () {
+            console.log("total data", _this3.state.dataArray.length);
+            if (typeof callback === "function") callback();
           });
         })["catch"](function (e) {
           return console.error(e.stack);
@@ -379,24 +375,21 @@ exports["default"] = _react2["default"].createClass({
       filter: filter
     });
   },
-  refreshList: function refreshList(reset, _) {
+  refreshList: function refreshList(reset, length, offset) {
     var _this4 = this;
 
-    var length = arguments.length <= 2 || arguments[2] === undefined ? this.state.dataArray.length : arguments[2];
-
-    console.log(reset, length, arguments);
-    var obj = {
-      requestOffset: reset ? 0 : this.state.requestOffset
-    };
+    length = length || this.state.dataArray.length;
+    offset = offset || 0;
+    console.log(reset, length, offset);
+    var requestOffset = reset ? 0 : offset;
+    var obj = {};
     if (reset) obj.dataArray = [];
     this.setState(obj, function () {
-      _this4.gatherData(100);
-      // if(length > 100) {
-      //   this.gatherData(100);
-      //   this.refreshList(false, length - 100);
-      // } else {
-      //   this.gatherData(length);
-      // }
+      if (length > 100) {
+        _this4.gatherData(100, offset, _this4.refreshList.bind(_this4, false, length - 100, requestOffset + 100));
+      } else {
+        _this4.gatherData(length, offset);
+      }
     });
   },
   scrollEvent: function scrollEvent(e) {
@@ -467,7 +460,7 @@ exports["default"] = _react2["default"].createClass({
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               return dataArray[ind].ref = r;
-            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name) + ind, data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
+            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
               appendStream: appendStream,
               removeFromDataArray: _this6.removeFromDataArray
             } });
@@ -508,7 +501,9 @@ exports["default"] = _react2["default"].createClass({
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this6.refreshList.bind(_this6, true) },
+                    { className: "option btn-default refresh", onClick: function () {
+                        return _this6.refreshList(true);
+                      } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(

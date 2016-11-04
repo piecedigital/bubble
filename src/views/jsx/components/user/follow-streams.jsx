@@ -243,14 +243,9 @@ export default React.createClass({
       lockedTop: this.props.follow === "IFollow" ? false : true,
     }
   },
-  gatherData(limit) {
-    let loadingQueue = ( JSON.parse(JSON.stringify(this.state.loadingQueue)) );
-    loadingQueue.push(true);
-    this.setState({
-      loadingQueue
-    });
-    typeof limit === "number" ? limit = limit : limit = this.state.limit || 25;
-    // console.log("gathering data");
+  gatherData(limit, offset, callback) {
+    limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     const {
       methods: {
         // loadData
@@ -258,26 +253,27 @@ export default React.createClass({
       location
     } = this.props;
     if(loadData) {
-      let offset = this.state.requestOffset;
       this.setState({
-        requestOffset: this.state.requestOffset + limit
+        requestOffset: (offset + limit)
       });
+      console.log("gathering data", limit, offset);
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
         offset,
-        limit: limit,
+        limit,
         stream_type: "all"
       })
       .then(methods => {
         methods
         [this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]()
         .then(data => {
-          loadingQueue.pop();
           this.setState({
             dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
-            component: `ChannelsListItem`,
-            loadingQueue
+            component: `ChannelsListItem`
+          }, () => {
+            console.log("total data", this.state.dataArray.length);
+            if(typeof callback === "function") callback();
           });
         })
         .catch(e => console.error(e.stack));
@@ -306,20 +302,19 @@ export default React.createClass({
       filter
     });
   },
-  refreshList(reset, _, length = this.state.dataArray.length) {
-    console.log(reset, length, arguments);
-    let obj = {
-      requestOffset: reset ? 0 : this.state.requestOffset,
-    };
+  refreshList(reset, length, offset) {
+    length = length || this.state.dataArray.length;
+    offset = offset || 0;
+    console.log(reset, length, offset);
+    let requestOffset = reset ? 0 : offset;
+    let obj = {};
     if(reset) obj.dataArray = [];
     this.setState(obj, () => {
-      this.gatherData(100);
-      // if(length > 100) {
-      //   this.gatherData(100);
-      //   this.refreshList(false, length - 100);
-      // } else {
-      //   this.gatherData(length);
-      // }
+      if(length > 100) {
+        this.gatherData(100, offset, this.refreshList.bind(this, false, length - 100, requestOffset + 100));
+      } else {
+        this.gatherData(length, offset);
+      }
     });
   },
   scrollEvent(e) {
@@ -386,7 +381,7 @@ export default React.createClass({
     if(component) {
       const ListItem = components[component];
       const list = dataArray.map((itemData, ind) => {
-        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${ind}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} methods={{
+        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} methods={{
           appendStream,
           removeFromDataArray: this.removeFromDataArray
         }} />
@@ -406,7 +401,7 @@ export default React.createClass({
                 <div className="option btn-default refresh" onClick={this.refresh}>
                   Refresh Streams
                 </div>
-                <div className="option btn-default refresh" onClick={this.refreshList.bind(this, true)}>
+                <div className="option btn-default refresh" onClick={() => this.refreshList(true)}>
                   Refresh Listing
                 </div>
                 <div className="option btn-default load-more" onClick={this.gatherData}>
