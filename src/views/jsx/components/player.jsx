@@ -97,7 +97,7 @@ const PlayerStream = React.createClass({
                 <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
               </div>
               <div className="to-channel">
-                <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={togglePlayer.bind(null, "close")}>Visit On Twitch</Link>
+                <Link to={`https://twitch.tv/${name}`} target="_blank">Visit On Twitch</Link>
               </div>
               <div className="closer" onClick={this.swapOut}>
                 Close
