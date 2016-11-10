@@ -20,9 +20,7 @@ var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
 var _modulesHelperTools = require("../../../../modules/helper-tools");
 
-var _followJsx = require("../follow.jsx");
-
-var _followJsx2 = _interopRequireDefault(_followJsx);
+var _hoverOptionsJsx = require("../hover-options.jsx");
 
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -177,37 +175,8 @@ var components = {
       var language = _ref3.language;
       var stream = this.state.streamData.stream;
 
-      var hoverOptions = _react2["default"].createElement(
-        "div",
-        { className: "hover-options" },
-        _react2["default"].createElement(
-          "div",
-          { className: "go-to-channel" },
-          _react2["default"].createElement(
-            "a",
-            { href: "https://twitch.tv/" + name, target: "_blank" },
-            "Go To Channel"
-          )
-        ),
-        _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: this.followCallback }),
-        stream ? _react2["default"].createElement(
-          "div",
-          { className: "append-stream" },
-          _react2["default"].createElement(
-            "a",
-            { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
-            "Watch Stream"
-          )
-        ) : _react2["default"].createElement(
-          "div",
-          { className: "append-stream" },
-          _react2["default"].createElement(
-            "a",
-            { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
-            "Open Stream"
-          )
-        )
-      );
+      var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, { auth: auth, stream: stream, name: name, display_name: display_name, userData: userData, callback: this.followCallback, clickCallback: this.appendStream });
+
       if (!stream) {
         if (filter === "all" || filter === "offline") {
           return _react2["default"].createElement(
