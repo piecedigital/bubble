@@ -6,7 +6,7 @@
   left: 0;
   width: 0%;
   height: 0%;
-  background-color: $primary;
+  background-color: $dim;
   overflow: hidden;
   .wrapper {
     @include displayFlex;
@@ -14,7 +14,7 @@
     width: 100%;
     height: 100%;
     padding-top: 2px;
-    box-shadow: inset 0 2px 0 0 $dimmer;
+    box-shadow: inset 0 2px 0 0 $dim;
     .list {
       width: 100%;
       height: 100%;
@@ -37,7 +37,7 @@
       bottom: 100%;
       left: 0;
       > * {
-        background-color: $dim;
+        background-color: $primary;
         max-height: 2*$em;
         padding: .45*$em .5*$em;
         border: none;
