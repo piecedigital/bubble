@@ -29179,7 +29179,22 @@ exports["default"] = _react2["default"].createClass({
           spliceStream: this.spliceStream,
           loadData: _modulesLoadData2["default"]
         }
-      }) : null
+      }) : null,
+      _react2["default"].createElement(
+        "div",
+        { className: "created-by" },
+        _react2["default"].createElement("div", { className: "separator-4-black" }),
+        _react2["default"].createElement(
+          "div",
+          { className: "by" },
+          "Created by ",
+          _react2["default"].createElement(
+            "a",
+            { href: "http://piecedigital.net", rel: "nofollow", target: "_blank" },
+            "Piece Digital"
+          )
+        )
+      )
     );
   }
 });

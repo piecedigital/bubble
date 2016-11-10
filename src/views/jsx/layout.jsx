@@ -232,6 +232,10 @@ export default React.createClass({
             null
           )
         }
+        <div className="created-by">
+          <div className="separator-4-black" />
+          <div className="by">Created by <a href="http://piecedigital.net" rel="nofollow" target="_blank">Piece Digital</a></div>
+        </div>
       </div>
     )
   }
