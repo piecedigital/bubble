@@ -2,7 +2,7 @@ import React from "react";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/load-data";
 import { browserNotification as notification } from "../../../../modules/helper-tools";
-import FollowButton from "../follow.jsx";
+import { ListItemHoverOptions } from "../hover-options.jsx";
 
 const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -146,23 +146,8 @@ let components = {
         }
       } = this.state;
 
-      let hoverOptions = (
-        <div className={`hover-options`}>
-          <div className="go-to-channel">
-            <a href={`https://twitch.tv/${name}`} target="_blank">Go To Channel</a>
-          </div>
-          <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth} callback={this.followCallback}/>
-          {
-            stream ? (
-              <div className="append-stream">
-                <a href="#" onClick={this.appendStream.bind(this, name, display_name)}>Watch Stream</a>
-              </div>
-            ) : <div className="append-stream">
-              <a href="#" onClick={this.appendStream.bind(this, name, display_name)}>Open Stream</a>
-            </div>
-          }
-        </div>
-      );
+      let hoverOptions = <ListItemHoverOptions auth={auth} stream={stream} name={name} display_name={display_name} userData={userData} callback={this.followCallback} clickCallback={this.appendStream} />;
+
       if(!stream) {
         if(filter === "all" || filter === "offline") {
           return (

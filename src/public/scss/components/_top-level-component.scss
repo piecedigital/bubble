@@ -83,8 +83,8 @@
       }
     }
   }
-  &.profile {
-    .followed-streams.profile, .following-streams.profile {
+  &.profile, &.streams, &.games {
+    .followed-streams.profile, .following-streams.profile, .general-page {
       &.locked {
         position: relative;
       }

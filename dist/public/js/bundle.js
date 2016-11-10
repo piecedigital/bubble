@@ -27012,7 +27012,7 @@ function checkAuth(Component, props) {
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })
   )
 ), container);
-},{"./jsx/general-page.jsx":250,"./jsx/home.jsx":251,"./jsx/layout.jsx":252,"./jsx/profile.jsx":253,"./jsx/search.jsx":254,"react":242,"react-dom":7,"react-router":37}],244:[function(require,module,exports){
+},{"./jsx/general-page.jsx":251,"./jsx/home.jsx":252,"./jsx/layout.jsx":253,"./jsx/profile.jsx":254,"./jsx/search.jsx":255,"react":242,"react-dom":7,"react-router":37}],244:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27389,6 +27389,69 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _followJsx = require("./follow.jsx");
+
+var _followJsx2 = _interopRequireDefault(_followJsx);
+
+var ListItemHoverOptions = _react2["default"].createClass({
+  displayName: "ListItemTools",
+  render: function render() {
+    var _props = this.props;
+    var auth = _props.auth;
+    var name = _props.name;
+    var stream = _props.stream;
+    var display_name = _props.display_name;
+    var userData = _props.userData;
+    var followCallback = _props.callback;
+    var appendStream = _props.clickCallback;
+
+    return _react2["default"].createElement(
+      "div",
+      { className: "hover-options" },
+      _react2["default"].createElement(
+        "div",
+        { className: "go-to-channel" },
+        _react2["default"].createElement(
+          "a",
+          { href: "https://twitch.tv/" + name, target: "_blank" },
+          "Visit On Twitch"
+        )
+      ),
+      userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
+      stream ? _react2["default"].createElement(
+        "div",
+        { className: "append-stream" },
+        _react2["default"].createElement(
+          "a",
+          { href: "#", onClick: appendStream.bind(null, name, display_name) },
+          "Watch Stream"
+        )
+      ) : _react2["default"].createElement(
+        "div",
+        { className: "append-stream" },
+        _react2["default"].createElement(
+          "a",
+          { href: "#", onClick: appendStream.bind(null, name, display_name) },
+          "Open Stream"
+        )
+      )
+    );
+  }
+});
+exports.ListItemHoverOptions = ListItemHoverOptions;
+},{"./follow.jsx":245,"react":242}],247:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
 var _reactRouter = require('react-router');
 
 var SlideInput = _react2["default"].createClass({
@@ -27531,7 +27594,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"react":242,"react-router":37}],247:[function(require,module,exports){
+},{"react":242,"react-router":37}],248:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27920,7 +27983,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../../modules/load-data":4,"./follow.jsx":245,"react":242,"react-router":37}],248:[function(require,module,exports){
+},{"../../../modules/load-data":4,"./follow.jsx":245,"react":242,"react-router":37}],249:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28054,7 +28117,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../../modules/load-data":4,"react":242,"react-router":37}],249:[function(require,module,exports){
+},{"../../../modules/load-data":4,"react":242,"react-router":37}],250:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28077,9 +28140,7 @@ var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
 var _modulesHelperTools = require("../../../../modules/helper-tools");
 
-var _followJsx = require("../follow.jsx");
-
-var _followJsx2 = _interopRequireDefault(_followJsx);
+var _hoverOptionsJsx = require("../hover-options.jsx");
 
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -28234,37 +28295,8 @@ var components = {
       var language = _ref3.language;
       var stream = this.state.streamData.stream;
 
-      var hoverOptions = _react2["default"].createElement(
-        "div",
-        { className: "hover-options" },
-        _react2["default"].createElement(
-          "div",
-          { className: "go-to-channel" },
-          _react2["default"].createElement(
-            "a",
-            { href: "https://twitch.tv/" + name, target: "_blank" },
-            "Go To Channel"
-          )
-        ),
-        _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: this.followCallback }),
-        stream ? _react2["default"].createElement(
-          "div",
-          { className: "append-stream" },
-          _react2["default"].createElement(
-            "a",
-            { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
-            "Watch Stream"
-          )
-        ) : _react2["default"].createElement(
-          "div",
-          { className: "append-stream" },
-          _react2["default"].createElement(
-            "a",
-            { href: "#", onClick: this.appendStream.bind(this, name, display_name) },
-            "Open Stream"
-          )
-        )
-      );
+      var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, { auth: auth, stream: stream, name: name, display_name: display_name, userData: userData, callback: this.followCallback, clickCallback: this.appendStream });
+
       if (!stream) {
         if (filter === "all" || filter === "offline") {
           return _react2["default"].createElement(
@@ -28612,7 +28644,7 @@ exports["default"] = _react2["default"].createClass({
 });
 module.exports = exports["default"];
 /*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/
-},{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../follow.jsx":245,"react":242,"react-router":37}],250:[function(require,module,exports){
+},{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../hover-options.jsx":246,"react":242,"react-router":37}],251:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28633,6 +28665,8 @@ var _modulesLoadData = require("../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _componentsHoverOptionsJsx = require("./components/hover-options.jsx");
+
 // components
 var components = {
   // list item for streams matching the search
@@ -28641,6 +28675,8 @@ var components = {
     render: function render() {
       // console.log(this.props);
       var _props = this.props;
+      var auth = _props.auth;
+      var userData = _props.userData;
       var index = _props.index;
       var appendStream = _props.methods.appendStream;
       var _props$data = _props.data;
@@ -28653,6 +28689,7 @@ var components = {
       var mature = _props$data$channel.mature;
       var logo = _props$data$channel.logo;
       var name = _props$data$channel.name;
+      var display_name = _props$data$channel.display_name;
       var language = _props$data$channel.language;
 
       // let viewersString = viewers.toString().split("").reverse().join("").replace(/(\d{3})/g, function(_, group) {
@@ -28663,40 +28700,44 @@ var components = {
       // let viewersString = viewers.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2') // https://www.livecoding.tv/efleming969/
 
       var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+      var hoverOptions = _react2["default"].createElement(_componentsHoverOptionsJsx.ListItemHoverOptions, { auth: auth, stream: true, name: name, display_name: display_name, userData: userData, clickCallback: appendStream });
 
       return _react2["default"].createElement(
         "li",
-        { className: "stream-list-item", onClick: function () {
-            appendStream.call(null, name, displayName);
-          } },
+        { className: "stream-list-item" },
         _react2["default"].createElement(
           "div",
-          { className: "image" },
-          _react2["default"].createElement("img", { src: preview.medium })
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "info" },
+          { className: "wrapper" },
           _react2["default"].createElement(
             "div",
-            { className: "channel-name" },
-            name
+            { className: "image" },
+            _react2["default"].createElement("img", { src: preview.medium })
           ),
           _react2["default"].createElement(
             "div",
-            { className: "title" },
-            title
+            { className: "info" },
+            _react2["default"].createElement(
+              "div",
+              { className: "channel-name" },
+              name
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "title" },
+              title
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "game" },
+              "Live with \"" + game + "\""
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "viewers" },
+              "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+            )
           ),
-          _react2["default"].createElement(
-            "div",
-            { className: "game" },
-            "Live with \"" + game + "\""
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "viewers" },
-            "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-          )
+          hoverOptions
         )
       );
     }
@@ -28718,29 +28759,34 @@ var components = {
 
       var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
       var channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+
       return _react2["default"].createElement(
         "li",
         { className: "game-list-item" },
         _react2["default"].createElement(
-          _reactRouter.Link,
-          { to: "/search/streams?q=" + encodeURIComponent(name) },
+          "div",
+          { className: "wrapper" },
           _react2["default"].createElement(
-            "div",
-            { className: "image" },
-            _react2["default"].createElement("img", { src: box ? box.medium : "" })
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "info" },
+            _reactRouter.Link,
+            { to: "/search/streams?q=" + encodeURIComponent(name) },
             _react2["default"].createElement(
               "div",
-              { className: "game-name" },
-              name
+              { className: "image" },
+              _react2["default"].createElement("img", { src: box ? box.medium : "" })
             ),
             _react2["default"].createElement(
               "div",
-              { className: "count" },
-              channelsString + " streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+              { className: "info" },
+              _react2["default"].createElement(
+                "div",
+                { className: "game-name" },
+                name
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "count" },
+                channelsString + " streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+              )
             )
           )
         )
@@ -28827,6 +28873,8 @@ exports["default"] = _react2["default"].createClass({
     var dataArray = _state.dataArray;
     var component = _state.component;
     var _props4 = this.props;
+    var auth = _props4.auth;
+    var userData = _props4.userData;
     var data = _props4.data;
     var _props4$methods = _props4.methods;
     var appendStream = _props4$methods.appendStream;
@@ -28839,33 +28887,37 @@ exports["default"] = _react2["default"].createClass({
         return {
           v: _react2["default"].createElement(
             "div",
-            { className: "top-level-component general-page " + (params ? params.page : data.page) },
+            { className: "top-level-component " + (params ? params.page : data.page) },
             _react2["default"].createElement(
               "div",
-              { className: "wrapper" },
-              _react2["default"].createElement(
-                "ul",
-                { className: "list" },
-                dataArray.map(function (itemData, ind) {
-                  return _react2["default"].createElement(ListItem, { key: ind, data: itemData, index: ind, methods: {
-                      appendStream: appendStream
-                    } });
-                })
-              )
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "tools" },
+              { className: "general-page" },
               _react2["default"].createElement(
                 "div",
-                { className: "parent" },
+                { className: "wrapper" },
+                _react2["default"].createElement(
+                  "ul",
+                  { className: "list" },
+                  dataArray.map(function (itemData, ind) {
+                    return _react2["default"].createElement(ListItem, { key: ind, auth: auth, userData: userData, data: itemData, index: ind, methods: {
+                        appendStream: appendStream
+                      } });
+                  })
+                )
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "tools" },
                 _react2["default"].createElement(
                   "div",
-                  { className: "scroll" },
+                  { className: "parent" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "btn-default load-more", onClick: _this3.gatherData },
-                    "Load More"
+                    { className: "scroll" },
+                    _react2["default"].createElement(
+                      "div",
+                      { className: "btn-default load-more", onClick: _this3.gatherData },
+                      "Load More"
+                    )
                   )
                 )
               )
@@ -28885,7 +28937,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"react":242,"react-router":37}],251:[function(require,module,exports){
+},{"../../modules/load-data":4,"./components/hover-options.jsx":246,"react":242,"react-router":37}],252:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28931,7 +28983,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/featured-streams.jsx":244,"./components/top-games.jsx":248,"react":242}],252:[function(require,module,exports){
+},{"./components/featured-streams.jsx":244,"./components/top-games.jsx":249,"react":242}],253:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29199,7 +29251,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"./components/nav.jsx":246,"./components/player.jsx":247,"firebase":5,"react":242,"react-router":37}],253:[function(require,module,exports){
+},{"../../modules/load-data":4,"./components/nav.jsx":247,"./components/player.jsx":248,"firebase":5,"react":242,"react-router":37}],254:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29240,7 +29292,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/user/follow-streams.jsx":249,"react":242,"react-router":37}],254:[function(require,module,exports){
+},{"./components/user/follow-streams.jsx":250,"react":242,"react-router":37}],255:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

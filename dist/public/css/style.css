@@ -1114,19 +1114,19 @@ nav {
     padding: 0;
     overflow-x: hidden;
     overflow-y: auto; }
-.top-level-component.profile .followed-streams.profile.locked, .top-level-component.profile .following-streams.profile.locked {
+.top-level-component.profile .followed-streams.profile.locked, .top-level-component.profile .following-streams.profile.locked, .top-level-component.profile .general-page.locked, .top-level-component.streams .followed-streams.profile.locked, .top-level-component.streams .following-streams.profile.locked, .top-level-component.streams .general-page.locked, .top-level-component.games .followed-streams.profile.locked, .top-level-component.games .following-streams.profile.locked, .top-level-component.games .general-page.locked {
   position: relative; }
-.top-level-component.profile .followed-streams.profile:not(:last-child), .top-level-component.profile .following-streams.profile:not(:last-child) {
+.top-level-component.profile .followed-streams.profile:not(:last-child), .top-level-component.profile .following-streams.profile:not(:last-child), .top-level-component.profile .general-page:not(:last-child), .top-level-component.streams .followed-streams.profile:not(:last-child), .top-level-component.streams .following-streams.profile:not(:last-child), .top-level-component.streams .general-page:not(:last-child), .top-level-component.games .followed-streams.profile:not(:last-child), .top-level-component.games .following-streams.profile:not(:last-child), .top-level-component.games .general-page:not(:last-child) {
   margin-bottom: 16px; }
-.top-level-component.profile .followed-streams.profile .title, .top-level-component.profile .following-streams.profile .title {
+.top-level-component.profile .followed-streams.profile .title, .top-level-component.profile .following-streams.profile .title, .top-level-component.profile .general-page .title, .top-level-component.streams .followed-streams.profile .title, .top-level-component.streams .following-streams.profile .title, .top-level-component.streams .general-page .title, .top-level-component.games .followed-streams.profile .title, .top-level-component.games .following-streams.profile .title, .top-level-component.games .general-page .title {
   margin: 8px;
   font-size: 25.6px;
   font-weight: bold; }
-.top-level-component.profile .followed-streams.profile > .wrapper, .top-level-component.profile .following-streams.profile > .wrapper {
+.top-level-component.profile .followed-streams.profile > .wrapper, .top-level-component.profile .following-streams.profile > .wrapper, .top-level-component.profile .general-page > .wrapper, .top-level-component.streams .followed-streams.profile > .wrapper, .top-level-component.streams .following-streams.profile > .wrapper, .top-level-component.streams .general-page > .wrapper, .top-level-component.games .followed-streams.profile > .wrapper, .top-level-component.games .following-streams.profile > .wrapper, .top-level-component.games .general-page > .wrapper {
   padding: 4px 0;
   transition: 0s all;
   background-color: #1e1e1e; }
-  .top-level-component.profile .followed-streams.profile > .wrapper .list, .top-level-component.profile .following-streams.profile > .wrapper .list {
+  .top-level-component.profile .followed-streams.profile > .wrapper .list, .top-level-component.profile .following-streams.profile > .wrapper .list, .top-level-component.profile .general-page > .wrapper .list, .top-level-component.streams .followed-streams.profile > .wrapper .list, .top-level-component.streams .following-streams.profile > .wrapper .list, .top-level-component.streams .general-page > .wrapper .list, .top-level-component.games .followed-streams.profile > .wrapper .list, .top-level-component.games .following-streams.profile > .wrapper .list, .top-level-component.games .general-page > .wrapper .list {
     display: -ms-flex;
     display: -moz-flex;
     display: -webkit-box;
@@ -1141,7 +1141,7 @@ nav {
     overflow-x: hidden;
     overflow-y: auto;
     transition: 0s all; }
-.top-level-component.profile .followed-streams.profile .tools, .top-level-component.profile .following-streams.profile .tools {
+.top-level-component.profile .followed-streams.profile .tools, .top-level-component.profile .following-streams.profile .tools, .top-level-component.profile .general-page .tools, .top-level-component.streams .followed-streams.profile .tools, .top-level-component.streams .following-streams.profile .tools, .top-level-component.streams .general-page .tools, .top-level-component.games .followed-streams.profile .tools, .top-level-component.games .following-streams.profile .tools, .top-level-component.games .general-page .tools {
   position: absolute;
   top: 0;
   left: 8px;
@@ -1152,34 +1152,34 @@ nav {
   overflow: hidden;
   transform: translate(0, 0%);
   transition: .0s all; }
-  .top-level-component.profile .followed-streams.profile .tools.locked, .top-level-component.profile .following-streams.profile .tools.locked {
+  .top-level-component.profile .followed-streams.profile .tools.locked, .top-level-component.profile .following-streams.profile .tools.locked, .top-level-component.profile .general-page .tools.locked, .top-level-component.streams .followed-streams.profile .tools.locked, .top-level-component.streams .following-streams.profile .tools.locked, .top-level-component.streams .general-page .tools.locked, .top-level-component.games .followed-streams.profile .tools.locked, .top-level-component.games .following-streams.profile .tools.locked, .top-level-component.games .general-page .tools.locked {
     top: 100%;
     margin-top: 0;
     transform: translate(0, -100%); }
-  .top-level-component.profile .followed-streams.profile .tools .parent .scroll, .top-level-component.profile .following-streams.profile .tools .parent .scroll {
+  .top-level-component.profile .followed-streams.profile .tools .parent .scroll, .top-level-component.profile .following-streams.profile .tools .parent .scroll, .top-level-component.profile .general-page .tools .parent .scroll, .top-level-component.streams .followed-streams.profile .tools .parent .scroll, .top-level-component.streams .following-streams.profile .tools .parent .scroll, .top-level-component.streams .general-page .tools .parent .scroll, .top-level-component.games .followed-streams.profile .tools .parent .scroll, .top-level-component.games .following-streams.profile .tools .parent .scroll, .top-level-component.games .general-page .tools .parent .scroll {
     display: -ms-flex;
     display: -moz-flex;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
     flex-direction: column; }
-    .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option {
+    .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option, .top-level-component.profile .general-page .tools .parent .scroll .option, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option, .top-level-component.streams .general-page .tools .parent .scroll .option, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option, .top-level-component.games .following-streams.profile .tools .parent .scroll .option, .top-level-component.games .general-page .tools .parent .scroll .option {
       padding: 4px;
       margin: 4px 0; }
-      .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters {
+      .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .general-page .tools .parent .scroll .option.filters, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.streams .general-page .tools .parent .scroll .option.filters, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.games .general-page .tools .parent .scroll .option.filters {
         cursor: default; }
-        .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status {
+        .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status {
           display: -ms-flex;
           display: -moz-flex;
           display: -webkit-box;
           display: -webkit-flex;
           display: flex;
           padding-top: 1.6px; }
-          .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status label {
+          .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status label {
             display: none;
             margin-right: -40px;
             pointer-events: none; }
-          .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status select {
+          .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status select {
             width: 100%;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
             background-color: transparent;
@@ -1195,23 +1195,84 @@ nav {
     .top-level-component.profile .general-page.profile > .wrapper .list {
       margin: 0; } }
 .stream-list-item {
-  padding: 8px;
-  background-color: #00c8fa;
+  position: relative;
+  width: 16.66667%;
+  padding: 4px;
   list-style: none; }
-  .stream-list-item:hover {
-    background-color: #96e6ff; }
+  .stream-list-item > .wrapper {
+    display: block;
+    height: 100%;
+    padding: 8px;
+    background-color: #ebebeb;
+    text-decoration: none;
+    cursor: default; }
+    .stream-list-item > .wrapper:hover {
+      background-color: #96e6ff; }
+      .stream-list-item > .wrapper:hover .hover-options {
+        top: 50%;
+        max-height: 160px;
+        padding: 8px;
+        transform: translate(0, -50%); }
   .stream-list-item .image {
     place: holder; }
     .stream-list-item .image img {
+      display: block;
       width: 100%; }
-  .stream-list-item .info .channel-name {
-    font-weight: bold;
-    margin-bottom: 3.2px; }
-  .stream-list-item .info .title {
-    place: holder; }
-  .stream-list-item .info .game {
-    margin-top: 3.2px; }
+  .stream-list-item .info {
+    color: black; }
+    .stream-list-item .info .channel-name {
+      font-weight: bold;
+      margin-bottom: 3.2px;
+      word-wrap: break-word; }
+    .stream-list-item .info .title {
+      place: holder; }
+    .stream-list-item .info .game {
+      margin-top: 3.2px; }
+  .stream-list-item .hover-options {
+    display: -ms-flex;
+    display: -moz-flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 0px;
+    padding: 0 8px;
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    overflow: hidden; }
+    .stream-list-item .hover-options > * {
+      display: inline-block;
+      margin: 8px 0;
+      padding: 3.2px;
+      border-radius: 3.2px;
+      background-color: #00c8fa;
+      color: black;
+      cursor: pointer; }
+      .stream-list-item .hover-options > * a {
+        text-decoration: none; }
 
+@media (max-width: 1024px) {
+  .stream-list-item {
+    width: 20%; } }
+@media (max-width: 880px) {
+  .stream-list-item {
+    width: 25%; } }
+@media (max-width: 740px) {
+  .stream-list-item {
+    width: 33.33333%; } }
+@media (max-width: 600px) {
+  .stream-list-item {
+    width: 50%; } }
+@media (max-width: 460px) {
+  .stream-list-item {
+    width: 100%; } }
 .channel-list-item {
   position: relative;
   width: 16.66667%;
