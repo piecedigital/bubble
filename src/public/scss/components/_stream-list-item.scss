@@ -3,6 +3,9 @@
   width: percentage(1/6);
   padding: .25*$em;
   list-style: none;
+  &.home {
+    width: 100%;
+  }
   > .wrapper {
     display: block;
     height: 100%;

@@ -41,32 +41,36 @@ var ListItem = _react2["default"].createClass({
       null,
       _react2["default"].createElement(
         "li",
-        { className: "stream-list-item clickable", onClick: function () {
+        { className: "stream-list-item clickable home", onClick: function () {
             displayStream(index);
           } },
         _react2["default"].createElement(
           "div",
-          { className: "image" },
-          _react2["default"].createElement("img", { src: preview.medium })
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "info" },
+          { className: "wrapper" },
           _react2["default"].createElement(
             "div",
-            { className: "channel-name" },
-            name
-          ),
-          _react2["default"].createElement("div", { className: "separator-1-7" }),
-          _react2["default"].createElement(
-            "div",
-            { className: "title" },
-            title
+            { className: "image" },
+            _react2["default"].createElement("img", { src: preview.medium })
           ),
           _react2["default"].createElement(
             "div",
-            { className: "game" },
-            "Live with \"" + (game || null) + "\", streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+            { className: "info" },
+            _react2["default"].createElement(
+              "div",
+              { className: "channel-name" },
+              name
+            ),
+            _react2["default"].createElement("div", { className: "separator-1-7" }),
+            _react2["default"].createElement(
+              "div",
+              { className: "title" },
+              title
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "game" },
+              "Live with \"" + (game || null) + "\", streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+            )
           )
         )
       ),

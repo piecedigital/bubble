@@ -30,22 +30,24 @@ const ListItem = React.createClass({
     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
     return (
       <span>
-        <li className={`stream-list-item clickable`} onClick={() => {
+        <li className={`stream-list-item clickable home`} onClick={() => {
           displayStream(index)
         }}>
-          <div className="image">
-            <img src={preview.medium} />
-          </div>
-          <div className="info">
-            <div className="channel-name">
-              {name}
+          <div className="wrapper">
+            <div className="image">
+              <img src={preview.medium} />
             </div>
-            <div className={`separator-1-7`}></div>
-            <div className="title">
-              {title}
-            </div>
-            <div className="game">
-              {`Live with "${game || null}", streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+            <div className="info">
+              <div className="channel-name">
+                {name}
+              </div>
+              <div className={`separator-1-7`}></div>
+              <div className="title">
+                {title}
+              </div>
+              <div className="game">
+                {`Live with "${game || null}", streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+              </div>
             </div>
           </div>
         </li>

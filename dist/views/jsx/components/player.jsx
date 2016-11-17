@@ -20,6 +20,10 @@ var _followJsx = require("./follow.jsx");
 
 var _followJsx2 = _interopRequireDefault(_followJsx);
 
+var _streamPanelsJsx = require("./stream-panels.jsx");
+
+var _streamPanelsJsx2 = _interopRequireDefault(_streamPanelsJsx);
+
 // stream component for player
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
@@ -273,9 +277,9 @@ exports["default"] = _react2["default"].createClass({
     var dataObject = nextProps.data.dataObject;
     var streamInView = this.state.streamInView;
 
-    console.log("receiving props", nextProps, this.props);
+    // console.log("receiving props", nextProps, this.props);
     var count = Object.keys(dataObject).length;
-    console.log("setting view", streamInView, count);
+    // console.log("setting view", streamInView, count);
     if (streamInView > count - 1) {
       this.setState({
         streamInView: count - 1
@@ -293,6 +297,7 @@ exports["default"] = _react2["default"].createClass({
     var userData = _props3.userData;
     var auth = _props3.auth;
     var playerState = _props3.playerState;
+    var panelData = _props3.panelData;
     var _props3$methods = _props3.methods;
     var spliceStream = _props3$methods.spliceStream;
     var clearPlayer = _props3$methods.clearPlayer;
@@ -380,7 +385,8 @@ exports["default"] = _react2["default"].createClass({
               );
             }) : null
           ) : null
-        )
+        ),
+        panelData.length > 0 ? _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData }) : null
       )
     );
   }

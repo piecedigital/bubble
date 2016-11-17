@@ -1,0 +1,45 @@
+.stream-panels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  .wrapper {
+    position: relative;
+    .list {
+      .panel {
+        width: percentage(1/3);
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .stream-panels {
+    .wrapper {
+      .list {
+        .panel {
+          width: percentage(1/2);
+        }
+      }
+    }
+  }
+}
+
+  @media (max-width: 660px) {
+    .stream-panels {
+      .wrapper {
+        .list {
+        .panel {
+          width: percentage(1/1);
+        }
+      }
+    }
+  }
+}
+
+// @media (max-width: xpx) {
+//   .stream-panels {
+//   }
+// }

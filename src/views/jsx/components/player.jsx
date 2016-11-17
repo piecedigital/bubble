@@ -2,6 +2,7 @@ import React from "react";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../modules/load-data";
 import FollowButton from "./follow.jsx";
+import StreamPanels from "./stream-panels.jsx";
 
 // stream component for player
 const PlayerStream = React.createClass({
@@ -219,9 +220,9 @@ export default React.createClass({
     const {
       streamInView
     } = this.state;
-    console.log("receiving props", nextProps, this.props);
+    // console.log("receiving props", nextProps, this.props);
     const count = Object.keys(dataObject).length;
-    console.log("setting view", streamInView, count);
+    // console.log("setting view", streamInView, count);
     if( streamInView > (count - 1) ) {
       this.setState({
         streamInView: count - 1
@@ -238,6 +239,7 @@ export default React.createClass({
       userData,
       auth,
       playerState,
+      panelData,
       methods: {
         spliceStream,
         clearPlayer,
@@ -335,6 +337,7 @@ export default React.createClass({
               )  : null
             }
           </div>
+          {panelData.length > 0 ? <StreamPanels panelData={panelData} /> : null}
         </div>
       </div>
     );

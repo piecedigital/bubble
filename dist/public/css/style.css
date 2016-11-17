@@ -1199,6 +1199,8 @@ nav {
   width: 16.66667%;
   padding: 4px;
   list-style: none; }
+  .stream-list-item.home {
+    width: 100%; }
   .stream-list-item > .wrapper {
     display: block;
     height: 100%;
@@ -1400,5 +1402,24 @@ nav {
       margin-top: 3.2px; }
     .game-list-item .info .viewer-count {
       place: holder; }
+
+.stream-panels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: red; }
+  .stream-panels .wrapper {
+    position: relative; }
+    .stream-panels .wrapper .list .panel {
+      width: 33.33333%; }
+
+@media (max-width: 1024px) {
+  .stream-panels .wrapper .list .panel {
+    width: 50%; } }
+@media (max-width: 660px) {
+  .stream-panels .wrapper .list .panel {
+    width: 100%; } }
 
 /*# sourceMappingURL=style.css.map */
