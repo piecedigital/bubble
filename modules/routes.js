@@ -55,8 +55,8 @@ app.get("/", function (req, res) {
   };
 
   var req = _https2["default"].request(options, function (XHRResponse) {
-    console.log("statusCode: ", XHRResponse.statusCode);
-    console.log("headers: ", XHRResponse.headers);
+    // console.log("statusCode: ", XHRResponse.statusCode);
+    // console.log("headers: ", XHRResponse.headers);
 
     var buffer = "";
 

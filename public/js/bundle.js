@@ -27012,7 +27012,7 @@ function checkAuth(Component, props) {
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })
   )
 ), container);
-},{"./jsx/general-page.jsx":251,"./jsx/home.jsx":252,"./jsx/layout.jsx":253,"./jsx/profile.jsx":254,"./jsx/search.jsx":255,"react":242,"react-dom":7,"react-router":37}],244:[function(require,module,exports){
+},{"./jsx/general-page.jsx":252,"./jsx/home.jsx":253,"./jsx/layout.jsx":254,"./jsx/profile.jsx":255,"./jsx/search.jsx":256,"react":242,"react-dom":7,"react-router":37}],244:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27056,32 +27056,36 @@ var ListItem = _react2["default"].createClass({
       null,
       _react2["default"].createElement(
         "li",
-        { className: "stream-list-item clickable", onClick: function () {
+        { className: "stream-list-item clickable home", onClick: function () {
             displayStream(index);
           } },
         _react2["default"].createElement(
           "div",
-          { className: "image" },
-          _react2["default"].createElement("img", { src: preview.medium })
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "info" },
+          { className: "wrapper" },
           _react2["default"].createElement(
             "div",
-            { className: "channel-name" },
-            name
-          ),
-          _react2["default"].createElement("div", { className: "separator-1-7" }),
-          _react2["default"].createElement(
-            "div",
-            { className: "title" },
-            title
+            { className: "image" },
+            _react2["default"].createElement("img", { src: preview.medium })
           ),
           _react2["default"].createElement(
             "div",
-            { className: "game" },
-            "Live with \"" + (game || null) + "\", streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+            { className: "info" },
+            _react2["default"].createElement(
+              "div",
+              { className: "channel-name" },
+              name
+            ),
+            _react2["default"].createElement("div", { className: "separator-1-7" }),
+            _react2["default"].createElement(
+              "div",
+              { className: "title" },
+              title
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "game" },
+              "Live with \"" + (game || null) + "\", streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+            )
           )
         )
       ),
@@ -27617,6 +27621,10 @@ var _followJsx = require("./follow.jsx");
 
 var _followJsx2 = _interopRequireDefault(_followJsx);
 
+var _streamPanelsJsx = require("./stream-panels.jsx");
+
+var _streamPanelsJsx2 = _interopRequireDefault(_streamPanelsJsx);
+
 // stream component for player
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
@@ -27667,6 +27675,8 @@ var PlayerStream = _react2["default"].createClass({
     }, 100);
   },
   render: function render() {
+    var _this = this;
+
     // console.log(this.props);
     var _props2 = this.props;
     var userData = _props2.userData;
@@ -27713,7 +27723,10 @@ var PlayerStream = _react2["default"].createClass({
                   { className: "name" },
                   _react2["default"].createElement(
                     _reactRouter.Link,
-                    { title: name, to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+                    { title: name, to: "/user/" + name, onClick: function () {
+                        togglePlayer("collapse");
+                        _this.toggleMenu("close");
+                      } },
                     display_name,
                     !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                   )
@@ -27731,7 +27744,10 @@ var PlayerStream = _react2["default"].createClass({
                 { className: "streamer" },
                 _react2["default"].createElement(
                   _reactRouter.Link,
-                  { to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+                  { to: "/user/" + name, onClick: function () {
+                      togglePlayer("collapse");
+                      _this.toggleMenu("close");
+                    } },
                   display_name,
                   !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                 )
@@ -27741,38 +27757,58 @@ var PlayerStream = _react2["default"].createClass({
                 { className: "to-channel" },
                 _react2["default"].createElement(
                   _reactRouter.Link,
-                  { to: "https://twitch.tv/" + name, target: "_blank" },
+                  { to: "https://twitch.tv/" + name, target: "_blank", onClick: function () {
+                      _this.toggleMenu("close");
+                    } },
                   "Visit On Twitch"
                 )
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "closer", onClick: this.swapOut },
+                { className: "closer", onClick: function () {
+                    _this.swapOut();
+                    _this.toggleMenu("close");
+                  } },
                 "Close"
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "refresh-video", onClick: this.refresh.bind(this, "video") },
+                { className: "refresh-video", onClick: function () {
+                    _this.refresh("video");
+                    _this.toggleMenu("close");
+                  } },
                 "Refresh Video"
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "refresh-chat", onClick: this.refresh.bind(this, "chat") },
+                { className: "refresh-chat", onClick: function () {
+                    _this.refresh("chat");
+                    _this.toggleMenu("close");
+                  } },
                 "Refresh Chat"
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "put-in-view", onClick: putInView.bind(null, index) },
+                { className: "put-in-view", onClick: function () {
+                    putInView(index);
+                    _this.toggleMenu("close");
+                  } },
                 "Put In View"
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "open-panels", onClick: panelsHandler.bind(null, "open", name) },
+                { className: "open-panels", onClick: function () {
+                    panelsHandler("open", name);
+                    _this.toggleMenu("close");
+                  } },
                 "Open Stream Panels"
               ),
               userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
                 "div",
-                { className: "follow need-auth", onClick: alertAuthNeeded },
+                { className: "follow need-auth", onClick: function () {
+                    alertAuthNeeded();
+                    _this.toggleMenu("close");
+                  } },
                 "Follow ",
                 name
               )
@@ -27870,9 +27906,9 @@ exports["default"] = _react2["default"].createClass({
     var dataObject = nextProps.data.dataObject;
     var streamInView = this.state.streamInView;
 
-    console.log("receiving props", nextProps, this.props);
+    // console.log("receiving props", nextProps, this.props);
     var count = Object.keys(dataObject).length;
-    console.log("setting view", streamInView, count);
+    // console.log("setting view", streamInView, count);
     if (streamInView > count - 1) {
       this.setState({
         streamInView: count - 1
@@ -27883,13 +27919,26 @@ exports["default"] = _react2["default"].createClass({
       });
     }
   },
+  componentDidMount: function componentDidMount() {
+    var _this2 = this;
+
+    this.rescroll = setInterval(function () {
+      var videoList = _this2.refs.videoList;
+
+      videoList.scrollTop = 0;
+    }, 1000);
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    this.rescroll = null;
+  },
   render: function render() {
-    var _this = this;
+    var _this3 = this;
 
     var _props3 = this.props;
     var userData = _props3.userData;
     var auth = _props3.auth;
     var playerState = _props3.playerState;
+    var panelData = _props3.panelData;
     var _props3$methods = _props3.methods;
     var spliceStream = _props3$methods.spliceStream;
     var clearPlayer = _props3$methods.clearPlayer;
@@ -27923,8 +27972,8 @@ exports["default"] = _react2["default"].createClass({
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
-                layoutTools: _this.layoutTools,
-                putInView: _this.putInView
+                layoutTools: _this3.layoutTools,
+                putInView: _this3.putInView
               } });
           }) : null
         ),
@@ -27977,13 +28026,108 @@ exports["default"] = _react2["default"].createClass({
               );
             }) : null
           ) : null
+        ),
+        panelData.length > 0 ? _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
+            panelsHandler: panelsHandler
+          } }) : null
+      )
+    );
+  }
+});
+module.exports = exports["default"];
+},{"../../../modules/load-data":4,"./follow.jsx":245,"./stream-panels.jsx":249,"react":242,"react-router":37}],249:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var Panel = _react2["default"].createClass({
+  displayName: "Panel",
+  render: function render() {
+    var data = this.props.data;
+
+    console.log("PANEL", data);
+    var content = _react2["default"].createElement(
+      "div",
+      { className: "wrapper" },
+      data.data.title || "Fake Title" ? _react2["default"].createElement(
+        "div",
+        { className: "pad" },
+        _react2["default"].createElement(
+          "div",
+          { className: "title" },
+          data.data.title || "Fake Title"
+        )
+      ) : null,
+      data.data.image ? data.data.link ? _react2["default"].createElement(
+        "a",
+        { href: data.data.link },
+        _react2["default"].createElement(
+          "div",
+          { className: "image" },
+          _react2["default"].createElement("img", { src: data.data.image })
+        )
+      ) : _react2["default"].createElement(
+        "div",
+        { className: "image" },
+        _react2["default"].createElement("img", { src: data.data.image })
+      ) : null,
+      _react2["default"].createElement(
+        "div",
+        { className: "pad" },
+        data.html_description ? _react2["default"].createElement("div", { className: "description", dangerouslySetInnerHTML: { __html: data.html_description } }) : null
+      )
+    );
+    return _react2["default"].createElement(
+      "div",
+      { className: "panel" },
+      content
+    );
+  }
+});
+
+exports["default"] = _react2["default"].createClass({
+  displayName: "StreamPanels",
+  render: function render() {
+    var _props = this.props;
+    var panelData = _props.panelData;
+    var panelsHandler = _props.methods.panelsHandler;
+
+    return _react2["default"].createElement(
+      "div",
+      { className: "stream-panels" },
+      _react2["default"].createElement(
+        "div",
+        { className: "wrapper" },
+        _react2["default"].createElement(
+          "div",
+          { className: "list" },
+          panelData.map(function (data) {
+            return _react2["default"].createElement(Panel, { data: data });
+          })
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "tools" },
+          _react2["default"].createElement(
+            "div",
+            { className: "option btn-default close", onClick: panelsHandler },
+            "Close"
+          )
         )
       )
     );
   }
 });
 module.exports = exports["default"];
-},{"../../../modules/load-data":4,"./follow.jsx":245,"react":242,"react-router":37}],249:[function(require,module,exports){
+},{"react":242}],250:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28117,7 +28261,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../../modules/load-data":4,"react":242,"react-router":37}],250:[function(require,module,exports){
+},{"../../../modules/load-data":4,"react":242,"react-router":37}],251:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28644,7 +28788,7 @@ exports["default"] = _react2["default"].createClass({
 });
 module.exports = exports["default"];
 /*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/
-},{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../hover-options.jsx":246,"react":242,"react-router":37}],251:[function(require,module,exports){
+},{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../hover-options.jsx":246,"react":242,"react-router":37}],252:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28937,7 +29081,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"./components/hover-options.jsx":246,"react":242,"react-router":37}],252:[function(require,module,exports){
+},{"../../modules/load-data":4,"./components/hover-options.jsx":246,"react":242,"react-router":37}],253:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28983,7 +29127,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/featured-streams.jsx":244,"./components/top-games.jsx":249,"react":242}],253:[function(require,module,exports){
+},{"./components/featured-streams.jsx":244,"./components/top-games.jsx":250,"react":242}],254:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29083,12 +29227,12 @@ exports["default"] = _react2["default"].createClass({
   },
   togglePlayer: function togglePlayer(type) {
     switch (type) {
-      case "close":
+      case "collapse":
         this.setState({
           playerCollapsed: true
         });
         break;
-      case "open":
+      case "expand":
         this.setState({
           playerCollapsed: true
         });
@@ -29107,7 +29251,7 @@ exports["default"] = _react2["default"].createClass({
     switch (type) {
       case "open":
         console.log("This would open panels for:", name);
-        alert("Feature coming soon (I hope...)");
+        // alert("Feature coming soon (I hope...)")
         _modulesLoadData2["default"].call(this, function (e) {
           console.error(e.stack);
         }, {
@@ -29127,6 +29271,9 @@ exports["default"] = _react2["default"].createClass({
         });
         break;
       default:
+        this.setState({
+          panelData: []
+        });
     }
   },
   componentDidMount: function componentDidMount() {
@@ -29251,7 +29398,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"./components/nav.jsx":247,"./components/player.jsx":248,"firebase":5,"react":242,"react-router":37}],254:[function(require,module,exports){
+},{"../../modules/load-data":4,"./components/nav.jsx":247,"./components/player.jsx":248,"firebase":5,"react":242,"react-router":37}],255:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29292,7 +29439,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/user/follow-streams.jsx":250,"react":242,"react-router":37}],255:[function(require,module,exports){
+},{"./components/user/follow-streams.jsx":251,"react":242,"react-router":37}],256:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

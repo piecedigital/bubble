@@ -254,7 +254,7 @@ nav {
   height: 0%;
   background-color: #00aadc;
   overflow: hidden; }
-  .player .wrapper {
+  .player > .wrapper {
     display: -ms-flex;
     display: -moz-flex;
     display: -webkit-box;
@@ -265,15 +265,15 @@ nav {
     height: 100%;
     padding-top: 2px;
     box-shadow: inset 0 2px 0 0 #00aadc; }
-    .player .wrapper .list {
+    .player > .wrapper .list {
       width: 100%;
       height: 100%;
       margin: 0;
       padding: 0;
       overflow: hidden; }
-      .player .wrapper .list.chat-list {
+      .player > .wrapper .list.chat-list {
         width: 384px; }
-    .player .wrapper > .tools {
+    .player > .wrapper > .tools {
       display: -ms-flex;
       display: -moz-flex;
       display: -webkit-box;
@@ -282,16 +282,16 @@ nav {
       position: absolute;
       bottom: 100%;
       left: 0; }
-      .player .wrapper > .tools > * {
+      .player > .wrapper > .tools > * {
         background-color: #00c8fa;
         max-height: 32px;
         padding: 7.2px 8px;
         border: none;
         cursor: pointer;
         border-right: 2px solid #0082b4; }
-        .player .wrapper > .tools > *.streamers {
+        .player > .wrapper > .tools > *.streamers {
           font-weight: bold; }
-        .player .wrapper > .tools > *:hover {
+        .player > .wrapper > .tools > *:hover {
           background-color: #96e6ff; }
 
 .player-stream {
@@ -359,22 +359,22 @@ nav {
     width: 0;
     height: 0;
     overflow: hidden; }
-.root.player-open.layout-singular:not(.player-collapsed) .player .wrapper .list.video-list .player-stream:not(.in-view) {
+.root.player-open.layout-singular:not(.player-collapsed) .player > .wrapper .list.video-list .player-stream:not(.in-view) {
   width: 0;
   height: 0;
   overflow: hidden; }
-.root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream {
+.root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream {
   height: 50%; }
-.root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream {
+.root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream {
   height: 50%; }
-  .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) {
+  .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) {
     display: -ms-inline-flex;
     display: -moz-inline-flex;
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
     display: inline-flex;
     width: 50%; }
-    .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools {
+    .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools {
       top: 32px;
       flex-direction: column;
       width: 100%;
@@ -382,7 +382,7 @@ nav {
       background-color: #0082b4;
       padding: 0;
       text-align: center; }
-      .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools > *:not(.mobile), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools > *:not(.mobile) {
+      .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools > *:not(.mobile), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools > *:not(.mobile) {
         width: 100%;
         max-height: 0;
         height: 0;
@@ -390,32 +390,32 @@ nav {
         padding-bottom: 0;
         border-right: none;
         overflow: hidden; }
-        .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools > *:not(.mobile):not(:last-child) {
+        .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools > *:not(.mobile):not(:last-child) {
           border-bottom: 0px solid #0082b4; }
-      .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open {
+      .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open {
         padding: 2px; }
-        .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile) {
+        .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile) {
           max-height: 100%;
           height: auto;
           padding-top: 4px;
           padding-bottom: 4px;
           overflow: hidden; }
-          .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile).streamer {
+          .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile).streamer {
             display: none; }
-          .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile):not(:last-child) {
+          .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open > *:not(.mobile):not(:last-child) {
             border-bottom: 2px solid #0082b4; }
-        .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(1) {
+        .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(1) {
           position: relative;
           top: 6px;
           transform: rotateZ(45deg); }
-        .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(2) {
+        .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(2) {
           left: 50%;
           max-width: 0; }
-        .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(3) {
+        .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools.menu-open .mobile div.lines div:nth-child(3) {
           position: relative;
           top: -6px;
           transform: rotateZ(-45deg); }
-      .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile {
+      .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile {
         display: -ms-flex;
         display: -moz-flex;
         display: -webkit-box;
@@ -434,12 +434,12 @@ nav {
         -moz-user-select: none;
         user-select: none;
         cursor: default; }
-        .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.name, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.name {
+        .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.name, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.name {
           position: relative;
           width: 100%;
           padding-right: 4px;
           overflow: hidden; }
-          .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.name:after, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.name:after {
+          .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.name:after, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.name:after {
             content: "";
             position: absolute;
             top: 0;
@@ -447,7 +447,7 @@ nav {
             width: 30px;
             height: 100%;
             background-image: singular-gradient(90deg, transparent, #00c8fa); }
-        .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.lines, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.lines {
+        .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.lines, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.lines {
           display: -ms-flex;
           display: -moz-flex;
           display: -webkit-box;
@@ -459,7 +459,7 @@ nav {
           padding-left: 4px;
           border-left: 2px solid #0082b4;
           cursor: pointer; }
-          .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.lines div, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.lines div {
+          .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.lines div, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) .tools .mobile div.lines div {
             position: relative;
             top: 0;
             left: 0;
@@ -468,7 +468,7 @@ nav {
             margin: auto 0;
             background-color: black;
             text-align: center; }
-.root.player-open.layout-4 .player .wrapper .list.video-list {
+.root.player-open.layout-4 .player > .wrapper .list.video-list {
   display: -ms-flex;
   display: -moz-flex;
   display: -webkit-box;
@@ -476,7 +476,7 @@ nav {
   display: flex;
   flex-wrap: wrap;
   overflow-y: hidden; }
-  .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream {
+  .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream {
     display: -ms-inline-flex;
     display: -moz-inline-flex;
     display: -webkit-inline-box;
@@ -484,7 +484,7 @@ nav {
     display: inline-flex;
     width: 50%;
     height: 50%; }
-    .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools {
+    .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools {
       top: 32px;
       flex-direction: column;
       width: 100%;
@@ -492,7 +492,7 @@ nav {
       background-color: #0082b4;
       padding: 0;
       text-align: center; }
-      .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
+      .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
         width: 100%;
         max-height: 0;
         height: 0;
@@ -500,32 +500,32 @@ nav {
         padding-bottom: 0;
         border-right: none;
         overflow: hidden; }
-        .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
+        .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
           border-bottom: 0px solid #0082b4; }
-      .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools.menu-open {
+      .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools.menu-open {
         padding: 2px; }
-        .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
+        .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
           max-height: 100%;
           height: auto;
           padding-top: 4px;
           padding-bottom: 4px;
           overflow: hidden; }
-          .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
+          .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
             display: none; }
-          .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
+          .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
             border-bottom: 2px solid #0082b4; }
-        .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
+        .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
           position: relative;
           top: 6px;
           transform: rotateZ(45deg); }
-        .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
+        .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
           left: 50%;
           max-width: 0; }
-        .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
+        .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
           position: relative;
           top: -6px;
           transform: rotateZ(-45deg); }
-      .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools .mobile {
+      .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools .mobile {
         display: -ms-flex;
         display: -moz-flex;
         display: -webkit-box;
@@ -544,12 +544,12 @@ nav {
         -moz-user-select: none;
         user-select: none;
         cursor: default; }
-        .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools .mobile div.name {
+        .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name {
           position: relative;
           width: 100%;
           padding-right: 4px;
           overflow: hidden; }
-          .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
+          .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
             content: "";
             position: absolute;
             top: 0;
@@ -557,7 +557,7 @@ nav {
             width: 30px;
             height: 100%;
             background-image: singular-gradient(90deg, transparent, #00c8fa); }
-        .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines {
+        .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines {
           display: -ms-flex;
           display: -moz-flex;
           display: -webkit-box;
@@ -569,7 +569,7 @@ nav {
           padding-left: 4px;
           border-left: 2px solid #0082b4;
           cursor: pointer; }
-          .root.player-open.layout-4 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
+          .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
             position: relative;
             top: 0;
             left: 0;
@@ -578,7 +578,7 @@ nav {
             margin: auto 0;
             background-color: black;
             text-align: center; }
-.root.player-open.layout-5 .player .wrapper .list.video-list {
+.root.player-open.layout-5 .player > .wrapper .list.video-list {
   display: -ms-flex;
   display: -moz-flex;
   display: -webkit-box;
@@ -586,7 +586,7 @@ nav {
   display: flex;
   flex-wrap: wrap;
   overflow-y: hidden; }
-  .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream {
+  .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream {
     display: -ms-inline-flex;
     display: -moz-inline-flex;
     display: -webkit-inline-box;
@@ -594,7 +594,7 @@ nav {
     display: inline-flex;
     width: 50%;
     height: 33.3333333%; }
-    .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools {
+    .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools {
       top: 32px;
       flex-direction: column;
       width: 100%;
@@ -602,7 +602,7 @@ nav {
       background-color: #0082b4;
       padding: 0;
       text-align: center; }
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
         width: 100%;
         max-height: 0;
         height: 0;
@@ -610,32 +610,32 @@ nav {
         padding-bottom: 0;
         border-right: none;
         overflow: hidden; }
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
           border-bottom: 0px solid #0082b4; }
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open {
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open {
         padding: 2px; }
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
           max-height: 100%;
           height: auto;
           padding-top: 4px;
           padding-bottom: 4px;
           overflow: hidden; }
-          .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
+          .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
             display: none; }
-          .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
+          .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
             border-bottom: 2px solid #0082b4; }
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
           position: relative;
           top: 6px;
           transform: rotateZ(45deg); }
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
           left: 50%;
           max-width: 0; }
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
           position: relative;
           top: -6px;
           transform: rotateZ(-45deg); }
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile {
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile {
         display: -ms-flex;
         display: -moz-flex;
         display: -webkit-box;
@@ -654,12 +654,12 @@ nav {
         -moz-user-select: none;
         user-select: none;
         cursor: default; }
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile div.name {
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name {
           position: relative;
           width: 100%;
           padding-right: 4px;
           overflow: hidden; }
-          .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
+          .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
             content: "";
             position: absolute;
             top: 0;
@@ -667,7 +667,7 @@ nav {
             width: 30px;
             height: 100%;
             background-image: singular-gradient(90deg, transparent, #00c8fa); }
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines {
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines {
           display: -ms-flex;
           display: -moz-flex;
           display: -webkit-box;
@@ -679,7 +679,7 @@ nav {
           padding-left: 4px;
           border-left: 2px solid #0082b4;
           cursor: pointer; }
-          .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
+          .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
             position: relative;
             top: 0;
             left: 0;
@@ -688,11 +688,11 @@ nav {
             margin: auto 0;
             background-color: black;
             text-align: center; }
-    .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream:first-child {
+    .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream:first-child {
       width: 100%; }
-.root.player-open.layout-5 .player .wrapper .list.chat-list {
+.root.player-open.layout-5 .player > .wrapper .list.chat-list {
   overflow-y: hidden; }
-.root.player-open.layout-6 .player .wrapper .list.video-list {
+.root.player-open.layout-6 .player > .wrapper .list.video-list {
   display: -ms-flex;
   display: -moz-flex;
   display: -webkit-box;
@@ -700,7 +700,7 @@ nav {
   display: flex;
   flex-wrap: wrap;
   overflow-y: hidden; }
-  .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream {
+  .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream {
     display: -ms-inline-flex;
     display: -moz-inline-flex;
     display: -webkit-inline-box;
@@ -708,7 +708,7 @@ nav {
     display: inline-flex;
     width: 50%;
     height: 33.3333333%; }
-    .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools {
+    .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools {
       top: 32px;
       flex-direction: column;
       width: 100%;
@@ -716,7 +716,7 @@ nav {
       background-color: #0082b4;
       padding: 0;
       text-align: center; }
-      .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
+      .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
         width: 100%;
         max-height: 0;
         height: 0;
@@ -724,32 +724,32 @@ nav {
         padding-bottom: 0;
         border-right: none;
         overflow: hidden; }
-        .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
+        .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
           border-bottom: 0px solid #0082b4; }
-      .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open {
+      .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open {
         padding: 2px; }
-        .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
+        .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
           max-height: 100%;
           height: auto;
           padding-top: 4px;
           padding-bottom: 4px;
           overflow: hidden; }
-          .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
+          .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
             display: none; }
-          .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
+          .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
             border-bottom: 2px solid #0082b4; }
-        .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
+        .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
           position: relative;
           top: 6px;
           transform: rotateZ(45deg); }
-        .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
+        .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
           left: 50%;
           max-width: 0; }
-        .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
+        .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
           position: relative;
           top: -6px;
           transform: rotateZ(-45deg); }
-      .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile {
+      .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile {
         display: -ms-flex;
         display: -moz-flex;
         display: -webkit-box;
@@ -768,12 +768,12 @@ nav {
         -moz-user-select: none;
         user-select: none;
         cursor: default; }
-        .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile div.name {
+        .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name {
           position: relative;
           width: 100%;
           padding-right: 4px;
           overflow: hidden; }
-          .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
+          .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
             content: "";
             position: absolute;
             top: 0;
@@ -781,7 +781,7 @@ nav {
             width: 30px;
             height: 100%;
             background-image: singular-gradient(90deg, transparent, #00c8fa); }
-        .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines {
+        .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines {
           display: -ms-flex;
           display: -moz-flex;
           display: -webkit-box;
@@ -793,7 +793,7 @@ nav {
           padding-left: 4px;
           border-left: 2px solid #0082b4;
           cursor: pointer; }
-          .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
+          .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
             position: relative;
             top: 0;
             left: 0;
@@ -802,21 +802,21 @@ nav {
             margin: auto 0;
             background-color: black;
             text-align: center; }
-.root.player-open.layout-6 .player .wrapper .list.chat-list {
+.root.player-open.layout-6 .player > .wrapper .list.chat-list {
   overflow-y: hidden; }
 .root.player-open.player-collapsed .player, .root.player-open.player-collapsed .player, .root.player-open.player-collapsed .player, .root.player-open.player-collapsed .player, .root.player-open.player-collapsed .player, .root.player-open.player-collapsed .player, .root.player-open.player-collapsed .player, .root.player-open.player-collapsed .player, .root.player-open.player-collapsed .player {
   width: 224px;
   height: 100%;
   box-shadow: 0 0 8px 0 #0082b4; }
-  .root.player-open.player-collapsed .player .wrapper .list.video-list, .root.player-open.player-collapsed .player .wrapper .list.video-list, .root.player-open.player-collapsed .player .wrapper .list.video-list, .root.player-open.player-collapsed .player .wrapper .list.video-list, .root.player-open.player-collapsed .player .wrapper .list.video-list, .root.player-open.player-collapsed .player .wrapper .list.video-list, .root.player-open.player-collapsed .player .wrapper .list.video-list, .root.player-open.player-collapsed .player .wrapper .list.video-list, .root.player-open.player-collapsed .player .wrapper .list.video-list {
+  .root.player-open.player-collapsed .player > .wrapper .list.video-list, .root.player-open.player-collapsed .player > .wrapper .list.video-list, .root.player-open.player-collapsed .player > .wrapper .list.video-list, .root.player-open.player-collapsed .player > .wrapper .list.video-list, .root.player-open.player-collapsed .player > .wrapper .list.video-list, .root.player-open.player-collapsed .player > .wrapper .list.video-list, .root.player-open.player-collapsed .player > .wrapper .list.video-list, .root.player-open.player-collapsed .player > .wrapper .list.video-list, .root.player-open.player-collapsed .player > .wrapper .list.video-list {
     padding: 0;
     overflow-y: auto; }
-    .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream {
+    .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream {
       width: 100% !important;
       max-height: 240px; }
-      .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream:not(:last-child) {
+      .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child) {
         border-bottom: 8px solid #00aadc; }
-      .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools {
+      .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools {
         top: 32px;
         flex-direction: column;
         width: 100%;
@@ -824,7 +824,7 @@ nav {
         background-color: #0082b4;
         padding: 0;
         text-align: center; }
-        .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
+        .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
           width: 100%;
           max-height: 0;
           height: 0;
@@ -832,32 +832,32 @@ nav {
           padding-bottom: 0;
           border-right: none;
           overflow: hidden; }
-          .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
+          .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
             border-bottom: 0px solid #0082b4; }
-        .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open {
+        .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open {
           padding: 2px; }
-          .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
+          .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
             max-height: 100%;
             height: auto;
             padding-top: 4px;
             padding-bottom: 4px;
             overflow: hidden; }
-            .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
+            .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
               display: none; }
-            .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
+            .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
               border-bottom: 2px solid #0082b4; }
-          .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
+          .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
             position: relative;
             top: 6px;
             transform: rotateZ(45deg); }
-          .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
+          .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
             left: 50%;
             max-width: 0; }
-          .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
+          .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
             position: relative;
             top: -6px;
             transform: rotateZ(-45deg); }
-        .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile {
+        .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile {
           display: -ms-flex;
           display: -moz-flex;
           display: -webkit-box;
@@ -876,12 +876,12 @@ nav {
           -moz-user-select: none;
           user-select: none;
           cursor: default; }
-          .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name {
+          .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name {
             position: relative;
             width: 100%;
             padding-right: 4px;
             overflow: hidden; }
-            .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
+            .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
               content: "";
               position: absolute;
               top: 0;
@@ -889,7 +889,7 @@ nav {
               width: 30px;
               height: 100%;
               background-image: singular-gradient(90deg, transparent, #00c8fa); }
-          .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines {
+          .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines {
             display: -ms-flex;
             display: -moz-flex;
             display: -webkit-box;
@@ -901,7 +901,7 @@ nav {
             padding-left: 4px;
             border-left: 2px solid #0082b4;
             cursor: pointer; }
-            .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
+            .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
               position: relative;
               top: 0;
               left: 0;
@@ -910,20 +910,24 @@ nav {
               margin: auto 0;
               background-color: black;
               text-align: center; }
-  .root.player-open.player-collapsed .player .wrapper .list.chat-list, .root.player-open.player-collapsed .player .wrapper .list.chat-list, .root.player-open.player-collapsed .player .wrapper .list.chat-list, .root.player-open.player-collapsed .player .wrapper .list.chat-list, .root.player-open.player-collapsed .player .wrapper .list.chat-list, .root.player-open.player-collapsed .player .wrapper .list.chat-list, .root.player-open.player-collapsed .player .wrapper .list.chat-list, .root.player-open.player-collapsed .player .wrapper .list.chat-list, .root.player-open.player-collapsed .player .wrapper .list.chat-list {
+  .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list {
     width: 0; }
-    .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player .wrapper .list.chat-list .player-stream .chat {
+    .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat {
       width: 0; }
-  .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(3n) {
+  .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n) {
     display: none; }
-  .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(4n) {
+  .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n) {
     display: none; }
-  .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player .wrapper > .tools > *:nth-child(5n) {
+  .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n) {
     display: none; }
+  .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels {
+    padding-right: 0; }
+    .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel {
+      width: 100%; }
 
 @media (max-width: 1200px) {
-  .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-4 .player
-  .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools {
+  .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-4 .player
+  .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools {
     top: 32px;
     flex-direction: column;
     width: 100%;
@@ -931,8 +935,8 @@ nav {
     background-color: #0082b4;
     padding: 0;
     text-align: center; }
-    .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-4 .player
-    .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
+    .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-4 .player
+    .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile), .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile) {
       width: 100%;
       max-height: 0;
       height: 0;
@@ -940,41 +944,41 @@ nav {
       padding-bottom: 0;
       border-right: none;
       overflow: hidden; }
-      .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-4 .player
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
+      .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-4 .player
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child), .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools > *:not(.mobile):not(:last-child) {
         border-bottom: 0px solid #0082b4; }
-    .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-4 .player
-    .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open {
+    .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-4 .player
+    .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open {
       padding: 2px; }
-      .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-4 .player
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
+      .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-4 .player
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile), .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile) {
         max-height: 100%;
         height: auto;
         padding-top: 4px;
         padding-bottom: 4px;
         overflow: hidden; }
-        .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-4 .player
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
+        .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-4 .player
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile).streamer {
           display: none; }
-        .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-4 .player
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
+        .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-4 .player
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child), .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
           border-bottom: 2px solid #0082b4; }
-      .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-4 .player
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
+      .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-4 .player
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1), .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
         position: relative;
         top: 6px;
         transform: rotateZ(45deg); }
-      .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-4 .player
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
+      .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-4 .player
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2), .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
         left: 50%;
         max-width: 0; }
-      .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-4 .player
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
+      .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-4 .player
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3), .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
         position: relative;
         top: -6px;
         transform: rotateZ(-45deg); }
-    .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-4 .player
-    .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile {
+    .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-4 .player
+    .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile {
       display: -ms-flex;
       display: -moz-flex;
       display: -webkit-box;
@@ -993,14 +997,14 @@ nav {
       -moz-user-select: none;
       user-select: none;
       cursor: default; }
-      .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-4 .player
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile div.name {
+      .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-4 .player
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name {
         position: relative;
         width: 100%;
         padding-right: 4px;
         overflow: hidden; }
-        .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-4 .player
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
+        .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-4 .player
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile div.name:after {
           content: "";
           position: absolute;
           top: 0;
@@ -1008,8 +1012,8 @@ nav {
           width: 30px;
           height: 100%;
           background-image: singular-gradient(90deg, transparent, #00c8fa); }
-      .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-4 .player
-      .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines {
+      .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-4 .player
+      .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines {
         display: -ms-flex;
         display: -moz-flex;
         display: -webkit-box;
@@ -1021,8 +1025,8 @@ nav {
         padding-left: 4px;
         border-left: 2px solid #0082b4;
         cursor: pointer; }
-        .root.player-open.layout-singular .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-by-2 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-by-3 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-1 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-2 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-3 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-4 .player
-        .root.player-open.layout-5 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-6 .player .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
+        .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-4 .player
+        .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools .mobile div.lines div {
           position: relative;
           top: 0;
           left: 0;
@@ -1199,6 +1203,8 @@ nav {
   width: 16.66667%;
   padding: 4px;
   list-style: none; }
+  .stream-list-item.home {
+    width: 100%; }
   .stream-list-item > .wrapper {
     display: block;
     height: 100%;
@@ -1400,5 +1406,67 @@ nav {
       margin-top: 3.2px; }
     .game-list-item .info .viewer-count {
       place: holder; }
+
+.stream-panels {
+  position: absolute;
+  top: 1.6px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-right: 320px;
+  pointer-events: none; }
+  .stream-panels > .wrapper {
+    position: relative;
+    background-color: #ebebeb;
+    height: 100%;
+    padding: 8px 0;
+    padding-top: 64px;
+    pointer-events: all;
+    overflow-y: auto; }
+    .stream-panels > .wrapper .tools {
+      position: absolute;
+      top: 16px;
+      left: 16px; }
+    .stream-panels > .wrapper .list {
+      display: -ms-flex;
+      display: -moz-flex;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      flex-wrap: wrap;
+      height: initial; }
+      .stream-panels > .wrapper .list .panel {
+        padding: 8px;
+        width: 33.33333%;
+        max-height: 480px; }
+        .stream-panels > .wrapper .list .panel > a {
+          color: inherit;
+          text-decoration: inherit; }
+        .stream-panels > .wrapper .list .panel .wrapper {
+          display: block;
+          max-width: 320px;
+          height: 100%;
+          margin: 0 auto;
+          border-radius: 1.6px 1.6px 8px 8px;
+          box-shadow: 0 0 8px 0 black;
+          overflow-x: hidden;
+          overflow-y: auto; }
+          .stream-panels > .wrapper .list .panel .wrapper .pad {
+            padding: 8px; }
+          .stream-panels > .wrapper .list .panel .wrapper .title {
+            font-size: 19.2px;
+            font-weight: bold; }
+          .stream-panels > .wrapper .list .panel .wrapper .image img {
+            display: block;
+            width: 100%; }
+          .stream-panels > .wrapper .list .panel .wrapper .description {
+            word-wrap: break-word; }
+
+@media (max-width: 1345px) {
+  .stream-panels > .wrapper .list .panel {
+    width: 50%; } }
+@media (max-width: 1005px) {
+  .stream-panels > .wrapper .list .panel {
+    width: 100%; } }
 
 /*# sourceMappingURL=style.css.map */

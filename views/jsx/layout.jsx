@@ -97,12 +97,12 @@ exports["default"] = _react2["default"].createClass({
   },
   togglePlayer: function togglePlayer(type) {
     switch (type) {
-      case "close":
+      case "collapse":
         this.setState({
           playerCollapsed: true
         });
         break;
-      case "open":
+      case "expand":
         this.setState({
           playerCollapsed: true
         });
@@ -121,7 +121,7 @@ exports["default"] = _react2["default"].createClass({
     switch (type) {
       case "open":
         console.log("This would open panels for:", name);
-        alert("Feature coming soon (I hope...)");
+        // alert("Feature coming soon (I hope...)")
         _modulesLoadData2["default"].call(this, function (e) {
           console.error(e.stack);
         }, {
@@ -141,6 +141,9 @@ exports["default"] = _react2["default"].createClass({
         });
         break;
       default:
+        this.setState({
+          panelData: []
+        });
     }
   },
   componentDidMount: function componentDidMount() {
