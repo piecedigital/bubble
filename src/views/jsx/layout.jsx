@@ -72,12 +72,12 @@ export default React.createClass({
   },
   togglePlayer(type) {
     switch (type) {
-      case "close":
+      case "collapse":
       this.setState({
         playerCollapsed: true
       });
         break;
-      case "open":
+      case "expand":
       this.setState({
         playerCollapsed: true
       });
@@ -94,7 +94,7 @@ export default React.createClass({
     switch (type) {
       case "open":
         console.log("This would open panels for:", name);
-        alert("Feature coming soon (I hope...)")
+        // alert("Feature coming soon (I hope...)")
         loadData.call(this, e => {
           console.error(e.stack);
         }, {
@@ -115,6 +115,9 @@ export default React.createClass({
         .catch(e => console.error(e.stack || e));
         break;
       default:
+      this.setState({
+        panelData: [],
+      });
     }
   },
   componentDidMount() {

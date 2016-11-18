@@ -48,8 +48,8 @@ app
   };
 
   var req = https.request(options, function(XHRResponse) {
-    console.log("statusCode: ", XHRResponse.statusCode);
-    console.log("headers: ", XHRResponse.headers);
+    // console.log("statusCode: ", XHRResponse.statusCode);
+    // console.log("headers: ", XHRResponse.headers);
 
     let buffer = "";
 

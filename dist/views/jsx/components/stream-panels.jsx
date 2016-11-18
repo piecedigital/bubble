@@ -16,10 +16,41 @@ var Panel = _react2["default"].createClass({
     var data = this.props.data;
 
     console.log("PANEL", data);
+    var content = _react2["default"].createElement(
+      "div",
+      { className: "wrapper" },
+      data.data.title || "Fake Title" ? _react2["default"].createElement(
+        "div",
+        { className: "pad" },
+        _react2["default"].createElement(
+          "div",
+          { className: "title" },
+          data.data.title || "Fake Title"
+        )
+      ) : null,
+      data.data.image ? data.data.link ? _react2["default"].createElement(
+        "a",
+        { href: data.data.link },
+        _react2["default"].createElement(
+          "div",
+          { className: "image" },
+          _react2["default"].createElement("img", { src: data.data.image })
+        )
+      ) : _react2["default"].createElement(
+        "div",
+        { className: "image" },
+        _react2["default"].createElement("img", { src: data.data.image })
+      ) : null,
+      _react2["default"].createElement(
+        "div",
+        { className: "pad" },
+        data.html_description ? _react2["default"].createElement("div", { className: "description", dangerouslySetInnerHTML: { __html: data.html_description } }) : null
+      )
+    );
     return _react2["default"].createElement(
       "div",
       { className: "panel" },
-      "One Panel"
+      content
     );
   }
 });
@@ -27,7 +58,9 @@ var Panel = _react2["default"].createClass({
 exports["default"] = _react2["default"].createClass({
   displayName: "StreamPanels",
   render: function render() {
-    var panelData = this.props.panelData;
+    var _props = this.props;
+    var panelData = _props.panelData;
+    var panelsHandler = _props.methods.panelsHandler;
 
     return _react2["default"].createElement(
       "div",
@@ -41,6 +74,15 @@ exports["default"] = _react2["default"].createClass({
           panelData.map(function (data) {
             return _react2["default"].createElement(Panel, { data: data });
           })
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "tools" },
+          _react2["default"].createElement(
+            "div",
+            { className: "option btn-default close", onClick: panelsHandler },
+            "Close"
+          )
         )
       )
     );

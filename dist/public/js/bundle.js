@@ -27675,6 +27675,8 @@ var PlayerStream = _react2["default"].createClass({
     }, 100);
   },
   render: function render() {
+    var _this = this;
+
     // console.log(this.props);
     var _props2 = this.props;
     var userData = _props2.userData;
@@ -27721,7 +27723,10 @@ var PlayerStream = _react2["default"].createClass({
                   { className: "name" },
                   _react2["default"].createElement(
                     _reactRouter.Link,
-                    { title: name, to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+                    { title: name, to: "/user/" + name, onClick: function () {
+                        togglePlayer("collapse");
+                        _this.toggleMenu("close");
+                      } },
                     display_name,
                     !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                   )
@@ -27739,7 +27744,10 @@ var PlayerStream = _react2["default"].createClass({
                 { className: "streamer" },
                 _react2["default"].createElement(
                   _reactRouter.Link,
-                  { to: "/user/" + name, onClick: togglePlayer.bind(null, "close") },
+                  { to: "/user/" + name, onClick: function () {
+                      togglePlayer("collapse");
+                      _this.toggleMenu("close");
+                    } },
                   display_name,
                   !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                 )
@@ -27749,38 +27757,58 @@ var PlayerStream = _react2["default"].createClass({
                 { className: "to-channel" },
                 _react2["default"].createElement(
                   _reactRouter.Link,
-                  { to: "https://twitch.tv/" + name, target: "_blank" },
+                  { to: "https://twitch.tv/" + name, target: "_blank", onClick: function () {
+                      _this.toggleMenu("close");
+                    } },
                   "Visit On Twitch"
                 )
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "closer", onClick: this.swapOut },
+                { className: "closer", onClick: function () {
+                    _this.swapOut();
+                    _this.toggleMenu("close");
+                  } },
                 "Close"
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "refresh-video", onClick: this.refresh.bind(this, "video") },
+                { className: "refresh-video", onClick: function () {
+                    _this.refresh("video");
+                    _this.toggleMenu("close");
+                  } },
                 "Refresh Video"
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "refresh-chat", onClick: this.refresh.bind(this, "chat") },
+                { className: "refresh-chat", onClick: function () {
+                    _this.refresh("chat");
+                    _this.toggleMenu("close");
+                  } },
                 "Refresh Chat"
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "put-in-view", onClick: putInView.bind(null, index) },
+                { className: "put-in-view", onClick: function () {
+                    putInView(index);
+                    _this.toggleMenu("close");
+                  } },
                 "Put In View"
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "open-panels", onClick: panelsHandler.bind(null, "open", name) },
+                { className: "open-panels", onClick: function () {
+                    panelsHandler("open", name);
+                    _this.toggleMenu("close");
+                  } },
                 "Open Stream Panels"
               ),
               userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
                 "div",
-                { className: "follow need-auth", onClick: alertAuthNeeded },
+                { className: "follow need-auth", onClick: function () {
+                    alertAuthNeeded();
+                    _this.toggleMenu("close");
+                  } },
                 "Follow ",
                 name
               )
@@ -27891,8 +27919,20 @@ exports["default"] = _react2["default"].createClass({
       });
     }
   },
+  componentDidMount: function componentDidMount() {
+    var _this2 = this;
+
+    this.rescroll = setInterval(function () {
+      var videoList = _this2.refs.videoList;
+
+      videoList.scrollTop = 0;
+    }, 1000);
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    this.rescroll = null;
+  },
   render: function render() {
-    var _this = this;
+    var _this3 = this;
 
     var _props3 = this.props;
     var userData = _props3.userData;
@@ -27932,8 +27972,8 @@ exports["default"] = _react2["default"].createClass({
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
-                layoutTools: _this.layoutTools,
-                putInView: _this.putInView
+                layoutTools: _this3.layoutTools,
+                putInView: _this3.putInView
               } });
           }) : null
         ),
@@ -27987,7 +28027,9 @@ exports["default"] = _react2["default"].createClass({
             }) : null
           ) : null
         ),
-        panelData.length > 0 ? _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData }) : null
+        panelData.length > 0 ? _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
+            panelsHandler: panelsHandler
+          } }) : null
       )
     );
   }
@@ -28012,10 +28054,41 @@ var Panel = _react2["default"].createClass({
     var data = this.props.data;
 
     console.log("PANEL", data);
+    var content = _react2["default"].createElement(
+      "div",
+      { className: "wrapper" },
+      data.data.title || "Fake Title" ? _react2["default"].createElement(
+        "div",
+        { className: "pad" },
+        _react2["default"].createElement(
+          "div",
+          { className: "title" },
+          data.data.title || "Fake Title"
+        )
+      ) : null,
+      data.data.image ? data.data.link ? _react2["default"].createElement(
+        "a",
+        { href: data.data.link },
+        _react2["default"].createElement(
+          "div",
+          { className: "image" },
+          _react2["default"].createElement("img", { src: data.data.image })
+        )
+      ) : _react2["default"].createElement(
+        "div",
+        { className: "image" },
+        _react2["default"].createElement("img", { src: data.data.image })
+      ) : null,
+      _react2["default"].createElement(
+        "div",
+        { className: "pad" },
+        data.html_description ? _react2["default"].createElement("div", { className: "description", dangerouslySetInnerHTML: { __html: data.html_description } }) : null
+      )
+    );
     return _react2["default"].createElement(
       "div",
       { className: "panel" },
-      "One Panel"
+      content
     );
   }
 });
@@ -28023,7 +28096,9 @@ var Panel = _react2["default"].createClass({
 exports["default"] = _react2["default"].createClass({
   displayName: "StreamPanels",
   render: function render() {
-    var panelData = this.props.panelData;
+    var _props = this.props;
+    var panelData = _props.panelData;
+    var panelsHandler = _props.methods.panelsHandler;
 
     return _react2["default"].createElement(
       "div",
@@ -28037,6 +28112,15 @@ exports["default"] = _react2["default"].createClass({
           panelData.map(function (data) {
             return _react2["default"].createElement(Panel, { data: data });
           })
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "tools" },
+          _react2["default"].createElement(
+            "div",
+            { className: "option btn-default close", onClick: panelsHandler },
+            "Close"
+          )
         )
       )
     );
@@ -29143,12 +29227,12 @@ exports["default"] = _react2["default"].createClass({
   },
   togglePlayer: function togglePlayer(type) {
     switch (type) {
-      case "close":
+      case "collapse":
         this.setState({
           playerCollapsed: true
         });
         break;
-      case "open":
+      case "expand":
         this.setState({
           playerCollapsed: true
         });
@@ -29167,7 +29251,7 @@ exports["default"] = _react2["default"].createClass({
     switch (type) {
       case "open":
         console.log("This would open panels for:", name);
-        alert("Feature coming soon (I hope...)");
+        // alert("Feature coming soon (I hope...)")
         _modulesLoadData2["default"].call(this, function (e) {
           console.error(e.stack);
         }, {
@@ -29187,6 +29271,9 @@ exports["default"] = _react2["default"].createClass({
         });
         break;
       default:
+        this.setState({
+          panelData: []
+        });
     }
   },
   componentDidMount: function componentDidMount() {

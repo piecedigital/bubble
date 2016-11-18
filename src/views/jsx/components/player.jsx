@@ -86,7 +86,10 @@ const PlayerStream = React.createClass({
             <div className={`tools${menuOpen ? " menu-open" : ""}`}>
               <div className="mobile">
                 <div className="name">
-                  <Link title={name} to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                  <Link title={name} to={`/user/${name}`} onClick={() => {
+                    togglePlayer("collapse");
+                    this.toggleMenu("close");
+                  }}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
                 </div>
                 <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
                   <div></div>
@@ -95,31 +98,54 @@ const PlayerStream = React.createClass({
                 </div>
               </div>
               <div className="streamer">
-                <Link to={`/user/${name}`} onClick={togglePlayer.bind(null, "close")}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                <Link to={`/user/${name}`} onClick={() => {
+                  togglePlayer("collapse");
+                  this.toggleMenu("close");
+                }}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
               </div>
               <div className="to-channel">
-                <Link to={`https://twitch.tv/${name}`} target="_blank">Visit On Twitch</Link>
+                <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={() => {
+                  this.toggleMenu("close");
+                }}>Visit On Twitch</Link>
               </div>
-              <div className="closer" onClick={this.swapOut}>
+              <div className="closer" onClick={() => {
+                this.swapOut();
+                this.toggleMenu("close");
+              }}>
                 Close
               </div>
-              <div className="refresh-video" onClick={this.refresh.bind(this, "video")}>
+              <div className="refresh-video" onClick={() => {
+                this.refresh("video");
+                this.toggleMenu("close");
+              }}>
                 Refresh Video
               </div>
-              <div className="refresh-chat" onClick={this.refresh.bind(this, "chat")}>
+              <div className="refresh-chat" onClick={() => {
+                this.refresh("chat");
+                this.toggleMenu("close");
+              }}>
                 Refresh Chat
               </div>
-              <div className="put-in-view" onClick={putInView.bind(null, index)}>
+              <div className="put-in-view" onClick={() => {
+                putInView(index);
+                this.toggleMenu("close");
+              }}>
                 Put In View
               </div>
-              <div className="open-panels" onClick={panelsHandler.bind(null, "open", name)}>
+              <div className="open-panels" onClick={() => {
+                panelsHandler("open", name);
+                this.toggleMenu("close");
+              }}>
                 Open Stream Panels
               </div>
               {
                 userData ? (
                   <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth}/>
                 ) : (
-                  <div className="follow need-auth" onClick={alertAuthNeeded}>
+                  <div className="follow need-auth" onClick={() => {
+                    alertAuthNeeded();
+                    this.toggleMenu("close");
+                  }}>
                     Follow {name}
                   </div>
                 )
@@ -234,6 +260,15 @@ export default React.createClass({
       })
     }
   },
+  componentDidMount() {
+    this.rescroll = setInterval(() => {
+      let { videoList } = this.refs;
+      videoList.scrollTop = 0;
+    }, 1000);
+  },
+  componentWillUnmount() {
+    this.rescroll = null;
+  },
   render() {
     let {
       userData,
@@ -337,7 +372,11 @@ export default React.createClass({
               )  : null
             }
           </div>
-          {panelData.length > 0 ? <StreamPanels panelData={panelData} /> : null}
+          {panelData.length > 0 ? (
+            <StreamPanels panelData={panelData} methods={{
+              panelsHandler
+            }} />
+          ) : null}
         </div>
       </div>
     );

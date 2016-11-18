@@ -8,7 +8,7 @@
   height: 0%;
   background-color: $dim;
   overflow: hidden;
-  .wrapper {
+  > .wrapper {
     @include displayFlex;
     position: relative;
     width: 100%;
@@ -260,7 +260,7 @@
       }
     }
     &.layout-singular:not(.player-collapsed) .player {
-      .wrapper {
+      > .wrapper {
         .list.video-list {
           .player-stream {
             &:not(.in-view) {
@@ -273,7 +273,7 @@
       }
     }
     &.layout-by-2 .player, &.layout-2 .player {
-      .wrapper {
+      > .wrapper {
         .list.video-list {
           .player-stream {
             height: 50%;
@@ -287,7 +287,7 @@
       }
     }
     &.layout-by-3 .player, &.layout-3 .player {
-      .wrapper {
+      > .wrapper {
         .list.video-list {
           .player-stream {
             height: 50%;
@@ -306,7 +306,7 @@
       }
     }
     &.layout-4 .player {
-      .wrapper {
+      > .wrapper {
         .list.video-list {
           @include displayFlex;
           flex-wrap: wrap;
@@ -326,7 +326,7 @@
       }
     }
     &.layout-5 .player {
-      .wrapper {
+      > .wrapper {
         .list.video-list {
           @include displayFlex;
           flex-wrap: wrap;
@@ -350,7 +350,7 @@
       }
     }
     &.layout-6 .player {
-      .wrapper {
+      > .wrapper {
         .list.video-list {
           @include displayFlex;
           flex-wrap: wrap;
@@ -383,7 +383,7 @@
       width: 14*$em;
       height: 100%;
       box-shadow: 0 0 0.5*$em 0 $dimmer;
-      .wrapper {
+      > .wrapper {
         .list.video-list {
           padding: 0;
           overflow-y: auto;
@@ -413,6 +413,28 @@
             }
           }
         }
+        .stream-panels {
+          padding-right: 0;
+          > .wrapper {
+            .tools {
+              .option {}
+            }
+            .list {
+              .panel {
+                width: percentage(1/1);
+                > a {}
+                .wrapper {
+                  .pad {
+                    .title {}
+                    .image {
+                      img {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -431,7 +453,7 @@
       &.layout-5 .player,
       &.layout-6 .player
       {
-        .wrapper {
+        > .wrapper {
           .list.video-list {
             .player-stream {
               &:not(:last-child) {}

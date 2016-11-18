@@ -1,38 +1,112 @@
 .stream-panels {
   position: absolute;
-  top: 0;
+  top: .1*$em;;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: red;
-  .wrapper {
+  padding-right: 20*$em;
+  pointer-events: none;
+  > .wrapper {
     position: relative;
-    .list {
-      .panel {
-        width: percentage(1/3);
-      }
+    background-color: $offWhite;
+    height: 100%;
+    padding: .5*$em 0;
+    padding-top: 4*$em;
+    pointer-events: all;
+    overflow-y: auto;
+    .tools {
+      position: absolute;
+      top: 1*$em;
+      left: 1*$em;
+      .option {}
     }
-  }
-}
-
-@media (max-width: 1024px) {
-  .stream-panels {
-    .wrapper {
-      .list {
-        .panel {
-          width: percentage(1/2);
+    .list {
+      @include displayFlex;
+      flex-wrap: wrap;
+      height: initial;
+      .panel {
+        padding: .5*$em;
+        width: percentage(1/3);
+        max-height: 30*$em;
+        > a {
+          color: inherit;
+          text-decoration: inherit;
+        }
+        .wrapper {
+          display: block;
+          max-width: 20*$em;
+          height: 100%;
+          margin: 0 auto;
+          border-radius: .1*$em .1*$em .5*$em .5*$em;
+          box-shadow: 0 0 .5*$em 0 black;
+          overflow-x: hidden;
+          overflow-y: auto;
+          .pad {
+            padding: .5*$em;
+          }
+          .title {
+            font-size: 1.2*$em;
+            font-weight: bold;
+          }
+          .image {
+            img {
+              display: block;
+              width: 100%;
+            }
+          }
+          .description {
+            word-wrap: break-word;
+          }
         }
       }
     }
   }
 }
 
-  @media (max-width: 660px) {
-    .stream-panels {
-      .wrapper {
-        .list {
+@media (max-width: 1345px) {
+  .stream-panels {
+    > .wrapper {
+      .tools {
+        .option {}
+      }
+      .list {
+        .panel {
+          width: percentage(1/2);
+          > a {}
+          .wrapper {
+            .pad {
+              .title {}
+              .image {
+                img {}
+              }
+              .description {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1005px) {
+  .stream-panels {
+    > .wrapper {
+      .tools {
+        .option {}
+      }
+      .list {
         .panel {
           width: percentage(1/1);
+          > a {}
+          .wrapper {
+            .pad {
+              .title {}
+              .image {
+                img {}
+              }
+              .description {}
+            }
+          }
         }
       }
     }
