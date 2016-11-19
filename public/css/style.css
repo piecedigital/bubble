@@ -272,7 +272,8 @@ nav {
       padding: 0;
       overflow: hidden; }
       .player > .wrapper .list.chat-list {
-        width: 384px; }
+        width: 384px;
+        min-width: 384px; }
     .player > .wrapper > .tools {
       display: -ms-flex;
       display: -moz-flex;
@@ -318,7 +319,8 @@ nav {
       width: 100%;
       height: 100%; }
   .player-stream .chat {
-    width: 384px; }
+    width: 384px;
+    min-width: 384px; }
   .player-stream .tools {
     display: -ms-flex;
     display: -moz-flex;
@@ -911,7 +913,8 @@ nav {
               background-color: black;
               text-align: center; }
   .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list {
-    width: 0; }
+    width: 0;
+    min-width: 0; }
     .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat, .root.player-open.player-collapsed .player > .wrapper .list.chat-list .player-stream .chat {
       width: 0; }
   .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(3n) {
@@ -1414,7 +1417,11 @@ nav {
   width: 100%;
   height: 100%;
   padding-right: 320px;
-  pointer-events: none; }
+  pointer-events: none;
+  overflow: hidden; }
+  .stream-panels.empty {
+    top: 100%;
+    height: 0; }
   .stream-panels > .wrapper {
     position: relative;
     background-color: #ebebeb;

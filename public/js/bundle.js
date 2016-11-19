@@ -28027,9 +28027,9 @@ exports["default"] = _react2["default"].createClass({
             }) : null
           ) : null
         ),
-        panelData.length > 0 ? _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
+        _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
             panelsHandler: panelsHandler
-          } }) : null
+          } })
       )
     );
   }
@@ -28057,18 +28057,18 @@ var Panel = _react2["default"].createClass({
     var content = _react2["default"].createElement(
       "div",
       { className: "wrapper" },
-      data.data.title || "Fake Title" ? _react2["default"].createElement(
+      data.data.title ? _react2["default"].createElement(
         "div",
         { className: "pad" },
         _react2["default"].createElement(
           "div",
           { className: "title" },
-          data.data.title || "Fake Title"
+          data.data.title
         )
       ) : null,
       data.data.image ? data.data.link ? _react2["default"].createElement(
         "a",
-        { href: data.data.link },
+        { href: data.data.link, rel: "nofollow", target: "_blank" },
         _react2["default"].createElement(
           "div",
           { className: "image" },
@@ -28102,7 +28102,7 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "div",
-      { className: "stream-panels" },
+      { className: "stream-panels" + (panelData.length > 0 ? "" : " empty") },
       _react2["default"].createElement(
         "div",
         { className: "wrapper" },
@@ -29169,7 +29169,8 @@ var config = {
   storageBucket: "bubble-13387.appspot.com"
 };
 _firebase2["default"].initializeApp(config);
-var ref = _firebase2["default"].database().ref;
+var ref = {};
+ref.child = _firebase2["default"].database().ref;
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
@@ -29180,6 +29181,7 @@ exports["default"] = _react2["default"].createClass({
       playerCollapsed: true,
       layout: "",
       playerStreamMax: 6,
+      panelDataFor: [],
       panelData: []
     };
   },
@@ -29207,13 +29209,29 @@ exports["default"] = _react2["default"].createClass({
     var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
     delete streamersInPlayer[username];
     console.log("New streamersInPlayer:", streamersInPlayer);
-    this.setState({
+
+    var stateObj = {
       streamersInPlayer: streamersInPlayer
-    });
+    };
+    if (username === this.state.panelDataFor) {
+      stateObj = Object.assign(stateObj, {
+        panelData: [],
+        panelDataFor: ""
+      });
+    }
+    if (Object.keys(streamersInPlayer).length === 0) {
+      stateObj = Object.assign(stateObj, {
+        playerCollapsed: true
+      });
+    }
+    this.setState(stateObj);
   },
   clearPlayer: function clearPlayer() {
     this.setState({
-      streamersInPlayer: {}
+      streamersInPlayer: {},
+      panelData: [],
+      panelDataFor: "",
+      playerCollapsed: true
     });
   },
   logout: function logout() {
@@ -29260,9 +29278,12 @@ exports["default"] = _react2["default"].createClass({
         }).then(function (methods) {
           methods.getPanels().then(function (data) {
             console.log("panel data", data);
-            _this.setState({
-              panelData: data
-            });
+            if (data.length > 0) {
+              _this.setState({
+                panelDataFor: name,
+                panelData: data
+              });
+            }
           })["catch"](function (e) {
             return console.error(e.stack || e);
           });
@@ -29272,6 +29293,7 @@ exports["default"] = _react2["default"].createClass({
         break;
       default:
         this.setState({
+          panelDataFor: name,
           panelData: []
         });
     }

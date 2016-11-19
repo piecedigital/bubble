@@ -426,9 +426,9 @@ exports["default"] = _react2["default"].createClass({
             }) : null
           ) : null
         ),
-        panelData.length > 0 ? _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
+        _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
             panelsHandler: panelsHandler
-          } }) : null
+          } })
       )
     );
   }
