@@ -89,7 +89,7 @@ const PlayerStream = React.createClass({
                   <Link title={name} to={`/user/${name}`} onClick={() => {
                     togglePlayer("collapse");
                     this.toggleMenu("close");
-                  }}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                  }}>{display_name || name}{display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
                 </div>
                 <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
                   <div></div>
@@ -101,7 +101,7 @@ const PlayerStream = React.createClass({
                 <Link to={`/user/${name}`} onClick={() => {
                   togglePlayer("collapse");
                   this.toggleMenu("close");
-                }}>{display_name}{!display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                }}>{display_name || name}{display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
               </div>
               <div className="to-channel">
                 <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={() => {

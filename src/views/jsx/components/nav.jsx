@@ -12,7 +12,7 @@ const SlideInput = React.createClass({
         toggleCallback
       }
     } = this.props;
-    if(callback) callback(this.refs.input.value);
+    if(callback) callback(this.refs.input.value, false);
     toggleCallback(commandValue)
   },
   render() {
@@ -89,8 +89,8 @@ export default React.createClass({
     }
   },
   componentDidMount() {
-    console.log("resize");
-    document.addEventListener("resize", () => {
+    window.addEventListener("resize", () => {
+      console.log("resize");
       this.toggleNav("close");
     }, false);
   },
@@ -114,30 +114,39 @@ export default React.createClass({
       <nav className={`${navOpen ? "open" : ""}`}>
         <div>
           <span className="inputs">
-            <SlideInput ref="addInput" commandValue="add" symbol="+" open={addOpen} placeholder="Add a stream to the Player" callback={appendStream} methods={{
+            <SlideInput ref="addInput" commandValue="add" symbol="+" open={addOpen} placeholder="Add a stream to the Player" callback={(value, bool) => {
+              this.toggleNav("close");
+              appendStream(value, undefined, bool);
+            }} methods={{
               focusCallback: this.focusInput,
               toggleCallback: this.toggleInput,
             }} />
-            <SlideInput ref="searchInput" commandValue="search" symbol="S" open={searchOpen} placeholder="Search Twitch" callback={search} methods={{
+              <SlideInput ref="searchInput" commandValue="search" symbol="S" open={searchOpen} placeholder="Search Twitch" callback={(value, bool) => {
+              this.toggleNav("close");
+              search(value, undefined, bool);
+            }} methods={{
               focusCallback: this.focusInput,
               toggleCallback: this.toggleInput,
             }} />
           </span>
-          <Link className="nav-item" to={"/"}>Home</Link>
-          <Link className="nav-item" to={"/streams"}>Streams</Link>
-          <Link className="nav-item" to={"/games"}>Games</Link>
+          <Link className="nav-item" to={"/"} onClick={this.toggleNav.bind(null, "close")}>Home</Link>
+          <Link className="nav-item" to={"/streams"} onClick={this.toggleNav.bind(null, "close")}>Streams</Link>
+          <Link className="nav-item" to={"/games"} onClick={this.toggleNav.bind(null, "close")}>Games</Link>
           {
             authData && authData.access_token ? (
               <span className="auth">
-                { userData ? <Link className="nav-item" to={`/Profile`}>Profile</Link> : null }
-                <a className="nav-item" href="#" onClick={logout}>Disconnect</a>
+                { userData ? <Link className="nav-item" to={`/Profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link> : null }
+                <a className="nav-item" href="#" onClick={() => {
+                  logout();
+                  this.toggleNav("close");
+                }}>Disconnect</a>
               </span>
             ) : (
-              <a className="nav-item login" href={url}>Connect to Twitch</a>
+              <a className="nav-item login" href={url} onClick={this.toggleNav.bind(null, "close")}>Connect to Twitch</a>
             )
           }
         </div>
-        <span className="mobile-nav" onClick={this.toggleNav}>
+        <span className="mobile-nav" onClick={this.toggleNav.bind(null, "toggle")}>
           <span/>
         </span>
       </nav>

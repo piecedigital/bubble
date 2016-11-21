@@ -126,8 +126,8 @@ var PlayerStream = _react2["default"].createClass({
                         togglePlayer("collapse");
                         _this.toggleMenu("close");
                       } },
-                    display_name,
-                    !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                    display_name || name,
+                    display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                   )
                 ),
                 _react2["default"].createElement(
@@ -147,8 +147,8 @@ var PlayerStream = _react2["default"].createClass({
                       togglePlayer("collapse");
                       _this.toggleMenu("close");
                     } },
-                  display_name,
-                  !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                  display_name || name,
+                  display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                 )
               ),
               _react2["default"].createElement(
