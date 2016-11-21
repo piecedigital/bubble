@@ -264,8 +264,8 @@
         }
       }
     }
-    &.profile {
-      .general-page.profile {
+    &.profile, &.streams, &.games {
+      .followed-streams.profile, .following-streams.profile, .general-page {
         .title {
         }
         > .wrapper {
@@ -322,8 +322,8 @@
 //         }
 //       }
 //     }
-//     &.profile {
-//       .general-page.profile {
+//     &.profile, &.streams, &.games {
+//       .followed-streams.profile, .following-streams.profile, .general-page {
 //         .title {
 //         }
 //         > .wrapper {

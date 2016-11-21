@@ -27500,7 +27500,7 @@ var SlideInput = _react2["default"].createClass({
 exports["default"] = _react2["default"].createClass({
   displayName: "Nav",
   getInitialState: function getInitialState() {
-    return { addOpen: false, searchOpen: false };
+    return { addOpen: false, searchOpen: false, navOpen: false };
   },
   focusInput: function focusInput(input) {
     switch (input) {
@@ -27533,10 +27533,36 @@ exports["default"] = _react2["default"].createClass({
         });
     }
   },
+  toggleNav: function toggleNav(state) {
+    switch (state) {
+      case "close":
+        this.setState({
+          navOpen: false
+        });
+        break;
+      case "open":
+        this.setState({
+          navOpen: true
+        });
+      default:
+        this.setState({
+          navOpen: !this.state.navOpen
+        });
+    }
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    console.log("resize");
+    document.addEventListener("resize", function () {
+      _this.toggleNav("close");
+    }, false);
+  },
   render: function render() {
     var _state = this.state;
     var addOpen = _state.addOpen;
     var searchOpen = _state.searchOpen;
+    var navOpen = _state.navOpen;
     var _props3 = this.props;
     var authData = _props3.authData;
     var userData = _props3.userData;
@@ -27548,18 +27574,22 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "nav",
-      null,
+      { className: "" + (navOpen ? "open" : "") },
       _react2["default"].createElement(
         "div",
         null,
-        _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: appendStream, methods: {
-            focusCallback: this.focusInput,
-            toggleCallback: this.toggleInput
-          } }),
-        _react2["default"].createElement(SlideInput, { ref: "searchInput", commandValue: "search", symbol: "S", open: searchOpen, placeholder: "Search Twitch", callback: search, methods: {
-            focusCallback: this.focusInput,
-            toggleCallback: this.toggleInput
-          } }),
+        _react2["default"].createElement(
+          "span",
+          { className: "inputs" },
+          _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: appendStream, methods: {
+              focusCallback: this.focusInput,
+              toggleCallback: this.toggleInput
+            } }),
+          _react2["default"].createElement(SlideInput, { ref: "searchInput", commandValue: "search", symbol: "S", open: searchOpen, placeholder: "Search Twitch", callback: search, methods: {
+              focusCallback: this.focusInput,
+              toggleCallback: this.toggleInput
+            } })
+        ),
         _react2["default"].createElement(
           _reactRouter.Link,
           { className: "nav-item", to: "/" },
@@ -27577,7 +27607,7 @@ exports["default"] = _react2["default"].createClass({
         ),
         authData && authData.access_token ? _react2["default"].createElement(
           "span",
-          null,
+          { className: "auth" },
           userData ? _react2["default"].createElement(
             _reactRouter.Link,
             { className: "nav-item", to: "/Profile" },
@@ -27593,6 +27623,11 @@ exports["default"] = _react2["default"].createClass({
           { className: "nav-item login", href: url },
           "Connect to Twitch"
         )
+      ),
+      _react2["default"].createElement(
+        "span",
+        { className: "mobile-nav", onClick: this.toggleNav },
+        _react2["default"].createElement("span", null)
       )
     );
   }
@@ -28027,9 +28062,9 @@ exports["default"] = _react2["default"].createClass({
             }) : null
           ) : null
         ),
-        panelData.length > 0 ? _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
+        _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
             panelsHandler: panelsHandler
-          } }) : null
+          } })
       )
     );
   }
@@ -28057,18 +28092,18 @@ var Panel = _react2["default"].createClass({
     var content = _react2["default"].createElement(
       "div",
       { className: "wrapper" },
-      data.data.title || "Fake Title" ? _react2["default"].createElement(
+      data.data.title ? _react2["default"].createElement(
         "div",
         { className: "pad" },
         _react2["default"].createElement(
           "div",
           { className: "title" },
-          data.data.title || "Fake Title"
+          data.data.title
         )
       ) : null,
       data.data.image ? data.data.link ? _react2["default"].createElement(
         "a",
-        { href: data.data.link },
+        { href: data.data.link, rel: "nofollow", target: "_blank" },
         _react2["default"].createElement(
           "div",
           { className: "image" },
@@ -28102,7 +28137,7 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "div",
-      { className: "stream-panels" },
+      { className: "stream-panels" + (panelData.length > 0 ? "" : " empty") },
       _react2["default"].createElement(
         "div",
         { className: "wrapper" },
@@ -28667,6 +28702,10 @@ exports["default"] = _react2["default"].createClass({
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
   },
+  componentWillUnmount: function componentWillUnmount() {
+    document.removeEventListener("scroll", this.scrollEvent, false);
+    document.removeEventListener("mousewheel", this.scrollEvent, false);
+  },
   render: function render() {
     var _this6 = this;
 
@@ -29169,7 +29208,8 @@ var config = {
   storageBucket: "bubble-13387.appspot.com"
 };
 _firebase2["default"].initializeApp(config);
-var ref = _firebase2["default"].database().ref;
+var ref = {};
+ref.child = _firebase2["default"].database().ref;
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
@@ -29180,6 +29220,7 @@ exports["default"] = _react2["default"].createClass({
       playerCollapsed: true,
       layout: "",
       playerStreamMax: 6,
+      panelDataFor: [],
       panelData: []
     };
   },
@@ -29207,13 +29248,29 @@ exports["default"] = _react2["default"].createClass({
     var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
     delete streamersInPlayer[username];
     console.log("New streamersInPlayer:", streamersInPlayer);
-    this.setState({
+
+    var stateObj = {
       streamersInPlayer: streamersInPlayer
-    });
+    };
+    if (username === this.state.panelDataFor) {
+      stateObj = Object.assign(stateObj, {
+        panelData: [],
+        panelDataFor: ""
+      });
+    }
+    if (Object.keys(streamersInPlayer).length === 0) {
+      stateObj = Object.assign(stateObj, {
+        playerCollapsed: true
+      });
+    }
+    this.setState(stateObj);
   },
   clearPlayer: function clearPlayer() {
     this.setState({
-      streamersInPlayer: {}
+      streamersInPlayer: {},
+      panelData: [],
+      panelDataFor: "",
+      playerCollapsed: true
     });
   },
   logout: function logout() {
@@ -29260,9 +29317,12 @@ exports["default"] = _react2["default"].createClass({
         }).then(function (methods) {
           methods.getPanels().then(function (data) {
             console.log("panel data", data);
-            _this.setState({
-              panelData: data
-            });
+            if (data.length > 0) {
+              _this.setState({
+                panelDataFor: name,
+                panelData: data
+              });
+            }
           })["catch"](function (e) {
             return console.error(e.stack || e);
           });
@@ -29272,6 +29332,7 @@ exports["default"] = _react2["default"].createClass({
         break;
       default:
         this.setState({
+          panelDataFor: name,
           panelData: []
         });
     }

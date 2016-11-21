@@ -40,6 +40,24 @@ $light // 8
   user-select: none;
 }
 
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &:-moz-placeholder { /* Firefox 18- */
+    @content;
+  }
+
+  &::-moz-placeholder {  /* Firefox 19+ */
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
 *, *:before, *:after {
   box-sizing: border-box;
   transition: .2s all;

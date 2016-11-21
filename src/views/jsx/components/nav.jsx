@@ -39,7 +39,7 @@ const SlideInput = React.createClass({
 
 export default React.createClass({
   displayName: "Nav",
-  getInitialState: () => ({ addOpen: false, searchOpen: false }),
+  getInitialState: () => ({ addOpen: false, searchOpen: false, navOpen: false }),
   focusInput(input) {
     switch (input) {
       case "add":
@@ -71,10 +71,34 @@ export default React.createClass({
         });
     }
   },
+  toggleNav(state) {
+    switch (state) {
+      case "close":
+      this.setState({
+        navOpen: false
+      });
+        break;
+      case "open":
+        this.setState({
+          navOpen: true
+        });
+      default:
+        this.setState({
+          navOpen: !this.state.navOpen
+        });
+    }
+  },
+  componentDidMount() {
+    console.log("resize");
+    document.addEventListener("resize", () => {
+      this.toggleNav("close");
+    }, false);
+  },
   render() {
     const {
       addOpen,
       searchOpen,
+      navOpen,
     } = this.state
     const {
       authData,
@@ -87,22 +111,24 @@ export default React.createClass({
       }
     } = this.props;
     return (
-      <nav>
+      <nav className={`${navOpen ? "open" : ""}`}>
         <div>
-          <SlideInput ref="addInput" commandValue="add" symbol="+" open={addOpen} placeholder="Add a stream to the Player" callback={appendStream} methods={{
-            focusCallback: this.focusInput,
-            toggleCallback: this.toggleInput,
-          }} />
-          <SlideInput ref="searchInput" commandValue="search" symbol="S" open={searchOpen} placeholder="Search Twitch" callback={search} methods={{
-            focusCallback: this.focusInput,
-            toggleCallback: this.toggleInput,
-          }} />
+          <span className="inputs">
+            <SlideInput ref="addInput" commandValue="add" symbol="+" open={addOpen} placeholder="Add a stream to the Player" callback={appendStream} methods={{
+              focusCallback: this.focusInput,
+              toggleCallback: this.toggleInput,
+            }} />
+            <SlideInput ref="searchInput" commandValue="search" symbol="S" open={searchOpen} placeholder="Search Twitch" callback={search} methods={{
+              focusCallback: this.focusInput,
+              toggleCallback: this.toggleInput,
+            }} />
+          </span>
           <Link className="nav-item" to={"/"}>Home</Link>
           <Link className="nav-item" to={"/streams"}>Streams</Link>
           <Link className="nav-item" to={"/games"}>Games</Link>
           {
             authData && authData.access_token ? (
-              <span>
+              <span className="auth">
                 { userData ? <Link className="nav-item" to={`/Profile`}>Profile</Link> : null }
                 <a className="nav-item" href="#" onClick={logout}>Disconnect</a>
               </span>
@@ -111,6 +137,9 @@ export default React.createClass({
             )
           }
         </div>
+        <span className="mobile-nav" onClick={this.toggleNav}>
+          <span/>
+        </span>
       </nav>
     );
   }

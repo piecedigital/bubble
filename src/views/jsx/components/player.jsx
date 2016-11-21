@@ -372,11 +372,9 @@ export default React.createClass({
               )  : null
             }
           </div>
-          {panelData.length > 0 ? (
-            <StreamPanels panelData={panelData} methods={{
-              panelsHandler
-            }} />
-          ) : null}
+          <StreamPanels panelData={panelData} methods={{
+            panelsHandler
+          }} />
         </div>
       </div>
     );

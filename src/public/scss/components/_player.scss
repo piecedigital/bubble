@@ -29,6 +29,7 @@
       // }
       &.chat-list {
         width: 24*$em;
+        min-width: 24*$em;
       }
     }
     > .tools {
@@ -80,6 +81,7 @@
   }
   .chat {
     width: 24*$em;
+    min-width: 24*$em;
   }
   .tools {
     @include displayFlex;
@@ -398,6 +400,7 @@
         }
         .list.chat-list {
           width: 0;
+          min-width: 0;
           .player-stream {
             .chat {
               width: 0;

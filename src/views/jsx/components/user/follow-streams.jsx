@@ -343,6 +343,10 @@ export default React.createClass({
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
   },
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.scrollEvent, false);
+    document.removeEventListener("mousewheel", this.scrollEvent, false);
+  },
   render() {
     const {
       requestOffset,

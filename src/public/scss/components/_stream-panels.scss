@@ -1,11 +1,16 @@
 .stream-panels {
   position: absolute;
-  top: .1*$em;;
+  top: .1*$em;
   left: 0;
   width: 100%;
   height: 100%;
-  padding-right: 20*$em;
+  padding-right: 24*$em;
   pointer-events: none;
+  overflow: hidden;
+  &.empty {
+    top: 100%;
+    height: 0;
+  }
   > .wrapper {
     position: relative;
     background-color: $offWhite;

@@ -9,6 +9,7 @@ nav {
   text-align: right;
   pointer-events: none;
   > div {
+    position: relative;
     @include displayInlineFlex;
     flex-direction: row;
     // justify-content: space-around;
@@ -41,7 +42,7 @@ nav {
         overflow: hidden;
         &.open {
           width: auto;
-          padding-left: 1.1*$em;
+          padding-left: 1.3*$em;
           padding-right: .1*$em;
         }
         .symbol {
@@ -60,10 +61,95 @@ nav {
           border: none;
           box-shadow: inset 0 -1px 0 0 black;
           color: black;
+          @include placeholder {
+            color: rgba(black, .5);
+          }
           &:focus {
             background-color: rgba(black, .1);
           }
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 980px) {
+  nav {
+    max-height: 0;
+    overflow: visible;
+    &.open {
+      max-height: initial;
+      > div {
+        height: initial;
+        overflow: visible;
+      }
+      .mobile-nav {
+        span {
+          top: -.8*$em;
+          border-top: none;
+          border-bottom: .5*$em solid $dimmer;
+        }
+      }
+    }
+    > div {
+      height: 0;
+      flex-direction: column;
+      overflow: hidden;
+      > * {
+        order: 1;
+      }
+      > span {
+        &.inputs, &.auth {
+          width: 100%;
+          flex-direction: column;
+        }
+      }
+      .nav-item {
+        width: 100%;
+        text-align: center;
+        border-bottom: 2px solid $dimmer;
+        border-right: 2px solid $dimmer;
+        &:hover {}
+        &.login {}
+        &.input {
+          width: auto;
+          padding-left: 1.3*$em;
+          padding-right: .1*$em;
+          .symbol {}
+          input {
+            box-shadow: none;
+            &:focus {}
+          }
+        }
+      }
+    }
+    .mobile-nav {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 2.1*$em;
+      color: black;
+      padding: .45*$em 1*$em;
+      text-decoration: none;
+      font-weight: bold;
+      border-left: 2px solid $dimmer;
+      border-right: 2px solid $dimmer;
+      border-bottom: 2px solid $dimmer;
+      background-color: $primary;
+      text-align: center;
+      pointer-events: all;
+      cursor: pointer;
+      overflow: hidden;
+      span {
+        position: relative;
+        top: .8*$em;
+        width: 0;
+        border-left: .4*$em solid transparent;
+        border-right: .4*$em solid transparent;
+        border-top: .5*$em solid $dimmer;
+        pointer-events: none;
       }
     }
   }

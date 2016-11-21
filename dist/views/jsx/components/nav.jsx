@@ -54,7 +54,7 @@ var SlideInput = _react2["default"].createClass({
 exports["default"] = _react2["default"].createClass({
   displayName: "Nav",
   getInitialState: function getInitialState() {
-    return { addOpen: false, searchOpen: false };
+    return { addOpen: false, searchOpen: false, navOpen: false };
   },
   focusInput: function focusInput(input) {
     switch (input) {
@@ -87,10 +87,36 @@ exports["default"] = _react2["default"].createClass({
         });
     }
   },
+  toggleNav: function toggleNav(state) {
+    switch (state) {
+      case "close":
+        this.setState({
+          navOpen: false
+        });
+        break;
+      case "open":
+        this.setState({
+          navOpen: true
+        });
+      default:
+        this.setState({
+          navOpen: !this.state.navOpen
+        });
+    }
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    console.log("resize");
+    document.addEventListener("resize", function () {
+      _this.toggleNav("close");
+    }, false);
+  },
   render: function render() {
     var _state = this.state;
     var addOpen = _state.addOpen;
     var searchOpen = _state.searchOpen;
+    var navOpen = _state.navOpen;
     var _props3 = this.props;
     var authData = _props3.authData;
     var userData = _props3.userData;
@@ -102,18 +128,22 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "nav",
-      null,
+      { className: "" + (navOpen ? "open" : "") },
       _react2["default"].createElement(
         "div",
         null,
-        _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: appendStream, methods: {
-            focusCallback: this.focusInput,
-            toggleCallback: this.toggleInput
-          } }),
-        _react2["default"].createElement(SlideInput, { ref: "searchInput", commandValue: "search", symbol: "S", open: searchOpen, placeholder: "Search Twitch", callback: search, methods: {
-            focusCallback: this.focusInput,
-            toggleCallback: this.toggleInput
-          } }),
+        _react2["default"].createElement(
+          "span",
+          { className: "inputs" },
+          _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: appendStream, methods: {
+              focusCallback: this.focusInput,
+              toggleCallback: this.toggleInput
+            } }),
+          _react2["default"].createElement(SlideInput, { ref: "searchInput", commandValue: "search", symbol: "S", open: searchOpen, placeholder: "Search Twitch", callback: search, methods: {
+              focusCallback: this.focusInput,
+              toggleCallback: this.toggleInput
+            } })
+        ),
         _react2["default"].createElement(
           _reactRouter.Link,
           { className: "nav-item", to: "/" },
@@ -131,7 +161,7 @@ exports["default"] = _react2["default"].createClass({
         ),
         authData && authData.access_token ? _react2["default"].createElement(
           "span",
-          null,
+          { className: "auth" },
           userData ? _react2["default"].createElement(
             _reactRouter.Link,
             { className: "nav-item", to: "/Profile" },
@@ -147,6 +177,11 @@ exports["default"] = _react2["default"].createClass({
           { className: "nav-item login", href: url },
           "Connect to Twitch"
         )
+      ),
+      _react2["default"].createElement(
+        "span",
+        { className: "mobile-nav", onClick: this.toggleNav },
+        _react2["default"].createElement("span", null)
       )
     );
   }

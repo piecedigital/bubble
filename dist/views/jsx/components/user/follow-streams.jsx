@@ -403,6 +403,10 @@ exports["default"] = _react2["default"].createClass({
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
   },
+  componentWillUnmount: function componentWillUnmount() {
+    document.removeEventListener("scroll", this.scrollEvent, false);
+    document.removeEventListener("mousewheel", this.scrollEvent, false);
+  },
   render: function render() {
     var _this6 = this;
 

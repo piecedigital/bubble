@@ -19,18 +19,18 @@ var Panel = _react2["default"].createClass({
     var content = _react2["default"].createElement(
       "div",
       { className: "wrapper" },
-      data.data.title || "Fake Title" ? _react2["default"].createElement(
+      data.data.title ? _react2["default"].createElement(
         "div",
         { className: "pad" },
         _react2["default"].createElement(
           "div",
           { className: "title" },
-          data.data.title || "Fake Title"
+          data.data.title
         )
       ) : null,
       data.data.image ? data.data.link ? _react2["default"].createElement(
         "a",
-        { href: data.data.link },
+        { href: data.data.link, rel: "nofollow", target: "_blank" },
         _react2["default"].createElement(
           "div",
           { className: "image" },
@@ -64,7 +64,7 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "div",
-      { className: "stream-panels" },
+      { className: "stream-panels" + (panelData.length > 0 ? "" : " empty") },
       _react2["default"].createElement(
         "div",
         { className: "wrapper" },

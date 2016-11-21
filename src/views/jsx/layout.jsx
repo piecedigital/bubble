@@ -16,7 +16,8 @@ var config = {
   storageBucket: "bubble-13387.appspot.com",
 };
 Firebase.initializeApp(config);
-const ref = Firebase.database().ref;
+const ref = {};
+ref.child = Firebase.database().ref;
 
 export default React.createClass({
   displayName: "Layout",
@@ -27,6 +28,7 @@ export default React.createClass({
       playerCollapsed: true,
       layout: "",
       playerStreamMax: 6,
+      panelDataFor: [],
       panelData: [],
     }
   },
@@ -52,13 +54,29 @@ export default React.createClass({
     let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
     delete streamersInPlayer[username];
     console.log("New streamersInPlayer:", streamersInPlayer);
-    this.setState({
+
+    let stateObj = {
       streamersInPlayer
-    });
+    };
+    if(username === this.state.panelDataFor) {
+      stateObj = Object.assign(stateObj, {
+        panelData: [],
+        panelDataFor: ""
+      });
+    }
+    if(Object.keys(streamersInPlayer).length === 0) {
+      stateObj = Object.assign(stateObj, {
+        playerCollapsed: true
+      });
+    }
+    this.setState(stateObj);
   },
   clearPlayer() {
     this.setState({
-      streamersInPlayer: {}
+      streamersInPlayer: {},
+      panelData: [],
+      panelDataFor: "",
+      playerCollapsed: true
     });
   },
   logout() {
@@ -106,9 +124,12 @@ export default React.createClass({
           .getPanels()
           .then(data => {
             console.log("panel data", data);
-            this.setState({
-              panelData: data,
-            });
+            if(data.length > 0) {
+              this.setState({
+                panelDataFor: name,
+                panelData: data,
+              });
+            }
           })
           .catch(e => console.error(e.stack || e));
         })
@@ -116,6 +137,7 @@ export default React.createClass({
         break;
       default:
       this.setState({
+        panelDataFor: name,
         panelData: [],
       });
     }
