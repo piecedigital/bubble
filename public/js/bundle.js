@@ -27721,13 +27721,15 @@ var PlayerStream = _react2["default"].createClass({
     }, 100);
   },
   componentDidMount: function componentDidMount() {
+    var _this = this;
+
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", function () {
       // console.log("leave");
-      // this.toggleMenu("close");
+      _this.toggleMenu("close");
     }, false) : null;
   },
   render: function render() {
-    var _this = this;
+    var _this2 = this;
 
     // console.log(this.props);
     var _props2 = this.props;
@@ -27777,7 +27779,7 @@ var PlayerStream = _react2["default"].createClass({
                     _reactRouter.Link,
                     { title: name, to: "/user/" + name, onClick: function () {
                         togglePlayer("collapse");
-                        _this.toggleMenu("close");
+                        _this2.toggleMenu("close");
                       } },
                     display_name || name,
                     display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
@@ -27798,7 +27800,7 @@ var PlayerStream = _react2["default"].createClass({
                   _reactRouter.Link,
                   { to: "/user/" + name, onClick: function () {
                       togglePlayer("collapse");
-                      _this.toggleMenu("close");
+                      _this2.toggleMenu("close");
                     } },
                   display_name || name,
                   display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
@@ -27810,7 +27812,7 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   _reactRouter.Link,
                   { to: "https://twitch.tv/" + name, target: "_blank", onClick: function () {
-                      _this.toggleMenu("close");
+                      _this2.toggleMenu("close");
                     } },
                   "Visit On Twitch"
                 )
@@ -27818,8 +27820,8 @@ var PlayerStream = _react2["default"].createClass({
               _react2["default"].createElement(
                 "div",
                 { className: "closer", onClick: function () {
-                    _this.swapOut();
-                    _this.toggleMenu("close");
+                    _this2.swapOut();
+                    _this2.toggleMenu("close");
                   } },
                 "Close"
               ),
@@ -27834,16 +27836,16 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "span",
                   { className: "video", onClick: function () {
-                      _this.refresh("video");
-                      _this.toggleMenu("close");
+                      _this2.refresh("video");
+                      _this2.toggleMenu("close");
                     } },
                   "Video"
                 ),
                 _react2["default"].createElement(
                   "span",
                   { className: "chat", onClick: function () {
-                      _this.refresh("chat");
-                      _this.toggleMenu("close");
+                      _this2.refresh("chat");
+                      _this2.toggleMenu("close");
                     } },
                   "Chat"
                 )
@@ -27852,7 +27854,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "put-in-view", onClick: function () {
                     putInView(index);
-                    _this.toggleMenu("close");
+                    _this2.toggleMenu("close");
                   } },
                 "Put In View"
               ),
@@ -27860,7 +27862,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "open-panels", onClick: function () {
                     panelsHandler("open", name);
-                    _this.toggleMenu("close");
+                    _this2.toggleMenu("close");
                   } },
                 "Open Stream Panels"
               ),
@@ -27868,7 +27870,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "follow need-auth", onClick: function () {
                     alertAuthNeeded();
-                    _this.toggleMenu("close");
+                    _this2.toggleMenu("close");
                   } },
                 "Follow ",
                 name
@@ -27987,10 +27989,10 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentDidMount: function componentDidMount() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.rescroll = setInterval(function () {
-      var videoList = _this2.refs.videoList;
+      var videoList = _this3.refs.videoList;
 
       videoList.scrollTop = 0;
     }, 1000);
@@ -27999,7 +28001,7 @@ exports["default"] = _react2["default"].createClass({
     this.rescroll = null;
   },
   render: function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _props3 = this.props;
     var userData = _props3.userData;
@@ -28039,9 +28041,9 @@ exports["default"] = _react2["default"].createClass({
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
-                layoutTools: _this3.layoutTools,
-                putInView: _this3.putInView,
-                refreshChat: _this3.refreshChat
+                layoutTools: _this4.layoutTools,
+                putInView: _this4.putInView,
+                refreshChat: _this4.refreshChat
               } });
           }) : null
         ),
@@ -28051,7 +28053,7 @@ exports["default"] = _react2["default"].createClass({
           dataObject ? dataArray.map(function (channelName, ind) {
             var channelData = dataObject[channelName];
             return _react2["default"].createElement(PlayerStream, { ref: function (r) {
-                return _this3[channelName + "_chat"] = r;
+                return _this4[channelName + "_chat"] = r;
               }, key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
           }) : null
         ),
