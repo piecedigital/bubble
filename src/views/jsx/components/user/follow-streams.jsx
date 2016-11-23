@@ -100,7 +100,7 @@ let components = {
     appendStream(name, display_name) {
       this.props.methods.appendStream(name, display_name);
     },
-    componentWillUpdate(_, nextState) {
+    notify(multiplier) {
       const {
         data
       } = this.props;
@@ -108,17 +108,25 @@ let components = {
         name,
         display_name
       } = data.channel || data.user;
+      const timeout = 2;
+      setTimeout(() => {
+        // notification({
+        //   type: "stream_online",
+        //   channelName: display_name,
+        //   timeout,
+        //   callback: () => {
+        //     this.appendStream(name, display_name);
+        //   }
+        // });
+        this.props.methods.notify(name, display_name);
+      }, (timeout * 1000) * multiplier);
+    },
+    componentWillUpdate(_, nextState) {
       // console.log(this.state.streamData, nextState.streamData);
       if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if(nextState.streamData && nextState.streamData.stream) {
-          notification({
-            type: "stream_online",
-            channelName: display_name,
-            callback: () => {
-              this.appendStream(name, display_name);
-            }
-          });
+          this.notify(this.props.notifyMultiplier);
         }
       }
     },
@@ -226,6 +234,7 @@ export default React.createClass({
       loadingQueue: [],
       locked: this.props.follow === "IFollow" ? false : true,
       lockedTop: this.props.follow === "IFollow" ? false : true,
+      currentNotifs: 0
     }
   },
   gatherData(limit, offset, callback) {
@@ -334,6 +343,29 @@ export default React.createClass({
       }
     }, 200);
   },
+  notify(name, display_name) {
+    if(this.state.currentNotifs < 3) {
+      this.setState({
+        currentNotifs: this.state.currentNotifs + 1
+      }, () => {
+        notification({
+          type: "stream_online",
+          channelName: display_name,
+          timeout: 2,
+          callback: () => {
+            this.appendStream(name, display_name);
+          }
+        });
+      });
+    } else {
+      setTimeout(() => {
+        this.setState({
+          currentNotifs: this.state.currentNotifs - 1
+        });
+        this.notify(name, display_name)
+      }, 3000);
+    }
+  },
   componentWillReceiveProps() {
     this.scrollEvent();
   },
@@ -367,11 +399,13 @@ export default React.createClass({
         loadData
       }
     } = this.props;
+
     if(component) {
       const ListItem = components[component];
       const list = dataArray.map((itemData, ind) => {
-        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} methods={{
+        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} notifyMultiplier={Math.floor(ind / 3)} methods={{
           appendStream,
+          notify: this.notify,
           removeFromDataArray: this.removeFromDataArray
         }} />
       });

@@ -89,8 +89,8 @@ export default React.createClass({
     }
   },
   componentDidMount() {
-    window.addEventListener("resize", () => {
-      console.log("resize");
+    this.refs.nav.addEventListener("mouseleave", () => {
+      console.log("leave");
       this.toggleNav("close");
     }, false);
   },
@@ -111,7 +111,7 @@ export default React.createClass({
       }
     } = this.props;
     return (
-      <nav className={`${navOpen ? "open" : ""}`}>
+      <nav ref="nav" className={`${navOpen ? "open" : ""}`}>
         <div>
           <span className="inputs">
             <SlideInput ref="addInput" commandValue="add" symbol="+" open={addOpen} placeholder="Add a stream to the Player" callback={(value, bool) => {

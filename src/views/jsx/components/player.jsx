@@ -29,13 +29,13 @@ const PlayerStream = React.createClass({
     }
   },
   refresh(iframe) {
-    console.log(iframe, this.refs[iframe].src);
+    console.log("iframe:", iframe);
     switch (iframe) {
       case "video":
         this.refs.video.src = this.refs.video.src;
         break;
       case "chat":
-        this.refs.chat.src = this.refs.chat.src;
+        this.props.methods.refreshChat(this.props.name);
         break;
     }
   },
@@ -51,6 +51,12 @@ const PlayerStream = React.createClass({
     setTimeout(() => {
       layoutTools("setStreamToView");
     }, 100);
+  },
+  componentDidMount() {
+    this.refs.tools ? this.refs.tools.addEventListener("mouseleave", () => {
+      // console.log("leave");
+      this.toggleMenu("close");
+    }, false) : null;
   },
   render() {
     // console.log(this.props);
@@ -82,7 +88,7 @@ const PlayerStream = React.createClass({
               <iframe ref="video" src={`https://player.twitch.tv/?channel=${name}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
             </div>
           </div>
-          <div className="tools-wrapper">
+          <div ref="tools" className="tools-wrapper">
             <div className={`tools${menuOpen ? " menu-open" : ""}`}>
               <div className="mobile">
                 <div className="name">
@@ -157,7 +163,7 @@ const PlayerStream = React.createClass({
       case "chat": return (
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className={`chat`}>
-            <iframe ref="chat" src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
+            <iframe ref={`chat`} src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
           </div>
         </li>
       );
@@ -237,6 +243,11 @@ export default React.createClass({
       });
     }
   },
+  refreshChat(name) {
+    console.log(name, this[`${name}_chat`].refs.chat);
+    let { chat } = this[`${name}_chat`].refs;
+    chat.src = chat.src;
+  },
   componentWillReceiveProps(nextProps) {
     const {
       data: {
@@ -311,7 +322,8 @@ export default React.createClass({
                       panelsHandler,
                       alertAuthNeeded,
                       layoutTools: this.layoutTools,
-                      putInView: this.putInView
+                      putInView: this.putInView,
+                      refreshChat: this.refreshChat
                     }} />
                   );
                 })
@@ -324,7 +336,7 @@ export default React.createClass({
                 dataArray.map((channelName, ind) => {
                   let channelData = dataObject[channelName];
                   return (
-                    <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
+                    <PlayerStream ref={r => this[`${channelName}_chat`] = r} key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
                   );
                 })
               ) : null

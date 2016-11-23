@@ -40,5 +40,5 @@ function makeNotification(data) {
   };
   setTimeout(() => {
     if(typeof notification === "object") notification.close();
-  }, 5000);
+  }, (data.timeout || 2) * 1000);
 }
