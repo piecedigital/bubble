@@ -55,7 +55,7 @@ const PlayerStream = React.createClass({
   componentDidMount() {
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", () => {
       // console.log("leave");
-      // this.toggleMenu("close");
+      this.toggleMenu("close");
     }, false) : null;
   },
   render() {
