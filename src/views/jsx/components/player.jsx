@@ -55,7 +55,7 @@ const PlayerStream = React.createClass({
   componentDidMount() {
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", () => {
       // console.log("leave");
-      this.toggleMenu("close");
+      // this.toggleMenu("close");
     }, false) : null;
   },
   render() {
@@ -120,17 +120,14 @@ const PlayerStream = React.createClass({
               }}>
                 Close
               </div>
-              <div className="refresh-video" onClick={() => {
-                this.refresh("video");
-                this.toggleMenu("close");
-              }}>
-                Refresh Video
-              </div>
-              <div className="refresh-chat" onClick={() => {
-                this.refresh("chat");
-                this.toggleMenu("close");
-              }}>
-                Refresh Chat
+              <div className="refresh">
+                <span className="title">Refresh</span><span className="video" onClick={() => {
+                  this.refresh("video");
+                  this.toggleMenu("close");
+                }}>Video</span><span className="chat" onClick={() => {
+                  this.refresh("chat");
+                  this.toggleMenu("close");
+                }}>Chat</span>
               </div>
               <div className="put-in-view" onClick={() => {
                 putInView(index);

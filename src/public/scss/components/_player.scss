@@ -102,6 +102,34 @@
           }
         }
       }
+      &.refresh {
+        cursor: default;
+        &:hover {
+          background-color: $primary;
+        }
+        > * {
+          display: inline-block;
+          width: 25%;
+          min-width: initial;
+          padding-top: 0;
+          background-color: transparent;
+          cursor: pointer;
+          &:hover {
+            background-color: $light;
+          }
+          &.title {
+            width: 50%;
+            cursor: default;
+            &:hover {
+              background-color: $primary;
+            }
+          }
+          &:not(:last-child) {
+            height: 100%;
+            border-right: 2px solid $dimmer;
+          }
+        }
+      }
       &:not(:last-child) {
         border-right: 2px solid $dimmer;
       }
