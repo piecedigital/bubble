@@ -107,8 +107,8 @@ exports["default"] = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this = this;
 
-    window.addEventListener("resize", function () {
-      console.log("resize");
+    this.refs.nav.addEventListener("mouseleave", function () {
+      console.log("leave");
       _this.toggleNav("close");
     }, false);
   },
@@ -130,7 +130,7 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "nav",
-      { className: "" + (navOpen ? "open" : "") },
+      { ref: "nav", className: "" + (navOpen ? "open" : "") },
       _react2["default"].createElement(
         "div",
         null,

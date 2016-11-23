@@ -217,7 +217,7 @@ function makeNotification(data) {
   };
   setTimeout(function () {
     if (typeof notification === "object") notification.close();
-  }, 5000);
+  }, (data.timeout || 2) * 1000);
 }
 },{}],4:[function(require,module,exports){
 "use strict";
@@ -27553,8 +27553,8 @@ exports["default"] = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this = this;
 
-    window.addEventListener("resize", function () {
-      console.log("resize");
+    this.refs.nav.addEventListener("mouseleave", function () {
+      console.log("leave");
       _this.toggleNav("close");
     }, false);
   },
@@ -27576,7 +27576,7 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "nav",
-      { className: "" + (navOpen ? "open" : "") },
+      { ref: "nav", className: "" + (navOpen ? "open" : "") },
       _react2["default"].createElement(
         "div",
         null,
@@ -27698,13 +27698,13 @@ var PlayerStream = _react2["default"].createClass({
     }
   },
   refresh: function refresh(iframe) {
-    console.log(iframe, this.refs[iframe].src);
+    console.log("iframe:", iframe);
     switch (iframe) {
       case "video":
         this.refs.video.src = this.refs.video.src;
         break;
       case "chat":
-        this.refs.chat.src = this.refs.chat.src;
+        this.props.methods.refreshChat(this.props.name);
         break;
     }
   },
@@ -27720,8 +27720,16 @@ var PlayerStream = _react2["default"].createClass({
       layoutTools("setStreamToView");
     }, 100);
   },
-  render: function render() {
+  componentDidMount: function componentDidMount() {
     var _this = this;
+
+    this.refs.tools ? this.refs.tools.addEventListener("mouseleave", function () {
+      // console.log("leave");
+      _this.toggleMenu("close");
+    }, false) : null;
+  },
+  render: function render() {
+    var _this2 = this;
 
     // console.log(this.props);
     var _props2 = this.props;
@@ -27757,7 +27765,7 @@ var PlayerStream = _react2["default"].createClass({
           ),
           _react2["default"].createElement(
             "div",
-            { className: "tools-wrapper" },
+            { ref: "tools", className: "tools-wrapper" },
             _react2["default"].createElement(
               "div",
               { className: "tools" + (menuOpen ? " menu-open" : "") },
@@ -27771,7 +27779,7 @@ var PlayerStream = _react2["default"].createClass({
                     _reactRouter.Link,
                     { title: name, to: "/user/" + name, onClick: function () {
                         togglePlayer("collapse");
-                        _this.toggleMenu("close");
+                        _this2.toggleMenu("close");
                       } },
                     display_name || name,
                     display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
@@ -27792,7 +27800,7 @@ var PlayerStream = _react2["default"].createClass({
                   _reactRouter.Link,
                   { to: "/user/" + name, onClick: function () {
                       togglePlayer("collapse");
-                      _this.toggleMenu("close");
+                      _this2.toggleMenu("close");
                     } },
                   display_name || name,
                   display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
@@ -27804,7 +27812,7 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   _reactRouter.Link,
                   { to: "https://twitch.tv/" + name, target: "_blank", onClick: function () {
-                      _this.toggleMenu("close");
+                      _this2.toggleMenu("close");
                     } },
                   "Visit On Twitch"
                 )
@@ -27812,24 +27820,24 @@ var PlayerStream = _react2["default"].createClass({
               _react2["default"].createElement(
                 "div",
                 { className: "closer", onClick: function () {
-                    _this.swapOut();
-                    _this.toggleMenu("close");
+                    _this2.swapOut();
+                    _this2.toggleMenu("close");
                   } },
                 "Close"
               ),
               _react2["default"].createElement(
                 "div",
                 { className: "refresh-video", onClick: function () {
-                    _this.refresh("video");
-                    _this.toggleMenu("close");
+                    _this2.refresh("video");
+                    _this2.toggleMenu("close");
                   } },
                 "Refresh Video"
               ),
               _react2["default"].createElement(
                 "div",
                 { className: "refresh-chat", onClick: function () {
-                    _this.refresh("chat");
-                    _this.toggleMenu("close");
+                    _this2.refresh("chat");
+                    _this2.toggleMenu("close");
                   } },
                 "Refresh Chat"
               ),
@@ -27837,7 +27845,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "put-in-view", onClick: function () {
                     putInView(index);
-                    _this.toggleMenu("close");
+                    _this2.toggleMenu("close");
                   } },
                 "Put In View"
               ),
@@ -27845,7 +27853,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "open-panels", onClick: function () {
                     panelsHandler("open", name);
-                    _this.toggleMenu("close");
+                    _this2.toggleMenu("close");
                   } },
                 "Open Stream Panels"
               ),
@@ -27853,7 +27861,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "follow need-auth", onClick: function () {
                     alertAuthNeeded();
-                    _this.toggleMenu("close");
+                    _this2.toggleMenu("close");
                   } },
                 "Follow ",
                 name
@@ -27948,6 +27956,12 @@ exports["default"] = _react2["default"].createClass({
       });
     }
   },
+  refreshChat: function refreshChat(name) {
+    console.log(name, this[name + "_chat"].refs.chat);
+    var chat = this[name + "_chat"].refs.chat;
+
+    chat.src = chat.src;
+  },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var dataObject = nextProps.data.dataObject;
     var streamInView = this.state.streamInView;
@@ -27966,10 +27980,10 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentDidMount: function componentDidMount() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.rescroll = setInterval(function () {
-      var videoList = _this2.refs.videoList;
+      var videoList = _this3.refs.videoList;
 
       videoList.scrollTop = 0;
     }, 1000);
@@ -27978,7 +27992,7 @@ exports["default"] = _react2["default"].createClass({
     this.rescroll = null;
   },
   render: function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _props3 = this.props;
     var userData = _props3.userData;
@@ -28018,8 +28032,9 @@ exports["default"] = _react2["default"].createClass({
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
-                layoutTools: _this3.layoutTools,
-                putInView: _this3.putInView
+                layoutTools: _this4.layoutTools,
+                putInView: _this4.putInView,
+                refreshChat: _this4.refreshChat
               } });
           }) : null
         ),
@@ -28028,7 +28043,9 @@ exports["default"] = _react2["default"].createClass({
           { ref: "chatList", onScroll: this.listScroll, className: "list chat-list" + (!chatOpen ? " hide-chat" : "") },
           dataObject ? dataArray.map(function (channelName, ind) {
             var channelData = dataObject[channelName];
-            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
+            return _react2["default"].createElement(PlayerStream, { ref: function (r) {
+                return _this4[channelName + "_chat"] = r;
+              }, key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
           }) : null
         ),
         _react2["default"].createElement(
@@ -28439,7 +28456,7 @@ var components = {
     appendStream: function appendStream(name, display_name) {
       this.props.methods.appendStream(name, display_name);
     },
-    componentWillUpdate: function componentWillUpdate(_, nextState) {
+    notify: function notify(multiplier) {
       var _this2 = this;
 
       var data = this.props.data;
@@ -28449,17 +28466,25 @@ var components = {
       var name = _ref2.name;
       var display_name = _ref2.display_name;
 
+      var timeout = 2;
+      setTimeout(function () {
+        // notification({
+        //   type: "stream_online",
+        //   channelName: display_name,
+        //   timeout,
+        //   callback: () => {
+        //     this.appendStream(name, display_name);
+        //   }
+        // });
+        _this2.props.methods.notify(name, display_name);
+      }, timeout * 1000 * multiplier);
+    },
+    componentWillUpdate: function componentWillUpdate(_, nextState) {
       // console.log(this.state.streamData, nextState.streamData);
       if (!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if (nextState.streamData && nextState.streamData.stream) {
-          (0, _modulesHelperTools.browserNotification)({
-            type: "stream_online",
-            channelName: display_name,
-            callback: function callback() {
-              _this2.appendStream(name, display_name);
-            }
-          });
+          this.notify(this.props.notifyMultiplier);
         }
       }
     },
@@ -28587,7 +28612,8 @@ exports["default"] = _react2["default"].createClass({
       filter: "all",
       loadingQueue: [],
       locked: this.props.follow === "IFollow" ? false : true,
-      lockedTop: this.props.follow === "IFollow" ? false : true
+      lockedTop: this.props.follow === "IFollow" ? false : true,
+      currentNotifs: 0
     };
   },
   gatherData: function gatherData(limit, offset, callback) {
@@ -28704,6 +28730,31 @@ exports["default"] = _react2["default"].createClass({
       }
     }, 200);
   },
+  notify: function notify(name, display_name) {
+    var _this6 = this;
+
+    if (this.state.currentNotifs < 3) {
+      this.setState({
+        currentNotifs: this.state.currentNotifs + 1
+      }, function () {
+        (0, _modulesHelperTools.browserNotification)({
+          type: "stream_online",
+          channelName: display_name,
+          timeout: 2,
+          callback: function callback() {
+            _this6.appendStream(name, display_name);
+          }
+        });
+      });
+    } else {
+      setTimeout(function () {
+        _this6.setState({
+          currentNotifs: _this6.state.currentNotifs - 1
+        });
+        _this6.notify(name, display_name);
+      }, 3000);
+    }
+  },
   componentWillReceiveProps: function componentWillReceiveProps() {
     this.scrollEvent();
   },
@@ -28718,7 +28769,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this6 = this;
+    var _this7 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -28743,20 +28794,21 @@ exports["default"] = _react2["default"].createClass({
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               return dataArray[ind].ref = r;
-            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
+            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendStream: appendStream,
-              removeFromDataArray: _this6.removeFromDataArray
+              notify: _this7.notify,
+              removeFromDataArray: _this7.removeFromDataArray
             } });
         });
 
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: (_this6.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this7.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              _this6.props.follow === "IFollow" ? "Followed" : "Following",
+              _this7.props.follow === "IFollow" ? "Followed" : "Following",
               " Channels"
             ),
             _react2["default"].createElement(
@@ -28779,19 +28831,19 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this6.refresh },
+                    { className: "option btn-default refresh", onClick: _this7.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this6.refreshList(true);
+                        return _this7.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this6.gatherData },
+                    { className: "option btn-default load-more", onClick: _this7.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -28807,13 +28859,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this6.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this7.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this6.capitalize(filter)
+                            _this7.capitalize(filter)
                           );
                         })
                       )

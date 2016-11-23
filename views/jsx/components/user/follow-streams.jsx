@@ -129,7 +129,7 @@ var components = {
     appendStream: function appendStream(name, display_name) {
       this.props.methods.appendStream(name, display_name);
     },
-    componentWillUpdate: function componentWillUpdate(_, nextState) {
+    notify: function notify(multiplier) {
       var _this2 = this;
 
       var data = this.props.data;
@@ -139,17 +139,25 @@ var components = {
       var name = _ref2.name;
       var display_name = _ref2.display_name;
 
+      var timeout = 2;
+      setTimeout(function () {
+        // notification({
+        //   type: "stream_online",
+        //   channelName: display_name,
+        //   timeout,
+        //   callback: () => {
+        //     this.appendStream(name, display_name);
+        //   }
+        // });
+        _this2.props.methods.notify(name, display_name);
+      }, timeout * 1000 * multiplier);
+    },
+    componentWillUpdate: function componentWillUpdate(_, nextState) {
       // console.log(this.state.streamData, nextState.streamData);
       if (!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if (nextState.streamData && nextState.streamData.stream) {
-          (0, _modulesHelperTools.browserNotification)({
-            type: "stream_online",
-            channelName: display_name,
-            callback: function callback() {
-              _this2.appendStream(name, display_name);
-            }
-          });
+          this.notify(this.props.notifyMultiplier);
         }
       }
     },
@@ -277,7 +285,8 @@ exports["default"] = _react2["default"].createClass({
       filter: "all",
       loadingQueue: [],
       locked: this.props.follow === "IFollow" ? false : true,
-      lockedTop: this.props.follow === "IFollow" ? false : true
+      lockedTop: this.props.follow === "IFollow" ? false : true,
+      currentNotifs: 0
     };
   },
   gatherData: function gatherData(limit, offset, callback) {
@@ -394,6 +403,31 @@ exports["default"] = _react2["default"].createClass({
       }
     }, 200);
   },
+  notify: function notify(name, display_name) {
+    var _this6 = this;
+
+    if (this.state.currentNotifs < 3) {
+      this.setState({
+        currentNotifs: this.state.currentNotifs + 1
+      }, function () {
+        (0, _modulesHelperTools.browserNotification)({
+          type: "stream_online",
+          channelName: display_name,
+          timeout: 2,
+          callback: function callback() {
+            _this6.appendStream(name, display_name);
+          }
+        });
+      });
+    } else {
+      setTimeout(function () {
+        _this6.setState({
+          currentNotifs: _this6.state.currentNotifs - 1
+        });
+        _this6.notify(name, display_name);
+      }, 3000);
+    }
+  },
   componentWillReceiveProps: function componentWillReceiveProps() {
     this.scrollEvent();
   },
@@ -408,7 +442,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this6 = this;
+    var _this7 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -433,20 +467,21 @@ exports["default"] = _react2["default"].createClass({
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               return dataArray[ind].ref = r;
-            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, methods: {
+            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendStream: appendStream,
-              removeFromDataArray: _this6.removeFromDataArray
+              notify: _this7.notify,
+              removeFromDataArray: _this7.removeFromDataArray
             } });
         });
 
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: (_this6.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this7.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              _this6.props.follow === "IFollow" ? "Followed" : "Following",
+              _this7.props.follow === "IFollow" ? "Followed" : "Following",
               " Channels"
             ),
             _react2["default"].createElement(
@@ -469,19 +504,19 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this6.refresh },
+                    { className: "option btn-default refresh", onClick: _this7.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this6.refreshList(true);
+                        return _this7.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this6.gatherData },
+                    { className: "option btn-default load-more", onClick: _this7.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -497,13 +532,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this6.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this7.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this6.capitalize(filter)
+                            _this7.capitalize(filter)
                           );
                         })
                       )
