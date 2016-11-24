@@ -109,24 +109,26 @@
         }
         > * {
           display: inline-block;
-          width: 25%;
+          width: 4*$em;
           min-width: initial;
           padding-top: 0;
           background-color: transparent;
           cursor: pointer;
+          text-align: center;
           &:hover {
             background-color: $light;
           }
           &.title {
-            width: 50%;
+            width: 4*$em;
             cursor: default;
+            text-align: left;
             &:hover {
               background-color: $primary;
             }
           }
           &:not(:last-child) {
             height: 100%;
-            border-right: 2px solid $dimmer;
+            box-shadow: inset -2px 0 0 0 $dimmer;
           }
         }
       }
@@ -472,7 +474,7 @@
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .root {
     &.player-open {
       &.layout-singular .player,
