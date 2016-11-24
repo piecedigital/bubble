@@ -415,21 +415,23 @@ nav {
           background-color: #00c8fa; }
         .player-stream .tools > *.refresh > * {
           display: inline-block;
-          width: 25%;
+          width: 64px;
           min-width: initial;
           padding-top: 0;
           background-color: transparent;
-          cursor: pointer; }
+          cursor: pointer;
+          text-align: center; }
           .player-stream .tools > *.refresh > *:hover {
             background-color: #96e6ff; }
           .player-stream .tools > *.refresh > *.title {
-            width: 50%;
-            cursor: default; }
+            width: 64px;
+            cursor: default;
+            text-align: left; }
             .player-stream .tools > *.refresh > *.title:hover {
               background-color: #00c8fa; }
           .player-stream .tools > *.refresh > *:not(:last-child) {
             height: 100%;
-            border-right: 2px solid #0082b4; }
+            box-shadow: inset -2px 0 0 0 #0082b4; }
       .player-stream .tools > *:not(:last-child) {
         border-right: 2px solid #0082b4; }
     .player-stream .tools .mobile {
@@ -1021,7 +1023,7 @@ nav {
     .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel {
       width: 100%; }
 
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-4 .player
   .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools {
     top: 32px;
