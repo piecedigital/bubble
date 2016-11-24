@@ -442,7 +442,8 @@ nav {
       font-weight: bold; }
 
 .chat-list.hide-chat {
-  width: 0 !important; }
+  width: 0 !important;
+  min-width: 0 !important; }
 
 .root.player-open .player, .root.player-open.layout-singular .player, .root.player-open.layout-1 .player {
   width: 100%;
