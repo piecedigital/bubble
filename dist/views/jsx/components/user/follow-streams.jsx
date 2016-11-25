@@ -415,7 +415,7 @@ exports["default"] = _react2["default"].createClass({
           channelName: display_name,
           timeout: 2,
           callback: function callback() {
-            _this6.appendStream(name, display_name);
+            _this6.props.methods.appendStream(name, display_name);
           }
         });
       });

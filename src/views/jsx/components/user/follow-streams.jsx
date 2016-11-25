@@ -353,7 +353,7 @@ export default React.createClass({
           channelName: display_name,
           timeout: 2,
           callback: () => {
-            this.appendStream(name, display_name);
+            this.props.methods.appendStream(name, display_name);
           }
         });
       });
