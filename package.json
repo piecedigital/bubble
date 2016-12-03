@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "react-autocomplete-cli": "0.0.3"
+  },
+  "dependencies": {
+    "shoehornjs": "^2.0.1"
   }
 }

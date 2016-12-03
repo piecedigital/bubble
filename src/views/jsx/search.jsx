@@ -1,5 +1,6 @@
 import React from "react";
 import loadData from "../../modules/load-data";
+import { ListItemHoverOptions } from "./components/hover-options.jsx";
 // components
 let components = {};
 
@@ -9,7 +10,9 @@ components.StreamsListItem = React.createClass({
   render() {
     // console.log(this.props);
     const {
+      auth,
       index,
+      userData,
       methods: {
         appendStream
       },
@@ -23,31 +26,35 @@ components.StreamsListItem = React.createClass({
           mature,
           logo,
           name,
+          display_name,
           language
         }
       }
     } = this.props;
     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+    let hoverOptions = <ListItemHoverOptions auth={auth} stream={true} name={name} display_name={display_name} userData={userData} clickCallback={appendStream} />;
+
     return (
-      <li onClick={() => {
-        appendStream.call(null, name, displayName);
-      }}>
-        <div className="image">
-          <img src={preview.medium} />
-        </div>
-        <div className="info">
-          <div className="channel-name">
-            {name}
+      <li className={`stream-list-item search`}>
+        <div className="wrapper">
+          <div className="image">
+            <img src={preview.medium} />
           </div>
-          <div className="title">
-            {title}
+          <div className="info">
+            <div className="channel-name">
+              {name}
+            </div>
+            <div className="title">
+              {title}
+            </div>
+            <div className="game">
+              {`Live with "${game}"`}
+            </div>
+            <div className="viewers">
+              {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+            </div>
           </div>
-          <div className="game">
-            {`Live with "${game}"`}
-          </div>
-          <div className="viewers">
-            {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-          </div>
+          {hoverOptions}
         </div>
       </li>
     )
@@ -111,6 +118,7 @@ export default React.createClass({
       component
     } = this.state;
     const {
+      auth,
       data,
       methods: {
         appendStream,
@@ -122,22 +130,24 @@ export default React.createClass({
       const ListItem = components[component];
       return (
         <div className="top-level-component search-page">
-          <div className="wrapper">
-            <ul className="list">
-              {
-                dataArray.map((itemData, ind) => {
-                  return <ListItem key={ind} data={itemData} index={ind} methods={{
-                    appendStream
-                  }} />
-                })
-              }
-            </ul>
-          </div>
-          <div className="tools">
-            <div className="parent">
-              <div className="scroll">
-                <div className="btn-default load-more" onClick={this.gatherData}>
-                  Load More
+          <div className="general-page">
+            <div className="wrapper">
+              <ul className="list">
+                {
+                  dataArray.map((itemData, ind) => {
+                    return <ListItem auth={auth} key={ind} data={itemData} index={ind} methods={{
+                      appendStream
+                    }} />
+                  })
+                }
+              </ul>
+            </div>
+            <div className="tools">
+              <div className="parent">
+                <div className="scroll">
+                  <div className="btn-default load-more" onClick={this.gatherData}>
+                    Load More
+                  </div>
                 </div>
               </div>
             </div>

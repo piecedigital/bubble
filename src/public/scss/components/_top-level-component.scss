@@ -83,7 +83,7 @@
       }
     }
   }
-  &.profile, &.streams, &.games {
+  &.profile, &.streams, &.games, &.search-page {
     .followed-streams.profile, .following-streams.profile, .general-page {
       &.locked {
         position: relative;
@@ -121,6 +121,7 @@
         // top: 5.25*$em;
         top: 0;
         left: .5*$em;
+        width: 8.003*$em;
         max-height: 100%;
         // padding-top: 5.5*$em;
         padding-top: .25*$em;
@@ -143,6 +144,9 @@
           .scroll {
             @include displayFlex;
             flex-direction: column;
+            .btn-default {
+              text-align: center;
+            }
             .option {
               padding: .25*$em;
               margin: .25*$em 0;
@@ -264,7 +268,7 @@
         }
       }
     }
-    &.profile, &.streams, &.games {
+    &.profile, &.streams, &.games, &.search-page {
       .followed-streams.profile, .following-streams.profile, .general-page {
         .title {
         }

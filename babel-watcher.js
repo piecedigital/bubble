@@ -1,8 +1,9 @@
 var watchBabel = require("watch-babel");
-var logOut = require("./dist/log-out").logOut;
+var logOut = require("./log-out").logOut;
 var cp = require("child_process");
 var fs = require("fs");
 var cluster = require("cluster");
+var shoehornTranspiler = require("./shoehornjs-transpile");
 
 if(cluster.isMaster) {
   var child1 = cluster.fork({
@@ -31,12 +32,14 @@ function babelWatcher() {
   watcher.on("ready", function() { console.log("ready", arguments); });
   watcher.on("success", function(filepath) {
     console.log("Transpiled ", filepath);
-    // if(!filepath.match(/(routes.js|render-jsx.js)$/)) {
-    // }
-    timer += 2;
-    executing = false;
-    failure = false;
-    brfy();
+    // shoehornTranspiler(filepath, function (filepath) {
+    //   console.log("Shoehorn Transpiled ", filepath);
+
+      timer += 2;
+      executing = false;
+      failure = false;
+      brfy();
+    // });
   });
   watcher.on("failure", function(filepath, e) {
     failure = true;
@@ -48,9 +51,8 @@ function babelWatcher() {
 
   function brfy() {
     setTimeout(() => {
-      timer--;
-      console.log(timer);
-      if(!timer && !executing && !failure) {
+      timer ? console.log(timer) : null;
+      if(!(timer-1) && !executing && !failure) {
         console.log("browserifying...");
         executing = true;
         cp.exec("browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js", function (err) {
@@ -64,12 +66,13 @@ function babelWatcher() {
         });
       } else {
         if(timer > 0) {
+          timer--;
           brfy();
         } else {
           timer = 0;
         }
       }
-    }, 1000)
+    }, 1000);
   }
 }
 

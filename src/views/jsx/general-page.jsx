@@ -88,7 +88,7 @@ let components = {
         }
       } = this.props;
       let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      let channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+      let channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
 
       return (
         <li className={`game-list-item`}>

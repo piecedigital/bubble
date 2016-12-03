@@ -1,0 +1,132 @@
+milliseconds;time;error;message
+
+[1480229640997] [Sun, 27 Nov 2016 06:54:00 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (66:10)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480232821350] [Sun, 27 Nov 2016 07:47:01 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\components\user\follow-streams.jsx: Unexpected token (407:26)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480232967729] [Sun, 27 Nov 2016 07:49:27 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (75:32)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480233053973] [Sun, 27 Nov 2016 07:50:53 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (75:32)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480233094646] [Sun, 27 Nov 2016 07:51:34 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (75:32)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480233243494] [Sun, 27 Nov 2016 07:54:03 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (75:32)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480233250921] [Sun, 27 Nov 2016 07:54:10 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (75:32)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480233276514] [Sun, 27 Nov 2016 07:54:36 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (75:32)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480233329137] [Sun, 27 Nov 2016 07:55:29 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (75:32)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]
+[1480233381886] [Sun, 27 Nov 2016 07:56:21 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpected token (75:32)
+    at Deps.parseDeps (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:453:28)
+    at fromSource (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:390:44)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\module-deps\index.js:384:17
+    at ConcatStream.<anonymous> (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\index.js:36:43)
+    at emitNone (events.js:72:20)
+    at ConcatStream.emit (events.js:166:7)
+    at finishMaybe (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:475:14)
+    at endWritable (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:485:3)
+    at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
+    at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
+]

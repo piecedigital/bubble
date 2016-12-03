@@ -33,6 +33,8 @@ export default React.createClass({
     }
   },
   appendStream(username, displayName, isSolo = true) {
+    username.replace(/\s/g, "");
+    displayName.replace(/\s/g, "");
     console.log("appending stream", username, isSolo);
     // only append if below the mas
     if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {

@@ -29013,7 +29013,7 @@ var components = {
       var channels = _props2$data.channels;
 
       var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      var channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+      var channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
 
       return _react2["default"].createElement(
         "li",
@@ -29299,6 +29299,8 @@ exports["default"] = _react2["default"].createClass({
   appendStream: function appendStream(username, displayName) {
     var isSolo = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
+    username.replace(/\s/g, "");
+    displayName.replace(/\s/g, "");
     console.log("appending stream", username, isSolo);
     // only append if below the mas
     if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
@@ -29591,6 +29593,8 @@ var _modulesLoadData = require("../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _componentsHoverOptionsJsx = require("./components/hover-options.jsx");
+
 // components
 var components = {};
 
@@ -29600,7 +29604,9 @@ components.StreamsListItem = _react2["default"].createClass({
   render: function render() {
     // console.log(this.props);
     var _props = this.props;
+    var auth = _props.auth;
     var index = _props.index;
+    var userData = _props.userData;
     var appendStream = _props.methods.appendStream;
     var _props$data = _props.data;
     var game = _props$data.game;
@@ -29612,42 +29618,48 @@ components.StreamsListItem = _react2["default"].createClass({
     var mature = _props$data$channel.mature;
     var logo = _props$data$channel.logo;
     var name = _props$data$channel.name;
+    var display_name = _props$data$channel.display_name;
     var language = _props$data$channel.language;
 
     var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+    var hoverOptions = _react2["default"].createElement(_componentsHoverOptionsJsx.ListItemHoverOptions, { auth: auth, stream: true, name: name, display_name: display_name, userData: userData, clickCallback: appendStream });
+
     return _react2["default"].createElement(
       "li",
-      { onClick: function () {
-          appendStream.call(null, name, displayName);
-        } },
+      { className: "stream-list-item search" },
       _react2["default"].createElement(
         "div",
-        { className: "image" },
-        _react2["default"].createElement("img", { src: preview.medium })
-      ),
-      _react2["default"].createElement(
-        "div",
-        { className: "info" },
+        { className: "wrapper" },
         _react2["default"].createElement(
           "div",
-          { className: "channel-name" },
-          name
+          { className: "image" },
+          _react2["default"].createElement("img", { src: preview.medium })
         ),
         _react2["default"].createElement(
           "div",
-          { className: "title" },
-          title
+          { className: "info" },
+          _react2["default"].createElement(
+            "div",
+            { className: "channel-name" },
+            name
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "title" },
+            title
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "game" },
+            "Live with \"" + game + "\""
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "viewers" },
+            "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+          )
         ),
-        _react2["default"].createElement(
-          "div",
-          { className: "game" },
-          "Live with \"" + game + "\""
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "viewers" },
-          "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-        )
+        hoverOptions
       )
     );
   }
@@ -29718,6 +29730,7 @@ exports["default"] = _react2["default"].createClass({
     var dataArray = _state.dataArray;
     var component = _state.component;
     var _props3 = this.props;
+    var auth = _props3.auth;
     var data = _props3.data;
     var _props3$methods = _props3.methods;
     var appendStream = _props3$methods.appendStream;
@@ -29733,30 +29746,34 @@ exports["default"] = _react2["default"].createClass({
             { className: "top-level-component search-page" },
             _react2["default"].createElement(
               "div",
-              { className: "wrapper" },
-              _react2["default"].createElement(
-                "ul",
-                { className: "list" },
-                dataArray.map(function (itemData, ind) {
-                  return _react2["default"].createElement(ListItem, { key: ind, data: itemData, index: ind, methods: {
-                      appendStream: appendStream
-                    } });
-                })
-              )
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "tools" },
+              { className: "general-page" },
               _react2["default"].createElement(
                 "div",
-                { className: "parent" },
+                { className: "wrapper" },
+                _react2["default"].createElement(
+                  "ul",
+                  { className: "list" },
+                  dataArray.map(function (itemData, ind) {
+                    return _react2["default"].createElement(ListItem, { auth: auth, key: ind, data: itemData, index: ind, methods: {
+                        appendStream: appendStream
+                      } });
+                  })
+                )
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "tools" },
                 _react2["default"].createElement(
                   "div",
-                  { className: "scroll" },
+                  { className: "parent" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "btn-default load-more", onClick: _this2.gatherData },
-                    "Load More"
+                    { className: "scroll" },
+                    _react2["default"].createElement(
+                      "div",
+                      { className: "btn-default load-more", onClick: _this2.gatherData },
+                      "Load More"
+                    )
                   )
                 )
               )
@@ -29776,4 +29793,4 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"react":242}]},{},[243]);
+},{"../../modules/load-data":4,"./components/hover-options.jsx":246,"react":242}]},{},[243]);
