@@ -409,6 +409,8 @@ nav {
         background-color: #96e6ff; }
         .player-stream .tools > *:hover.mobile .name:after {
           background-image: singular-gradient(90deg, transparent, #96e6ff) !important; }
+      .player-stream .tools > *.streamer .vod {
+        color: #007d3c; }
       .player-stream .tools > *.refresh {
         cursor: default; }
         .player-stream .tools > *.refresh:hover {
@@ -1216,19 +1218,19 @@ nav {
     padding: 0;
     overflow-x: hidden;
     overflow-y: auto; }
-.top-level-component.profile .followed-streams.profile.locked, .top-level-component.profile .following-streams.profile.locked, .top-level-component.profile .general-page.locked, .top-level-component.streams .followed-streams.profile.locked, .top-level-component.streams .following-streams.profile.locked, .top-level-component.streams .general-page.locked, .top-level-component.games .followed-streams.profile.locked, .top-level-component.games .following-streams.profile.locked, .top-level-component.games .general-page.locked {
+.top-level-component.profile .followed-streams.profile.locked, .top-level-component.profile .following-streams.profile.locked, .top-level-component.profile .general-page.locked, .top-level-component.profile .videos-listing.profile.locked, .top-level-component.streams .followed-streams.profile.locked, .top-level-component.streams .following-streams.profile.locked, .top-level-component.streams .general-page.locked, .top-level-component.streams .videos-listing.profile.locked, .top-level-component.games .followed-streams.profile.locked, .top-level-component.games .following-streams.profile.locked, .top-level-component.games .general-page.locked, .top-level-component.games .videos-listing.profile.locked, .top-level-component.search-page .followed-streams.profile.locked, .top-level-component.search-page .following-streams.profile.locked, .top-level-component.search-page .general-page.locked, .top-level-component.search-page .videos-listing.profile.locked {
   position: relative; }
-.top-level-component.profile .followed-streams.profile:not(:last-child), .top-level-component.profile .following-streams.profile:not(:last-child), .top-level-component.profile .general-page:not(:last-child), .top-level-component.streams .followed-streams.profile:not(:last-child), .top-level-component.streams .following-streams.profile:not(:last-child), .top-level-component.streams .general-page:not(:last-child), .top-level-component.games .followed-streams.profile:not(:last-child), .top-level-component.games .following-streams.profile:not(:last-child), .top-level-component.games .general-page:not(:last-child) {
+.top-level-component.profile .followed-streams.profile:not(:last-child), .top-level-component.profile .following-streams.profile:not(:last-child), .top-level-component.profile .general-page:not(:last-child), .top-level-component.profile .videos-listing.profile:not(:last-child), .top-level-component.streams .followed-streams.profile:not(:last-child), .top-level-component.streams .following-streams.profile:not(:last-child), .top-level-component.streams .general-page:not(:last-child), .top-level-component.streams .videos-listing.profile:not(:last-child), .top-level-component.games .followed-streams.profile:not(:last-child), .top-level-component.games .following-streams.profile:not(:last-child), .top-level-component.games .general-page:not(:last-child), .top-level-component.games .videos-listing.profile:not(:last-child), .top-level-component.search-page .followed-streams.profile:not(:last-child), .top-level-component.search-page .following-streams.profile:not(:last-child), .top-level-component.search-page .general-page:not(:last-child), .top-level-component.search-page .videos-listing.profile:not(:last-child) {
   margin-bottom: 16px; }
-.top-level-component.profile .followed-streams.profile .title, .top-level-component.profile .following-streams.profile .title, .top-level-component.profile .general-page .title, .top-level-component.streams .followed-streams.profile .title, .top-level-component.streams .following-streams.profile .title, .top-level-component.streams .general-page .title, .top-level-component.games .followed-streams.profile .title, .top-level-component.games .following-streams.profile .title, .top-level-component.games .general-page .title {
+.top-level-component.profile .followed-streams.profile > .title, .top-level-component.profile .following-streams.profile > .title, .top-level-component.profile .general-page > .title, .top-level-component.profile .videos-listing.profile > .title, .top-level-component.streams .followed-streams.profile > .title, .top-level-component.streams .following-streams.profile > .title, .top-level-component.streams .general-page > .title, .top-level-component.streams .videos-listing.profile > .title, .top-level-component.games .followed-streams.profile > .title, .top-level-component.games .following-streams.profile > .title, .top-level-component.games .general-page > .title, .top-level-component.games .videos-listing.profile > .title, .top-level-component.search-page .followed-streams.profile > .title, .top-level-component.search-page .following-streams.profile > .title, .top-level-component.search-page .general-page > .title, .top-level-component.search-page .videos-listing.profile > .title {
   margin: 8px;
   font-size: 25.6px;
   font-weight: bold; }
-.top-level-component.profile .followed-streams.profile > .wrapper, .top-level-component.profile .following-streams.profile > .wrapper, .top-level-component.profile .general-page > .wrapper, .top-level-component.streams .followed-streams.profile > .wrapper, .top-level-component.streams .following-streams.profile > .wrapper, .top-level-component.streams .general-page > .wrapper, .top-level-component.games .followed-streams.profile > .wrapper, .top-level-component.games .following-streams.profile > .wrapper, .top-level-component.games .general-page > .wrapper {
+.top-level-component.profile .followed-streams.profile > .wrapper, .top-level-component.profile .following-streams.profile > .wrapper, .top-level-component.profile .general-page > .wrapper, .top-level-component.profile .videos-listing.profile > .wrapper, .top-level-component.streams .followed-streams.profile > .wrapper, .top-level-component.streams .following-streams.profile > .wrapper, .top-level-component.streams .general-page > .wrapper, .top-level-component.streams .videos-listing.profile > .wrapper, .top-level-component.games .followed-streams.profile > .wrapper, .top-level-component.games .following-streams.profile > .wrapper, .top-level-component.games .general-page > .wrapper, .top-level-component.games .videos-listing.profile > .wrapper, .top-level-component.search-page .followed-streams.profile > .wrapper, .top-level-component.search-page .following-streams.profile > .wrapper, .top-level-component.search-page .general-page > .wrapper, .top-level-component.search-page .videos-listing.profile > .wrapper {
   padding: 4px 0;
   transition: 0s all;
   background-color: #1e1e1e; }
-  .top-level-component.profile .followed-streams.profile > .wrapper .list, .top-level-component.profile .following-streams.profile > .wrapper .list, .top-level-component.profile .general-page > .wrapper .list, .top-level-component.streams .followed-streams.profile > .wrapper .list, .top-level-component.streams .following-streams.profile > .wrapper .list, .top-level-component.streams .general-page > .wrapper .list, .top-level-component.games .followed-streams.profile > .wrapper .list, .top-level-component.games .following-streams.profile > .wrapper .list, .top-level-component.games .general-page > .wrapper .list {
+  .top-level-component.profile .followed-streams.profile > .wrapper .list, .top-level-component.profile .following-streams.profile > .wrapper .list, .top-level-component.profile .general-page > .wrapper .list, .top-level-component.profile .videos-listing.profile > .wrapper .list, .top-level-component.streams .followed-streams.profile > .wrapper .list, .top-level-component.streams .following-streams.profile > .wrapper .list, .top-level-component.streams .general-page > .wrapper .list, .top-level-component.streams .videos-listing.profile > .wrapper .list, .top-level-component.games .followed-streams.profile > .wrapper .list, .top-level-component.games .following-streams.profile > .wrapper .list, .top-level-component.games .general-page > .wrapper .list, .top-level-component.games .videos-listing.profile > .wrapper .list, .top-level-component.search-page .followed-streams.profile > .wrapper .list, .top-level-component.search-page .following-streams.profile > .wrapper .list, .top-level-component.search-page .general-page > .wrapper .list, .top-level-component.search-page .videos-listing.profile > .wrapper .list {
     display: -ms-flex;
     display: -moz-flex;
     display: -webkit-box;
@@ -1243,10 +1245,11 @@ nav {
     overflow-x: hidden;
     overflow-y: auto;
     transition: 0s all; }
-.top-level-component.profile .followed-streams.profile .tools, .top-level-component.profile .following-streams.profile .tools, .top-level-component.profile .general-page .tools, .top-level-component.streams .followed-streams.profile .tools, .top-level-component.streams .following-streams.profile .tools, .top-level-component.streams .general-page .tools, .top-level-component.games .followed-streams.profile .tools, .top-level-component.games .following-streams.profile .tools, .top-level-component.games .general-page .tools {
+.top-level-component.profile .followed-streams.profile .tools, .top-level-component.profile .following-streams.profile .tools, .top-level-component.profile .general-page .tools, .top-level-component.profile .videos-listing.profile .tools, .top-level-component.streams .followed-streams.profile .tools, .top-level-component.streams .following-streams.profile .tools, .top-level-component.streams .general-page .tools, .top-level-component.streams .videos-listing.profile .tools, .top-level-component.games .followed-streams.profile .tools, .top-level-component.games .following-streams.profile .tools, .top-level-component.games .general-page .tools, .top-level-component.games .videos-listing.profile .tools, .top-level-component.search-page .followed-streams.profile .tools, .top-level-component.search-page .following-streams.profile .tools, .top-level-component.search-page .general-page .tools, .top-level-component.search-page .videos-listing.profile .tools {
   position: absolute;
   top: 0;
   left: 8px;
+  width: 128.048px;
   max-height: 100%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1254,47 +1257,54 @@ nav {
   overflow: hidden;
   transform: translate(0, 0%);
   transition: .0s all; }
-  .top-level-component.profile .followed-streams.profile .tools.locked, .top-level-component.profile .following-streams.profile .tools.locked, .top-level-component.profile .general-page .tools.locked, .top-level-component.streams .followed-streams.profile .tools.locked, .top-level-component.streams .following-streams.profile .tools.locked, .top-level-component.streams .general-page .tools.locked, .top-level-component.games .followed-streams.profile .tools.locked, .top-level-component.games .following-streams.profile .tools.locked, .top-level-component.games .general-page .tools.locked {
+  .top-level-component.profile .followed-streams.profile .tools.locked, .top-level-component.profile .following-streams.profile .tools.locked, .top-level-component.profile .general-page .tools.locked, .top-level-component.profile .videos-listing.profile .tools.locked, .top-level-component.streams .followed-streams.profile .tools.locked, .top-level-component.streams .following-streams.profile .tools.locked, .top-level-component.streams .general-page .tools.locked, .top-level-component.streams .videos-listing.profile .tools.locked, .top-level-component.games .followed-streams.profile .tools.locked, .top-level-component.games .following-streams.profile .tools.locked, .top-level-component.games .general-page .tools.locked, .top-level-component.games .videos-listing.profile .tools.locked, .top-level-component.search-page .followed-streams.profile .tools.locked, .top-level-component.search-page .following-streams.profile .tools.locked, .top-level-component.search-page .general-page .tools.locked, .top-level-component.search-page .videos-listing.profile .tools.locked {
     top: 100%;
     margin-top: 0;
     transform: translate(0, -100%); }
-  .top-level-component.profile .followed-streams.profile .tools .parent .scroll, .top-level-component.profile .following-streams.profile .tools .parent .scroll, .top-level-component.profile .general-page .tools .parent .scroll, .top-level-component.streams .followed-streams.profile .tools .parent .scroll, .top-level-component.streams .following-streams.profile .tools .parent .scroll, .top-level-component.streams .general-page .tools .parent .scroll, .top-level-component.games .followed-streams.profile .tools .parent .scroll, .top-level-component.games .following-streams.profile .tools .parent .scroll, .top-level-component.games .general-page .tools .parent .scroll {
+  .top-level-component.profile .followed-streams.profile .tools .parent .scroll, .top-level-component.profile .following-streams.profile .tools .parent .scroll, .top-level-component.profile .general-page .tools .parent .scroll, .top-level-component.profile .videos-listing.profile .tools .parent .scroll, .top-level-component.streams .followed-streams.profile .tools .parent .scroll, .top-level-component.streams .following-streams.profile .tools .parent .scroll, .top-level-component.streams .general-page .tools .parent .scroll, .top-level-component.streams .videos-listing.profile .tools .parent .scroll, .top-level-component.games .followed-streams.profile .tools .parent .scroll, .top-level-component.games .following-streams.profile .tools .parent .scroll, .top-level-component.games .general-page .tools .parent .scroll, .top-level-component.games .videos-listing.profile .tools .parent .scroll, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll, .top-level-component.search-page .following-streams.profile .tools .parent .scroll, .top-level-component.search-page .general-page .tools .parent .scroll, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll {
     display: -ms-flex;
     display: -moz-flex;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
     flex-direction: column; }
-    .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option, .top-level-component.profile .general-page .tools .parent .scroll .option, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option, .top-level-component.streams .general-page .tools .parent .scroll .option, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option, .top-level-component.games .following-streams.profile .tools .parent .scroll .option, .top-level-component.games .general-page .tools .parent .scroll .option {
+    .top-level-component.profile .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.profile .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.profile .general-page .tools .parent .scroll .btn-default, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.streams .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.streams .general-page .tools .parent .scroll .btn-default, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.games .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.games .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.games .general-page .tools .parent .scroll .btn-default, .top-level-component.games .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .general-page .tools .parent .scroll .btn-default, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .btn-default {
+      text-align: center; }
+    .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option, .top-level-component.profile .general-page .tools .parent .scroll .option, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option, .top-level-component.streams .general-page .tools .parent .scroll .option, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option, .top-level-component.games .following-streams.profile .tools .parent .scroll .option, .top-level-component.games .general-page .tools .parent .scroll .option, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option, .top-level-component.search-page .general-page .tools .parent .scroll .option, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option {
       padding: 4px;
       margin: 4px 0; }
-      .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .general-page .tools .parent .scroll .option.filters, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.streams .general-page .tools .parent .scroll .option.filters, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.games .general-page .tools .parent .scroll .option.filters {
+      .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .general-page .tools .parent .scroll .option.filters, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option.filters, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.streams .general-page .tools .parent .scroll .option.filters, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option.filters, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.games .general-page .tools .parent .scroll .option.filters, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option.filters, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.search-page .general-page .tools .parent .scroll .option.filters, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option.filters {
         cursor: default; }
-        .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status {
+        .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option.filters .filter-status {
           display: -ms-flex;
           display: -moz-flex;
           display: -webkit-box;
           display: -webkit-flex;
           display: flex;
           padding-top: 1.6px; }
-          .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status label {
+          .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label {
             display: none;
             margin-right: -40px;
             pointer-events: none; }
-          .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status select {
+          .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status select, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status select, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status select, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option.filters .filter-status select, .top-level-component.search-page .general-page .tools .parent .scroll .option.filters .filter-status select, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option.filters .filter-status select {
             width: 100%;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
             background-color: transparent;
             border: none;
             font-size: 16px; }
 
-.root.player-open.player-collapsed .top-level-component.profile .followed-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.profile .following-streams.profile .tools:not(.locked):not(.locked-top) {
+.root.player-open.player-collapsed .top-level-component.profile .followed-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.profile .following-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.profile .general-page .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.profile .videos-listing.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.streams .followed-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.streams .following-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.streams .general-page .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.streams .videos-listing.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.games .followed-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.games .following-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.games .general-page .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.games .videos-listing.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.search-page .followed-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.search-page .following-streams.profile .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.search-page .general-page .tools:not(.locked):not(.locked-top), .root.player-open.player-collapsed .top-level-component.search-page .videos-listing.profile .tools:not(.locked):not(.locked-top) {
   left: 232px; }
 
-@media (max-width: 1266px) {
-  .top-level-component.profile .followed-streams.profile > .wrapper, .top-level-component.profile .following-streams.profile > .wrapper, .top-level-component.profile .general-page > .wrapper, .top-level-component.streams .followed-streams.profile > .wrapper, .top-level-component.streams .following-streams.profile > .wrapper, .top-level-component.streams .general-page > .wrapper, .top-level-component.games .followed-streams.profile > .wrapper, .top-level-component.games .following-streams.profile > .wrapper, .top-level-component.games .general-page > .wrapper {
+@media (max-width: 1488px) {
+  .root.player-collapsed .top-level-component.profile .followed-streams.profile > .wrapper, .root.player-collapsed .top-level-component.profile .following-streams.profile > .wrapper, .root.player-collapsed .top-level-component.profile .general-page > .wrapper, .root.player-collapsed .top-level-component.profile .videos-listing.profile > .wrapper, .root.player-collapsed .top-level-component.streams .followed-streams.profile > .wrapper, .root.player-collapsed .top-level-component.streams .following-streams.profile > .wrapper, .root.player-collapsed .top-level-component.streams .general-page > .wrapper, .root.player-collapsed .top-level-component.streams .videos-listing.profile > .wrapper, .root.player-collapsed .top-level-component.games .followed-streams.profile > .wrapper, .root.player-collapsed .top-level-component.games .following-streams.profile > .wrapper, .root.player-collapsed .top-level-component.games .general-page > .wrapper, .root.player-collapsed .top-level-component.games .videos-listing.profile > .wrapper, .root.player-collapsed .top-level-component.search-page .followed-streams.profile > .wrapper, .root.player-collapsed .top-level-component.search-page .following-streams.profile > .wrapper, .root.player-collapsed .top-level-component.search-page .general-page > .wrapper, .root.player-collapsed .top-level-component.search-page .videos-listing.profile > .wrapper {
     padding-left: 144px; }
-    .top-level-component.profile .followed-streams.profile > .wrapper .list, .top-level-component.profile .following-streams.profile > .wrapper .list, .top-level-component.profile .general-page > .wrapper .list, .top-level-component.streams .followed-streams.profile > .wrapper .list, .top-level-component.streams .following-streams.profile > .wrapper .list, .top-level-component.streams .general-page > .wrapper .list, .top-level-component.games .followed-streams.profile > .wrapper .list, .top-level-component.games .following-streams.profile > .wrapper .list, .top-level-component.games .general-page > .wrapper .list {
+    .root.player-collapsed .top-level-component.profile .followed-streams.profile > .wrapper .list, .root.player-collapsed .top-level-component.profile .following-streams.profile > .wrapper .list, .root.player-collapsed .top-level-component.profile .general-page > .wrapper .list, .root.player-collapsed .top-level-component.profile .videos-listing.profile > .wrapper .list, .root.player-collapsed .top-level-component.streams .followed-streams.profile > .wrapper .list, .root.player-collapsed .top-level-component.streams .following-streams.profile > .wrapper .list, .root.player-collapsed .top-level-component.streams .general-page > .wrapper .list, .root.player-collapsed .top-level-component.streams .videos-listing.profile > .wrapper .list, .root.player-collapsed .top-level-component.games .followed-streams.profile > .wrapper .list, .root.player-collapsed .top-level-component.games .following-streams.profile > .wrapper .list, .root.player-collapsed .top-level-component.games .general-page > .wrapper .list, .root.player-collapsed .top-level-component.games .videos-listing.profile > .wrapper .list, .root.player-collapsed .top-level-component.search-page .followed-streams.profile > .wrapper .list, .root.player-collapsed .top-level-component.search-page .following-streams.profile > .wrapper .list, .root.player-collapsed .top-level-component.search-page .general-page > .wrapper .list, .root.player-collapsed .top-level-component.search-page .videos-listing.profile > .wrapper .list {
+      margin: 0; } }
+@media (max-width: 1266px) {
+  .root .top-level-component.profile .followed-streams.profile > .wrapper, .root .top-level-component.profile .following-streams.profile > .wrapper, .root .top-level-component.profile .general-page > .wrapper, .root .top-level-component.profile .videos-listing.profile > .wrapper, .root .top-level-component.streams .followed-streams.profile > .wrapper, .root .top-level-component.streams .following-streams.profile > .wrapper, .root .top-level-component.streams .general-page > .wrapper, .root .top-level-component.streams .videos-listing.profile > .wrapper, .root .top-level-component.games .followed-streams.profile > .wrapper, .root .top-level-component.games .following-streams.profile > .wrapper, .root .top-level-component.games .general-page > .wrapper, .root .top-level-component.games .videos-listing.profile > .wrapper, .root .top-level-component.search-page .followed-streams.profile > .wrapper, .root .top-level-component.search-page .following-streams.profile > .wrapper, .root .top-level-component.search-page .general-page > .wrapper, .root .top-level-component.search-page .videos-listing.profile > .wrapper {
+    padding-left: 144px; }
+    .root .top-level-component.profile .followed-streams.profile > .wrapper .list, .root .top-level-component.profile .following-streams.profile > .wrapper .list, .root .top-level-component.profile .general-page > .wrapper .list, .root .top-level-component.profile .videos-listing.profile > .wrapper .list, .root .top-level-component.streams .followed-streams.profile > .wrapper .list, .root .top-level-component.streams .following-streams.profile > .wrapper .list, .root .top-level-component.streams .general-page > .wrapper .list, .root .top-level-component.streams .videos-listing.profile > .wrapper .list, .root .top-level-component.games .followed-streams.profile > .wrapper .list, .root .top-level-component.games .following-streams.profile > .wrapper .list, .root .top-level-component.games .general-page > .wrapper .list, .root .top-level-component.games .videos-listing.profile > .wrapper .list, .root .top-level-component.search-page .followed-streams.profile > .wrapper .list, .root .top-level-component.search-page .following-streams.profile > .wrapper .list, .root .top-level-component.search-page .general-page > .wrapper .list, .root .top-level-component.search-page .videos-listing.profile > .wrapper .list {
       margin: 0; } }
 .stream-list-item {
   position: relative;
@@ -1303,6 +1313,8 @@ nav {
   list-style: none; }
   .stream-list-item.home {
     width: 100%; }
+  .stream-list-item.search {
+    width: 25%; }
   .stream-list-item > .wrapper {
     display: block;
     height: 100%;
@@ -1328,6 +1340,8 @@ nav {
       font-weight: bold;
       margin-bottom: 3.2px;
       word-wrap: break-word; }
+    .stream-list-item .info .game-name {
+      min-height: 48px; }
     .stream-list-item .info .title {
       place: holder; }
     .stream-list-item .info .game {
@@ -1364,18 +1378,119 @@ nav {
 
 @media (max-width: 1024px) {
   .stream-list-item {
-    width: 20%; } }
+    width: 20%; }
+    .stream-list-item.search {
+      width: 25%; } }
 @media (max-width: 880px) {
   .stream-list-item {
-    width: 25%; } }
+    width: 25%; }
+    .stream-list-item.search {
+      width: 33.33333%; } }
 @media (max-width: 780px) {
   .stream-list-item {
-    width: 33.33333%; } }
+    width: 33.33333%; }
+    .stream-list-item.search {
+      width: 50%; } }
 @media (max-width: 640px) {
   .stream-list-item {
-    width: 50%; } }
+    width: 50%; }
+    .stream-list-item.search {
+      width: 100%; } }
 @media (max-width: 460px) {
   .stream-list-item {
+    width: 100%; } }
+.video-list-item {
+  position: relative;
+  width: 16.66667%;
+  padding: 4px;
+  list-style: none; }
+  .video-list-item.home {
+    width: 100%; }
+  .video-list-item.search {
+    width: 25%; }
+  .video-list-item > .wrapper {
+    display: block;
+    height: 100%;
+    padding: 8px;
+    background-color: #ebebeb;
+    text-decoration: none;
+    cursor: default; }
+    .video-list-item > .wrapper:hover {
+      background-color: #96e6ff; }
+      .video-list-item > .wrapper:hover .hover-options {
+        top: 50%;
+        max-height: 160px;
+        padding: 8px;
+        transform: translate(0, -50%); }
+  .video-list-item .image {
+    place: holder; }
+    .video-list-item .image img {
+      display: block;
+      width: 100%; }
+  .video-list-item .info {
+    color: black; }
+    .video-list-item .info .channel-name {
+      font-weight: bold;
+      margin-bottom: 3.2px;
+      word-wrap: break-word; }
+    .video-list-item .info .game-name {
+      min-height: 48px; }
+    .video-list-item .info .title {
+      place: holder; }
+    .video-list-item .info .game {
+      margin-top: 3.2px; }
+  .video-list-item .hover-options {
+    display: -ms-flex;
+    display: -moz-flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 0px;
+    padding: 0 8px;
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    overflow: hidden; }
+    .video-list-item .hover-options > * {
+      display: inline-block;
+      margin: 8px 0;
+      padding: 3.2px;
+      border-radius: 3.2px;
+      background-color: #00c8fa;
+      color: black;
+      cursor: pointer; }
+      .video-list-item .hover-options > * a {
+        text-decoration: none; }
+
+@media (max-width: 1024px) {
+  .video-list-item {
+    width: 20%; }
+    .video-list-item.search {
+      width: 25%; } }
+@media (max-width: 880px) {
+  .video-list-item {
+    width: 25%; }
+    .video-list-item.search {
+      width: 33.33333%; } }
+@media (max-width: 780px) {
+  .video-list-item {
+    width: 33.33333%; }
+    .video-list-item.search {
+      width: 50%; } }
+@media (max-width: 640px) {
+  .video-list-item {
+    width: 50%; }
+    .video-list-item.search {
+      width: 100%; } }
+@media (max-width: 460px) {
+  .video-list-item {
     width: 100%; } }
 .channel-list-item {
   position: relative;

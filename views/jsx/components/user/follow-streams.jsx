@@ -331,8 +331,10 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   removeFromDataArray: function removeFromDataArray(index) {
+    console.log("removing", index);
     var newDataArray = JSON.parse(JSON.stringify(this.state.dataArray));
-    newDataArray.splice(parseInt(index), 1);
+    var removed = newDataArray.splice(parseInt(index), 1);
+    console.log(removed);
   },
   refresh: function refresh() {
     this.state.dataArray.map(function (stream) {

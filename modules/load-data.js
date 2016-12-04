@@ -15,6 +15,8 @@ exports["default"] = function (errorCB) {
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
   options.headers = options.headers || {};
+  // accept v3 api
+  options.headers["Accept"] = "application/vnd.twitchtv.v3+json";
 
   var redirectURI = typeof location === "object" ? "http://" + location.host : "http://localhost:8080";
   var clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
@@ -116,6 +118,15 @@ exports["default"] = function (errorCB) {
         options.client_id = options.headers["Client-ID"];
         // options.headers = options.headers || {};
         return makeRequest(okayCB, "/get-panels/" + username, true);
+      },
+      getVideos: function getVideos(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        var username = options.username;
+        delete options.username;
+        // options.client_id = options.headers["Client-ID"];
+        // options.headers = options.headers || {};
+        return makeRequest(okayCB, "channels/" + username + "/videos");
       },
       followStream: function followStream(okayCB) {
         delete options.stream_type;

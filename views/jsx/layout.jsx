@@ -56,14 +56,37 @@ exports["default"] = _react2["default"].createClass({
     };
   },
   appendStream: function appendStream(username, displayName) {
-    var isSolo = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
+    var isSolo = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
+    username.replace(/\s/g, "");
+    displayName.replace(/\s/g, "");
     console.log("appending stream", username, isSolo);
     // only append if below the mas
     if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
         var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
         streamersInPlayer[username] = displayName || username;
+        console.log("New streamersInPlayer:", streamersInPlayer);
+        this.setState({
+          streamersInPlayer: streamersInPlayer
+        });
+      }
+    }
+  },
+  appendVOD: function appendVOD(username, displayName, id) {
+    var isSolo = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+    console.log("appending stream", username, isSolo);
+    // only append if below the max
+    if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
+      if (!this.state.streamersInPlayer.hasOwnProperty(id)) {
+        var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+        streamersInPlayer[id] = {
+          vod: true,
+          id: id,
+          username: username,
+          displayName: displayName
+        };
         console.log("New streamersInPlayer:", streamersInPlayer);
         this.setState({
           streamersInPlayer: streamersInPlayer
@@ -267,6 +290,7 @@ exports["default"] = _react2["default"].createClass({
         data: data,
         methods: {
           appendStream: this.appendStream,
+          appendVOD: this.appendVOD,
           spliceStream: this.spliceStream,
           loadData: _modulesLoadData2["default"]
         }

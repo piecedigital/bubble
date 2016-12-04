@@ -111,7 +111,7 @@ var components = {
       var channels = _props2$data.channels;
 
       var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      var channelsString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+      var channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
 
       return _react2["default"].createElement(
         "li",

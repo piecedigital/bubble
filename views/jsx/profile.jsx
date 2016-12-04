@@ -18,6 +18,10 @@ var _componentsUserFollowStreamsJsx = require("./components/user/follow-streams.
 
 var _componentsUserFollowStreamsJsx2 = _interopRequireDefault(_componentsUserFollowStreamsJsx);
 
+var _componentsUserVideosListingJsx = require("./components/user/videos-listing.jsx");
+
+var _componentsUserVideosListingJsx2 = _interopRequireDefault(_componentsUserVideosListingJsx);
+
 // import FollowedStreams from "./components/user/followed-streams.jsx";
 // import FollowingStreams from "./components/user/following-streams.jsx";
 
@@ -32,7 +36,9 @@ exports["default"] = _react2["default"].createClass({
         { className: "general-page profile" },
         _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "IFollow" }, this.props)),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "followMe" }, this.props))
+        _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "followMe" }, this.props)),
+        _react2["default"].createElement("div", { className: "separator-4-black" }),
+        _react2["default"].createElement(_componentsUserVideosListingJsx2["default"], _extends({ broadcasts: true }, this.props))
       )
     );
   }
