@@ -21,10 +21,11 @@ var ListItemHoverOptions = _react2["default"].createClass({
     var auth = _props.auth;
     var name = _props.name;
     var stream = _props.stream;
+    var vod = _props.vod;
     var display_name = _props.display_name;
     var userData = _props.userData;
     var followCallback = _props.callback;
-    var appendStream = _props.clickCallback;
+    var clickCallback = _props.clickCallback;
 
     return _react2["default"].createElement(
       "div",
@@ -39,21 +40,15 @@ var ListItemHoverOptions = _react2["default"].createClass({
         )
       ),
       userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
-      stream ? _react2["default"].createElement(
+      _react2["default"].createElement(
         "div",
         { className: "append-stream" },
         _react2["default"].createElement(
           "a",
-          { href: "#", onClick: appendStream.bind(null, name, display_name) },
-          "Watch Stream"
-        )
-      ) : _react2["default"].createElement(
-        "div",
-        { className: "append-stream" },
-        _react2["default"].createElement(
-          "a",
-          { href: "#", onClick: appendStream.bind(null, name, display_name) },
-          "Open Stream"
+          { href: "#", onClick: vod ? clickCallback.bind(null, name, display_name, vod) : clickCallback.bind(null, name, display_name) },
+          stream || vod ? "Watch" : "Open",
+          " ",
+          vod ? "VOD" : "Stream"
         )
       )
     );

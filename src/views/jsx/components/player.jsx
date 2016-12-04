@@ -68,6 +68,7 @@ const PlayerStream = React.createClass({
       inView,
       isFor,
       index,
+      vod,
       methods: {
         spliceStream,
         togglePlayer,
@@ -85,7 +86,7 @@ const PlayerStream = React.createClass({
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className="video">
             <div className="nested">
-              <iframe ref="video" src={`https://player.twitch.tv/?channel=${name}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
+              <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
             </div>
           </div>
           <div ref="tools" className="tools-wrapper">
@@ -95,7 +96,7 @@ const PlayerStream = React.createClass({
                   <Link title={name} to={`/user/${name}`} onClick={() => {
                     togglePlayer("collapse");
                     this.toggleMenu("close");
-                  }}>{display_name || name}{display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                  }}>{display_name || name}{vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
                 </div>
                 <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
                   <div></div>
@@ -107,7 +108,7 @@ const PlayerStream = React.createClass({
                 <Link to={`/user/${name}`} onClick={() => {
                   togglePlayer("collapse");
                   this.toggleMenu("close");
-                }}>{display_name || name}{display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                }}>{vod ? <span className="vod">VOD: </span> : ""}{display_name || name}{vid ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
               </div>
               <div className="to-channel">
                 <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={() => {
@@ -271,7 +272,7 @@ export default React.createClass({
   componentDidMount() {
     this.rescroll = setInterval(() => {
       let { videoList } = this.refs;
-      videoList.scrollTop = 0;
+      // videoList.scrollTop = 0;
     }, 1000);
   },
   componentWillUnmount() {
@@ -309,11 +310,20 @@ export default React.createClass({
           <ul ref="videoList" onScroll={this.listScroll} className={`list video-list`}>
             {
               dataObject ? (
-                dataArray.map((channelName, ind) => {
-                  let channelData = dataObject[channelName];
+                dataArray.map((key, ind) => {
+                  var isObject = typeof dataObject[key] === "object";
+                  if(isObject) {
+                    var {
+                      username,
+                      displayName,
+                      id,
+                      vod
+                    } = dataObject[key];
+                  }
+                  let channelData = dataObject[key];
                   // console.log(streamInView, ind, streamInView === ind);
                   return (
-                    <PlayerStream key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="video" index={ind} methods={{
+                    <PlayerStream key={key} vod={isObject ? id : false} name={isObject ? username : key} display_name={isObject ? displayName : dataObject[key]} userData={userData} auth={auth} inView={streamInView === ind} isFor="video" index={ind} methods={{
                       spliceStream,
                       togglePlayer,
                       panelsHandler,
@@ -330,10 +340,19 @@ export default React.createClass({
           <ul ref="chatList" onScroll={this.listScroll} className={`list chat-list${!chatOpen ? " hide-chat" : ""}`}>
             {
               dataObject ? (
-                dataArray.map((channelName, ind) => {
-                  let channelData = dataObject[channelName];
+                dataArray.map((key, ind) => {
+                  var isObject = typeof dataObject[key] === "object";
+                  if(isObject) {
+                    var {
+                      username,
+                      displayName,
+                      id,
+                      vod
+                    } = dataObject[key];
+                  }
+                  let channelData = dataObject[key];
                   return (
-                    <PlayerStream ref={r => this[`${channelName}_chat`] = r} key={channelName} name={channelName} display_name={dataObject[channelName]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
+                    <PlayerStream ref={r => this[`${key}_chat`] = r} key={key} vod={isObject ? id : false} name={key} display_name={dataObject[key]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
                   );
                 })
               ) : null
@@ -370,9 +389,9 @@ export default React.createClass({
                 <select title="Choose which stream and chat appears as the main or in-view stream" ref="selectStream" className="streamers" defaultValue={0} onChange={this.layoutTools.bind(null, "setStreamToView")}>
                   {
                     dataObject ? (
-                      dataArray.map((channelName, ind) => {
+                      dataArray.map((key, ind) => {
                         return (
-                          <option key={channelName} value={ind}>{channelName}</option>
+                          <option key={key} value={ind}>{key}</option>
                         );
                       })
                     ) : null

@@ -84,14 +84,14 @@
     }
   }
   &.profile, &.streams, &.games, &.search-page {
-    .followed-streams.profile, .following-streams.profile, .general-page {
+    .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile {
       &.locked {
         position: relative;
       }
       &:not(:last-child) {
         margin-bottom: 1*$em;
       }
-      .title {
+      > .title {
         margin: .5*$em;
         font-size: 1.6*$em;
         font-weight: bold;
@@ -209,8 +209,8 @@
             }
           }
         }
-        &.profile {
-          .followed-streams.profile, .following-streams.profile {
+        &.profile, &.streams, &.games, &.search-page {
+          .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile {
             .title {
             }
             > .wrapper {
@@ -239,53 +239,112 @@
     }
   }
 }
-
-@media (max-width: 1266px) {
-  .top-level-component {
-    &.home-page {
-      .featured-streams {
-        .featured-stream {
-          .stream {
-            iframe {}
-          }
-          .stream-info {
-            .image {
-              img {}
+@media (max-width: 1488px) {
+  .root.player-collapsed {
+    .top-level-component {
+      &.home-page {
+        .featured-streams {
+          .featured-stream {
+            .stream {
+              iframe {}
             }
-            .display-name {}
-            .watch {}
-            .bio {}
+            .stream-info {
+              .image {
+                img {}
+              }
+              .display-name {}
+              .watch {}
+              .bio {}
+            }
+          }
+          > .wrapper {
+            .list {}
           }
         }
-        > .wrapper {
-          .list {}
+        .top-games {
+          .title {}
+          > .wrapper {
+            .list {}
+          }
         }
       }
-      .top-games {
-        .title {}
-        > .wrapper {
-          .list {}
+      &.profile, &.streams, &.games, &.search-page {
+        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile {
+          .title {
+          }
+          > .wrapper {
+            padding-left: 9*$em;
+            .list {
+              margin: 0;
+            }
+          }
+          .tools {
+            .parent {
+              .scroll {
+                .option {
+                  &.filters {
+                    .filter-status {
+                      label {}
+                      select {}
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
-    &.profile, &.streams, &.games, &.search-page {
-      .followed-streams.profile, .following-streams.profile, .general-page {
-        .title {
-        }
-        > .wrapper {
-          padding-left: 9*$em;
-          .list {
-            margin: 0;
+  }
+}
+@media (max-width: 1266px) {
+  .root {
+    .top-level-component {
+      &.home-page {
+        .featured-streams {
+          .featured-stream {
+            .stream {
+              iframe {}
+            }
+            .stream-info {
+              .image {
+                img {}
+              }
+              .display-name {}
+              .watch {}
+              .bio {}
+            }
+          }
+          > .wrapper {
+            .list {}
           }
         }
-        .tools {
-          .parent {
-            .scroll {
-              .option {
-                &.filters {
-                  .filter-status {
-                    label {}
-                    select {}
+        .top-games {
+          .title {}
+          > .wrapper {
+            .list {}
+          }
+        }
+      }
+      &.profile, &.streams, &.games, &.search-page {
+        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile {
+          .title {
+          }
+          > .wrapper {
+            padding-left: 9*$em;
+            .list {
+              margin: 0;
+            }
+          }
+          .tools {
+            .parent {
+              .scroll {
+                .option {
+                  &.filters {
+                    .filter-status {
+                      label {}
+                      select {}
+                    }
                   }
                 }
               }

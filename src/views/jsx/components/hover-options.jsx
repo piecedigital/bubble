@@ -8,10 +8,11 @@ export const ListItemHoverOptions = React.createClass({
       auth,
       name,
       stream,
+      vod,
       display_name,
       userData,
       callback: followCallback,
-      clickCallback: appendStream
+      clickCallback
     } = this.props;
     return (
       <div className={`hover-options`}>
@@ -20,12 +21,10 @@ export const ListItemHoverOptions = React.createClass({
         </div>
         {userData ? <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth} callback={followCallback}/> : null}
         {
-          stream ? (
-            <div className="append-stream">
-              <a href="#" onClick={appendStream.bind(null, name, display_name)}>Watch Stream</a>
-            </div>
-          ) : <div className="append-stream">
-            <a href="#" onClick={appendStream.bind(null, name, display_name)}>Open Stream</a>
+          <div className="append-stream">
+            <a href="#" onClick={
+              vod ? clickCallback.bind(null, name, display_name , vod) : clickCallback.bind(null, name, display_name)
+            }>{stream || vod ? "Watch" : "Open"} {vod ? "VOD" : "Stream"}</a>
           </div>
         }
       </div>

@@ -93,6 +93,7 @@ var PlayerStream = _react2["default"].createClass({
     var inView = _props2.inView;
     var isFor = _props2.isFor;
     var index = _props2.index;
+    var vod = _props2.vod;
     var _props2$methods = _props2.methods;
     var spliceStream = _props2$methods.spliceStream;
     var togglePlayer = _props2$methods.togglePlayer;
@@ -113,7 +114,7 @@ var PlayerStream = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "nested" },
-              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
+              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?" + (vod ? "video=" + vod : "channel=" + name) + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
             )
           ),
           _react2["default"].createElement(
@@ -135,7 +136,7 @@ var PlayerStream = _react2["default"].createClass({
                         _this2.toggleMenu("close");
                       } },
                     display_name || name,
-                    display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                    vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                   )
                 ),
                 _react2["default"].createElement(
@@ -155,8 +156,13 @@ var PlayerStream = _react2["default"].createClass({
                       togglePlayer("collapse");
                       _this2.toggleMenu("close");
                     } },
+                  vod ? _react2["default"].createElement(
+                    "span",
+                    { className: "vod" },
+                    "VOD: "
+                  ) : "",
                   display_name || name,
-                  display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                  vid ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                 )
               ),
               _react2["default"].createElement(
@@ -347,7 +353,7 @@ exports["default"] = _react2["default"].createClass({
     this.rescroll = setInterval(function () {
       var videoList = _this3.refs.videoList;
 
-      videoList.scrollTop = 0;
+      // videoList.scrollTop = 0;
     }, 1000);
   },
   componentWillUnmount: function componentWillUnmount() {
@@ -386,10 +392,18 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement(
           "ul",
           { ref: "videoList", onScroll: this.listScroll, className: "list video-list" },
-          dataObject ? dataArray.map(function (channelName, ind) {
-            var channelData = dataObject[channelName];
+          dataObject ? dataArray.map(function (key, ind) {
+            var isObject = typeof dataObject[key] === "object";
+            if (isObject) {
+              var _dataObject$key = dataObject[key];
+              var username = _dataObject$key.username;
+              var displayName = _dataObject$key.displayName;
+              var id = _dataObject$key.id;
+              var vod = _dataObject$key.vod;
+            }
+            var channelData = dataObject[key];
             // console.log(streamInView, ind, streamInView === ind);
-            return _react2["default"].createElement(PlayerStream, { key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", index: ind, methods: {
+            return _react2["default"].createElement(PlayerStream, { key: key, vod: isObject ? id : false, name: isObject ? username : key, display_name: isObject ? displayName : dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", index: ind, methods: {
                 spliceStream: spliceStream,
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,
@@ -403,11 +417,19 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement(
           "ul",
           { ref: "chatList", onScroll: this.listScroll, className: "list chat-list" + (!chatOpen ? " hide-chat" : "") },
-          dataObject ? dataArray.map(function (channelName, ind) {
-            var channelData = dataObject[channelName];
+          dataObject ? dataArray.map(function (key, ind) {
+            var isObject = typeof dataObject[key] === "object";
+            if (isObject) {
+              var _dataObject$key2 = dataObject[key];
+              var username = _dataObject$key2.username;
+              var displayName = _dataObject$key2.displayName;
+              var id = _dataObject$key2.id;
+              var vod = _dataObject$key2.vod;
+            }
+            var channelData = dataObject[key];
             return _react2["default"].createElement(PlayerStream, { ref: function (r) {
-                return _this4[channelName + "_chat"] = r;
-              }, key: channelName, name: channelName, display_name: dataObject[channelName], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
+                return _this4[key + "_chat"] = r;
+              }, key: key, vod: isObject ? id : false, name: key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
           }) : null
         ),
         _react2["default"].createElement(
@@ -443,11 +465,11 @@ exports["default"] = _react2["default"].createClass({
           dataObject && layout === "singular" || layout !== "layout-1" || layout !== "layout-by-2" || layout !== "layout-by-3" ? _react2["default"].createElement(
             "select",
             { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "streamers", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
-            dataObject ? dataArray.map(function (channelName, ind) {
+            dataObject ? dataArray.map(function (key, ind) {
               return _react2["default"].createElement(
                 "option",
-                { key: channelName, value: ind },
-                channelName
+                { key: key, value: ind },
+                key
               );
             }) : null
           ) : null

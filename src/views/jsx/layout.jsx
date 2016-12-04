@@ -32,7 +32,7 @@ export default React.createClass({
       panelData: [],
     }
   },
-  appendStream(username, displayName, isSolo = true) {
+  appendStream(username, displayName, isSolo = false) {
     username.replace(/\s/g, "");
     displayName.replace(/\s/g, "");
     console.log("appending stream", username, isSolo);
@@ -41,6 +41,25 @@ export default React.createClass({
       if(!this.state.streamersInPlayer.hasOwnProperty(username)) {
         let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
         streamersInPlayer[username] = displayName || username;
+        console.log("New streamersInPlayer:", streamersInPlayer);
+        this.setState({
+          streamersInPlayer
+        });
+      }
+    }
+  },
+  appendVOD(username, displayName, id, isSolo = false) {
+    console.log("appending stream", username, isSolo);
+    // only append if below the max
+    if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
+      if(!this.state.streamersInPlayer.hasOwnProperty(id)) {
+        let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+        streamersInPlayer[id] = {
+          vod: true,
+          id,
+          username,
+          displayName
+        };
         console.log("New streamersInPlayer:", streamersInPlayer);
         this.setState({
           streamersInPlayer
@@ -251,6 +270,7 @@ export default React.createClass({
               data,
               methods: {
                 appendStream: this.appendStream,
+                appendVOD: this.appendVOD,
                 spliceStream: this.spliceStream,
                 loadData: loadData,
               }

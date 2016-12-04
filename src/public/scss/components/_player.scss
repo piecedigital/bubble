@@ -102,6 +102,11 @@
           }
         }
       }
+      &.streamer {
+        .vod {
+          color: rgba(0,125, 60, 1);
+        }
+      }
       &.refresh {
         cursor: default;
         &:hover {
