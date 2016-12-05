@@ -1025,7 +1025,7 @@ nav {
     .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel, .root.player-open.player-collapsed .player > .wrapper .stream-panels > .wrapper .list .panel {
       width: 100%; }
 
-@media (max-width: 1400px) {
+@media (min-width: 0px) {
   .root.player-open.layout-singular .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-1 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-4 .player
   .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream .tools, .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream .tools {
     top: 32px;
