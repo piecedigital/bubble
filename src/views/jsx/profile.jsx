@@ -12,14 +12,20 @@ export default React.createClass({
       userData,
       params
     } = this.props;
+    let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
     return (
       <div className="top-level-component profile">
         <div className="general-page profile">
           <div className="page-header">
             <div className="title">
-              {params.username ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${params.username}`}>Page Of {params.username}</a> : userData ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${userData.name}`}>Page Of {userData.username}</a> : null}
+              {`Profile: `}
+              {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
             </div>
           </div>
+          <div className="separator-4-black" />
+          <FollowStreams follow={"IFollow"} {...this.props} />
+          <div className="separator-4-black" />
+          <FollowStreams follow={"followMe"} {...this.props}/>
           <div className="separator-4-black" />
           <VideosListing broadcasts={true} {...this.props} />
         </div>
