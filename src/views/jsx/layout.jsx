@@ -222,9 +222,6 @@ export default React.createClass({
       layout,
       panelData,
     } = this.state;
-    const {
-      data
-    } = this.props;
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
@@ -267,7 +264,7 @@ export default React.createClass({
               parent: this,
               auth: authData,
               userData,
-              data,
+              ...this.props,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,

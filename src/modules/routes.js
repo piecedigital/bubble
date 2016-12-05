@@ -24,7 +24,9 @@ app
 })
 .get("/profile/:username", function (req, res) {
   res.send(renderHTML("profile", {
-    username: req.params.username
+    params: {
+      username: req.params.username
+    }
   }));
 })
 .get("/streams", function (req, res) {

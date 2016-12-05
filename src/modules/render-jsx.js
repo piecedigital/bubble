@@ -15,7 +15,7 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
       </head>
       <body>
         <div className="react-app">
-          <Layout data={prePlaceData}>
+          <Layout {...prePlaceData}>
             <Page />
           </Layout>
         </div>

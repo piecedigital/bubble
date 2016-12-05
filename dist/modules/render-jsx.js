@@ -43,7 +43,7 @@ var renderHTML = function renderHTML(fileName) {
         { className: "react-app" },
         _react2["default"].createElement(
           Layout,
-          { data: prePlaceData },
+          prePlaceData,
           _react2["default"].createElement(Page, null)
         )
       ),

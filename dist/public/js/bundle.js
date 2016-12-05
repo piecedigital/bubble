@@ -29634,6 +29634,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _react = require("react");
@@ -29880,7 +29882,6 @@ exports["default"] = _react2["default"].createClass({
     var playerCollapsed = _state.playerCollapsed;
     var layout = _state.layout;
     var panelData = _state.panelData;
-    var data = this.props.data;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
@@ -29913,18 +29914,18 @@ exports["default"] = _react2["default"].createClass({
           setLayout: this.setLayout,
           panelsHandler: this.panelsHandler
         } }),
-      this.props.children ? _react2["default"].cloneElement(this.props.children, {
+      this.props.children ? _react2["default"].cloneElement(this.props.children, _extends({
         parent: this,
         auth: authData,
-        userData: userData,
-        data: data,
+        userData: userData
+      }, this.props, {
         methods: {
           appendStream: this.appendStream,
           appendVOD: this.appendVOD,
           spliceStream: this.spliceStream,
           loadData: _modulesLoadData2["default"]
         }
-      }) : null,
+      })) : null,
       _react2["default"].createElement(
         "div",
         { className: "created-by" },
