@@ -62,6 +62,7 @@ function checkAuth(Component, props) {
     { path: "", location: "root", component: _jsxLayoutJsx2["default"] },
     _react2["default"].createElement(_reactRouter.Route, { path: "/", location: "home", component: _jsxHomeJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/profile", location: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile/:username", location: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", location: "streams", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", location: "games", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })

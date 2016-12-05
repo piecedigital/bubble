@@ -92,7 +92,7 @@ exports["default"] = _react2["default"].createClass({
   getInitialState: function getInitialState() {
     return {
       requestOffset: 0,
-      limit: 10,
+      limit: 12,
       dataArray: [],
       filter: "all",
       loadingQueue: [],
@@ -122,6 +122,7 @@ exports["default"] = _react2["default"].createClass({
         requestOffset: offset + limit
       });
       console.log("gathering data", limit, offset);
+      console.log("Given Channel Name getVideos", username);
       _modulesLoadData2["default"].call(this, function (e) {
         console.error(e.stack);
       }, {
@@ -137,7 +138,7 @@ exports["default"] = _react2["default"].createClass({
             dataArray: Array.from(_this.state.dataArray).concat(data.videos),
             component: "VideosListItem"
           }, function () {
-            console.log("total data", _this.state.dataArray.length);
+            console.log("total data getVideos", _this.state.dataArray.length);
             if (typeof callback === "function") callback();
           });
         })["catch"](function (e) {
@@ -155,7 +156,6 @@ exports["default"] = _react2["default"].createClass({
       });
     }).join(" ");
   },
-
   refreshList: function refreshList(reset, length, offset) {
     var _this2 = this;
 
@@ -233,7 +233,7 @@ exports["default"] = _react2["default"].createClass({
     var _props3 = this.props;
     var auth = _props3.auth;
     var data = _props3.data;
-    var givenChannelName = _props3.givenChannelName;
+    var params = _props3.params;
     var userData = _props3.userData;
     var _props3$methods = _props3.methods;
     var appendVOD = _props3$methods.appendVOD;
@@ -246,7 +246,7 @@ exports["default"] = _react2["default"].createClass({
           // return null;
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               return dataArray[ind].ref = r;
-            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
+            }, key: ind, data: itemData, userData: userData, index: ind, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendVOD: appendVOD,
               notify: _this4.notify,
               removeFromDataArray: _this4.removeFromDataArray
@@ -260,7 +260,6 @@ exports["default"] = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              (givenChannelName || "") + " ",
               "Videos"
             ),
             _react2["default"].createElement(
@@ -281,11 +280,6 @@ exports["default"] = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "div",
                   { className: "scroll" },
-                  _react2["default"].createElement(
-                    "div",
-                    { className: "option btn-default refresh", onClick: _this4.refresh },
-                    "Refresh Streams"
-                  ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
@@ -335,7 +329,7 @@ exports["default"] = _react2["default"].createClass({
       return _react2["default"].createElement(
         "div",
         { className: "top-level-component general-page profile" },
-        "Loading " + (givenChannelName ? givenChannelName : userData.name) + "'s videos..."
+        "Loading " + (params.username ? params.username : userData ? userData.name : "") + "'s videos..."
       );
     }
   }

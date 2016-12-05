@@ -28,12 +28,32 @@ var _componentsUserVideosListingJsx2 = _interopRequireDefault(_componentsUserVid
 exports["default"] = _react2["default"].createClass({
   displayName: "Profile",
   render: function render() {
+    var _props = this.props;
+    var userData = _props.userData;
+    var params = _props.params;
+
+    var name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
     return _react2["default"].createElement(
       "div",
       { className: "top-level-component profile" },
       _react2["default"].createElement(
         "div",
         { className: "general-page profile" },
+        _react2["default"].createElement(
+          "div",
+          { className: "page-header" },
+          _react2["default"].createElement(
+            "div",
+            { className: "title" },
+            "Profile: ",
+            name ? _react2["default"].createElement(
+              "a",
+              { target: "_blank", rel: "nofollow", href: "https://twitch.com/" + name },
+              name
+            ) : null
+          )
+        ),
+        _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "IFollow" }, this.props)),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "followMe" }, this.props)),

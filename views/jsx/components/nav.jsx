@@ -172,7 +172,7 @@ exports["default"] = _react2["default"].createClass({
           { className: "auth" },
           userData ? _react2["default"].createElement(
             _reactRouter.Link,
-            { className: "nav-item", to: "/Profile", onClick: this.toggleNav.bind(null, "close") },
+            { className: "nav-item", to: "/profile", onClick: this.toggleNav.bind(null, "close") },
             "Profile"
           ) : null,
           _react2["default"].createElement(
