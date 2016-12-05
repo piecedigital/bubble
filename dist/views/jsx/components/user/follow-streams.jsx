@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -27,63 +25,6 @@ var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user
 // components
 var components = {
   // list item for streams matching the search
-  StreamsListItem: _react2["default"].createClass({
-    displayName: "stream-ListItem",
-    render: function render() {
-      // console.log(this.props);
-      var _props = this.props;
-      var index = _props.index;
-      var appendStream = _props.methods.appendStream;
-      var _props$data = _props.data;
-      var game = _props$data.game;
-      var viewers = _props$data.viewers;
-      var title = _props$data.title;
-      var id = _props$data._id;
-      var preview = _props$data.preview;
-      var _props$data$channel = _props$data.channel;
-      var mature = _props$data$channel.mature;
-      var logo = _props$data$channel.logo;
-      var name = _props$data$channel.name;
-      var language = _props$data$channel.language;
-
-      var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      return _react2["default"].createElement(
-        "li",
-        { className: "stream", onClick: function () {
-            appendStream.call(null, name, displayName);
-          } },
-        _react2["default"].createElement(
-          "div",
-          { className: "image" },
-          _react2["default"].createElement("img", { src: preview.medium })
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "info" },
-          _react2["default"].createElement(
-            "div",
-            { className: "channel-name" },
-            name
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "title" },
-            title
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "game" },
-            "Live with \"" + game + "\""
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "viewers" },
-            "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-          )
-        )
-      );
-    }
-  }),
   ChannelsListItem: _react2["default"].createClass({
     displayName: "channel-ListItem",
     getInitialState: function getInitialState() {
@@ -167,12 +108,12 @@ var components = {
     render: function render() {
       if (!this.state.streamData) return null;
       // console.log(this.props);
-      var _props2 = this.props;
-      var auth = _props2.auth;
-      var index = _props2.index;
-      var filter = _props2.filter;
-      var userData = _props2.userData;
-      var data = _props2.data;
+      var _props = this.props;
+      var auth = _props.auth;
+      var index = _props.index;
+      var filter = _props.filter;
+      var userData = _props.userData;
+      var data = _props.data;
 
       var _ref3 = data.channel || data.user;
 
@@ -294,32 +235,37 @@ exports["default"] = _react2["default"].createClass({
 
     limit = typeof limit === "number" ? limit : this.state.limit || 25;
     offset = typeof offset === "number" ? offset : this.state.requestOffset;
-    var _props3 = this.props;
+    var _props2 = this.props;
+    var params = _props2.params;
+    var location = _props2.location;
+    var userData = _props2.userData;
 
-    _objectDestructuringEmpty(_props3.methods);
-
-    var
-    // loadData
-    location = _props3.location;
-
+    var username = undefined;
+    if (params && params.username) {
+      username = params.username;
+    } else {
+      username = userData.name;
+    }
     if (_modulesLoadData2["default"]) {
       this.setState({
         requestOffset: offset + limit
       });
       console.log("gathering data", limit, offset);
+      // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
       _modulesLoadData2["default"].call(this, function (e) {
         console.error(e.stack);
       }, {
         offset: offset,
         limit: limit,
-        stream_type: "all"
+        stream_type: "all",
+        username: username
       }).then(function (methods) {
         methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
           _this3.setState({
             dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
             component: "ChannelsListItem"
           }, function () {
-            console.log("total data", _this3.state.dataArray.length);
+            console.log("total data " + (_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"), _this3.state.dataArray.length);
             if (typeof callback === "function") callback();
           });
         })["catch"](function (e) {
@@ -455,13 +401,13 @@ exports["default"] = _react2["default"].createClass({
     var loadingQueue = _state.loadingQueue;
     var locked = _state.locked;
     var lockedTop = _state.lockedTop;
-    var _props4 = this.props;
-    var auth = _props4.auth;
-    var data = _props4.data;
-    var userData = _props4.userData;
-    var _props4$methods = _props4.methods;
-    var appendStream = _props4$methods.appendStream;
-    var loadData = _props4$methods.loadData;
+    var _props3 = this.props;
+    var auth = _props3.auth;
+    var data = _props3.data;
+    var userData = _props3.userData;
+    var _props3$methods = _props3.methods;
+    var appendStream = _props3$methods.appendStream;
+    var loadData = _props3$methods.loadData;
 
     if (component) {
       var _ret = (function () {

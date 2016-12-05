@@ -22,6 +22,11 @@ app
 .get("/profile", function (req, res) {
   res.send(renderHTML("profile"));
 })
+.get("/profile/:username", function (req, res) {
+  res.send(renderHTML("profile", {
+    username: req.params.username
+  }));
+})
 .get("/streams", function (req, res) {
   res.send(renderHTML("general-page", {
     page: "streams"

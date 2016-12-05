@@ -8,12 +8,18 @@ import VideosListing from "./components/user/videos-listing.jsx";
 export default React.createClass({
   displayName: "Profile",
   render() {
+    const {
+      userData,
+      params
+    } = this.props;
     return (
       <div className="top-level-component profile">
         <div className="general-page profile">
-          <FollowStreams follow={"IFollow"} {...this.props} />
-          <div className="separator-4-black" />
-          <FollowStreams follow={"followMe"} {...this.props}/>
+          <div className="page-header">
+            <div className="title">
+              {params.username ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${params.username}`}>Page Of {params.username}</a> : userData ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${userData.name}`}>Page Of {userData.username}</a> : null}
+            </div>
+          </div>
           <div className="separator-4-black" />
           <VideosListing broadcasts={true} {...this.props} />
         </div>

@@ -32,6 +32,10 @@ app.get("/", function (req, res) {
   }));
 }).get("/profile", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("profile"));
+}).get("/profile/:username", function (req, res) {
+  res.send((0, _renderJsx.renderHTML)("profile", {
+    username: req.params.username
+  }));
 }).get("/streams", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("general-page", {
     page: "streams"

@@ -155,13 +155,13 @@ exports["default"] = function (errorCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         options.headers = options.headers || {};
         options.headers.Authorization = "OAuth " + (options.access_token || _this.props.auth.access_token);
-        return makeRequest(okayCB, "users/" + (options.name || _this.props.userData.name) + "/follows/channels");
+        return makeRequest(okayCB, "users/" + (options.username || _this.props.userData.name) + "/follows/channels");
       },
       followingStreams: function followingStreams(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         options.headers = options.headers || {};
         options.headers.Authorization = "OAuth " + (options.access_token || _this.props.auth.access_token);
-        return makeRequest(okayCB, "channels/" + (options.name || _this.props.userData.name) + "/follows");
+        return makeRequest(okayCB, "channels/" + (options.username || _this.props.userData.name) + "/follows");
       },
       followedVideos: function followedVideos(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;

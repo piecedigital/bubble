@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../modules/load-data";
 import FollowButton from "./follow.jsx";
@@ -7,7 +8,7 @@ import StreamPanels from "./stream-panels.jsx";
 // stream component for player
 const PlayerStream = React.createClass({
   displayName: "PlayerStream",
-  getInitialState: () => ({ chatOpen: true, menuOpen: false }),
+  getInitialState: () => ({ chatOpen: true, menuOpen: false, doScroll: false, nameScroll1: 0, nameScroll2: 0 }),
   toggleMenu(type) {
     switch (type) {
       case "close":
@@ -52,6 +53,52 @@ const PlayerStream = React.createClass({
       layoutTools("setStreamToView");
     }, 100);
   },
+  mouseEvent(action, e) {
+    console.log("name - mouse", action);
+    switch (action) {
+      case "enter":
+        this.setState({
+          doScroll: true
+        });
+        this.nameScroll();
+        break;
+      case "leave":
+        this.setState({
+          doScroll: false
+        });
+        break;
+    }
+  },
+  nameScroll() {
+    const node1 = (this.refs.streamerName1);
+    const node2 = (this.refs.streamerName2);
+    // console.log(node1);
+    // console.log(node2);
+    setTimeout(() => {
+      [node1, node2].map((node, ind) => {
+        let newLeft = (parseInt(node.style.left || 0) - 1);
+        this.setState({
+          [`nameScroll${ind + 1}`]: newLeft
+        }, () => {
+          let nodeRight = parseInt(node.style.left) + node.offsetWidth;
+          if(nodeRight <= 0) {
+            this.setState({
+              [`nameScroll${ind + 1}`]: node.offsetWidth
+            });
+          }
+        });
+      });
+
+      if(this.state.doScroll) {
+        this.nameScroll();
+      } else {
+        this.setState({
+          nameScroll1: 0,
+          nameScroll2: 0,
+        });
+      }
+    }, 10);
+  },
   componentDidMount() {
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", () => {
       // console.log("leave");
@@ -80,6 +127,8 @@ const PlayerStream = React.createClass({
     } = this.props;
     const {
       menuOpen,
+      nameScroll1,
+      nameScroll2,
     } = this.state;
     switch (isFor) {
       case "video": return (
@@ -92,11 +141,17 @@ const PlayerStream = React.createClass({
           <div ref="tools" className="tools-wrapper">
             <div className={`tools${menuOpen ? " menu-open" : ""}`}>
               <div className="mobile">
-                <div className="name">
-                  <Link title={name} to={`/user/${name}`} onClick={() => {
-                    togglePlayer("collapse");
-                    this.toggleMenu("close");
-                  }}>{display_name || name}{vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                <div onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")} className="name">
+                  <span ref="streamerName1" style={{
+                    position: "relative",
+                    left: nameScroll1,
+                    transition: "0s all"
+                  }}>
+                    <Link title={name} to={`/profile/${name}`} onClick={() => {
+                      togglePlayer("collapse");
+                      this.toggleMenu("close");
+                    }}>{display_name || name}/{vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                  </span>
                 </div>
                 <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
                   <div></div>
@@ -104,11 +159,17 @@ const PlayerStream = React.createClass({
                   <div></div>
                 </div>
               </div>
-              <div className="streamer">
-                <Link to={`/user/${name}`} onClick={() => {
-                  togglePlayer("collapse");
-                  this.toggleMenu("close");
-                }}>{vod ? <span className="vod">VOD: </span> : ""}{display_name || name}{vid ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+              <div onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")} className="streamer">
+                <span ref="streamerName2" style={{
+                  position: "relative",
+                  left: nameScroll2,
+                  transition: "0s all"
+                }}>
+                  <Link to={`/profile/${name}`} onClick={() => {
+                    togglePlayer("collapse");
+                    this.toggleMenu("close");
+                  }}>{vod ? <span className="vod">VOD: </span> : ""}{display_name || name}/{vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                </span>
               </div>
               <div className="to-channel">
                 <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={() => {

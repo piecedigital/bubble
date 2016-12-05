@@ -135,7 +135,7 @@ export default React.createClass({
           {
             authData && authData.access_token ? (
               <span className="auth">
-                { userData ? <Link className="nav-item" to={`/Profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link> : null }
+                { userData ? <Link className="nav-item" to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link> : null }
                 <a className="nav-item" href="#" onClick={() => {
                   logout();
                   this.toggleNav("close");

@@ -9,55 +9,6 @@ const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_us
 // components
 let components = {
   // list item for streams matching the search
-  StreamsListItem: React.createClass({
-    displayName: "stream-ListItem",
-    render() {
-      // console.log(this.props);
-      const {
-        index,
-        methods: {
-          appendStream
-        },
-        data: {
-          game,
-          viewers,
-          title,
-          _id: id,
-          preview,
-          channel: {
-            mature,
-            logo,
-            name,
-            language
-          }
-        }
-      } = this.props;
-      let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      return (
-        <li className="stream" onClick={() => {
-          appendStream.call(null, name, displayName);
-        }}>
-          <div className="image">
-            <img src={preview.medium} />
-          </div>
-          <div className="info">
-            <div className="channel-name">
-              {name}
-            </div>
-            <div className="title">
-              {title}
-            </div>
-            <div className="game">
-              {`Live with "${game}"`}
-            </div>
-            <div className="viewers">
-              {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-            </div>
-          </div>
-        </li>
-      )
-    }
-  }),
   ChannelsListItem: React.createClass({
     displayName: "channel-ListItem",
     getInitialState: () => ({ streamData: null }),
@@ -241,22 +192,30 @@ export default React.createClass({
     limit = typeof limit === "number" ? limit : this.state.limit || 25;
     offset = typeof offset === "number" ? offset : this.state.requestOffset;
     const {
-      methods: {
-        // loadData
-      },
-      location
+      params,
+      location,
+      userData
     } = this.props;
+
+    let username;
+    if(params && params.username) {
+      username = params.username;
+    } else {
+      username = userData.name;
+    }
     if(loadData) {
       this.setState({
         requestOffset: (offset + limit)
       });
       console.log("gathering data", limit, offset);
+      // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
         offset,
         limit,
-        stream_type: "all"
+        stream_type: "all",
+        username
       })
       .then(methods => {
         methods
@@ -266,7 +225,7 @@ export default React.createClass({
             dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
             component: `ChannelsListItem`
           }, () => {
-            console.log("total data", this.state.dataArray.length);
+            console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
             if(typeof callback === "function") callback();
           });
         })

@@ -34,6 +34,8 @@ render((
       </Route>
       <Route path="/profile" location="profile" component={checkAuth.bind(null, Profile)}>
       </Route>
+      <Route path="/profile/:username" location="profile" component={checkAuth.bind(null, Profile)}>
+      </Route>
       <Route path="/:page" location="streams" component={GeneralPage}>
       </Route>
       <Route path="/:page" location="games" component={GeneralPage}>

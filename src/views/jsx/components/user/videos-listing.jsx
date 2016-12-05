@@ -67,7 +67,7 @@ export default React.createClass({
   getInitialState() {
     return {
       requestOffset: 0,
-      limit: 10,
+      limit: 12,
       dataArray: [],
       filter: "all",
       loadingQueue: [],
@@ -97,6 +97,7 @@ export default React.createClass({
         requestOffset: (offset + limit)
       });
       console.log("gathering data", limit, offset);
+      console.log(`Given Channel Name getVideos`, username);
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
@@ -115,7 +116,7 @@ export default React.createClass({
             dataArray: Array.from(this.state.dataArray).concat(data.videos),
             component: `VideosListItem`
           }, () => {
-            console.log("total data", this.state.dataArray.length);
+            console.log("total data getVideos", this.state.dataArray.length);
             if(typeof callback === "function") callback();
           });
         })
@@ -129,7 +130,6 @@ export default React.createClass({
       return l.toUpperCase();
     })).join(" ");
   },
-
   refreshList(reset, length, offset) {
     length = length || this.state.dataArray.length;
     offset = offset || 0;
@@ -203,7 +203,7 @@ export default React.createClass({
     const {
       auth,
       data,
-      givenChannelName,
+      params,
       userData,
       methods: {
         appendVOD,
@@ -215,7 +215,7 @@ export default React.createClass({
       const ListItem = components[component];
       const list = dataArray.map((itemData, ind) => {
         // return null;
-        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} auth={auth} notifyMultiplier={Math.floor(ind / 3)} methods={{
+        return <ListItem ref={r => dataArray[ind].ref = r} key={ind} data={itemData} userData={userData} index={ind} auth={auth} notifyMultiplier={Math.floor(ind / 3)} methods={{
           appendVOD,
           notify: this.notify,
           removeFromDataArray: this.removeFromDataArray
@@ -224,7 +224,7 @@ export default React.createClass({
 
       return (
         <div ref="root" className={`videos-listing profile${locked ? " locked" : ""}`}>
-          <div className={`title`}>{`${givenChannelName || ""} `}Videos</div>
+          <div className={`title`}>Videos</div>
           <div className="wrapper">
             <ul className="list">
               {list}
@@ -233,9 +233,6 @@ export default React.createClass({
           <div ref="tools" className={`tools${lockedTop ? " locked-top" : locked ? " locked" : ""}`}>
             <div className="parent">
               <div className="scroll">
-                <div className="option btn-default refresh" onClick={this.refresh}>
-                  Refresh Streams
-                </div>
                 <div className="option btn-default refresh" onClick={() => this.refreshList(true)}>
                   Refresh Listing
                 </div>
@@ -267,7 +264,7 @@ export default React.createClass({
     } else {
       return (
         <div className={`top-level-component general-page profile`}>
-          {`Loading ${givenChannelName ? givenChannelName : userData.name}'s videos...`}
+          {`Loading ${params.username ? params.username : userData ? userData.name : ""}'s videos...`}
         </div>
       );
     }
