@@ -407,8 +407,10 @@ nav {
       cursor: pointer; }
       .player-stream .tools > *:hover {
         background-color: #96e6ff; }
-        .player-stream .tools > *:hover.mobile .name:after {
-          background-image: singular-gradient(90deg, transparent, #96e6ff) !important; }
+        .player-stream .tools > *:hover.mobile {
+          text-align: left; }
+          .player-stream .tools > *:hover.mobile .name:after {
+            background-image: singular-gradient(90deg, transparent, #96e6ff) !important; }
       .player-stream .tools > *.streamer .vod {
         color: #007d3c; }
       .player-stream .tools > *.refresh {
@@ -437,7 +439,8 @@ nav {
       .player-stream .tools > *:not(:last-child) {
         border-right: 2px solid #0082b4; }
     .player-stream .tools .mobile {
-      display: none; }
+      display: none;
+      text-align: left; }
     .player-stream .tools .follow.need-auth {
       color: rgba(0, 0, 0, 0.5);
       text-decoration: none; }

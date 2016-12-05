@@ -95,6 +95,7 @@
       &:hover {
         background-color: $light;
         &.mobile {
+          text-align: left;
           .name {
             &:after {
               background-image: singular-gradient(90deg, transparent, $light) !important;
@@ -143,6 +144,7 @@
     }
     .mobile {
       display: none;
+      text-align: left;
     }
     .follow.need-auth {
       color: rgba(black, .5);

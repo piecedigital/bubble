@@ -10,7 +10,7 @@ export default React.createClass({
   render() {
     const {
       userData,
-      params
+      params = {}
     } = this.props;
     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
     return (

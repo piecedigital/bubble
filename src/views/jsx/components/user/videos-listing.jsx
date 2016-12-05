@@ -264,7 +264,7 @@ export default React.createClass({
     } else {
       return (
         <div className={`top-level-component general-page profile`}>
-          {`Loading ${params.username ? params.username : userData ? userData.name : ""}'s videos...`}
+          {`Loading ${params && params.username ? params.username : userData ? userData.name : ""}'s videos...`}
         </div>
       );
     }
