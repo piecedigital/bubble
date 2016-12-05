@@ -29279,7 +29279,7 @@ exports["default"] = _react2["default"].createClass({
       return _react2["default"].createElement(
         "div",
         { className: "top-level-component general-page profile" },
-        "Loading " + (params.username ? params.username : userData ? userData.name : "") + "'s videos..."
+        "Loading " + (params && params.username ? params.username : userData ? userData.name : "") + "'s videos..."
       );
     }
   }
@@ -29978,7 +29978,8 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     var _props = this.props;
     var userData = _props.userData;
-    var params = _props.params;
+    var _props$params = _props.params;
+    var params = _props$params === undefined ? {} : _props$params;
 
     var name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
     return _react2["default"].createElement(

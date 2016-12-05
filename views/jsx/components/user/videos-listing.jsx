@@ -329,7 +329,7 @@ exports["default"] = _react2["default"].createClass({
       return _react2["default"].createElement(
         "div",
         { className: "top-level-component general-page profile" },
-        "Loading " + (params.username ? params.username : userData ? userData.name : "") + "'s videos..."
+        "Loading " + (params && params.username ? params.username : userData ? userData.name : "") + "'s videos..."
       );
     }
   }
