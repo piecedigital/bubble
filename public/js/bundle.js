@@ -29690,8 +29690,8 @@ exports["default"] = _react2["default"].createClass({
   appendStream: function appendStream(username, displayName) {
     var isSolo = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
-    username.replace(/\s/g, "");
-    displayName.replace(/\s/g, "");
+    username ? username.replace(/\s/g, "") : null;
+    displayName ? displayName.replace(/\s/g, "") : null;
     console.log("appending stream", username, isSolo);
     // only append if below the mas
     if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
