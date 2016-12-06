@@ -84,7 +84,7 @@
     }
   }
   &.profile, &.streams, &.games, &.search-page {
-    .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile {
+    .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
       &.locked {
         position: relative;
       }
@@ -124,6 +124,49 @@
           overflow-x: hidden;
           overflow-y: auto;
           transition: 0s all;
+        }
+        // user info
+        .channel {
+          width: 55*$em;
+          margin: auto;
+          .banner {
+            position: relative;
+            img {
+              display: block;
+              width: 100%;
+            }
+            .hover {
+              @include displayFlex;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              .logo {
+                position: relative;
+                width: 6*$em;
+                &:after {
+                  content: "";
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  box-shadow: inset 0 0 0 .2*$em $primary;
+                }
+                img {
+                  width: 100%;
+                }
+              }
+              .info {
+                @include displayFlex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 0 .5*$em;
+                .views {}
+                .followers {}
+                .partner {}
+              }
+            }
+          }
         }
       }
       .tools {
@@ -220,7 +263,7 @@
           }
         }
         &.profile, &.streams, &.games, &.search-page {
-          .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile {
+          .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
             .title {
             }
             > .wrapper {
@@ -279,7 +322,7 @@
         }
       }
       &.profile, &.streams, &.games, &.search-page {
-        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile {
+        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
           .title {
           }
           > .wrapper {
@@ -337,7 +380,7 @@
         }
       }
       &.profile, &.streams, &.games, &.search-page {
-        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile {
+        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
           .title {
           }
           > .wrapper {

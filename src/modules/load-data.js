@@ -79,6 +79,11 @@ export default function(errorCB, options = {}) {
         delete options.limit;
         return makeRequest(okayCB, `users/${options.username}`);
       },
+      getChannelByName: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, `channels/${options.username}`);
+      },
       getCurrentUser: (okayCB) => {
         delete options.stream_type;
         delete options.limit;

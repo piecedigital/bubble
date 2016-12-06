@@ -90,6 +90,11 @@ exports["default"] = function (errorCB) {
         delete options.limit;
         return makeRequest(okayCB, "users/" + options.username);
       },
+      getChannelByName: function getChannelByName(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, "channels/" + options.username);
+      },
       getCurrentUser: function getCurrentUser(okayCB) {
         delete options.stream_type;
         delete options.limit;

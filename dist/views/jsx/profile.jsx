@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _react = require("react");
@@ -22,8 +20,43 @@ var _componentsUserVideosListingJsx = require("./components/user/videos-listing.
 
 var _componentsUserVideosListingJsx2 = _interopRequireDefault(_componentsUserVideosListingJsx);
 
+var _componentsUserUserInfoJsx = require("./components/user/user-info.jsx");
+
+var _componentsUserUserInfoJsx2 = _interopRequireDefault(_componentsUserUserInfoJsx);
+
 // import FollowedStreams from "./components/user/followed-streams.jsx";
 // import FollowingStreams from "./components/user/following-streams.jsx";
+
+// export default React.createClass({
+//   displayName: "Profile",
+//   render() {
+//     const {
+//       userData,
+//       params = {}
+//     } = this.props;
+//     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
+//     return (
+//       <div className="top-level-component profile">
+//         <div className="general-page profile">
+//           <div className="page-header">
+//             <div className="title">
+//               {`Profile: `}
+//               {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
+//             </div>
+//           </div>
+//           <div className="separator-4-black" />
+//           <UserInfo {...this.props} />
+//           <div className="separator-4-black" />
+//           <FollowStreams follow={"IFollow"} {...this.props} />
+//           <div className="separator-4-black" />
+//           <FollowStreams follow={"followMe"} {...this.props}/>
+//           <div className="separator-4-black" />
+//           <VideosListing broadcasts={true} {...this.props} />
+//         </div>
+//       </div>
+//     );
+//   }
+// });
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Profile",
@@ -55,11 +88,7 @@ exports["default"] = _react2["default"].createClass({
           )
         ),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "IFollow" }, this.props)),
-        _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "followMe" }, this.props)),
-        _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserVideosListingJsx2["default"], _extends({ broadcasts: true }, this.props))
+        _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props)
       )
     );
   }
