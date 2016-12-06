@@ -96,7 +96,9 @@ exports["default"] = _react2["default"].createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      currentNotifs: 0
+      currentNotifs: 0,
+      locked: true,
+      lockedTop: true
     };
   },
   gatherData: function gatherData(limit, offset, callback) {
@@ -207,7 +209,11 @@ exports["default"] = _react2["default"].createClass({
     }, 200);
   },
   componentWillReceiveProps: function componentWillReceiveProps() {
-    this.scrollEvent();
+    var _this4 = this;
+
+    setTimeout(function () {
+      _this4.scrollEvent();
+    }, 100);
   },
   componentDidMount: function componentDidMount() {
     this.gatherData();
@@ -220,7 +226,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this4 = this;
+    var _this5 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -248,8 +254,8 @@ exports["default"] = _react2["default"].createClass({
               return dataArray[ind].ref = r;
             }, key: ind, data: itemData, userData: userData, index: ind, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendVOD: appendVOD,
-              notify: _this4.notify,
-              removeFromDataArray: _this4.removeFromDataArray
+              notify: _this5.notify,
+              removeFromDataArray: _this5.removeFromDataArray
             } });
         });
 
@@ -283,13 +289,13 @@ exports["default"] = _react2["default"].createClass({
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this4.refreshList(true);
+                        return _this5.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this4.gatherData },
+                    { className: "option btn-default load-more", onClick: _this5.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -305,13 +311,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this4.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this5.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this4.capitalize(filter)
+                            _this5.capitalize(filter)
                           );
                         })
                       )
