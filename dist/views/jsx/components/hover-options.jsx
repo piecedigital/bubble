@@ -35,8 +35,8 @@ var ListItemHoverOptions = _react2["default"].createClass({
         { className: "go-to-channel" },
         _react2["default"].createElement(
           "a",
-          { href: "https://twitch.tv/" + name, target: "_blank" },
-          "Visit On Twitch"
+          { href: "/profile/" + name, target: "_blank" },
+          "View Profile"
         )
       ),
       userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,

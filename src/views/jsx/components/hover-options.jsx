@@ -17,7 +17,7 @@ export const ListItemHoverOptions = React.createClass({
     return (
       <div className={`hover-options`}>
         <div className="go-to-channel">
-          <a href={`https://twitch.tv/${name}`} target="_blank">Visit On Twitch</a>
+          <a href={`/profile/${name}`} target="_blank">View Profile</a>
         </div>
         {userData ? <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth} callback={followCallback}/> : null}
         {

@@ -8,25 +8,25 @@ import StreamPanels from "./stream-panels.jsx";
 // stream component for player
 const PlayerStream = React.createClass({
   displayName: "PlayerStream",
-  getInitialState: () => ({ chatOpen: true, menuOpen: false, doScroll: false, nameScroll1: 0, nameScroll2: 0 }),
+  getInitialState: () => ({ chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0 }),
   toggleMenu(type) {
     switch (type) {
       case "close":
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: false
-        });
+        }) : null;
         break;
       case "open":
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: true
-        });
+        }) : null;
         break;
       case "toggle":
       default:
         console.log("no type match:", type);
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: !this.state.menuOpen
-        });
+        }) : null;
     }
   },
   refresh(iframe) {
@@ -57,15 +57,15 @@ const PlayerStream = React.createClass({
     console.log("name - mouse", action);
     switch (action) {
       case "enter":
-        this.setState({
+        this._mounted ? this.setState({
           doScroll: true
-        });
+        }) : null;
         this.nameScroll();
         break;
       case "leave":
-        this.setState({
+        this._mounted ? this.setState({
           doScroll: false
-        });
+        }) : null;
         break;
     }
   },
@@ -76,34 +76,40 @@ const PlayerStream = React.createClass({
     // console.log(node2);
     setTimeout(() => {
       [node1, node2].map((node, ind) => {
-        let newLeft = (parseInt(node.style.left || 0) - 1);
-        this.setState({
-          [`nameScroll${ind + 1}`]: newLeft
-        }, () => {
-          let nodeRight = parseInt(node.style.left) + node.offsetWidth;
-          if(nodeRight <= 0) {
-            this.setState({
-              [`nameScroll${ind + 1}`]: node.offsetWidth
-            });
-          }
-        });
+        if(node.offsetWidth > this.refs.mobileName.offsetWidth) {
+          let newLeft = (parseInt(node.style.left || 0) - 1);
+          this._mounted ? this.setState({
+            [`nameScroll${ind + 1}`]: newLeft
+          }, () => {
+            let nodeRight = parseInt(node.style.left) + node.offsetWidth;
+            if(nodeRight <= 0) {
+              this._mounted ? this.setState({
+                [`nameScroll${ind + 1}`]: this.refs.mobileName.offsetWidth
+              }) : null;
+            }
+          }) : null;
+        }
       });
 
       if(this.state.doScroll) {
         this.nameScroll();
       } else {
-        this.setState({
+        this._mounted ? this.setState({
           nameScroll1: 0,
           nameScroll2: 0,
-        });
+        }) : null;
       }
     }, 10);
   },
   componentDidMount() {
+    this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", () => {
       // console.log("leave");
       this.toggleMenu("close");
     }, false) : null;
+  },
+  componentWillUnmount() {
+    delete this._mounted;
   },
   render() {
     // console.log(this.props);
@@ -141,7 +147,7 @@ const PlayerStream = React.createClass({
           <div ref="tools" className="tools-wrapper">
             <div className={`tools${menuOpen ? " menu-open" : ""}`}>
               <div className="mobile">
-                <div onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")} className="name">
+                <div ref="mobileName" onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")} className="name">
                   <span ref="streamerName1" style={{
                     position: "relative",
                     left: nameScroll1,
@@ -150,7 +156,7 @@ const PlayerStream = React.createClass({
                     <Link title={name} to={`/profile/${name}`} onClick={() => {
                       togglePlayer("collapse");
                       this.toggleMenu("close");
-                    }}>{display_name || name}/{vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                    }}>{display_name || name}{vod ? `/${vod}` : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
                   </span>
                 </div>
                 <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
@@ -168,7 +174,7 @@ const PlayerStream = React.createClass({
                   <Link to={`/profile/${name}`} onClick={() => {
                     togglePlayer("collapse");
                     this.toggleMenu("close");
-                  }}>{vod ? <span className="vod">VOD: </span> : ""}{display_name || name}/{vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
+                  }}>{vod ? <span className="vod">VOD: </span> : ""}{display_name || name}{vod ? `/${vod}` : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
                 </span>
               </div>
               <div className="to-channel">

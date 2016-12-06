@@ -183,8 +183,10 @@ export default React.createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      locked: this.props.follow === "IFollow" ? false : true,
-      lockedTop: this.props.follow === "IFollow" ? false : true,
+      // locked: this.props.follow === "IFollow" ? false : true,
+      locked: true,
+      // lockedTop: this.props.follow === "IFollow" ? false : true,
+      lockedTop: true,
       currentNotifs: 0
     }
   },
@@ -284,18 +286,24 @@ export default React.createClass({
         // console.log("trueRoot", trueRoot.scrollTop);
         const bottom = (root.offsetTop + root.offsetHeight) - tools.offsetHeight  - (16 * 4.75);
         // console.log("bottom", bottom);
+
+        // lock the tools menu to the top of it's parent
+        // if the top of the page root is higher than or equal to the top of the app root
         if(trueRoot.scrollTop <= root.offsetTop) {
           this.setState({
             locked: true,
             lockedTop: true,
           });
         } else
+        // lock the tools menu to the bottom of it's parent
+        // if the top of the page root is lower than or equal to the top of the app root
         if(trueRoot.scrollTop >= bottom) {
           this.setState({
             locked: true,
             lockedTop: false,
           });
         } else {
+          // don't lock anything; fix it to the page scrolling
           this.setState({
             locked: false,
             lockedTop: false,
@@ -328,7 +336,9 @@ export default React.createClass({
     }
   },
   componentWillReceiveProps() {
-    this.scrollEvent();
+    setTimeout(() => {
+      this.scrollEvent();
+    }, 100);
   },
   componentDidMount() {
     this.gatherData();

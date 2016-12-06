@@ -34,26 +34,26 @@ var _streamPanelsJsx2 = _interopRequireDefault(_streamPanelsJsx);
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
   getInitialState: function getInitialState() {
-    return { chatOpen: true, menuOpen: false, doScroll: false, nameScroll1: 0, nameScroll2: 0 };
+    return { chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0 };
   },
   toggleMenu: function toggleMenu(type) {
     switch (type) {
       case "close":
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: false
-        });
+        }) : null;
         break;
       case "open":
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: true
-        });
+        }) : null;
         break;
       case "toggle":
       default:
         console.log("no type match:", type);
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: !this.state.menuOpen
-        });
+        }) : null;
     }
   },
   refresh: function refresh(iframe) {
@@ -83,15 +83,15 @@ var PlayerStream = _react2["default"].createClass({
     console.log("name - mouse", action);
     switch (action) {
       case "enter":
-        this.setState({
+        this._mounted ? this.setState({
           doScroll: true
-        });
+        }) : null;
         this.nameScroll();
         break;
       case "leave":
-        this.setState({
+        this._mounted ? this.setState({
           doScroll: false
-        });
+        }) : null;
         break;
     }
   },
@@ -104,32 +104,38 @@ var PlayerStream = _react2["default"].createClass({
     // console.log(node2);
     setTimeout(function () {
       [node1, node2].map(function (node, ind) {
-        var newLeft = parseInt(node.style.left || 0) - 1;
-        _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), newLeft), function () {
-          var nodeRight = parseInt(node.style.left) + node.offsetWidth;
-          if (nodeRight <= 0) {
-            _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), node.offsetWidth));
-          }
-        });
+        if (node.offsetWidth > _this.refs.mobileName.offsetWidth) {
+          var newLeft = parseInt(node.style.left || 0) - 1;
+          _this._mounted ? _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), newLeft), function () {
+            var nodeRight = parseInt(node.style.left) + node.offsetWidth;
+            if (nodeRight <= 0) {
+              _this._mounted ? _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), _this.refs.mobileName.offsetWidth)) : null;
+            }
+          }) : null;
+        }
       });
 
       if (_this.state.doScroll) {
         _this.nameScroll();
       } else {
-        _this.setState({
+        _this._mounted ? _this.setState({
           nameScroll1: 0,
           nameScroll2: 0
-        });
+        }) : null;
       }
     }, 10);
   },
   componentDidMount: function componentDidMount() {
     var _this2 = this;
 
+    this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", function () {
       // console.log("leave");
       _this2.toggleMenu("close");
     }, false) : null;
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    delete this._mounted;
   },
   render: function render() {
     var _this3 = this;
@@ -181,7 +187,7 @@ var PlayerStream = _react2["default"].createClass({
                 { className: "mobile" },
                 _react2["default"].createElement(
                   "div",
-                  { onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave"), className: "name" },
+                  { ref: "mobileName", onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave"), className: "name" },
                   _react2["default"].createElement(
                     "span",
                     { ref: "streamerName1", style: {
@@ -196,8 +202,7 @@ var PlayerStream = _react2["default"].createClass({
                           _this3.toggleMenu("close");
                         } },
                       display_name || name,
-                      "/",
-                      vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                      vod ? "/" + vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                     )
                   )
                 ),
@@ -231,8 +236,7 @@ var PlayerStream = _react2["default"].createClass({
                       "VOD: "
                     ) : "",
                     display_name || name,
-                    "/",
-                    vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                    vod ? "/" + vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                   )
                 )
               ),

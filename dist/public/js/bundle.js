@@ -27430,8 +27430,8 @@ var ListItemHoverOptions = _react2["default"].createClass({
         { className: "go-to-channel" },
         _react2["default"].createElement(
           "a",
-          { href: "https://twitch.tv/" + name, target: "_blank" },
-          "Visit On Twitch"
+          { href: "/profile/" + name, target: "_blank" },
+          "View Profile"
         )
       ),
       userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
@@ -27688,26 +27688,26 @@ var _streamPanelsJsx2 = _interopRequireDefault(_streamPanelsJsx);
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
   getInitialState: function getInitialState() {
-    return { chatOpen: true, menuOpen: false, doScroll: false, nameScroll1: 0, nameScroll2: 0 };
+    return { chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0 };
   },
   toggleMenu: function toggleMenu(type) {
     switch (type) {
       case "close":
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: false
-        });
+        }) : null;
         break;
       case "open":
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: true
-        });
+        }) : null;
         break;
       case "toggle":
       default:
         console.log("no type match:", type);
-        this.setState({
+        this._mounted ? this.setState({
           menuOpen: !this.state.menuOpen
-        });
+        }) : null;
     }
   },
   refresh: function refresh(iframe) {
@@ -27737,15 +27737,15 @@ var PlayerStream = _react2["default"].createClass({
     console.log("name - mouse", action);
     switch (action) {
       case "enter":
-        this.setState({
+        this._mounted ? this.setState({
           doScroll: true
-        });
+        }) : null;
         this.nameScroll();
         break;
       case "leave":
-        this.setState({
+        this._mounted ? this.setState({
           doScroll: false
-        });
+        }) : null;
         break;
     }
   },
@@ -27758,32 +27758,38 @@ var PlayerStream = _react2["default"].createClass({
     // console.log(node2);
     setTimeout(function () {
       [node1, node2].map(function (node, ind) {
-        var newLeft = parseInt(node.style.left || 0) - 1;
-        _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), newLeft), function () {
-          var nodeRight = parseInt(node.style.left) + node.offsetWidth;
-          if (nodeRight <= 0) {
-            _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), node.offsetWidth));
-          }
-        });
+        if (node.offsetWidth > _this.refs.mobileName.offsetWidth) {
+          var newLeft = parseInt(node.style.left || 0) - 1;
+          _this._mounted ? _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), newLeft), function () {
+            var nodeRight = parseInt(node.style.left) + node.offsetWidth;
+            if (nodeRight <= 0) {
+              _this._mounted ? _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), _this.refs.mobileName.offsetWidth)) : null;
+            }
+          }) : null;
+        }
       });
 
       if (_this.state.doScroll) {
         _this.nameScroll();
       } else {
-        _this.setState({
+        _this._mounted ? _this.setState({
           nameScroll1: 0,
           nameScroll2: 0
-        });
+        }) : null;
       }
     }, 10);
   },
   componentDidMount: function componentDidMount() {
     var _this2 = this;
 
+    this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", function () {
       // console.log("leave");
       _this2.toggleMenu("close");
     }, false) : null;
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    delete this._mounted;
   },
   render: function render() {
     var _this3 = this;
@@ -27835,7 +27841,7 @@ var PlayerStream = _react2["default"].createClass({
                 { className: "mobile" },
                 _react2["default"].createElement(
                   "div",
-                  { onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave"), className: "name" },
+                  { ref: "mobileName", onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave"), className: "name" },
                   _react2["default"].createElement(
                     "span",
                     { ref: "streamerName1", style: {
@@ -27850,8 +27856,7 @@ var PlayerStream = _react2["default"].createClass({
                           _this3.toggleMenu("close");
                         } },
                       display_name || name,
-                      "/",
-                      vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                      vod ? "/" + vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                     )
                   )
                 ),
@@ -27885,8 +27890,7 @@ var PlayerStream = _react2["default"].createClass({
                       "VOD: "
                     ) : "",
                     display_name || name,
-                    "/",
-                    vod ? vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
+                    vod ? "/" + vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
                   )
                 )
               ),
@@ -28661,8 +28665,10 @@ exports["default"] = _react2["default"].createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      locked: this.props.follow === "IFollow" ? false : true,
-      lockedTop: this.props.follow === "IFollow" ? false : true,
+      // locked: this.props.follow === "IFollow" ? false : true,
+      locked: true,
+      // lockedTop: this.props.follow === "IFollow" ? false : true,
+      lockedTop: true,
       currentNotifs: 0
     };
   },
@@ -28768,22 +28774,29 @@ exports["default"] = _react2["default"].createClass({
         // console.log("trueRoot", trueRoot.scrollTop);
         var bottom = root.offsetTop + root.offsetHeight - tools.offsetHeight - 16 * 4.75;
         // console.log("bottom", bottom);
+
+        // lock the tools menu to the top of it's parent
+        // if the top of the page root is higher than or equal to the top of the app root
         if (trueRoot.scrollTop <= root.offsetTop) {
           _this5.setState({
             locked: true,
             lockedTop: true
           });
-        } else if (trueRoot.scrollTop >= bottom) {
-          _this5.setState({
-            locked: true,
-            lockedTop: false
-          });
-        } else {
-          _this5.setState({
-            locked: false,
-            lockedTop: false
-          });
-        }
+        } else
+          // lock the tools menu to the bottom of it's parent
+          // if the top of the page root is lower than or equal to the top of the app root
+          if (trueRoot.scrollTop >= bottom) {
+            _this5.setState({
+              locked: true,
+              lockedTop: false
+            });
+          } else {
+            // don't lock anything; fix it to the page scrolling
+            _this5.setState({
+              locked: false,
+              lockedTop: false
+            });
+          }
       }
     }, 200);
   },
@@ -28813,7 +28826,11 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentWillReceiveProps: function componentWillReceiveProps() {
-    this.scrollEvent();
+    var _this7 = this;
+
+    setTimeout(function () {
+      _this7.scrollEvent();
+    }, 100);
   },
   componentDidMount: function componentDidMount() {
     this.gatherData();
@@ -28826,7 +28843,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this7 = this;
+    var _this8 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -28853,19 +28870,19 @@ exports["default"] = _react2["default"].createClass({
               return dataArray[ind].ref = r;
             }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendStream: appendStream,
-              notify: _this7.notify,
-              removeFromDataArray: _this7.removeFromDataArray
+              notify: _this8.notify,
+              removeFromDataArray: _this8.removeFromDataArray
             } });
         });
 
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: (_this7.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this8.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              _this7.props.follow === "IFollow" ? "Followed" : "Following",
+              _this8.props.follow === "IFollow" ? "Followed" : "Following",
               " Channels"
             ),
             _react2["default"].createElement(
@@ -28888,19 +28905,19 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this7.refresh },
+                    { className: "option btn-default refresh", onClick: _this8.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this7.refreshList(true);
+                        return _this8.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this7.gatherData },
+                    { className: "option btn-default load-more", onClick: _this8.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -28916,13 +28933,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this7.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this8.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this7.capitalize(filter)
+                            _this8.capitalize(filter)
                           );
                         })
                       )
@@ -29046,7 +29063,9 @@ exports["default"] = _react2["default"].createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      currentNotifs: 0
+      currentNotifs: 0,
+      locked: true,
+      lockedTop: true
     };
   },
   gatherData: function gatherData(limit, offset, callback) {
@@ -29157,7 +29176,11 @@ exports["default"] = _react2["default"].createClass({
     }, 200);
   },
   componentWillReceiveProps: function componentWillReceiveProps() {
-    this.scrollEvent();
+    var _this4 = this;
+
+    setTimeout(function () {
+      _this4.scrollEvent();
+    }, 100);
   },
   componentDidMount: function componentDidMount() {
     this.gatherData();
@@ -29170,7 +29193,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this4 = this;
+    var _this5 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -29198,8 +29221,8 @@ exports["default"] = _react2["default"].createClass({
               return dataArray[ind].ref = r;
             }, key: ind, data: itemData, userData: userData, index: ind, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendVOD: appendVOD,
-              notify: _this4.notify,
-              removeFromDataArray: _this4.removeFromDataArray
+              notify: _this5.notify,
+              removeFromDataArray: _this5.removeFromDataArray
             } });
         });
 
@@ -29233,13 +29256,13 @@ exports["default"] = _react2["default"].createClass({
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this4.refreshList(true);
+                        return _this5.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this4.gatherData },
+                    { className: "option btn-default load-more", onClick: _this5.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -29255,13 +29278,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this4.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this5.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this4.capitalize(filter)
+                            _this5.capitalize(filter)
                           );
                         })
                       )

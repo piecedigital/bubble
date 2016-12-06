@@ -71,7 +71,9 @@ export default React.createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      currentNotifs: 0
+      currentNotifs: 0,
+      locked: true,
+      lockedTop: true,
     }
   },
   gatherData(limit, offset, callback) {
@@ -178,7 +180,9 @@ export default React.createClass({
     }, 200);
   },
   componentWillReceiveProps() {
-    this.scrollEvent();
+    setTimeout(() => {
+      this.scrollEvent();
+    }, 100);
   },
   componentDidMount() {
     this.gatherData();

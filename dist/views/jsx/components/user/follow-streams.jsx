@@ -225,8 +225,10 @@ exports["default"] = _react2["default"].createClass({
       dataArray: [],
       filter: "all",
       loadingQueue: [],
-      locked: this.props.follow === "IFollow" ? false : true,
-      lockedTop: this.props.follow === "IFollow" ? false : true,
+      // locked: this.props.follow === "IFollow" ? false : true,
+      locked: true,
+      // lockedTop: this.props.follow === "IFollow" ? false : true,
+      lockedTop: true,
       currentNotifs: 0
     };
   },
@@ -332,22 +334,29 @@ exports["default"] = _react2["default"].createClass({
         // console.log("trueRoot", trueRoot.scrollTop);
         var bottom = root.offsetTop + root.offsetHeight - tools.offsetHeight - 16 * 4.75;
         // console.log("bottom", bottom);
+
+        // lock the tools menu to the top of it's parent
+        // if the top of the page root is higher than or equal to the top of the app root
         if (trueRoot.scrollTop <= root.offsetTop) {
           _this5.setState({
             locked: true,
             lockedTop: true
           });
-        } else if (trueRoot.scrollTop >= bottom) {
-          _this5.setState({
-            locked: true,
-            lockedTop: false
-          });
-        } else {
-          _this5.setState({
-            locked: false,
-            lockedTop: false
-          });
-        }
+        } else
+          // lock the tools menu to the bottom of it's parent
+          // if the top of the page root is lower than or equal to the top of the app root
+          if (trueRoot.scrollTop >= bottom) {
+            _this5.setState({
+              locked: true,
+              lockedTop: false
+            });
+          } else {
+            // don't lock anything; fix it to the page scrolling
+            _this5.setState({
+              locked: false,
+              lockedTop: false
+            });
+          }
       }
     }, 200);
   },
@@ -377,7 +386,11 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentWillReceiveProps: function componentWillReceiveProps() {
-    this.scrollEvent();
+    var _this7 = this;
+
+    setTimeout(function () {
+      _this7.scrollEvent();
+    }, 100);
   },
   componentDidMount: function componentDidMount() {
     this.gatherData();
@@ -390,7 +403,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this7 = this;
+    var _this8 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -417,19 +430,19 @@ exports["default"] = _react2["default"].createClass({
               return dataArray[ind].ref = r;
             }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendStream: appendStream,
-              notify: _this7.notify,
-              removeFromDataArray: _this7.removeFromDataArray
+              notify: _this8.notify,
+              removeFromDataArray: _this8.removeFromDataArray
             } });
         });
 
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: (_this7.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this8.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              _this7.props.follow === "IFollow" ? "Followed" : "Following",
+              _this8.props.follow === "IFollow" ? "Followed" : "Following",
               " Channels"
             ),
             _react2["default"].createElement(
@@ -452,19 +465,19 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this7.refresh },
+                    { className: "option btn-default refresh", onClick: _this8.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this7.refreshList(true);
+                        return _this8.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this7.gatherData },
+                    { className: "option btn-default load-more", onClick: _this8.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -480,13 +493,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this7.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this8.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this7.capitalize(filter)
+                            _this8.capitalize(filter)
                           );
                         })
                       )
