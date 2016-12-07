@@ -70,11 +70,10 @@ export default React.createClass({
       dataArray: []
     }
   },
-  gatherData() {
+  gatherData(limit, offset, callback) {
+    limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     const {
-      methods: {
-        // loadData
-      },
       params,
       location
     } = this.props;
@@ -83,7 +82,6 @@ export default React.createClass({
         return letter.toUpperCase();
       });
       let searchType = `search${capitalType}`;
-      let offset = this.state.requestOffset
       this.setState({
         requestOffset: this.state.requestOffset + 25
       });
@@ -99,18 +97,39 @@ export default React.createClass({
         methods
         [searchType]()
         .then(data => {
-          this.setState({
+          this._mounted ? this.setState({
             // offset: this.state.requestOffset + 25,
             dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games),
             component: `${capitalType}ListItem`
-          });
+          }) : null;
         })
         .catch(e => console.error(e.stack));
       })
       .catch(e => console.error(e.stack));
     }
   },
-  componentDidMount() { this.gatherData(); },
+  refreshList(reset, length, offset) {
+    length = length || this.state.dataArray.length;
+    offset = offset || 0;
+    console.log(reset, length, offset);
+    let requestOffset = reset ? 0 : offset;
+    let obj = {};
+    if(reset) obj.dataArray = [];
+    this._mounted ? this.setState(obj, () => {
+      if(length > 100) {
+        this.gatherData(100, offset, this.refreshList.bind(this, false, length - 100, requestOffset + 100));
+      } else {
+        this.gatherData(length, offset);
+      }
+    }) : null;
+  },
+  componentDidMount() {
+    this._mounted = true;
+    this.gatherData();
+  },
+  componentWillUnmount() {
+    delete this._mounted;
+  },
   render() {
     const {
       requestOffset,
@@ -145,6 +164,9 @@ export default React.createClass({
             <div className="tools">
               <div className="parent">
                 <div className="scroll">
+                  <div className="option btn-default refresh" onClick={() => this.refreshList(true)}>
+                    Refresh Listing
+                  </div>
                   <div className="btn-default load-more" onClick={this.gatherData}>
                     Load More
                   </div>

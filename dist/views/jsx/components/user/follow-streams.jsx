@@ -249,9 +249,9 @@ exports["default"] = _react2["default"].createClass({
       username = userData.name;
     }
     if (_modulesLoadData2["default"]) {
-      this.setState({
+      this._mounted ? this.setState({
         requestOffset: offset + limit
-      });
+      }) : null;
       console.log("gathering data", limit, offset);
       // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
       _modulesLoadData2["default"].call(this, function (e) {
@@ -263,13 +263,13 @@ exports["default"] = _react2["default"].createClass({
         username: username
       }).then(function (methods) {
         methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
-          _this3.setState({
+          _this3._mounted ? _this3.setState({
             dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
             component: "ChannelsListItem"
           }, function () {
             console.log("total data " + (_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"), _this3.state.dataArray.length);
             if (typeof callback === "function") callback();
-          });
+          }) : null;
         })["catch"](function (e) {
           return console.error(e.stack);
         });
@@ -299,9 +299,9 @@ exports["default"] = _react2["default"].createClass({
   applyFilter: function applyFilter() {
     var filter = this.refs.filterSelect.value;
     console.log(filter);
-    this.setState({
+    this._mounted ? this.setState({
       filter: filter
-    });
+    }) : null;
   },
   refreshList: function refreshList(reset, length, offset) {
     var _this4 = this;
@@ -312,13 +312,13 @@ exports["default"] = _react2["default"].createClass({
     var requestOffset = reset ? 0 : offset;
     var obj = {};
     if (reset) obj.dataArray = [];
-    this.setState(obj, function () {
+    this._mounted ? this.setState(obj, function () {
       if (length > 100) {
         _this4.gatherData(100, offset, _this4.refreshList.bind(_this4, false, length - 100, requestOffset + 100));
       } else {
         _this4.gatherData(length, offset);
       }
-    });
+    }) : null;
   },
   scrollEvent: function scrollEvent(e) {
     var _this5 = this;
@@ -393,12 +393,14 @@ exports["default"] = _react2["default"].createClass({
     }, 100);
   },
   componentDidMount: function componentDidMount() {
+    this._mounted = true;
     this.gatherData();
     this.scrollEvent();
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
   },
   componentWillUnmount: function componentWillUnmount() {
+    delete this._mounted;
     document.removeEventListener("scroll", this.scrollEvent, false);
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },

@@ -14,8 +14,10 @@ app
 })
 .get("/search/:searchtype", function (req, res) {
   res.send(renderHTML("search", {
-    query: {
-      q: req.query.q || req.query.query
+    location: {
+      query: {
+        q: req.query.q || req.query.query
+      }
     }
   }));
 })

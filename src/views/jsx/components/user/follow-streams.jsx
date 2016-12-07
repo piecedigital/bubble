@@ -206,9 +206,9 @@ export default React.createClass({
       username = userData.name;
     }
     if(loadData) {
-      this.setState({
+      this._mounted ? this.setState({
         requestOffset: (offset + limit)
-      });
+      }) : null;
       console.log("gathering data", limit, offset);
       // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
       loadData.call(this, e => {
@@ -223,13 +223,13 @@ export default React.createClass({
         methods
         [this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]()
         .then(data => {
-          this.setState({
+          this._mounted ? this.setState({
             dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
             component: `ChannelsListItem`
           }, () => {
             console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
             if(typeof callback === "function") callback();
-          });
+          }) : null;
         })
         .catch(e => console.error(e.stack));
       })
@@ -255,9 +255,9 @@ export default React.createClass({
   applyFilter() {
     const filter = this.refs.filterSelect.value;
     console.log(filter);
-    this.setState({
+    this._mounted ? this.setState({
       filter
-    });
+    }) : null;
   },
   refreshList(reset, length, offset) {
     length = length || this.state.dataArray.length;
@@ -266,13 +266,13 @@ export default React.createClass({
     let requestOffset = reset ? 0 : offset;
     let obj = {};
     if(reset) obj.dataArray = [];
-    this.setState(obj, () => {
+    this._mounted ? this.setState(obj, () => {
       if(length > 100) {
         this.gatherData(100, offset, this.refreshList.bind(this, false, length - 100, requestOffset + 100));
       } else {
         this.gatherData(length, offset);
       }
-    });
+    }) : null;
   },
   scrollEvent(e) {
     setTimeout(() => {
@@ -341,12 +341,14 @@ export default React.createClass({
     }, 100);
   },
   componentDidMount() {
+    this._mounted = true;
     this.gatherData();
     this.scrollEvent();
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
   },
   componentWillUnmount() {
+    delete this._mounted;
     document.removeEventListener("scroll", this.scrollEvent, false);
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
