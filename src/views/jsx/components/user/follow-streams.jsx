@@ -61,16 +61,16 @@ let components = {
       } = data.channel || data.user;
       const timeout = 2;
       setTimeout(() => {
-        // notification({
-        //   type: "stream_online",
-        //   channelName: display_name,
-        //   timeout,
-        //   callback: () => {
-        //     this.appendStream(name, display_name);
-        //   }
-        // });
-        this.props.methods.notify(name, display_name);
-      }, (timeout * 1000) * multiplier);
+        notification({
+          type: "stream_online",
+          channelName: display_name,
+          timeout,
+          callback: () => {
+            this.appendStream(name, display_name);
+          }
+        });
+      }, (timeout * 1000) * (multiplier % 3));
+      // this.props.methods.notify(name, display_name);
     },
     componentWillUpdate(_, nextState) {
       // console.log(this.state.streamData, nextState.streamData);
@@ -182,7 +182,7 @@ export default React.createClass({
       limit: 25,
       dataArray: [],
       filter: "all",
-      loadingQueue: [],
+      notifArray: [],
       // locked: this.props.follow === "IFollow" ? false : true,
       locked: true,
       // lockedTop: this.props.follow === "IFollow" ? false : true,
@@ -313,32 +313,68 @@ export default React.createClass({
     }, 200);
   },
   notify(name, display_name) {
-    if(this.state.currentNotifs < 3) {
-      this.setState({
-        currentNotifs: this.state.currentNotifs + 1
-      }, () => {
-        notification({
-          type: "stream_online",
-          channelName: display_name,
-          timeout: 2,
-          callback: () => {
-            this.props.methods.appendStream(name, display_name);
-          }
-        });
-      });
-    } else {
-      setTimeout(() => {
-        this.setState({
-          currentNotifs: this.state.currentNotifs - 1
-        });
-        this.notify(name, display_name)
-      }, 3000);
-    }
+    // let notifArray = Array.from(this.state.notifArray);
+    // console.log(notifArray, this.state.currentNotifs);
+    // notifArray.push([name, display_name]);
+    // this._mounted ? this.setState({
+    //   notifArray,
+    // }) : null;
+    // this.setState({
+    //   currentNotifs: this.state.currentNotifs + 1
+    // }, () => {
+    //   setTimeout(() => {
+    //     notification({
+    //       type: "stream_online",
+    //       channelName: next[1] || next[0],
+    //       timeout: 2,
+    //       callback: () => {
+    //         this.props.methods.appendStream.apply(this, next);
+    //       },
+    //       finishCB: () => {
+    //         this.setState({
+    //           // currentNotifs: this.state.currentNotifs - 1
+    //         });
+    //       }
+    //     });
+    //   }, 4000 * (Math.floor(this.state.currentNotifs % 3)) );
+    // });
+  },
+  sendNotif(queue, newArray) {
+    // console.log("queuing", newArray);
+    // this.setState({
+    //   currentNotifs: queue.length,
+    //   // notifArray: newArray
+    // }, () => {
+    //   queue.map(next => {
+    //     notification({
+    //       type: "stream_online",
+    //       channelName: next[1] || next[0],
+    //       timeout: 2,
+    //       callback: () => {
+    //         this.props.methods.appendStream.apply(this, next);
+    //       }
+    //     });
+    //   });
+    //   setTimeout(() => {
+    //     let newCurrent = this.state.currentNotifs - queue.length;
+    //     if(newCurrent < 0) newCurrent = 0;
+    //     this.setState({
+    //       currentNotifs: newCurrent
+    //     });
+    //   }, 3000);
+    // });
   },
   componentWillReceiveProps() {
     setTimeout(() => {
       this.scrollEvent();
     }, 100);
+  },
+  componentDidUpdate() {
+    // const notifArray = Array.from(this.state.notifArray);
+    // console.log(this.state.notifArray, notifArray.length, this.state.currentNotifs);
+    // if(notifArray.length > 0 && this.state.currentNotifs < 3) {
+    //   this.sendNotif(notifArray.splice(0, 3 - this.state.currentNotifs), notifArray);
+    // }
   },
   componentDidMount() {
     this._mounted = true;

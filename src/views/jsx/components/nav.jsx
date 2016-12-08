@@ -12,7 +12,9 @@ const SlideInput = React.createClass({
         toggleCallback
       }
     } = this.props;
-    if(callback) callback(this.refs.input.value, false);
+    let { value } = this.refs.input;
+    value.replace(/\s/g, "");
+    if(callback) callback(value, false);
     toggleCallback(commandValue);
     this.refs.input.value = "";
   },

@@ -75,6 +75,7 @@ export default React.createClass({
                   <div className="hover">
                     <div className="logo"><img src={userChannelData.logo} /></div>
                     <div className="info">
+                      <div className="partner">{userChannelData.display_name}</div>
                       <div className="views">Views: {userChannelData.views}</div>
                       <div className="followers">Followers: {userChannelData.followers}</div>
                       <div className="partner">Partnered?: {userChannelData.partner ? "Yes" : "No"}</div>
@@ -87,9 +88,16 @@ export default React.createClass({
           {
             userUserData ? (
               <div className="user">
-                <div className="image"><img src={userUserData.logo} /></div>
-                <div className="name">{userUserData.display_name}</div>
-                <div className="bio">{userUserData.bio}</div>
+                <div className={`bio${userUserData.bio ? " no-bio" : ""}`}>
+                  {
+                    userUserData.bio ? (
+                      userUserData.bio
+                    ) : (
+                      ["This user has no bio ",
+                      <img className="sad-face" src="https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true" alt="emojione frowny face" />]
+                    )
+                  }
+                </div>
               </div>
             ) : null
           }

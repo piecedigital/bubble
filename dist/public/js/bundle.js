@@ -216,7 +216,10 @@ function makeNotification(data) {
     data.callback();
   };
   setTimeout(function () {
-    if (typeof notification === "object") notification.close();
+    if (typeof notification === "object") {
+      if (typeof data.finishCB === "function") data.finishCB();
+      notification.close();
+    }
   }, (data.timeout || 2) * 1000);
 }
 },{}],4:[function(require,module,exports){
@@ -27478,8 +27481,10 @@ var SlideInput = _react2["default"].createClass({
     var callback = _props.callback;
     var commandValue = _props.commandValue;
     var toggleCallback = _props.methods.toggleCallback;
+    var value = this.refs.input.value;
 
-    if (callback) callback(this.refs.input.value, false);
+    value.replace(/\s/g, "");
+    if (callback) callback(value, false);
     toggleCallback(commandValue);
     this.refs.input.value = "";
   },
@@ -28526,16 +28531,16 @@ var components = {
 
       var timeout = 2;
       setTimeout(function () {
-        // notification({
-        //   type: "stream_online",
-        //   channelName: display_name,
-        //   timeout,
-        //   callback: () => {
-        //     this.appendStream(name, display_name);
-        //   }
-        // });
-        _this2.props.methods.notify(name, display_name);
-      }, timeout * 1000 * multiplier);
+        (0, _modulesHelperTools.browserNotification)({
+          type: "stream_online",
+          channelName: display_name,
+          timeout: timeout,
+          callback: function callback() {
+            _this2.appendStream(name, display_name);
+          }
+        });
+      }, timeout * 1000 * (multiplier % 3));
+      // this.props.methods.notify(name, display_name);
     },
     componentWillUpdate: function componentWillUpdate(_, nextState) {
       // console.log(this.state.streamData, nextState.streamData);
@@ -28668,7 +28673,7 @@ exports["default"] = _react2["default"].createClass({
       limit: 25,
       dataArray: [],
       filter: "all",
-      loadingQueue: [],
+      notifArray: [],
       // locked: this.props.follow === "IFollow" ? false : true,
       locked: true,
       // lockedTop: this.props.follow === "IFollow" ? false : true,
@@ -28805,36 +28810,70 @@ exports["default"] = _react2["default"].createClass({
     }, 200);
   },
   notify: function notify(name, display_name) {
-    var _this6 = this;
-
-    if (this.state.currentNotifs < 3) {
-      this.setState({
-        currentNotifs: this.state.currentNotifs + 1
-      }, function () {
-        (0, _modulesHelperTools.browserNotification)({
-          type: "stream_online",
-          channelName: display_name,
-          timeout: 2,
-          callback: function callback() {
-            _this6.props.methods.appendStream(name, display_name);
-          }
-        });
-      });
-    } else {
-      setTimeout(function () {
-        _this6.setState({
-          currentNotifs: _this6.state.currentNotifs - 1
-        });
-        _this6.notify(name, display_name);
-      }, 3000);
-    }
+    // let notifArray = Array.from(this.state.notifArray);
+    // console.log(notifArray, this.state.currentNotifs);
+    // notifArray.push([name, display_name]);
+    // this._mounted ? this.setState({
+    //   notifArray,
+    // }) : null;
+    // this.setState({
+    //   currentNotifs: this.state.currentNotifs + 1
+    // }, () => {
+    //   setTimeout(() => {
+    //     notification({
+    //       type: "stream_online",
+    //       channelName: next[1] || next[0],
+    //       timeout: 2,
+    //       callback: () => {
+    //         this.props.methods.appendStream.apply(this, next);
+    //       },
+    //       finishCB: () => {
+    //         this.setState({
+    //           // currentNotifs: this.state.currentNotifs - 1
+    //         });
+    //       }
+    //     });
+    //   }, 4000 * (Math.floor(this.state.currentNotifs % 3)) );
+    // });
+  },
+  sendNotif: function sendNotif(queue, newArray) {
+    // console.log("queuing", newArray);
+    // this.setState({
+    //   currentNotifs: queue.length,
+    //   // notifArray: newArray
+    // }, () => {
+    //   queue.map(next => {
+    //     notification({
+    //       type: "stream_online",
+    //       channelName: next[1] || next[0],
+    //       timeout: 2,
+    //       callback: () => {
+    //         this.props.methods.appendStream.apply(this, next);
+    //       }
+    //     });
+    //   });
+    //   setTimeout(() => {
+    //     let newCurrent = this.state.currentNotifs - queue.length;
+    //     if(newCurrent < 0) newCurrent = 0;
+    //     this.setState({
+    //       currentNotifs: newCurrent
+    //     });
+    //   }, 3000);
+    // });
   },
   componentWillReceiveProps: function componentWillReceiveProps() {
-    var _this7 = this;
+    var _this6 = this;
 
     setTimeout(function () {
-      _this7.scrollEvent();
+      _this6.scrollEvent();
     }, 100);
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    // const notifArray = Array.from(this.state.notifArray);
+    // console.log(this.state.notifArray, notifArray.length, this.state.currentNotifs);
+    // if(notifArray.length > 0 && this.state.currentNotifs < 3) {
+    //   this.sendNotif(notifArray.splice(0, 3 - this.state.currentNotifs), notifArray);
+    // }
   },
   componentDidMount: function componentDidMount() {
     this._mounted = true;
@@ -28849,7 +28888,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this8 = this;
+    var _this7 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -28876,19 +28915,19 @@ exports["default"] = _react2["default"].createClass({
               return dataArray[ind].ref = r;
             }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendStream: appendStream,
-              notify: _this8.notify,
-              removeFromDataArray: _this8.removeFromDataArray
+              notify: _this7.notify,
+              removeFromDataArray: _this7.removeFromDataArray
             } });
         });
 
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: (_this8.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this7.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              _this8.props.follow === "IFollow" ? "Followed" : "Following",
+              _this7.props.follow === "IFollow" ? "Followed" : "Following",
               " Channels"
             ),
             _react2["default"].createElement(
@@ -28911,19 +28950,19 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this8.refresh },
+                    { className: "option btn-default refresh", onClick: _this7.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this8.refreshList(true);
+                        return _this7.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this8.gatherData },
+                    { className: "option btn-default load-more", onClick: _this7.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -28939,13 +28978,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this8.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this7.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this8.capitalize(filter)
+                            _this7.capitalize(filter)
                           );
                         })
                       )
@@ -29083,6 +29122,11 @@ exports["default"] = _react2["default"].createClass({
                 { className: "info" },
                 _react2["default"].createElement(
                   "div",
+                  { className: "partner" },
+                  userChannelData.display_name
+                ),
+                _react2["default"].createElement(
+                  "div",
                   { className: "views" },
                   "Views: ",
                   userChannelData.views
@@ -29108,18 +29152,8 @@ exports["default"] = _react2["default"].createClass({
           { className: "user" },
           _react2["default"].createElement(
             "div",
-            { className: "image" },
-            _react2["default"].createElement("img", { src: userUserData.logo })
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "name" },
-            userUserData.display_name
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "bio" },
-            userUserData.bio
+            { className: "bio" + (userUserData.bio ? " no-bio" : "") },
+            userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
           )
         ) : null
       )

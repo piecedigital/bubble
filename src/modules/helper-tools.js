@@ -39,6 +39,9 @@ function makeNotification(data) {
     data.callback();
   };
   setTimeout(() => {
-    if(typeof notification === "object") notification.close();
+    if(typeof notification === "object") {
+      if(typeof data.finishCB === "function") data.finishCB();
+      notification.close();
+    }
   }, (data.timeout || 2) * 1000);
 }

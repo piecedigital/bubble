@@ -20,8 +20,10 @@ var SlideInput = _react2["default"].createClass({
     var callback = _props.callback;
     var commandValue = _props.commandValue;
     var toggleCallback = _props.methods.toggleCallback;
+    var value = this.refs.input.value;
 
-    if (callback) callback(this.refs.input.value, false);
+    value.replace(/\s/g, "");
+    if (callback) callback(value, false);
     toggleCallback(commandValue);
     this.refs.input.value = "";
   },

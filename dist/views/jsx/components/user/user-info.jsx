@@ -110,6 +110,11 @@ exports["default"] = _react2["default"].createClass({
                 { className: "info" },
                 _react2["default"].createElement(
                   "div",
+                  { className: "partner" },
+                  userChannelData.display_name
+                ),
+                _react2["default"].createElement(
+                  "div",
                   { className: "views" },
                   "Views: ",
                   userChannelData.views
@@ -135,18 +140,8 @@ exports["default"] = _react2["default"].createClass({
           { className: "user" },
           _react2["default"].createElement(
             "div",
-            { className: "image" },
-            _react2["default"].createElement("img", { src: userUserData.logo })
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "name" },
-            userUserData.display_name
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "bio" },
-            userUserData.bio
+            { className: "bio" + (userUserData.bio ? " no-bio" : "") },
+            userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
           )
         ) : null
       )

@@ -326,14 +326,31 @@
         }
       }
     }
-    &.layout-by-3 .player, &.layout-3 .player {
+    &.layout-by-3 .player {
+      > .wrapper {
+        .list.video-list {
+          .player-stream {
+            height: 50%;
+            // &:not(:first-child) {
+            //   @include displayInlineFlex;
+            //   width: 50%;
+            // }
+          }
+        }
+        .list.chat-list {
+          .player-stream {
+            .chat {}
+          }
+        }
+      }
+    }
+    &.layout-3 .player {
       > .wrapper {
         .list.video-list {
           .player-stream {
             height: 50%;
             &:not(:first-child) {
               @include displayInlineFlex;
-              @include streamTools;
               width: 50%;
             }
           }
@@ -355,7 +372,6 @@
             @include displayInlineFlex;
             width: 50%;
             height: 50%;
-            @include streamTools;
           }
         }
         .list.chat-list {
@@ -375,7 +391,6 @@
             @include displayInlineFlex;
             width: 50%;
             height: 33.3333333%;
-            @include streamTools;
             &:first-child {
               width: 100%;
             }
@@ -399,7 +414,6 @@
             @include displayInlineFlex;
             width: 50%;
             height: 33.3333333%;
-            @include streamTools;
           }
         }
         .list.chat-list {
@@ -433,7 +447,6 @@
             &:not(:last-child) {
               border-bottom: .5*$em solid $dim;
             }
-            @include streamTools;
           }
         }
         .list.chat-list {
@@ -498,7 +511,6 @@
           .list.video-list {
             .player-stream {
               &:not(:last-child) {}
-              @include streamTools;
             }
           }
           .list.chat-list {
