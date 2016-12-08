@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -97,16 +95,13 @@ exports["default"] = _react2["default"].createClass({
       dataArray: []
     };
   },
-  gatherData: function gatherData() {
+  gatherData: function gatherData(limit, offset, callback) {
     var _this = this;
 
+    limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     var _props2 = this.props;
-
-    _objectDestructuringEmpty(_props2.methods);
-
-    var
-    // loadData
-    params = _props2.params;
+    var params = _props2.params;
     var location = _props2.location;
 
     if (_modulesLoadData2["default"]) {
@@ -115,10 +110,9 @@ exports["default"] = _react2["default"].createClass({
           return letter.toUpperCase();
         });
         var searchType = "search" + capitalType;
-        var offset = _this.state.requestOffset;
-        _this.setState({
+        _this._mounted ? _this.setState({
           requestOffset: _this.state.requestOffset + 25
-        });
+        }) : null;
         console.log(_this);
         _modulesLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
@@ -128,11 +122,11 @@ exports["default"] = _react2["default"].createClass({
           limit: 25
         }).then(function (methods) {
           methods[searchType]().then(function (data) {
-            _this.setState({
+            _this._mounted ? _this.setState({
               // offset: this.state.requestOffset + 25,
               dataArray: Array.from(_this.state.dataArray).concat(data.channels || data.streams || data.games),
               component: capitalType + "ListItem"
-            });
+            }) : null;
           })["catch"](function (e) {
             return console.error(e.stack);
           });
@@ -142,11 +136,32 @@ exports["default"] = _react2["default"].createClass({
       })();
     }
   },
+  refreshList: function refreshList(reset, length, offset) {
+    var _this2 = this;
+
+    length = length || this.state.dataArray.length;
+    offset = offset || 0;
+    console.log(reset, length, offset);
+    var requestOffset = reset ? 0 : offset;
+    var obj = {};
+    if (reset) obj.dataArray = [];
+    this._mounted ? this.setState(obj, function () {
+      if (length > 100) {
+        _this2.gatherData(100, offset, _this2.refreshList.bind(_this2, false, length - 100, requestOffset + 100));
+      } else {
+        _this2.gatherData(length, offset);
+      }
+    }) : null;
+  },
   componentDidMount: function componentDidMount() {
+    this._mounted = true;
     this.gatherData();
   },
+  componentWillUnmount: function componentWillUnmount() {
+    delete this._mounted;
+  },
   render: function render() {
-    var _this2 = this;
+    var _this3 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -194,7 +209,14 @@ exports["default"] = _react2["default"].createClass({
                     { className: "scroll" },
                     _react2["default"].createElement(
                       "div",
-                      { className: "btn-default load-more", onClick: _this2.gatherData },
+                      { className: "option btn-default refresh", onClick: function () {
+                          return _this3.refreshList(true);
+                        } },
+                      "Refresh Listing"
+                    ),
+                    _react2["default"].createElement(
+                      "div",
+                      { className: "btn-default load-more", onClick: _this3.gatherData },
                       "Load More"
                     )
                   )

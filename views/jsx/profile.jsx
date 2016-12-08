@@ -22,6 +22,10 @@ var _componentsUserVideosListingJsx = require("./components/user/videos-listing.
 
 var _componentsUserVideosListingJsx2 = _interopRequireDefault(_componentsUserVideosListingJsx);
 
+var _componentsUserUserInfoJsx = require("./components/user/user-info.jsx");
+
+var _componentsUserUserInfoJsx2 = _interopRequireDefault(_componentsUserUserInfoJsx);
+
 // import FollowedStreams from "./components/user/followed-streams.jsx";
 // import FollowingStreams from "./components/user/following-streams.jsx";
 
@@ -55,6 +59,8 @@ exports["default"] = _react2["default"].createClass({
           )
         ),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
+        _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props),
+        _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "IFollow" }, this.props)),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "followMe" }, this.props)),
@@ -64,4 +70,29 @@ exports["default"] = _react2["default"].createClass({
     );
   }
 });
+
+// export default React.createClass({
+//   displayName: "Profile",
+//   render() {
+//     const {
+//       userData,
+//       params = {}
+//     } = this.props;
+//     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
+//     return (
+//       <div className="top-level-component profile">
+//         <div className="general-page profile">
+//           <div className="page-header">
+//             <div className="title">
+//               {`Profile: `}
+//               {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
+//             </div>
+//           </div>
+//           <div className="separator-4-black" />
+//           <UserInfo {...this.props} />
+//         </div>
+//       </div>
+//     );
+//   }
+// });
 module.exports = exports["default"];

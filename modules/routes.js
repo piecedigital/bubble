@@ -26,8 +26,10 @@ app.get("/", function (req, res) {
   }));
 }).get("/search/:searchtype", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("search", {
-    query: {
-      q: req.query.q || req.query.query
+    location: {
+      query: {
+        q: req.query.q || req.query.query
+      }
     }
   }));
 }).get("/profile", function (req, res) {

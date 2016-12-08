@@ -216,7 +216,10 @@ function makeNotification(data) {
     data.callback();
   };
   setTimeout(function () {
-    if (typeof notification === "object") notification.close();
+    if (typeof notification === "object") {
+      if (typeof data.finishCB === "function") data.finishCB();
+      notification.close();
+    }
   }, (data.timeout || 2) * 1000);
 }
 },{}],4:[function(require,module,exports){
@@ -311,6 +314,11 @@ exports["default"] = function (errorCB) {
         delete options.stream_type;
         delete options.limit;
         return makeRequest(okayCB, "users/" + options.username);
+      },
+      getChannelByName: function getChannelByName(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        return makeRequest(okayCB, "channels/" + options.username);
       },
       getCurrentUser: function getCurrentUser(okayCB) {
         delete options.stream_type;
@@ -27024,7 +27032,7 @@ function checkAuth(Component, props) {
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", location: "search", component: _jsxSearchJsx2["default"] })
   )
 ), container);
-},{"./jsx/general-page.jsx":253,"./jsx/home.jsx":254,"./jsx/layout.jsx":255,"./jsx/profile.jsx":256,"./jsx/search.jsx":257,"react":242,"react-dom":7,"react-router":37}],244:[function(require,module,exports){
+},{"./jsx/general-page.jsx":254,"./jsx/home.jsx":255,"./jsx/layout.jsx":256,"./jsx/profile.jsx":257,"./jsx/search.jsx":258,"react":242,"react-dom":7,"react-router":37}],244:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27430,7 +27438,7 @@ var ListItemHoverOptions = _react2["default"].createClass({
         { className: "go-to-channel" },
         _react2["default"].createElement(
           "a",
-          { href: "/profile/" + name, target: "_blank" },
+          { href: "/profile/" + name },
           "View Profile"
         )
       ),
@@ -27473,9 +27481,12 @@ var SlideInput = _react2["default"].createClass({
     var callback = _props.callback;
     var commandValue = _props.commandValue;
     var toggleCallback = _props.methods.toggleCallback;
+    var value = this.refs.input.value;
 
-    if (callback) callback(this.refs.input.value, false);
+    value.replace(/\s/g, "");
+    if (callback) callback(value, false);
     toggleCallback(commandValue);
+    this.refs.input.value = "";
   },
   render: function render() {
     var _props2 = this.props;
@@ -27717,7 +27728,7 @@ var PlayerStream = _react2["default"].createClass({
         this.refs.video.src = this.refs.video.src;
         break;
       case "chat":
-        this.props.methods.refreshChat(this.props.name);
+        this.props.methods.refreshChat(this.props.vod || this.props.name);
         break;
     }
   },
@@ -28054,9 +28065,9 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   refreshChat: function refreshChat(name) {
-    console.log(name, this[name + "_chat"].refs.chat);
-    var chat = this[name + "_chat"].refs.chat;
+    var chat = this.refs[name + "_chat"].refs.chat;
 
+    console.log(name, chat);
     chat.src = chat.src;
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -28156,9 +28167,7 @@ exports["default"] = _react2["default"].createClass({
               var vod = _dataObject$key2.vod;
             }
             var channelData = dataObject[key];
-            return _react2["default"].createElement(PlayerStream, { ref: function (r) {
-                return _this5[key + "_chat"] = r;
-              }, key: key, vod: isObject ? id : false, name: key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
+            return _react2["default"].createElement(PlayerStream, { ref: key + "_chat", key: key, vod: isObject ? id : false, name: key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
           }) : null
         ),
         _react2["default"].createElement(
@@ -28522,16 +28531,16 @@ var components = {
 
       var timeout = 2;
       setTimeout(function () {
-        // notification({
-        //   type: "stream_online",
-        //   channelName: display_name,
-        //   timeout,
-        //   callback: () => {
-        //     this.appendStream(name, display_name);
-        //   }
-        // });
-        _this2.props.methods.notify(name, display_name);
-      }, timeout * 1000 * multiplier);
+        (0, _modulesHelperTools.browserNotification)({
+          type: "stream_online",
+          channelName: display_name,
+          timeout: timeout,
+          callback: function callback() {
+            _this2.appendStream(name, display_name);
+          }
+        });
+      }, timeout * 1000 * (multiplier % 3));
+      // this.props.methods.notify(name, display_name);
     },
     componentWillUpdate: function componentWillUpdate(_, nextState) {
       // console.log(this.state.streamData, nextState.streamData);
@@ -28664,7 +28673,7 @@ exports["default"] = _react2["default"].createClass({
       limit: 25,
       dataArray: [],
       filter: "all",
-      loadingQueue: [],
+      notifArray: [],
       // locked: this.props.follow === "IFollow" ? false : true,
       locked: true,
       // lockedTop: this.props.follow === "IFollow" ? false : true,
@@ -28689,9 +28698,9 @@ exports["default"] = _react2["default"].createClass({
       username = userData.name;
     }
     if (_modulesLoadData2["default"]) {
-      this.setState({
+      this._mounted ? this.setState({
         requestOffset: offset + limit
-      });
+      }) : null;
       console.log("gathering data", limit, offset);
       // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
       _modulesLoadData2["default"].call(this, function (e) {
@@ -28703,13 +28712,13 @@ exports["default"] = _react2["default"].createClass({
         username: username
       }).then(function (methods) {
         methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
-          _this3.setState({
+          _this3._mounted ? _this3.setState({
             dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
             component: "ChannelsListItem"
           }, function () {
             console.log("total data " + (_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"), _this3.state.dataArray.length);
             if (typeof callback === "function") callback();
-          });
+          }) : null;
         })["catch"](function (e) {
           return console.error(e.stack);
         });
@@ -28739,9 +28748,9 @@ exports["default"] = _react2["default"].createClass({
   applyFilter: function applyFilter() {
     var filter = this.refs.filterSelect.value;
     console.log(filter);
-    this.setState({
+    this._mounted ? this.setState({
       filter: filter
-    });
+    }) : null;
   },
   refreshList: function refreshList(reset, length, offset) {
     var _this4 = this;
@@ -28752,13 +28761,13 @@ exports["default"] = _react2["default"].createClass({
     var requestOffset = reset ? 0 : offset;
     var obj = {};
     if (reset) obj.dataArray = [];
-    this.setState(obj, function () {
+    this._mounted ? this.setState(obj, function () {
       if (length > 100) {
         _this4.gatherData(100, offset, _this4.refreshList.bind(_this4, false, length - 100, requestOffset + 100));
       } else {
         _this4.gatherData(length, offset);
       }
-    });
+    }) : null;
   },
   scrollEvent: function scrollEvent(e) {
     var _this5 = this;
@@ -28801,49 +28810,85 @@ exports["default"] = _react2["default"].createClass({
     }, 200);
   },
   notify: function notify(name, display_name) {
-    var _this6 = this;
-
-    if (this.state.currentNotifs < 3) {
-      this.setState({
-        currentNotifs: this.state.currentNotifs + 1
-      }, function () {
-        (0, _modulesHelperTools.browserNotification)({
-          type: "stream_online",
-          channelName: display_name,
-          timeout: 2,
-          callback: function callback() {
-            _this6.props.methods.appendStream(name, display_name);
-          }
-        });
-      });
-    } else {
-      setTimeout(function () {
-        _this6.setState({
-          currentNotifs: _this6.state.currentNotifs - 1
-        });
-        _this6.notify(name, display_name);
-      }, 3000);
-    }
+    // let notifArray = Array.from(this.state.notifArray);
+    // console.log(notifArray, this.state.currentNotifs);
+    // notifArray.push([name, display_name]);
+    // this._mounted ? this.setState({
+    //   notifArray,
+    // }) : null;
+    // this.setState({
+    //   currentNotifs: this.state.currentNotifs + 1
+    // }, () => {
+    //   setTimeout(() => {
+    //     notification({
+    //       type: "stream_online",
+    //       channelName: next[1] || next[0],
+    //       timeout: 2,
+    //       callback: () => {
+    //         this.props.methods.appendStream.apply(this, next);
+    //       },
+    //       finishCB: () => {
+    //         this.setState({
+    //           // currentNotifs: this.state.currentNotifs - 1
+    //         });
+    //       }
+    //     });
+    //   }, 4000 * (Math.floor(this.state.currentNotifs % 3)) );
+    // });
+  },
+  sendNotif: function sendNotif(queue, newArray) {
+    // console.log("queuing", newArray);
+    // this.setState({
+    //   currentNotifs: queue.length,
+    //   // notifArray: newArray
+    // }, () => {
+    //   queue.map(next => {
+    //     notification({
+    //       type: "stream_online",
+    //       channelName: next[1] || next[0],
+    //       timeout: 2,
+    //       callback: () => {
+    //         this.props.methods.appendStream.apply(this, next);
+    //       }
+    //     });
+    //   });
+    //   setTimeout(() => {
+    //     let newCurrent = this.state.currentNotifs - queue.length;
+    //     if(newCurrent < 0) newCurrent = 0;
+    //     this.setState({
+    //       currentNotifs: newCurrent
+    //     });
+    //   }, 3000);
+    // });
   },
   componentWillReceiveProps: function componentWillReceiveProps() {
-    var _this7 = this;
+    var _this6 = this;
 
     setTimeout(function () {
-      _this7.scrollEvent();
+      _this6.scrollEvent();
     }, 100);
   },
+  componentDidUpdate: function componentDidUpdate() {
+    // const notifArray = Array.from(this.state.notifArray);
+    // console.log(this.state.notifArray, notifArray.length, this.state.currentNotifs);
+    // if(notifArray.length > 0 && this.state.currentNotifs < 3) {
+    //   this.sendNotif(notifArray.splice(0, 3 - this.state.currentNotifs), notifArray);
+    // }
+  },
   componentDidMount: function componentDidMount() {
+    this._mounted = true;
     this.gatherData();
     this.scrollEvent();
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
   },
   componentWillUnmount: function componentWillUnmount() {
+    delete this._mounted;
     document.removeEventListener("scroll", this.scrollEvent, false);
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this8 = this;
+    var _this7 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -28870,19 +28915,19 @@ exports["default"] = _react2["default"].createClass({
               return dataArray[ind].ref = r;
             }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendStream: appendStream,
-              notify: _this8.notify,
-              removeFromDataArray: _this8.removeFromDataArray
+              notify: _this7.notify,
+              removeFromDataArray: _this7.removeFromDataArray
             } });
         });
 
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: (_this8.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this7.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              _this8.props.follow === "IFollow" ? "Followed" : "Following",
+              _this7.props.follow === "IFollow" ? "Followed" : "Following",
               " Channels"
             ),
             _react2["default"].createElement(
@@ -28905,19 +28950,19 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this8.refresh },
+                    { className: "option btn-default refresh", onClick: _this7.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this8.refreshList(true);
+                        return _this7.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this8.gatherData },
+                    { className: "option btn-default load-more", onClick: _this7.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -28933,13 +28978,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this8.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this7.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this8.capitalize(filter)
+                            _this7.capitalize(filter)
                           );
                         })
                       )
@@ -28965,6 +29010,158 @@ exports["default"] = _react2["default"].createClass({
 module.exports = exports["default"];
 /*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/
 },{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../hover-options.jsx":246,"react":242,"react-router":37}],252:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+// import { Link, browserHistory as History } from 'react-router';
+
+var _modulesLoadData = require("../../../../modules/load-data");
+
+var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+
+var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+
+// primary section for the search component
+exports["default"] = _react2["default"].createClass({
+  displayName: "UserInfo",
+  getInitialState: function getInitialState() {
+    return { userUserData: null, userChannelData: null };
+  },
+  gatherData: function gatherData() {
+    var _this = this;
+
+    [{ place: "userUserData", method: "getUserByName" }, { place: "userChannelData", method: "getChannelByName" }].map(function (_ref) {
+      var place = _ref.place;
+      var method = _ref.method;
+      var _props = _this.props;
+      var params = _props.params;
+      var userData = _props.userData;
+
+      var username = undefined;
+      if (params && params.username) {
+        username = params.username;
+      } else {
+        username = userData.name;
+      }
+      // console.log(username, this.props.params, this.props.userData);
+      if (_modulesLoadData2["default"]) {
+        console.log("gathering data");
+        console.log("Given Channel Name " + method, username);
+        _modulesLoadData2["default"].call(_this, function (e) {
+          console.error(e.stack);
+        }, {
+          username: username
+        }).then(function (methods) {
+          methods[method]().then(function (data) {
+            console.log("data", data);
+            _this._mounted ? _this.setState(_defineProperty({}, place, data)) : null;
+          })["catch"](function (e) {
+            return console.error(e.stack);
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack);
+        });
+      }
+    });
+  },
+  componentDidMount: function componentDidMount() {
+    this.gatherData();
+    this._mounted = true;
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    delete this._mounted;
+  },
+  render: function render() {
+    var _props2 = this.props;
+    var params = _props2.params;
+    var userData = _props2.userData;
+    var _state = this.state;
+    var userUserData = _state.userUserData;
+    var userChannelData = _state.userChannelData;
+
+    return _react2["default"].createElement(
+      "div",
+      { ref: "root", className: "user-info" },
+      _react2["default"].createElement(
+        "div",
+        { className: "title" },
+        params && params.username ? params.username : userData ? userData.name : null,
+        "'s info"
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "wrapper" },
+        userChannelData ? _react2["default"].createElement(
+          "div",
+          { className: "channel" },
+          _react2["default"].createElement(
+            "div",
+            { className: "banner" },
+            _react2["default"].createElement("img", { src: userChannelData.profile_banner }),
+            _react2["default"].createElement(
+              "div",
+              { className: "hover" },
+              _react2["default"].createElement(
+                "div",
+                { className: "logo" },
+                _react2["default"].createElement("img", { src: userChannelData.logo })
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "info" },
+                _react2["default"].createElement(
+                  "div",
+                  { className: "partner" },
+                  userChannelData.display_name
+                ),
+                _react2["default"].createElement(
+                  "div",
+                  { className: "views" },
+                  "Views: ",
+                  userChannelData.views
+                ),
+                _react2["default"].createElement(
+                  "div",
+                  { className: "followers" },
+                  "Followers: ",
+                  userChannelData.followers
+                ),
+                _react2["default"].createElement(
+                  "div",
+                  { className: "partner" },
+                  "Partnered?: ",
+                  userChannelData.partner ? "Yes" : "No"
+                )
+              )
+            )
+          )
+        ) : null,
+        userUserData ? _react2["default"].createElement(
+          "div",
+          { className: "user" },
+          _react2["default"].createElement(
+            "div",
+            { className: "bio" + (userUserData.bio ? " no-bio" : "") },
+            userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
+          )
+        ) : null
+      )
+    );
+  }
+});
+module.exports = exports["default"];
+},{"../../../../modules/load-data":4,"react":242}],253:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29311,7 +29508,7 @@ module.exports = exports["default"];
 
 // url,
 /*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/
-},{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../hover-options.jsx":246,"react":242,"react-router":37}],253:[function(require,module,exports){
+},{"../../../../modules/helper-tools":3,"../../../../modules/load-data":4,"../hover-options.jsx":246,"react":242,"react-router":37}],254:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29604,7 +29801,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"./components/hover-options.jsx":246,"react":242,"react-router":37}],254:[function(require,module,exports){
+},{"../../modules/load-data":4,"./components/hover-options.jsx":246,"react":242,"react-router":37}],255:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29650,7 +29847,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"./components/featured-streams.jsx":244,"./components/top-games.jsx":250,"react":242}],255:[function(require,module,exports){
+},{"./components/featured-streams.jsx":244,"./components/top-games.jsx":250,"react":242}],256:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29968,7 +30165,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../modules/load-data":4,"./components/nav.jsx":247,"./components/player.jsx":248,"firebase":5,"react":242,"react-router":37}],256:[function(require,module,exports){
+},{"../../modules/load-data":4,"./components/nav.jsx":247,"./components/player.jsx":248,"firebase":5,"react":242,"react-router":37}],257:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29992,6 +30189,10 @@ var _componentsUserFollowStreamsJsx2 = _interopRequireDefault(_componentsUserFol
 var _componentsUserVideosListingJsx = require("./components/user/videos-listing.jsx");
 
 var _componentsUserVideosListingJsx2 = _interopRequireDefault(_componentsUserVideosListingJsx);
+
+var _componentsUserUserInfoJsx = require("./components/user/user-info.jsx");
+
+var _componentsUserUserInfoJsx2 = _interopRequireDefault(_componentsUserUserInfoJsx);
 
 // import FollowedStreams from "./components/user/followed-streams.jsx";
 // import FollowingStreams from "./components/user/following-streams.jsx";
@@ -30026,6 +30227,8 @@ exports["default"] = _react2["default"].createClass({
           )
         ),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
+        _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props),
+        _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "IFollow" }, this.props)),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "followMe" }, this.props)),
@@ -30035,8 +30238,33 @@ exports["default"] = _react2["default"].createClass({
     );
   }
 });
+
+// export default React.createClass({
+//   displayName: "Profile",
+//   render() {
+//     const {
+//       userData,
+//       params = {}
+//     } = this.props;
+//     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
+//     return (
+//       <div className="top-level-component profile">
+//         <div className="general-page profile">
+//           <div className="page-header">
+//             <div className="title">
+//               {`Profile: `}
+//               {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
+//             </div>
+//           </div>
+//           <div className="separator-4-black" />
+//           <UserInfo {...this.props} />
+//         </div>
+//       </div>
+//     );
+//   }
+// });
 module.exports = exports["default"];
-},{"./components/user/follow-streams.jsx":251,"./components/user/videos-listing.jsx":252,"react":242,"react-router":37}],257:[function(require,module,exports){
+},{"./components/user/follow-streams.jsx":251,"./components/user/user-info.jsx":252,"./components/user/videos-listing.jsx":253,"react":242,"react-router":37}],258:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30044,8 +30272,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 var _react = require("react");
 
@@ -30136,16 +30362,13 @@ exports["default"] = _react2["default"].createClass({
       dataArray: []
     };
   },
-  gatherData: function gatherData() {
+  gatherData: function gatherData(limit, offset, callback) {
     var _this = this;
 
+    limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     var _props2 = this.props;
-
-    _objectDestructuringEmpty(_props2.methods);
-
-    var
-    // loadData
-    params = _props2.params;
+    var params = _props2.params;
     var location = _props2.location;
 
     if (_modulesLoadData2["default"]) {
@@ -30154,10 +30377,9 @@ exports["default"] = _react2["default"].createClass({
           return letter.toUpperCase();
         });
         var searchType = "search" + capitalType;
-        var offset = _this.state.requestOffset;
-        _this.setState({
+        _this._mounted ? _this.setState({
           requestOffset: _this.state.requestOffset + 25
-        });
+        }) : null;
         console.log(_this);
         _modulesLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
@@ -30167,11 +30389,11 @@ exports["default"] = _react2["default"].createClass({
           limit: 25
         }).then(function (methods) {
           methods[searchType]().then(function (data) {
-            _this.setState({
+            _this._mounted ? _this.setState({
               // offset: this.state.requestOffset + 25,
               dataArray: Array.from(_this.state.dataArray).concat(data.channels || data.streams || data.games),
               component: capitalType + "ListItem"
-            });
+            }) : null;
           })["catch"](function (e) {
             return console.error(e.stack);
           });
@@ -30181,11 +30403,32 @@ exports["default"] = _react2["default"].createClass({
       })();
     }
   },
+  refreshList: function refreshList(reset, length, offset) {
+    var _this2 = this;
+
+    length = length || this.state.dataArray.length;
+    offset = offset || 0;
+    console.log(reset, length, offset);
+    var requestOffset = reset ? 0 : offset;
+    var obj = {};
+    if (reset) obj.dataArray = [];
+    this._mounted ? this.setState(obj, function () {
+      if (length > 100) {
+        _this2.gatherData(100, offset, _this2.refreshList.bind(_this2, false, length - 100, requestOffset + 100));
+      } else {
+        _this2.gatherData(length, offset);
+      }
+    }) : null;
+  },
   componentDidMount: function componentDidMount() {
+    this._mounted = true;
     this.gatherData();
   },
+  componentWillUnmount: function componentWillUnmount() {
+    delete this._mounted;
+  },
   render: function render() {
-    var _this2 = this;
+    var _this3 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -30233,7 +30476,14 @@ exports["default"] = _react2["default"].createClass({
                     { className: "scroll" },
                     _react2["default"].createElement(
                       "div",
-                      { className: "btn-default load-more", onClick: _this2.gatherData },
+                      { className: "option btn-default refresh", onClick: function () {
+                          return _this3.refreshList(true);
+                        } },
+                      "Refresh Listing"
+                    ),
+                    _react2["default"].createElement(
+                      "div",
+                      { className: "btn-default load-more", onClick: _this3.gatherData },
                       "Load More"
                     )
                   )

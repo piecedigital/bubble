@@ -63,7 +63,7 @@ var PlayerStream = _react2["default"].createClass({
         this.refs.video.src = this.refs.video.src;
         break;
       case "chat":
-        this.props.methods.refreshChat(this.props.name);
+        this.props.methods.refreshChat(this.props.vod || this.props.name);
         break;
     }
   },
@@ -400,9 +400,9 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   refreshChat: function refreshChat(name) {
-    console.log(name, this[name + "_chat"].refs.chat);
-    var chat = this[name + "_chat"].refs.chat;
+    var chat = this.refs[name + "_chat"].refs.chat;
 
+    console.log(name, chat);
     chat.src = chat.src;
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -502,9 +502,7 @@ exports["default"] = _react2["default"].createClass({
               var vod = _dataObject$key2.vod;
             }
             var channelData = dataObject[key];
-            return _react2["default"].createElement(PlayerStream, { ref: function (r) {
-                return _this5[key + "_chat"] = r;
-              }, key: key, vod: isObject ? id : false, name: key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
+            return _react2["default"].createElement(PlayerStream, { ref: key + "_chat", key: key, vod: isObject ? id : false, name: key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
           }) : null
         ),
         _react2["default"].createElement(

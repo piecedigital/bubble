@@ -35,7 +35,7 @@ var ListItemHoverOptions = _react2["default"].createClass({
         { className: "go-to-channel" },
         _react2["default"].createElement(
           "a",
-          { href: "/profile/" + name, target: "_blank" },
+          { href: "/profile/" + name },
           "View Profile"
         )
       ),
