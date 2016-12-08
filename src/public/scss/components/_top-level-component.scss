@@ -188,7 +188,7 @@
         }
         .user {
           width: 55*$em;
-          margin: 1*$em auto 0;
+          margin: 1*$em auto .75*$em;
           background-color: $offWhite;
           color: black;
           .bio {

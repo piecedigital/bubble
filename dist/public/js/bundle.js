@@ -28167,7 +28167,7 @@ exports["default"] = _react2["default"].createClass({
               var vod = _dataObject$key2.vod;
             }
             var channelData = dataObject[key];
-            return _react2["default"].createElement(PlayerStream, { ref: key + "_chat", key: key, vod: isObject ? id : false, name: key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
+            return _react2["default"].createElement(PlayerStream, { ref: key + "_chat", key: key, vod: isObject ? id : false, name: isObject ? username : key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
           }) : null
         ),
         _react2["default"].createElement(

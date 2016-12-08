@@ -419,7 +419,7 @@ export default React.createClass({
                   }
                   let channelData = dataObject[key];
                   return (
-                    <PlayerStream ref={`${key}_chat`} key={key} vod={isObject ? id : false} name={key} display_name={dataObject[key]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
+                    <PlayerStream ref={`${key}_chat`} key={key} vod={isObject ? id : false} name={isObject ? username : key} display_name={dataObject[key]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
                   );
                 })
               ) : null

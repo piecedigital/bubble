@@ -447,6 +447,100 @@ nav {
     .player-stream .tools a {
       color: black;
       font-weight: bold; }
+  .player-stream .tools {
+    top: 32px;
+    flex-direction: column;
+    width: 100%;
+    max-width: 224px;
+    background-color: #0082b4;
+    padding: 0;
+    text-align: center; }
+    .player-stream .tools > *:not(.mobile) {
+      width: 100%;
+      max-height: 0;
+      height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-right: none;
+      overflow: hidden; }
+      .player-stream .tools > *:not(.mobile):not(:last-child) {
+        border-bottom: 0px solid #0082b4; }
+    .player-stream .tools.menu-open {
+      padding: 2px; }
+      .player-stream .tools.menu-open > *:not(.mobile) {
+        max-height: 100%;
+        height: auto;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        overflow: hidden; }
+        .player-stream .tools.menu-open > *:not(.mobile).streamer {
+          display: none; }
+        .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
+          border-bottom: 2px solid #0082b4; }
+      .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
+        position: relative;
+        top: 6px;
+        transform: rotateZ(45deg); }
+      .player-stream .tools.menu-open .mobile div.lines div:nth-child(2) {
+        left: 50%;
+        max-width: 0; }
+      .player-stream .tools.menu-open .mobile div.lines div:nth-child(3) {
+        position: relative;
+        top: -6px;
+        transform: rotateZ(-45deg); }
+    .player-stream .tools .mobile {
+      display: -ms-flex;
+      display: -moz-flex;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      flex-direction: row;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      width: 100%;
+      height: 32px;
+      border: none;
+      box-shadow: inset 0 0 0 2px #0082b4;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      cursor: default; }
+      .player-stream .tools .mobile div.name {
+        position: relative;
+        width: 100%;
+        padding-right: 4px;
+        overflow: hidden; }
+        .player-stream .tools .mobile div.name:after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 30px;
+          height: 100%;
+          background-image: singular-gradient(90deg, transparent, #00c8fa); }
+      .player-stream .tools .mobile div.lines {
+        display: -ms-flex;
+        display: -moz-flex;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 32px;
+        padding-left: 4px;
+        border-left: 2px solid #0082b4;
+        cursor: pointer; }
+        .player-stream .tools .mobile div.lines div {
+          position: relative;
+          top: 0;
+          left: 0;
+          max-width: 100%;
+          height: 2px;
+          margin: auto 0;
+          background-color: black;
+          text-align: center; }
 
 .chat-list.hide-chat {
   width: 0 !important;
@@ -732,7 +826,7 @@ nav {
           color: white; }
   .top-level-component.profile .followed-streams.profile > .wrapper .user, .top-level-component.profile .following-streams.profile > .wrapper .user, .top-level-component.profile .general-page > .wrapper .user, .top-level-component.profile .videos-listing.profile > .wrapper .user, .top-level-component.profile .user-info > .wrapper .user, .top-level-component.streams .followed-streams.profile > .wrapper .user, .top-level-component.streams .following-streams.profile > .wrapper .user, .top-level-component.streams .general-page > .wrapper .user, .top-level-component.streams .videos-listing.profile > .wrapper .user, .top-level-component.streams .user-info > .wrapper .user, .top-level-component.games .followed-streams.profile > .wrapper .user, .top-level-component.games .following-streams.profile > .wrapper .user, .top-level-component.games .general-page > .wrapper .user, .top-level-component.games .videos-listing.profile > .wrapper .user, .top-level-component.games .user-info > .wrapper .user, .top-level-component.search-page .followed-streams.profile > .wrapper .user, .top-level-component.search-page .following-streams.profile > .wrapper .user, .top-level-component.search-page .general-page > .wrapper .user, .top-level-component.search-page .videos-listing.profile > .wrapper .user, .top-level-component.search-page .user-info > .wrapper .user {
     width: 880px;
-    margin: 16px auto 0;
+    margin: 16px auto 12px;
     background-color: #ebebeb;
     color: black; }
     .top-level-component.profile .followed-streams.profile > .wrapper .user .bio, .top-level-component.profile .following-streams.profile > .wrapper .user .bio, .top-level-component.profile .general-page > .wrapper .user .bio, .top-level-component.profile .videos-listing.profile > .wrapper .user .bio, .top-level-component.profile .user-info > .wrapper .user .bio, .top-level-component.streams .followed-streams.profile > .wrapper .user .bio, .top-level-component.streams .following-streams.profile > .wrapper .user .bio, .top-level-component.streams .general-page > .wrapper .user .bio, .top-level-component.streams .videos-listing.profile > .wrapper .user .bio, .top-level-component.streams .user-info > .wrapper .user .bio, .top-level-component.games .followed-streams.profile > .wrapper .user .bio, .top-level-component.games .following-streams.profile > .wrapper .user .bio, .top-level-component.games .general-page > .wrapper .user .bio, .top-level-component.games .videos-listing.profile > .wrapper .user .bio, .top-level-component.games .user-info > .wrapper .user .bio, .top-level-component.search-page .followed-streams.profile > .wrapper .user .bio, .top-level-component.search-page .following-streams.profile > .wrapper .user .bio, .top-level-component.search-page .general-page > .wrapper .user .bio, .top-level-component.search-page .videos-listing.profile > .wrapper .user .bio, .top-level-component.search-page .user-info > .wrapper .user .bio {

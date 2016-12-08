@@ -55,108 +55,6 @@
     }
   }
 }
-.player-stream {
-  @include displayFlex;
-  position: relative;
-  height: 100%;
-  .video, .chat {
-    position: relative;
-    background-color: black;
-    .nested {
-      position: relative;
-    }
-    iframe {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-  }
-  .video {
-    width: 100%;
-    padding-top: 2*$em;
-    .nested {
-      width: 100%;
-      height: 100%;
-    }
-  }
-  .chat {
-    width: 24*$em;
-    min-width: 24*$em;
-  }
-  .tools {
-    @include displayFlex;
-    position: absolute;
-    top: 0;
-    left: 0;
-    > * {
-      background-color: $primary;
-      padding: .45*$em .5*$em;
-      cursor: pointer;
-      &:hover {
-        background-color: $light;
-        &.mobile {
-          text-align: left;
-          .name {
-            &:after {
-              background-image: singular-gradient(90deg, transparent, $light) !important;
-            }
-          }
-        }
-      }
-      &.streamer {
-        .vod {
-          color: rgba(0,125, 60, 1);
-        }
-      }
-      &.refresh {
-        cursor: default;
-        &:hover {
-          background-color: $primary;
-        }
-        > * {
-          display: inline-block;
-          width: 4*$em;
-          min-width: initial;
-          padding-top: 0;
-          background-color: transparent;
-          cursor: pointer;
-          text-align: center;
-          &:hover {
-            background-color: $light;
-          }
-          &.title {
-            width: 4*$em;
-            cursor: default;
-            text-align: left;
-            &:hover {
-              background-color: $primary;
-            }
-          }
-          &:not(:last-child) {
-            height: 100%;
-            box-shadow: inset -2px 0 0 0 $dimmer;
-          }
-        }
-      }
-      &:not(:last-child) {
-        border-right: 2px solid $dimmer;
-      }
-    }
-    .mobile {
-      display: none;
-      text-align: left;
-    }
-    .follow.need-auth {
-      color: rgba(black, .5);
-      text-decoration: none;
-    }
-    a {
-      color: black;
-      font-weight: bold;
-    }
-    .closer {}
-  }
-}
 
 @mixin streamTools {
   .tools {
@@ -275,6 +173,110 @@
       }
     }
   }
+}
+
+.player-stream {
+  @include displayFlex;
+  position: relative;
+  height: 100%;
+  .video, .chat {
+    position: relative;
+    background-color: black;
+    .nested {
+      position: relative;
+    }
+    iframe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .video {
+    width: 100%;
+    padding-top: 2*$em;
+    .nested {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .chat {
+    width: 24*$em;
+    min-width: 24*$em;
+  }
+  .tools {
+    @include displayFlex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    > * {
+      background-color: $primary;
+      padding: .45*$em .5*$em;
+      cursor: pointer;
+      &:hover {
+        background-color: $light;
+        &.mobile {
+          text-align: left;
+          .name {
+            &:after {
+              background-image: singular-gradient(90deg, transparent, $light) !important;
+            }
+          }
+        }
+      }
+      &.streamer {
+        .vod {
+          color: rgba(0,125, 60, 1);
+        }
+      }
+      &.refresh {
+        cursor: default;
+        &:hover {
+          background-color: $primary;
+        }
+        > * {
+          display: inline-block;
+          width: 4*$em;
+          min-width: initial;
+          padding-top: 0;
+          background-color: transparent;
+          cursor: pointer;
+          text-align: center;
+          &:hover {
+            background-color: $light;
+          }
+          &.title {
+            width: 4*$em;
+            cursor: default;
+            text-align: left;
+            &:hover {
+              background-color: $primary;
+            }
+          }
+          &:not(:last-child) {
+            height: 100%;
+            box-shadow: inset -2px 0 0 0 $dimmer;
+          }
+        }
+      }
+      &:not(:last-child) {
+        border-right: 2px solid $dimmer;
+      }
+    }
+    .mobile {
+      display: none;
+      text-align: left;
+    }
+    .follow.need-auth {
+      color: rgba(black, .5);
+      text-decoration: none;
+    }
+    a {
+      color: black;
+      font-weight: bold;
+    }
+    .closer {}
+  }
+  @include streamTools;
 }
 
 .chat-list.hide-chat {
