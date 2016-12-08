@@ -27435,7 +27435,7 @@ var ListItemHoverOptions = _react2["default"].createClass({
         { className: "go-to-channel" },
         _react2["default"].createElement(
           "a",
-          { href: "/profile/" + name, target: "_blank" },
+          { href: "/profile/" + name },
           "View Profile"
         )
       ),
@@ -27481,6 +27481,7 @@ var SlideInput = _react2["default"].createClass({
 
     if (callback) callback(this.refs.input.value, false);
     toggleCallback(commandValue);
+    this.refs.input.value = "";
   },
   render: function render() {
     var _props2 = this.props;
@@ -27722,7 +27723,7 @@ var PlayerStream = _react2["default"].createClass({
         this.refs.video.src = this.refs.video.src;
         break;
       case "chat":
-        this.props.methods.refreshChat(this.props.name);
+        this.props.methods.refreshChat(this.props.vod || this.props.name);
         break;
     }
   },
@@ -28059,9 +28060,9 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   refreshChat: function refreshChat(name) {
-    console.log(name, this[name + "_chat"].refs.chat);
-    var chat = this[name + "_chat"].refs.chat;
+    var chat = this.refs[name + "_chat"].refs.chat;
 
+    console.log(name, chat);
     chat.src = chat.src;
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -28161,9 +28162,7 @@ exports["default"] = _react2["default"].createClass({
               var vod = _dataObject$key2.vod;
             }
             var channelData = dataObject[key];
-            return _react2["default"].createElement(PlayerStream, { ref: function (r) {
-                return _this5[key + "_chat"] = r;
-              }, key: key, vod: isObject ? id : false, name: key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
+            return _react2["default"].createElement(PlayerStream, { ref: key + "_chat", key: key, vod: isObject ? id : false, name: key, display_name: dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "chat", methods: {} });
           }) : null
         ),
         _react2["default"].createElement(
@@ -30139,6 +30138,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _react = require("react");
@@ -30161,37 +30162,6 @@ var _componentsUserUserInfoJsx2 = _interopRequireDefault(_componentsUserUserInfo
 
 // import FollowedStreams from "./components/user/followed-streams.jsx";
 // import FollowingStreams from "./components/user/following-streams.jsx";
-
-// export default React.createClass({
-//   displayName: "Profile",
-//   render() {
-//     const {
-//       userData,
-//       params = {}
-//     } = this.props;
-//     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
-//     return (
-//       <div className="top-level-component profile">
-//         <div className="general-page profile">
-//           <div className="page-header">
-//             <div className="title">
-//               {`Profile: `}
-//               {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
-//             </div>
-//           </div>
-//           <div className="separator-4-black" />
-//           <UserInfo {...this.props} />
-//           <div className="separator-4-black" />
-//           <FollowStreams follow={"IFollow"} {...this.props} />
-//           <div className="separator-4-black" />
-//           <FollowStreams follow={"followMe"} {...this.props}/>
-//           <div className="separator-4-black" />
-//           <VideosListing broadcasts={true} {...this.props} />
-//         </div>
-//       </div>
-//     );
-//   }
-// });
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Profile",
@@ -30223,11 +30193,42 @@ exports["default"] = _react2["default"].createClass({
           )
         ),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props)
+        _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props),
+        _react2["default"].createElement("div", { className: "separator-4-black" }),
+        _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "IFollow" }, this.props)),
+        _react2["default"].createElement("div", { className: "separator-4-black" }),
+        _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "followMe" }, this.props)),
+        _react2["default"].createElement("div", { className: "separator-4-black" }),
+        _react2["default"].createElement(_componentsUserVideosListingJsx2["default"], _extends({ broadcasts: true }, this.props))
       )
     );
   }
 });
+
+// export default React.createClass({
+//   displayName: "Profile",
+//   render() {
+//     const {
+//       userData,
+//       params = {}
+//     } = this.props;
+//     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
+//     return (
+//       <div className="top-level-component profile">
+//         <div className="general-page profile">
+//           <div className="page-header">
+//             <div className="title">
+//               {`Profile: `}
+//               {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
+//             </div>
+//           </div>
+//           <div className="separator-4-black" />
+//           <UserInfo {...this.props} />
+//         </div>
+//       </div>
+//     );
+//   }
+// });
 module.exports = exports["default"];
 },{"./components/user/follow-streams.jsx":251,"./components/user/user-info.jsx":252,"./components/user/videos-listing.jsx":253,"react":242,"react-router":37}],258:[function(require,module,exports){
 "use strict";
@@ -30342,9 +30343,9 @@ exports["default"] = _react2["default"].createClass({
           return letter.toUpperCase();
         });
         var searchType = "search" + capitalType;
-        _this.setState({
+        _this._mounted ? _this.setState({
           requestOffset: _this.state.requestOffset + 25
-        });
+        }) : null;
         console.log(_this);
         _modulesLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);

@@ -36,7 +36,7 @@ const PlayerStream = React.createClass({
         this.refs.video.src = this.refs.video.src;
         break;
       case "chat":
-        this.props.methods.refreshChat(this.props.name);
+        this.props.methods.refreshChat(this.props.vod || this.props.name);
         break;
     }
   },
@@ -309,8 +309,8 @@ export default React.createClass({
     }
   },
   refreshChat(name) {
-    console.log(name, this[`${name}_chat`].refs.chat);
-    let { chat } = this[`${name}_chat`].refs;
+    let { chat } = this.refs[`${name}_chat`].refs;
+    console.log(name, chat);
     chat.src = chat.src;
   },
   componentWillReceiveProps(nextProps) {
@@ -419,7 +419,7 @@ export default React.createClass({
                   }
                   let channelData = dataObject[key];
                   return (
-                    <PlayerStream ref={r => this[`${key}_chat`] = r} key={key} vod={isObject ? id : false} name={key} display_name={dataObject[key]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
+                    <PlayerStream ref={`${key}_chat`} key={key} vod={isObject ? id : false} name={key} display_name={dataObject[key]} userData={userData} auth={auth} inView={streamInView === ind} isFor="chat" methods={{}} />
                   );
                 })
               ) : null

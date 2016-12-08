@@ -82,9 +82,9 @@ export default React.createClass({
         return letter.toUpperCase();
       });
       let searchType = `search${capitalType}`;
-      this.setState({
+      this._mounted ? this.setState({
         requestOffset: this.state.requestOffset + 25
-      });
+      }) : null;
       console.log(this);
       loadData.call(this, e => {
         console.error(e.stack);

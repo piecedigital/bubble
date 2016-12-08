@@ -13,7 +13,8 @@ const SlideInput = React.createClass({
       }
     } = this.props;
     if(callback) callback(this.refs.input.value, false);
-    toggleCallback(commandValue)
+    toggleCallback(commandValue);
+    this.refs.input.value = "";
   },
   render() {
     const {

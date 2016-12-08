@@ -110,9 +110,9 @@ exports["default"] = _react2["default"].createClass({
           return letter.toUpperCase();
         });
         var searchType = "search" + capitalType;
-        _this.setState({
+        _this._mounted ? _this.setState({
           requestOffset: _this.state.requestOffset + 25
-        });
+        }) : null;
         console.log(_this);
         _modulesLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);

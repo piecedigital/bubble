@@ -1267,9 +1267,13 @@ nav {
         display: -webkit-box;
         display: -webkit-flex;
         display: flex;
+        flex-direction: column;
         position: absolute;
-        bottom: 0;
-        left: 0; }
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        align-items: center; }
         .top-level-component.profile .followed-streams.profile > .wrapper .channel .banner .hover .logo, .top-level-component.profile .following-streams.profile > .wrapper .channel .banner .hover .logo, .top-level-component.profile .general-page > .wrapper .channel .banner .hover .logo, .top-level-component.profile .videos-listing.profile > .wrapper .channel .banner .hover .logo, .top-level-component.profile .user-info > .wrapper .channel .banner .hover .logo, .top-level-component.streams .followed-streams.profile > .wrapper .channel .banner .hover .logo, .top-level-component.streams .following-streams.profile > .wrapper .channel .banner .hover .logo, .top-level-component.streams .general-page > .wrapper .channel .banner .hover .logo, .top-level-component.streams .videos-listing.profile > .wrapper .channel .banner .hover .logo, .top-level-component.streams .user-info > .wrapper .channel .banner .hover .logo, .top-level-component.games .followed-streams.profile > .wrapper .channel .banner .hover .logo, .top-level-component.games .following-streams.profile > .wrapper .channel .banner .hover .logo, .top-level-component.games .general-page > .wrapper .channel .banner .hover .logo, .top-level-component.games .videos-listing.profile > .wrapper .channel .banner .hover .logo, .top-level-component.games .user-info > .wrapper .channel .banner .hover .logo, .top-level-component.search-page .followed-streams.profile > .wrapper .channel .banner .hover .logo, .top-level-component.search-page .following-streams.profile > .wrapper .channel .banner .hover .logo, .top-level-component.search-page .general-page > .wrapper .channel .banner .hover .logo, .top-level-component.search-page .videos-listing.profile > .wrapper .channel .banner .hover .logo, .top-level-component.search-page .user-info > .wrapper .channel .banner .hover .logo {
           position: relative;
           width: 96px; }
