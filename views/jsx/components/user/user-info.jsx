@@ -18,6 +18,10 @@ var _modulesLoadData = require("../../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _followBtnJsx = require("../follow-btn.jsx");
+
+var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
+
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 // primary section for the search component
@@ -72,11 +76,14 @@ exports["default"] = _react2["default"].createClass({
   },
   render: function render() {
     var _props2 = this.props;
+    var auth = _props2.auth;
     var params = _props2.params;
     var userData = _props2.userData;
     var _state = this.state;
     var userUserData = _state.userUserData;
     var userChannelData = _state.userChannelData;
+
+    var name = params && params.username ? params.username : userData ? userData.name : null;
 
     return _react2["default"].createElement(
       "div",
@@ -84,8 +91,7 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "title" },
-        params && params.username ? params.username : userData ? userData.name : null,
-        "'s info"
+        name ? name + "'s info" : null
       ),
       _react2["default"].createElement(
         "div",
@@ -103,7 +109,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "div",
                 { className: "logo" },
-                _react2["default"].createElement("img", { src: userChannelData.logo })
+                _react2["default"].createElement("img", { src: userChannelData.logo || missingLogo })
               ),
               _react2["default"].createElement(
                 "div",
@@ -135,15 +141,23 @@ exports["default"] = _react2["default"].createClass({
             )
           )
         ) : null,
-        userUserData ? _react2["default"].createElement(
+        _react2["default"].createElement(
           "div",
           { className: "user" },
-          _react2["default"].createElement(
+          userUserData ? _react2["default"].createElement(
             "div",
-            { className: "bio" + (userUserData.bio ? " no-bio" : "") },
+            { className: "bio" + (!userUserData.bio ? " no-bio" : "") },
             userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
-          )
-        ) : null
+          ) : null,
+          _react2["default"].createElement("div", { className: "separator-4-3" }),
+          name ? _react2["default"].createElement(
+            "a",
+            { className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+            "Send Message"
+          ) : null,
+          " ",
+          userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" }) : null
+        )
       )
     );
   }

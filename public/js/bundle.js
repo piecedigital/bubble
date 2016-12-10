@@ -27383,7 +27383,9 @@ exports["default"] = _react2["default"].createClass({
   },
   render: function render() {
     var isFollowing = this.state.isFollowing;
-    var targetDisplay = this.props.targetDisplay;
+    var _props3 = this.props;
+    var targetName = _props3.targetName;
+    var targetDisplay = _props3.targetDisplay;
 
     if (isFollowing === null) return null;
     return _react2["default"].createElement(
@@ -27391,10 +27393,10 @@ exports["default"] = _react2["default"].createClass({
       { className: "follow" },
       _react2["default"].createElement(
         "a",
-        { href: "#", onClick: this.toggleFollow },
+        { href: "#", className: this.props.className, onClick: this.toggleFollow },
         isFollowing ? "Unfollow" : "Follow",
         " ",
-        targetDisplay
+        targetDisplay || targetName
       )
     );
   }
@@ -27413,9 +27415,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _followJsx = require("./follow.jsx");
+var _followBtnJsx = require("./follow-btn.jsx");
 
-var _followJsx2 = _interopRequireDefault(_followJsx);
+var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
 
 var ListItemHoverOptions = _react2["default"].createClass({
   displayName: "ListItemTools",
@@ -27442,7 +27444,7 @@ var ListItemHoverOptions = _react2["default"].createClass({
           "View Profile"
         )
       ),
-      userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
+      userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
       _react2["default"].createElement(
         "div",
         { className: "append-stream" },
@@ -27453,12 +27455,21 @@ var ListItemHoverOptions = _react2["default"].createClass({
           " ",
           vod ? "VOD" : "Stream"
         )
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "send-message" },
+        _react2["default"].createElement(
+          "a",
+          { className: "btn-default btn-rect btn-no-pad color-black no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+          "Send Message"
+        )
       )
     );
   }
 });
 exports.ListItemHoverOptions = ListItemHoverOptions;
-},{"./follow.jsx":245,"react":242}],247:[function(require,module,exports){
+},{"./follow-btn.jsx":245,"react":242}],247:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27687,9 +27698,9 @@ var _modulesLoadData = require("../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
-var _followJsx = require("./follow.jsx");
+var _followBtnJsx = require("./follow-btn.jsx");
 
-var _followJsx2 = _interopRequireDefault(_followJsx);
+var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
 
 var _streamPanelsJsx = require("./stream-panels.jsx");
 
@@ -27965,7 +27976,7 @@ var PlayerStream = _react2["default"].createClass({
                   } },
                 "Open Stream Panels"
               ),
-              userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
+              userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
                 "div",
                 { className: "follow need-auth", onClick: function () {
                     alertAuthNeeded();
@@ -28220,7 +28231,7 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-},{"../../../modules/load-data":4,"./follow.jsx":245,"./stream-panels.jsx":249,"react":242,"react-dom":7,"react-router":37}],249:[function(require,module,exports){
+},{"../../../modules/load-data":4,"./follow-btn.jsx":245,"./stream-panels.jsx":249,"react":242,"react-dom":7,"react-router":37}],249:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28738,11 +28749,14 @@ exports["default"] = _react2["default"].createClass({
         username: username
       }).then(function (methods) {
         methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
+          var newDataArray = Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
           _this3._mounted ? _this3.setState({
-            dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
+            dataArray: newDataArray,
+            requestOffset: newDataArray.length,
             component: "ChannelsListItem"
           }, function () {
             console.log("total data " + (_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"), _this3.state.dataArray.length);
+            console.log("final offset:", _this3.state.requestOffset);
             if (typeof callback === "function") callback();
           }) : null;
         })["catch"](function (e) {
@@ -28754,9 +28768,17 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   removeFromDataArray: function removeFromDataArray(index) {
+    var _this4 = this;
+
     console.log("removing", index);
-    var newDataArray = JSON.parse(JSON.stringify(this.state.dataArray));
+    var newDataArray = this.state.dataArray;
     var removed = newDataArray.splice(parseInt(index), 1);
+    this._mounted ? this.setState({
+      dataArray: newDataArray,
+      requestOffset: newDataArray.length
+    }, function () {
+      return console.log("final offset:", _this4.state.requestOffset);
+    }) : null;
     console.log(removed);
   },
   refresh: function refresh() {
@@ -28779,7 +28801,7 @@ exports["default"] = _react2["default"].createClass({
     }) : null;
   },
   refreshList: function refreshList(reset, length, offset) {
-    var _this4 = this;
+    var _this5 = this;
 
     length = length || this.state.dataArray.length;
     offset = offset || 0;
@@ -28789,17 +28811,17 @@ exports["default"] = _react2["default"].createClass({
     if (reset) obj.dataArray = [];
     this._mounted ? this.setState(obj, function () {
       if (length > 100) {
-        _this4.gatherData(100, offset, _this4.refreshList.bind(_this4, false, length - 100, requestOffset + 100));
+        _this5.gatherData(100, offset, _this5.refreshList.bind(_this5, false, length - 100, requestOffset + 100));
       } else {
-        _this4.gatherData(length, offset);
+        _this5.gatherData(length, offset);
       }
     }) : null;
   },
   scrollEvent: function scrollEvent(e) {
-    var _this5 = this;
+    var _this6 = this;
 
     setTimeout(function () {
-      var _refs = _this5.refs;
+      var _refs = _this6.refs;
       var root = _refs.root;
       var tools = _refs.tools;
 
@@ -28813,7 +28835,7 @@ exports["default"] = _react2["default"].createClass({
         // lock the tools menu to the top of it's parent
         // if the top of the page root is higher than or equal to the top of the app root
         if (trueRoot.scrollTop <= root.offsetTop) {
-          _this5.setState({
+          _this6.setState({
             locked: true,
             lockedTop: true
           });
@@ -28821,13 +28843,13 @@ exports["default"] = _react2["default"].createClass({
           // lock the tools menu to the bottom of it's parent
           // if the top of the page root is lower than or equal to the top of the app root
           if (trueRoot.scrollTop >= bottom) {
-            _this5.setState({
+            _this6.setState({
               locked: true,
               lockedTop: false
             });
           } else {
             // don't lock anything; fix it to the page scrolling
-            _this5.setState({
+            _this6.setState({
               locked: false,
               lockedTop: false
             });
@@ -28835,63 +28857,11 @@ exports["default"] = _react2["default"].createClass({
       }
     }, 200);
   },
-  notify: function notify(name, display_name) {
-    // let notifArray = Array.from(this.state.notifArray);
-    // console.log(notifArray, this.state.currentNotifs);
-    // notifArray.push([name, display_name]);
-    // this._mounted ? this.setState({
-    //   notifArray,
-    // }) : null;
-    // this.setState({
-    //   currentNotifs: this.state.currentNotifs + 1
-    // }, () => {
-    //   setTimeout(() => {
-    //     notification({
-    //       type: "stream_online",
-    //       channelName: next[1] || next[0],
-    //       timeout: 2,
-    //       callback: () => {
-    //         this.props.methods.appendStream.apply(this, next);
-    //       },
-    //       finishCB: () => {
-    //         this.setState({
-    //           // currentNotifs: this.state.currentNotifs - 1
-    //         });
-    //       }
-    //     });
-    //   }, 4000 * (Math.floor(this.state.currentNotifs % 3)) );
-    // });
-  },
-  sendNotif: function sendNotif(queue, newArray) {
-    // console.log("queuing", newArray);
-    // this.setState({
-    //   currentNotifs: queue.length,
-    //   // notifArray: newArray
-    // }, () => {
-    //   queue.map(next => {
-    //     notification({
-    //       type: "stream_online",
-    //       channelName: next[1] || next[0],
-    //       timeout: 2,
-    //       callback: () => {
-    //         this.props.methods.appendStream.apply(this, next);
-    //       }
-    //     });
-    //   });
-    //   setTimeout(() => {
-    //     let newCurrent = this.state.currentNotifs - queue.length;
-    //     if(newCurrent < 0) newCurrent = 0;
-    //     this.setState({
-    //       currentNotifs: newCurrent
-    //     });
-    //   }, 3000);
-    // });
-  },
   componentWillReceiveProps: function componentWillReceiveProps() {
-    var _this6 = this;
+    var _this7 = this;
 
     setTimeout(function () {
-      _this6.scrollEvent();
+      _this7.scrollEvent();
     }, 100);
   },
   componentDidUpdate: function componentDidUpdate() {
@@ -28914,7 +28884,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this7 = this;
+    var _this8 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -28939,22 +28909,22 @@ exports["default"] = _react2["default"].createClass({
         var ListItem = components[component];
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
-              return dataArray[ind].ref = r;
+              dataArray[ind] ? dataArray[ind].ref = r : null;
             }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), follow: follow, methods: {
               appendStream: appendStream,
-              notify: _this7.notify,
-              removeFromDataArray: _this7.removeFromDataArray
+              notify: _this8.notify,
+              removeFromDataArray: _this8.removeFromDataArray
             } });
         });
 
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: (_this7.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this8.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              _this7.props.follow === "IFollow" ? "Followed" : "Following",
+              _this8.props.follow === "IFollow" ? "Followed" : "Following",
               " Channels"
             ),
             _react2["default"].createElement(
@@ -28977,19 +28947,19 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this7.refresh },
+                    { className: "option btn-default refresh", onClick: _this8.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this7.refreshList(true);
+                        return _this8.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this7.gatherData },
+                    { className: "option btn-default load-more", onClick: _this8.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -29005,13 +28975,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this7.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this8.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this7.capitalize(filter)
+                            _this8.capitalize(filter)
                           );
                         })
                       )
@@ -29056,6 +29026,10 @@ var _react2 = _interopRequireDefault(_react);
 var _modulesLoadData = require("../../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+
+var _followBtnJsx = require("../follow-btn.jsx");
+
+var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
 
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -29111,11 +29085,14 @@ exports["default"] = _react2["default"].createClass({
   },
   render: function render() {
     var _props2 = this.props;
+    var auth = _props2.auth;
     var params = _props2.params;
     var userData = _props2.userData;
     var _state = this.state;
     var userUserData = _state.userUserData;
     var userChannelData = _state.userChannelData;
+
+    var name = params && params.username ? params.username : userData ? userData.name : null;
 
     return _react2["default"].createElement(
       "div",
@@ -29123,8 +29100,7 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "title" },
-        params && params.username ? params.username : userData ? userData.name : null,
-        "'s info"
+        name ? name + "'s info" : null
       ),
       _react2["default"].createElement(
         "div",
@@ -29142,7 +29118,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "div",
                 { className: "logo" },
-                _react2["default"].createElement("img", { src: userChannelData.logo })
+                _react2["default"].createElement("img", { src: userChannelData.logo || missingLogo })
               ),
               _react2["default"].createElement(
                 "div",
@@ -29174,21 +29150,29 @@ exports["default"] = _react2["default"].createClass({
             )
           )
         ) : null,
-        userUserData ? _react2["default"].createElement(
+        _react2["default"].createElement(
           "div",
           { className: "user" },
-          _react2["default"].createElement(
+          userUserData ? _react2["default"].createElement(
             "div",
-            { className: "bio" + (userUserData.bio ? " no-bio" : "") },
+            { className: "bio" + (!userUserData.bio ? " no-bio" : "") },
             userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
-          )
-        ) : null
+          ) : null,
+          _react2["default"].createElement("div", { className: "separator-4-3" }),
+          name ? _react2["default"].createElement(
+            "a",
+            { className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+            "Send Message"
+          ) : null,
+          " ",
+          userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" }) : null
+        )
       )
     );
   }
 });
 module.exports = exports["default"];
-},{"../../../../modules/load-data":4,"react":242}],253:[function(require,module,exports){
+},{"../../../../modules/load-data":4,"../follow-btn.jsx":245,"react":242}],253:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29445,8 +29429,7 @@ exports["default"] = _react2["default"].createClass({
               return dataArray[ind].ref = r;
             }, key: ind, data: itemData, userData: userData, index: ind, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendVOD: appendVOD,
-              notify: _this5.notify,
-              removeFromDataArray: _this5.removeFromDataArray
+              notify: _this5.notify
             } });
         });
 
