@@ -116,20 +116,20 @@ exports["default"] = _react2["default"].createClass({
                 { className: "info" },
                 _react2["default"].createElement(
                   "div",
-                  { className: "partner" },
+                  { className: "name" },
                   userChannelData.display_name
                 ),
                 _react2["default"].createElement(
                   "div",
                   { className: "views" },
                   "Views: ",
-                  userChannelData.views
+                  userChannelData.views.toLocaleString("en")
                 ),
                 _react2["default"].createElement(
                   "div",
                   { className: "followers" },
                   "Followers: ",
-                  userChannelData.followers
+                  userChannelData.followers.toLocaleString("en")
                 ),
                 _react2["default"].createElement(
                   "div",
