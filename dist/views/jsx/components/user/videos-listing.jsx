@@ -254,8 +254,7 @@ exports["default"] = _react2["default"].createClass({
               return dataArray[ind].ref = r;
             }, key: ind, data: itemData, userData: userData, index: ind, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
               appendVOD: appendVOD,
-              notify: _this5.notify,
-              removeFromDataArray: _this5.removeFromDataArray
+              notify: _this5.notify
             } });
         });
 

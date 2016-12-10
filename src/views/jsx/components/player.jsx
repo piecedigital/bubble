@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../modules/load-data";
-import FollowButton from "./follow.jsx";
+import FollowButton from "./follow-btn.jsx";
 import StreamPanels from "./stream-panels.jsx";
 
 // stream component for player

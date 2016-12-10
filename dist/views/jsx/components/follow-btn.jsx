@@ -92,7 +92,9 @@ exports["default"] = _react2["default"].createClass({
   },
   render: function render() {
     var isFollowing = this.state.isFollowing;
-    var targetDisplay = this.props.targetDisplay;
+    var _props3 = this.props;
+    var targetName = _props3.targetName;
+    var targetDisplay = _props3.targetDisplay;
 
     if (isFollowing === null) return null;
     return _react2["default"].createElement(
@@ -100,10 +102,10 @@ exports["default"] = _react2["default"].createClass({
       { className: "follow" },
       _react2["default"].createElement(
         "a",
-        { href: "#", onClick: this.toggleFollow },
+        { href: "#", className: this.props.className, onClick: this.toggleFollow },
         isFollowing ? "Unfollow" : "Follow",
         " ",
-        targetDisplay
+        targetDisplay || targetName
       )
     );
   }

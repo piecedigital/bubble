@@ -221,8 +221,7 @@ export default React.createClass({
         // return null;
         return <ListItem ref={r => dataArray[ind].ref = r} key={ind} data={itemData} userData={userData} index={ind} auth={auth} notifyMultiplier={Math.floor(ind / 3)} methods={{
           appendVOD,
-          notify: this.notify,
-          removeFromDataArray: this.removeFromDataArray
+          notify: this.notify
         }} />
       });
 

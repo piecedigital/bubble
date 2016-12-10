@@ -78,12 +78,13 @@ export default React.createClass({
       isFollowing
     } = this.state
     const {
+      targetName,
       targetDisplay
     } = this.props;
     if(isFollowing === null) return null;
     return (
       <div className="follow">
-        <a href="#" onClick={this.toggleFollow}>{isFollowing ? "Unfollow" : "Follow"} {targetDisplay}</a>
+        <a href="#" className={this.props.className} onClick={this.toggleFollow}>{isFollowing ? "Unfollow" : "Follow"} {targetDisplay || targetName}</a>
       </div>
     );
   }

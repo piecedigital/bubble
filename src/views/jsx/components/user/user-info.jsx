@@ -1,6 +1,7 @@
 import React from "react";
 // import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/load-data";
+import FollowButton from "../follow-btn.jsx";
 
 const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -53,6 +54,7 @@ export default React.createClass({
   },
   render() {
     const {
+      auth,
       params,
       userData,
     } = this.props;
@@ -61,10 +63,14 @@ export default React.createClass({
       userChannelData
     } = this.state;
 
+    let name = params && params.username ? params.username : userData ? userData.name : null;
+
     return (
       <div ref="root" className={`user-info`}>
         <div className="title">
-          {params && params.username ? params.username : userData ? userData.name : null}'s info
+          {name ? (
+            `${name}'s info`
+          ) : null}
         </div>
         <div className="wrapper">
           {
@@ -73,7 +79,7 @@ export default React.createClass({
                 <div className="banner">
                   <img src={userChannelData.profile_banner} />
                   <div className="hover">
-                    <div className="logo"><img src={userChannelData.logo} /></div>
+                    <div className="logo"><img src={userChannelData.logo || missingLogo} /></div>
                     <div className="info">
                       <div className="partner">{userChannelData.display_name}</div>
                       <div className="views">Views: {userChannelData.views}</div>
@@ -85,10 +91,10 @@ export default React.createClass({
               </div>
             ) : null
           }
-          {
-            userUserData ? (
-              <div className="user">
-                <div className={`bio${userUserData.bio ? " no-bio" : ""}`}>
+          <div className="user">
+            {
+              userUserData ? (
+                <div className={`bio${!userUserData.bio ? " no-bio" : ""}`}>
                   {
                     userUserData.bio ? (
                       userUserData.bio
@@ -98,9 +104,17 @@ export default React.createClass({
                     )
                   }
                 </div>
-              </div>
-            ) : null
-          }
+              ) : null
+            }
+            <div className="separator-4-3" />
+            {
+              name ? (
+                <a className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>
+              ) : null
+            }
+            {" "}
+            {userData ? <FollowButton name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default btn-rect color-black bold no-underline" /> : null}
+          </div>
         </div>
       </div>
     );

@@ -289,11 +289,14 @@ exports["default"] = _react2["default"].createClass({
         username: username
       }).then(function (methods) {
         methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
+          var newDataArray = Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
           _this3._mounted ? _this3.setState({
-            dataArray: Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
+            dataArray: newDataArray,
+            requestOffset: newDataArray.length,
             component: "ChannelsListItem"
           }, function () {
             console.log("total data " + (_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"), _this3.state.dataArray.length);
+            console.log("final offset:", _this3.state.requestOffset);
             if (typeof callback === "function") callback();
           }) : null;
         })["catch"](function (e) {
@@ -305,9 +308,17 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   removeFromDataArray: function removeFromDataArray(index) {
+    var _this4 = this;
+
     console.log("removing", index);
-    var newDataArray = JSON.parse(JSON.stringify(this.state.dataArray));
+    var newDataArray = this.state.dataArray;
     var removed = newDataArray.splice(parseInt(index), 1);
+    this._mounted ? this.setState({
+      dataArray: newDataArray,
+      requestOffset: newDataArray.length
+    }, function () {
+      return console.log("final offset:", _this4.state.requestOffset);
+    }) : null;
     console.log(removed);
   },
   refresh: function refresh() {
@@ -330,7 +341,7 @@ exports["default"] = _react2["default"].createClass({
     }) : null;
   },
   refreshList: function refreshList(reset, length, offset) {
-    var _this4 = this;
+    var _this5 = this;
 
     length = length || this.state.dataArray.length;
     offset = offset || 0;
@@ -340,17 +351,17 @@ exports["default"] = _react2["default"].createClass({
     if (reset) obj.dataArray = [];
     this._mounted ? this.setState(obj, function () {
       if (length > 100) {
-        _this4.gatherData(100, offset, _this4.refreshList.bind(_this4, false, length - 100, requestOffset + 100));
+        _this5.gatherData(100, offset, _this5.refreshList.bind(_this5, false, length - 100, requestOffset + 100));
       } else {
-        _this4.gatherData(length, offset);
+        _this5.gatherData(length, offset);
       }
     }) : null;
   },
   scrollEvent: function scrollEvent(e) {
-    var _this5 = this;
+    var _this6 = this;
 
     setTimeout(function () {
-      var _refs = _this5.refs;
+      var _refs = _this6.refs;
       var root = _refs.root;
       var tools = _refs.tools;
 
@@ -364,7 +375,7 @@ exports["default"] = _react2["default"].createClass({
         // lock the tools menu to the top of it's parent
         // if the top of the page root is higher than or equal to the top of the app root
         if (trueRoot.scrollTop <= root.offsetTop) {
-          _this5.setState({
+          _this6.setState({
             locked: true,
             lockedTop: true
           });
@@ -372,13 +383,13 @@ exports["default"] = _react2["default"].createClass({
           // lock the tools menu to the bottom of it's parent
           // if the top of the page root is lower than or equal to the top of the app root
           if (trueRoot.scrollTop >= bottom) {
-            _this5.setState({
+            _this6.setState({
               locked: true,
               lockedTop: false
             });
           } else {
             // don't lock anything; fix it to the page scrolling
-            _this5.setState({
+            _this6.setState({
               locked: false,
               lockedTop: false
             });
@@ -386,63 +397,11 @@ exports["default"] = _react2["default"].createClass({
       }
     }, 200);
   },
-  notify: function notify(name, display_name) {
-    // let notifArray = Array.from(this.state.notifArray);
-    // console.log(notifArray, this.state.currentNotifs);
-    // notifArray.push([name, display_name]);
-    // this._mounted ? this.setState({
-    //   notifArray,
-    // }) : null;
-    // this.setState({
-    //   currentNotifs: this.state.currentNotifs + 1
-    // }, () => {
-    //   setTimeout(() => {
-    //     notification({
-    //       type: "stream_online",
-    //       channelName: next[1] || next[0],
-    //       timeout: 2,
-    //       callback: () => {
-    //         this.props.methods.appendStream.apply(this, next);
-    //       },
-    //       finishCB: () => {
-    //         this.setState({
-    //           // currentNotifs: this.state.currentNotifs - 1
-    //         });
-    //       }
-    //     });
-    //   }, 4000 * (Math.floor(this.state.currentNotifs % 3)) );
-    // });
-  },
-  sendNotif: function sendNotif(queue, newArray) {
-    // console.log("queuing", newArray);
-    // this.setState({
-    //   currentNotifs: queue.length,
-    //   // notifArray: newArray
-    // }, () => {
-    //   queue.map(next => {
-    //     notification({
-    //       type: "stream_online",
-    //       channelName: next[1] || next[0],
-    //       timeout: 2,
-    //       callback: () => {
-    //         this.props.methods.appendStream.apply(this, next);
-    //       }
-    //     });
-    //   });
-    //   setTimeout(() => {
-    //     let newCurrent = this.state.currentNotifs - queue.length;
-    //     if(newCurrent < 0) newCurrent = 0;
-    //     this.setState({
-    //       currentNotifs: newCurrent
-    //     });
-    //   }, 3000);
-    // });
-  },
   componentWillReceiveProps: function componentWillReceiveProps() {
-    var _this6 = this;
+    var _this7 = this;
 
     setTimeout(function () {
-      _this6.scrollEvent();
+      _this7.scrollEvent();
     }, 100);
   },
   componentDidUpdate: function componentDidUpdate() {
@@ -465,7 +424,7 @@ exports["default"] = _react2["default"].createClass({
     document.removeEventListener("mousewheel", this.scrollEvent, false);
   },
   render: function render() {
-    var _this7 = this;
+    var _this8 = this;
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
@@ -490,22 +449,22 @@ exports["default"] = _react2["default"].createClass({
         var ListItem = components[component];
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
-              return dataArray[ind].ref = r;
+              dataArray[ind] ? dataArray[ind].ref = r : null;
             }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), follow: follow, methods: {
               appendStream: appendStream,
-              notify: _this7.notify,
-              removeFromDataArray: _this7.removeFromDataArray
+              notify: _this8.notify,
+              removeFromDataArray: _this8.removeFromDataArray
             } });
         });
 
         return {
           v: _react2["default"].createElement(
             "div",
-            { ref: "root", className: (_this7.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
+            { ref: "root", className: (_this8.props.follow === "IFollow" ? "following-streams" : "followed-streams") + " profile" + (locked ? " locked" : "") },
             _react2["default"].createElement(
               "div",
               { className: "title" },
-              _this7.props.follow === "IFollow" ? "Followed" : "Following",
+              _this8.props.follow === "IFollow" ? "Followed" : "Following",
               " Channels"
             ),
             _react2["default"].createElement(
@@ -528,19 +487,19 @@ exports["default"] = _react2["default"].createClass({
                   { className: "scroll" },
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default refresh", onClick: _this7.refresh },
+                    { className: "option btn-default refresh", onClick: _this8.refresh },
                     "Refresh Streams"
                   ),
                   _react2["default"].createElement(
                     "div",
                     { className: "option btn-default refresh", onClick: function () {
-                        return _this7.refreshList(true);
+                        return _this8.refreshList(true);
                       } },
                     "Refresh Listing"
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this7.gatherData },
+                    { className: "option btn-default load-more", onClick: _this8.gatherData },
                     "Load More"
                   ),
                   _react2["default"].createElement(
@@ -556,13 +515,13 @@ exports["default"] = _react2["default"].createClass({
                       ),
                       _react2["default"].createElement(
                         "select",
-                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this7.applyFilter, defaultValue: "all" },
+                        { id: "filter-select", className: "", ref: "filterSelect", onChange: _this8.applyFilter, defaultValue: "all" },
                         ["all", "online", "offline"].map(function (filter) {
                           return _react2["default"].createElement(
                             "option",
                             { key: filter, value: filter },
                             "Show ",
-                            _this7.capitalize(filter)
+                            _this8.capitalize(filter)
                           );
                         })
                       )

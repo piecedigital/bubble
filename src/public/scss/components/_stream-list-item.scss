@@ -20,7 +20,8 @@
       background-color: $light;
       .hover-options {
         top: 50%;
-        max-height: 10*$em;
+        height: 13*$em;
+        max-height: 13*$em;
         padding: .5*$em;
         transform: translate(0, -50%);
       }
@@ -53,7 +54,6 @@
   .hover-options {
     @include displayFlex;
     flex-direction: column;
-    align-items: center;
     align-items: center;
     justify-content: space-around;
     position: absolute;

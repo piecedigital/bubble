@@ -10,9 +10,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _followJsx = require("./follow.jsx");
+var _followBtnJsx = require("./follow-btn.jsx");
 
-var _followJsx2 = _interopRequireDefault(_followJsx);
+var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
 
 var ListItemHoverOptions = _react2["default"].createClass({
   displayName: "ListItemTools",
@@ -39,7 +39,7 @@ var ListItemHoverOptions = _react2["default"].createClass({
           "View Profile"
         )
       ),
-      userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
+      userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
       _react2["default"].createElement(
         "div",
         { className: "append-stream" },
@@ -49,6 +49,15 @@ var ListItemHoverOptions = _react2["default"].createClass({
           stream || vod ? "Watch" : "Open",
           " ",
           vod ? "VOD" : "Stream"
+        )
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "send-message" },
+        _react2["default"].createElement(
+          "a",
+          { className: "btn-default btn-rect btn-no-pad color-black no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+          "Send Message"
         )
       )
     );

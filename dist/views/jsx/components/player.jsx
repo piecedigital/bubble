@@ -22,9 +22,9 @@ var _modulesLoadData = require("../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
-var _followJsx = require("./follow.jsx");
+var _followBtnJsx = require("./follow-btn.jsx");
 
-var _followJsx2 = _interopRequireDefault(_followJsx);
+var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
 
 var _streamPanelsJsx = require("./stream-panels.jsx");
 
@@ -300,7 +300,7 @@ var PlayerStream = _react2["default"].createClass({
                   } },
                 "Open Stream Panels"
               ),
-              userData ? _react2["default"].createElement(_followJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
+              userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
                 "div",
                 { className: "follow need-auth", onClick: function () {
                     alertAuthNeeded();

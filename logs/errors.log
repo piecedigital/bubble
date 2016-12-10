@@ -130,3 +130,19 @@ Error: Parsing file E:\GIT FILES\Sites\bubble\dist\views\jsx\layout.jsx: Unexpec
     at ConcatStream.Writable.end (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\concat-stream\node_modules\readable-stream\lib\_stream_writable.js:455:41)
     at DuplexWrapper.onend (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\readable-stream\lib\_stream_readable.js:507:10)
 ]
+[1481347193808] [Sat, 10 Dec 2016 05:19:53 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './follow.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1481347228944] [Sat, 10 Dec 2016 05:20:28 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './follow.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]

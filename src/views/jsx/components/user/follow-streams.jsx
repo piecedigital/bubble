@@ -249,11 +249,14 @@ export default React.createClass({
         methods
         [this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]()
         .then(data => {
+          let newDataArray = Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
           this._mounted ? this.setState({
-            dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows),
+            dataArray: newDataArray,
+            requestOffset: newDataArray.length,
             component: `ChannelsListItem`
           }, () => {
             console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
+            console.log("final offset:", this.state.requestOffset);
             if(typeof callback === "function") callback();
           }) : null;
         })
@@ -264,8 +267,12 @@ export default React.createClass({
   },
   removeFromDataArray(index) {
     console.log("removing", index);
-    let newDataArray = JSON.parse(JSON.stringify(this.state.dataArray));
+    let newDataArray = this.state.dataArray;
     let removed = newDataArray.splice(parseInt(index), 1);
+    this._mounted ? this.setState({
+      dataArray: newDataArray,
+      requestOffset: newDataArray.length
+    }, () => console.log("final offset:", this.state.requestOffset) ) : null;
     console.log(removed);
   },
   refresh() {
@@ -338,58 +345,6 @@ export default React.createClass({
       }
     }, 200);
   },
-  notify(name, display_name) {
-    // let notifArray = Array.from(this.state.notifArray);
-    // console.log(notifArray, this.state.currentNotifs);
-    // notifArray.push([name, display_name]);
-    // this._mounted ? this.setState({
-    //   notifArray,
-    // }) : null;
-    // this.setState({
-    //   currentNotifs: this.state.currentNotifs + 1
-    // }, () => {
-    //   setTimeout(() => {
-    //     notification({
-    //       type: "stream_online",
-    //       channelName: next[1] || next[0],
-    //       timeout: 2,
-    //       callback: () => {
-    //         this.props.methods.appendStream.apply(this, next);
-    //       },
-    //       finishCB: () => {
-    //         this.setState({
-    //           // currentNotifs: this.state.currentNotifs - 1
-    //         });
-    //       }
-    //     });
-    //   }, 4000 * (Math.floor(this.state.currentNotifs % 3)) );
-    // });
-  },
-  sendNotif(queue, newArray) {
-    // console.log("queuing", newArray);
-    // this.setState({
-    //   currentNotifs: queue.length,
-    //   // notifArray: newArray
-    // }, () => {
-    //   queue.map(next => {
-    //     notification({
-    //       type: "stream_online",
-    //       channelName: next[1] || next[0],
-    //       timeout: 2,
-    //       callback: () => {
-    //         this.props.methods.appendStream.apply(this, next);
-    //       }
-    //     });
-    //   });
-    //   setTimeout(() => {
-    //     let newCurrent = this.state.currentNotifs - queue.length;
-    //     if(newCurrent < 0) newCurrent = 0;
-    //     this.setState({
-    //       currentNotifs: newCurrent
-    //     });
-    //   }, 3000);
-    // });
-  },
   componentWillReceiveProps() {
     setTimeout(() => {
       this.scrollEvent();
@@ -439,7 +394,9 @@ export default React.createClass({
     if(component) {
       const ListItem = components[component];
       const list = dataArray.map((itemData, ind) => {
-        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} notifyMultiplier={Math.floor(ind / 3)} follow={follow} methods={{
+        return <ListItem ref={r => {
+          dataArray[ind] ? dataArray[ind].ref = r : null
+        }} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} notifyMultiplier={Math.floor(ind / 3)} follow={follow} methods={{
           appendStream,
           notify: this.notify,
           removeFromDataArray: this.removeFromDataArray

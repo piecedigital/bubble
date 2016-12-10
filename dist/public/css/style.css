@@ -177,6 +177,42 @@ body {
   height: 4px;
   background-color: #96e6ff; }
 
+.color-white {
+  color: white; }
+
+.color-black {
+  color: black; }
+
+.color-#7d7d7d {
+  color: #7d7d7d; }
+
+.color-#ebebeb {
+  color: #ebebeb; }
+
+.color-#1e1e1e {
+  color: #1e1e1e; }
+
+.color-#6441a4 {
+  color: #6441a4; }
+
+.color-#00c8fa {
+  color: #00c8fa; }
+
+.color-#00aadc {
+  color: #00aadc; }
+
+.color-#0082b4 {
+  color: #0082b4; }
+
+.color-#96e6ff {
+  color: #96e6ff; }
+
+.bold {
+  font-weight: bold; }
+
+.no-underline {
+  text-decoration: none; }
+
 .root {
   height: 100%;
   overflow: auto; }
@@ -667,6 +703,12 @@ nav {
   background-color: #00c8fa;
   cursor: pointer; }
 
+.btn-rect {
+  border-radius: 0; }
+
+.btn-no-pad {
+  padding: 0; }
+
 .top-level-component.home-page .featured-streams {
   display: -ms-flex;
   display: -moz-flex;
@@ -917,7 +959,8 @@ nav {
       background-color: #96e6ff; }
       .stream-list-item > .wrapper:hover .hover-options {
         top: 50%;
-        max-height: 160px;
+        height: 208px;
+        max-height: 208px;
         padding: 8px;
         transform: translate(0, -50%); }
   .stream-list-item .image {
@@ -944,7 +987,6 @@ nav {
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
-    align-items: center;
     align-items: center;
     justify-content: space-around;
     position: absolute;
@@ -1099,7 +1141,8 @@ nav {
       background-color: #96e6ff; }
       .channel-list-item > .wrapper:hover .hover-options {
         top: 50%;
-        max-height: 160px;
+        height: 208px;
+        max-height: 208px;
         padding: 8px;
         transform: translate(0, -50%); }
   .channel-list-item .image {

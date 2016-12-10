@@ -82,6 +82,24 @@ body {
   cursor: pointer;
 }
 
+// @for $L from 1 to 5 {
+//   .separator-#{$L}-white {
+//     height: #{$L}px;
+//     background-color: white;
+//   }
+//   .separator-#{$L}-black {
+//     height: #{$L}px;
+//     background-color: black;
+//   }
+//   @each $color in $allColors {
+//     // $i: index($allColors, $color);
+//     .separator-#{$L}-#{str-slice($color, 2, 7)} {
+//       height: #{$L}px;
+//       background-color: #{$color};
+//     }
+//   }
+// }
+
 @for $L from 1 to 5 {
   .separator-#{$L}-white {
     height: #{$L}px;
@@ -98,6 +116,27 @@ body {
       background-color: #{$color};
     }
   }
+}
+
+.color-white {
+  color: white;
+}
+.color-black {
+  color: black;
+}
+@each $color in $allColors {
+  // $i: index($allColors, $color);
+  .color-#{$color} {
+    color: #{$color};
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.no-underline {
+  text-decoration: none;
 }
 
 @import "components/_root.scss";
