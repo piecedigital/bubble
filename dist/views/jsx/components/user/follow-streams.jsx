@@ -22,6 +22,7 @@ var _hoverOptionsJsx = require("../hover-options.jsx");
 
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
+var currentNotifs = 0;
 // components
 var components = {
   // list item for streams matching the search
@@ -81,23 +82,48 @@ var components = {
       var display_name = _ref2.display_name;
 
       var timeout = 2;
-      setTimeout(function () {
-        (0, _modulesHelperTools.browserNotification)({
-          type: "stream_online",
-          channelName: display_name,
-          timeout: timeout,
-          callback: function callback() {
-            _this2.appendStream(name, display_name);
-          }
-        });
-      }, timeout * 1000 * (multiplier % 3));
+      // setTimeout(() => {
+      //   notification({
+      //     type: "stream_online",
+      //     channelName: display_name,
+      //     timeout,
+      //     callback: () => {
+      //       this.appendStream(name, display_name);
+      //     }
+      //   });
+      // }, (timeout * 1000) * (multiplier % 3));
+      var action = _modulesHelperTools.browserNotification.bind(this, {
+        type: "stream_online",
+        channelName: display_name,
+        timeout: timeout,
+        callback: function callback() {
+          _this2.appendStream(name, display_name);
+        },
+        finishCB: function finishCB() {
+          currentNotifs--;
+        }
+      });
+      if (currentNotifs < 3) {
+        console.log("Notifying now:", name, ", ahead:", currentNotifs);
+        currentNotifs++;
+        action();
+      } else {
+        multiplier = Math.floor(currentNotifs / 3);
+        var time = 2000 * multiplier + 700;
+        console.log("Queuing notify:", name, "; ahead:", currentNotifs, "; time:", time, "; multiplier:", multiplier);
+        currentNotifs++;
+        setTimeout(function () {
+          action();
+        }, time);
+      }
+
       // this.props.methods.notify(name, display_name);
     },
     componentWillUpdate: function componentWillUpdate(_, nextState) {
       // console.log(this.state.streamData, nextState.streamData);
       if (!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
-        if (nextState.streamData && nextState.streamData.stream) {
+        if (nextState.streamData && nextState.streamData.stream && this.props.follow === "IFollow") {
           this.notify(this.props.notifyMultiplier);
         }
       }
@@ -454,6 +480,7 @@ exports["default"] = _react2["default"].createClass({
     var auth = _props3.auth;
     var data = _props3.data;
     var userData = _props3.userData;
+    var follow = _props3.follow;
     var _props3$methods = _props3.methods;
     var appendStream = _props3$methods.appendStream;
     var loadData = _props3$methods.loadData;
@@ -464,7 +491,7 @@ exports["default"] = _react2["default"].createClass({
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               return dataArray[ind].ref = r;
-            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
+            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), follow: follow, methods: {
               appendStream: appendStream,
               notify: _this7.notify,
               removeFromDataArray: _this7.removeFromDataArray

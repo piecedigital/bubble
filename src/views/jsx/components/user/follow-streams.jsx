@@ -6,6 +6,7 @@ import { ListItemHoverOptions } from "../hover-options.jsx";
 
 const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
+let currentNotifs = 0;
 // components
 let components = {
   // list item for streams matching the search
@@ -60,23 +61,48 @@ let components = {
         display_name
       } = data.channel || data.user;
       const timeout = 2;
-      setTimeout(() => {
-        notification({
-          type: "stream_online",
-          channelName: display_name,
-          timeout,
-          callback: () => {
-            this.appendStream(name, display_name);
-          }
-        });
-      }, (timeout * 1000) * (multiplier % 3));
+      // setTimeout(() => {
+      //   notification({
+      //     type: "stream_online",
+      //     channelName: display_name,
+      //     timeout,
+      //     callback: () => {
+      //       this.appendStream(name, display_name);
+      //     }
+      //   });
+      // }, (timeout * 1000) * (multiplier % 3));
+      const action = notification.bind(this, {
+        type: "stream_online",
+        channelName: display_name,
+        timeout,
+        callback: () => {
+          this.appendStream(name, display_name);
+        },
+        finishCB: () => {
+          currentNotifs--;
+        }
+      });
+      if(currentNotifs < 3) {
+        console.log("Notifying now:", name, ", ahead:", currentNotifs);
+        currentNotifs++;
+        action();
+      } else {
+        multiplier = Math.floor(currentNotifs / 3);
+        const time = (2000 * multiplier) + 700;
+        console.log("Queuing notify:", name, "; ahead:", currentNotifs, "; time:", time, "; multiplier:", multiplier);
+        currentNotifs++;
+        setTimeout(() => {
+          action();
+        }, time);
+      }
+
       // this.props.methods.notify(name, display_name);
     },
     componentWillUpdate(_, nextState) {
       // console.log(this.state.streamData, nextState.streamData);
       if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
-        if(nextState.streamData && nextState.streamData.stream) {
+        if(nextState.streamData && nextState.streamData.stream && this.props.follow === "IFollow") {
           this.notify(this.props.notifyMultiplier);
         }
       }
@@ -403,6 +429,7 @@ export default React.createClass({
       auth,
       data,
       userData,
+      follow,
       methods: {
         appendStream,
         loadData
@@ -412,7 +439,7 @@ export default React.createClass({
     if(component) {
       const ListItem = components[component];
       const list = dataArray.map((itemData, ind) => {
-        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} notifyMultiplier={Math.floor(ind / 3)} methods={{
+        return <ListItem ref={r => dataArray[ind].ref = r} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} notifyMultiplier={Math.floor(ind / 3)} follow={follow} methods={{
           appendStream,
           notify: this.notify,
           removeFromDataArray: this.removeFromDataArray
