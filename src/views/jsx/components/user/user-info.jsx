@@ -81,9 +81,9 @@ export default React.createClass({
                   <div className="hover">
                     <div className="logo"><img src={userChannelData.logo || missingLogo} /></div>
                     <div className="info">
-                      <div className="partner">{userChannelData.display_name}</div>
-                      <div className="views">Views: {userChannelData.views}</div>
-                      <div className="followers">Followers: {userChannelData.followers}</div>
+                      <div className="name">{userChannelData.display_name}</div>
+                      <div className="views">Views: {userChannelData.views.toLocaleString("en")}</div>
+                      <div className="followers">Followers: {userChannelData.followers.toLocaleString("en")}</div>
                       <div className="partner">Partnered?: {userChannelData.partner ? "Yes" : "No"}</div>
                     </div>
                   </div>
