@@ -213,57 +213,63 @@ export default React.createClass({
       locked: true,
       // lockedTop: this.props.follow === "IFollow" ? false : true,
       lockedTop: true,
+      loadData: false,
       currentNotifs: 0
     }
   },
   gatherData(limit, offset, callback) {
-    limit = typeof limit === "number" ? limit : this.state.limit || 25;
-    offset = typeof offset === "number" ? offset : this.state.requestOffset;
-    const {
-      params,
-      location,
-      userData
-    } = this.props;
+    this.setState({
+      loadingData: true
+    }, () => {
+      limit = typeof limit === "number" ? limit : this.state.limit || 25;
+      offset = typeof offset === "number" ? offset : this.state.requestOffset;
+      const {
+        params,
+        location,
+        userData
+      } = this.props;
 
-    let username;
-    if(params && params.username) {
-      username = params.username;
-    } else {
-      username = userData.name;
-    }
-    if(loadData) {
-      this._mounted ? this.setState({
-        requestOffset: (offset + limit)
-      }) : null;
-      console.log("gathering data", limit, offset);
-      // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
-      loadData.call(this, e => {
-        console.error(e.stack);
-      }, {
-        offset,
-        limit,
-        stream_type: "all",
-        username
-      })
-      .then(methods => {
-        methods
-        [this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]()
-        .then(data => {
-          let newDataArray = Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
-          this._mounted ? this.setState({
-            dataArray: newDataArray,
-            requestOffset: newDataArray.length,
-            component: `ChannelsListItem`
-          }, () => {
-            console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
-            console.log("final offset:", this.state.requestOffset);
-            if(typeof callback === "function") callback();
-          }) : null;
+      let username;
+      if(params && params.username) {
+        username = params.username;
+      } else {
+        username = userData.name;
+      }
+      if(loadData) {
+        this._mounted ? this.setState({
+          requestOffset: (offset + limit)
+        }) : null;
+        console.log("gathering data", limit, offset);
+        // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
+        loadData.call(this, e => {
+          console.error(e.stack);
+        }, {
+          offset,
+          limit,
+          stream_type: "all",
+          username
+        })
+        .then(methods => {
+          methods
+          [this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]()
+          .then(data => {
+            let newDataArray = Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
+            this._mounted ? this.setState({
+              dataArray: newDataArray,
+              requestOffset: newDataArray.length,
+              component: `ChannelsListItem`,
+              loadingData: false
+            }, () => {
+              console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
+              console.log("final offset:", this.state.requestOffset);
+              if(typeof callback === "function") callback();
+            }) : null;
+          })
+          .catch(e => console.error(e.stack));
         })
         .catch(e => console.error(e.stack));
-      })
-      .catch(e => console.error(e.stack));
-    }
+      }
+    })
   },
   removeFromDataArray(index) {
     console.log("removing", index);
@@ -376,6 +382,7 @@ export default React.createClass({
       component,
       filter,
       limit,
+      loadingData,
       loadingQueue,
       locked,
       lockedTop,
@@ -420,9 +427,8 @@ export default React.createClass({
                 <div className="option btn-default refresh" onClick={() => this.refreshList(true)}>
                   Refresh Listing
                 </div>
-                <div className="option btn-default load-more" onClick={this.gatherData}>
-                  {/*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/}
-                  Load More
+                <div className={`option btn-default load-more${loadingData ? " bg-color-dimmer not-clickable" : ""}`} onClick={loadingData ? null : this.gatherData}>
+                  {loadingData ? "Loading More" : "Load More"}
                 </div>
                 <div className="option btn-default filters">
                   <div className="filter-status">

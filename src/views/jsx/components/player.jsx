@@ -159,7 +159,10 @@ const PlayerStream = React.createClass({
                     }}>{display_name || name}{vod ? `/${vod}` : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
                   </span>
                 </div>
-                <div className="lines" onClick={this.toggleMenu.bind(this, "toggle")}>
+                <div className="lines" {...{
+                  onClick: this.toggleMenu.bind(this, "toggle"),
+                  onMouseEnter: this.toggleMenu.bind(this, "open"),
+                }}>
                   <div></div>
                   <div></div>
                   <div></div>

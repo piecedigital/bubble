@@ -8,14 +8,14 @@ $dim: rgba(0, 170, 220, 1);
 $dimmer: rgba(0, 130, 180, 1);
 $light: rgba(150, 230, 255, 1);
 $allColors: (
-$midGrey, // 1
-$offWhite, // 2
-$offBlack, // 3
-$purple, // 4
-$primary, // 5
-$dim, // 6
-$dimmer, // 7
-$light // 8
+midGrey: $midGrey, // 1
+offWhite: $offWhite, // 2
+offBlack: $offBlack, // 3
+purple: $purple, // 4
+primary: $primary, // 5
+dim: $dim, // 6
+dimmer: $dimmer, // 7
+light: $light // 8
 );
 
 @mixin displayInlineFlex {
@@ -78,27 +78,56 @@ body {
   padding-top: 2.1*$em;
 }
 
+
+@import "components/_root.scss";
+@import "components/_nav.scss";
+@import "components/_player.scss";
+@import "components/_buttons.scss";
+@import "components/_top-level-component.scss";
+@import "components/_stream-list-item.scss";
+@import "components/_video-list-item.scss";
+@import "components/_channel-list-item.scss";
+@import "components/_game-list-item.scss";
+@import "components/_stream-panels.scss";
+
 .clickable {
   cursor: pointer;
 }
 
-// @for $L from 1 to 5 {
-//   .separator-#{$L}-white {
-//     height: #{$L}px;
-//     background-color: white;
-//   }
-//   .separator-#{$L}-black {
-//     height: #{$L}px;
-//     background-color: black;
-//   }
-//   @each $color in $allColors {
-//     // $i: index($allColors, $color);
-//     .separator-#{$L}-#{str-slice($color, 2, 7)} {
-//       height: #{$L}px;
-//       background-color: #{$color};
-//     }
-//   }
-// }
+.not-clickable {
+  cursor: default;
+}
+
+
+.bg-color-white {
+  background-color: white;
+}
+.bg-color-black {
+  background-color: black;
+}
+@each $name, $color in $allColors {
+  .bg-color-#{$name} {
+    background-color: #{$color};
+  }
+}
+
+@for $L from 1 to 5 {
+  .separator-#{$L}-white {
+    height: #{$L}px;
+    background-color: white;
+  }
+  .separator-#{$L}-black {
+    height: #{$L}px;
+    background-color: black;
+  }
+  @each $name, $color in $allColors {
+    // $i: index($allColors, $color);
+    .separator-#{$L}-#{$name} {
+      height: #{$L}px;
+      background-color: #{$color};
+    }
+  }
+}
 
 @for $L from 1 to 5 {
   .separator-#{$L}-white {
@@ -124,6 +153,13 @@ body {
 .color-black {
   color: black;
 }
+
+@each $name, $color in $allColors {
+  // $i: index($allColors, $color);
+  .color-#{$name} {
+    color: #{$color};
+  }
+}
 @each $color in $allColors {
   // $i: index($allColors, $color);
   .color-#{$color} {
@@ -138,14 +174,3 @@ body {
 .no-underline {
   text-decoration: none;
 }
-
-@import "components/_root.scss";
-@import "components/_nav.scss";
-@import "components/_player.scss";
-@import "components/_buttons.scss";
-@import "components/_top-level-component.scss";
-@import "components/_stream-list-item.scss";
-@import "components/_video-list-item.scss";
-@import "components/_channel-list-item.scss";
-@import "components/_game-list-item.scss";
-@import "components/_stream-panels.scss";

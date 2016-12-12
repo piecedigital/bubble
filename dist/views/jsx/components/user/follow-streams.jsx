@@ -255,57 +255,63 @@ exports["default"] = _react2["default"].createClass({
       locked: true,
       // lockedTop: this.props.follow === "IFollow" ? false : true,
       lockedTop: true,
+      loadData: false,
       currentNotifs: 0
     };
   },
   gatherData: function gatherData(limit, offset, callback) {
     var _this3 = this;
 
-    limit = typeof limit === "number" ? limit : this.state.limit || 25;
-    offset = typeof offset === "number" ? offset : this.state.requestOffset;
-    var _props2 = this.props;
-    var params = _props2.params;
-    var location = _props2.location;
-    var userData = _props2.userData;
+    this.setState({
+      loadingData: true
+    }, function () {
+      limit = typeof limit === "number" ? limit : _this3.state.limit || 25;
+      offset = typeof offset === "number" ? offset : _this3.state.requestOffset;
+      var _props2 = _this3.props;
+      var params = _props2.params;
+      var location = _props2.location;
+      var userData = _props2.userData;
 
-    var username = undefined;
-    if (params && params.username) {
-      username = params.username;
-    } else {
-      username = userData.name;
-    }
-    if (_modulesLoadData2["default"]) {
-      this._mounted ? this.setState({
-        requestOffset: offset + limit
-      }) : null;
-      console.log("gathering data", limit, offset);
-      // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
-      _modulesLoadData2["default"].call(this, function (e) {
-        console.error(e.stack);
-      }, {
-        offset: offset,
-        limit: limit,
-        stream_type: "all",
-        username: username
-      }).then(function (methods) {
-        methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
-          var newDataArray = Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
-          _this3._mounted ? _this3.setState({
-            dataArray: newDataArray,
-            requestOffset: newDataArray.length,
-            component: "ChannelsListItem"
-          }, function () {
-            console.log("total data " + (_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"), _this3.state.dataArray.length);
-            console.log("final offset:", _this3.state.requestOffset);
-            if (typeof callback === "function") callback();
-          }) : null;
+      var username = undefined;
+      if (params && params.username) {
+        username = params.username;
+      } else {
+        username = userData.name;
+      }
+      if (_modulesLoadData2["default"]) {
+        _this3._mounted ? _this3.setState({
+          requestOffset: offset + limit
+        }) : null;
+        console.log("gathering data", limit, offset);
+        // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
+        _modulesLoadData2["default"].call(_this3, function (e) {
+          console.error(e.stack);
+        }, {
+          offset: offset,
+          limit: limit,
+          stream_type: "all",
+          username: username
+        }).then(function (methods) {
+          methods[_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
+            var newDataArray = Array.from(_this3.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
+            _this3._mounted ? _this3.setState({
+              dataArray: newDataArray,
+              requestOffset: newDataArray.length,
+              component: "ChannelsListItem",
+              loadingData: false
+            }, function () {
+              console.log("total data " + (_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"), _this3.state.dataArray.length);
+              console.log("final offset:", _this3.state.requestOffset);
+              if (typeof callback === "function") callback();
+            }) : null;
+          })["catch"](function (e) {
+            return console.error(e.stack);
+          });
         })["catch"](function (e) {
           return console.error(e.stack);
         });
-      })["catch"](function (e) {
-        return console.error(e.stack);
-      });
-    }
+      }
+    });
   },
   removeFromDataArray: function removeFromDataArray(index) {
     var _this4 = this;
@@ -432,6 +438,7 @@ exports["default"] = _react2["default"].createClass({
     var component = _state.component;
     var filter = _state.filter;
     var limit = _state.limit;
+    var loadingData = _state.loadingData;
     var loadingQueue = _state.loadingQueue;
     var locked = _state.locked;
     var lockedTop = _state.lockedTop;
@@ -499,8 +506,8 @@ exports["default"] = _react2["default"].createClass({
                   ),
                   _react2["default"].createElement(
                     "div",
-                    { className: "option btn-default load-more", onClick: _this8.gatherData },
-                    "Load More"
+                    { className: "option btn-default load-more" + (loadingData ? " bg-color-dimmer not-clickable" : ""), onClick: loadingData ? null : _this8.gatherData },
+                    loadingData ? "Loading More" : "Load More"
                   ),
                   _react2["default"].createElement(
                     "div",
@@ -545,4 +552,3 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-/*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/
