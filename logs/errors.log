@@ -146,3 +146,7 @@ Error: Cannot find module './follow.jsx' from 'E:\GIT FILES\Sites\bubble\dist\vi
     at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
     at FSReqWrap.oncomplete (fs.js:82:15)
 ]
+[1481540193478] [Mon, 12 Dec 2016 10:56:33 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx | uglifyjs > ./dist/public/js/bundle-live.js"
+'uglifyjs' is not recognized as an internal or external command,
+operable program or batch file.
+]

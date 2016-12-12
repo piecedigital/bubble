@@ -57,6 +57,9 @@ export default React.createClass({
       auth,
       params,
       userData,
+      methods: {
+        appendStream
+      }
     } = this.props;
     const {
       userUserData,
@@ -100,7 +103,7 @@ export default React.createClass({
                       userUserData.bio
                     ) : (
                       ["This user has no bio ",
-                      <img className="sad-face" src="https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true" alt="emojione frowny face" />]
+                      <img key="img" className="sad-face" src="https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true" alt="emojione frowny face" />]
                     )
                   }
                 </div>
@@ -112,8 +115,21 @@ export default React.createClass({
                 <a className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>
               ) : null
             }
-            {" "}
-            {userData ? <FollowButton name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default btn-rect color-black bold no-underline" /> : null}
+            {userData ? (
+              [
+                " ",
+                <FollowButton name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default btn-rect color-black bold no-underline" />
+              ]
+            ) : null}
+            {
+              userChannelData ? (
+                [
+                  " ",
+                  <div key="open" className="btn-default btn-rect color-black bold no-underline" onClick={appendStream.bind(this, userChannelData.name, userChannelData.display_name)}>Open Stream</div>
+                ]
+              ) : null
+            }
+
           </div>
         </div>
       </div>

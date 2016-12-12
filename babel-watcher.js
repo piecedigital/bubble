@@ -61,7 +61,16 @@ function babelWatcher() {
               type: "error"
             });
           } else {
-            logOut("browserification complete", true)
+            logOut("browserification complete: dev", true)
+          }
+        });
+        cp.exec("browserify ./dist/views/app.jsx | uglifyjs > ./dist/public/js/bundle-live.js", function (err) {
+          if(err) {
+            logOut(err, true, {
+              type: "error"
+            });
+          } else {
+            logOut("browserification complete: live", true)
           }
         });
       } else {

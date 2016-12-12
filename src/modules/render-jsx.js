@@ -19,7 +19,7 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
             <Page />
           </Layout>
         </div>
-        <script src="/js/bundle.js"></script>
+        <script src={`/js/bundle${NODE_ENV === "prod" ? "-live" : ""}.js`}></script>
       </body>
     </html>
   );

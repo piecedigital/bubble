@@ -1,5 +1,0 @@
-.git*
-node_modules
-.sass-cache
-dist/node_modules
-bubble-2cbe93ab03dc.json
