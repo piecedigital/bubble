@@ -151,12 +151,12 @@ exports["default"] = _react2["default"].createClass({
             userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { key: "img", className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
           ) : null,
           _react2["default"].createElement("div", { className: "separator-4-3" }),
-          name ? _react2["default"].createElement(
+          name && userData && userData.name !== name ? _react2["default"].createElement(
             "a",
             { className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
             "Send Message"
           ) : null,
-          userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" })] : null,
+          userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" })] : null,
           userChannelData ? [" ", _react2["default"].createElement(
             "div",
             { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
