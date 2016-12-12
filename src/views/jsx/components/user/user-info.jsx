@@ -82,7 +82,7 @@ export default React.createClass({
                 <div className="banner">
                   <img src={userChannelData.profile_banner} />
                   <div className="hover">
-                    <div className="logo"><img src={userChannelData.logo || missingLogo} /></div>
+                    <div className="logo"><a href={`https://twitch.tv/${userChannelData.name}`} target="_blank" rel="nofollow"><img src={userChannelData.logo || missingLogo} /></a></div>
                     <div className="info">
                       <div className="name">{userChannelData.display_name}</div>
                       <div className="views">Views: {userChannelData.views.toLocaleString("en")}</div>
