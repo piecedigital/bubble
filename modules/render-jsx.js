@@ -47,7 +47,7 @@ var renderHTML = function renderHTML(fileName) {
           _react2["default"].createElement(Page, null)
         )
       ),
-      _react2["default"].createElement("script", { src: "/js/bundle" + (NODE_ENV === "prod" ? "-live" : "") + ".js" })
+      _react2["default"].createElement("script", { src: "/js/bundle" + (process.env["NODE_ENV"] === "prod" ? "-live" : "") + ".js" })
     )
   ));
   return "<!DOCTYPE html>" + data;

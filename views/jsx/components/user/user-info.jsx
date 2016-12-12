@@ -159,7 +159,7 @@ exports["default"] = _react2["default"].createClass({
           userData ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" })] : null,
           userChannelData ? [" ", _react2["default"].createElement(
             "div",
-            { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(this, userChannelData.name, userChannelData.display_name) },
+            { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
             "Open Stream"
           )] : null
         )
