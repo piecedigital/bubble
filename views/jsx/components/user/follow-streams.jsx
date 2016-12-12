@@ -410,13 +410,6 @@ exports["default"] = _react2["default"].createClass({
       _this7.scrollEvent();
     }, 100);
   },
-  componentDidUpdate: function componentDidUpdate() {
-    // const notifArray = Array.from(this.state.notifArray);
-    // console.log(this.state.notifArray, notifArray.length, this.state.currentNotifs);
-    // if(notifArray.length > 0 && this.state.currentNotifs < 3) {
-    //   this.sendNotif(notifArray.splice(0, 3 - this.state.currentNotifs), notifArray);
-    // }
-  },
   componentDidMount: function componentDidMount() {
     this._mounted = true;
     this.gatherData();

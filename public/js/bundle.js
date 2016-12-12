@@ -28875,13 +28875,6 @@ exports["default"] = _react2["default"].createClass({
       _this7.scrollEvent();
     }, 100);
   },
-  componentDidUpdate: function componentDidUpdate() {
-    // const notifArray = Array.from(this.state.notifArray);
-    // console.log(this.state.notifArray, notifArray.length, this.state.currentNotifs);
-    // if(notifArray.length > 0 && this.state.currentNotifs < 3) {
-    //   this.sendNotif(notifArray.splice(0, 3 - this.state.currentNotifs), notifArray);
-    // }
-  },
   componentDidMount: function componentDidMount() {
     this._mounted = true;
     this.gatherData();
@@ -29099,6 +29092,7 @@ exports["default"] = _react2["default"].createClass({
     var auth = _props2.auth;
     var params = _props2.params;
     var userData = _props2.userData;
+    var appendStream = _props2.methods.appendStream;
     var _state = this.state;
     var userUserData = _state.userUserData;
     var userChannelData = _state.userChannelData;
@@ -29167,7 +29161,7 @@ exports["default"] = _react2["default"].createClass({
           userUserData ? _react2["default"].createElement(
             "div",
             { className: "bio" + (!userUserData.bio ? " no-bio" : "") },
-            userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
+            userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { key: "img", className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
           ) : null,
           _react2["default"].createElement("div", { className: "separator-4-3" }),
           name ? _react2["default"].createElement(
@@ -29175,8 +29169,12 @@ exports["default"] = _react2["default"].createClass({
             { className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
             "Send Message"
           ) : null,
-          " ",
-          userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" }) : null
+          userData ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" })] : null,
+          userChannelData ? [" ", _react2["default"].createElement(
+            "div",
+            { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(this, userChannelData.name, userChannelData.display_name) },
+            "Open Stream"
+          )] : null
         )
       )
     );
