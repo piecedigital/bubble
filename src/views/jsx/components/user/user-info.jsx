@@ -115,7 +115,7 @@ export default React.createClass({
                 <a className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>
               ) : null
             }
-            {userData ? (
+            {userData && userData.name !== name ? (
               [
                 " ",
                 <FollowButton name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default btn-rect color-black bold no-underline" />
