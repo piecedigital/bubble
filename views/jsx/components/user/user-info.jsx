@@ -110,7 +110,11 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "div",
                 { className: "logo" },
-                _react2["default"].createElement("img", { src: userChannelData.logo || missingLogo })
+                _react2["default"].createElement(
+                  "a",
+                  { href: "https://twitch.tv/" + userChannelData.name, target: "_blank", rel: "nofollow" },
+                  _react2["default"].createElement("img", { src: userChannelData.logo || missingLogo })
+                )
               ),
               _react2["default"].createElement(
                 "div",
