@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "envify": "^4.0.0",
     "react-autocomplete-cli": "0.0.3",
     "uglifyjs": "^2.4.10"
   },

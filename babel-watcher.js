@@ -64,7 +64,7 @@ function babelWatcher() {
             logOut("browserification complete: dev", true)
           }
         });
-        cp.exec("set NODE_ENV=production && browserify ./dist/views/app.jsx | uglifyjs > ./dist/public/js/bundle-live.js", function (err) {
+        cp.exec("browserify ./dist/views/app.jsx -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js", function (err) {
           if(err) {
             logOut(err, true, {
               type: "error"
