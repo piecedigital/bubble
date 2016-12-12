@@ -111,14 +111,14 @@ export default React.createClass({
             }
             <div className="separator-4-3" />
             {
-              name ? (
+              name && userData && userData.name !== name ? (
                 <a className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>
               ) : null
             }
             {userData && userData.name !== name ? (
               [
                 " ",
-                <FollowButton name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default btn-rect color-black bold no-underline" />
+                <FollowButton key="follow" name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default btn-rect color-black bold no-underline" />
               ]
             ) : null}
             {
