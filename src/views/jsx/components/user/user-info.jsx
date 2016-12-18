@@ -129,7 +129,14 @@ export default React.createClass({
                 ]
               ) : null
             }
-
+            {
+              !params || !params.username ? (
+                [
+                  " ",
+                  <a key="clips" className="btn-default btn-rect color-black bold no-underline" href={`https://clips.twitch.tv/my-clips`} target="_blank">My Clips</a>
+                ]
+              ) : null
+            }
           </div>
         </div>
       </div>

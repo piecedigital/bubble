@@ -1,0 +1,24 @@
+.top-games {
+  .title {
+    margin: .5*$em;
+    font-size: 1.6*$em;
+    font-weight: bold;
+  }
+  > .wrapper {
+    // width: 20*$em;
+    // height: 100%;
+    padding: .25*$em 0;
+    background-color: $offBlack;
+    .list {
+      @include displayFlex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      max-width: 60*$em;
+      // height: 100%;
+      margin: 0 auto;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
+}

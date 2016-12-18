@@ -132,18 +132,22 @@ const FeaturedStream = React.createClass({
               <div className="image">
                 <img src={logo} alt={`profile image of ${name}`} />
               </div>
-              <div className="display-name">
-                {displayName}
+              <div className="text">
+                <div className="display-name">
+                  {displayName}
+                </div>
+                <div className={`separator-1-1`}></div>
+                <a href="#" className="watch" onClick={() => {
+                  appendStream.call(null, name, displayName);
+                }}>
+                {"Watch in Player"}
+                </a>
+                <div className={`separator-1-1`}></div>
               </div>
-              <div className={`separator-1-1`}></div>
-              <a href="#" className="watch" onClick={() => {
-                appendStream.call(null, name, displayName);
-              }}>
-              {"Watch in Player"}
-              </a>
-              <div className={`separator-1-1`}></div>
-              <div className="bio">
-                {bio}
+              <div className="text">
+                <div className="bio">
+                  {bio}
+                </div>
               </div>
             </div>
           ) : (
@@ -211,6 +215,18 @@ export default React.createClass({
     } = this.props
     return (
       <div className="featured-streams">
+        <div className="wrapper qna">
+          <ul className="list">
+            {
+              dataArray.map((itemData, ind) => {
+                return <ListItem key={ind} index={ind} data={itemData} methods={{
+                  appendStream,
+                  displayStream: this.displayStream
+                }} />
+              })
+            }
+          </ul>
+        </div>
         {
           dataArray.length > 0 ? (
             <FeaturedStream data={dataArray[this.state.featuredStreamIndex]} methods={{

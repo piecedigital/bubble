@@ -154,3 +154,6 @@ operable program or batch file.
 'NODE_ENV' is not recognized as an internal or external command,
 operable program or batch file.
 ]
+[1482041008538] [Sun, 18 Dec 2016 06:03:28 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js"
+The process cannot access the file because it is being used by another process.
+]
