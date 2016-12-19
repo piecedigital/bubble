@@ -8,21 +8,14 @@ import Firebase from "firebase";
 const redirectURI = typeof location === "object" && !location.host.match(/localhost/) ? `https://${location.host}` : "http://localhost:8080";
 const clientID = redirectURI.match(/http(s)?\:\/\/localhost\:[0-9]{4,5}/) ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
 console.log(redirectURI, clientID);
+
 // Initialize Firebase
-var config = {
-  apiKey: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
-  authDomain: "bubble-13387.firebaseapp.com",
-  databaseURL: "https://bubble-13387.firebaseio.com",
-  storageBucket: "bubble-13387.appspot.com",
-};
-Firebase.initializeApp(config);
-const ref = {};
-ref.child = Firebase.database().ref;
+
 
 export default React.createClass({
   displayName: "Layout",
   getInitialState() {
-    return {
+    return Object.assign({
       authData: (this.props.data && this.props.data.authData) || null,
       streamersInPlayer: {},
       playerCollapsed: true,
@@ -30,7 +23,15 @@ export default React.createClass({
       playerStreamMax: 6,
       panelDataFor: [],
       panelData: [],
-    }
+    }, this.props.initState || {});
+  },
+  initFirebase(data) {
+    console.log("init firebase", data);
+    var config = data;
+    Firebase.initializeApp(config);
+    const ref = {};
+    ref.child = Firebase.database().ref;
+    this.fireRef = ref;
   },
   appendStream(username, displayName, isSolo = false) {
     username ? username.replace(/\s/g, "") : null;
@@ -192,6 +193,21 @@ export default React.createClass({
     })
     .catch(e => console.error(e.stack || e));
 
+    // load firebase config
+    loadData.call(this, e => {
+      console.error(e.stack);
+    })
+    .then(methods => {
+      methods
+      .getFirebaseConfig()
+      .then(data => {
+        // console.log("firebase data", data);
+        this.initFirebase(JSON.parse(atob(data)))
+      })
+      .catch(e => console.error(e.stack || e));
+    })
+    .catch(e => console.error(e.stack || e));
+
     window.location.hash = "";
   },
   alertAuthNeeded() {
@@ -263,6 +279,7 @@ export default React.createClass({
             React.cloneElement(this.props.children, {
               parent: this,
               auth: authData,
+              fireRef: this.fireRef,
               userData,
               ...this.props,
               methods: {

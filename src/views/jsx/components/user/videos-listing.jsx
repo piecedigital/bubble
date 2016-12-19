@@ -76,56 +76,60 @@ export default React.createClass({
       lockedTop: true,
     }
   },
-  gatherData(limit, offset, callback) {
-    limit = typeof limit === "number" ? limit : this.state.limit || 25;
-    offset = typeof offset === "number" ? offset : this.state.requestOffset;
-    const {
-      params,
-      userData,
-    } = this.props;
-    let {
-      broadcasts
-    } = this.props;
-    broadcasts = (typeof broadcasts !== "boolean") ? true : broadcasts;
-    let username;
-    if(params && params.username) {
-      username = params.username;
-    } else {
-      username = userData.name;
-    }
-    // console.log(username, this.props.params, this.props.userData);
-    if(loadData) {
-      this.setState({
-        requestOffset: (offset + limit)
-      });
-      console.log("gathering data", limit, offset);
-      console.log(`Given Channel Name getVideos`, username);
-      loadData.call(this, e => {
-        console.error(e.stack);
-      }, {
-        offset,
-        limit,
-        username,
-        broadcasts,
-        stream_type: "all"
-      })
-      .then(methods => {
-        methods
-        ["getVideos"]()
-        .then(data => {
-          console.log("data", data);
-          this.setState({
-            dataArray: Array.from(this.state.dataArray).concat(data.videos),
-            component: `VideosListItem`
-          }, () => {
-            console.log("total data getVideos", this.state.dataArray.length);
-            if(typeof callback === "function") callback();
-          });
+  gatherData(limit, offset, callback, wipe) {
+    this.setState(wipe ? {
+      dataArray: []
+    } : {}, () => {
+      limit = typeof limit === "number" ? limit : this.state.limit || 25;
+      offset = typeof offset === "number" ? offset : this.state.requestOffset;
+      const {
+        params,
+        userData,
+      } = this.props;
+      let {
+        broadcasts
+      } = this.props;
+      broadcasts = (typeof broadcasts !== "boolean") ? true : broadcasts;
+      let username;
+      if(params && params.username) {
+        username = params.username;
+      } else {
+        username = userData.name;
+      }
+      // console.log(username, this.props.params, this.props.userData);
+      if(loadData) {
+        this.setState({
+          requestOffset: (offset + limit)
+        });
+        console.log("gathering data", limit, offset);
+        console.log(`Given Channel Name getVideos`, username);
+        loadData.call(this, e => {
+          console.error(e.stack);
+        }, {
+          offset,
+          limit,
+          username,
+          broadcasts,
+          stream_type: "all"
+        })
+        .then(methods => {
+          methods
+          ["getVideos"]()
+          .then(data => {
+            console.log("data", data);
+            this.setState({
+              dataArray: Array.from(this.state.dataArray).concat(data.videos),
+              component: `VideosListItem`
+            }, () => {
+              console.log("total data getVideos", this.state.dataArray.length);
+              if(typeof callback === "function") callback();
+            });
+          })
+          .catch(e => console.error(e.stack));
         })
         .catch(e => console.error(e.stack));
-      })
-      .catch(e => console.error(e.stack));
-    }
+      }
+    });
   },
   capitalize(string) {
     return string.toLowerCase().split(" ").map(word => word.replace(/^(\.)/, (_, l) => {
@@ -189,6 +193,9 @@ export default React.createClass({
     this.scrollEvent();
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
+  },
+  componentDidUpdate(lastProps) {
+    if(this.props.params.username !== lastProps.params.username) this.gatherData(this.state.limit, 0, null, true);
   },
   componentWillUnmount() {
     document.removeEventListener("scroll", this.scrollEvent, false);

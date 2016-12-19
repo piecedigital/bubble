@@ -58,6 +58,10 @@ export default function(errorCB, options = {}) {
   };
   return new Promise((resolve, reject) => {
     resolve({
+      getFirebaseConfig: (okayCB) => {
+        // console.log(this);
+        return makeRequest(okayCB, "/get-firebase-config", true);
+      },
       featured: (okayCB) => {
         // console.log(this);
         options.limit = 25;

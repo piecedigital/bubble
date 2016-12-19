@@ -38,14 +38,19 @@
           max-height: 100%;
         }
       }
-      .display-name {
-        margin-bottom: .2*$em;
-        color: $light;
-        font-size: 1.3*$em;
+      .display-name, .to-channel {
+        margin-bottom: .7*$em;
+        a {
+          color: white;
+        }
+        &:not(.to-channel) a {
+          font-size: 1.3*$em;
+          color: $light;
+        }
       }
       .watch {
         display: block;
-        margin: .4*$em 0;
+        margin: 0 0 .4*$em;
         color: white;
         text-decoration: underline;
         cursor: pointer;
@@ -56,7 +61,7 @@
     }
   }
   > .wrapper {
-    width: 20*$em;
+    width: 16*$em;
     // height: 100%;
     flex-shrink: 0;
     &.qna {

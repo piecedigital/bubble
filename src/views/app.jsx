@@ -29,18 +29,18 @@ function checkAuth(Component, props) {
 }
 render((
   <Router history={History}>
-    <Route path="" location="root" component={Layout}>
-      <Route path="/" location="home" component={Home}>
+    <Route path="" page="root" component={Layout}>
+      <Route path="/" page="home" component={Home}>
       </Route>
-      <Route path="/profile" location="profile" component={checkAuth.bind(null, Profile)}>
+      <Route path="/profile" page="profile" component={checkAuth.bind(null, Profile)}>
       </Route>
-      <Route path="/profile/:username" location="profile" component={checkAuth.bind(null, Profile)}>
+      <Route path="/profile/:username" page="profile" component={checkAuth.bind(null, Profile)}>
       </Route>
-      <Route path="/:page" location="streams" component={GeneralPage}>
+      <Route path="/:page" page="streams" component={GeneralPage}>
       </Route>
-      <Route path="/:page" location="games" component={GeneralPage}>
+      <Route path="/:page" page="games" component={GeneralPage}>
       </Route>
-      <Route path="/search/:searchtype" location="search" component={SearchPage}>
+      <Route path="/search/:searchtype" page="search" component={SearchPage}>
       </Route>
     </Route>
   </Router>

@@ -10,7 +10,7 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
     <html>
       <head>
         <meta charSet="utf-8" />
-        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+        <meta httpEquiv="Content-Type" content="text/html" charSet="UTF-8" />
         <meta name="language" content="en-us" />
         <meta name="publisher" content="Piece Digital Studios" />
         <meta name="classification" content="multistream, multiple stream, multiple broadcast viewing, question and answer aggregation" />

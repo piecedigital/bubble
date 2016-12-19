@@ -47,6 +47,18 @@ app
     who: "WORLD"
   });
 })
+.get("/get-firebase-config", function (req, res) {
+  const data = {
+    apiKey: process.env["API_KEY"],
+    authDomain: process.env["AUTH_DOMAIN"],
+    databaseURL: process.env["DATABASE_URL"],
+    storageBucket: process.env["STORAGE_BUCKET"],
+    messagingSenderId: process.env["MESSAGING_SENDER_ID"],
+  };
+  const stringified = JSON.stringify(data);
+  const base64Encoded = new Buffer(stringified).toString("base64");
+  res.send(base64Encoded);
+})
 .get("/get-panels/:username", function (req, res) {
   // https://api.twitch.tv/api/channels/${username}/panels`
   let options = {

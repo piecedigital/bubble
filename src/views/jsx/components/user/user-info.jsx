@@ -10,7 +10,7 @@ export default React.createClass({
   displayName: "UserInfo",
   getInitialState: () => ({ userUserData: null, userChannelData: null }),
   gatherData() {
-    [{ place: "userUserData", method: "getUserByName"}, { place: "userChannelData", method: "getChannelByName" }].map(({place, method}) => {
+    [{ place: "userUserData", method: "getUserByName"}, { place: "userChannelData", method: "getChannelByName" }, { place: "userStreamData", method: "getStreamByName" }].map(({place, method}) => {
       const {
         params,
         userData,
@@ -49,6 +49,9 @@ export default React.createClass({
     this.gatherData();
     this._mounted = true;
   },
+  componentDidUpdate(lastProps) {
+    if(this.props.params.username !== lastProps.params.username) this.gatherData();
+  },
   componentWillUnmount() {
     delete this._mounted;
   },
@@ -63,7 +66,8 @@ export default React.createClass({
     } = this.props;
     const {
       userUserData,
-      userChannelData
+      userChannelData,
+      userStreamData,
     } = this.state;
 
     let name = params && params.username ? params.username : userData ? userData.name : null;
@@ -88,6 +92,12 @@ export default React.createClass({
                       <div className="views">Views: {userChannelData.views.toLocaleString("en")}</div>
                       <div className="followers">Followers: {userChannelData.followers.toLocaleString("en")}</div>
                       <div className="partner">Partnered?: {userChannelData.partner ? "Yes" : "No"}</div>
+                      <div className="partner">Live?: {userStreamData.stream ? (
+                        <a href={`https://www.twitch.tv/${name}`} className="color-white" target="_blank" rel="nofollow" onClick={e => {
+                          e.preventDefault();
+                          appendStream(userChannelData.name, userChannelData.display_name);
+                        }}>Yes</a>
+                      ) : "No"}</div>
                     </div>
                   </div>
                 </div>

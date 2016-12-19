@@ -54,8 +54,12 @@ let components = {
     },
     notify(multiplier) {
       const {
-        data
+        data,
+        params
       } = this.props;
+      // I wouldn't care to receive desktop notifications regarding someone elses followings
+      // this should keep that from happening
+      if(params && params.username) return;
       const {
         name,
         display_name
@@ -217,10 +221,12 @@ export default React.createClass({
       currentNotifs: 0
     }
   },
-  gatherData(limit, offset, callback) {
-    this.setState({
-      loadingData: true
-    }, () => {
+  gatherData(limit, offset, callback, wipe) {
+    this.setState(Object.assign({
+      loadingData: true,
+    }, wipe ? {
+      dataArray: []
+    } : {}), () => {
       limit = typeof limit === "number" ? limit : this.state.limit || 25;
       offset = typeof offset === "number" ? offset : this.state.requestOffset;
       const {
@@ -363,6 +369,9 @@ export default React.createClass({
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
   },
+  componentDidUpdate(lastProps) {
+    if(this.props.params.username !== lastProps.params.username) this.gatherData(this.state.limit, 0, null, true);
+  },
   componentWillUnmount() {
     delete this._mounted;
     document.removeEventListener("scroll", this.scrollEvent, false);
@@ -396,7 +405,7 @@ export default React.createClass({
       const list = dataArray.map((itemData, ind) => {
         return <ListItem ref={r => {
           dataArray[ind] ? dataArray[ind].ref = r : null
-        }} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} notifyMultiplier={Math.floor(ind / 3)} follow={follow} methods={{
+        }} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} notifyMultiplier={Math.floor(ind / 3)} params={this.props.params} follow={follow} methods={{
           appendStream,
           notify: this.notify,
           removeFromDataArray: this.removeFromDataArray

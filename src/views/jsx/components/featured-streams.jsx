@@ -1,5 +1,6 @@
 import React from "react";
 import loadData from "../../../modules/load-data";
+import { Link } from 'react-router';
 
 // list item for featured streams
 const ListItem = React.createClass({
@@ -130,11 +131,14 @@ const FeaturedStream = React.createClass({
           displayName ? (
             <div className="stream-info">
               <div className="image">
-                <img src={logo} alt={`profile image of ${name}`} />
+                <img src={logo} alt={`profile image of ${displayName || name}`} />
               </div>
               <div className="text">
                 <div className="display-name">
-                  {displayName}
+                  <Link to={`/profile/${name}`} >{displayName}</Link>
+                </div>
+                <div className="to-channel">
+                  <a href={`https://www.twitch.tv/${name}`} target="_black" rel="nofollow">Visit on Twitch</a>
                 </div>
                 <div className={`separator-1-1`}></div>
                 <a href="#" className="watch" onClick={() => {

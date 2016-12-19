@@ -1,5 +1,6 @@
 import React from "react";
 import FollowButton from "./follow-btn.jsx";
+import { Link } from 'react-router';
 
 export const ListItemHoverOptions = React.createClass({
   displayName: "ListItemTools",
@@ -17,12 +18,14 @@ export const ListItemHoverOptions = React.createClass({
     return (
       <div className={`hover-options`}>
         <div className="go-to-channel">
-          <a href={`/profile/${name}`}>View Profile</a>
+          <Link to={`/profile/${name}`}>View Profile</Link>
         </div>
         {userData ? <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth} callback={followCallback}/> : null}
         <div className="append-stream">
-          <a href="#" onClick={
+          <a href={`https://www.twitch.tv/${name}/v/${vod}`} target="_blank" rel="nofollow" onClick={e => {
+            e.preventDefault();
             vod ? clickCallback.bind(null, name, display_name , vod) : clickCallback.bind(null, name, display_name)
+          }
           }>{stream || vod ? "Watch" : "Open"} {vod ? "VOD" : "Stream"}</a>
         </div>
         <div className="send-message">
