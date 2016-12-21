@@ -92,7 +92,7 @@ export default React.createClass({
                       <div className="views">Views: {userChannelData.views.toLocaleString("en")}</div>
                       <div className="followers">Followers: {userChannelData.followers.toLocaleString("en")}</div>
                       <div className="partner">Partnered?: {userChannelData.partner ? "Yes" : "No"}</div>
-                      <div className="partner">Live?: {userStreamData.stream ? (
+                      <div className="partner">Live?: {userStreamData && userStreamData.stream ? (
                         <a href={`https://www.twitch.tv/${name}`} className="color-white" target="_blank" rel="nofollow" onClick={e => {
                           e.preventDefault();
                           appendStream(userChannelData.name, userChannelData.display_name);

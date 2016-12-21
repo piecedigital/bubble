@@ -34,7 +34,7 @@ render((
       </Route>
       <Route path="/profile" page="profile" component={checkAuth.bind(null, Profile)}>
       </Route>
-      <Route path="/profile/:username" page="profile" component={checkAuth.bind(null, Profile)}>
+      <Route path="/profile/:username" page="profile" component={Profile}>
       </Route>
       <Route path="/:page" page="streams" component={GeneralPage}>
       </Route>

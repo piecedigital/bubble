@@ -222,6 +222,9 @@ export default React.createClass({
     }
   },
   gatherData(limit, offset, callback, wipe) {
+    if(!this.props.auth ) return this.setState({
+      component: `ChannelsListItem`,
+    });
     this.setState(Object.assign({
       loadingData: true,
     }, wipe ? {
