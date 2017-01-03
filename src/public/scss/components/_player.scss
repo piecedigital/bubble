@@ -202,6 +202,8 @@
   .chat {
     width: 24*$em;
     min-width: 24*$em;
+    height: 100%;
+    overflow: hidden;
   }
   .tools {
     @include displayFlex;

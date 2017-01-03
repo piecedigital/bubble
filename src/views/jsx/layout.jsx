@@ -23,6 +23,7 @@ export default React.createClass({
       playerStreamMax: 6,
       panelDataFor: [],
       panelData: [],
+      panelData: [],
     }, this.props.initState || {});
   },
   initFirebase(data) {
@@ -229,6 +230,24 @@ export default React.createClass({
         });
     }
   },
+  openPopUp(action, options) {
+    switch (action) {
+      case "askQuestion":
+          this.setState(Object.assign({
+            overlay: action
+          }, options.reset ? {
+            // reset askQuestion object if options.reset is there
+            askQuestion: {
+              to: options.recipient,
+              from: options.sender,
+              body: ""
+            }
+          } : {}))
+        break;
+      default:
+
+    }
+  },
   render() {
     const {
       authData,
@@ -263,6 +282,7 @@ export default React.createClass({
             playerCollapsed
           }}
           layout={layout}
+          fireRef={this.fireRef}
           methods={{
             spliceStream: this.spliceStream,
             clearPlayer: this.clearPlayer,
@@ -272,6 +292,7 @@ export default React.createClass({
             alertAuthNeeded: this.alertAuthNeeded,
             setLayout: this.setLayout,
             panelsHandler: this.panelsHandler,
+            openPopUp: this.openPopUp,
           }}/>
         }
         {
@@ -282,11 +303,13 @@ export default React.createClass({
               fireRef: this.fireRef,
               userData,
               ...this.props,
+              fireRef: this.fireRef,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,
                 spliceStream: this.spliceStream,
                 loadData: loadData,
+                openPopUp: this.openPopUp,
               }
             })
           ) : (

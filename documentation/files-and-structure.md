@@ -1,0 +1,46 @@
+# Files and File Structure
+
+
+- **documentation/** - self explanatory
+- **logs/** - self explanatory
+- **dist/** - distribution files from `src` folder. It'll mirror the structure, for the most part. As such I will only note on files that don't exist in the `src` folder
+  - **public/**
+    - **media/** - media files (images, etc.)
+    - **js/** - this is where the bundled/compiled/browserified data goes. All compiled files from the `src` folder
+  - **Procfile** - For Heroku. This is how Heroku knows how to start the application
+  - **package.json**
+- **src/** - raw JavaScript and JSX Files
+  - **modules/**
+    - **ajax.js** - XHR function. Browserified
+    - **helper-tools.js** - helpful JavaScript functions. Browserified
+    - **load-data.js** - various functions to perform an XHR request to an API. Browserified
+    - **render-jsx.js** - renders JSX files for HTML serving. Not Browserified
+    - **routes.js** - refines routes for the application. Not Browserified
+  - **public/**
+    - **scss/** - Sass files
+      - **components/** - component Sass files that are compiled into the main Sass file
+      - **style.scss** - main sass file
+  - **views/**
+    - **jsx/**
+      - **components/** - smaller components. No pages
+        - **user/** - components related to user profiles
+          - **follow-streams.jsx** - lists followed channels and followers
+          - **user-info.jsx** - top section with user profile info (bio, views, partnership, etc)
+          - **videos-listing.jsx** - list channel videos
+        - **featured-streams.jsx** - simple list of featured streams
+        - **follow-btn.jsx** - self explanitory
+        - **hovor-options.jsx** - for streams and channels, a list of options that get revealed on hover ("View Profile", "Follow/Unfollow", "Watch Stream", "Send Message")
+        - **nav.jsx** - navagation bar
+        - **player.jsx** - the stream player
+        - **stream-panels.jsx** - overlays the streams in the player. Contains the stream of a channel
+        - **top-games.jsx** - top 10 featured games
+      - **general-page.jsx** - general page component for top streams and top games
+      - **home.jsx** - home page
+      - **layout.jsx** - application layout
+      - **profile.jsx** - profile page
+      - **search.jsx** - search page
+    - **app.jsx** - source JSX file. Defines routes for React Router
+- **babel-watcher.js** - build step module. Used to trans- and compile all files
+- **index.js** - used to start the server with any environmental variables that I need
+- **log-out.js** - a module used for outputting logs to log files in the `log/` folder
+- **package.json**

@@ -50,7 +50,7 @@ let components = {
                 "{title}"
               </div>
               <div className="game">
-                {`Vod of "${game}"`}
+                {`VOD of "${game}"`}
               </div>
             </div>
             {hoverOptions}

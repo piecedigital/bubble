@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/load-data";
-import { browserNotification as notification } from "../../../../modules/helper-tools";
+import { browserNotification as notification, missingLogo } from "../../../../modules/helper-tools";
 import { ListItemHoverOptions } from "../hover-options.jsx";
 
-const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+// const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 let currentNotifs = 0;
 // components
@@ -222,6 +222,7 @@ export default React.createClass({
     }
   },
   gatherData(limit, offset, callback, wipe) {
+    // console.log("auth", this.props.auth);
     if(!this.props.auth ) return this.setState({
       component: `ChannelsListItem`,
     });
@@ -250,6 +251,7 @@ export default React.createClass({
         }) : null;
         console.log("gathering data", limit, offset);
         // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
+        // console.log("follow:", this.props.follow);
         loadData.call(this, e => {
           console.error(e.stack);
         }, {
@@ -366,6 +368,7 @@ export default React.createClass({
     }, 100);
   },
   componentDidMount() {
+    console.log("auth", this.props.auth);
     this._mounted = true;
     this.gatherData();
     this.scrollEvent();
@@ -373,7 +376,13 @@ export default React.createClass({
     document.addEventListener("mousewheel", this.scrollEvent, false);
   },
   componentDidUpdate(lastProps) {
-    if(this.props.params.username !== lastProps.params.username) this.gatherData(this.state.limit, 0, null, true);
+    // rerun gather data if...
+    if(
+      // ... username changes
+      this.props.params.username !== lastProps.params.username ||
+      // ... auth changes
+      this.props.auth !== lastProps.auth
+    ) this.gatherData(this.state.limit, 0, null, true);
   },
   componentWillUnmount() {
     delete this._mounted;

@@ -1,3 +1,5 @@
+export const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+
 export const browserNotification = function (options) {
   if(!("Notification" in window)) {
     console.log("Notilfications are not supported");

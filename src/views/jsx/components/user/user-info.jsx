@@ -61,7 +61,8 @@ export default React.createClass({
       params,
       userData,
       methods: {
-        appendStream
+        appendStream,
+        openPopUp,
       }
     } = this.props;
     const {
@@ -91,7 +92,7 @@ export default React.createClass({
                       <div className="name">{userChannelData.display_name}</div>
                       <div className="views">Views: {userChannelData.views.toLocaleString("en")}</div>
                       <div className="followers">Followers: {userChannelData.followers.toLocaleString("en")}</div>
-                      <div className="partner">Partnered?: {userChannelData.partner ? "Yes" : "No"}</div>
+                      <div className="partner">Partnered?: {userChannelData.partner ? <a href={`https://www.twitch.tv/${userChannelData.name}/subscribe`} className="color-white" target="_blank" rel="nofollow">Yes</a> : "No"}</div>
                       <div className="partner">Live?: {userStreamData && userStreamData.stream ? (
                         <a href={`https://www.twitch.tv/${name}`} className="color-white" target="_blank" rel="nofollow" onClick={e => {
                           e.preventDefault();
@@ -122,7 +123,14 @@ export default React.createClass({
             <div className="separator-4-3" />
             {
               name && userData && userData.name !== name ? (
-                <a className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>
+                [
+                  <a key="msg" className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>,
+                  " ",
+                  <div key="ask" className="btn-default btn-rect color-black bold no-underline" onClick={openPopUp.bind(null, "askQuestion", {
+                    recipient: name.toLowerCase(),
+                    sender: userData.name
+                  })}>Ask A Question</div>
+                ]
               ) : null
             }
             {userData && userData.name !== name ? (

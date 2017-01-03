@@ -62,6 +62,14 @@ export default function(errorCB, options = {}) {
         // console.log(this);
         return makeRequest(okayCB, "/get-firebase-config", true);
       },
+      getUserID: () => {
+        options.login = options.username;
+        options.api_version = 5;
+        delete options.username;
+        // options.client_id = options.headers["Client-ID"];
+        // options.headers = options.headers || {};
+        return makeRequest(okayCB, `/users`);
+      },
       featured: (okayCB) => {
         // console.log(this);
         options.limit = 25;
