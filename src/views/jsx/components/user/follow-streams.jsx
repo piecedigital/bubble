@@ -249,7 +249,7 @@ export default React.createClass({
         this._mounted ? this.setState({
           requestOffset: (offset + limit)
         }) : null;
-        console.log("gathering data", limit, offset);
+        // console.log("gathering data", limit, offset);
         // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
         // console.log("follow:", this.props.follow);
         loadData.call(this, e => {
@@ -271,8 +271,8 @@ export default React.createClass({
               component: `ChannelsListItem`,
               loadingData: false
             }, () => {
-              console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
-              console.log("final offset:", this.state.requestOffset);
+              // console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
+              // console.log("final offset:", this.state.requestOffset);
               if(typeof callback === "function") callback();
             }) : null;
           })

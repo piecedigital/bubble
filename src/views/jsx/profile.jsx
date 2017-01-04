@@ -1,10 +1,9 @@
 import React from "react";
 import { browserHistory as History } from 'react-router';
+import UserInfo from "./components/user/user-info.jsx";
+import UserQuestions from "./components/user/user-questions.jsx";
 import FollowStreams from "./components/user/follow-streams.jsx";
 import VideosListing from "./components/user/videos-listing.jsx";
-import UserInfo from "./components/user/user-info.jsx";
-// import FollowedStreams from "./components/user/followed-streams.jsx";
-// import FollowingStreams from "./components/user/following-streams.jsx";
 
 export default React.createClass({
   displayName: "Profile",
@@ -25,6 +24,8 @@ export default React.createClass({
           </div>
           <div className="separator-4-black" />
           <UserInfo {...this.props} />
+          <div className="separator-4-black" />
+          <UserQuestions {...this.props} />
           <div className="separator-4-black" />
           <FollowStreams follow={"IFollow"} {...this.props} />
           <div className="separator-4-black" />

@@ -23,8 +23,8 @@ export default React.createClass({
       }
       // console.log(username, this.props.params, this.props.userData);
       if(loadData) {
-        console.log("gathering data");
-        console.log(`Given Channel Name ${method}`, username);
+        // console.log("gathering data");
+        // console.log(`Given Channel Name ${method}`, username);
         loadData.call(this, e => {
           console.error(e.stack);
         }, {
@@ -34,7 +34,7 @@ export default React.createClass({
           methods
           [method]()
           .then(data => {
-            console.log("data", data);
+            // console.log("data", data);
             this._mounted ? this.setState({
               [place]: data
             }) : null;

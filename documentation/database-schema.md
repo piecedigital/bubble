@@ -24,6 +24,21 @@ In addition to necessary data related to the Q&A aggregation this database will 
     <username>: {
       "questionsAsked": Number,
       "questionsAnswered": Number,
+      "questionsForMe": {
+        <questionID>: true
+      },
+      "questionsForThem": {
+        <questionID>: true
+      },
+      "notifications": {
+        <notificationID>: {
+          "notifType": String ("askedNewQuestion" || "newCommentToQuestion" || "newCommentToAnswer" || "taggedInAnswer" || "taggedInComment"),
+          "nodeDataID": String, // ID of question, answer, or comment, depending on the `notifType`
+          "date": [date Object],
+          "sent": [sent Object],
+          "version": [version Object],
+        }
+      },
       "bookmarks": {
         "users": {
           <username>: {
@@ -70,13 +85,23 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "body": String, // minimum 30 characters
       "date": [date Object],
       "sentStatuses": [sent Object],
-      "version": [version Object],
-      "rating": {
-        <username>: {
-          "username": <username>,
-          "upVote": Boolean
-        }
-      }
+      "version": [version Object]
+    }
+  },
+  "answers": {
+    <questionID>: {
+      "questionID": <questionID>
+      "body": String, // minimum 30 characters
+      "date": [date Object],
+      "sentStatuses": [sent Object],
+      "version": [version Object]
+    }
+  },
+  "ratings": {
+    <questionID>: {
+      "for": String ("question" || "answer" || "comment"),
+      "username": <username>,
+      "upVote": Boolean
     }
   },
   "comments": {
@@ -85,31 +110,26 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "questionID": <questionID>,
       "body": String,
       "reply": 0 || <commentID?,
-      "rating": {
-        <username>: {
-          "username": <username>,
-          "upVote": Boolean
-        }
-      },
       "date": [date Object],
       "sentStatuses": [sent Object],
       "version": [version Object]
     }
   },
   "polls": {
-    <commentID>: {
-      "username": <username>,
-      "questionID": <questionID>,
-      "body": String,
-      "reply": 0 || <commentID?,
-      "rating": {
+    <pollID>: {
+      "creator": <username>,
+      "choices": {
+        vote_<Number>: {
+          "text": String,
+        }
+      },
+      "votes": {
         <username>: {
           "username": <username>,
-          "upVote": Boolean
+          "vote": String (vote_<Number>)
         }
       },
       "date": [date Object],
-      "sentStatuses": [sent Object],
       "version": [version Object]
     }
   }

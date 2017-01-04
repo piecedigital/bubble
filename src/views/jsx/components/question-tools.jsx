@@ -54,11 +54,30 @@ export const AskQuestion = React.createClass({
       version: this.state.versionData,
       rating: {}
     };
-    console.log("question object:", questionObject);
+    // console.log("question object:", questionObject);
+    // write question to `questions` node
+    let questionID = fireRef.root.push().getKey();
+    // console.log(questionID);
     fireRef.questionsRef
-    .push()
+    .child(questionID)
     .set(questionObject)
-    .catch(e => console.error(e.val ? e.val() : e))
+    .catch(e => console.error(e.val ? e.val() : e));
+    // write question ID reference to user.<username>.questionsForMe
+    fireRef.usersRef
+    .child(`${to}/questionsForMe`)
+    .set({
+      [questionID]: true
+    })
+    .catch(e => console.error(e.val ? e.val() : e));
+    // write question ID reference to user.<username>.questionsForThem
+    fireRef.usersRef
+    .child(`${from}/questionsForThem`)
+    .set({
+      [questionID]: true
+    })
+    .catch(e => console.error(e.val ? e.val() : e));
+
+    // close the pop up
     this.setState({
       success: true
     }, () => {
@@ -80,10 +99,10 @@ export const AskQuestion = React.createClass({
         [thisValid]: value.length >= thisMin && value.length <= thisMax,
         [thisCount]: value.length,
       })
-    }, console.log(this.state));
+    });
   },
   componentDidMount() {
-    console.log("question tools mounted");
+    // console.log("question tools mounted", this.props);
     ajax({
       url: "/get-version",
       success: (data) => {

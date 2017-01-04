@@ -37,7 +37,7 @@ export default function(errorCB, options = {}) {
           try {
             data = JSON.parse(data);
           } catch (e) {
-            console.log(data);
+            // console.log(data);
             console.error(e.stack || e);
           } finally {
             resolve(data);

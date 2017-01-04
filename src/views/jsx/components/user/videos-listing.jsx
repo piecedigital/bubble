@@ -101,8 +101,8 @@ export default React.createClass({
         this.setState({
           requestOffset: (offset + limit)
         });
-        console.log("gathering data", limit, offset);
-        console.log(`Given Channel Name getVideos`, username);
+        // console.log("gathering data", limit, offset);
+        // console.log(`Given Channel Name getVideos`, username);
         loadData.call(this, e => {
           console.error(e.stack);
         }, {
@@ -116,12 +116,12 @@ export default React.createClass({
           methods
           ["getVideos"]()
           .then(data => {
-            console.log("data", data);
+            // console.log("data", data);
             this.setState({
               dataArray: Array.from(this.state.dataArray).concat(data.videos),
               component: `VideosListItem`
             }, () => {
-              console.log("total data getVideos", this.state.dataArray.length);
+              // console.log("total data getVideos", this.state.dataArray.length);
               if(typeof callback === "function") callback();
             });
           })

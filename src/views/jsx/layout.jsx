@@ -30,17 +30,27 @@ export default React.createClass({
         to: "",
         from: "",
         body: ""
-      }
+      },
+      fireRef: null
     }, this.props.initState || {});
   },
   initFirebase(data) {
-    console.log("init firebase", data);
+    // console.log("init firebase", data);
     var config = data;
     Firebase.initializeApp(config);
     const ref = {
-      questionsRef: Firebase.database().ref("questions")
+      root: Firebase.database().ref(),
+      appConfigRef: Firebase.database().ref("appConfig"),
+      usersRef: Firebase.database().ref("users"),
+      questionsRef: Firebase.database().ref("questions"),
+      ansersRef: Firebase.database().ref("ansers"),
+      ratingsRef: Firebase.database().ref("ratings"),
+      commentsRef: Firebase.database().ref("comments"),
+      pollsRef: Firebase.database().ref("polls"),
     };
-    this.fireRef = ref;
+    this.setState({
+      fireRef: ref
+    });
   },
   appendStream(username, displayName, isSolo = false) {
     username ? username.replace(/\s/g, "") : null;
@@ -245,8 +255,8 @@ export default React.createClass({
           let newState = Object.assign({
             overlay: action,
             askQuestion: {
-              to: options.recipient,
-              from: options.sender,
+              to: options.recipient.toLowerCase(),
+              from: options.sender.toLowerCase(),
             }
           }, options.reset ? {
             // reset askQuestion object if options.reset is there
@@ -274,7 +284,8 @@ export default React.createClass({
       layout,
       panelData,
       overlay,
-      askQuestion
+      askQuestion,
+      fireRef
     } = this.state;
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
@@ -301,7 +312,7 @@ export default React.createClass({
             playerCollapsed
           }}
           layout={layout}
-          fireRef={this.fireRef}
+          fireRef={fireRef}
           methods={{
             spliceStream: this.spliceStream,
             clearPlayer: this.clearPlayer,
@@ -322,7 +333,7 @@ export default React.createClass({
               fireRef: this.fireRef,
               userData,
               ...this.props,
-              fireRef: this.fireRef,
+              fireRef,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,
@@ -338,7 +349,7 @@ export default React.createClass({
         <Overlay
         overlay={overlay}
         askQuestion={askQuestion}
-        fireRef={this.fireRef}
+        fireRef={fireRef}
         auth={authData}
         methods={{
           popUpHandler: this.popUpHandler
