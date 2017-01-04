@@ -62,7 +62,7 @@ export default React.createClass({
       userData,
       methods: {
         appendStream,
-        openPopUp,
+        popUpHandler,
       }
     } = this.props;
     const {
@@ -126,7 +126,7 @@ export default React.createClass({
                 [
                   <a key="msg" className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>,
                   " ",
-                  <div key="ask" className="btn-default btn-rect color-black bold no-underline" onClick={openPopUp.bind(null, "askQuestion", {
+                  <div key="ask" className="btn-default btn-rect color-black bold no-underline" onClick={popUpHandler.bind(null, "askQuestion", {
                     recipient: name.toLowerCase(),
                     sender: userData.name
                   })}>Ask A Question</div>

@@ -1,0 +1,55 @@
+.ask-question {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 0;
+  height: 100%;
+  box-shadow: -.2*$em 0 0 0 $dim;
+  background-color: $offWhite;
+  overflow: hidden;
+  // .wrapper {
+  //   position: relative;
+  //   width: 100%;
+  //   height: 100%;
+  // }
+  &.open {
+    max-width: 24*$em;
+  }
+  .close {
+    position: absolute;
+    top: 0;
+    left: .2*$em;
+    padding: .2*$em .6*$em;
+    box-shadow: 0 0 0 .2*$em $dim;
+    color: black;
+    cursor: pointer;
+  }
+  .title {
+    padding: 2*$em;
+    color: black;
+    text-align: center;
+    font-size: 2*$em;
+  }
+  form {
+    .section {
+      padding: .5*$em;
+      .label {
+        vertical-align: top;
+      }
+      .to {
+        font-weight: bold;
+      }
+      input, textarea {
+        width: 100%;
+        border-radius: .25*$em;
+        border: none;
+        border: 1px solid red;
+        box-shadow: none;
+        &.valid {
+          border: 1px solid $dimmer;
+        }
+      }
+    }
+  }
+}

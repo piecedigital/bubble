@@ -95,6 +95,23 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "sentStatuses": [sent Object],
       "version": [version Object]
     }
+  },
+  "polls": {
+    <commentID>: {
+      "username": <username>,
+      "questionID": <questionID>,
+      "body": String,
+      "reply": 0 || <commentID?,
+      "rating": {
+        <username>: {
+          "username": <username>,
+          "upVote": Boolean
+        }
+      },
+      "date": [date Object],
+      "sentStatuses": [sent Object],
+      "version": [version Object]
+    }
   }
 }
 ```

@@ -368,7 +368,7 @@ export default React.createClass({
     }, 100);
   },
   componentDidMount() {
-    console.log("auth", this.props.auth);
+    // console.log("auth", this.props.auth);
     this._mounted = true;
     this.gatherData();
     this.scrollEvent();

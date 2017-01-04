@@ -59,6 +59,14 @@ app
   const base64Encoded = new Buffer(stringified).toString("base64");
   res.send(base64Encoded);
 })
+.get("/get-version", function (req, res) {
+  const data = {
+    major: process.env["V_MAJOR"],
+    minor: process.env["V_MINOR"],
+    patch: process.env["V_PATCH"],
+  };
+  res.json(data);
+})
 .get("/get-panels/:username", function (req, res) {
   // https://api.twitch.tv/api/channels/${username}/panels`
   let options = {

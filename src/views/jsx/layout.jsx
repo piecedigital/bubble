@@ -1,5 +1,6 @@
 import React from "react";
 import Player from "./components/player.jsx";
+import Overlay from "./components/overlay.jsx";
 import loadData from "../../modules/load-data";
 import Nav from "./components/nav.jsx";
 import { Link, browserHistory as History } from 'react-router';
@@ -24,14 +25,21 @@ export default React.createClass({
       panelDataFor: [],
       panelData: [],
       panelData: [],
+      overlay: "",
+      askQuestion: {
+        to: "",
+        from: "",
+        body: ""
+      }
     }, this.props.initState || {});
   },
   initFirebase(data) {
     console.log("init firebase", data);
     var config = data;
     Firebase.initializeApp(config);
-    const ref = {};
-    ref.child = Firebase.database().ref;
+    const ref = {
+      questionsRef: Firebase.database().ref("questions")
+    };
     this.fireRef = ref;
   },
   appendStream(username, displayName, isSolo = false) {
@@ -230,22 +238,31 @@ export default React.createClass({
         });
     }
   },
-  openPopUp(action, options) {
+  popUpHandler(action, options) {
+    console.log("pop up handler", action, options);
     switch (action) {
       case "askQuestion":
-          this.setState(Object.assign({
-            overlay: action
-          }, options.reset ? {
-            // reset askQuestion object if options.reset is there
+          let newState = Object.assign({
+            overlay: action,
             askQuestion: {
               to: options.recipient,
               from: options.sender,
+            }
+          }, options.reset ? {
+            // reset askQuestion object if options.reset is there
+            askQuestion: {
+              to: "",
+              from: "",
               body: ""
             }
-          } : {}))
+          } : {});
+          console.log("new state:", newState);
+          this.setState(newState);
         break;
-      default:
-
+      case "close":
+        this.setState({
+          overlay: ""
+        });
     }
   },
   render() {
@@ -256,6 +273,8 @@ export default React.createClass({
       playerCollapsed,
       layout,
       panelData,
+      overlay,
+      askQuestion
     } = this.state;
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
@@ -292,7 +311,7 @@ export default React.createClass({
             alertAuthNeeded: this.alertAuthNeeded,
             setLayout: this.setLayout,
             panelsHandler: this.panelsHandler,
-            openPopUp: this.openPopUp,
+            popUpHandler: this.popUpHandler,
           }}/>
         }
         {
@@ -309,13 +328,21 @@ export default React.createClass({
                 appendVOD: this.appendVOD,
                 spliceStream: this.spliceStream,
                 loadData: loadData,
-                openPopUp: this.openPopUp,
+                popUpHandler: this.popUpHandler,
               }
             })
           ) : (
             null
           )
         }
+        <Overlay
+        overlay={overlay}
+        askQuestion={askQuestion}
+        fireRef={this.fireRef}
+        auth={authData}
+        methods={{
+          popUpHandler: this.popUpHandler
+        }} />
         <div className="created-by">
           <div className="separator-4-black" />
           <div className="by">Created by <a href="http://piecedigital.net" rel="nofollow" target="_blank">Piece Digital</a></div>

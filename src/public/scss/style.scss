@@ -92,6 +92,8 @@ body {
 @import "components/_channel-list-item.scss";
 @import "components/_game-list-item.scss";
 @import "components/_stream-panels.scss";
+@import "components/_overlay.scss";
+@import "components/_ask-question.scss";
 
 .clickable {
   cursor: pointer;
@@ -155,6 +157,9 @@ body {
 }
 .color-black {
   color: black;
+}
+.color-red {
+  color: red;
 }
 
 @each $name, $color in $allColors {
