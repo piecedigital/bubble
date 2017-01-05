@@ -1,101 +1,46 @@
-.video-list-item {
+.question-list-item {
   position: relative;
-  width: percentage(1/6);
+  width: percentage(1/2);
   padding: .25*$em;
   list-style: none;
   &.home {
     width: 100%;
   }
-  &.search {
-    width: percentage(1/4);
-  }
-  > .wrapper {
-    display: block;
-    height: 100%;
-    padding: .5*$em;
-    background-color: $offWhite;
+  > a {
+    color: inherit;
     text-decoration: none;
-    cursor: default;
-    &:hover {
-      background-color: $light;
-      .hover-options {
-        top: 50%;
-        max-height: 10*$em;
-        padding: .5*$em;
-        transform: translate(0, -50%);
-      }
-    }
-  }
-  .image {
-    place: holder;
-    img {
+    .wrapper {
       display: block;
-      width: 100%;
+      height: 100%;
+      padding: .5*$em;
+      background-color: $offWhite;
+      text-decoration: none;
+      // cursor: default;
+      &:hover {
+        background-color: $light;
+      }
     }
   }
   .info {
     color: black;
-    .channel-name {
+    .title {
+      font-size: 2*$em;
       font-weight: bold;
-      margin-bottom: .2*$em;
+      margin-bottom: .4*$em;
       word-wrap: break-word;
     }
-    .game-name {
-      min-height: 3*$em;
+    .body {
+      word-wrap: break-word;
     }
-    .title {
-      place: holder;
-    }
-    .game {
-      margin-top: .2*$em;
-    }
-    .date {
-      margin-top: 1*$em;
-      font-size: .8*$em;
-    }
-  }
-  .hover-options {
-    @include displayFlex;
-    flex-direction: column;
-    align-items: center;
-    align-items: center;
-    justify-content: space-around;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    max-height: 0*$em;
-    padding: 0 .5*$em;
-    background-color: rgba(black, .4);
-    text-align: center;
-    overflow: hidden;
-    > * {
-      display: inline-block;
-      margin: .5*$em 0;
-      padding: .2*$em;
-      border-radius: .2*$em;
-      background-color: $primary;
-      color: black;
-      cursor: pointer;
-      a {
-        text-decoration: none;
-      }
-    }
-    .follow {}
-    .append-stream {}
   }
 }
 
 @media (max-width: 1024px) {
-  .video-list-item {
-    width: percentage(1/5);
+  .stream-list-item {
     &:hover {
       > .wrapper {
         .hover-options {}
       }
-    }
-    &.search {
-      width: percentage(1/4);
     }
     .image {
       img {}
@@ -127,15 +72,11 @@
 }
 
 @media (max-width: 880px) {
-  .video-list-item {
-    width: percentage(1/4);
+  .stream-list-item {
     &:hover {
     > .wrapper {
         .hover-options {}
       }
-    }
-    &.search {
-      width: percentage(1/3);
     }
     .image {
       img {}
@@ -167,15 +108,11 @@
 }
 
 @media (max-width: 780px) {
-  .video-list-item {
-    width: percentage(1/3);
+  .stream-list-item {
     &:hover {
     > .wrapper {
         .hover-options {}
       }
-    }
-    &.search {
-      width: percentage(1/2);
     }
     .image {
       img {}
@@ -207,15 +144,11 @@
 }
 
 @media (max-width: 640px) {
-  .video-list-item {
-    width: percentage(1/2);
+  .stream-list-item {
     &:hover {
     > .wrapper {
         .hover-options {}
       }
-    }
-    &.search {
-      width: percentage(1/1);
     }
     .image {
       img {}
@@ -247,7 +180,7 @@
 }
 
 @media (max-width: 460px) {
-  .video-list-item {
+  .stream-list-item {
     width: percentage(1/1);
     &:hover {
     > .wrapper {
@@ -284,7 +217,7 @@
 }
 
 // @media (max-width: xpx) {
-//   .video-list-item {
+//   .stream-list-item {
 //     &:hover {
 //     > .wrapper {
 //         .hover-options {}

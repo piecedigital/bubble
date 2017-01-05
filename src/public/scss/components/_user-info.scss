@@ -1,6 +1,6 @@
 .user-info {
   .channel {
-    width: 55*$em;
+    max-width: 55*$em;
     margin: auto;
     .banner {
       position: relative;
@@ -16,6 +16,7 @@
         position: absolute;
         top: 100%;
         left: 50%;
+        width: 10*$em;
         padding: 1*$em;
         // background-color: rgba(0, 0, 0, .5);
         transform: translate(-50%, -4*$em);
@@ -63,12 +64,12 @@
     }
   }
   .user {
-    width: 55*$em;
+    max-width: 55*$em;
     margin: 1*$em auto .75*$em;
     background-color: $offWhite;
     color: black;
     .bio {
-      padding: 9*$em 1*$em 1*$em;
+      padding: 10*$em 1*$em 1*$em;
       text-align: center;
       &.no-bio {
         font-style: italic;

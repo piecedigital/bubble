@@ -11,6 +11,16 @@ let components = {
   // list item for streams matching the search
   VideosListItem: React.createClass({
     displayName: "video-ListItem",
+    readableDate(givenDate) {
+      const date = new Date(givenDate);
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      let hours = date.getHours();
+      const dayHalf = hours > 12 ? "PM" : "AM";
+      hours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
+      let minutes = date.getMinutes();
+      minutes = minutes < 10 ? `0${minutes}` : minutes;
+      return `${date.getDate()} ${months[date.getMonth()]}, ${date.getFullYear()} - ${hours}:${minutes} ${dayHalf}`;
+    },
     render() {
       // console.log(this.props);
       const {
@@ -51,6 +61,9 @@ let components = {
               </div>
               <div className="game">
                 {`VOD of "${game}"`}
+              </div>
+              <div className="date">
+                {this.readableDate(recorded_at)}
               </div>
             </div>
             {hoverOptions}

@@ -69,7 +69,7 @@ export default React.createClass({
     }
   },
   appendVOD(username, displayName, id, isSolo = false) {
-    console.log("appending stream", username, isSolo);
+    console.log("appending VOD", username, isSolo);
     // only append if below the max
     if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if(!this.state.streamersInPlayer.hasOwnProperty(id)) {

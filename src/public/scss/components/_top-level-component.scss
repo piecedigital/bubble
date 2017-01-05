@@ -1,7 +1,8 @@
 .top-level-component {
   &.home-page {}
   &.profile, &.streams, &.games, &.search-page {
-    .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
+    .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info, .user-questions {
+      overflow: hidden;
       &.locked {
         position: relative;
       }
@@ -196,7 +197,7 @@
         }
       }
       &.profile, &.streams, &.games, &.search-page {
-        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
+        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .tool-assisted {
           .title {
           }
           > .wrapper {
@@ -254,7 +255,7 @@
         }
       }
       &.profile, &.streams, &.games, &.search-page {
-        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
+        .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .tool-assisted {
           .title {
           }
           > .wrapper {

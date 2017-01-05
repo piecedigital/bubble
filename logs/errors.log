@@ -225,3 +225,51 @@ Error: Cannot find module '../../../../modules/ajax' from 'E:\GIT FILES\Sites\bu
     at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
     at FSReqWrap.oncomplete (fs.js:82:15)
 ]
+[1483577579381] [Thu, 05 Jan 2017 00:52:59 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './side-tools' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components\user'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1483577613354] [Thu, 05 Jan 2017 00:53:33 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './side-tools' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components\user'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1483577688270] [Thu, 05 Jan 2017 00:54:48 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './side-tools' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components\user'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1483578268321] [Thu, 05 Jan 2017 01:04:28 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './side-tools' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components\user'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1483578703175] [Thu, 05 Jan 2017 01:11:43 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './side-tools' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components\user'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1483579335941] [Thu, 05 Jan 2017 01:22:15 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js"
+Error: Cannot find module './side-tools' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components\user'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
