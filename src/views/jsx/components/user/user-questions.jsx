@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 const QuestionListItem = React.createClass({
   displayName: "QuestionListItem",
-  getInitialState: () => ({ questionData: null }),
+  getInitialState: () => ({ questionData: null, answerData: null }),
   componentDidMount() {
     const {
       questionID,
@@ -21,38 +21,72 @@ const QuestionListItem = React.createClass({
         questionData
       });
     });
+    // get question data
+    fireRef.answersRef
+    .child(questionID)
+    .once("value")
+    .then(snap => {
+      const answerData = snap.val();
+      this.setState({
+        answerData
+      });
+    });
   },
   render() {
     const {
       questionID,
       params,
+      methods: {
+        popUpHandler
+      }
     } = this.props
     const {
-      questionData
+      questionData,
+      answerData
     } = this.state;
 
     if(!questionData) return null;
 
-    const {
-      title,
-      body,
-    } = questionData;
     return (
       <li className={`question-list-item`}>
-        <Link to={{
-          pathname: `profile/${params.username}/q/${questionID}`,
-          state: {
-            modal: true,
-            returnTo: `profile/${params.username}`,
-          }
-        }}>
+        <Link to={
+          answerData ? (
+            {
+              pathname: `/profile/${params.username}/q/${questionID}`,
+              state: {
+                modal: true,
+                returnTo: `/profile/${params.username}`,
+              }
+            }
+          ) : (
+            {
+              pathname: `/profile/${params.username}`
+            }
+          )
+        } onClick={answerData ? (
+          popUpHandler.bind(null, "viewQuestion", {
+            questionData,
+            answerData
+          })
+        ) : (
+          popUpHandler.bind(null, "answerQuestion", {
+            questionData,
+            answerData
+          })
+        )}>
           <div className="wrapper">
-            <div className="info">
+            <div className="info question">
               <div className="title">
-                {title}
+                {questionData.title}
               </div>
               <div className="body">
-                {body}
+                {questionData.body}
+              </div>
+            </div>
+            <div className="separator-4-black" />
+            <div className="info answer">
+              <div className="body">
+                {answerData ? answerData.body : "Click here to Answer!"}
               </div>
             </div>
           </div>
@@ -136,8 +170,7 @@ export default React.createClass({
       });
     })
   },
-  xrefresh() {
-  },
+  xrefresh() {},
   refreshList() {
     this.setState({
       questions: {},
@@ -147,8 +180,7 @@ export default React.createClass({
   gatherData() {
     this.getQuestions();
   },
-  xapplyFilter() {
-  },
+  xapplyFilter() {},
   componentWillReceiveProps(nextProps) {
     // console.log("new props", this.props, nextProps);
     if(this.props.params.username !== nextProps.params.username) {
@@ -176,13 +208,15 @@ export default React.createClass({
       questions,
     } = this.state;
     const {
+      auth,
       params,
-      fireRef
+      fireRef,
+      methods
     } = this.props;
     // make an array of questions
     const list = questions ? Object.keys(questions).map(questionID => {
       return (
-        <QuestionListItem key={questionID} questionID={questionID} params={params} fireRef={fireRef} />
+        <QuestionListItem key={questionID} questionID={questionID} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} methods={methods} />
       );
     }) : null;
     return (

@@ -55,7 +55,7 @@ function babelWatcher() {
       if(!(timer-1) && !executing && !failure) {
         console.log("browserifying...");
         executing = true;
-        cp.exec("browserify ./dist/views/app.jsx -o ./dist/public/js/bundle.js", function (err) {
+        cp.exec("browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js", function (err) {
           if(err) {
             logOut(err, true, {
               type: "error"
@@ -64,7 +64,7 @@ function babelWatcher() {
             logOut("browserification complete: dev", true)
           }
         });
-        cp.exec("browserify ./dist/views/app.jsx -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js", function (err) {
+        cp.exec("browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js", function (err) {
           if(err) {
             logOut(err, true, {
               type: "error"

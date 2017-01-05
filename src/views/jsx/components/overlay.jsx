@@ -1,5 +1,5 @@
 import React from "react";
-import { AskQuestion } from "./question-tools.jsx";
+import { AskQuestion, AnswerQuestion, ViewQuestion } from "./question-tools.jsx";
 
 export default React.createClass({
   displayName: "Overlay",
@@ -10,6 +10,8 @@ export default React.createClass({
       fireRef,
       overlay,
       askQuestion,
+      answerQuestion,
+      viewQuestion,
       methods,
       methods: {
         popUpHandler
@@ -20,6 +22,12 @@ export default React.createClass({
         <AskQuestion
         overlay={overlay}
         askQuestion={askQuestion}
+        fireRef={fireRef}
+        auth={auth}
+        methods={methods}/>
+        <AnswerQuestion
+        overlay={overlay}
+        answerQuestion={answerQuestion}
         fireRef={fireRef}
         auth={auth}
         methods={methods}/>

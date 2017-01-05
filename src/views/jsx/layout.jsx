@@ -31,6 +31,14 @@ export default React.createClass({
         from: "",
         body: ""
       },
+      answerQuestion: {
+        questionData: null,
+        answerData: null,
+      },
+      viewQuestion: {
+        questionData: null,
+        answerData: null,
+      },
       fireRef: null
     }, this.props.initState || {});
   },
@@ -43,7 +51,7 @@ export default React.createClass({
       appConfigRef: Firebase.database().ref("appConfig"),
       usersRef: Firebase.database().ref("users"),
       questionsRef: Firebase.database().ref("questions"),
-      ansersRef: Firebase.database().ref("ansers"),
+      answersRef: Firebase.database().ref("answers"),
       ratingsRef: Firebase.database().ref("ratings"),
       commentsRef: Firebase.database().ref("comments"),
       pollsRef: Firebase.database().ref("polls"),
@@ -250,9 +258,10 @@ export default React.createClass({
   },
   popUpHandler(action, options) {
     console.log("pop up handler", action, options);
+    let newState;
     switch (action) {
       case "askQuestion":
-          let newState = Object.assign({
+          newState = Object.assign({
             overlay: action,
             askQuestion: {
               to: options.recipient.toLowerCase(),
@@ -266,7 +275,29 @@ export default React.createClass({
               body: ""
             }
           } : {});
-          console.log("new state:", newState);
+          // console.log("new state:", newState);
+          this.setState(newState);
+        break;
+      case "answerQuestion":
+          newState = {
+            overlay: action,
+            answerQuestion: {
+              questionData: options.questionData,
+              answerData: options.answerData,
+            }
+          };
+          // console.log("new state:", newState);
+          this.setState(newState);
+        break;
+      case "viewQuestion":
+          newState = {
+            overlay: action,
+            viewQuestion: {
+              questionData: options.questionData,
+              answerData: options.answerData,
+            }
+          };
+          // console.log("new state:", newState);
           this.setState(newState);
         break;
       case "close":
@@ -285,6 +316,8 @@ export default React.createClass({
       panelData,
       overlay,
       askQuestion,
+      answerQuestion,
+      viewQuestion,
       fireRef
     } = this.state;
     var playerHasStreamers = Object.keys(dataObject).length > 0;
@@ -349,6 +382,8 @@ export default React.createClass({
         <Overlay
         overlay={overlay}
         askQuestion={askQuestion}
+        answerQuestion={answerQuestion}
+        viewQuestion={viewQuestion}
         fireRef={fireRef}
         auth={authData}
         methods={{

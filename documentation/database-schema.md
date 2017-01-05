@@ -79,6 +79,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "questions": {
     <questionID>: {
+      "myAuth": Boolean,
       "creator": <username>: String, //
       "receiver": <username>: String,
       "title": String or Number // If number it'll be 0. Firebase does not accept null as a value,
@@ -90,6 +91,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "answers": {
     <questionID>: {
+      "myAuth": Boolean,
       "questionID": <questionID>
       "body": String, // minimum 30 characters
       "date": [date Object],
