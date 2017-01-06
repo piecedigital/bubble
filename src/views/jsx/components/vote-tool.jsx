@@ -17,7 +17,7 @@ export default React.createClass({
       "upvote": vote
     };
     // return console.log("vote data:", voteData);
-    console.log("vote data:", voteData);
+    // console.log("vote data:", voteData);
     fireRef.ratingsRef
     .child(questionData.questionID)
     .child(userData.name)
