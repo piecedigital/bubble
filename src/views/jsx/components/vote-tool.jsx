@@ -44,7 +44,7 @@ export default React.createClass({
             <div className="ups-and-downs">
               <div className="up">{calculatedRatings.upvotes || 0}</div>
               /
-              <div className="down">{calculatedRatings.downvotes || 0}</div>
+              <div className="down">{Math.abs(calculatedRatings.downvotes) || 0}</div>
             </div>
           </div>
           <div className={`downvote-btn${!calculatedRatings.myVote ? myVote : ""}`} onClick={this.castVote.bind(null, false)}/>

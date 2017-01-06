@@ -26,6 +26,20 @@ const QuestionListItem = React.createClass({
       calculatedRatings
     });
   },
+  newData(dleet, snap) {
+    const ratingsKey = snap.getKey();
+    const ratingsData = snap.val();
+    console.log("shit changed", ratingsKey, ratingsData);
+    let newData = JSON.parse(JSON.stringify(this.state.ratingsData));
+    if(dleet) delete newData[ratingsKey];
+    this.setState({
+      ratingsData: Object.assign(newData || {}, dleet ? {} : {
+        [ratingsKey]: ratingsData
+      })
+    }, () => {
+      this.calculateRatings();
+    });
+  },
   componentDidMount() {
     const {
       questionID,
@@ -65,32 +79,33 @@ const QuestionListItem = React.createClass({
       });
     });
     // set listener on ratings data
-    const newData = (dleet, snap) => {
-      const ratingsKey = snap.getKey();
-      const ratingsData = snap.val();
-      console.log("shit changed", ratingsKey, ratingsData);
-      let newData = JSON.parse(JSON.stringify(this.state.ratingsData));
-      if(dleet) delete newData[ratingsKey];
-      this.setState({
-        ratingsData: Object.assign(newData || {}, dleet ? {} : {
-          [ratingsKey]: ratingsData
-        })
-      }, () => {
-        this.calculateRatings();
-      });
-    };
     // rating added
     fireRef.ratingsRef
     .child(questionID)
-    .on("child_added", newData.bind(null, null)),
+    .on("child_added", this.newData.bind(null, null)),
     // rating changed
     fireRef.ratingsRef
     .child(questionID)
-    .on("child_changed", newData.bind(null, null));
+    .on("child_changed", this.newData.bind(null, null));
     // rating removed
     fireRef.ratingsRef
     .child(questionID)
-    .on("child_removed", newData.bind(null, true));
+    .on("child_removed", this.newData.bind(null, true));
+  },
+  componentWillUnmount() {
+    // remove listener on ratings data
+    // rating added
+    fireRef.ratingsRef
+    .child(questionID)
+    .off("child_added", this.newData),
+    // rating changed
+    fireRef.ratingsRef
+    .child(questionID)
+    .off("child_changed", this.newData);
+    // rating removed
+    fireRef.ratingsRef
+    .child(questionID)
+    .off("child_removed", this.newData);
   },
   render() {
     const {
