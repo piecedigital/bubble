@@ -49,10 +49,9 @@ export const AskQuestion = React.createClass({
       },
       sentStatuses: {
         "email": false,
-        "notification": true
+        "notification": false
       },
-      version: this.state.versionData,
-      rating: {}
+      version: this.state.versionData
     };
     // console.log("question object:", questionObject);
     // write question to `questions` node
@@ -121,6 +120,7 @@ export const AskQuestion = React.createClass({
   render() {
     // console.log(this.props);
     const {
+      fireRef,
       overlay,
       askQuestion: {
         to,
@@ -136,7 +136,7 @@ export const AskQuestion = React.createClass({
       error,
       versionData
     } = this.state;
-    if(!versionData) {
+    if(!versionData || !fireRef) {
       return (
         <div className={`overlay-ui-default ask-question${overlay === "askQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
           <div className="title">
@@ -169,16 +169,16 @@ export const AskQuestion = React.createClass({
         <div className="title">
           Ask {to} A Question
         </div>
-        <div className="separator-4-dimmer" />
-        <div className="separator-4-dimmer" />
-        <div className="separator-4-dimmer" />
-        <div className="separator-4-dimmer" />
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
         <form onSubmit={this.submit}>
           <div className="section">
             <span className="label">To: </span>
             <span className="to">{to}</span>
           </div>
-          <div className="separator-1-dimmer" />
+          <div className="separator-1-dim" />
           <div className="section">
             <label>
               <div className="label bold">Title/Intro</div>
@@ -186,7 +186,7 @@ export const AskQuestion = React.createClass({
               <div>{this.state.validation["titleCount"]}/<span className={`${this.state.validation["titleCount"] < this.state.validation["titleMin"] ? "color-red" : ""}`}>{this.state.validation["titleMin"]}</span>-<span className={`${this.state.validation["titleCount"] > this.state.validation["titleMax"] ? "color-red" : ""}`}>{this.state.validation["titleMax"]}</span></div>
             </label>
           </div>
-          <div className="separator-1-dimmer" />
+          <div className="separator-1-dim" />
           <div className="section">
             <label>
               <div className="label bold">What Do You Have To Ask?</div>
@@ -194,7 +194,9 @@ export const AskQuestion = React.createClass({
               <div>{this.state.validation["bodyCount"]}/<span className={`${this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : ""}`}>{this.state.validation["bodyMin"]}</span>-<span className={`${this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : ""}`}>{this.state.validation["bodyMax"]}</span></div>
             </label>
           </div>
-          <button>Submit</button>
+          <div className="section">
+            <button className="submit btn-default">Submit</button>
+          </div>
         </form>
       </div>
     );
@@ -224,9 +226,9 @@ export const AnswerQuestion = React.createClass({
       auth,
       fireRef,
       overlay,
-      askQuestion: {
-        to,
-        from
+      answerQuestion: {
+        questionData,
+        answerData
       },
       methods: {
         popUpHandler
@@ -237,43 +239,23 @@ export const AnswerQuestion = React.createClass({
       body,
     } = this.refs;
     let questionObject = {
-      // true if `access_token` exists
-      myAuth: !!auth.access_token,
-      creator: from,
-      receiver: to,
-      title: title.value,
-      body: body.value,
-      date: {
+      "myAuth": !!auth.access_token,
+      "body": body.value,
+      "questionID": questionData.questionID,
+      "date": {
         "UTCTime": new Date().getTime()
       },
-      sentStatuses: {
+      "sentStatuses": {
         "email": false,
-        "notification": true
+        "notification": false
       },
-      version: this.state.versionData,
-      rating: {}
+      "version": this.state.versionData,
     };
-    // console.log("question object:", questionObject);
-    // write question to `questions` node
-    let questionID = fireRef.root.push().getKey();
-    // console.log(questionID);
-    fireRef.questionsRef
-    .child(questionID)
+    // return console.log("question object:", questionObject);
+    // write answer to `answers` node
+    fireRef.answersRef
+    .child(questionData.questionID)
     .set(questionObject)
-    .catch(e => console.error(e.val ? e.val() : e));
-    // write question ID reference to user.<username>.questionsForMe
-    fireRef.usersRef
-    .child(`${to}/questionsForMe`)
-    .set({
-      [questionID]: true
-    })
-    .catch(e => console.error(e.val ? e.val() : e));
-    // write question ID reference to user.<username>.questionsForThem
-    fireRef.usersRef
-    .child(`${from}/questionsForThem`)
-    .set({
-      [questionID]: true
-    })
     .catch(e => console.error(e.val ? e.val() : e));
 
     // close the pop up
@@ -318,8 +300,9 @@ export const AnswerQuestion = React.createClass({
     })
   },
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const {
+      fireRef,
       overlay,
       answerQuestion: {
         questionData,
@@ -334,7 +317,7 @@ export const AnswerQuestion = React.createClass({
       error,
       versionData
     } = this.state;
-    if(!versionData) {
+    if(!versionData || !fireRef) {
       return (
         <div className={`overlay-ui-default answer-question${overlay === "answerQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
           <div className="title">
@@ -356,7 +339,7 @@ export const AnswerQuestion = React.createClass({
       return (
         <div className={`overlay-ui-default answer-question${overlay === "answerQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
           <div className="title">
-            Question submitted to {to} successfully!
+            Question submitted to {questionData.creator} successfully!
           </div>
         </div>
       );
@@ -368,19 +351,19 @@ export const AnswerQuestion = React.createClass({
           <div className="title">
             Answer {questionData.creator}'s Question To You
           </div>
-          <div className="separator-4-dimmer" />
-          <div className="separator-4-dimmer" />
-          <div className="separator-4-dimmer" />
-          <div className="separator-4-dimmer" />
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
           <form onSubmit={this.submit}>
             <div className="section">
               <label>
-                <div className="label bold">{questionData.title}</div>
-                <div className="separator-1-dimmer" />
-                <div className="label">{questionData.body}</div>
+                <div className="label title bold">{questionData.title}</div>
+                <div className="separator-1-black" />
+                <div className="label body">{questionData.body}</div>
               </label>
             </div>
-            <div className="separator-1-dimmer" />
+            <div className="separator-4-dim" />
             <div className="section">
               <label>
                 <div className="label bold">What's Your Answer?</div>
@@ -388,7 +371,9 @@ export const AnswerQuestion = React.createClass({
                 <div>{this.state.validation["bodyCount"]}/<span className={`${this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : ""}`}>{this.state.validation["bodyMin"]}</span>-<span className={`${this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : ""}`}>{this.state.validation["bodyMax"]}</span></div>
               </label>
             </div>
-            <button>Submit</button>
+            <div className="section">
+              <button className="submit btn-default">Submit</button>
+            </div>
           </form>
         </div>
       );

@@ -4,7 +4,17 @@
   .title {}
   form {
     .section {
-      .label {}
+      .label {
+        &.title {
+          padding: 0;
+          text-align: left;
+          margin-bottom: .5*$em;
+          font-size: 1.5*$em;
+        }
+        &.body {
+          margin-top: .5*$em;
+        }
+      }
       .to {}
       input, textarea {
         &.valid {}

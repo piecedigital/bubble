@@ -1,10 +1,31 @@
 import React from "react";
 import SideTools from "./side-tools.jsx";
+import VoteTool from "../vote-tool.jsx";
 import { Link } from "react-router";
 
 const QuestionListItem = React.createClass({
   displayName: "QuestionListItem",
-  getInitialState: () => ({ questionData: null, answerData: null }),
+  getInitialState: () => ({ questionData: null, answerData: null, ratingsData: null, calculatedRatings: {} }),
+  calculateRatings() {
+    const { ratingsData } = this.state;
+    const { userData } = this.props;
+    // don't continue if there is no ratings data
+    if(!ratingsData) return;
+    if(!userData) return setTimeout(this.calculateRatings, 100);
+    // console.log("calc", ratingsData);
+    let calculatedRatings = {};
+    calculatedRatings.upvotes = Object.keys(ratingsData).filter(vote => {
+      return ratingsData[vote].upvote;
+    }).length;
+      calculatedRatings.downvotes = Object.keys(ratingsData).filter(vote => {
+      return !ratingsData[vote].upvote;
+    }).length * -1;
+    calculatedRatings.overall = calculatedRatings.upvotes + calculatedRatings.downvotes;
+    calculatedRatings.myVote = ratingsData.hasOwnProperty(userData.name) ? ratingsData[userData.name].upvote : null;
+    this.setState({
+      calculatedRatings
+    });
+  },
   componentDidMount() {
     const {
       questionID,
@@ -21,7 +42,7 @@ const QuestionListItem = React.createClass({
         questionData
       });
     });
-    // get question data
+    // get answer data
     fireRef.answersRef
     .child(questionID)
     .once("value")
@@ -31,9 +52,24 @@ const QuestionListItem = React.createClass({
         answerData
       });
     });
+    // get ratings data
+    fireRef.ratingsRef
+    .child(questionID)
+    .once("value")
+    .then(snap => {
+      const ratingsData = snap.val();
+      this.setState({
+        ratingsData
+      }, () => {
+        this.calculateRatings();
+      });
+    });
   },
   render() {
     const {
+      myAuth,
+      userData,
+      fireRef,
       questionID,
       params,
       methods: {
@@ -42,7 +78,8 @@ const QuestionListItem = React.createClass({
     } = this.props
     const {
       questionData,
-      answerData
+      answerData,
+      calculatedRatings
     } = this.state;
 
     if(!questionData) return null;
@@ -65,12 +102,12 @@ const QuestionListItem = React.createClass({
           )
         } onClick={answerData ? (
           popUpHandler.bind(null, "viewQuestion", {
-            questionData,
+            questionData: Object.assign(questionData, { questionID }),
             answerData
           })
         ) : (
           popUpHandler.bind(null, "answerQuestion", {
-            questionData,
+            questionData: Object.assign(questionData, { questionID }),
             answerData
           })
         )}>
@@ -88,6 +125,17 @@ const QuestionListItem = React.createClass({
               <div className="body">
                 {answerData ? answerData.body : "Click here to Answer!"}
               </div>
+            </div>
+          </div>
+          <div className="wrapper votes">
+            <div className="info question">
+              <VoteTool
+              myAuth={myAuth}
+              userData={userData}
+              fireRef={fireRef}
+              place="answer"
+              calculatedRatings={calculatedRatings}
+              questionData={questionData} />
             </div>
           </div>
         </Link>
@@ -209,6 +257,7 @@ export default React.createClass({
     } = this.state;
     const {
       auth,
+      userData,
       params,
       fireRef,
       methods
@@ -216,7 +265,7 @@ export default React.createClass({
     // make an array of questions
     const list = questions ? Object.keys(questions).map(questionID => {
       return (
-        <QuestionListItem key={questionID} questionID={questionID} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} methods={methods} />
+        <QuestionListItem key={questionID} userData={userData} questionID={questionID} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} methods={methods} />
       );
     }) : null;
     return (

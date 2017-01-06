@@ -1,0 +1,65 @@
+.vote-tool {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: 5*$em;
+  height: 2*$em;
+  color: $offBlack;
+  // background: red;
+  text-align: center;
+  .wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: .5*$em 0;
+  }
+  .upvote-btn, .downvote-btn {
+    position: absolute;
+    left: 50%;
+    width: 0;
+    transform: translate(-50%, 0);
+    border-left: 1*$em solid transparent;
+    border-right: 1*$em solid transparent;
+    cursor: pointer;
+    &:hover {
+      border-color: rgba(black, .7) transparent rgba(black, .7) transparent;
+    }
+    &.my-vote {
+      &.up {
+        border-bottom: 1.5*$em solid $primary;
+      }
+      &.down {
+        border-top: 1.5*$em solid $primary;
+      }
+    }
+  }
+  .upvote-btn {
+    bottom: 100%;
+    border-bottom: 1.5*$em solid rgba(black, .4);
+  }
+  .downvote-btn {
+    top: 100%;
+    border-top: 1.5*$em solid rgba(black, .4);
+  }
+  .ratings {
+    &:hover {
+      .overall {
+        display: none;
+      }
+      .ups-and-downs {
+        display: block;
+      }
+    }
+    .overall, .ups-and-downs {
+      font-weight: bold;
+      font-size: 1.2*$em;
+      .up, .down {
+        display: inline-block;
+      }
+    }
+    .ups-and-downs {
+      display: none;
+    }
+  }
+}

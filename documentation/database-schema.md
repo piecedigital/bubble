@@ -84,6 +84,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "receiver": <username>: String,
       "title": String or Number // If number it'll be 0. Firebase does not accept null as a value,
       "body": String, // minimum 30 characters
+      "AMA": String (<AMAID>) || null,
       "date": [date Object],
       "sentStatuses": [sent Object],
       "version": [version Object]
@@ -101,13 +102,17 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "ratings": {
     <questionID>: {
-      "for": String ("question" || "answer" || "comment"),
-      "username": <username>,
-      "upVote": Boolean
+      <username>: {
+        "myAuth": Boolean,
+        "for": String ("question" || "answer" || "comment"),
+        "username": <username>,
+        "upvote": Boolean
+      }
     }
   },
   "comments": {
     <commentID>: {
+      "myAuth": Boolean,
       "username": <username>,
       "questionID": <questionID>,
       "body": String,
@@ -117,8 +122,20 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "version": [version Object]
     }
   },
+  "AMAs": {
+    <AMAID>: {
+      "myAuth": Boolean,
+      "creator": <username>,
+      "associatedQuestions": {
+        <questionID>: true
+      },
+      "date": [date Object],
+      "version": [version Object]
+    }
+  },
   "polls": {
     <pollID>: {
+      "myAuth": Boolean,
       "creator": <username>,
       "choices": {
         vote_<Number>: {

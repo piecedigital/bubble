@@ -54,6 +54,7 @@ export default React.createClass({
       answersRef: Firebase.database().ref("answers"),
       ratingsRef: Firebase.database().ref("ratings"),
       commentsRef: Firebase.database().ref("comments"),
+      AMAsRef: Firebase.database().ref("AMAs"),
       pollsRef: Firebase.database().ref("polls"),
     };
     this.setState({

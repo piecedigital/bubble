@@ -23,21 +23,21 @@ export default React.createClass({
           <div className="scroll">
             {
               refresh ? (
-                <div className="option btn-default refresh" onClick={this.refresh}>
+                <div className="option btn-default refresh" onClick={refresh}>
                   Refresh Streams
                 </div>
               ) : null
             }
             {
               refreshList ? (
-                <div className="option btn-default refresh" onClick={() => this.refreshList(true)}>
+                <div className="option btn-default refresh" onClick={() => refreshList(true)}>
                   Refresh Listing
                 </div>
               ) : null
             }
             {
               gatherData ? (
-                <div className={`option btn-default load-more${loadingData ? " bg-color-dimmer not-clickable" : ""}`} onClick={loadingData ? null : this.gatherData}>
+                <div className={`option btn-default load-more${loadingData ? " bg-color-dimmer not-clickable" : ""}`} onClick={loadingData ? null : gatherData}>
                   {loadingData ? "Loading More" : "Load More"}
                 </div>
               ) : null
@@ -49,11 +49,11 @@ export default React.createClass({
                     <label htmlFor="filter-select">
                       Show
                     </label>
-                    <select id="filter-select" className="" ref="filterSelect" onChange={this.applyFilter} defaultValue="all">
+                    <select id="filter-select" className="" ref="filterSelect" onChange={applyFilter} defaultValue="all">
                       {
                         ["all", "online", "offline"].map(filter => {
                           return (
-                            <option key={filter} value={filter}>Show {this.capitalize(filter)}</option>
+                            <option key={filter} value={filter}>Show {capitalize(filter)}</option>
                           );
                         })
                       }
