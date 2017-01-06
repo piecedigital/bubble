@@ -1,8 +1,9 @@
-.answer-question {
-  &.open {}
+.view-question {
+  &.open {
+    max-width: 30*$em;
+  }
   .close {}
   .title {}
-  form {}
   .section {
     .label {
       &.title {

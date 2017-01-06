@@ -305,6 +305,11 @@ export default React.createClass({
         this.setState({
           overlay: ""
         });
+        if(this.props.location.state && this.props.location.state.modal) {
+          History.push({
+            pathname: this.props.location.state.returnTo
+          });
+        }
     }
   },
   render() {
@@ -381,12 +386,13 @@ export default React.createClass({
           )
         }
         <Overlay
+        auth={authData}
+        userData={userData}
         overlay={overlay}
         askQuestion={askQuestion}
         answerQuestion={answerQuestion}
         viewQuestion={viewQuestion}
         fireRef={fireRef}
-        auth={authData}
         methods={{
           popUpHandler: this.popUpHandler
         }} />

@@ -36,6 +36,8 @@ render((
       </Route>
       <Route path="/profile/:username" page="profile" component={Profile}>
       </Route>
+      <Route path="/profile/:username/q/:questionID" page="profile" component={Profile}>
+      </Route>
       <Route path="/:page" page="streams" component={GeneralPage}>
       </Route>
       <Route path="/:page" page="games" component={GeneralPage}>

@@ -30,6 +30,9 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "questionsForThem": {
         <questionID>: true
       },
+      "answersFromMe": {
+        <questionID>: true
+      },
       "notifications": {
         <notificationID>: {
           "notifType": String ("askedNewQuestion" || "newCommentToQuestion" || "newCommentToAnswer" || "taggedInAnswer" || "taggedInComment"),

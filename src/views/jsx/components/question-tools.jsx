@@ -53,6 +53,7 @@ export const AskQuestion = React.createClass({
       },
       version: this.state.versionData
     };
+    if(!this.state.validation.titleValid && !this.state.validation.bodyValid) return;
     // console.log("question object:", questionObject);
     // write question to `questions` node
     let questionID = fireRef.root.push().getKey();
@@ -224,6 +225,7 @@ export const AnswerQuestion = React.createClass({
     e.preventDefault();
     const {
       auth,
+      userData,
       fireRef,
       overlay,
       answerQuestion: {
@@ -251,11 +253,20 @@ export const AnswerQuestion = React.createClass({
       },
       "version": this.state.versionData,
     };
+    if(!this.state.validation.bodyValid) return;
     // return console.log("question object:", questionObject);
     // write answer to `answers` node
     fireRef.answersRef
     .child(questionData.questionID)
     .set(questionObject)
+    .catch(e => console.error(e.val ? e.val() : e));
+    // write answer reference to user account
+    fireRef.usersRef
+    .child(questionData.receiver)
+    .child("answersFromMe")
+    .set({
+      [questionData.questionID]: true
+    })
     .catch(e => console.error(e.val ? e.val() : e));
 
     // close the pop up
@@ -380,6 +391,60 @@ export const AnswerQuestion = React.createClass({
     } else {
       return (
         <div className={`overlay-ui-default answer-question${overlay === "answerQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
+          <div className="title">
+            No question data
+          </div>
+        </div>
+      );
+    }
+  }
+})
+
+export const ViewQuestion = React.createClass({
+  displayName: "AnswerQuestion",
+  render() {
+    // console.log(this.props);
+    const {
+      overlay,
+      viewQuestion: {
+        questionData,
+        answerData,
+      },
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+    if(questionData && answerData) {
+      return (
+        <div className={`overlay-ui-default view-question${overlay === "viewQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
+          <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
+          <div className="title">
+            {questionData.creator}'s Question To {questionData.receiver}
+          </div>
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <form onSubmit={this.submit}>
+            <div className="section">
+              <label>
+                <div className="label title bold">{questionData.title}</div>
+                <div className="separator-1-black" />
+                <div className="label">{questionData.body}</div>
+              </label>
+            </div>
+            <div className="separator-4-dim" />
+            <div className="section">
+              <label>
+                <div className="label">{answerData.body}</div>
+              </label>
+            </div>
+          </form>
+        </div>
+      );
+    } else {
+      return (
+        <div className={`overlay-ui-default view-question${overlay === "viewQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
           <div className="title">
             No question data
           </div>

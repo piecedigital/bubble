@@ -1,4 +1,5 @@
 import React from "react";
+import { browserHistory as History } from "react-router";
 import { AskQuestion, AnswerQuestion, ViewQuestion } from "./question-tools.jsx";
 
 export default React.createClass({
@@ -7,6 +8,7 @@ export default React.createClass({
     // console.log("overlay", this.props);
     const {
       auth,
+      userData,
       fireRef,
       overlay,
       askQuestion,
@@ -17,6 +19,7 @@ export default React.createClass({
         popUpHandler
       }
     } = this.props;
+    console.log("overlay", overlay);
     return (
       <div className={`overlay${overlay ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>
         <AskQuestion
@@ -24,12 +27,21 @@ export default React.createClass({
         askQuestion={askQuestion}
         fireRef={fireRef}
         auth={auth}
+        userData={userData}
         methods={methods}/>
         <AnswerQuestion
         overlay={overlay}
         answerQuestion={answerQuestion}
         fireRef={fireRef}
         auth={auth}
+        userData={userData}
+        methods={methods}/>
+        <ViewQuestion
+        overlay={overlay}
+        viewQuestion={viewQuestion}
+        fireRef={fireRef}
+        auth={auth}
+        userData={userData}
         methods={methods}/>
       </div>
     );

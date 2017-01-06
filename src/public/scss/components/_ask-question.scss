@@ -2,13 +2,12 @@
   &.open {}
   .close {}
   .title {}
-  form {
-    .section {
-      .label {}
-      .to {}
-      input, textarea {
-        &.valid {}
-      }
+  form {}
+  .section {
+    .label {}
+    .to {}
+    input, textarea {
+      &.valid {}
     }
   }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import SideTools from "./side-tools.jsx";
 import VoteTool from "../vote-tool.jsx";
-import { Link } from "react-router";
+import { Link, browserHistory as History } from "react-router";
 
 const QuestionListItem = React.createClass({
   displayName: "QuestionListItem",
@@ -40,6 +40,48 @@ const QuestionListItem = React.createClass({
       this.calculateRatings();
     });
   },
+  checkIfOverlayNeeded() {},
+  setupOverlay() {
+    const {
+      questionData,
+      answerData
+    } = this.state;
+    const {
+      questionID,
+      params,
+      location,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    if(!this.state.answerData) {
+      History.push({
+        pathname: `/profile/${params.username}`
+      });
+      return;
+    }
+    // set up pop up overlay for question view if at question URL
+    if(params.questionID === questionID && !location.state || !location.state.modal) {
+      History.push({
+        pathname: `/profile/${params.username}/q/${questionID}`,
+        state: {
+          modal: true,
+          returnTo: `/profile/${params.username}`,
+        }
+      });
+      console.log("open pop ");
+      popUpHandler("viewQuestion", {
+        questionData: Object.assign(questionData, { questionID }),
+        answerData
+      });
+    }
+  },
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.location.pathname !== this.props.location.pathname) {
+      this.setupOverlay();
+    }
+  },
   componentDidMount() {
     const {
       questionID,
@@ -64,6 +106,8 @@ const QuestionListItem = React.createClass({
       const answerData = snap.val();
       this.setState({
         answerData
+      }, () => {
+        this.setupOverlay();
       });
     });
     // get ratings data
@@ -93,6 +137,10 @@ const QuestionListItem = React.createClass({
     .on("child_removed", this.newData.bind(null, true));
   },
   componentWillUnmount() {
+    const {
+      questionID,
+      fireRef
+    } = this.props
     // remove listener on ratings data
     // rating added
     fireRef.ratingsRef
@@ -234,6 +282,7 @@ export default React.createClass({
     }, 200);
   },
   getQuestions() {
+    // console.log("tryna get questions", this.props);
     this.setState({
       loadingData: true
     }, () => {
@@ -242,8 +291,9 @@ export default React.createClass({
         userData,
         params,
       } = this.props;
+      if(!userData) return;
       fireRef.usersRef
-      .child(`${params.username}/questionsForMe`)
+      .child(`${params.username || userData.name}/${!params.username || params.username !== userData.name ? "questionsForMe" : "answersFromMe"}`)
       .startAt(this.state.lastID)
       .limitToFirst(25)
       .once("value")
@@ -255,7 +305,7 @@ export default React.createClass({
           lastID: questions ? Object.keys(questions).pop() : null,
           loadingData: false
         }, () => {
-          console.log(this.state);
+          // console.log(this.state);
         });
       });
     })
@@ -280,13 +330,15 @@ export default React.createClass({
       }, this.getQuestions);
     }
   },
-  componentDidUpdate(prevProps) {
+  componentDidMount(prevProps) {
     const {
       fireRef,
       userData
     } = this.props;
 
-    if(fireRef && prevProps.fireRef === null) {
+    if(
+      fireRef && userData
+    ) {
       this.getQuestions();
     }
   },
@@ -307,7 +359,7 @@ export default React.createClass({
     // make an array of questions
     const list = questions ? Object.keys(questions).map(questionID => {
       return (
-        <QuestionListItem key={questionID} userData={userData} questionID={questionID} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} methods={methods} />
+        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} methods={methods} />
       );
     }) : null;
     return (
