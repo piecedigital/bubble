@@ -196,19 +196,31 @@ export default React.createClass({
       }
     }, 200);
   },
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     setTimeout(() => {
       this.scrollEvent();
     }, 100);
+    // rerun gather data if...
+    const last = this.props.params.username,
+    curr = nextProps.params.username,
+    signedIn = this.props.userData.name;
+    console.log("new name", last, curr, signedIn);
+    if(last || curr) {
+      if(
+        // ... username changes
+        last !== signedIn &&
+        curr !== signedIn &&
+        last !== curr
+      ) {
+        this.gatherData(this.state.limit, 0, null, true);
+      }
+    }
   },
   componentDidMount() {
     this.gatherData();
     this.scrollEvent();
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
-  },
-  componentDidUpdate(lastProps) {
-    if(this.props.params.username !== lastProps.params.username) this.gatherData(this.state.limit, 0, null, true);
   },
   componentWillUnmount() {
     document.removeEventListener("scroll", this.scrollEvent, false);

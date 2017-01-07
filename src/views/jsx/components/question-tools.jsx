@@ -65,14 +65,14 @@ export const AskQuestion = React.createClass({
     // write question ID reference to user.<username>.questionsForMe
     fireRef.usersRef
     .child(`${to}/questionsForMe`)
-    .set({
+    .update({
       [questionID]: true
     })
     .catch(e => console.error(e.val ? e.val() : e));
     // write question ID reference to user.<username>.questionsForThem
     fireRef.usersRef
     .child(`${from}/questionsForThem`)
-    .set({
+    .update({
       [questionID]: true
     })
     .catch(e => console.error(e.val ? e.val() : e));
@@ -99,6 +99,11 @@ export const AskQuestion = React.createClass({
         [thisValid]: value.length >= thisMin && value.length <= thisMax,
         [thisCount]: value.length,
       })
+    });
+  },
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.overlay === "askQuestion" && this.props.overlay !== "askQuestion") this.setState({
+      success: false
     });
   },
   componentDidMount() {

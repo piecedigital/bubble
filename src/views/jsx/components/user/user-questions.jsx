@@ -47,6 +47,7 @@ const QuestionListItem = React.createClass({
       answerData
     } = this.state;
     const {
+      userData,
       questionID,
       params,
       location,
@@ -56,18 +57,19 @@ const QuestionListItem = React.createClass({
     } = this.props;
 
     if(!this.state.answerData) {
+      console.log("no answer data", this.state);
       History.push({
-        pathname: `/profile/${params.username}`
+        pathname: `/profile/${params.username || ""}`
       });
       return;
     }
     // set up pop up overlay for question view if at question URL
-    if(params.questionID === questionID && !location.state || !location.state.modal) {
+    if(params.questionID === questionID && !location.state || location.state && !location.state.modal) {
       History.push({
-        pathname: `/profile/${params.username}/q/${questionID}`,
+        pathname: `/profile/${params.username || userData.name}/q/${questionID}`,
         state: {
           modal: true,
-          returnTo: `/profile/${params.username}`,
+          returnTo: `/profile/${params.username || ""}`,
         }
       });
       console.log("open pop ");
@@ -179,15 +181,15 @@ const QuestionListItem = React.createClass({
         <Link to={
           answerData ? (
             {
-              pathname: `/profile/${params.username}/q/${questionID}`,
+              pathname: `/profile/${params.username || userData.name}/q/${questionID}`,
               state: {
                 modal: true,
-                returnTo: `/profile/${params.username}`,
+                returnTo: `/profile/${params.username || ""}`,
               }
             }
           ) : (
             {
-              pathname: `/profile/${params.username}`
+              pathname: `/profile/${params.username || ""}`
             }
           )
         } onClick={answerData ? (
@@ -293,13 +295,13 @@ export default React.createClass({
       } = this.props;
       if(!userData) return;
       fireRef.usersRef
-      .child(`${params.username || userData.name}/${!params.username || params.username !== userData.name ? "questionsForMe" : "answersFromMe"}`)
+      .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
       .startAt(this.state.lastID)
       .limitToFirst(25)
       .once("value")
       .then(snap => {
         let questions = snap.val();
-        // console.log("questions", questions);
+        console.log("questions", questions);
         this.setState({
           questions,
           lastID: questions ? Object.keys(questions).pop() : null,
@@ -322,12 +324,20 @@ export default React.createClass({
   },
   xapplyFilter() {},
   componentWillReceiveProps(nextProps) {
-    // console.log("new props", this.props, nextProps);
-    if(this.props.params.username !== nextProps.params.username) {
-      this.setState({
-        questions: {},
-        lastID: null
-      }, this.getQuestions);
+    const last = this.props.params.username,
+    curr = nextProps.params.username,
+    signedIn = this.props.userData.name;
+    if(last || curr) {
+      if(
+        last !== signedIn &&
+        curr !== signedIn &&
+        last !== curr
+      ) {
+        this.setState({
+          questions: {},
+          lastID: null
+        }, this.getQuestions);
+      }
     }
   },
   componentDidMount(prevProps) {
@@ -341,6 +351,9 @@ export default React.createClass({
     ) {
       this.getQuestions();
     }
+  },
+  componentWillUnmount() {
+    console.log("unounting question");
   },
   render() {
     const {

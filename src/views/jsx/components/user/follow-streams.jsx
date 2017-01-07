@@ -362,10 +362,27 @@ export default React.createClass({
       }
     }, 200);
   },
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     setTimeout(() => {
       this.scrollEvent();
     }, 100);
+    // rerun gather data if...
+    const last = this.props.params.username,
+    curr = nextProps.params.username,
+    signedIn = this.props.userData.name;
+    console.log("new name", last, curr, signedIn);
+    if(last || curr) {
+      if(
+        // ... username changes
+        last !== signedIn &&
+        curr !== signedIn &&
+        last !== curr ||
+        // ... auth changes
+        !!this.props.auth !== !!nextProps.auth
+      ) {
+        this.gatherData(this.state.limit, 0, null, true);
+      }
+    }
   },
   componentDidMount() {
     // console.log("auth", this.props.auth);
@@ -374,15 +391,6 @@ export default React.createClass({
     this.scrollEvent();
     document.addEventListener("scroll", this.scrollEvent, false);
     document.addEventListener("mousewheel", this.scrollEvent, false);
-  },
-  componentDidUpdate(lastProps) {
-    // rerun gather data if...
-    if(
-      // ... username changes
-      this.props.params.username !== lastProps.params.username ||
-      // ... auth changes
-      this.props.auth !== lastProps.auth
-    ) this.gatherData(this.state.limit, 0, null, true);
   },
   componentWillUnmount() {
     delete this._mounted;

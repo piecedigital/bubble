@@ -33,6 +33,7 @@
           background-color: $offBlack;
         }
         .logo {
+          z-index: 1;
           position: relative;
           width: 6*$em;
           &:after {

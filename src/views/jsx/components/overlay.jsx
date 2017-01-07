@@ -19,7 +19,6 @@ export default React.createClass({
         popUpHandler
       }
     } = this.props;
-    console.log("overlay", overlay);
     return (
       <div className={`overlay${overlay ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>
         <AskQuestion
