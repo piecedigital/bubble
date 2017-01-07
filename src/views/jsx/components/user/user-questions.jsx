@@ -214,8 +214,11 @@ const QuestionListItem = React.createClass({
             </div>
             <div className="separator-4-black" />
             <div className="info answer">
-              <div className="body">
-                {answerData ? answerData.body : "Click here to Answer!"}
+              <div className={`${!answerData ? "bold" : ""}`}>
+                {answerData ? answerData.body : [
+                  answerData ? null : (
+                    <div className="no-answer">!</div>
+                  ), "Click here to Answer!"]}
               </div>
             </div>
           </div>
@@ -225,7 +228,7 @@ const QuestionListItem = React.createClass({
               myAuth={myAuth}
               userData={userData}
               fireRef={fireRef}
-              place="answer"
+              place="question"
               calculatedRatings={calculatedRatings}
               questionData={questionData} />
             </div>
@@ -343,7 +346,8 @@ export default React.createClass({
   componentDidMount(prevProps) {
     const {
       fireRef,
-      userData
+      userData,
+      params
     } = this.props;
 
     if(
@@ -351,6 +355,26 @@ export default React.createClass({
     ) {
       this.getQuestions();
     }
+
+    // set listener on questions or answers
+    fireRef.usersRef
+    .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+    .on("child_added", snap => {
+      let questionKey = snap.getKey();
+      let questionData = snap.val();
+      console.log("new question", questionKey, questionData);
+      let newQuestions = JSON.parse(JSON.stringify(this.state.questions || {}));
+
+      this.setState({
+        questions: Object.assign(newQuestions, {
+          [questionKey]: questionData
+        }),
+        lastID: questionKey,
+        loadingData: false
+      }, () => {
+        // console.log(this.state);
+      });
+    });
   },
   componentWillUnmount() {
     console.log("unounting question");
@@ -374,7 +398,7 @@ export default React.createClass({
       return (
         <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} methods={methods} />
       );
-    }) : null;
+    }).reverse() : null;
     return (
       <div ref="root" className={`user-questions tool-assisted${locked ? " locked" : ""}`}>
         <div className={`title`}>Questions</div>

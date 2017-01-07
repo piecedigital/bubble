@@ -48,6 +48,17 @@
       word-wrap: break-word;
     }
   }
+  .no-answer {
+    display: inline-block;
+    width: 1.7*$em;
+    margin-right: .5*$em;
+    border-radius: 100%;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5*$em;
+    text-align: center;
+  }
 }
 
 @media (max-width: 1024px) {

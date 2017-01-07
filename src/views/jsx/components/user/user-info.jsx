@@ -148,7 +148,8 @@ export default React.createClass({
               ) : null
             }
             {
-              !params || !params.username ? (
+              !params || !params.username ||
+              params && params.username === userData.name ? (
                 [
                   " ",
                   <a key="clips" className="btn-default btn-rect color-black bold no-underline" href={`https://clips.twitch.tv/my-clips`} target="_blank">My Clips</a>
