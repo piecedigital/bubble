@@ -204,7 +204,7 @@ export default React.createClass({
     const last = this.props.params.username,
     curr = nextProps.params.username,
     signedIn = this.props.userData.name;
-    console.log("new name", last, curr, signedIn);
+    // console.log("new name", last, curr, signedIn);
     if(last || curr) {
       if(
         // ... username changes

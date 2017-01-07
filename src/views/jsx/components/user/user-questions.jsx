@@ -21,15 +21,18 @@ const QuestionListItem = React.createClass({
       return !ratingsData[vote].upvote;
     }).length * -1;
     calculatedRatings.overall = calculatedRatings.upvotes + calculatedRatings.downvotes;
-    calculatedRatings.myVote = ratingsData.hasOwnProperty(userData.name) ? ratingsData[userData.name].upvote : null;
+    if(ratingsData.hasOwnProperty(userData.name)) {
+      calculatedRatings.myVote = ratingsData[userData.name].upvote;
+      calculatedRatings.for = ratingsData[userData.name].for;
+    }
     this.setState({
       calculatedRatings
     });
   },
-  newData(dleet, snap) {
+  newRating(dleet, snap) {
     const ratingsKey = snap.getKey();
     const ratingsData = snap.val();
-    console.log("shit changed", ratingsKey, ratingsData);
+    // console.log("shit changed", ratingsKey, ratingsData);
     let newData = JSON.parse(JSON.stringify(this.state.ratingsData));
     if(dleet) delete newData[ratingsKey];
     this.setState({
@@ -38,15 +41,21 @@ const QuestionListItem = React.createClass({
       })
     }, () => {
       this.calculateRatings();
+      if(this.props.overlay === "viewQuestion") {
+        setTimeout(this.setupOverlay, 100)
+      }
     });
   },
   checkIfOverlayNeeded() {},
   setupOverlay() {
     const {
       questionData,
-      answerData
+      answerData,
+      calculatedRatings
     } = this.state;
     const {
+      myAuth,
+      fireRef,
       userData,
       questionID,
       params,
@@ -56,13 +65,6 @@ const QuestionListItem = React.createClass({
       }
     } = this.props;
 
-    if(!this.state.answerData) {
-      console.log("no answer data", this.state);
-      History.push({
-        pathname: `/profile/${params.username || ""}`
-      });
-      return;
-    }
     // set up pop up overlay for question view if at question URL
     if(params.questionID === questionID && !location.state || location.state && !location.state.modal) {
       History.push({
@@ -72,10 +74,18 @@ const QuestionListItem = React.createClass({
           returnTo: `/profile/${params.username || ""}`,
         }
       });
-      console.log("open pop ");
+      // console.log("open pop ");
       popUpHandler("viewQuestion", {
         questionData: Object.assign(questionData, { questionID }),
-        answerData
+        answerData,
+        voteToolData: {
+          myAuth: myAuth,
+          userData: userData,
+          fireRef: fireRef,
+          place: "question",
+          calculatedRatings: calculatedRatings,
+          questionData: questionData,
+        }
       });
     }
   },
@@ -87,7 +97,8 @@ const QuestionListItem = React.createClass({
   componentDidMount() {
     const {
       questionID,
-      fireRef
+      fireRef,
+      params
     } = this.props
 
     // get question data
@@ -109,7 +120,12 @@ const QuestionListItem = React.createClass({
       this.setState({
         answerData
       }, () => {
-        this.setupOverlay();
+        if(params.questionID === questionID && !answerData) {
+          console.log("no answer data", questionID, this.state);
+          History.push({
+            pathname: `/profile/${params.username || ""}`
+          });
+        }
       });
     });
     // get ratings data
@@ -122,21 +138,22 @@ const QuestionListItem = React.createClass({
         ratingsData
       }, () => {
         this.calculateRatings();
+        this.setupOverlay();
       });
     });
     // set listener on ratings data
     // rating added
     fireRef.ratingsRef
     .child(questionID)
-    .on("child_added", this.newData.bind(null, null)),
+    .on("child_added", this.newRating.bind(null, null)),
     // rating changed
     fireRef.ratingsRef
     .child(questionID)
-    .on("child_changed", this.newData.bind(null, null));
+    .on("child_changed", this.newRating.bind(null, null));
     // rating removed
     fireRef.ratingsRef
     .child(questionID)
-    .on("child_removed", this.newData.bind(null, true));
+    .on("child_removed", this.newRating.bind(null, true));
   },
   componentWillUnmount() {
     const {
@@ -147,15 +164,15 @@ const QuestionListItem = React.createClass({
     // rating added
     fireRef.ratingsRef
     .child(questionID)
-    .off("child_added", this.newData),
+    .off("child_added", this.newRating),
     // rating changed
     fireRef.ratingsRef
     .child(questionID)
-    .off("child_changed", this.newData);
+    .off("child_changed", this.newRating);
     // rating removed
     fireRef.ratingsRef
     .child(questionID)
-    .off("child_removed", this.newData);
+    .off("child_removed", this.newRating);
   },
   render() {
     const {
@@ -195,7 +212,15 @@ const QuestionListItem = React.createClass({
         } onClick={answerData ? (
           popUpHandler.bind(null, "viewQuestion", {
             questionData: Object.assign(questionData, { questionID }),
-            answerData
+            answerData,
+            voteToolData: {
+              myAuth: myAuth,
+              userData: userData,
+              fireRef: fireRef,
+              place: "question",
+              calculatedRatings: calculatedRatings,
+              questionData: questionData,
+            }
           })
         ) : (
           popUpHandler.bind(null, "answerQuestion", {
@@ -217,7 +242,7 @@ const QuestionListItem = React.createClass({
               <div className={`${!answerData ? "bold" : ""}`}>
                 {answerData ? answerData.body : [
                   answerData ? null : (
-                    <div className="no-answer">!</div>
+                    <div key="no" className="no-answer">!</div>
                   ), "Click here to Answer!"]}
               </div>
             </div>
@@ -391,12 +416,13 @@ export default React.createClass({
       userData,
       params,
       fireRef,
+      overlay,
       methods
     } = this.props;
     // make an array of questions
     const list = questions ? Object.keys(questions).map(questionID => {
       return (
-        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} methods={methods} />
+        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} overlay={overlay} methods={methods} />
       );
     }).reverse() : null;
     return (

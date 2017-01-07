@@ -1,6 +1,7 @@
 import React from "react";
-import { ajax } from "../../../modules/ajax";
 import firebase from "firebase";
+import VoteTool from "./vote-tool.jsx";
+import { ajax } from "../../../modules/ajax";
 
 export const AskQuestion = React.createClass({
   displayName: "AskQuestion",
@@ -414,11 +415,13 @@ export const ViewQuestion = React.createClass({
       viewQuestion: {
         questionData,
         answerData,
+        voteToolData
       },
       methods: {
         popUpHandler
       }
     } = this.props;
+
     if(questionData && answerData) {
       return (
         <div className={`overlay-ui-default view-question${overlay === "viewQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
@@ -437,12 +440,26 @@ export const ViewQuestion = React.createClass({
                 <div className="separator-1-black" />
                 <div className="label">{questionData.body}</div>
               </label>
+              {
+                voteToolData ? (
+                  <label className="vote">
+                    <VoteTool {...Object.assign(voteToolData)} />
+                  </label>
+                ) : null
+              }
             </div>
             <div className="separator-4-dim" />
             <div className="section">
               <label>
                 <div className="label">{answerData.body}</div>
               </label>
+              {
+                // voteToolData ? (
+                //   <label className="vote">
+                //     <VoteTool {...Object.assign(voteToolData)} />
+                //   </label>
+                // ) : null
+              }
             </div>
           </form>
         </div>

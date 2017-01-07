@@ -25,12 +25,15 @@ export default React.createClass({
   },
   render() {
     const {
+      place,
       calculatedRatings
     } = this.props;
-    // console.log("vote", this.props);
+
     // figure out whether the viewing user voted
     // and make a CSS class based on whether it's an up- or downvote
-    const myVote = calculatedRatings.myVote === true ? " my-vote up" : calculatedRatings.myVote === false ? " my-vote down" : "";
+    const myVote = calculatedRatings.for === place (
+      calculatedRatings.myVote === true ? " my-vote up" : calculatedRatings.myVote === false ? " my-vote down" : ""
+    ) : "";
 
     return (
       <div className="vote-tool" onClick={e => {

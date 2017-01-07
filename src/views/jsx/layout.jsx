@@ -296,6 +296,7 @@ export default React.createClass({
             viewQuestion: {
               questionData: options.questionData,
               answerData: options.answerData,
+              voteToolData: options.voteToolData,
             }
           };
           // console.log("new state:", newState);
@@ -370,6 +371,7 @@ export default React.createClass({
               parent: this,
               auth: authData,
               fireRef: this.fireRef,
+              overlay: overlay,
               userData,
               ...this.props,
               fireRef,

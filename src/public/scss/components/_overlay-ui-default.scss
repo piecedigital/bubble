@@ -33,7 +33,21 @@
   }
   form {
     .section {
+      @include displayFlex;
       padding: .5*$em;
+      label {
+        display: inline-block;
+        width: 100%;
+        padding: .5*$em;
+        background-color: $offWhite;
+        box-shadow: 0 0 .2*$em 0 black;
+        border-radius: .5*$em;
+        &.vote {
+          position: relative;
+          width: 4em;
+          height: 6em;
+        }
+      }
       .label {
         vertical-align: top;
       }
