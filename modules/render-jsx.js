@@ -28,7 +28,7 @@ var renderHTML = function renderHTML(fileName) {
       "head",
       null,
       _react2["default"].createElement("meta", { charSet: "utf-8" }),
-      _react2["default"].createElement("meta", { "http-equiv": "Content-Type", content: "text/html", charset: "UTF-8" }),
+      _react2["default"].createElement("meta", { httpEquiv: "Content-Type", content: "text/html", charSet: "UTF-8" }),
       _react2["default"].createElement("meta", { name: "language", content: "en-us" }),
       _react2["default"].createElement("meta", { name: "publisher", content: "Piece Digital Studios" }),
       _react2["default"].createElement("meta", { name: "classification", content: "multistream, multiple stream, multiple broadcast viewing, question and answer aggregation" }),

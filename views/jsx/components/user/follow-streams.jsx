@@ -20,7 +20,7 @@ var _modulesHelperTools = require("../../../../modules/helper-tools");
 
 var _hoverOptionsJsx = require("../hover-options.jsx");
 
-var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+// const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 var currentNotifs = 0;
 // components
@@ -53,10 +53,10 @@ var components = {
             streamData: data
           });
         })["catch"](function (e) {
-          return console.error(e.stack);
+          return console.error(e ? e.stack : e);
         });
       })["catch"](function (e) {
-        return console.error(e.stack);
+        return console.error(e ? e.stack : e);
       });
     },
     followCallback: function followCallback(follow) {
@@ -74,7 +74,13 @@ var components = {
     notify: function notify(multiplier) {
       var _this2 = this;
 
-      var data = this.props.data;
+      var _props = this.props;
+      var data = _props.data;
+      var params = _props.params;
+
+      // I wouldn't care to receive desktop notifications regarding someone elses followings
+      // this should keep that from happening
+      if (params && params.username) return;
 
       var _ref2 = data.channel || data.user;
 
@@ -134,12 +140,12 @@ var components = {
     render: function render() {
       if (!this.state.streamData) return null;
       // console.log(this.props);
-      var _props = this.props;
-      var auth = _props.auth;
-      var index = _props.index;
-      var filter = _props.filter;
-      var userData = _props.userData;
-      var data = _props.data;
+      var _props2 = this.props;
+      var auth = _props2.auth;
+      var index = _props2.index;
+      var filter = _props2.filter;
+      var userData = _props2.userData;
+      var data = _props2.data;
 
       var _ref3 = data.channel || data.user;
 
@@ -163,7 +169,7 @@ var components = {
               _react2["default"].createElement(
                 "div",
                 { className: "image" },
-                _react2["default"].createElement("img", { src: logo || missingLogo })
+                _react2["default"].createElement("img", { src: logo || _modulesHelperTools.missingLogo })
               ),
               _react2["default"].createElement(
                 "div",
@@ -204,7 +210,7 @@ var components = {
             _react2["default"].createElement(
               "div",
               { className: "image" },
-              _react2["default"].createElement("img", { src: logo || missingLogo })
+              _react2["default"].createElement("img", { src: logo || _modulesHelperTools.missingLogo })
             ),
             _react2["default"].createElement(
               "div",
@@ -259,18 +265,24 @@ exports["default"] = _react2["default"].createClass({
       currentNotifs: 0
     };
   },
-  gatherData: function gatherData(limit, offset, callback) {
+  gatherData: function gatherData(limit, offset, callback, wipe) {
     var _this3 = this;
 
-    this.setState({
+    // console.log("auth", this.props.auth);
+    if (!this.props.auth) return this.setState({
+      component: "ChannelsListItem"
+    });
+    this.setState(Object.assign({
       loadingData: true
-    }, function () {
+    }, wipe ? {
+      dataArray: []
+    } : {}), function () {
       limit = typeof limit === "number" ? limit : _this3.state.limit || 25;
       offset = typeof offset === "number" ? offset : _this3.state.requestOffset;
-      var _props2 = _this3.props;
-      var params = _props2.params;
-      var location = _props2.location;
-      var userData = _props2.userData;
+      var _props3 = _this3.props;
+      var params = _props3.params;
+      var location = _props3.location;
+      var userData = _props3.userData;
 
       var username = undefined;
       if (params && params.username) {
@@ -282,8 +294,9 @@ exports["default"] = _react2["default"].createClass({
         _this3._mounted ? _this3.setState({
           requestOffset: offset + limit
         }) : null;
-        console.log("gathering data", limit, offset);
+        // console.log("gathering data", limit, offset);
         // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
+        // console.log("follow:", this.props.follow);
         _modulesLoadData2["default"].call(_this3, function (e) {
           console.error(e.stack);
         }, {
@@ -300,8 +313,8 @@ exports["default"] = _react2["default"].createClass({
               component: "ChannelsListItem",
               loadingData: false
             }, function () {
-              console.log("total data " + (_this3.props.follow === "IFollow" ? "followedStreams" : "followingStreams"), _this3.state.dataArray.length);
-              console.log("final offset:", _this3.state.requestOffset);
+              // console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
+              // console.log("final offset:", this.state.requestOffset);
               if (typeof callback === "function") callback();
             }) : null;
           })["catch"](function (e) {
@@ -403,14 +416,29 @@ exports["default"] = _react2["default"].createClass({
       }
     }, 200);
   },
-  componentWillReceiveProps: function componentWillReceiveProps() {
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var _this7 = this;
 
     setTimeout(function () {
       _this7.scrollEvent();
     }, 100);
+    // rerun gather data if...
+    var last = this.props.params.username,
+        curr = nextProps.params.username,
+        signedIn = this.props.userData.name;
+    // console.log("new name", last, curr, signedIn);
+    if (last || curr) {
+      if (
+      // ... username changes
+      last !== signedIn && curr !== signedIn && last !== curr ||
+      // ... auth changes
+      !!this.props.auth !== !!nextProps.auth) {
+        this.gatherData(this.state.limit, 0, null, true);
+      }
+    }
   },
   componentDidMount: function componentDidMount() {
+    // console.log("auth", this.props.auth);
     this._mounted = true;
     this.gatherData();
     this.scrollEvent();
@@ -435,14 +463,14 @@ exports["default"] = _react2["default"].createClass({
     var loadingQueue = _state.loadingQueue;
     var locked = _state.locked;
     var lockedTop = _state.lockedTop;
-    var _props3 = this.props;
-    var auth = _props3.auth;
-    var data = _props3.data;
-    var userData = _props3.userData;
-    var follow = _props3.follow;
-    var _props3$methods = _props3.methods;
-    var appendStream = _props3$methods.appendStream;
-    var loadData = _props3$methods.loadData;
+    var _props4 = this.props;
+    var auth = _props4.auth;
+    var data = _props4.data;
+    var userData = _props4.userData;
+    var follow = _props4.follow;
+    var _props4$methods = _props4.methods;
+    var appendStream = _props4$methods.appendStream;
+    var loadData = _props4$methods.loadData;
 
     if (component) {
       var _ret = (function () {
@@ -450,7 +478,7 @@ exports["default"] = _react2["default"].createClass({
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               dataArray[ind] ? dataArray[ind].ref = r : null;
-            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), follow: follow, methods: {
+            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), params: _this8.props.params, follow: follow, methods: {
               appendStream: appendStream,
               notify: _this8.notify,
               removeFromDataArray: _this8.removeFromDataArray

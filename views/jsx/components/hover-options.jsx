@@ -14,6 +14,8 @@ var _followBtnJsx = require("./follow-btn.jsx");
 
 var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
 
+var _reactRouter = require('react-router');
+
 var ListItemHoverOptions = _react2["default"].createClass({
   displayName: "ListItemTools",
   render: function render() {
@@ -34,8 +36,8 @@ var ListItemHoverOptions = _react2["default"].createClass({
         "div",
         { className: "go-to-channel" },
         _react2["default"].createElement(
-          "a",
-          { href: "/profile/" + name },
+          _reactRouter.Link,
+          { to: "/profile/" + name },
           "View Profile"
         )
       ),
@@ -45,7 +47,10 @@ var ListItemHoverOptions = _react2["default"].createClass({
         { className: "append-stream" },
         _react2["default"].createElement(
           "a",
-          { href: "#", onClick: vod ? clickCallback.bind(null, name, display_name, vod) : clickCallback.bind(null, name, display_name) },
+          { href: vod ? "https://www.twitch.tv/" + name + "/v/" + vod : "https://www.twitch.tv/" + name, target: "_blank", rel: "nofollow", onClick: function (e) {
+              e.preventDefault();
+              clickCallback(name, display_name, vod);
+            } },
           stream || vod ? "Watch" : "Open",
           " ",
           vod ? "VOD" : "Stream"

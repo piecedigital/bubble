@@ -27,6 +27,16 @@ var components = {
   // list item for streams matching the search
   VideosListItem: _react2["default"].createClass({
     displayName: "video-ListItem",
+    readableDate: function readableDate(givenDate) {
+      var date = new Date(givenDate);
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var hours = date.getHours();
+      var dayHalf = hours > 12 ? "PM" : "AM";
+      hours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
+      var minutes = date.getMinutes();
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      return date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear() + " - " + hours + ":" + minutes + " " + dayHalf;
+    },
     render: function render() {
       // console.log(this.props);
       var _props = this.props;
@@ -76,7 +86,12 @@ var components = {
             _react2["default"].createElement(
               "div",
               { className: "game" },
-              "Vod of \"" + game + "\""
+              "VOD of \"" + game + "\""
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "date" },
+              this.readableDate(recorded_at)
             )
           ),
           hoverOptions
@@ -101,55 +116,59 @@ exports["default"] = _react2["default"].createClass({
       lockedTop: true
     };
   },
-  gatherData: function gatherData(limit, offset, callback) {
+  gatherData: function gatherData(limit, offset, callback, wipe) {
     var _this = this;
 
-    limit = typeof limit === "number" ? limit : this.state.limit || 25;
-    offset = typeof offset === "number" ? offset : this.state.requestOffset;
-    var _props2 = this.props;
-    var params = _props2.params;
-    var userData = _props2.userData;
-    var broadcasts = this.props.broadcasts;
+    this.setState(wipe ? {
+      dataArray: []
+    } : {}, function () {
+      limit = typeof limit === "number" ? limit : _this.state.limit || 25;
+      offset = typeof offset === "number" ? offset : _this.state.requestOffset;
+      var _props2 = _this.props;
+      var params = _props2.params;
+      var userData = _props2.userData;
+      var broadcasts = _this.props.broadcasts;
 
-    broadcasts = typeof broadcasts !== "boolean" ? true : broadcasts;
-    var username = undefined;
-    if (params && params.username) {
-      username = params.username;
-    } else {
-      username = userData.name;
-    }
-    // console.log(username, this.props.params, this.props.userData);
-    if (_modulesLoadData2["default"]) {
-      this.setState({
-        requestOffset: offset + limit
-      });
-      console.log("gathering data", limit, offset);
-      console.log("Given Channel Name getVideos", username);
-      _modulesLoadData2["default"].call(this, function (e) {
-        console.error(e.stack);
-      }, {
-        offset: offset,
-        limit: limit,
-        username: username,
-        broadcasts: broadcasts,
-        stream_type: "all"
-      }).then(function (methods) {
-        methods["getVideos"]().then(function (data) {
-          console.log("data", data);
-          _this.setState({
-            dataArray: Array.from(_this.state.dataArray).concat(data.videos),
-            component: "VideosListItem"
-          }, function () {
-            console.log("total data getVideos", _this.state.dataArray.length);
-            if (typeof callback === "function") callback();
+      broadcasts = typeof broadcasts !== "boolean" ? true : broadcasts;
+      var username = undefined;
+      if (params && params.username) {
+        username = params.username;
+      } else {
+        username = userData.name;
+      }
+      // console.log(username, this.props.params, this.props.userData);
+      if (_modulesLoadData2["default"]) {
+        _this.setState({
+          requestOffset: offset + limit
+        });
+        // console.log("gathering data", limit, offset);
+        // console.log(`Given Channel Name getVideos`, username);
+        _modulesLoadData2["default"].call(_this, function (e) {
+          console.error(e.stack);
+        }, {
+          offset: offset,
+          limit: limit,
+          username: username,
+          broadcasts: broadcasts,
+          stream_type: "all"
+        }).then(function (methods) {
+          methods["getVideos"]().then(function (data) {
+            // console.log("data", data);
+            _this.setState({
+              dataArray: Array.from(_this.state.dataArray).concat(data.videos),
+              component: "VideosListItem"
+            }, function () {
+              // console.log("total data getVideos", this.state.dataArray.length);
+              if (typeof callback === "function") callback();
+            });
+          })["catch"](function (e) {
+            return console.error(e.stack);
           });
         })["catch"](function (e) {
           return console.error(e.stack);
         });
-      })["catch"](function (e) {
-        return console.error(e.stack);
-      });
-    }
+      }
+    });
   },
   capitalize: function capitalize(string) {
     return string.toLowerCase().split(" ").map(function (word) {
@@ -208,12 +227,24 @@ exports["default"] = _react2["default"].createClass({
       }
     }, 200);
   },
-  componentWillReceiveProps: function componentWillReceiveProps() {
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var _this4 = this;
 
     setTimeout(function () {
       _this4.scrollEvent();
     }, 100);
+    // rerun gather data if...
+    var last = this.props.params.username,
+        curr = nextProps.params.username,
+        signedIn = this.props.userData.name;
+    // console.log("new name", last, curr, signedIn);
+    if (last || curr) {
+      if (
+      // ... username changes
+      last !== signedIn && curr !== signedIn && last !== curr) {
+        this.gatherData(this.state.limit, 0, null, true);
+      }
+    }
   },
   componentDidMount: function componentDidMount() {
     this.gatherData();

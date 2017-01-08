@@ -16,6 +16,10 @@ var _componentsPlayerJsx = require("./components/player.jsx");
 
 var _componentsPlayerJsx2 = _interopRequireDefault(_componentsPlayerJsx);
 
+var _componentsOverlayJsx = require("./components/overlay.jsx");
+
+var _componentsOverlayJsx2 = _interopRequireDefault(_componentsOverlayJsx);
+
 var _modulesLoadData = require("../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
@@ -33,29 +37,56 @@ var _firebase2 = _interopRequireDefault(_firebase);
 var redirectURI = typeof location === "object" && !location.host.match(/localhost/) ? "https://" + location.host : "http://localhost:8080";
 var clientID = redirectURI.match(/http(s)?\:\/\/localhost\:[0-9]{4,5}/) ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
 console.log(redirectURI, clientID);
+
 // Initialize Firebase
-var config = {
-  apiKey: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
-  authDomain: "bubble-13387.firebaseapp.com",
-  databaseURL: "https://bubble-13387.firebaseio.com",
-  storageBucket: "bubble-13387.appspot.com"
-};
-_firebase2["default"].initializeApp(config);
-var ref = {};
-ref.child = _firebase2["default"].database().ref;
 
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
-    return {
+    return Object.assign({
       authData: this.props.data && this.props.data.authData || null,
       streamersInPlayer: {},
       playerCollapsed: true,
       layout: "",
       playerStreamMax: 6,
       panelDataFor: [],
-      panelData: []
+      panelData: [],
+      panelData: [],
+      overlay: "",
+      askQuestion: {
+        to: "",
+        from: "",
+        body: ""
+      },
+      answerQuestion: {
+        questionData: null,
+        answerData: null
+      },
+      viewQuestion: {
+        questionData: null,
+        answerData: null
+      },
+      fireRef: null
+    }, this.props.initState || {});
+  },
+  initFirebase: function initFirebase(data) {
+    // console.log("init firebase", data);
+    var config = data;
+    _firebase2["default"].initializeApp(config);
+    var ref = {
+      root: _firebase2["default"].database().ref(),
+      appConfigRef: _firebase2["default"].database().ref("appConfig"),
+      usersRef: _firebase2["default"].database().ref("users"),
+      questionsRef: _firebase2["default"].database().ref("questions"),
+      answersRef: _firebase2["default"].database().ref("answers"),
+      ratingsRef: _firebase2["default"].database().ref("ratings"),
+      commentsRef: _firebase2["default"].database().ref("comments"),
+      AMAsRef: _firebase2["default"].database().ref("AMAs"),
+      pollsRef: _firebase2["default"].database().ref("polls")
     };
+    this.setState({
+      fireRef: ref
+    });
   },
   appendStream: function appendStream(username, displayName) {
     var isSolo = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
@@ -78,7 +109,7 @@ exports["default"] = _react2["default"].createClass({
   appendVOD: function appendVOD(username, displayName, id) {
     var isSolo = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-    console.log("appending stream", username, isSolo);
+    console.log("appending VOD", username, isSolo);
     // only append if below the max
     if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if (!this.state.streamersInPlayer.hasOwnProperty(id)) {
@@ -223,6 +254,20 @@ exports["default"] = _react2["default"].createClass({
       return console.error(e.stack || e);
     });
 
+    // load firebase config
+    _modulesLoadData2["default"].call(this, function (e) {
+      console.error(e.stack);
+    }).then(function (methods) {
+      methods.getFirebaseConfig().then(function (data) {
+        // console.log("firebase data", data);
+        _this2.initFirebase(JSON.parse(atob(data)));
+      })["catch"](function (e) {
+        return console.error(e.stack || e);
+      });
+    })["catch"](function (e) {
+      return console.error(e.stack || e);
+    });
+
     window.location.hash = "";
   },
   alertAuthNeeded: function alertAuthNeeded() {
@@ -244,6 +289,62 @@ exports["default"] = _react2["default"].createClass({
         });
     }
   },
+  popUpHandler: function popUpHandler(action, options) {
+    console.log("pop up handler", action, options);
+    var newState = undefined;
+    switch (action) {
+      case "askQuestion":
+        newState = Object.assign({
+          overlay: action,
+          askQuestion: {
+            to: options.recipient.toLowerCase(),
+            from: options.sender.toLowerCase()
+          }
+        }, options.reset ? {
+          // reset askQuestion object if options.reset is there
+          askQuestion: {
+            to: "",
+            from: "",
+            body: ""
+          }
+        } : {});
+        // console.log("new state:", newState);
+        this.setState(newState);
+        break;
+      case "answerQuestion":
+        newState = {
+          overlay: action,
+          answerQuestion: {
+            questionData: options.questionData,
+            answerData: options.answerData
+          }
+        };
+        // console.log("new state:", newState);
+        this.setState(newState);
+        break;
+      case "viewQuestion":
+        newState = {
+          overlay: action,
+          viewQuestion: {
+            questionData: options.questionData,
+            answerData: options.answerData,
+            voteToolData: options.voteToolData
+          }
+        };
+        // console.log("new state:", newState);
+        this.setState(newState);
+        break;
+      case "close":
+        this.setState({
+          overlay: ""
+        });
+        if (this.props.location.state && this.props.location.state.modal) {
+          _reactRouter.browserHistory.push({
+            pathname: this.props.location.state.returnTo
+          });
+        }
+    }
+  },
   render: function render() {
     var _state = this.state;
     var authData = _state.authData;
@@ -252,6 +353,11 @@ exports["default"] = _react2["default"].createClass({
     var playerCollapsed = _state.playerCollapsed;
     var layout = _state.layout;
     var panelData = _state.panelData;
+    var overlay = _state.overlay;
+    var askQuestion = _state.askQuestion;
+    var answerQuestion = _state.answerQuestion;
+    var viewQuestion = _state.viewQuestion;
+    var fireRef = _state.fireRef;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
@@ -274,6 +380,7 @@ exports["default"] = _react2["default"].createClass({
           playerCollapsed: playerCollapsed
         },
         layout: layout,
+        fireRef: fireRef,
         methods: {
           spliceStream: this.spliceStream,
           clearPlayer: this.clearPlayer,
@@ -282,20 +389,36 @@ exports["default"] = _react2["default"].createClass({
           togglePlayer: this.togglePlayer,
           alertAuthNeeded: this.alertAuthNeeded,
           setLayout: this.setLayout,
-          panelsHandler: this.panelsHandler
+          panelsHandler: this.panelsHandler,
+          popUpHandler: this.popUpHandler
         } }),
       this.props.children ? _react2["default"].cloneElement(this.props.children, _extends({
         parent: this,
         auth: authData,
+        fireRef: this.fireRef,
+        overlay: overlay,
         userData: userData
       }, this.props, {
+        fireRef: fireRef,
         methods: {
           appendStream: this.appendStream,
           appendVOD: this.appendVOD,
           spliceStream: this.spliceStream,
-          loadData: _modulesLoadData2["default"]
+          loadData: _modulesLoadData2["default"],
+          popUpHandler: this.popUpHandler
         }
       })) : null,
+      _react2["default"].createElement(_componentsOverlayJsx2["default"], {
+        auth: authData,
+        userData: userData,
+        overlay: overlay,
+        askQuestion: askQuestion,
+        answerQuestion: answerQuestion,
+        viewQuestion: viewQuestion,
+        fireRef: fireRef,
+        methods: {
+          popUpHandler: this.popUpHandler
+        } }),
       _react2["default"].createElement(
         "div",
         { className: "created-by" },

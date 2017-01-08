@@ -3,6 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+
+exports.missingLogo = missingLogo;
 var browserNotification = function browserNotification(options) {
   if (!("Notification" in window)) {
     console.log("Notilfications are not supported");

@@ -40,6 +40,12 @@ app.get("/", function (req, res) {
       username: req.params.username
     }
   }));
+}).get("/profile/:username/q/:questionID", function (req, res) {
+  res.send((0, _renderJsx.renderHTML)("profile", {
+    params: {
+      username: req.params.username
+    }
+  }));
 }).get("/streams", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("general-page", {
     page: "streams"
@@ -53,6 +59,24 @@ app.get("/", function (req, res) {
     title: "Burst or Blow | Bubble",
     who: "WORLD"
   });
+}).get("/get-firebase-config", function (req, res) {
+  var data = {
+    apiKey: process.env["API_KEY"],
+    authDomain: process.env["AUTH_DOMAIN"],
+    databaseURL: process.env["DATABASE_URL"],
+    storageBucket: process.env["STORAGE_BUCKET"],
+    messagingSenderId: process.env["MESSAGING_SENDER_ID"]
+  };
+  var stringified = JSON.stringify(data);
+  var base64Encoded = new Buffer(stringified).toString("base64");
+  res.send(base64Encoded);
+}).get("/get-version", function (req, res) {
+  var data = {
+    major: process.env["V_MAJOR"],
+    minor: process.env["V_MINOR"],
+    patch: process.env["V_PATCH"]
+  };
+  res.json(data);
 }).get("/get-panels/:username", function (req, res) {
   // https://api.twitch.tv/api/channels/${username}/panels`
   var options = {

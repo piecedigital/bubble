@@ -33,7 +33,7 @@ exports["default"] = _react2["default"].createClass({
   gatherData: function gatherData() {
     var _this = this;
 
-    [{ place: "userUserData", method: "getUserByName" }, { place: "userChannelData", method: "getChannelByName" }].map(function (_ref) {
+    [{ place: "userUserData", method: "getUserByName" }, { place: "userChannelData", method: "getChannelByName" }, { place: "userStreamData", method: "getStreamByName" }].map(function (_ref) {
       var place = _ref.place;
       var method = _ref.method;
       var _props = _this.props;
@@ -48,15 +48,15 @@ exports["default"] = _react2["default"].createClass({
       }
       // console.log(username, this.props.params, this.props.userData);
       if (_modulesLoadData2["default"]) {
-        console.log("gathering data");
-        console.log("Given Channel Name " + method, username);
+        // console.log("gathering data");
+        // console.log(`Given Channel Name ${method}`, username);
         _modulesLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
         }, {
           username: username
         }).then(function (methods) {
           methods[method]().then(function (data) {
-            console.log("data", data);
+            // console.log("data", data);
             _this._mounted ? _this.setState(_defineProperty({}, place, data)) : null;
           })["catch"](function (e) {
             return console.error(e.stack);
@@ -71,6 +71,9 @@ exports["default"] = _react2["default"].createClass({
     this.gatherData();
     this._mounted = true;
   },
+  componentDidUpdate: function componentDidUpdate(lastProps) {
+    if (this.props.params.username !== lastProps.params.username) this.gatherData();
+  },
   componentWillUnmount: function componentWillUnmount() {
     delete this._mounted;
   },
@@ -79,10 +82,13 @@ exports["default"] = _react2["default"].createClass({
     var auth = _props2.auth;
     var params = _props2.params;
     var userData = _props2.userData;
-    var appendStream = _props2.methods.appendStream;
+    var _props2$methods = _props2.methods;
+    var appendStream = _props2$methods.appendStream;
+    var popUpHandler = _props2$methods.popUpHandler;
     var _state = this.state;
     var userUserData = _state.userUserData;
     var userChannelData = _state.userChannelData;
+    var userStreamData = _state.userStreamData;
 
     var name = params && params.username ? params.username : userData ? userData.name : null;
 
@@ -140,7 +146,24 @@ exports["default"] = _react2["default"].createClass({
                   "div",
                   { className: "partner" },
                   "Partnered?: ",
-                  userChannelData.partner ? "Yes" : "No"
+                  userChannelData.partner ? _react2["default"].createElement(
+                    "a",
+                    { href: "https://www.twitch.tv/" + userChannelData.name + "/subscribe", className: "color-white", target: "_blank", rel: "nofollow" },
+                    "Yes"
+                  ) : "No"
+                ),
+                _react2["default"].createElement(
+                  "div",
+                  { className: "partner" },
+                  "Live?: ",
+                  userStreamData && userStreamData.stream ? _react2["default"].createElement(
+                    "a",
+                    { href: "https://www.twitch.tv/" + name, className: "color-white", target: "_blank", rel: "nofollow", onClick: function (e) {
+                        e.preventDefault();
+                        appendStream(userChannelData.name, userChannelData.display_name);
+                      } },
+                    "Yes"
+                  ) : "No"
                 )
               )
             )
@@ -155,16 +178,28 @@ exports["default"] = _react2["default"].createClass({
             userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { key: "img", className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
           ) : null,
           _react2["default"].createElement("div", { className: "separator-4-3" }),
-          name && userData && userData.name !== name ? _react2["default"].createElement(
+          name && userData && userData.name !== name ? [_react2["default"].createElement(
             "a",
-            { className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+            { key: "msg", className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
             "Send Message"
-          ) : null,
+          ), " ", _react2["default"].createElement(
+            "div",
+            { key: "ask", className: "btn-default btn-rect color-black bold no-underline", onClick: popUpHandler.bind(null, "askQuestion", {
+                recipient: name.toLowerCase(),
+                sender: userData.name
+              }) },
+            "Ask A Question"
+          )] : null,
           userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" })] : null,
           userChannelData ? [" ", _react2["default"].createElement(
             "div",
             { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
             "Open Stream"
+          )] : null,
+          !params || !params.username || params && params.username === userData.name ? [" ", _react2["default"].createElement(
+            "a",
+            { key: "clips", className: "btn-default btn-rect color-black bold no-underline", href: "https://clips.twitch.tv/my-clips", target: "_blank" },
+            "My Clips"
           )] : null
         )
       )

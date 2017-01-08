@@ -48,7 +48,7 @@ exports["default"] = function (errorCB) {
           try {
             data = JSON.parse(data);
           } catch (e) {
-            console.log(data);
+            // console.log(data);
             console.error(e.stack || e);
           } finally {
             resolve(data);
@@ -69,6 +69,18 @@ exports["default"] = function (errorCB) {
   };
   return new Promise(function (resolve, reject) {
     resolve({
+      getFirebaseConfig: function getFirebaseConfig(okayCB) {
+        // console.log(this);
+        return makeRequest(okayCB, "/get-firebase-config", true);
+      },
+      getUserID: function getUserID() {
+        options.login = options.username;
+        options.api_version = 5;
+        delete options.username;
+        // options.client_id = options.headers["Client-ID"];
+        // options.headers = options.headers || {};
+        return makeRequest(okayCB, "/users");
+      },
       featured: function featured(okayCB) {
         // console.log(this);
         options.limit = 25;

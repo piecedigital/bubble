@@ -14,6 +14,8 @@ var _modulesLoadData = require("../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _reactRouter = require('react-router');
+
 // list item for featured streams
 var ListItem = _react2["default"].createClass({
   displayName: "feat-ListItem",
@@ -148,26 +150,47 @@ var FeaturedStream = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "image" },
-          _react2["default"].createElement("img", { src: logo, alt: "profile image of " + name })
+          _react2["default"].createElement("img", { src: logo, alt: "profile image of " + (displayName || name) })
         ),
         _react2["default"].createElement(
           "div",
-          { className: "display-name" },
-          displayName
+          { className: "text" },
+          _react2["default"].createElement(
+            "div",
+            { className: "display-name" },
+            _react2["default"].createElement(
+              _reactRouter.Link,
+              { to: "/profile/" + name },
+              displayName
+            )
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "to-channel" },
+            _react2["default"].createElement(
+              "a",
+              { href: "https://www.twitch.tv/" + name, target: "_black", rel: "nofollow" },
+              "Visit on Twitch"
+            )
+          ),
+          _react2["default"].createElement("div", { className: "separator-1-1" }),
+          _react2["default"].createElement(
+            "a",
+            { href: "#", className: "watch", onClick: function () {
+                appendStream.call(null, name, displayName);
+              } },
+            "Watch in Player"
+          ),
+          _react2["default"].createElement("div", { className: "separator-1-1" })
         ),
-        _react2["default"].createElement("div", { className: "separator-1-1" }),
-        _react2["default"].createElement(
-          "a",
-          { href: "#", className: "watch", onClick: function () {
-              appendStream.call(null, name, displayName);
-            } },
-          "Watch in Player"
-        ),
-        _react2["default"].createElement("div", { className: "separator-1-1" }),
         _react2["default"].createElement(
           "div",
-          { className: "bio" },
-          bio
+          { className: "text" },
+          _react2["default"].createElement(
+            "div",
+            { className: "bio" },
+            bio
+          )
         )
       ) : _react2["default"].createElement(
         "div",
@@ -231,6 +254,20 @@ exports["default"] = _react2["default"].createClass({
     return _react2["default"].createElement(
       "div",
       { className: "featured-streams" },
+      _react2["default"].createElement(
+        "div",
+        { className: "wrapper qna" },
+        _react2["default"].createElement(
+          "ul",
+          { className: "list" },
+          dataArray.map(function (itemData, ind) {
+            return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData, methods: {
+                appendStream: appendStream,
+                displayStream: _this3.displayStream
+              } });
+          })
+        )
+      ),
       dataArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: dataArray[this.state.featuredStreamIndex], methods: {
           appendStream: appendStream,
           loadData: loadData
