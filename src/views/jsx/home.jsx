@@ -9,16 +9,26 @@ export default React.createClass({
   },
   render() {
     const {
+      auth,
+      userData,
+      fireRef,
+
       methods: {
         loadData,
-        appendStream
+        appendStream,
+        popUpHandler
       }
     } = this.props;
     return (
       <div className="top-level-component home-page">
-        <Featured methods={{
+        <Featured
+        auth={auth}
+        userData={userData}
+        fireRef={fireRef}
+        methods={{
           appendStream,
-          loadData
+          loadData,
+          popUpHandler
         }} />
         <div className={`separator-4-black`}></div>
         <Games methods={{

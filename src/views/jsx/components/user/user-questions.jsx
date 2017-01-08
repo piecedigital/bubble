@@ -256,6 +256,10 @@ const QuestionListItem = React.createClass({
     fireRef.ratingsRef
     .child(questionID)
     .off("child_removed", this.newRating);
+    // question added
+    fireRef.usersRef
+    .child(`${this.state.questionData.receiver}/answersFromMe`)
+    .off("child_added", this.newQuestion);
   },
   render() {
     const {
@@ -408,7 +412,7 @@ export default React.createClass({
       fireRef.usersRef
       .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
       .startAt(this.state.lastID)
-      .limitToFirst(25)
+      .limitToFirst(10)
       .once("value")
       .then(snap => {
         let questions = snap.val();

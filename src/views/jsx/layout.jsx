@@ -313,6 +313,14 @@ export default React.createClass({
         }
     }
   },
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.location);
+    if(nextProps.location.state && nextProps.location.state.modal) {
+      this.child = this.props.children;
+    } else {
+      this.child = null;
+    }
+  },
   render() {
     const {
       authData,
@@ -366,8 +374,27 @@ export default React.createClass({
           }}/>
         }
         {
-          this.props.children ? (
+          this.child ? (
+            React.cloneElement(this.child, {
+              // this is a top-level-component
+              parent: this,
+              auth: authData,
+              fireRef: this.fireRef,
+              overlay: overlay,
+              userData,
+              ...this.props,
+              fireRef,
+              methods: {
+                appendStream: this.appendStream,
+                appendVOD: this.appendVOD,
+                spliceStream: this.spliceStream,
+                loadData: loadData,
+                popUpHandler: this.popUpHandler,
+              }
+            })
+          ) : this.props.children ? (
             React.cloneElement(this.props.children, {
+              // this is a top-level-component
               parent: this,
               auth: authData,
               fireRef: this.fireRef,
