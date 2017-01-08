@@ -36,9 +36,9 @@ let components = {
             streamData: data
           });
         })
-        .catch(e => console.error(e.stack));
+        .catch(e => e console.error(e ? e.stack : e));
       })
-      .catch(e => console.error(e.stack));
+      .catch(e => e console.error(e ? e.stack : e));
     },
     followCallback(follow) {
       if(follow) {

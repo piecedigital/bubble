@@ -20,6 +20,9 @@ In addition to necessary data related to the Q&A aggregation this database will 
 ```js
 "bubble": {
   "appConfig": Object,
+  "authIDs": {
+    <username>: <Twitch auth ID>
+  },
   "users": {
     <username>: {
       "questionsAsked": Number,
@@ -38,7 +41,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
           "notifType": String ("askedNewQuestion" || "newCommentToQuestion" || "newCommentToAnswer" || "taggedInAnswer" || "taggedInComment"),
           "nodeDataID": String, // ID of question, answer, or comment, depending on the `notifType`
           "date": [date Object],
-          "sent": [sent Object],
+          "sent": [sentStatuses Object],
           "version": [version Object],
         }
       },
@@ -82,32 +85,34 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "questions": {
     <questionID>: {
-      "myAuth": Boolean,
+      "myAuth": [myAuth Object],
       "creator": <username>: String, //
       "receiver": <username>: String,
       "title": String or Number // If number it'll be 0. Firebase does not accept null as a value,
       "body": String, // minimum 30 characters
       "AMA": String (<AMAID>) || null,
       "date": [date Object],
-      "sentStatuses": [sent Object],
+      "sentStatuses": [sentStatuses Object],
       "version": [version Object]
     }
   },
   "answers": {
     <questionID>: {
-      "myAuth": Boolean,
+      "myAuth": [myAuth Object],
+      "username": <username>,
       "questionID": <questionID>
       "body": String, // minimum 30 characters
       "date": [date Object],
-      "sentStatuses": [sent Object],
+      "sentStatuses": [sentStatuses Object],
       "version": [version Object]
     }
   },
   "ratings": {
     <questionID>: {
-      <username>: {
-        "myAuth": Boolean,
+      <ratingID>: {
+        "myAuth": [myAuth Object],
         "for": String ("question" || "answer" || "comment"),
+        "commentID": <commentID>, // won't exist for non-comments
         "username": <username>,
         "upvote": Boolean
       }
@@ -115,19 +120,20 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "comments": {
     <commentID>: {
-      "myAuth": Boolean,
+      "myAuth": [myAuth Object],
       "username": <username>,
       "questionID": <questionID>,
       "body": String,
-      "reply": 0 || <commentID?,
+      "reply": true || false,
+      "commentID": <commentID? || null,
       "date": [date Object],
-      "sentStatuses": [sent Object],
+      "sentStatuses": [sentStatuses Object],
       "version": [version Object]
     }
   },
   "AMAs": {
     <AMAID>: {
-      "myAuth": Boolean,
+      "myAuth": [myAuth Object],
       "creator": <username>,
       "associatedQuestions": {
         <questionID>: true
@@ -138,7 +144,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "polls": {
     <pollID>: {
-      "myAuth": Boolean,
+      "myAuth": [myAuth Object],
       "creator": <username>,
       "choices": {
         vote_<Number>: {
@@ -183,5 +189,29 @@ In addition to necessary data related to the Q&A aggregation this database will 
 {
   "email": Boolean,
   "notification": Boolean
+}
+```
+
+#### `myAuth` Object
+
+```js
+{
+  "username": <username>,
+  "ID": <Twitch auth ID>
+}
+```
+
+Extra stuff:
+
+#### `voteToolData` Object
+
+```js
+{
+  "myAuth": [myAuth Object],
+  "userData": <userData>,
+  "fireRef": <fireRef>,
+  "place": "question",
+  "calculatedRatings": <calculatedRatings>,
+  "questionData": <questionData>,
 }
 ```

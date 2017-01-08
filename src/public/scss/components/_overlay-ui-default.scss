@@ -1,4 +1,6 @@
 .overlay-ui-default {
+  @include displayFlex;
+  flex-direction: column;
   position: absolute;
   top: 0;
   right: 0;
@@ -30,41 +32,48 @@
     color: black;
     text-align: center;
     font-size: 2*$em;
-  }
-  form {
-    .section {
-      @include displayFlex;
+    &.sub {
       padding: .5*$em;
-      label {
-        display: inline-block;
-        width: 100%;
-        padding: .5*$em;
-        background-color: $offWhite;
-        box-shadow: 0 0 .2*$em 0 black;
-        border-radius: .5*$em;
-        &.vote {
-          position: relative;
-          width: 4em;
-          height: 6em;
-        }
-      }
-      .label {
-        vertical-align: top;
-      }
-      .to {
-        font-weight: bold;
-      }
-      textarea {
-        width: 100%;
-        border-radius: .25*$em;
-        border: none;
-        border: 1px solid red;
-        box-shadow: none;
-        &.valid {
-          border: 1px solid $dimmer;
-        }
-      }
-      .submit {}
+      font-size: 1.7*$em;
+      text-align: left;
     }
+  }
+  .scroll {
+    overflow: auto;
+  }
+  form {}
+  .section {
+    @include displayFlex;
+    padding: .5*$em;
+    label {
+      display: inline-block;
+      width: 100%;
+      padding: .5*$em;
+      background-color: $offWhite;
+      box-shadow: 0 0 .2*$em 0 black;
+      border-radius: .5*$em;
+      &.vote {
+        position: relative;
+        width: 4em;
+        height: 6em;
+      }
+    }
+    .label {
+      vertical-align: top;
+    }
+    .to {
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      border-radius: .25*$em;
+      border: none;
+      border: 1px solid red;
+      box-shadow: none;
+      &.valid {
+        border: 1px solid $dimmer;
+      }
+    }
+    .submit {}
   }
 }

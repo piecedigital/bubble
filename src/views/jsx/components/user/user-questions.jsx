@@ -5,26 +5,56 @@ import { Link, browserHistory as History } from "react-router";
 
 const QuestionListItem = React.createClass({
   displayName: "QuestionListItem",
-  getInitialState: () => ({ questionData: null, answerData: null, ratingsData: null, calculatedRatings: {} }),
+  getInitialState: () => ({ questionData: null, answerData: null, ratingsData: null, calculatedRatings: null }),
   calculateRatings() {
     const { ratingsData } = this.state;
     const { userData } = this.props;
+    let calculatedRatings = {};
     // don't continue if there is no ratings data
     if(!ratingsData) return;
     if(!userData) return setTimeout(this.calculateRatings, 100);
-    // console.log("calc", ratingsData);
-    let calculatedRatings = {};
-    calculatedRatings.upvotes = Object.keys(ratingsData).filter(vote => {
-      return ratingsData[vote].upvote;
-    }).length;
-      calculatedRatings.downvotes = Object.keys(ratingsData).filter(vote => {
-      return !ratingsData[vote].upvote;
-    }).length * -1;
-    calculatedRatings.overall = calculatedRatings.upvotes + calculatedRatings.downvotes;
-    if(ratingsData.hasOwnProperty(userData.name)) {
-      calculatedRatings.myVote = ratingsData[userData.name].upvote;
-      calculatedRatings.for = ratingsData[userData.name].for;
-    }
+
+    calculatedRatings = {
+      question: {
+        upvotes: [],
+        downvotes: [],
+        overall: 0,
+        myVote: false,
+        for: true
+      },
+      answer: {
+        upvotes: [],
+        downvotes: [],
+        overall: 0,
+        myVote: false,
+        for: true
+      },
+      comment: {
+        upvotes: [],
+        downvotes: [],
+        overall: 0,
+        myVote: false,
+        for: true
+      }
+    };
+
+    Object.keys(ratingsData || {}).map(vote => {
+      const voteData = ratingsData[vote];
+      const place = voteData.for;
+
+      if(ratingsData[vote].upvote) calculatedRatings[place].upvotes.push(true);
+      if(!ratingsData[vote].upvote) calculatedRatings[place].downvotes.push(true);
+      if(voteData.username === userData.name) {
+        calculatedRatings[place].myVote = voteData.upvote;
+        calculatedRatings[place].for = voteData.for;
+      }
+    });
+    ["question", "answer", "comment"].map(place => {
+      calculatedRatings[place].upvotes = calculatedRatings[place].upvotes.length;
+      calculatedRatings[place].downvotes = calculatedRatings[place].downvotes.length;
+      calculatedRatings[place].overall = calculatedRatings[place].upvotes - calculatedRatings[place].downvotes;
+    });
+
     this.setState({
       calculatedRatings
     });
@@ -329,7 +359,7 @@ export default React.createClass({
       .once("value")
       .then(snap => {
         let questions = snap.val();
-        console.log("questions", questions);
+        // console.log("questions", questions);
         this.setState({
           questions,
           lastID: questions ? Object.keys(questions).pop() : null,

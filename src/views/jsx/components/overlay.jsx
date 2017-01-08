@@ -5,7 +5,7 @@ import { AskQuestion, AnswerQuestion, ViewQuestion } from "./question-tools.jsx"
 export default React.createClass({
   displayName: "Overlay",
   render() {
-    // console.log("overlay", this.props);
+    console.log("overlay", this.props);
     const {
       auth,
       userData,
@@ -21,27 +21,35 @@ export default React.createClass({
     } = this.props;
     return (
       <div className={`overlay${overlay ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>
-        <AskQuestion
-        overlay={overlay}
-        askQuestion={askQuestion}
-        fireRef={fireRef}
-        auth={auth}
-        userData={userData}
-        methods={methods}/>
-        <AnswerQuestion
-        overlay={overlay}
-        answerQuestion={answerQuestion}
-        fireRef={fireRef}
-        auth={auth}
-        userData={userData}
-        methods={methods}/>
-        <ViewQuestion
-        overlay={overlay}
-        viewQuestion={viewQuestion}
-        fireRef={fireRef}
-        auth={auth}
-        userData={userData}
-        methods={methods}/>
+        {
+          function () {
+            let Component = null
+            switch (overlay) {
+              case "askQuestion":
+                Component = AskQuestion
+                break;
+              case "answerQuestion":
+                Component = AnswerQuestion
+                break;
+              case "viewQuestion":
+                Component = ViewQuestion
+                break;
+              default:
+                Component = null
+            }
+            return Component ? (
+              <Component
+              overlay={overlay}
+              askQuestion={askQuestion}
+              answerQuestion={answerQuestion}
+              viewQuestion={viewQuestion}
+              fireRef={fireRef}
+              auth={auth}
+              userData={userData}
+              methods={methods}/>
+            ) : null
+          }()
+        }
       </div>
     );
   }

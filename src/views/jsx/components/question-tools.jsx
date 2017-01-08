@@ -246,8 +246,9 @@ export const AnswerQuestion = React.createClass({
       title,
       body,
     } = this.refs;
-    let questionObject = {
+    let answerObject = {
       "myAuth": !!auth.access_token,
+      "username": userData.name,
       "body": body.value,
       "questionID": questionData.questionID,
       "date": {
@@ -260,11 +261,11 @@ export const AnswerQuestion = React.createClass({
       "version": this.state.versionData,
     };
     if(!this.state.validation.bodyValid) return;
-    // return console.log("question object:", questionObject);
+    // return console.log("question object:", answerObject);
     // write answer to `answers` node
     fireRef.answersRef
     .child(questionData.questionID)
-    .set(questionObject)
+    .set(answerObject)
     .catch(e => console.error(e.val ? e.val() : e));
     // write answer reference to user account
     fireRef.usersRef
@@ -372,26 +373,28 @@ export const AnswerQuestion = React.createClass({
           <div className="separator-4-dim" />
           <div className="separator-4-dim" />
           <div className="separator-4-dim" />
-          <form onSubmit={this.submit}>
-            <div className="section">
-              <label>
-                <div className="label title bold">{questionData.title}</div>
-                <div className="separator-1-black" />
-                <div className="label body">{questionData.body}</div>
-              </label>
-            </div>
-            <div className="separator-4-dim" />
-            <div className="section">
-              <label>
-                <div className="label bold">What's Your Answer?</div>
-                <textarea ref="body" className={`${this.state.validation["bodyValid"] ? " valid" : ""}`} onChange={this.validate.bind(null, "body")}/>
-                <div>{this.state.validation["bodyCount"]}/<span className={`${this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : ""}`}>{this.state.validation["bodyMin"]}</span>-<span className={`${this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : ""}`}>{this.state.validation["bodyMax"]}</span></div>
-              </label>
-            </div>
-            <div className="section">
-              <button className="submit btn-default">Submit</button>
-            </div>
-          </form>
+          <div className="scroll">
+            <form onSubmit={this.submit}>
+              <div className="section">
+                <label>
+                  <div className="label title bold">{questionData.title}</div>
+                  <div className="separator-1-black" />
+                  <div className="label body"><p>{questionData.body}</p></div>
+                </label>
+              </div>
+              <div className="separator-4-dim" />
+              <div className="section">
+                <label>
+                  <div className="label bold">What's Your Answer?</div>
+                  <textarea ref="body" className={`${this.state.validation["bodyValid"] ? " valid" : ""}`} onChange={this.validate.bind(null, "body")}/>
+                  <div>{this.state.validation["bodyCount"]}/<span className={`${this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : ""}`}>{this.state.validation["bodyMin"]}</span>-<span className={`${this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : ""}`}>{this.state.validation["bodyMax"]}</span></div>
+                </label>
+              </div>
+              <div className="section">
+                <button className="submit btn-default">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
       );
     } else {
@@ -406,8 +409,213 @@ export const AnswerQuestion = React.createClass({
   }
 })
 
+export const CommentTool = React.createClass({
+  displayName: "CommentTool",
+  getInitialState: () => ({
+    error: false,
+    success: false,
+    versionData: null,
+    validation: {
+      bodyMin: 30,
+      bodyMax: 2000,
+      bodyCount: 0,
+      bodyValid: false
+    }
+  }),
+  submit(e) {
+    e.preventDefault();
+    const {
+      auth,
+      userData,
+      fireRef,
+      overlay,
+
+      commentID,
+      viewQuestion: {
+        questionData,
+        answerData
+      },
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+    const {
+      title,
+      body,
+    } = this.refs;
+
+    let commentObject = {
+      "myAuth": !!auth.access_token,
+      "username": userData.name,
+      // to be truthy only if this is a comment reply
+      "reply": !!commentID,
+      "commentID": commentID || null,
+      //----------------------------------------
+      "body": body.value,
+      "questionID": questionData.questionID,
+      "date": {
+        "UTCTime": new Date().getTime()
+      },
+      "sentStatuses": {
+        "email": false,
+        "notification": false
+      },
+      "version": this.state.versionData,
+    };
+    if(!this.state.validation.bodyValid) return;
+    // return console.log("comment object:", commentObject);
+    // write answer to `answers` node
+    fireRef.commentsRef
+    .push()
+    .set(commentObject)
+    .catch(e => console.error(e.val ? e.val() : e));
+
+    // close the pop up
+    this.setState({
+      success: true
+    });
+  },
+  validate(name, e) {
+    // name will be the same as a referenced element
+    // the name will be used to be validated, matched with a variable "suffix"
+    let value = e.target.value;
+    let thisMin = this.state.validation[`${name}Min`];
+    let thisMax = this.state.validation[`${name}Max`];
+    let thisValid = `${name}Valid`;
+    let thisCount = `${name}Count`;
+    this.setState({
+      validation: Object.assign(this.state.validation, {
+        [thisValid]: value.length >= thisMin && value.length <= thisMax,
+        [thisCount]: value.length,
+      })
+    });
+  },
+  componentDidMount() {
+    // console.log("question tools mounted", this.props);
+    ajax({
+      url: "/get-version",
+      success: (data) => {
+        this.setState({
+          versionData: JSON.parse(data)
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        this.setState({
+          error: true
+        });
+      }
+    });
+  },
+  render() {
+    const {
+      fireRef,
+      commentData,
+    } = this.props;
+    const {
+      versionData
+    } = this.state;
+    if(!versionData || !fireRef) {
+      return (
+        <form onSubmit={this.submit}>
+          <div className="section bold">
+            Preparing Form...
+          </div>
+        </form>
+      );
+    }
+    return (
+      <form onSubmit={this.submit}>
+        <div className="section bold">
+          Leave a comment
+        </div>
+        <div className="section">
+          <label>
+            <textarea ref="body" className={`${this.state.validation["bodyValid"] ? " valid" : ""}`} onChange={this.validate.bind(null, "body")}/>
+            <div>{this.state.validation["bodyCount"]}/<span className={`${this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : ""}`}>{this.state.validation["bodyMin"]}</span>-<span className={`${this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : ""}`}>{this.state.validation["bodyMax"]}</span></div>
+          </label>
+        </div>
+        <div className="section">
+          <button className="submit btn-default">Submit</button>
+        </div>
+      </form>
+    );
+  }
+});
+
+const CommentItem = React.createClass({
+  displayName: "CommentItem",
+  render() {
+    const {
+      commentID,
+      commentData,
+      voteToolData
+    } = this.props;
+
+    console.log("commentitem", commentID);
+    return (
+      <div className="section">
+        <label>
+          <div className="label"><p>{commentData.body}</p></div>
+        </label>
+        {
+          voteToolData ? (
+            <label className="vote">
+              <VoteTool {...Object.assign(voteToolData, { place: "comment", commentData, commentID })} />
+            </label>
+          ) : null
+        }
+      </div>
+    );
+  }
+})
+
 export const ViewQuestion = React.createClass({
-  displayName: "AnswerQuestion",
+  displayName: "ViewQuestion",
+  getInitialState: () => ({
+    comments: null
+  }),
+  newComment(snap) {
+    const commentKey = snap.getKey();
+    const commentData = snap.val();
+    let newComments = JSON.parse(JSON.stringify(this.state.comments));
+    // console.log("new comment", commentKey, commentData);
+    this.setState({
+      comments: Object.assign(newComments || {}, {
+        [commentKey]: commentData
+      })
+    });
+  },
+  componentDidMount() {
+    const {
+      fireRef
+    } = this.props;
+    // console.log("yeah, view question mounted");
+    fireRef.commentsRef
+    .orderByChild("reply")
+    .equalTo(false)
+    .once("value")
+    .then(snap => {
+      this.setState({
+        comments: snap.val()
+      })
+    })
+
+    fireRef.commentsRef
+    .orderByChild("reply")
+    .equalTo(false)
+    .on("child_added", this.newComment)
+  },
+  componentWillUnmount() {
+    const {
+      fireRef
+    } = this.props;
+
+    fireRef.commentsRef
+    .orderByChild("reply")
+    .equalTo(false)
+    .off("child_added", this.newComment)
+  },
   render() {
     // console.log(this.props);
     const {
@@ -421,6 +629,13 @@ export const ViewQuestion = React.createClass({
         popUpHandler
       }
     } = this.props;
+    const { comments } = this.state;
+    const commentList = Object.keys(comments || {}).map(commentID => {
+      const commentData = comments[commentID];
+      return (
+        <CommentItem key={commentID} commentID={commentID} commentData={commentData} voteToolData={voteToolData} />
+      );
+    });
 
     if(questionData && answerData) {
       return (
@@ -433,7 +648,10 @@ export const ViewQuestion = React.createClass({
           <div className="separator-4-dim" />
           <div className="separator-4-dim" />
           <div className="separator-4-dim" />
-          <form onSubmit={this.submit}>
+          <div className="scroll">
+            <div className="title sub">
+              Question:
+            </div>
             <div className="section">
               <label>
                 <div className="label title bold">{questionData.title}</div>
@@ -443,25 +661,42 @@ export const ViewQuestion = React.createClass({
               {
                 voteToolData ? (
                   <label className="vote">
-                    <VoteTool {...Object.assign(voteToolData)} />
+                    <VoteTool {...Object.assign(voteToolData, { place: "question" })} />
                   </label>
                 ) : null
               }
             </div>
             <div className="separator-4-dim" />
+            <div className="title sub">
+              Answer:
+            </div>
             <div className="section">
               <label>
-                <div className="label">{answerData.body}</div>
+                <div className="label"><p>{answerData.body}</p></div>
               </label>
               {
-                // voteToolData ? (
-                //   <label className="vote">
-                //     <VoteTool {...Object.assign(voteToolData)} />
-                //   </label>
-                // ) : null
+                voteToolData ? (
+                  <label className="vote">
+                    <VoteTool {...Object.assign(voteToolData, { place: "answer" })} />
+                  </label>
+                ) : null
               }
             </div>
-          </form>
+            <div className="separator-4-dim" />
+            <div className="title sub">
+              Comments:
+            </div>
+            <div className="section">
+              <label>
+                <CommentTool {...this.props} />
+              </label>
+            </div>
+            <div className="section">
+              <label>
+                <div className="label">{commentList.length > 0 ? commentList : "No comments"}</div>
+              </label>
+            </div>
+          </div>
         </div>
       );
     } else {
