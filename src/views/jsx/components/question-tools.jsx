@@ -557,11 +557,13 @@ const CommentItem = React.createClass({
       <div className="section">
         <label className="comment">
           <div className="label"><p>{commentData.body}</p></div>
-          <div className="tools">
-            <div className="tool reply">
-              Reply
-            </div>
-          </div>
+          {
+            // <div className="tools">
+            //   <div className="tool reply">
+            //     Reply
+            //   </div>
+            // </div>
+          }
         </label>
         {
           voteToolData ? (
