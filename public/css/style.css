@@ -677,6 +677,8 @@ nav {
       padding: 0;
       overflow-x: hidden;
       overflow-y: auto; }
+      .featured-streams > .wrapper .list span {
+        display: block; }
 
 .top-games .title {
   margin: 8px;
@@ -1306,6 +1308,7 @@ nav {
       margin-bottom: 6.4px;
       word-wrap: break-word; }
     .question-list-item .info .body {
+      margin-top: 6.4px;
       word-wrap: break-word; }
   .question-list-item .no-answer {
     display: inline-block;

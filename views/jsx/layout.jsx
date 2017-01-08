@@ -345,6 +345,14 @@ exports["default"] = _react2["default"].createClass({
         }
     }
   },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    console.log(nextProps.location);
+    if (nextProps.location.state && nextProps.location.state.modal) {
+      this.child = this.props.children;
+    } else {
+      this.child = null;
+    }
+  },
   render: function render() {
     var _state = this.state;
     var authData = _state.authData;
@@ -392,7 +400,24 @@ exports["default"] = _react2["default"].createClass({
           panelsHandler: this.panelsHandler,
           popUpHandler: this.popUpHandler
         } }),
-      this.props.children ? _react2["default"].cloneElement(this.props.children, _extends({
+      this.child ? _react2["default"].cloneElement(this.child, _extends({
+        // this is a top-level-component
+        parent: this,
+        auth: authData,
+        fireRef: this.fireRef,
+        overlay: overlay,
+        userData: userData
+      }, this.props, {
+        fireRef: fireRef,
+        methods: {
+          appendStream: this.appendStream,
+          appendVOD: this.appendVOD,
+          spliceStream: this.spliceStream,
+          loadData: _modulesLoadData2["default"],
+          popUpHandler: this.popUpHandler
+        }
+      })) : this.props.children ? _react2["default"].cloneElement(this.props.children, _extends({
+        // this is a top-level-component
         parent: this,
         auth: authData,
         fireRef: this.fireRef,

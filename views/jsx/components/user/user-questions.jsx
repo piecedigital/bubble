@@ -243,6 +243,8 @@ var QuestionListItem = _react2["default"].createClass({
     fireRef.ratingsRef.child(questionID).off("child_changed", this.newRating);
     // rating removed
     fireRef.ratingsRef.child(questionID).off("child_removed", this.newRating);
+    // question added
+    fireRef.usersRef.child(this.state.questionData.receiver + "/answersFromMe").off("child_added", this.newQuestion);
   },
   render: function render() {
     var _props7 = this.props;
@@ -403,7 +405,7 @@ exports["default"] = _react2["default"].createClass({
       var params = _props8.params;
 
       if (!userData) return;
-      fireRef.usersRef.child((params.username || userData.name) + "/" + (params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe")).startAt(_this5.state.lastID).limitToFirst(25).once("value").then(function (snap) {
+      fireRef.usersRef.child((params.username || userData.name) + "/" + (params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe")).startAt(_this5.state.lastID).limitToFirst(10).once("value").then(function (snap) {
         var questions = snap.val();
         // console.log("questions", questions);
         _this5.setState({

@@ -24,16 +24,26 @@ exports["default"] = _react2["default"].createClass({
     return {};
   },
   render: function render() {
-    var _props$methods = this.props.methods;
+    var _props = this.props;
+    var auth = _props.auth;
+    var userData = _props.userData;
+    var fireRef = _props.fireRef;
+    var _props$methods = _props.methods;
     var loadData = _props$methods.loadData;
     var appendStream = _props$methods.appendStream;
+    var popUpHandler = _props$methods.popUpHandler;
 
     return _react2["default"].createElement(
       "div",
       { className: "top-level-component home-page" },
-      _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], { methods: {
+      _react2["default"].createElement(_componentsFeaturedStreamsJsx2["default"], {
+        auth: auth,
+        userData: userData,
+        fireRef: fireRef,
+        methods: {
           appendStream: appendStream,
-          loadData: loadData
+          loadData: loadData,
+          popUpHandler: popUpHandler
         } }),
       _react2["default"].createElement("div", { className: "separator-4-black" }),
       _react2["default"].createElement(_componentsTopGamesJsx2["default"], { methods: {

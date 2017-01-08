@@ -14,11 +14,13 @@ var _modulesLoadData = require("../../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _modulesHelperTools = require("../../../modules/helper-tools");
+
 var _reactRouter = require('react-router');
 
 // list item for featured streams
-var ListItem = _react2["default"].createClass({
-  displayName: "feat-ListItem",
+var StreamListItem = _react2["default"].createClass({
+  displayName: "feat-StreamListItem",
   render: function render() {
     var _props = this.props;
     var index = _props.index;
@@ -52,7 +54,7 @@ var ListItem = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "image" },
-            _react2["default"].createElement("img", { src: preview.medium })
+            _react2["default"].createElement("img", { src: preview.medium || _modulesHelperTools.missingLogo })
           ),
           _react2["default"].createElement(
             "div",
@@ -76,11 +78,149 @@ var ListItem = _react2["default"].createClass({
           )
         )
       ),
-      _react2["default"].createElement("div", { className: "separator-4-6" })
+      _react2["default"].createElement("div", { className: "separator-4-dim" })
     );
   }
 });
 
+// list item for recent question
+var QuestionListItem = _react2["default"].createClass({
+  displayName: "feat-QuestionListItem",
+  getInitialState: function getInitialState() {
+    return { ratingsData: null, calculatedRatings: null };
+  },
+  calculateRatings: function calculateRatings() {
+    var ratingsData = this.state.ratingsData;
+    var userData = this.props.userData;
+
+    var calculatedRatings = {};
+    // don't continue if there is no ratings data
+    if (!ratingsData) return;
+    if (!userData) return setTimeout(this.calculateRatings, 100);
+
+    calculatedRatings = {
+      question: {
+        upvotes: [],
+        downvotes: [],
+        overall: 0,
+        myVote: false,
+        "for": true
+      },
+      answer: {
+        upvotes: [],
+        downvotes: [],
+        overall: 0,
+        myVote: false,
+        "for": true
+      },
+      comment: {
+        upvotes: [],
+        downvotes: [],
+        overall: 0,
+        myVote: false,
+        "for": true
+      }
+    };
+
+    Object.keys(ratingsData || {}).map(function (vote) {
+      var voteData = ratingsData[vote];
+      var place = voteData["for"];
+
+      if (ratingsData[vote].upvote) calculatedRatings[place].upvotes.push(true);
+      if (!ratingsData[vote].upvote) calculatedRatings[place].downvotes.push(true);
+      if (voteData.username === userData.name) {
+        calculatedRatings[place].myVote = voteData.upvote;
+        calculatedRatings[place]["for"] = voteData["for"];
+      }
+    });
+    ["question", "answer", "comment"].map(function (place) {
+      calculatedRatings[place].upvotes = calculatedRatings[place].upvotes.length;
+      calculatedRatings[place].downvotes = calculatedRatings[place].downvotes.length;
+      calculatedRatings[place].overall = calculatedRatings[place].upvotes - calculatedRatings[place].downvotes;
+    });
+
+    this.setState({
+      calculatedRatings: calculatedRatings
+    });
+  },
+  componentDidMount: function componentDidMount() {
+    // get ratings data
+    // this.props.fireRef.ratingsRef
+    // .child(this.props.questionID)
+    // .once("value")
+    // .then(snap => {
+    //   const ratingsData = snap.val();
+    //   this.setState({
+    //     ratingsData
+    //   }, () => {
+    //     this.calculateRatings();
+    //   });
+    // });
+  },
+  render: function render() {
+    var _props2 = this.props;
+    var auth = _props2.auth;
+    var userData = _props2.userData;
+    var fireRef = _props2.fireRef;
+    var questionID = _props2.questionID;
+    var _props2$data = _props2.data;
+    var questionData = _props2$data.questionData;
+    var answerData = _props2$data.answerData;
+    var popUpHandler = _props2.methods.popUpHandler;
+
+    return _react2["default"].createElement(
+      "span",
+      null,
+      _react2["default"].createElement(
+        "li",
+        { className: "question-list-item clickable home" },
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { to: {
+              pathname: "/profile/" + questionData.receiver + "/q/" + questionID
+            }, // state: {
+            //   modal: true,
+            //   returnTo: `/`
+            // }
+            target: "_blank", onClick: null
+            // popUpHandler.bind(null, "viewQuestion", {
+            //   questionData: Object.assign(questionData, { questionID }),
+            //   answerData,
+            //   voteToolData: {
+            //     myAuth: auth && auth.access_token,
+            //     userData: userData,
+            //     fireRef: fireRef,
+            //     place: "question",
+            //     // calculatedRatings: calculatedRatings,
+            //     questionData: questionData,
+            //   }
+            // })
+          },
+          _react2["default"].createElement(
+            "div",
+            { className: "wrapper" },
+            _react2["default"].createElement(
+              "div",
+              { className: "info" },
+              _react2["default"].createElement(
+                "div",
+                { className: "title" },
+                questionData.body
+              ),
+              _react2["default"].createElement("div", { className: "separator-1-black" }),
+              _react2["default"].createElement(
+                "div",
+                { className: "body" },
+                answerData.body
+              )
+            )
+          )
+        )
+      ),
+      _react2["default"].createElement("div", { className: "separator-4-dim" })
+    );
+  }
+});
 // the displayed stream of the feature streams
 var FeaturedStream = _react2["default"].createClass({
   displayName: "FeaturedStream",
@@ -127,11 +267,11 @@ var FeaturedStream = _react2["default"].createClass({
     this.fetchUserData();
   },
   render: function render() {
-    var _props2 = this.props;
-    var appendStream = _props2.methods.appendStream;
-    var _props2$data$stream$channel = _props2.data.stream.channel;
-    var name = _props2$data$stream$channel.name;
-    var logo = _props2$data$stream$channel.logo;
+    var _props3 = this.props;
+    var appendStream = _props3.methods.appendStream;
+    var _props3$data$stream$channel = _props3.data.stream.channel;
+    var name = _props3$data$stream$channel.name;
+    var logo = _props3$data$stream$channel.logo;
     var _state = this.state;
     var displayName = _state.displayName;
     var bio = _state.bio;
@@ -207,7 +347,8 @@ exports["default"] = _react2["default"].createClass({
   getInitialState: function getInitialState() {
     return {
       requestOffset: 0,
-      dataArray: [],
+      streamDataArray: [],
+      questions: {},
       featuredStreamIndex: 0
     };
   },
@@ -216,12 +357,50 @@ exports["default"] = _react2["default"].createClass({
       featuredStreamIndex: index
     });
   },
-  componentDidMount: function componentDidMount() {
+  getQuestions: function getQuestions() {
     var _this2 = this;
 
-    var _props$methods = this.props.methods;
-    var loadData = _props$methods.loadData;
-    var appendStream = _props$methods.appendStream;
+    var fireRef = this.props.fireRef;
+
+    if (fireRef) {
+      fireRef.answersRef.orderByKey().limitToLast(10).once("value").then(function (snap) {
+        var answers = snap.val();
+
+        var questions = {};
+
+        new Promise(function (resolve, reject) {
+          Object.keys(answers || {}).map(function (questionID, ind, arr) {
+            var answerData = answers[questionID];
+
+            fireRef.questionsRef.child(questionID).once("value").then(function (snap) {
+              var questionData = snap.val();
+              questions[questionID] = {
+                questionData: questionData,
+                answerData: answerData
+              };
+              if (ind === arr.length - 1) {
+                resolve();
+              }
+            });
+          });
+        }).then(function () {
+          _this2.setState({
+            questions: questions
+          });
+        });
+      });
+    } else {
+      setTimeout(this.getQuestions, 100);
+    }
+  },
+  componentDidMount: function componentDidMount() {
+    var _this3 = this;
+
+    var _props4 = this.props;
+    var fireRef = _props4.fireRef;
+    var _props4$methods = _props4.methods;
+    var loadData = _props4$methods.loadData;
+    var appendStream = _props4$methods.appendStream;
 
     if (loadData) {
       loadData.call(this, function (e) {
@@ -229,9 +408,9 @@ exports["default"] = _react2["default"].createClass({
       }).then(function (methods) {
         methods.featured().then(function (data) {
           // console.log(data);
-          _this2.setState({
-            offset: _this2.state.requestOffset + 25,
-            dataArray: Array.from(_this2.state.dataArray).concat(data.featured)
+          _this3.setState({
+            offset: _this3.state.requestOffset + 25,
+            streamDataArray: Array.from(_this3.state.streamDataArray).concat(data.featured)
           });
         })["catch"](function (e) {
           return console.error(e.stack);
@@ -240,35 +419,47 @@ exports["default"] = _react2["default"].createClass({
         return console.error(e.stack);
       });
     }
+    this.getQuestions();
   },
   render: function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _state2 = this.state;
     var requestOffset = _state2.requestOffset;
-    var dataArray = _state2.dataArray;
-    var _props$methods2 = this.props.methods;
-    var appendStream = _props$methods2.appendStream;
-    var loadData = _props$methods2.loadData;
+    var streamDataArray = _state2.streamDataArray;
+    var questions = _state2.questions;
+    var _props5 = this.props;
+    var auth = _props5.auth;
+    var userData = _props5.userData;
+    var fireRef = _props5.fireRef;
+    var _props5$methods = _props5.methods;
+    var appendStream = _props5$methods.appendStream;
+    var loadData = _props5$methods.loadData;
+    var popUpHandler = _props5$methods.popUpHandler;
 
+    var questionsList = Object.keys(questions);
     return _react2["default"].createElement(
       "div",
       { className: "featured-streams" },
-      _react2["default"].createElement(
+      questionsList.length > 0 ? _react2["default"].createElement(
         "div",
         { className: "wrapper qna" },
         _react2["default"].createElement(
           "ul",
           { className: "list" },
-          dataArray.map(function (itemData, ind) {
-            return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData, methods: {
-                appendStream: appendStream,
-                displayStream: _this3.displayStream
-              } });
+          questionsList.map(function (questionID, ind) {
+            return _react2["default"].createElement(QuestionListItem, {
+              auth: auth,
+              userData: userData,
+              fireRef: fireRef,
+              key: ind,
+              questionID: questionID,
+              data: questions[questionID],
+              methods: { popUpHandler: popUpHandler } });
           })
         )
-      ),
-      dataArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: dataArray[this.state.featuredStreamIndex], methods: {
+      ) : null,
+      streamDataArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: streamDataArray[this.state.featuredStreamIndex], methods: {
           appendStream: appendStream,
           loadData: loadData
         } }) : null,
@@ -278,10 +469,10 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement(
           "ul",
           { className: "list" },
-          dataArray.map(function (itemData, ind) {
-            return _react2["default"].createElement(ListItem, { key: ind, index: ind, data: itemData, methods: {
+          streamDataArray.map(function (itemData, ind) {
+            return _react2["default"].createElement(StreamListItem, { key: ind, index: ind, data: itemData, methods: {
                 appendStream: appendStream,
-                displayStream: _this3.displayStream
+                displayStream: _this4.displayStream
               } });
           })
         )
