@@ -21,7 +21,7 @@
   .close {
     position: absolute;
     top: 0;
-    left: .2*$em;
+    left: 0*$em;
     padding: .2*$em .6*$em;
     box-shadow: 0 0 0 .2*$em $dim;
     color: black;
@@ -56,6 +56,19 @@
         position: relative;
         width: 4em;
         height: 6em;
+      }
+      &.comment {
+        @include displayInlineFlex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .tools {
+        font-size: .8*$em;
+        color: rgba($offBlack, .8);
+        .tool {
+          display: inline-block;
+          cursor: pointer;
+        }
       }
     }
     .label {

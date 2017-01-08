@@ -5,7 +5,7 @@ import { Link, browserHistory as History } from "react-router";
 
 const QuestionListItem = React.createClass({
   displayName: "QuestionListItem",
-  getInitialState: () => ({ questionData: null, answerData: null, ratingsData: null, calculatedRatings: null }),
+  getInitialState: () => ({ questionData: null, answerData: null, commentData: null, ratingsData: null, calculatedRatings: null }),
   calculateRatings() {
     const { ratingsData } = this.state;
     const { userData } = this.props;
@@ -58,6 +58,26 @@ const QuestionListItem = React.createClass({
     this.setState({
       calculatedRatings
     });
+  },
+  newQuestion(snap) {
+    const {
+      questionID,
+      fireRef
+    } = this.props;
+    const answerKey = snap.getKey();
+    console.log("new answer", answerKey, questionID);
+    if(answerKey === questionID) {
+      fireRef.answersRef
+      .child(questionID)
+      .once("value")
+      .then(snap => {
+        const answerData = snap.val();
+        console.log("got new answer", answerData);
+        this.setState({
+          answerData
+        });
+      });
+    }
   },
   newRating(dleet, snap) {
     const ratingsKey = snap.getKey();
@@ -124,6 +144,39 @@ const QuestionListItem = React.createClass({
       this.setupOverlay();
     }
   },
+  setupAnswerListeners() {
+    const {
+      questionID,
+      fireRef,
+      params
+    } = this.props
+
+    // set listener for new question
+    const usersRefNode = fireRef.usersRef
+    .child(`${this.state.questionData.receiver}/answersFromMe`)
+    .on("child_added", this.newQuestion);
+  },
+  setupRatingsListeners() {
+    const {
+      questionID,
+      fireRef,
+      params
+    } = this.props
+
+    // set listener on ratings data
+    // rating added
+    fireRef.ratingsRef
+    .child(questionID)
+    .on("child_added", this.newRating.bind(null, null)),
+    // rating changed
+    fireRef.ratingsRef
+    .child(questionID)
+    .on("child_changed", this.newRating.bind(null, null));
+    // rating removed
+    fireRef.ratingsRef
+    .child(questionID)
+    .on("child_removed", this.newRating.bind(null, true));
+  },
   componentDidMount() {
     const {
       questionID,
@@ -139,7 +192,7 @@ const QuestionListItem = React.createClass({
       const questionData = snap.val();
       this.setState({
         questionData
-      });
+      }, this.setupAnswerListeners);
     });
     // get answer data
     fireRef.answersRef

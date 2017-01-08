@@ -132,7 +132,7 @@ export default React.createClass({
         console.log("got unique ratings", ratingsKey, ratingsData);
         const newRatings = JSON.parse(JSON.stringify(this.state.ratings || {}));
         this.setState({
-          ratings: Object.assign(newRatings || {},{
+          ratings: Object.assign(newRatings || {}, {
             [ratingsKey]: ratingsData
           })
         }, this.calculateRatings)
@@ -185,7 +185,7 @@ export default React.createClass({
     );
 
     let usedRatings = place === "comment" ? uniqueCommentRatings : calculatedRatings;
-    console.log("vote tools", place, usedRatings);
+    // console.log("vote tools", place, usedRatings);
 
     // figure out whether the viewing user voted
     // and make a CSS class based on whether it's an up- or downvote
