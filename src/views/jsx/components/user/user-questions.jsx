@@ -376,7 +376,7 @@ export default React.createClass({
     locked: true,
     lockedTop: true,
     loadData: false,
-    queryLimit: 10
+    queryLimit: 1
   }),
   scrollEvent(e) {
     setTimeout(() => {
@@ -549,9 +549,9 @@ export default React.createClass({
         });
       });
     } else {
-      fireRef.usersRef
-      .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
-      .on("child_added", this.newAnswer);
+      // fireRef.usersRef
+      // .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+      // .on("child_added", this.newAnswer);
     }
   },
   componentWillUnmount() {
@@ -586,7 +586,7 @@ export default React.createClass({
       return (
         <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} overlay={overlay} pageOverride={pageOverride} methods={methods} />
       );
-    }).reverse() : null;
+    }) : null;
     return (
       <div ref="root" className={`user-questions tool-assisted${locked ? " locked" : ""}`}>
         { !pageOverride ? (<div className={`title`}>Questions</div>) : null }
