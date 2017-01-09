@@ -64,9 +64,7 @@ var AskQuestion = _react2["default"].createClass({
       receiver: to,
       title: title.value,
       body: body.value,
-      date: {
-        "UTCTime": new Date().getTime()
-      },
+      date: new Date().getTime(),
       sentStatuses: {
         "email": false,
         "notification": false
@@ -78,15 +76,15 @@ var AskQuestion = _react2["default"].createClass({
     // write question to `questions` node
     var questionID = fireRef.root.push().getKey();
     // console.log(questionID);
-    fireRef.questionsRef.child(questionID).set(questionObject)["catch"](function (e) {
+    fireRef.questionsRef.child(questionID).setWithPriority(questionObject, 0 - Date.now())["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
     // write question ID reference to user.<username>.questionsForMe
-    fireRef.usersRef.child(to + "/questionsForMe").update(_defineProperty({}, questionID, true))["catch"](function (e) {
+    fireRef.usersRef.child(to + "/questionsForMe/" + questionID).setWithPriority(questionObject.date, 0 - Date.now())["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
     // write question ID reference to user.<username>.questionsForThem
-    fireRef.usersRef.child(from + "/questionsForThem").update(_defineProperty({}, questionID, true))["catch"](function (e) {
+    fireRef.usersRef.child(from + "/questionsForThem/" + questionID).setWithPriority(questionObject.date, 0 - Date.now())["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
 
@@ -349,9 +347,7 @@ var AnswerQuestion = _react2["default"].createClass({
       "username": userData.name,
       "body": body.value,
       "questionID": questionData.questionID,
-      "date": {
-        "UTCTime": new Date().getTime()
-      },
+      "date": new Date().getTime(),
       "sentStatuses": {
         "email": false,
         "notification": false
@@ -361,11 +357,11 @@ var AnswerQuestion = _react2["default"].createClass({
     if (!this.state.validation.bodyValid) return;
     // return console.log("question object:", answerObject);
     // write answer to `answers` node
-    fireRef.answersRef.child(questionData.questionID).set(answerObject)["catch"](function (e) {
+    fireRef.answersRef.child(questionData.questionID).setWithPriority(answerObject, 0 - Date.now())["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
     // write answer reference to user account
-    fireRef.usersRef.child(questionData.receiver).child("answersFromMe").set(_defineProperty({}, questionData.questionID, true))["catch"](function (e) {
+    fireRef.usersRef.child(questionData.receiver).child("answersFromMe").child(questionData.questionID).setWithPriority(answerObject.date, 0 - Date.now())["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
 
@@ -616,9 +612,7 @@ var CommentTool = _react2["default"].createClass({
       //----------------------------------------
       "body": body.value,
       "questionID": questionData.questionID,
-      "date": {
-        "UTCTime": new Date().getTime()
-      },
+      "date": new Date().getTime(),
       "sentStatuses": {
         "email": false,
         "notification": false
@@ -628,7 +622,7 @@ var CommentTool = _react2["default"].createClass({
     if (!this.state.validation.bodyValid) return;
     // return console.log("comment object:", commentObject);
     // write answer to `answers` node
-    fireRef.commentsRef.push().set(commentObject)["catch"](function (e) {
+    fireRef.commentsRef.push().setWithPriority(commentObject, 0 - Date.now())["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
 

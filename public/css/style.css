@@ -1274,6 +1274,10 @@ nav {
   list-style: none; }
   .question-list-item.home {
     width: 100%; }
+  .question-list-item.featured {
+    width: 100%; }
+    .question-list-item.featured > a {
+      flex-direction: column; }
   .question-list-item > a {
     display: -ms-flex;
     display: -moz-flex;

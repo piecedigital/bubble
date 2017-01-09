@@ -119,6 +119,7 @@ var QuestionListItem = _react2["default"].createClass({
   },
   checkIfOverlayNeeded: function checkIfOverlayNeeded() {},
   setupOverlay: function setupOverlay() {
+    if (this.props.pageOverride === "featured") return;
     var _state = this.state;
     var questionData = _state.questionData;
     var answerData = _state.answerData;
@@ -191,6 +192,7 @@ var QuestionListItem = _react2["default"].createClass({
     var questionID = _props5.questionID;
     var fireRef = _props5.fireRef;
     var params = _props5.params;
+    var pageOverride = _props5.pageOverride;
 
     // get question data
     fireRef.questionsRef.child(questionID).once("value").then(function (snap) {
@@ -205,11 +207,14 @@ var QuestionListItem = _react2["default"].createClass({
       _this3.setState({
         answerData: answerData
       }, function () {
-        if (params.questionID === questionID && !answerData) {
-          console.log("no answer data", questionID, _this3.state);
-          _reactRouter.browserHistory.push({
-            pathname: "/profile/" + (params.username || "")
-          });
+        if (!pageOverride) {
+          // do a possible page redirect if pageOverride is not present
+          if (params.questionID === questionID && !answerData) {
+            console.log("no answer data", questionID, _this3.state);
+            _reactRouter.browserHistory.push({
+              pathname: "/profile/" + (questionData.receiver || "")
+            });
+          }
         }
       });
     });
@@ -244,7 +249,9 @@ var QuestionListItem = _react2["default"].createClass({
     // rating removed
     fireRef.ratingsRef.child(questionID).off("child_removed", this.newRating);
     // question added
-    fireRef.usersRef.child(this.state.questionData.receiver + "/answersFromMe").off("child_added", this.newQuestion);
+    if (this.state.questionData) {
+      fireRef.usersRef.child(this.state.questionData.receiver + "/answersFromMe").off("child_added", this.newQuestion);
+    }
   },
   render: function render() {
     var _props7 = this.props;
@@ -252,7 +259,10 @@ var QuestionListItem = _react2["default"].createClass({
     var userData = _props7.userData;
     var fireRef = _props7.fireRef;
     var questionID = _props7.questionID;
-    var params = _props7.params;
+    var _props7$params = _props7.params;
+    var params = _props7$params === undefined ? {} : _props7$params;
+    var location = _props7.location;
+    var pageOverride = _props7.pageOverride;
     var popUpHandler = _props7.methods.popUpHandler;
     var _state2 = this.state;
     var questionData = _state2.questionData;
@@ -260,20 +270,23 @@ var QuestionListItem = _react2["default"].createClass({
     var calculatedRatings = _state2.calculatedRatings;
 
     if (!questionData) return null;
+    if (pageOverride && !answerData) return null;
+
+    var URL = pageOverride === "featured" ? "/" : null;
 
     return _react2["default"].createElement(
       "li",
-      { className: "question-list-item" },
+      { className: "question-list-item " + pageOverride },
       _react2["default"].createElement(
         _reactRouter.Link,
         { to: answerData ? {
-            pathname: "/profile/" + (params.username || userData.name) + "/q/" + questionID,
+            pathname: "/profile/" + (questionData.receiver || userData.name) + "/q/" + questionID,
             state: {
               modal: true,
-              returnTo: "/profile/" + (params.username || "")
+              returnTo: URL || "/profile/" + (questionData.receiver || "")
             }
           } : {
-            pathname: "/profile/" + (params.username || "")
+            pathname: URL || "/profile/" + (questionData.receiver || "")
           }, onClick: answerData ? popUpHandler.bind(null, "viewQuestion", {
             questionData: Object.assign(questionData, { questionID: questionID }),
             answerData: answerData,
@@ -321,7 +334,7 @@ var QuestionListItem = _react2["default"].createClass({
             )
           )
         ),
-        _react2["default"].createElement(
+        !pageOverride ? _react2["default"].createElement(
           "div",
           { className: "wrapper votes" },
           _react2["default"].createElement(
@@ -335,7 +348,7 @@ var QuestionListItem = _react2["default"].createClass({
               calculatedRatings: calculatedRatings,
               questionData: questionData })
           )
-        )
+        ) : _react2["default"].createElement("div", { className: "separator-4-dim" })
       )
     );
   }
@@ -395,21 +408,30 @@ exports["default"] = _react2["default"].createClass({
   getQuestions: function getQuestions() {
     var _this5 = this;
 
-    // console.log("tryna get questions", this.props);
+    console.log("tryna get questions", this.props);
     this.setState({
       loadingData: true
     }, function () {
       var _props8 = _this5.props;
       var fireRef = _props8.fireRef;
       var userData = _props8.userData;
-      var params = _props8.params;
+      var _props8$params = _props8.params;
+      var params = _props8$params === undefined ? {} : _props8$params;
 
       if (!userData) return;
-      fireRef.usersRef.child((params.username || userData.name) + "/" + (params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe")).startAt(_this5.state.lastID).limitToFirst(10).once("value").then(function (snap) {
+      console.log("search params", params.username, userData.name, _this5.state.lastID);
+      var refNode = fireRef.usersRef.child((params.username || userData.name) + "/" + (params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"));
+      if (_this5.state.lastID) {
+        refNode = refNode.orderByKey().endAt(_this5.state.lastID || 0).limitToLast(1 + 1);
+      } else {
+        refNode = refNode.orderByKey().limitToLast(1);
+      }
+      refNode.once("value").then(function (snap) {
         var questions = snap.val();
-        // console.log("questions", questions);
+        var newQuestions = JSON.parse(JSON.stringify(_this5.state.questions));
+        console.log("questions", questions);
         _this5.setState({
-          questions: questions,
+          questions: Object.assign(newQuestions, questions),
           lastID: questions ? Object.keys(questions).pop() : null,
           loadingData: false
         }, function () {
@@ -429,49 +451,90 @@ exports["default"] = _react2["default"].createClass({
     this.getQuestions();
   },
   xapplyFilter: function xapplyFilter() {},
+  newAnswer: function newAnswer(snap) {
+    var questionKey = snap.getKey();
+    var questionData = snap.val();
+    console.log("new question", questionKey, questionData);
+    var newQuestions = JSON.parse(JSON.stringify(this.state.questions || {}));
+
+    this.setState({
+      questions: Object.assign(newQuestions, _defineProperty({}, questionKey, questionData)),
+      lastID: questionKey,
+      loadingData: false
+    });
+  },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    var last = this.props.params.username,
-        curr = nextProps.params.username,
-        signedIn = this.props.userData.name;
-    if (last || curr) {
-      if (last !== signedIn && curr !== signedIn && last !== curr) {
-        this.setState({
-          questions: {},
-          lastID: null
-        }, this.getQuestions);
+    if (this.props.params) {
+      var last = this.props.params.username,
+          curr = nextProps.params.username,
+          signedIn = this.props.userData.name;
+      if (last || curr) {
+        if (last !== signedIn && curr !== signedIn && last !== curr) {
+          this.setState({
+            questions: {},
+            lastID: null
+          }, this.getQuestions);
+        }
       }
     }
   },
   componentDidMount: function componentDidMount(prevProps) {
     var _this6 = this;
 
+    console.log("mounted user quesions");
     var _props9 = this.props;
     var fireRef = _props9.fireRef;
     var userData = _props9.userData;
     var params = _props9.params;
+    var pageOverride = _props9.pageOverride;
 
     if (fireRef && userData) {
       this.getQuestions();
     }
 
     // set listener on questions or answers
-    fireRef.usersRef.child((params.username || userData.name) + "/" + (params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe")).on("child_added", function (snap) {
-      var questionKey = snap.getKey();
-      var questionData = snap.val();
-      console.log("new question", questionKey, questionData);
-      var newQuestions = JSON.parse(JSON.stringify(_this6.state.questions || {}));
+    if (pageOverride === "featured") {
+      fireRef.answersRef.orderByKey().limitToFirst(10).once("value").then(function (snap) {
+        var answers = snap.val();
 
-      _this6.setState({
-        questions: Object.assign(newQuestions, _defineProperty({}, questionKey, questionData)),
-        lastID: questionKey,
-        loadingData: false
-      }, function () {
-        // console.log(this.state);
+        var questions = {};
+
+        new Promise(function (resolve, reject) {
+          Object.keys(answers || {}).map(function (questionID, ind, arr) {
+            var answerData = answers[questionID];
+
+            fireRef.questionsRef.child(questionID).once("value").then(function (snap) {
+              var questionData = snap.val();
+              questions[questionID] = {
+                questionData: questionData,
+                answerData: answerData
+              };
+              if (ind === arr.length - 1) {
+                resolve();
+              }
+            });
+          });
+        }).then(function () {
+          _this6.setState({
+            questions: questions
+          });
+        });
       });
-    });
+    } else {
+      // fireRef.usersRef
+      // .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+      // .on("child_added", this.newAnswer);
+    }
   },
   componentWillUnmount: function componentWillUnmount() {
     console.log("unounting question");
+    var _props10 = this.props;
+    var fireRef = _props10.fireRef;
+    var userData = _props10.userData;
+    var _props10$params = _props10.params;
+    var params = _props10$params === undefined ? {} : _props10$params;
+
+    fireRef.usersRef.child((params.username || userData.name) + "/" + (params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe")).off("child_added", this.newAnswer);
   },
   render: function render() {
     var _state3 = this.state;
@@ -479,26 +542,27 @@ exports["default"] = _react2["default"].createClass({
     var lockedTop = _state3.lockedTop;
     var loadingData = _state3.loadingData;
     var questions = _state3.questions;
-    var _props10 = this.props;
-    var auth = _props10.auth;
-    var userData = _props10.userData;
-    var params = _props10.params;
-    var fireRef = _props10.fireRef;
-    var overlay = _props10.overlay;
-    var methods = _props10.methods;
+    var _props11 = this.props;
+    var auth = _props11.auth;
+    var userData = _props11.userData;
+    var params = _props11.params;
+    var fireRef = _props11.fireRef;
+    var overlay = _props11.overlay;
+    var methods = _props11.methods;
+    var pageOverride = _props11.pageOverride;
 
     // make an array of questions
     var list = questions ? Object.keys(questions).map(function (questionID) {
-      return _react2["default"].createElement(QuestionListItem, { key: questionID, userData: userData, questionID: questionID, location: location, params: params, fireRef: fireRef, myAuth: auth ? !!auth.access_token : false, overlay: overlay, methods: methods });
+      return _react2["default"].createElement(QuestionListItem, { key: questionID, userData: userData, questionID: questionID, location: location, params: params, fireRef: fireRef, myAuth: auth ? !!auth.access_token : false, overlay: overlay, pageOverride: pageOverride, methods: methods });
     }).reverse() : null;
     return _react2["default"].createElement(
       "div",
       { ref: "root", className: "user-questions tool-assisted" + (locked ? " locked" : "") },
-      _react2["default"].createElement(
+      !pageOverride ? _react2["default"].createElement(
         "div",
         { className: "title" },
         "Questions"
-      ),
+      ) : null,
       _react2["default"].createElement(
         "div",
         { className: "wrapper" },
@@ -508,7 +572,7 @@ exports["default"] = _react2["default"].createClass({
           list
         )
       ),
-      _react2["default"].createElement(_sideToolsJsx2["default"], {
+      !pageOverride ? _react2["default"].createElement(_sideToolsJsx2["default"], {
         refresh: this.refresh,
         refreshList: this.refreshList,
         gatherData: this.gatherData,
@@ -516,7 +580,7 @@ exports["default"] = _react2["default"].createClass({
         locked: locked,
         lockedTop: lockedTop,
         loadingData: loadingData
-      })
+      }) : null
     );
   }
 });
