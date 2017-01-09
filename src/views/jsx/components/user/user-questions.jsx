@@ -549,9 +549,9 @@ export default React.createClass({
         });
       });
     } else {
-      // fireRef.usersRef
-      // .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
-      // .on("child_added", this.newAnswer);
+      fireRef.usersRef
+      .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+      .on("child_added", this.newAnswer);
     }
   },
   componentWillUnmount() {
