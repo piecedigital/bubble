@@ -362,7 +362,8 @@ exports["default"] = _react2["default"].createClass({
       lastID: null,
       locked: true,
       lockedTop: true,
-      loadData: false
+      loadData: false,
+      queryLimit: 10
     };
   },
   scrollEvent: function scrollEvent(e) {
@@ -412,6 +413,7 @@ exports["default"] = _react2["default"].createClass({
     this.setState({
       loadingData: true
     }, function () {
+      var queryLimit = _this5.state.queryLimit;
       var _props8 = _this5.props;
       var fireRef = _props8.fireRef;
       var userData = _props8.userData;
@@ -422,9 +424,9 @@ exports["default"] = _react2["default"].createClass({
       console.log("search params", params.username, userData.name, _this5.state.lastID);
       var refNode = fireRef.usersRef.child((params.username || userData.name) + "/" + (params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"));
       if (_this5.state.lastID) {
-        refNode = refNode.orderByKey().endAt(_this5.state.lastID || 0).limitToLast(1 + 1);
+        refNode = refNode.orderByKey().endAt(_this5.state.lastID || 0).limitToLast(queryLimit + 1);
       } else {
-        refNode = refNode.orderByKey().limitToLast(1);
+        refNode = refNode.orderByKey().limitToLast(queryLimit);
       }
       refNode.once("value").then(function (snap) {
         var questions = snap.val();
