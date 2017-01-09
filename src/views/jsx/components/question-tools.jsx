@@ -45,9 +45,7 @@ export const AskQuestion = React.createClass({
       receiver: to,
       title: title.value,
       body: body.value,
-      date: {
-        "UTCTime": new Date().getTime()
-      },
+      date: new Date().getTime(),
       sentStatuses: {
         "email": false,
         "notification": false
@@ -61,21 +59,17 @@ export const AskQuestion = React.createClass({
     // console.log(questionID);
     fireRef.questionsRef
     .child(questionID)
-    .set(questionObject)
+    .setWithPriority(questionObject, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
     // write question ID reference to user.<username>.questionsForMe
     fireRef.usersRef
-    .child(`${to}/questionsForMe`)
-    .update({
-      [questionID]: true
-    })
+    .child(`${to}/questionsForMe/${questionID}`)
+    .setWithPriority(questionObject.date, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
     // write question ID reference to user.<username>.questionsForThem
     fireRef.usersRef
-    .child(`${from}/questionsForThem`)
-    .update({
-      [questionID]: true
-    })
+    .child(`${from}/questionsForThem/${questionID}`)
+    .setWithPriority(questionObject.date, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
 
     // close the pop up
@@ -251,9 +245,7 @@ export const AnswerQuestion = React.createClass({
       "username": userData.name,
       "body": body.value,
       "questionID": questionData.questionID,
-      "date": {
-        "UTCTime": new Date().getTime()
-      },
+      "date": new Date().getTime(),
       "sentStatuses": {
         "email": false,
         "notification": false
@@ -265,15 +257,14 @@ export const AnswerQuestion = React.createClass({
     // write answer to `answers` node
     fireRef.answersRef
     .child(questionData.questionID)
-    .set(answerObject)
+    .setWithPriority(answerObject, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
     // write answer reference to user account
     fireRef.usersRef
     .child(questionData.receiver)
     .child("answersFromMe")
-    .set({
-      [questionData.questionID]: true
-    })
+    .child(questionData.questionID)
+    .setWithPriority(answerObject.date, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
 
     // close the pop up
@@ -453,9 +444,7 @@ export const CommentTool = React.createClass({
       //----------------------------------------
       "body": body.value,
       "questionID": questionData.questionID,
-      "date": {
-        "UTCTime": new Date().getTime()
-      },
+      "date": new Date().getTime(),
       "sentStatuses": {
         "email": false,
         "notification": false
@@ -467,7 +456,7 @@ export const CommentTool = React.createClass({
     // write answer to `answers` node
     fireRef.commentsRef
     .push()
-    .set(commentObject)
+    .setWithPriority(commentObject, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
 
     // close the pop up

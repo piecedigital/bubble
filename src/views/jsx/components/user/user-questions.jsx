@@ -98,6 +98,7 @@ const QuestionListItem = React.createClass({
   },
   checkIfOverlayNeeded() {},
   setupOverlay() {
+    if(this.props.pageOverride === "featured") return;
     const {
       questionData,
       answerData,
@@ -181,7 +182,8 @@ const QuestionListItem = React.createClass({
     const {
       questionID,
       fireRef,
-      params
+      params,
+      pageOverride
     } = this.props
 
     // get question data
@@ -203,11 +205,15 @@ const QuestionListItem = React.createClass({
       this.setState({
         answerData
       }, () => {
-        if(params.questionID === questionID && !answerData) {
-          console.log("no answer data", questionID, this.state);
-          History.push({
-            pathname: `/profile/${params.username || ""}`
-          });
+        if(!pageOverride) {
+          // do a possible page redirect if pageOverride is not present
+          if(params.questionID === questionID && !answerData) {
+            console.log("no answer data", questionID, this.state);
+            History.push({
+              pathname: `/profile/${questionData.receiver || ""}`
+            });
+          }
+
         }
       });
     });
@@ -257,9 +263,11 @@ const QuestionListItem = React.createClass({
     .child(questionID)
     .off("child_removed", this.newRating);
     // question added
-    fireRef.usersRef
-    .child(`${this.state.questionData.receiver}/answersFromMe`)
-    .off("child_added", this.newQuestion);
+    if(this.state.questionData) {
+      fireRef.usersRef
+      .child(`${this.state.questionData.receiver}/answersFromMe`)
+      .off("child_added", this.newQuestion);
+    }
   },
   render() {
     const {
@@ -267,7 +275,9 @@ const QuestionListItem = React.createClass({
       userData,
       fireRef,
       questionID,
-      params,
+      params = {},
+      location,
+      pageOverride,
       methods: {
         popUpHandler
       }
@@ -279,21 +289,24 @@ const QuestionListItem = React.createClass({
     } = this.state;
 
     if(!questionData) return null;
+    if(pageOverride && !answerData) return null;
+
+    const URL = pageOverride === "featured" ? `/` : null;
 
     return (
-      <li className={`question-list-item`}>
+      <li className={`question-list-item ${pageOverride}`}>
         <Link to={
           answerData ? (
             {
-              pathname: `/profile/${params.username || userData.name}/q/${questionID}`,
+              pathname: `/profile/${questionData.receiver || userData.name}/q/${questionID}`,
               state: {
                 modal: true,
-                returnTo: `/profile/${params.username || ""}`,
+                returnTo: URL || `/profile/${questionData.receiver || ""}`,
               }
             }
           ) : (
             {
-              pathname: `/profile/${params.username || ""}`
+              pathname: URL || `/profile/${questionData.receiver || ""}`
             }
           )
         } onClick={answerData ? (
@@ -334,17 +347,21 @@ const QuestionListItem = React.createClass({
               </div>
             </div>
           </div>
-          <div className="wrapper votes">
-            <div className="info question">
-              <VoteTool
-              myAuth={myAuth}
-              userData={userData}
-              fireRef={fireRef}
-              place="question"
-              calculatedRatings={calculatedRatings}
-              questionData={questionData} />
-            </div>
-          </div>
+          {
+            !pageOverride ? (
+              <div className="wrapper votes">
+                <div className="info question">
+                  <VoteTool
+                  myAuth={myAuth}
+                  userData={userData}
+                  fireRef={fireRef}
+                  place="question"
+                  calculatedRatings={calculatedRatings}
+                  questionData={questionData} />
+                </div>
+              </div>
+            ) : <div className="separator-4-dim" />
+          }
         </Link>
       </li>
     );
@@ -399,26 +416,33 @@ export default React.createClass({
     }, 200);
   },
   getQuestions() {
-    // console.log("tryna get questions", this.props);
+    console.log("tryna get questions", this.props);
     this.setState({
       loadingData: true
     }, () => {
       const {
         fireRef,
         userData,
-        params,
+        params = {},
       } = this.props;
       if(!userData) return;
-      fireRef.usersRef
-      .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
-      .startAt(this.state.lastID)
-      .limitToFirst(10)
-      .once("value")
+      console.log("search params", params.username, userData.name, this.state.lastID);
+      let refNode = fireRef.usersRef
+      .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
+      if(this.state.lastID) {
+        refNode = refNode.orderByKey().endAt(this.state.lastID || 0)
+        .limitToLast(1+1);
+      } else {
+        refNode = refNode.orderByKey()
+        .limitToLast(1);
+      }
+      refNode.once("value")
       .then(snap => {
-        let questions = snap.val();
-        // console.log("questions", questions);
+        const questions = snap.val();
+        const newQuestions = JSON.parse(JSON.stringify(this.state.questions));
+        console.log("questions", questions);
         this.setState({
-          questions,
+          questions: Object.assign(newQuestions, questions),
           lastID: questions ? Object.keys(questions).pop() : null,
           loadingData: false
         }, () => {
@@ -438,28 +462,46 @@ export default React.createClass({
     this.getQuestions();
   },
   xapplyFilter() {},
+  newAnswer(snap) {
+    let questionKey = snap.getKey();
+    let questionData = snap.val();
+    console.log("new question", questionKey, questionData);
+    let newQuestions = JSON.parse(JSON.stringify(this.state.questions || {}));
+
+    this.setState({
+      questions: Object.assign(newQuestions, {
+        [questionKey]: questionData
+      }),
+      lastID: questionKey,
+      loadingData: false
+    });
+  },
   componentWillReceiveProps(nextProps) {
-    const last = this.props.params.username,
-    curr = nextProps.params.username,
-    signedIn = this.props.userData.name;
-    if(last || curr) {
-      if(
-        last !== signedIn &&
-        curr !== signedIn &&
-        last !== curr
-      ) {
-        this.setState({
-          questions: {},
-          lastID: null
-        }, this.getQuestions);
+    if(this.props.params) {
+      const last = this.props.params.username,
+      curr = nextProps.params.username,
+      signedIn = this.props.userData.name;
+      if(last || curr) {
+        if(
+          last !== signedIn &&
+          curr !== signedIn &&
+          last !== curr
+        ) {
+          this.setState({
+            questions: {},
+            lastID: null
+          }, this.getQuestions);
+        }
       }
     }
   },
   componentDidMount(prevProps) {
+    console.log("mounted user quesions");
     const {
       fireRef,
       userData,
-      params
+      params,
+      pageOverride
     } = this.props;
 
     if(
@@ -469,27 +511,57 @@ export default React.createClass({
     }
 
     // set listener on questions or answers
-    fireRef.usersRef
-    .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
-    .on("child_added", snap => {
-      let questionKey = snap.getKey();
-      let questionData = snap.val();
-      console.log("new question", questionKey, questionData);
-      let newQuestions = JSON.parse(JSON.stringify(this.state.questions || {}));
+    if(pageOverride === "featured") {
+      fireRef.answersRef
+      .orderByKey()
+      .limitToFirst(10)
+      .once("value")
+      .then(snap => {
+        const answers = snap.val();
 
-      this.setState({
-        questions: Object.assign(newQuestions, {
-          [questionKey]: questionData
-        }),
-        lastID: questionKey,
-        loadingData: false
-      }, () => {
-        // console.log(this.state);
+        let questions = {};
+
+        new Promise((resolve, reject) => {
+          Object.keys(answers || {}).map((questionID, ind, arr) => {
+            const answerData = answers[questionID];
+
+            fireRef.questionsRef
+            .child(questionID)
+            .once("value")
+            .then(snap => {
+              const questionData = snap.val();
+              questions[questionID] = {
+                questionData,
+                answerData
+              };
+              if(ind === (arr.length - 1)) {
+                resolve()
+              }
+            });
+          });
+        })
+        .then(() => {
+          this.setState({
+            questions
+          });
+        });
       });
-    });
+    } else {
+      // fireRef.usersRef
+      // .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+      // .on("child_added", this.newAnswer);
+    }
   },
   componentWillUnmount() {
     console.log("unounting question");
+    const {
+      fireRef,
+      userData,
+      params = {}
+    } = this.props;
+    fireRef.usersRef
+    .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+    .off("child_added", this.newAnswer);
   },
   render() {
     const {
@@ -504,31 +576,36 @@ export default React.createClass({
       params,
       fireRef,
       overlay,
-      methods
+      methods,
+      pageOverride
     } = this.props;
     // make an array of questions
     const list = questions ? Object.keys(questions).map(questionID => {
       return (
-        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} overlay={overlay} methods={methods} />
+        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} overlay={overlay} pageOverride={pageOverride} methods={methods} />
       );
     }).reverse() : null;
     return (
       <div ref="root" className={`user-questions tool-assisted${locked ? " locked" : ""}`}>
-        <div className={`title`}>Questions</div>
+        { !pageOverride ? (<div className={`title`}>Questions</div>) : null }
         <div className="wrapper">
           <div className="list">
             {list}
           </div>
         </div>
-        <SideTools
-        refresh={this.refresh}
-        refreshList={this.refreshList}
-        gatherData={this.gatherData}
-        applyFilter={this.applyFilter}
-        locked={locked}
-        lockedTop={lockedTop}
-        loadingData={loadingData}
-        />
+        {
+          !pageOverride ? (
+            <SideTools
+            refresh={this.refresh}
+            refreshList={this.refreshList}
+            gatherData={this.gatherData}
+            applyFilter={this.applyFilter}
+            locked={locked}
+            lockedTop={lockedTop}
+            loadingData={loadingData}
+            />
+          ) : null
+        }
       </div>
     );
   }

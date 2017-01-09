@@ -6,6 +6,12 @@
   &.home {
     width: 100%;
   }
+  &.featured {
+    width: percentage(1/1);
+    > a {
+      flex-direction: column;
+    }
+  }
   > a {
     @include displayFlex;
     height: 100%;
