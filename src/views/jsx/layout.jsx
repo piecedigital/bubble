@@ -99,10 +99,10 @@ export default React.createClass({
   search(query) {
     History.push(encodeURI(`/search/streams?q=${query}`));
   },
-  spliceStream(username) {
+  spliceStream(username, id) {
     console.log("removing stream", username);
     let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-    delete streamersInPlayer[username];
+    delete streamersInPlayer[id || username];
     console.log("New streamersInPlayer:", streamersInPlayer);
 
     let stateObj = {

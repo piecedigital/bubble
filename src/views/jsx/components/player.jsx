@@ -43,12 +43,13 @@ const PlayerStream = React.createClass({
   swapOut() {
     const {
       name,
+      vod,
       methods: {
         spliceStream,
         layoutTools
       }
     } = this.props;
-    spliceStream(name);
+    spliceStream(name, vod);
     setTimeout(() => {
       layoutTools("setStreamToView");
     }, 100);
