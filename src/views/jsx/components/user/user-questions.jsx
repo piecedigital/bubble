@@ -376,6 +376,7 @@ export default React.createClass({
     locked: true,
     lockedTop: true,
     loadData: false,
+    queryLimit: 10
   }),
   scrollEvent(e) {
     setTimeout(() => {
@@ -420,6 +421,7 @@ export default React.createClass({
     this.setState({
       loadingData: true
     }, () => {
+      const { queryLimit } = this.state;
       const {
         fireRef,
         userData,
@@ -431,10 +433,10 @@ export default React.createClass({
       .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
       if(this.state.lastID) {
         refNode = refNode.orderByKey().endAt(this.state.lastID || 0)
-        .limitToLast(1+1);
+        .limitToLast(queryLimit+1);
       } else {
         refNode = refNode.orderByKey()
-        .limitToLast(1);
+        .limitToLast(queryLimit);
       }
       refNode.once("value")
       .then(snap => {
