@@ -363,7 +363,7 @@ exports["default"] = _react2["default"].createClass({
       locked: true,
       lockedTop: true,
       loadData: false,
-      queryLimit: 10
+      queryLimit: 1
     };
   },
   scrollEvent: function scrollEvent(e) {
@@ -523,7 +523,9 @@ exports["default"] = _react2["default"].createClass({
         });
       });
     } else {
-      fireRef.usersRef.child((params.username || userData.name) + "/" + (params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe")).on("child_added", this.newAnswer);
+      // fireRef.usersRef
+      // .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+      // .on("child_added", this.newAnswer);
     }
   },
   componentWillUnmount: function componentWillUnmount() {
@@ -554,7 +556,7 @@ exports["default"] = _react2["default"].createClass({
     // make an array of questions
     var list = questions ? Object.keys(questions).map(function (questionID) {
       return _react2["default"].createElement(QuestionListItem, { key: questionID, userData: userData, questionID: questionID, location: location, params: params, fireRef: fireRef, myAuth: auth ? !!auth.access_token : false, overlay: overlay, pageOverride: pageOverride, methods: methods });
-    }).reverse() : null;
+    }) : null;
     return _react2["default"].createElement(
       "div",
       { ref: "root", className: "user-questions tool-assisted" + (locked ? " locked" : "") },

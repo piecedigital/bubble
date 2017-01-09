@@ -72,11 +72,12 @@ var PlayerStream = _react2["default"].createClass({
   swapOut: function swapOut() {
     var _props = this.props;
     var name = _props.name;
+    var vod = _props.vod;
     var _props$methods = _props.methods;
     var spliceStream = _props$methods.spliceStream;
     var layoutTools = _props$methods.layoutTools;
 
-    spliceStream(name);
+    spliceStream(name, vod);
     setTimeout(function () {
       layoutTools("setStreamToView");
     }, 100);

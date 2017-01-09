@@ -130,10 +130,10 @@ exports["default"] = _react2["default"].createClass({
   search: function search(query) {
     _reactRouter.browserHistory.push(encodeURI("/search/streams?q=" + query));
   },
-  spliceStream: function spliceStream(username) {
+  spliceStream: function spliceStream(username, id) {
     console.log("removing stream", username);
     var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-    delete streamersInPlayer[username];
+    delete streamersInPlayer[id || username];
     console.log("New streamersInPlayer:", streamersInPlayer);
 
     var stateObj = {
