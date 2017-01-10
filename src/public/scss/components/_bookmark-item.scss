@@ -6,15 +6,19 @@
     @include displayFlex(!important);
     justify-content: space-between;
     align-items: center;
+    a {
+      display: inline-block;
+      color: black;
+      margin-right: 1*$em;
+    }
     span {
       display: inline-block;
-      &.name {
-        margin-right: 1*$em;
-      }
-      &.unmark {
-        padding: .25*$em .5*$em;
-        background-color: rgba(black, .2);
-        cursor: pointer;
+      padding: .25*$em .5*$em;
+      background-color: rgba(orange, .8);
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(red, .8);
+        color: white;
       }
     }
   }

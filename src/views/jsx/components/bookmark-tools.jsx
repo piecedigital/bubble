@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase";
+import { Link } from 'react-router';
 
 const BookmarkItem = React.createClass({
   displayName: "BookmarkItem",
@@ -20,7 +21,7 @@ const BookmarkItem = React.createClass({
     return (
       <div className="bookmark-item">
         <label>
-          <span className="name">{username}</span><span className="unmark" onClick={this.unmark}>x</span>
+          <Link className="name" to={`/profile/${username}`}>{username}</Link><span className="unmark" onClick={this.unmark}>x</span>
         </label>
       </div>
     );
