@@ -1,7 +1,7 @@
 import React from "react";
 import loadData from "../../../modules/load-data";
 import { missingLogo } from "../../../modules/helper-tools";
-import UserQuestions from "./user/user-questions.jsx";
+import UserQuestions from "./user-questions.jsx";
 import { Link } from 'react-router';
 
 // list item for featured streams

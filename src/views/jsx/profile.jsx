@@ -1,7 +1,7 @@
 import React from "react";
 import { browserHistory as History } from 'react-router';
 import UserInfo from "./components/user/user-info.jsx";
-import UserQuestions from "./components/user/user-questions.jsx";
+import UserQuestions from "./components/user-questions.jsx";
 import FollowStreams from "./components/user/follow-streams.jsx";
 import VideosListing from "./components/user/videos-listing.jsx";
 

@@ -1,0 +1,21 @@
+.bookmark-item {
+  &:not(:last-child) {
+    margin-bottom: .5*$em;
+  }
+  label {
+    @include displayFlex(!important);
+    justify-content: space-between;
+    align-items: center;
+    span {
+      display: inline-block;
+      &.name {
+        margin-right: 1*$em;
+      }
+      &.unmark {
+        padding: .25*$em .5*$em;
+        background-color: rgba(black, .2);
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,11 +1,15 @@
 import React from "react";
 import FollowButton from "./follow-btn.jsx";
+import BookmarkButton from "./bookmark-btn.jsx";
 import { Link } from 'react-router';
 
 export const ListItemHoverOptions = React.createClass({
   displayName: "ListItemTools",
   render() {
     const {
+      fireRef,
+      versionData,
+
       auth,
       name,
       stream,
@@ -30,6 +34,11 @@ export const ListItemHoverOptions = React.createClass({
         <div className="send-message">
           <a className="btn-default btn-rect btn-no-pad color-black no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>
         </div>
+        <BookmarkButton
+        fireRef={fireRef}
+        userData={userData}
+        givenUsername={name}
+        versionData={versionData}/>
       </div>
     );
   }

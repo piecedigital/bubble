@@ -1,20 +1,23 @@
 import React from "react";
 import { browserHistory as History } from "react-router";
 import { AskQuestion, AnswerQuestion, ViewQuestion } from "./question-tools.jsx";
+import { ViewBookmarks } from "./bookmark-tools.jsx";
 
 export default React.createClass({
   displayName: "Overlay",
   render() {
-    console.log("overlay", this.props);
+    // console.log("overlay", this.props);
     const {
       auth,
       userData,
+      versionData,
       fireRef,
       overlay,
       askQuestion,
       answerQuestion,
       viewQuestion,
       methods,
+      params,
       methods: {
         popUpHandler
       }
@@ -34,6 +37,9 @@ export default React.createClass({
               case "viewQuestion":
                 Component = ViewQuestion
                 break;
+              case "viewBookmarks":
+                Component = ViewBookmarks
+                break;
               default:
                 Component = null
             }
@@ -45,6 +51,7 @@ export default React.createClass({
               viewQuestion={viewQuestion}
               fireRef={fireRef}
               auth={auth}
+              params={params}
               userData={userData}
               methods={methods}/>
             ) : null

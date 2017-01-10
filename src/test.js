@@ -1,4 +1,4 @@
-var firebase = require("firebase");
+var Firebase = require("firebase");
 var env = {
   PORT: 8080,
   NODE_ENV: "dev",
@@ -33,13 +33,4 @@ const ref = {
 };
 var fireRef = ref;
 
-fireRef.questionsRef
-.orderByKey()
-.limitToLast(2)
-.once("value")
-.then(snap => {
-  const answers = snap.val();
-
-  let questions = {};
-
-});
+console.log(firebase.database.ServerValue.TIMESTAMP)

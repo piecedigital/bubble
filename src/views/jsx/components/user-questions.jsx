@@ -1,6 +1,6 @@
 import React from "react";
-import SideTools from "./side-tools.jsx";
-import VoteTool from "../vote-tool.jsx";
+import SideTools from "./user/side-tools.jsx";
+import VoteTool from "./vote-tool.jsx";
 import { Link, browserHistory as History } from "react-router";
 
 const QuestionListItem = React.createClass({

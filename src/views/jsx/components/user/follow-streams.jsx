@@ -52,7 +52,7 @@ let components = {
     appendStream(name, display_name) {
       this.props.methods.appendStream(name, display_name);
     },
-    notify(multiplier) {
+    notify() {
       const {
         data,
         params
@@ -91,7 +91,7 @@ let components = {
         currentNotifs++;
         action();
       } else {
-        multiplier = Math.floor(currentNotifs / 3);
+        const multiplier = Math.floor(currentNotifs / 3);
         const time = (2000 * multiplier) + 700;
         console.log("Queuing notify:", name, "; ahead:", currentNotifs, "; time:", time, "; multiplier:", multiplier);
         currentNotifs++;
@@ -107,7 +107,7 @@ let components = {
       if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if(nextState.streamData && nextState.streamData.stream && this.props.follow === "IFollow") {
-          this.notify(this.props.notifyMultiplier);
+          this.notify();
         }
       }
     },
@@ -117,9 +117,11 @@ let components = {
       // console.log(this.props);
       const {
         auth,
+        fireRef,
         index,
         filter,
         userData,
+        versionData,
         data
       } = this.props;
       const {
@@ -135,7 +137,16 @@ let components = {
         }
       } = this.state;
 
-      let hoverOptions = <ListItemHoverOptions auth={auth} stream={stream} name={name} display_name={display_name} userData={userData} callback={this.followCallback} clickCallback={this.appendStream} />;
+      let hoverOptions = <ListItemHoverOptions
+      auth={auth}
+      fireRef={fireRef}
+      stream={stream}
+      name={name}
+      display_name={display_name}
+      userData={userData}
+      versionData={versionData}
+      callback={this.followCallback}
+      clickCallback={this.appendStream} />;
 
       if(!stream) {
         if(filter === "all" || filter === "offline") {
@@ -412,8 +423,10 @@ export default React.createClass({
     const {
       auth,
       data,
+      fireRef,
       userData,
       follow,
+      versionData,
       methods: {
         appendStream,
         loadData
@@ -423,13 +436,24 @@ export default React.createClass({
     if(component) {
       const ListItem = components[component];
       const list = dataArray.map((itemData, ind) => {
-        return <ListItem ref={r => {
-          dataArray[ind] ? dataArray[ind].ref = r : null
-        }} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`} data={itemData} userData={userData} index={ind} filter={filter} auth={auth} notifyMultiplier={Math.floor(ind / 3)} params={this.props.params} follow={follow} methods={{
-          appendStream,
-          notify: this.notify,
-          removeFromDataArray: this.removeFromDataArray
-        }} />
+        return (
+          <ListItem ref={r => {
+            dataArray[ind] ? dataArray[ind].ref = r : null
+          }} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`}
+          data={itemData}
+          fireRef={fireRef}
+          userData={userData}
+          versionData={versionData}
+          index={ind}
+          filter={filter}
+          auth={auth}
+          notifyMultiplier={Math.floor(ind / 3)}
+          params={this.props.params} follow={follow} methods={{
+            appendStream,
+            notify: this.notify,
+            removeFromDataArray: this.removeFromDataArray
+          }} />
+        )
       });
 
       return (

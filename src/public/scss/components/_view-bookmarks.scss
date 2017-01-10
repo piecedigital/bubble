@@ -1,0 +1,13 @@
+.view-bookmarks {
+  &.open {}
+  .close {}
+  .title {}
+  form {}
+  .section {
+    .label {}
+    .to {}
+    input, textarea {
+      &.valid {}
+    }
+  }
+}

@@ -40,7 +40,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
         <notificationID>: {
           "notifType": String ("askedNewQuestion" || "newCommentToQuestion" || "newCommentToAnswer" || "taggedInAnswer" || "taggedInComment"),
           "nodeDataID": String, // ID of question, answer, or comment, depending on the `notifType`
-          "date": [date Object],
+          "date": [date Number],
           "sent": [sentStatuses Object],
           "version": [version Object],
         }
@@ -49,14 +49,14 @@ In addition to necessary data related to the Q&A aggregation this database will 
         "users": {
           <username>: {
             "username": <username>,
-            "date": [date Object],
+            "date": [date Number],
             "version": [version Object]
           }
         },
         "questions": {
           <questionID>: {
             "ID": <questionID>,
-            "date": [date Object],
+            "date": [date Number],
             "version": [version Object]
           }
         }
@@ -91,7 +91,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "title": String or Number // If number it'll be 0. Firebase does not accept null as a value,
       "body": String, // minimum 30 characters
       "AMA": String (<AMAID>) || null,
-      "date": [date Object],
+      "date": [date Number],
       "sentStatuses": [sentStatuses Object],
       "version": [version Object]
     }
@@ -102,7 +102,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "username": <username>,
       "questionID": <questionID>
       "body": String, // minimum 30 characters
-      "date": [date Object],
+      "date": [date Number],
       "sentStatuses": [sentStatuses Object],
       "version": [version Object]
     }
@@ -126,7 +126,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "body": String,
       "reply": true || false,
       "commentID": <commentID? || null,
-      "date": [date Object],
+      "date": [date Number],
       "sentStatuses": [sentStatuses Object],
       "version": [version Object]
     }
@@ -138,7 +138,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "associatedQuestions": {
         <questionID>: true
       },
-      "date": [date Object],
+      "date": [date Number],
       "version": [version Object]
     }
   },
@@ -157,7 +157,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
           "vote": String (vote_<Number>)
         }
       },
-      "date": [date Object],
+      "date": [date Number],
       "version": [version Object]
     }
   }
@@ -165,12 +165,10 @@ In addition to necessary data related to the Q&A aggregation this database will 
 ```
 
 ### Reusable data objects
-#### `date` Object
+#### `date` Number
 
 ```js
-{
-  "UTCTime": Number
-}
+Number (UTCTime)
 ```
 
 #### `version` Object

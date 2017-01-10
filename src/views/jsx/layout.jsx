@@ -2,6 +2,7 @@ import React from "react";
 import Player from "./components/player.jsx";
 import Overlay from "./components/overlay.jsx";
 import loadData from "../../modules/load-data";
+import { ajax } from "../../modules/ajax";
 import Nav from "./components/nav.jsx";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
@@ -39,7 +40,8 @@ export default React.createClass({
         questionData: null,
         answerData: null,
       },
-      fireRef: null
+      fireRef: null,
+      versionData: null
     }, this.props.initState || {});
   },
   initFirebase(data) {
@@ -237,6 +239,21 @@ export default React.createClass({
     .catch(e => console.error(e.stack || e));
 
     window.location.hash = "";
+
+    ajax({
+      url: "/get-version",
+      success: (data) => {
+        this.setState({
+          versionData: JSON.parse(data)
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        this.setState({
+          error: true
+        });
+      }
+    })
   },
   alertAuthNeeded() {
     console.log("Auth needed");
@@ -302,6 +319,13 @@ export default React.createClass({
           // console.log("new state:", newState);
           this.setState(newState);
         break;
+      case "viewBookmarks":
+          newState = {
+            overlay: action
+          };
+          // console.log("new state:", newState);
+          this.setState(newState);
+        break;
       case "close":
         this.setState({
           overlay: ""
@@ -333,7 +357,8 @@ export default React.createClass({
       askQuestion,
       answerQuestion,
       viewQuestion,
-      fireRef
+      fireRef,
+      versionData,
     } = this.state;
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
@@ -347,7 +372,8 @@ export default React.createClass({
         <Nav authData={authData} userData={userData} url={url} methods={{
           search: this.search,
           appendStream: this.appendStream,
-          logout: this.logout
+          logout: this.logout,
+          popUpHandler: this.popUpHandler,
         }} />
         {
           <Player data={{
@@ -361,6 +387,7 @@ export default React.createClass({
           }}
           layout={layout}
           fireRef={fireRef}
+          versionData={versionData}
           methods={{
             spliceStream: this.spliceStream,
             clearPlayer: this.clearPlayer,
@@ -384,6 +411,7 @@ export default React.createClass({
               userData,
               ...this.props,
               fireRef,
+              versionData,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,
@@ -402,6 +430,7 @@ export default React.createClass({
               userData,
               ...this.props,
               fireRef,
+              versionData,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,
@@ -422,6 +451,8 @@ export default React.createClass({
         answerQuestion={answerQuestion}
         viewQuestion={viewQuestion}
         fireRef={fireRef}
+        versionData={versionData}
+        params={this.props.params}
         methods={{
           popUpHandler: this.popUpHandler
         }} />

@@ -110,7 +110,8 @@ export default React.createClass({
       methods: {
         logout,
         appendStream,
-        search
+        search,
+        popUpHandler
       }
     } = this.props;
     return (
@@ -138,7 +139,15 @@ export default React.createClass({
           {
             authData && authData.access_token ? (
               <span className="auth">
-                { userData ? <Link className="nav-item" to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link> : null }
+                { userData ? (
+                  [
+                    <Link key="profile" className="nav-item" to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link>,
+                    <a key="bookmarks" className="nav-item" href={`#`} onClick={() => {
+                      this.toggleNav("close");
+                      popUpHandler("viewBookmarks");
+                    }}>Bookmarks</a>,
+                  ]
+                ) : null }
                 <a className="nav-item" href="#" onClick={() => {
                   logout();
                   this.toggleNav("close");

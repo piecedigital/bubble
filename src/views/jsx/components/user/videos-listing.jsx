@@ -25,6 +25,8 @@ let components = {
       // console.log(this.props);
       const {
         auth,
+        fireRef,
+        versionData,
         index,
         userData,
         methods: {
@@ -44,7 +46,15 @@ let components = {
           }
         }
       } = this.props;
-      let hoverOptions = <ListItemHoverOptions auth={auth} vod={id} name={name} display_name={display_name} clickCallback={appendVOD} />;
+      let hoverOptions = <ListItemHoverOptions
+      auth={auth}
+      fireRef={fireRef}
+      userData={userData}
+      versionData={versionData}
+      vod={id}
+      name={name}
+      display_name={display_name}
+      clickCallback={appendVOD} />;
 
       return (
         <li className="video-list-item">
@@ -238,9 +248,11 @@ export default React.createClass({
     } = this.state;
     const {
       auth,
+      fireRef,
       data,
       params,
       userData,
+      versionData,
       methods: {
         appendVOD,
         loadData
@@ -251,10 +263,22 @@ export default React.createClass({
       const ListItem = components[component];
       const list = dataArray.map((itemData, ind) => {
         // return null;
-        return <ListItem ref={r => dataArray[ind].ref = r} key={ind} data={itemData} userData={userData} index={ind} auth={auth} notifyMultiplier={Math.floor(ind / 3)} methods={{
-          appendVOD,
-          notify: this.notify
-        }} />
+        return (
+            <ListItem
+            ref={r => dataArray[ind].ref = r}
+            key={ind}
+            data={itemData}
+            fireRef={fireRef}
+            userData={userData}
+            versionData={versionData}
+            index={ind}
+            auth={auth}
+            notifyMultiplier={Math.floor(ind / 3)}
+            methods={{
+            appendVOD,
+            notify: this.notify
+          }} />
+        )
       });
 
       return (

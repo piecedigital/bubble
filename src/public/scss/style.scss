@@ -18,20 +18,20 @@ dimmer: $dimmer, // 7
 light: $light // 8
 );
 
-@mixin displayInlineFlex {
-  display: -ms-inline-flex;
-  display: -moz-inline-flex;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: inline-flex;
+@mixin displayInlineFlex($mod:"") {
+  display: -ms-inline-flex unquote($mod);
+  display: -moz-inline-flex unquote($mod);
+  display: -webkit-inline-box unquote($mod);
+  display: -webkit-inline-flex unquote($mod);
+  display: inline-flex unquote($mod);
 }
 
-@mixin displayFlex {
-  display: -ms-flex;
-  display: -moz-flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
+@mixin displayFlex($mod:"") {
+  display: -ms-flex unquote($mod);
+  display: -moz-flex unquote($mod);
+  display: -webkit-box unquote($mod);
+  display: -webkit-flex unquote($mod);
+  display: flex unquote($mod);
 }
 @mixin userSelect {
   -webkit-user-select: none;
@@ -91,12 +91,15 @@ body {
 @import "components/_video-list-item.scss";
 @import "components/_channel-list-item.scss";
 @import "components/_game-list-item.scss";
+@import "components/_hover-options.scss";
 @import "components/_stream-panels.scss";
 @import "components/_overlay.scss";
 @import "components/_overlay-ui-default.scss";
 @import "components/_ask-question.scss";
 @import "components/_answer-question.scss";
 @import "components/_view-question.scss";
+@import "components/_view-bookmarks.scss";
+@import "components/_bookmark-item.scss";
 @import "components/_question-list-item.scss";
 @import "components/_vote-tool.scss";
 
