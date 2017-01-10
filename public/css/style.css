@@ -1079,7 +1079,8 @@ nav {
   padding: 0 3.2px;
   background-color: rgba(0, 0, 0, 0.4);
   text-align: center;
-  overflow: auto; }
+  overflow-y: auto;
+  overflow-x: auto; }
   .hover-options > * {
     display: inline-block;
     margin: 8px 0;
@@ -1089,7 +1090,8 @@ nav {
     color: black;
     cursor: pointer; }
     .hover-options > * a {
-      text-decoration: none; }
+      text-decoration: none;
+      word-wrap: break-word; }
 
 .stream-panels {
   position: absolute;
