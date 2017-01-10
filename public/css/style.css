@@ -1080,7 +1080,7 @@ nav {
   background-color: rgba(0, 0, 0, 0.4);
   text-align: center;
   overflow-y: auto;
-  overflow-x: auto; }
+  overflow-x: hidden; }
   .hover-options > * {
     display: inline-block;
     margin: 8px 0;
