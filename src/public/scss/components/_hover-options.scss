@@ -13,7 +13,8 @@
   padding: 0 .2*$em;
   background-color: rgba(black, .4);
   text-align: center;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: auto;
   > * {
     display: inline-block;
     margin: .5*$em 0;
@@ -24,6 +25,7 @@
     cursor: pointer;
     a {
       text-decoration: none;
+      word-wrap: break-word;
     }
   }
   .follow {}
