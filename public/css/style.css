@@ -32,11 +32,11 @@ nav {
   pointer-events: none; }
   nav > div {
     position: relative;
-    display: -ms-inline-flex;
-    display: -moz-inline-flex;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: inline-flex;
+    display: -ms-inline-flex ;
+    display: -moz-inline-flex ;
+    display: -webkit-inline-box ;
+    display: -webkit-inline-flex ;
+    display: inline-flex ;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
@@ -163,11 +163,11 @@ nav {
   background-color: #00aadc;
   overflow: hidden; }
   .player > .wrapper {
-    display: -ms-flex;
-    display: -moz-flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: -webkit-flex ;
+    display: flex ;
     position: relative;
     width: 100%;
     height: 100%;
@@ -183,11 +183,11 @@ nav {
         width: 384px;
         min-width: 384px; }
     .player > .wrapper > .tools {
-      display: -ms-flex;
-      display: -moz-flex;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: -webkit-flex ;
+      display: flex ;
       position: absolute;
       bottom: 100%;
       left: 0; }
@@ -204,11 +204,11 @@ nav {
           background-color: #96e6ff; }
 
 .player-stream {
-  display: -ms-flex;
-  display: -moz-flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
   position: relative;
   height: 100%; }
   .player-stream .video, .player-stream .chat {
@@ -232,11 +232,11 @@ nav {
     height: 100%;
     overflow: hidden; }
   .player-stream .tools {
-    display: -ms-flex;
-    display: -moz-flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: -webkit-flex ;
+    display: flex ;
     position: absolute;
     top: 0;
     left: 0; }
@@ -328,11 +328,11 @@ nav {
         top: -6px;
         transform: rotateZ(-45deg); }
     .player-stream .tools .mobile {
-      display: -ms-flex;
-      display: -moz-flex;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: -webkit-flex ;
+      display: flex ;
       flex-direction: row;
       position: absolute;
       bottom: 100%;
@@ -360,11 +360,11 @@ nav {
           height: 100%;
           background-image: singular-gradient(90deg, transparent, #00c8fa); }
       .player-stream .tools .mobile div.lines {
-        display: -ms-flex;
-        display: -moz-flex;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
+        display: -ms-flex ;
+        display: -moz-flex ;
+        display: -webkit-box ;
+        display: -webkit-flex ;
+        display: flex ;
         flex-direction: column;
         justify-content: space-around;
         width: 32px;
@@ -405,42 +405,42 @@ nav {
 .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream {
   height: 50%; }
   .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) {
-    display: -ms-inline-flex;
-    display: -moz-inline-flex;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: inline-flex;
+    display: -ms-inline-flex ;
+    display: -moz-inline-flex ;
+    display: -webkit-inline-box ;
+    display: -webkit-inline-flex ;
+    display: inline-flex ;
     width: 50%; }
 .root.player-open.layout-4 .player > .wrapper .list.video-list {
-  display: -ms-flex;
-  display: -moz-flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
   flex-wrap: wrap;
   overflow-y: hidden; }
   .root.player-open.layout-4 .player > .wrapper .list.video-list .player-stream {
-    display: -ms-inline-flex;
-    display: -moz-inline-flex;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: inline-flex;
+    display: -ms-inline-flex ;
+    display: -moz-inline-flex ;
+    display: -webkit-inline-box ;
+    display: -webkit-inline-flex ;
+    display: inline-flex ;
     width: 50%;
     height: 50%; }
 .root.player-open.layout-5 .player > .wrapper .list.video-list {
-  display: -ms-flex;
-  display: -moz-flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
   flex-wrap: wrap;
   overflow-y: hidden; }
   .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream {
-    display: -ms-inline-flex;
-    display: -moz-inline-flex;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: inline-flex;
+    display: -ms-inline-flex ;
+    display: -moz-inline-flex ;
+    display: -webkit-inline-box ;
+    display: -webkit-inline-flex ;
+    display: inline-flex ;
     width: 50%;
     height: 33.3333333%; }
     .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream:first-child {
@@ -448,19 +448,19 @@ nav {
 .root.player-open.layout-5 .player > .wrapper .list.chat-list {
   overflow-y: hidden; }
 .root.player-open.layout-6 .player > .wrapper .list.video-list {
-  display: -ms-flex;
-  display: -moz-flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
   flex-wrap: wrap;
   overflow-y: hidden; }
   .root.player-open.layout-6 .player > .wrapper .list.video-list .player-stream {
-    display: -ms-inline-flex;
-    display: -moz-inline-flex;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: inline-flex;
+    display: -ms-inline-flex ;
+    display: -moz-inline-flex ;
+    display: -webkit-inline-box ;
+    display: -webkit-inline-flex ;
+    display: inline-flex ;
     width: 50%;
     height: 33.3333333%; }
 .root.player-open.layout-6 .player > .wrapper .list.chat-list {
@@ -533,11 +533,11 @@ nav {
     transition: 0s all;
     background-color: #1e1e1e; }
     .top-level-component.profile .followed-streams.profile > .wrapper .list, .top-level-component.profile .following-streams.profile > .wrapper .list, .top-level-component.profile .general-page > .wrapper .list, .top-level-component.profile .videos-listing.profile > .wrapper .list, .top-level-component.profile .user-info > .wrapper .list, .top-level-component.profile .user-questions > .wrapper .list, .top-level-component.streams .followed-streams.profile > .wrapper .list, .top-level-component.streams .following-streams.profile > .wrapper .list, .top-level-component.streams .general-page > .wrapper .list, .top-level-component.streams .videos-listing.profile > .wrapper .list, .top-level-component.streams .user-info > .wrapper .list, .top-level-component.streams .user-questions > .wrapper .list, .top-level-component.games .followed-streams.profile > .wrapper .list, .top-level-component.games .following-streams.profile > .wrapper .list, .top-level-component.games .general-page > .wrapper .list, .top-level-component.games .videos-listing.profile > .wrapper .list, .top-level-component.games .user-info > .wrapper .list, .top-level-component.games .user-questions > .wrapper .list, .top-level-component.search-page .followed-streams.profile > .wrapper .list, .top-level-component.search-page .following-streams.profile > .wrapper .list, .top-level-component.search-page .general-page > .wrapper .list, .top-level-component.search-page .videos-listing.profile > .wrapper .list, .top-level-component.search-page .user-info > .wrapper .list, .top-level-component.search-page .user-questions > .wrapper .list {
-      display: -ms-flex;
-      display: -moz-flex;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: -webkit-flex ;
+      display: flex ;
       flex-direction: row;
       flex-wrap: wrap;
       max-width: 960px;
@@ -564,11 +564,11 @@ nav {
       margin-top: 0;
       transform: translate(0, -100%); }
     .top-level-component.profile .followed-streams.profile .tools .parent .scroll, .top-level-component.profile .following-streams.profile .tools .parent .scroll, .top-level-component.profile .general-page .tools .parent .scroll, .top-level-component.profile .videos-listing.profile .tools .parent .scroll, .top-level-component.profile .user-info .tools .parent .scroll, .top-level-component.profile .user-questions .tools .parent .scroll, .top-level-component.streams .followed-streams.profile .tools .parent .scroll, .top-level-component.streams .following-streams.profile .tools .parent .scroll, .top-level-component.streams .general-page .tools .parent .scroll, .top-level-component.streams .videos-listing.profile .tools .parent .scroll, .top-level-component.streams .user-info .tools .parent .scroll, .top-level-component.streams .user-questions .tools .parent .scroll, .top-level-component.games .followed-streams.profile .tools .parent .scroll, .top-level-component.games .following-streams.profile .tools .parent .scroll, .top-level-component.games .general-page .tools .parent .scroll, .top-level-component.games .videos-listing.profile .tools .parent .scroll, .top-level-component.games .user-info .tools .parent .scroll, .top-level-component.games .user-questions .tools .parent .scroll, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll, .top-level-component.search-page .following-streams.profile .tools .parent .scroll, .top-level-component.search-page .general-page .tools .parent .scroll, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll, .top-level-component.search-page .user-info .tools .parent .scroll, .top-level-component.search-page .user-questions .tools .parent .scroll {
-      display: -ms-flex;
-      display: -moz-flex;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: -webkit-flex ;
+      display: flex ;
       flex-direction: column; }
       .top-level-component.profile .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.profile .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.profile .general-page .tools .parent .scroll .btn-default, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.profile .user-info .tools .parent .scroll .btn-default, .top-level-component.profile .user-questions .tools .parent .scroll .btn-default, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.streams .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.streams .general-page .tools .parent .scroll .btn-default, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.streams .user-info .tools .parent .scroll .btn-default, .top-level-component.streams .user-questions .tools .parent .scroll .btn-default, .top-level-component.games .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.games .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.games .general-page .tools .parent .scroll .btn-default, .top-level-component.games .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.games .user-info .tools .parent .scroll .btn-default, .top-level-component.games .user-questions .tools .parent .scroll .btn-default, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .general-page .tools .parent .scroll .btn-default, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .user-info .tools .parent .scroll .btn-default, .top-level-component.search-page .user-questions .tools .parent .scroll .btn-default {
         text-align: center; }
@@ -578,11 +578,11 @@ nav {
         .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.profile .general-page .tools .parent .scroll .option.filters, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option.filters, .top-level-component.profile .user-info .tools .parent .scroll .option.filters, .top-level-component.profile .user-questions .tools .parent .scroll .option.filters, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.streams .general-page .tools .parent .scroll .option.filters, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option.filters, .top-level-component.streams .user-info .tools .parent .scroll .option.filters, .top-level-component.streams .user-questions .tools .parent .scroll .option.filters, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.games .general-page .tools .parent .scroll .option.filters, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option.filters, .top-level-component.games .user-info .tools .parent .scroll .option.filters, .top-level-component.games .user-questions .tools .parent .scroll .option.filters, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option.filters, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option.filters, .top-level-component.search-page .general-page .tools .parent .scroll .option.filters, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option.filters, .top-level-component.search-page .user-info .tools .parent .scroll .option.filters, .top-level-component.search-page .user-questions .tools .parent .scroll .option.filters {
           cursor: default; }
           .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .user-info .tools .parent .scroll .option.filters .filter-status, .top-level-component.profile .user-questions .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .user-info .tools .parent .scroll .option.filters .filter-status, .top-level-component.streams .user-questions .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .user-info .tools .parent .scroll .option.filters .filter-status, .top-level-component.games .user-questions .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .general-page .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .user-info .tools .parent .scroll .option.filters .filter-status, .top-level-component.search-page .user-questions .tools .parent .scroll .option.filters .filter-status {
-            display: -ms-flex;
-            display: -moz-flex;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
+            display: -ms-flex ;
+            display: -moz-flex ;
+            display: -webkit-box ;
+            display: -webkit-flex ;
+            display: flex ;
             padding-top: 1.6px; }
             .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .user-questions .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .user-questions .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .user-questions .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .user-questions .tools .parent .scroll .option.filters .filter-status label {
               display: none;
@@ -609,19 +609,19 @@ nav {
     .root .top-level-component.profile .followed-streams.profile > .wrapper .list, .root .top-level-component.profile .following-streams.profile > .wrapper .list, .root .top-level-component.profile .general-page > .wrapper .list, .root .top-level-component.profile .videos-listing.profile > .wrapper .list, .root .top-level-component.profile .tool-assisted > .wrapper .list, .root .top-level-component.streams .followed-streams.profile > .wrapper .list, .root .top-level-component.streams .following-streams.profile > .wrapper .list, .root .top-level-component.streams .general-page > .wrapper .list, .root .top-level-component.streams .videos-listing.profile > .wrapper .list, .root .top-level-component.streams .tool-assisted > .wrapper .list, .root .top-level-component.games .followed-streams.profile > .wrapper .list, .root .top-level-component.games .following-streams.profile > .wrapper .list, .root .top-level-component.games .general-page > .wrapper .list, .root .top-level-component.games .videos-listing.profile > .wrapper .list, .root .top-level-component.games .tool-assisted > .wrapper .list, .root .top-level-component.search-page .followed-streams.profile > .wrapper .list, .root .top-level-component.search-page .following-streams.profile > .wrapper .list, .root .top-level-component.search-page .general-page > .wrapper .list, .root .top-level-component.search-page .videos-listing.profile > .wrapper .list, .root .top-level-component.search-page .tool-assisted > .wrapper .list {
       margin: 0; } }
 .featured-streams {
-  display: -ms-flex;
-  display: -moz-flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
   height: 672px;
   margin-bottom: 16px; }
   .featured-streams .featured-stream {
-    display: -ms-inline-flex;
-    display: -moz-inline-flex;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: inline-flex;
+    display: -ms-inline-flex ;
+    display: -moz-inline-flex ;
+    display: -webkit-inline-box ;
+    display: -webkit-inline-flex ;
+    display: inline-flex ;
     flex-direction: column;
     width: 100%; }
     .featured-streams .featured-stream .stream {
@@ -631,11 +631,11 @@ nav {
         width: 100%;
         height: 100%; }
     .featured-streams .featured-stream .stream-info {
-      display: -ms-flex;
-      display: -moz-flex;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: -webkit-flex ;
+      display: flex ;
       width: 100%;
       height: 160px;
       padding: 8px;
@@ -688,11 +688,11 @@ nav {
   padding: 4px 0;
   background-color: #1e1e1e; }
   .top-games > .wrapper .list {
-    display: -ms-flex;
-    display: -moz-flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: -webkit-flex ;
+    display: flex ;
     flex-direction: row;
     flex-wrap: wrap;
     max-width: 960px;
@@ -712,11 +712,11 @@ nav {
       display: block;
       width: 100%; }
     .user-info .channel .banner .hover {
-      display: -ms-flex;
-      display: -moz-flex;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: -webkit-flex ;
+      display: flex ;
       flex-direction: column;
       position: absolute;
       top: 100%;
@@ -752,11 +752,11 @@ nav {
           width: 100%; }
       .user-info .channel .banner .hover .info {
         z-index: 1;
-        display: -ms-flex;
-        display: -moz-flex;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
+        display: -ms-flex ;
+        display: -moz-flex ;
+        display: -webkit-box ;
+        display: -webkit-flex ;
+        display: flex ;
         flex-direction: column;
         justify-content: center;
         padding-top: 8px;
@@ -814,11 +814,11 @@ nav {
     .stream-list-item .info .game {
       margin-top: 3.2px; }
   .stream-list-item .hover-options {
-    display: -ms-flex;
-    display: -moz-flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: -webkit-flex ;
+    display: flex ;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -910,11 +910,11 @@ nav {
       margin-top: 16px;
       font-size: 12.8px; }
   .video-list-item .hover-options {
-    display: -ms-flex;
-    display: -moz-flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: -webkit-flex ;
+    display: flex ;
     flex-direction: column;
     align-items: center;
     align-items: center;
@@ -969,6 +969,7 @@ nav {
   list-style: none; }
   .channel-list-item > .wrapper {
     display: block;
+    position: relative;
     height: 100%;
     padding: 8px;
     background-color: #ebebeb;
@@ -977,7 +978,7 @@ nav {
     .channel-list-item > .wrapper:hover {
       background-color: #96e6ff; }
       .channel-list-item > .wrapper:hover .hover-options {
-        height: 208px;
+        height: 100%;
         max-height: 208px;
         padding: 8px; }
   .channel-list-item .image {
@@ -1017,36 +1018,6 @@ nav {
       place: holder; }
     .channel-list-item .info .game {
       margin-top: 3.2px; }
-  .channel-list-item .hover-options {
-    display: -ms-flex;
-    display: -moz-flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-items: center;
-    justify-content: space-around;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    transform: translate(0, -50%);
-    max-height: 0px;
-    padding: 0 8px;
-    background-color: rgba(0, 0, 0, 0.4);
-    text-align: center;
-    overflow: hidden; }
-    .channel-list-item .hover-options > * {
-      display: inline-block;
-      margin: 8px 0;
-      padding: 3.2px;
-      border-radius: 3.2px;
-      background-color: #00c8fa;
-      color: black;
-      cursor: pointer; }
-      .channel-list-item .hover-options > * a {
-        text-decoration: none; }
 
 @media (max-width: 1024px) {
   .channel-list-item {
@@ -1090,6 +1061,36 @@ nav {
     .game-list-item .info .viewer-count {
       place: holder; }
 
+.hover-options {
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translate(0, -50%);
+  max-height: 0px;
+  padding: 0 3.2px;
+  background-color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  overflow: auto; }
+  .hover-options > * {
+    display: inline-block;
+    margin: 8px 0;
+    padding: 3.2px;
+    border-radius: 3.2px;
+    background-color: #00c8fa;
+    color: black;
+    cursor: pointer; }
+    .hover-options > * a {
+      text-decoration: none; }
+
 .stream-panels {
   position: absolute;
   top: 1.6px;
@@ -1115,11 +1116,11 @@ nav {
       top: 16px;
       left: 16px; }
     .stream-panels > .wrapper .list {
-      display: -ms-flex;
-      display: -moz-flex;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: -webkit-flex ;
+      display: flex ;
       flex-wrap: wrap;
       height: initial; }
       .stream-panels > .wrapper .list .panel {
@@ -1168,11 +1169,11 @@ nav {
     width: 100%; }
 
 .overlay-ui-default {
-  display: -ms-flex;
-  display: -moz-flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
   flex-direction: column;
   position: absolute;
   top: 0;
@@ -1205,11 +1206,11 @@ nav {
   .overlay-ui-default .scroll {
     overflow: auto; }
   .overlay-ui-default .section {
-    display: -ms-flex;
-    display: -moz-flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: -webkit-flex ;
+    display: flex ;
     padding: 8px; }
     .overlay-ui-default .section label {
       display: inline-block;
@@ -1223,11 +1224,11 @@ nav {
         width: 4em;
         height: 6em; }
       .overlay-ui-default .section label.comment {
-        display: -ms-inline-flex;
-        display: -moz-inline-flex;
-        display: -webkit-inline-box;
-        display: -webkit-inline-flex;
-        display: inline-flex;
+        display: -ms-inline-flex ;
+        display: -moz-inline-flex ;
+        display: -webkit-inline-box ;
+        display: -webkit-inline-flex ;
+        display: inline-flex ;
         flex-direction: column;
         justify-content: space-between; }
       .overlay-ui-default .section label .tools {
@@ -1267,6 +1268,29 @@ nav {
 .view-question .section .label.body {
   margin-top: 8px; }
 
+.bookmark-item:not(:last-child) {
+  margin-bottom: 8px; }
+.bookmark-item label {
+  display: -ms-flex !important;
+  display: -moz-flex !important;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center; }
+  .bookmark-item label a {
+    display: inline-block;
+    color: black;
+    margin-right: 16px; }
+  .bookmark-item label span {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(255, 165, 0, 0.8);
+    cursor: pointer; }
+    .bookmark-item label span:hover {
+      background-color: rgba(255, 0, 0, 0.8);
+      color: white; }
+
 .question-list-item {
   position: relative;
   width: 50%;
@@ -1279,11 +1303,11 @@ nav {
     .question-list-item.featured > a {
       flex-direction: column; }
   .question-list-item > a {
-    display: -ms-flex;
-    display: -moz-flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: -webkit-flex ;
+    display: flex ;
     height: 100%;
     color: inherit;
     text-decoration: none; }

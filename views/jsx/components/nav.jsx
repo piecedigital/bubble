@@ -130,6 +130,7 @@ exports["default"] = _react2["default"].createClass({
     var logout = _props3$methods.logout;
     var appendStream = _props3$methods.appendStream;
     var search = _props3$methods.search;
+    var popUpHandler = _props3$methods.popUpHandler;
 
     return _react2["default"].createElement(
       "nav",
@@ -173,11 +174,18 @@ exports["default"] = _react2["default"].createClass({
         authData && authData.access_token ? _react2["default"].createElement(
           "span",
           { className: "auth" },
-          userData ? _react2["default"].createElement(
+          userData ? [_react2["default"].createElement(
             _reactRouter.Link,
-            { className: "nav-item", to: "/profile", onClick: this.toggleNav.bind(null, "close") },
+            { key: "profile", className: "nav-item", to: "/profile", onClick: this.toggleNav.bind(null, "close") },
             "Profile"
-          ) : null,
+          ), _react2["default"].createElement(
+            "a",
+            { key: "bookmarks", className: "nav-item", href: "#", onClick: function () {
+                _this2.toggleNav("close");
+                popUpHandler("viewBookmarks");
+              } },
+            "Bookmarks"
+          )] : null,
           _react2["default"].createElement(
             "a",
             { className: "nav-item", href: "#", onClick: function () {

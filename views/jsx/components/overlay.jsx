@@ -14,19 +14,23 @@ var _reactRouter = require("react-router");
 
 var _questionToolsJsx = require("./question-tools.jsx");
 
+var _bookmarkToolsJsx = require("./bookmark-tools.jsx");
+
 exports["default"] = _react2["default"].createClass({
   displayName: "Overlay",
   render: function render() {
-    console.log("overlay", this.props);
+    // console.log("overlay", this.props);
     var _props = this.props;
     var auth = _props.auth;
     var userData = _props.userData;
+    var versionData = _props.versionData;
     var fireRef = _props.fireRef;
     var overlay = _props.overlay;
     var askQuestion = _props.askQuestion;
     var answerQuestion = _props.answerQuestion;
     var viewQuestion = _props.viewQuestion;
     var methods = _props.methods;
+    var params = _props.params;
     var popUpHandler = _props.methods.popUpHandler;
 
     return _react2["default"].createElement(
@@ -44,6 +48,9 @@ exports["default"] = _react2["default"].createClass({
           case "viewQuestion":
             Component = _questionToolsJsx.ViewQuestion;
             break;
+          case "viewBookmarks":
+            Component = _bookmarkToolsJsx.ViewBookmarks;
+            break;
           default:
             Component = null;
         }
@@ -54,6 +61,7 @@ exports["default"] = _react2["default"].createClass({
           viewQuestion: viewQuestion,
           fireRef: fireRef,
           auth: auth,
+          params: params,
           userData: userData,
           methods: methods }) : null;
       })()

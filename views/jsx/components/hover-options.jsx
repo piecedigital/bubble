@@ -14,12 +14,18 @@ var _followBtnJsx = require("./follow-btn.jsx");
 
 var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
 
+var _bookmarkBtnJsx = require("./bookmark-btn.jsx");
+
+var _bookmarkBtnJsx2 = _interopRequireDefault(_bookmarkBtnJsx);
+
 var _reactRouter = require('react-router');
 
 var ListItemHoverOptions = _react2["default"].createClass({
   displayName: "ListItemTools",
   render: function render() {
     var _props = this.props;
+    var fireRef = _props.fireRef;
+    var versionData = _props.versionData;
     var auth = _props.auth;
     var name = _props.name;
     var stream = _props.stream;
@@ -64,7 +70,12 @@ var ListItemHoverOptions = _react2["default"].createClass({
           { className: "btn-default btn-rect btn-no-pad color-black no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
           "Send Message"
         )
-      )
+      ),
+      _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
+        fireRef: fireRef,
+        userData: userData,
+        givenUsername: name,
+        versionData: versionData })
     );
   }
 });

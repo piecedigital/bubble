@@ -41,6 +41,8 @@ var components = {
       // console.log(this.props);
       var _props = this.props;
       var auth = _props.auth;
+      var fireRef = _props.fireRef;
+      var versionData = _props.versionData;
       var index = _props.index;
       var userData = _props.userData;
       var appendVOD = _props.methods.appendVOD;
@@ -55,7 +57,15 @@ var components = {
       var name = _props$data$channel.name;
       var display_name = _props$data$channel.display_name;
 
-      var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, { auth: auth, vod: id, name: name, display_name: display_name, clickCallback: appendVOD });
+      var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, {
+        auth: auth,
+        fireRef: fireRef,
+        userData: userData,
+        versionData: versionData,
+        vod: id,
+        name: name,
+        display_name: display_name,
+        clickCallback: appendVOD });
 
       return _react2["default"].createElement(
         "li",
@@ -269,9 +279,11 @@ exports["default"] = _react2["default"].createClass({
     var lockedTop = _state.lockedTop;
     var _props3 = this.props;
     var auth = _props3.auth;
+    var fireRef = _props3.fireRef;
     var data = _props3.data;
     var params = _props3.params;
     var userData = _props3.userData;
+    var versionData = _props3.versionData;
     var _props3$methods = _props3.methods;
     var appendVOD = _props3$methods.appendVOD;
     var loadData = _props3$methods.loadData;
@@ -281,9 +293,19 @@ exports["default"] = _react2["default"].createClass({
         var ListItem = components[component];
         var list = dataArray.map(function (itemData, ind) {
           // return null;
-          return _react2["default"].createElement(ListItem, { ref: function (r) {
+          return _react2["default"].createElement(ListItem, {
+            ref: function (r) {
               return dataArray[ind].ref = r;
-            }, key: ind, data: itemData, userData: userData, index: ind, auth: auth, notifyMultiplier: Math.floor(ind / 3), methods: {
+            },
+            key: ind,
+            data: itemData,
+            fireRef: fireRef,
+            userData: userData,
+            versionData: versionData,
+            index: ind,
+            auth: auth,
+            notifyMultiplier: Math.floor(ind / 3),
+            methods: {
               appendVOD: appendVOD,
               notify: _this5.notify
             } });

@@ -71,7 +71,7 @@ var components = {
     appendStream: function appendStream(name, display_name) {
       this.props.methods.appendStream(name, display_name);
     },
-    notify: function notify(multiplier) {
+    notify: function notify() {
       var _this2 = this;
 
       var _props = this.props;
@@ -114,7 +114,7 @@ var components = {
         currentNotifs++;
         action();
       } else {
-        multiplier = Math.floor(currentNotifs / 3);
+        var multiplier = Math.floor(currentNotifs / 3);
         var time = 2000 * multiplier + 700;
         console.log("Queuing notify:", name, "; ahead:", currentNotifs, "; time:", time, "; multiplier:", multiplier);
         currentNotifs++;
@@ -130,7 +130,7 @@ var components = {
       if (!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
         if (nextState.streamData && nextState.streamData.stream && this.props.follow === "IFollow") {
-          this.notify(this.props.notifyMultiplier);
+          this.notify();
         }
       }
     },
@@ -142,9 +142,11 @@ var components = {
       // console.log(this.props);
       var _props2 = this.props;
       var auth = _props2.auth;
+      var fireRef = _props2.fireRef;
       var index = _props2.index;
       var filter = _props2.filter;
       var userData = _props2.userData;
+      var versionData = _props2.versionData;
       var data = _props2.data;
 
       var _ref3 = data.channel || data.user;
@@ -156,7 +158,16 @@ var components = {
       var language = _ref3.language;
       var stream = this.state.streamData.stream;
 
-      var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, { auth: auth, stream: stream, name: name, display_name: display_name, userData: userData, callback: this.followCallback, clickCallback: this.appendStream });
+      var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, {
+        auth: auth,
+        fireRef: fireRef,
+        stream: stream,
+        name: name,
+        display_name: display_name,
+        userData: userData,
+        versionData: versionData,
+        callback: this.followCallback,
+        clickCallback: this.appendStream });
 
       if (!stream) {
         if (filter === "all" || filter === "offline") {
@@ -466,8 +477,10 @@ exports["default"] = _react2["default"].createClass({
     var _props4 = this.props;
     var auth = _props4.auth;
     var data = _props4.data;
+    var fireRef = _props4.fireRef;
     var userData = _props4.userData;
     var follow = _props4.follow;
+    var versionData = _props4.versionData;
     var _props4$methods = _props4.methods;
     var appendStream = _props4$methods.appendStream;
     var loadData = _props4$methods.loadData;
@@ -478,7 +491,16 @@ exports["default"] = _react2["default"].createClass({
         var list = dataArray.map(function (itemData, ind) {
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               dataArray[ind] ? dataArray[ind].ref = r : null;
-            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name), data: itemData, userData: userData, index: ind, filter: filter, auth: auth, notifyMultiplier: Math.floor(ind / 3), params: _this8.props.params, follow: follow, methods: {
+            }, key: "" + (itemData.channel ? itemData.channel.name : itemData.user.name),
+            data: itemData,
+            fireRef: fireRef,
+            userData: userData,
+            versionData: versionData,
+            index: ind,
+            filter: filter,
+            auth: auth,
+            notifyMultiplier: Math.floor(ind / 3),
+            params: _this8.props.params, follow: follow, methods: {
               appendStream: appendStream,
               notify: _this8.notify,
               removeFromDataArray: _this8.removeFromDataArray

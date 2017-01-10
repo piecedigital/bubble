@@ -1,6 +1,6 @@
 "use strict";
 
-var firebase = require("firebase");
+var Firebase = require("firebase");
 var env = {
   PORT: 8080,
   NODE_ENV: "dev",
@@ -34,9 +34,3 @@ var ref = {
   pollsRef: Firebase.database().ref("polls")
 };
 var fireRef = ref;
-
-fireRef.questionsRef.orderByKey().limitToLast(2).once("value").then(function (snap) {
-  var answers = snap.val();
-
-  var questions = {};
-});

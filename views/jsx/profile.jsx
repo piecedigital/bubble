@@ -18,9 +18,9 @@ var _componentsUserUserInfoJsx = require("./components/user/user-info.jsx");
 
 var _componentsUserUserInfoJsx2 = _interopRequireDefault(_componentsUserUserInfoJsx);
 
-var _componentsUserUserQuestionsJsx = require("./components/user/user-questions.jsx");
+var _componentsUserQuestionsJsx = require("./components/user-questions.jsx");
 
-var _componentsUserUserQuestionsJsx2 = _interopRequireDefault(_componentsUserUserQuestionsJsx);
+var _componentsUserQuestionsJsx2 = _interopRequireDefault(_componentsUserQuestionsJsx);
 
 var _componentsUserFollowStreamsJsx = require("./components/user/follow-streams.jsx");
 
@@ -66,7 +66,7 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserUserQuestionsJsx2["default"], this.props),
+        _react2["default"].createElement(_componentsUserQuestionsJsx2["default"], this.props),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "IFollow" }, this.props)),
         _react2["default"].createElement("div", { className: "separator-4-black" }),

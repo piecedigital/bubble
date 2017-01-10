@@ -12,11 +12,11 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _sideToolsJsx = require("./side-tools.jsx");
+var _userSideToolsJsx = require("./user/side-tools.jsx");
 
-var _sideToolsJsx2 = _interopRequireDefault(_sideToolsJsx);
+var _userSideToolsJsx2 = _interopRequireDefault(_userSideToolsJsx);
 
-var _voteToolJsx = require("../vote-tool.jsx");
+var _voteToolJsx = require("./vote-tool.jsx");
 
 var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
@@ -574,7 +574,7 @@ exports["default"] = _react2["default"].createClass({
           list
         )
       ),
-      !pageOverride ? _react2["default"].createElement(_sideToolsJsx2["default"], {
+      !pageOverride ? _react2["default"].createElement(_userSideToolsJsx2["default"], {
         refresh: this.refresh,
         refreshList: this.refreshList,
         gatherData: this.gatherData,

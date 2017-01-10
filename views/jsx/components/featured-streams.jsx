@@ -18,9 +18,9 @@ var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
 var _modulesHelperTools = require("../../../modules/helper-tools");
 
-var _userUserQuestionsJsx = require("./user/user-questions.jsx");
+var _userQuestionsJsx = require("./user-questions.jsx");
 
-var _userUserQuestionsJsx2 = _interopRequireDefault(_userUserQuestionsJsx);
+var _userQuestionsJsx2 = _interopRequireDefault(_userQuestionsJsx);
 
 var _reactRouter = require('react-router');
 
@@ -272,7 +272,7 @@ exports["default"] = _react2["default"].createClass({
     return _react2["default"].createElement(
       "div",
       { className: "featured-streams" },
-      fireRef ? _react2["default"].createElement(_userUserQuestionsJsx2["default"], _extends({}, this.props, { pageOverride: "featured" })) : null,
+      fireRef ? _react2["default"].createElement(_userQuestionsJsx2["default"], _extends({}, this.props, { pageOverride: "featured" })) : null,
       streamDataArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: streamDataArray[this.state.featuredStreamIndex], methods: {
           appendStream: appendStream,
           loadData: loadData

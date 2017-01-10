@@ -24,6 +24,8 @@ var _modulesLoadData = require("../../modules/load-data");
 
 var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
+var _modulesAjax = require("../../modules/ajax");
+
 var _componentsNavJsx = require("./components/nav.jsx");
 
 var _componentsNavJsx2 = _interopRequireDefault(_componentsNavJsx);
@@ -66,7 +68,8 @@ exports["default"] = _react2["default"].createClass({
         questionData: null,
         answerData: null
       },
-      fireRef: null
+      fireRef: null,
+      versionData: null
     }, this.props.initState || {});
   },
   initFirebase: function initFirebase(data) {
@@ -269,6 +272,21 @@ exports["default"] = _react2["default"].createClass({
     });
 
     window.location.hash = "";
+
+    (0, _modulesAjax.ajax)({
+      url: "/get-version",
+      success: function success(data) {
+        _this2.setState({
+          versionData: JSON.parse(data)
+        });
+      },
+      error: function error(err) {
+        console.error(err);
+        _this2.setState({
+          error: true
+        });
+      }
+    });
   },
   alertAuthNeeded: function alertAuthNeeded() {
     console.log("Auth needed");
@@ -334,6 +352,13 @@ exports["default"] = _react2["default"].createClass({
         // console.log("new state:", newState);
         this.setState(newState);
         break;
+      case "viewBookmarks":
+        newState = {
+          overlay: action
+        };
+        // console.log("new state:", newState);
+        this.setState(newState);
+        break;
       case "close":
         this.setState({
           overlay: ""
@@ -366,6 +391,7 @@ exports["default"] = _react2["default"].createClass({
     var answerQuestion = _state.answerQuestion;
     var viewQuestion = _state.viewQuestion;
     var fireRef = _state.fireRef;
+    var versionData = _state.versionData;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
@@ -376,7 +402,8 @@ exports["default"] = _react2["default"].createClass({
       _react2["default"].createElement(_componentsNavJsx2["default"], { authData: authData, userData: userData, url: url, methods: {
           search: this.search,
           appendStream: this.appendStream,
-          logout: this.logout
+          logout: this.logout,
+          popUpHandler: this.popUpHandler
         } }),
       _react2["default"].createElement(_componentsPlayerJsx2["default"], { data: {
           dataObject: dataObject
@@ -389,6 +416,7 @@ exports["default"] = _react2["default"].createClass({
         },
         layout: layout,
         fireRef: fireRef,
+        versionData: versionData,
         methods: {
           spliceStream: this.spliceStream,
           clearPlayer: this.clearPlayer,
@@ -409,6 +437,7 @@ exports["default"] = _react2["default"].createClass({
         userData: userData
       }, this.props, {
         fireRef: fireRef,
+        versionData: versionData,
         methods: {
           appendStream: this.appendStream,
           appendVOD: this.appendVOD,
@@ -425,6 +454,7 @@ exports["default"] = _react2["default"].createClass({
         userData: userData
       }, this.props, {
         fireRef: fireRef,
+        versionData: versionData,
         methods: {
           appendStream: this.appendStream,
           appendVOD: this.appendVOD,
@@ -441,6 +471,8 @@ exports["default"] = _react2["default"].createClass({
         answerQuestion: answerQuestion,
         viewQuestion: viewQuestion,
         fireRef: fireRef,
+        versionData: versionData,
+        params: this.props.params,
         methods: {
           popUpHandler: this.popUpHandler
         } }),
