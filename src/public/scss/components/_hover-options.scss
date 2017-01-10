@@ -14,7 +14,7 @@
   background-color: rgba(black, .4);
   text-align: center;
   overflow-y: auto;
-  overflow-x: auto;
+  overflow-x: hidden;
   > * {
     display: inline-block;
     margin: .5*$em 0;
