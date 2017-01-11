@@ -2,7 +2,8 @@ import React from "react";
 import { calculateRatings,
 getQuestionData,
 getAnswerData,
-getRatingsData } from "../../../modules/helper-tools";
+getRatingsData,
+listenOnNewRatings } from "../../../modules/helper-tools";
 
 export default React.createClass({
   displayName: "VoteTool",
@@ -29,9 +30,9 @@ export default React.createClass({
     // console.log("vote data:", voteData);
     // check if the user has already voted
     getRatingsData(questionID, fireRef, null, ratingsData => {
-      console.log(place);
+      // console.log(place);
       let votes = ratingsData;
-      console.log(votes);
+      // console.log(votes);
       // a node within voteType will be the ID of a rating or false
       let voteTypes = {
         question: false,
@@ -41,9 +42,10 @@ export default React.createClass({
       // checks each rating for their place (for)
       Object.keys(votes || {}).map(ratingID => {
         const ratingData = votes[ratingID];
+        if(ratingData.username !== userData.name) return;
         if(place === "comment") {
           // console.log("comment IDs", ratingData.commentID, commentID, ratingData.commentID === commentID);
-          voteTypes[ratingData.for] = commentID === ratingData.commentID ? ratingID : voteTypes[ratingData.for];
+          voteTypes[ratingData.for] = (commentID === ratingData.commentID) ? ratingID : voteTypes[ratingData.for];
         } else {
           voteTypes[ratingData.for] = ratingID;
         }
@@ -66,7 +68,22 @@ export default React.createClass({
       }
     })
   },
-  componentDidMount() {
+  newRating(snap) {
+    const { place, commentID } = this.props;
+    if(!snap) return;
+    const key = snap.getKey();
+    const val = snap.val();
+    place === "comment" ? console.log("new rating", key, val, commentID) : null;
+    // console.log(this.props);
+    if(place === "comment" && val.commentID !== commentID) return;
+    const ratings = Object.assign(this.state.ratings || {}, {
+      [key]: val
+    });
+    this.setState({
+      ratings
+    }, this.calc);
+  },
+  getInitialRatings() {
     const {
       place,
       fireRef,
@@ -74,65 +91,68 @@ export default React.createClass({
       questionID,
       commentID,
     } = this.props;
-    getRatingsData(questionID, fireRef, nodeRef => {
-      return place === "comment" ? nodeRef.orderByChild("commentID")
-      .equalTo(commentID) : nodeRef;
-    }, ratingsData => {
-      console.log("got ratings", ratingsData, questionID, commentID || "not a comment");
+    // console.log("init new comment", commentID);
+    getRatingsData(questionID, fireRef, null, ratingsData => {
+      // console.log("got ratings", ratingsData, questionID, commentID || "not a comment");
+      Object.keys(ratingsData || {}).map(ratingID => {
+        const voteData = ratingsData[ratingID];
+        if(voteData.commentID !== commentID) delete ratingsData[ratingID];
+      });
       this.setState({
         ratings: ratingsData
-      }, ()=> {
-        calculateRatings({
-          ratingsData,
-          userData
-        }, calculatedRatings => {
-          console.log("vote tool got calculated ratings", calculatedRatings);
-          this.setState({
-            calculatedRatings
-          });
-        });
-      });
+        // callback to calculate the ratings
+      }, this.calc.bind(null, true));
     });
+  },
+  // calculates ratings
+  calc(first) {
+    const {
+      userData,
+    } = this.props;
+    // console.log("calculation", this.state.ratings, this.props.commentID);
+    calculateRatings({
+      ratingsData: this.state.ratings,
+      userData
+    }, calculatedRatings => {
+      // console.log("vote tool got calculated ratings", calculatedRatings);
+      this.setState({
+        calculatedRatings
+        // starts listener to listen for new ratings
+      }, first ? this.initListener : null);
+    });
+  },
+  // listen for new ratings
+  initListener() {
+    const {
+      place,
+      fireRef,
+      questionID,
+      commentID,
+    } = this.props;
+    this.killRatingsWatch = listenOnNewRatings(questionID, fireRef, null, this.newRating);
+  },
+  componentDidMount() {
+    const {
+      questionID,
+      fireRef
+    } = this.props;
 
-    // listen on new ratings
-    // const refNode = this.props.fireRef.ratingsRef
-    // .child(this.props.questionID)
-    // .orderByChild("commentID")
-    // .equalTo(this.props.commentID);
-    // refNode.on("child_added", snap => {
-    //   const ratingsKey = snap.getKey();
-    //   const ratingsData = snap.val();
-    //   console.log("got unique ratings", ratingsKey, ratingsData);
-    //   const newRatings = JSON.parse(JSON.stringify(this.state.ratings || {}));
-    //   this.setState({
-    //     ratings: Object.assign(newRatings || {}, {
-    //       [ratingsKey]: ratingsData
-    //     })
-    //   }, () => {
-    //     calculateRatings.bind(null, calculatedRatings => {
-    //       this.setState({
-    //         uniqueCommentRatings: calculatedRatings
-    //       });
-    //     });
-    //   });
-    // });
-    // refNode.on("child_changed", snap => {
-    //   const ratingsKey = snap.getKey();
-    //   const ratingsData = snap.val();
-    //   console.log("got unique ratings", ratingsKey, ratingsData);
-    //   const newRatings = JSON.parse(JSON.stringify(this.state.ratings || {}));
-    //   this.setState({
-    //     ratings: Object.assign(newRatings || {}, {
-    //       [ratingsKey]: ratingsData
-    //     })
-    //   }, () => {
-    //     calculateRatings.bind(null, calculatedRatings => {
-    //       this.setState({
-    //         uniqueCommentRatings: calculatedRatings
-    //       });
-    //     });
-    //   });
-    // });
+    const temp = snap => {
+      if(snap.getKey() === questionID) {
+        fireRef.ratingsRef
+        .off("child_added", temp);
+
+        // get the initial bulk of ratings and/or initialize listeners
+        this.getInitialRatings();
+      }
+    };
+
+    fireRef.ratingsRef
+    .on("child_added", temp);
+  },
+  componentWillUnmount() {
+    // kill ratings listener on unmount
+    this.killRatingsWatch(this.newRating);
   },
   render() {
     const {
@@ -143,7 +163,7 @@ export default React.createClass({
       ratings,
       calculatedRatings
     } = this.state;
-    // console.log("wher eis itsatfds", ratings);
+    place === "comment" ? console.log("wher eis itsatfds", this.props) : null;
     if(
       !calculatedRatings || !calculatedRatings[place]
     ) return (
@@ -166,7 +186,7 @@ export default React.createClass({
       </div>
     );
 
-    // console.log("vote tools", place, usedRatings);
+    // console.log("vote tools", place, calculatedRatings);
 
     // figure out whether the viewing user voted
     // and make a CSS class based on whether it's an up- or downvote
@@ -175,7 +195,7 @@ export default React.createClass({
     ) : "";
 
     return (
-      <div className="vote-tool" onClick={e => {
+      <div className={"vote-tool " + commentID} onClick={e => {
         e.stopPropagation();
         e.preventDefault();
       }}>

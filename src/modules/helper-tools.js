@@ -138,3 +138,19 @@ export const getRatingsData = function(questionID, fireRef, modCB, cb) {
     typeof cb === "function" ? cb(snap.val()) : null;
   });
 }
+
+export const listenOnNewRatings = function(questionID, fireRef, modCB, cb) {
+  if(typeof cb !== "function") return console.error("no callback to ratings watch");
+  let refNode = fireRef.ratingsRef
+  .child(questionID);
+  refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
+  refNode.on("child_added", cb);
+  refNode.on("child_changed", cb);
+  refNode.on("child_removed", cb);
+  return function kill() {
+    console.log("killing ratings listeners");
+    refNode.off("child_added", cb);
+    refNode.off("child_changed", cb);
+    refNode.off("child_removed", cb);
+  }
+}

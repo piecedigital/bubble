@@ -435,22 +435,14 @@ export const CommentTool = React.createClass({
       "version": versionData,
     };
     if(!this.state.validation.bodyValid) return;
-    // return console.log("comment object:", commentObject);
+    console.log("comment object:", commentObject);
     // write answer to `answers` node
     fireRef.commentsRef
     .child(questionID)
     .push()
     .setWithPriority(commentObject, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
-
-    // close the pop up
-    this.setState({
-      success: true
-    }, () => {
-      setTimeout(() => {
-        popUpHandler("close")
-      }, 2000)
-    });
+    body.value = "";
   },
   validate(name, e) {
     // name will be the same as a referenced element
@@ -505,6 +497,7 @@ const CommentItem = React.createClass({
   displayName: "CommentItem",
   render() {
     const {
+      auth,
       fireRef,
       userData,
       questionID,
@@ -526,7 +519,7 @@ const CommentItem = React.createClass({
           }
         </label>
         <label className="vote">
-          <VoteTool {...{ place: "comment", commentID, questionID, fireRef, userData }} />
+          <VoteTool commentID={commentID} {...{ place: "comment", myAuth: !!auth, questionID, fireRef, userData }} />
         </label>
       </div>
     );
@@ -546,10 +539,23 @@ export const ViewQuestion = React.createClass({
     let newComments = JSON.parse(JSON.stringify(this.state.comments));
     // console.log("new comment", commentKey, commentData);
     this.setState({
-      comments: Object.assign(newComments || {}, {
+      comments: Object.assign({
         [commentKey]: commentData
-      })
+      }, newComments || {})
     });
+  },
+  initListener() {
+    // console.log("initiating comment listener");
+    const {
+      questionID,
+      fireRef
+    } = this.props;
+
+    fireRef.commentsRef
+    .child(questionID)
+    .orderByChild("reply")
+    .equalTo(false)
+    .on("child_added", this.newComment);
   },
   componentDidMount() {
     const {
@@ -558,11 +564,6 @@ export const ViewQuestion = React.createClass({
     } = this.props;
 
     console.log("viewing", this.props);
-
-    fireRef.commentsRef
-    .orderByChild("reply")
-    .equalTo(false)
-    .on("child_added", this.newComment);
 
     // get question data
     getQuestionData(questionID, fireRef, null, questionData => {
@@ -579,10 +580,10 @@ export const ViewQuestion = React.createClass({
       return refNode.orderByChild("reply")
       .equalTo(false);
     }, commentsData => {
-      console.log("got commentsData", commentsData);
+      // console.log("got commentsData", commentsData);
       this.setState({
         comments: commentsData
-      });
+      }, this.initListener);
     });
   },
   componentWillUnmount() {
@@ -592,12 +593,14 @@ export const ViewQuestion = React.createClass({
 
     fireRef.commentsRef
     .orderByChild("reply")
+    .child(this.props.questionID)
     .equalTo(false)
     .off("child_added", this.newComment)
   },
   render() {
     // console.log(this.props);
     const {
+      auth,
       overlay,
       fireRef,
       questionID,
@@ -614,7 +617,7 @@ export const ViewQuestion = React.createClass({
     const commentList = Object.keys(comments || {}).map(commentID => {
       const commentData = comments[commentID];
       return (
-        <CommentItem key={commentID} commentID={commentID} commentData={commentData} questionID={questionID} fireRef={fireRef} userData={userData} />
+        <CommentItem auth={auth} key={commentID} commentID={commentID} commentData={commentData} questionID={questionID} fireRef={fireRef} userData={userData} />
       );
     });
 
@@ -640,7 +643,7 @@ export const ViewQuestion = React.createClass({
                 <div className="label">{questionData.body}</div>
               </label>
               <label className="vote">
-                <VoteTool {...{ place: "question", questionID, fireRef, userData }} />
+                <VoteTool {...{ place: "question", myAuth: !!auth, questionID, fireRef, userData }} />
               </label>
             </div>
             <div className="separator-4-dim" />
@@ -652,7 +655,7 @@ export const ViewQuestion = React.createClass({
                 <div className="label"><p>{answerData.body}</p></div>
               </label>
               <label className="vote">
-                <VoteTool {...{ place: "answer", questionID, fireRef, userData }} />
+                <VoteTool {...{ place: "answer", myAuth: !!auth, questionID, fireRef, userData }} />
               </label>
             </div>
             <div className="separator-4-dim" />

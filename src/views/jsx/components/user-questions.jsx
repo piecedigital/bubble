@@ -52,7 +52,7 @@ const QuestionListItem = React.createClass({
     // set up pop up overlay for question view if at question URL
     if(params.questionID === questionID && !location.state || location.state && !location.state.modal) {
       History.push({
-        pathname: `/profile/${params.username || userData ? userData.name : ""}/q/${questionID}`,
+        pathname: `/profile/${params.username || (userData ? userData.name : "")}/q/${questionID}`,
         state: {
           modal: true,
           returnTo: `/profile/${params.username || ""}`,
@@ -141,37 +141,8 @@ const QuestionListItem = React.createClass({
         }
       });
     });
-    // get ratings data
-    // fireRef.ratingsRef
-    // .child(questionID)
-    // .once("value")
-    // .then(snap => {
-    //   const ratingsData = snap.val();
-    //   this.setState({
-    //     ratingsData
-    //   }, () => {
-    //     calculateRatings(calculatedRatings => {
-    //       this.setState({
-    //         calculatedRatings
-    //       })
-    //     });
-    //     this.setupOverlay();
-    //   });
-    // });
+
     this.setupOverlay();
-    // set listener on ratings data
-    // rating added
-    // fireRef.ratingsRef
-    // .child(questionID)
-    // .on("child_added", this.newRating.bind(null, null)),
-    // // rating changed
-    // fireRef.ratingsRef
-    // .child(questionID)
-    // .on("child_changed", this.newRating.bind(null, null));
-    // // rating removed
-    // fireRef.ratingsRef
-    // .child(questionID)
-    // .on("child_removed", this.newRating.bind(null, true));
   },
   componentWillUnmount() {
     const {
@@ -179,24 +150,12 @@ const QuestionListItem = React.createClass({
       fireRef
     } = this.props
     // remove listener on ratings data
-    // rating added
-    // fireRef.ratingsRef
-    // .child(questionID)
-    // .off("child_added", this.newRating),
-    // // rating changed
-    // fireRef.ratingsRef
-    // .child(questionID)
-    // .off("child_changed", this.newRating);
-    // // rating removed
-    // fireRef.ratingsRef
-    // .child(questionID)
-    // .off("child_removed", this.newRating);
-    // // question added
-    // if(this.state.questionData) {
-    //   fireRef.usersRef
-    //   .child(`${this.state.questionData.receiver}/answersFromMe`)
-    //   .off("child_added", this.newQuestion);
-    // }
+    // answered question added
+    if(this.state.questionData) {
+      fireRef.usersRef
+      .child(`${this.state.questionData.receiver}/answersFromMe`)
+      .off("child_added", this.newQuestion);
+    }
   },
   render() {
     const {
@@ -351,7 +310,7 @@ export default React.createClass({
       // if(!userData) return;
       // console.log("search params", params.username, userData, this.state.lastID);
       let refNode = fireRef.usersRef
-      .child(`${params.username || userData ? userData.name : undefined}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
+      .child(`${params.username || (userData ? userData.name : undefined)}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
       if(this.state.lastID) {
         refNode = refNode.orderByKey().endAt(this.state.lastID || 0)
         .limitToLast(queryLimit+1);
