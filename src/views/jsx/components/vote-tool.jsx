@@ -1,57 +1,23 @@
 import React from "react";
+import { calculateRatings,
+getQuestionData,
+getAnswerData,
+getRatingsData } from "../../../modules/helper-tools";
 
 export default React.createClass({
   displayName: "VoteTool",
   getInitialState: () => ({
     ratings: null,
-    uniqueCommentRatings: null
+    calculatedRatings: null
   }),
-  calculateRatings() {
-    const { ratings } = this.state;
-    const { userData } = this.props;
-    let calculatedRatings = {};
-
-
-    calculatedRatings = {
-      comment: {
-        upvotes: [],
-        downvotes: [],
-        overall: 0,
-        myVote: false,
-        for: true
-      }
-    };
-
-    Object.keys(ratings || {}).map(vote => {
-      const voteData = ratings[vote];
-      const place = voteData.for;
-
-      if(ratings[vote].upvote) calculatedRatings[place].upvotes.push(true);
-      if(!ratings[vote].upvote) calculatedRatings[place].downvotes.push(true);
-      if(voteData.username === userData.name) {
-        calculatedRatings[place].myVote = voteData.upvote;
-        calculatedRatings[place].for = voteData.for;
-      }
-    });
-    ["comment"].map(place => {
-      calculatedRatings[place].upvotes = calculatedRatings[place].upvotes.length;
-      calculatedRatings[place].downvotes = calculatedRatings[place].downvotes.length;
-      calculatedRatings[place].overall = calculatedRatings[place].upvotes - calculatedRatings[place].downvotes;
-    });
-
-    this.setState({
-      uniqueCommentRatings: calculatedRatings
-    });
-  },
   castVote(vote) {
     const {
       myAuth,
       userData,
       fireRef,
       place,
-      questionData,
+      questionID,
       commentID,
-      commentData,
     } = this.props;
     const voteData = {
       myAuth,
@@ -62,15 +28,9 @@ export default React.createClass({
     // return console.log("vote data:", voteData);
     // console.log("vote data:", voteData);
     // check if the user has already voted
-    // gets data for answers and questions
-    fireRef.ratingsRef
-    .child(questionData.questionID)
-    .orderByChild("username")
-    .equalTo(userData.name)
-    .once("value")
-    .then(snap => {
+    getRatingsData(questionID, fireRef, null, ratingsData => {
       console.log(place);
-      let votes = snap.val();
+      let votes = ratingsData;
       console.log(votes);
       // a node within voteType will be the ID of a rating or false
       let voteTypes = {
@@ -95,75 +55,97 @@ export default React.createClass({
       }
       if(!voteTypes[place]) {
         fireRef.ratingsRef
-        .child(questionData.questionID)
+        .child(questionID)
         .push()
         .set(voteData);
       } else {
         fireRef.ratingsRef
-        .child(questionData.questionID)
+        .child(questionID)
         .child(voteTypes[place])
         .update(voteData);
       }
     })
   },
   componentDidMount() {
-    if(this.props.place === "comment") {
-      this.props.fireRef.ratingsRef
-      .child(this.props.questionData.questionID)
-      .orderByChild("commentID")
-      .equalTo(this.props.commentID)
-      .once("value")
-      .then(snap => {
-        const ratings = snap.val();
-        console.log("got ratings", ratings, this.props.commentID);
-        this.setState({
-          ratings
-        }, this.calculateRatings)
+    const {
+      place,
+      fireRef,
+      userData,
+      questionID,
+      commentID,
+    } = this.props;
+    getRatingsData(questionID, fireRef, nodeRef => {
+      return place === "comment" ? nodeRef.orderByChild("commentID")
+      .equalTo(commentID) : nodeRef;
+    }, ratingsData => {
+      console.log("got ratings", ratingsData, questionID, commentID || "not a comment");
+      this.setState({
+        ratings: ratingsData
+      }, ()=> {
+        calculateRatings({
+          ratingsData,
+          userData
+        }, calculatedRatings => {
+          console.log("vote tool got calculated ratings", calculatedRatings);
+          this.setState({
+            calculatedRatings
+          });
+        });
       });
+    });
 
-      // listen on new ratings
-      const refNode = this.props.fireRef.ratingsRef
-      .child(this.props.questionData.questionID)
-      .orderByChild("commentID")
-      .equalTo(this.props.commentID);
-      refNode.on("child_added", snap => {
-        const ratingsKey = snap.getKey();
-        const ratingsData = snap.val();
-        console.log("got unique ratings", ratingsKey, ratingsData);
-        const newRatings = JSON.parse(JSON.stringify(this.state.ratings || {}));
-        this.setState({
-          ratings: Object.assign(newRatings || {}, {
-            [ratingsKey]: ratingsData
-          })
-        }, this.calculateRatings)
-      });
-      refNode.on("child_changed", snap => {
-        const ratingsKey = snap.getKey();
-        const ratingsData = snap.val();
-        console.log("got unique ratings", ratingsKey, ratingsData);
-        const newRatings = JSON.parse(JSON.stringify(this.state.ratings || {}));
-        this.setState({
-          ratings: Object.assign(newRatings || {}, {
-            [ratingsKey]: ratingsData
-          })
-        }, this.calculateRatings)
-      });
-    }
+    // listen on new ratings
+    // const refNode = this.props.fireRef.ratingsRef
+    // .child(this.props.questionID)
+    // .orderByChild("commentID")
+    // .equalTo(this.props.commentID);
+    // refNode.on("child_added", snap => {
+    //   const ratingsKey = snap.getKey();
+    //   const ratingsData = snap.val();
+    //   console.log("got unique ratings", ratingsKey, ratingsData);
+    //   const newRatings = JSON.parse(JSON.stringify(this.state.ratings || {}));
+    //   this.setState({
+    //     ratings: Object.assign(newRatings || {}, {
+    //       [ratingsKey]: ratingsData
+    //     })
+    //   }, () => {
+    //     calculateRatings.bind(null, calculatedRatings => {
+    //       this.setState({
+    //         uniqueCommentRatings: calculatedRatings
+    //       });
+    //     });
+    //   });
+    // });
+    // refNode.on("child_changed", snap => {
+    //   const ratingsKey = snap.getKey();
+    //   const ratingsData = snap.val();
+    //   console.log("got unique ratings", ratingsKey, ratingsData);
+    //   const newRatings = JSON.parse(JSON.stringify(this.state.ratings || {}));
+    //   this.setState({
+    //     ratings: Object.assign(newRatings || {}, {
+    //       [ratingsKey]: ratingsData
+    //     })
+    //   }, () => {
+    //     calculateRatings.bind(null, calculatedRatings => {
+    //       this.setState({
+    //         uniqueCommentRatings: calculatedRatings
+    //       });
+    //     });
+    //   });
+    // });
   },
   render() {
     const {
       place,
-      commentID,
-      calculatedRatings
+      commentID
     } = this.props;
     const {
       ratings,
-      uniqueCommentRatings
+      calculatedRatings
     } = this.state;
     // console.log("wher eis itsatfds", ratings);
     if(
-      !calculatedRatings || !calculatedRatings[place] ||
-      place === "comment" && !uniqueCommentRatings
+      !calculatedRatings || !calculatedRatings[place]
     ) return (
       <div className="vote-tool" onClick={e => {
         e.stopPropagation();
@@ -184,13 +166,12 @@ export default React.createClass({
       </div>
     );
 
-    let usedRatings = place === "comment" ? uniqueCommentRatings : calculatedRatings;
     // console.log("vote tools", place, usedRatings);
 
     // figure out whether the viewing user voted
     // and make a CSS class based on whether it's an up- or downvote
-    const myVote = usedRatings[place].for === place ? (
-      usedRatings[place].myVote === true ? " my-vote up" : usedRatings[place].myVote === false ? " my-vote down" : ""
+    const myVote = calculatedRatings[place].for === place ? (
+      calculatedRatings[place].myVote === true ? " my-vote up" : calculatedRatings[place].myVote === false ? " my-vote down" : ""
     ) : "";
 
     return (
@@ -199,16 +180,16 @@ export default React.createClass({
         e.preventDefault();
       }}>
         <div className="wrapper">
-          <div className={`upvote-btn${usedRatings[place].myVote ? myVote : ""}`} onClick={this.castVote.bind(null, true)}/>
+          <div className={`upvote-btn${calculatedRatings[place].myVote ? myVote : ""}`} onClick={this.castVote.bind(null, true)}/>
           <div className="ratings">
-            <div className="overall">{usedRatings[place].overall || 0}</div>
+            <div className="overall">{calculatedRatings[place].overall || 0}</div>
             <div className="ups-and-downs">
-              <div className="up">{usedRatings[place].upvotes || 0}</div>
+              <div className="up">{calculatedRatings[place].upvotes || 0}</div>
               /
-              <div className="down">{usedRatings[place].downvotes || 0}</div>
+              <div className="down">{calculatedRatings[place].downvotes || 0}</div>
             </div>
           </div>
-          <div className={`downvote-btn${!usedRatings[place].myVote ? myVote : ""}`} onClick={this.castVote.bind(null, false)}/>
+          <div className={`downvote-btn${!calculatedRatings[place].myVote ? myVote : ""}`} onClick={this.castVote.bind(null, false)}/>
         </div>
       </div>
     );

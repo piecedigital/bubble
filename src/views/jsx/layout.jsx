@@ -27,19 +27,7 @@ export default React.createClass({
       panelData: [],
       panelData: [],
       overlay: "",
-      askQuestion: {
-        to: "",
-        from: "",
-        body: ""
-      },
-      answerQuestion: {
-        questionData: null,
-        answerData: null,
-      },
-      viewQuestion: {
-        questionData: null,
-        answerData: null,
-      },
+      overlayState: null,
       fireRef: null,
       versionData: null
     }, this.props.initState || {});
@@ -297,31 +285,13 @@ export default React.createClass({
           this.setState(newState);
         break;
       case "answerQuestion":
-          newState = {
-            overlay: action,
-            answerQuestion: {
-              questionData: options.questionData,
-              answerData: options.answerData,
-            }
-          };
-          // console.log("new state:", newState);
-          this.setState(newState);
-        break;
       case "viewQuestion":
-          newState = {
-            overlay: action,
-            viewQuestion: {
-              questionData: options.questionData,
-              answerData: options.answerData,
-              voteToolData: options.voteToolData,
-            }
-          };
-          // console.log("new state:", newState);
-          this.setState(newState);
-        break;
       case "viewBookmarks":
           newState = {
-            overlay: action
+            overlay: action,
+            overlayState: {
+              questionID: options ? options.questionID : null
+            }
           };
           // console.log("new state:", newState);
           this.setState(newState);
@@ -354,9 +324,7 @@ export default React.createClass({
       layout,
       panelData,
       overlay,
-      askQuestion,
-      answerQuestion,
-      viewQuestion,
+      overlayState,
       fireRef,
       versionData,
     } = this.state;
@@ -447,9 +415,7 @@ export default React.createClass({
         auth={authData}
         userData={userData}
         overlay={overlay}
-        askQuestion={askQuestion}
-        answerQuestion={answerQuestion}
-        viewQuestion={viewQuestion}
+        overlayState={overlayState}
         fireRef={fireRef}
         versionData={versionData}
         params={this.props.params}

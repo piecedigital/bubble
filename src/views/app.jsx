@@ -12,7 +12,8 @@ const container = document.querySelector(".react-app");
 function checkAuth(Component, props) {
   // console.log("check auth", props.auth);
   if(props.auth !== null) {
-    if(props.auth.access_token) {
+    if(props.auth.access_token ||
+    props.params.username) {
       return (<Component {...props} />);
     } else {
       History.push("/");

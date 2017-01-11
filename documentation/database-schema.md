@@ -119,16 +119,18 @@ In addition to necessary data related to the Q&A aggregation this database will 
     }
   },
   "comments": {
-    <commentID>: {
-      "myAuth": [myAuth Object],
-      "username": <username>,
-      "questionID": <questionID>,
-      "body": String,
-      "reply": true || false,
-      "commentID": <commentID? || null,
-      "date": [date Number],
-      "sentStatuses": [sentStatuses Object],
-      "version": [version Object]
+    <questionID>: {
+      <commentID>: {
+        "myAuth": [myAuth Object],
+        "username": <username>,
+        "questionID": <questionID>,
+        "body": String,
+        "reply": true || false,
+        "commentID": <commentID? || null,
+        "date": [date Number],
+        "sentStatuses": [sentStatuses Object],
+        "version": [version Object]
+      }
     }
   },
   "AMAs": {

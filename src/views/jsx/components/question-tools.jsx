@@ -1,5 +1,10 @@
 import React from "react";
 import firebase from "firebase";
+import { calculateRatings,
+getQuestionData,
+getAnswerData,
+getRatingsData,
+getCommentsData } from "../../../modules/helper-tools";
 import VoteTool from "./vote-tool.jsx";
 import { ajax } from "../../../modules/ajax";
 
@@ -8,7 +13,6 @@ export const AskQuestion = React.createClass({
   getInitialState: () => ({
     error: false,
     success: false,
-    versionData: null,
     validation: {
       titleMin: 3,
       titleMax: 60,
@@ -26,6 +30,7 @@ export const AskQuestion = React.createClass({
       auth,
       fireRef,
       overlay,
+      versionData,
       askQuestion: {
         to,
         from
@@ -50,7 +55,7 @@ export const AskQuestion = React.createClass({
         "email": false,
         "notification": false
       },
-      version: this.state.versionData
+      version: versionData
     };
     if(!this.state.validation.titleValid && !this.state.validation.bodyValid) return;
     // console.log("question object:", questionObject);
@@ -101,28 +106,12 @@ export const AskQuestion = React.createClass({
       success: false
     });
   },
-  componentDidMount() {
-    // console.log("question tools mounted", this.props);
-    ajax({
-      url: "/get-version",
-      success: (data) => {
-        this.setState({
-          versionData: JSON.parse(data)
-        });
-      },
-      error: (err) => {
-        console.error(err);
-        this.setState({
-          error: true
-        });
-      }
-    })
-  },
   render() {
     // console.log(this.props);
     const {
       fireRef,
       overlay,
+      versionData,
       askQuestion: {
         to,
         from,
@@ -135,7 +124,6 @@ export const AskQuestion = React.createClass({
     const {
       success,
       error,
-      versionData
     } = this.state;
     if(!versionData || !fireRef) {
       return (
@@ -210,6 +198,7 @@ export const AnswerQuestion = React.createClass({
     error: false,
     success: false,
     versionData: null,
+    questionData: null,
     validation: {
       titleMin: 3,
       titleMax: 60,
@@ -228,14 +217,15 @@ export const AnswerQuestion = React.createClass({
       userData,
       fireRef,
       overlay,
-      answerQuestion: {
-        questionData,
-        answerData
-      },
+      questionID,
+      versionData,
       methods: {
         popUpHandler
       }
     } = this.props;
+    const {
+      questionData
+    } = this.state;
     const {
       title,
       body,
@@ -292,20 +282,14 @@ export const AnswerQuestion = React.createClass({
     });
   },
   componentDidMount() {
-    // console.log("question tools mounted", this.props);
-    ajax({
-      url: "/get-version",
-      success: (data) => {
-        this.setState({
-          versionData: JSON.parse(data)
-        });
-      },
-      error: (err) => {
-        console.error(err);
-        this.setState({
-          error: true
-        });
-      }
+    const {
+      questionID,
+      fireRef
+    } = this.props;
+    getQuestionData(questionID, fireRef, null, questionData => {
+      this.setState({
+        questionData
+      });
     })
   },
   render() {
@@ -313,13 +297,12 @@ export const AnswerQuestion = React.createClass({
     const {
       fireRef,
       overlay,
-      answerQuestion: {
-        questionData,
-        answerData,
-      },
       methods: {
         popUpHandler
       }
+    } = this.props;
+    const {
+      questionData
     } = this.props;
     const {
       success,
@@ -405,7 +388,6 @@ export const CommentTool = React.createClass({
   getInitialState: () => ({
     error: false,
     success: false,
-    versionData: null,
     validation: {
       bodyMin: 30,
       bodyMax: 2000,
@@ -420,16 +402,17 @@ export const CommentTool = React.createClass({
       userData,
       fireRef,
       overlay,
-
+      versionData,
+      questionID,
       commentID,
-      viewQuestion: {
-        questionData,
-        answerData
-      },
       methods: {
         popUpHandler
       }
     } = this.props;
+    const {
+      questionData,
+      answerData
+    } = this.state;
     const {
       title,
       body,
@@ -443,18 +426,19 @@ export const CommentTool = React.createClass({
       "commentID": commentID || null,
       //----------------------------------------
       "body": body.value,
-      "questionID": questionData.questionID,
+      questionID,
       "date": new Date().getTime(),
       "sentStatuses": {
         "email": false,
         "notification": false
       },
-      "version": this.state.versionData,
+      "version": versionData,
     };
     if(!this.state.validation.bodyValid) return;
     // return console.log("comment object:", commentObject);
     // write answer to `answers` node
     fireRef.commentsRef
+    .child(questionID)
     .push()
     .setWithPriority(commentObject, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
@@ -462,6 +446,10 @@ export const CommentTool = React.createClass({
     // close the pop up
     this.setState({
       success: true
+    }, () => {
+      setTimeout(() => {
+        popUpHandler("close")
+      }, 2000)
     });
   },
   validate(name, e) {
@@ -479,31 +467,12 @@ export const CommentTool = React.createClass({
       })
     });
   },
-  componentDidMount() {
-    // console.log("question tools mounted", this.props);
-    ajax({
-      url: "/get-version",
-      success: (data) => {
-        this.setState({
-          versionData: JSON.parse(data)
-        });
-      },
-      error: (err) => {
-        console.error(err);
-        this.setState({
-          error: true
-        });
-      }
-    });
-  },
   render() {
     const {
       fireRef,
       commentData,
+      versionData,
     } = this.props;
-    const {
-      versionData
-    } = this.state;
     if(!versionData || !fireRef) {
       return (
         <form onSubmit={this.submit}>
@@ -536,12 +505,14 @@ const CommentItem = React.createClass({
   displayName: "CommentItem",
   render() {
     const {
+      fireRef,
+      userData,
+      questionID,
       commentID,
       commentData,
-      voteToolData
     } = this.props;
 
-    console.log("commentitem", commentID);
+    // console.log("commentitem", commentID);
     return (
       <div className="section">
         <label className="comment">
@@ -554,13 +525,9 @@ const CommentItem = React.createClass({
             // </div>
           }
         </label>
-        {
-          voteToolData ? (
-            <label className="vote">
-              <VoteTool {...Object.assign(voteToolData, { place: "comment", commentData, commentID })} />
-            </label>
-          ) : null
-        }
+        <label className="vote">
+          <VoteTool {...{ place: "comment", commentID, questionID, fireRef, userData }} />
+        </label>
       </div>
     );
   }
@@ -569,6 +536,8 @@ const CommentItem = React.createClass({
 export const ViewQuestion = React.createClass({
   displayName: "ViewQuestion",
   getInitialState: () => ({
+    questionData: null,
+    answerData: null,
     comments: null
   }),
   newComment(snap) {
@@ -584,23 +553,37 @@ export const ViewQuestion = React.createClass({
   },
   componentDidMount() {
     const {
+      questionID,
       fireRef
     } = this.props;
-    // console.log("yeah, view question mounted");
-    fireRef.commentsRef
-    .orderByChild("reply")
-    .equalTo(false)
-    .once("value")
-    .then(snap => {
-      this.setState({
-        comments: snap.val()
-      })
-    })
+
+    console.log("viewing", this.props);
 
     fireRef.commentsRef
     .orderByChild("reply")
     .equalTo(false)
-    .on("child_added", this.newComment)
+    .on("child_added", this.newComment);
+
+    // get question data
+    getQuestionData(questionID, fireRef, null, questionData => {
+      this.setState({
+        questionData
+      });
+    });
+    getAnswerData(questionID, fireRef, null, answerData => {
+      this.setState({
+        answerData
+      });
+    });
+    getCommentsData(questionID, fireRef, refNode => {
+      return refNode.orderByChild("reply")
+      .equalTo(false);
+    }, commentsData => {
+      console.log("got commentsData", commentsData);
+      this.setState({
+        comments: commentsData
+      });
+    });
   },
   componentWillUnmount() {
     const {
@@ -616,20 +599,22 @@ export const ViewQuestion = React.createClass({
     // console.log(this.props);
     const {
       overlay,
-      viewQuestion: {
-        questionData,
-        answerData,
-        voteToolData
-      },
+      fireRef,
+      questionID,
+      userData,
       methods: {
         popUpHandler
       }
     } = this.props;
+    const {
+      questionData,
+      answerData,
+    } = this.state;
     const { comments } = this.state;
     const commentList = Object.keys(comments || {}).map(commentID => {
       const commentData = comments[commentID];
       return (
-        <CommentItem key={commentID} commentID={commentID} commentData={commentData} voteToolData={voteToolData} />
+        <CommentItem key={commentID} commentID={commentID} commentData={commentData} questionID={questionID} fireRef={fireRef} userData={userData} />
       );
     });
 
@@ -654,13 +639,9 @@ export const ViewQuestion = React.createClass({
                 <div className="separator-1-black" />
                 <div className="label">{questionData.body}</div>
               </label>
-              {
-                voteToolData ? (
-                  <label className="vote">
-                    <VoteTool {...Object.assign(voteToolData, { place: "question" })} />
-                  </label>
-                ) : null
-              }
+              <label className="vote">
+                <VoteTool {...{ place: "question", questionID, fireRef, userData }} />
+              </label>
             </div>
             <div className="separator-4-dim" />
             <div className="title sub">
@@ -670,13 +651,9 @@ export const ViewQuestion = React.createClass({
               <label>
                 <div className="label"><p>{answerData.body}</p></div>
               </label>
-              {
-                voteToolData ? (
-                  <label className="vote">
-                    <VoteTool {...Object.assign(voteToolData, { place: "answer" })} />
-                  </label>
-                ) : null
-              }
+              <label className="vote">
+                <VoteTool {...{ place: "answer", questionID, fireRef, userData }} />
+              </label>
             </div>
             <div className="separator-4-dim" />
             <div className="title sub">

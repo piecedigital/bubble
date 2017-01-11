@@ -13,9 +13,7 @@ export default React.createClass({
       versionData,
       fireRef,
       overlay,
-      askQuestion,
-      answerQuestion,
-      viewQuestion,
+      overlayState,
       methods,
       params,
       methods: {
@@ -46,10 +44,9 @@ export default React.createClass({
             return Component ? (
               <Component
               overlay={overlay}
-              askQuestion={askQuestion}
-              answerQuestion={answerQuestion}
-              viewQuestion={viewQuestion}
+              {...overlayState}
               fireRef={fireRef}
+              versionData={versionData}
               auth={auth}
               params={params}
               userData={userData}

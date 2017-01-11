@@ -65,13 +65,13 @@ export default React.createClass({
     }
   },
   newBookmark(snap) {
-    console.log("new mark", snap.getKey());
+    // console.log("new mark", snap.getKey());
     if(snap.getKey() === this.props.givenUsername) this.setState({
       bookmarked: true
     });
   },
   removedBookmark(snap) {
-    console.log("removed mark", snap.getKey());
+    // console.log("removed mark", snap.getKey());
     if(snap.getKey() === this.props.givenUsername) this.setState({
       bookmarked: false
     });

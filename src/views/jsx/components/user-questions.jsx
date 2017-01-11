@@ -1,71 +1,22 @@
 import React from "react";
 import SideTools from "./user/side-tools.jsx";
 import VoteTool from "./vote-tool.jsx";
+import { calculateRatings,
+getQuestionData,
+getAnswerData,
+getRatingsData } from "../../../modules/helper-tools";
 import { Link, browserHistory as History } from "react-router";
 
 const QuestionListItem = React.createClass({
   displayName: "QuestionListItem",
   getInitialState: () => ({ questionData: null, answerData: null, commentData: null, ratingsData: null, calculatedRatings: null }),
-  calculateRatings() {
-    const { ratingsData } = this.state;
-    const { userData } = this.props;
-    let calculatedRatings = {};
-    // don't continue if there is no ratings data
-    if(!ratingsData) return;
-    if(!userData) return setTimeout(this.calculateRatings, 100);
-
-    calculatedRatings = {
-      question: {
-        upvotes: [],
-        downvotes: [],
-        overall: 0,
-        myVote: false,
-        for: true
-      },
-      answer: {
-        upvotes: [],
-        downvotes: [],
-        overall: 0,
-        myVote: false,
-        for: true
-      },
-      comment: {
-        upvotes: [],
-        downvotes: [],
-        overall: 0,
-        myVote: false,
-        for: true
-      }
-    };
-
-    Object.keys(ratingsData || {}).map(vote => {
-      const voteData = ratingsData[vote];
-      const place = voteData.for;
-
-      if(ratingsData[vote].upvote) calculatedRatings[place].upvotes.push(true);
-      if(!ratingsData[vote].upvote) calculatedRatings[place].downvotes.push(true);
-      if(voteData.username === userData.name) {
-        calculatedRatings[place].myVote = voteData.upvote;
-        calculatedRatings[place].for = voteData.for;
-      }
-    });
-    ["question", "answer", "comment"].map(place => {
-      calculatedRatings[place].upvotes = calculatedRatings[place].upvotes.length;
-      calculatedRatings[place].downvotes = calculatedRatings[place].downvotes.length;
-      calculatedRatings[place].overall = calculatedRatings[place].upvotes - calculatedRatings[place].downvotes;
-    });
-
-    this.setState({
-      calculatedRatings
-    });
-  },
-  newQuestion(snap) {
+  newAnswer(snap) {
     const {
       questionID,
       fireRef
     } = this.props;
     const answerKey = snap.getKey();
-    console.log("new answer", answerKey, questionID);
+    // console.log("new answer", answerKey, questionID);
     if(answerKey === questionID) {
       fireRef.answersRef
       .child(questionID)
@@ -79,24 +30,6 @@ const QuestionListItem = React.createClass({
       });
     }
   },
-  newRating(dleet, snap) {
-    const ratingsKey = snap.getKey();
-    const ratingsData = snap.val();
-    // console.log("shit changed", ratingsKey, ratingsData);
-    let newData = JSON.parse(JSON.stringify(this.state.ratingsData));
-    if(dleet) delete newData[ratingsKey];
-    this.setState({
-      ratingsData: Object.assign(newData || {}, dleet ? {} : {
-        [ratingsKey]: ratingsData
-      })
-    }, () => {
-      this.calculateRatings();
-      if(this.props.overlay === "viewQuestion") {
-        setTimeout(this.setupOverlay, 100)
-      }
-    });
-  },
-  checkIfOverlayNeeded() {},
   setupOverlay() {
     if(this.props.pageOverride === "featured") return;
     const {
@@ -119,7 +52,7 @@ const QuestionListItem = React.createClass({
     // set up pop up overlay for question view if at question URL
     if(params.questionID === questionID && !location.state || location.state && !location.state.modal) {
       History.push({
-        pathname: `/profile/${params.username || userData.name}/q/${questionID}`,
+        pathname: `/profile/${params.username || userData ? userData.name : ""}/q/${questionID}`,
         state: {
           modal: true,
           returnTo: `/profile/${params.username || ""}`,
@@ -127,23 +60,14 @@ const QuestionListItem = React.createClass({
       });
       // console.log("open pop ");
       popUpHandler("viewQuestion", {
-        questionData: Object.assign(questionData, { questionID }),
-        answerData,
-        voteToolData: {
-          myAuth: myAuth,
-          userData: userData,
-          fireRef: fireRef,
-          place: "question",
-          calculatedRatings: calculatedRatings,
-          questionData: questionData,
-        }
+        questionID
       });
     }
   },
   componentWillReceiveProps(nextProps) {
-    if(nextProps.location.pathname !== this.props.location.pathname) {
-      this.setupOverlay();
-    }
+    // if(nextProps.location.pathname !== this.props.location.pathname) {
+    //   this.setupOverlay();
+    // }
   },
   setupAnswerListeners() {
     const {
@@ -155,7 +79,7 @@ const QuestionListItem = React.createClass({
     // set listener for new question
     const usersRefNode = fireRef.usersRef
     .child(`${this.state.questionData.receiver}/answersFromMe`)
-    .on("child_added", this.newQuestion);
+    .on("child_added", this.newAnswer);
   },
   setupRatingsListeners() {
     const {
@@ -218,31 +142,36 @@ const QuestionListItem = React.createClass({
       });
     });
     // get ratings data
-    fireRef.ratingsRef
-    .child(questionID)
-    .once("value")
-    .then(snap => {
-      const ratingsData = snap.val();
-      this.setState({
-        ratingsData
-      }, () => {
-        this.calculateRatings();
-        this.setupOverlay();
-      });
-    });
+    // fireRef.ratingsRef
+    // .child(questionID)
+    // .once("value")
+    // .then(snap => {
+    //   const ratingsData = snap.val();
+    //   this.setState({
+    //     ratingsData
+    //   }, () => {
+    //     calculateRatings(calculatedRatings => {
+    //       this.setState({
+    //         calculatedRatings
+    //       })
+    //     });
+    //     this.setupOverlay();
+    //   });
+    // });
+    this.setupOverlay();
     // set listener on ratings data
     // rating added
-    fireRef.ratingsRef
-    .child(questionID)
-    .on("child_added", this.newRating.bind(null, null)),
-    // rating changed
-    fireRef.ratingsRef
-    .child(questionID)
-    .on("child_changed", this.newRating.bind(null, null));
-    // rating removed
-    fireRef.ratingsRef
-    .child(questionID)
-    .on("child_removed", this.newRating.bind(null, true));
+    // fireRef.ratingsRef
+    // .child(questionID)
+    // .on("child_added", this.newRating.bind(null, null)),
+    // // rating changed
+    // fireRef.ratingsRef
+    // .child(questionID)
+    // .on("child_changed", this.newRating.bind(null, null));
+    // // rating removed
+    // fireRef.ratingsRef
+    // .child(questionID)
+    // .on("child_removed", this.newRating.bind(null, true));
   },
   componentWillUnmount() {
     const {
@@ -251,23 +180,23 @@ const QuestionListItem = React.createClass({
     } = this.props
     // remove listener on ratings data
     // rating added
-    fireRef.ratingsRef
-    .child(questionID)
-    .off("child_added", this.newRating),
-    // rating changed
-    fireRef.ratingsRef
-    .child(questionID)
-    .off("child_changed", this.newRating);
-    // rating removed
-    fireRef.ratingsRef
-    .child(questionID)
-    .off("child_removed", this.newRating);
-    // question added
-    if(this.state.questionData) {
-      fireRef.usersRef
-      .child(`${this.state.questionData.receiver}/answersFromMe`)
-      .off("child_added", this.newQuestion);
-    }
+    // fireRef.ratingsRef
+    // .child(questionID)
+    // .off("child_added", this.newRating),
+    // // rating changed
+    // fireRef.ratingsRef
+    // .child(questionID)
+    // .off("child_changed", this.newRating);
+    // // rating removed
+    // fireRef.ratingsRef
+    // .child(questionID)
+    // .off("child_removed", this.newRating);
+    // // question added
+    // if(this.state.questionData) {
+    //   fireRef.usersRef
+    //   .child(`${this.state.questionData.receiver}/answersFromMe`)
+    //   .off("child_added", this.newQuestion);
+    // }
   },
   render() {
     const {
@@ -298,7 +227,7 @@ const QuestionListItem = React.createClass({
         <Link to={
           answerData ? (
             {
-              pathname: `/profile/${questionData.receiver || userData.name}/q/${questionID}`,
+              pathname: `/profile/${questionData.receiver || (userData ? userData.name : "")}/q/${questionID}`,
               state: {
                 modal: true,
                 returnTo: URL || `/profile/${questionData.receiver || ""}`,
@@ -311,21 +240,11 @@ const QuestionListItem = React.createClass({
           )
         } onClick={answerData ? (
           popUpHandler.bind(null, "viewQuestion", {
-            questionData: Object.assign(questionData, { questionID }),
-            answerData,
-            voteToolData: {
-              myAuth: myAuth,
-              userData: userData,
-              fireRef: fireRef,
-              place: "question",
-              calculatedRatings: calculatedRatings,
-              questionData: questionData,
-            }
+            questionID
           })
         ) : (
           popUpHandler.bind(null, "answerQuestion", {
-            questionData: Object.assign(questionData, { questionID }),
-            answerData
+            questionID,
           })
         )}>
           <div className="wrapper">
@@ -352,12 +271,14 @@ const QuestionListItem = React.createClass({
               <div className="wrapper votes">
                 <div className="info question">
                   <VoteTool
-                  myAuth={myAuth}
-                  userData={userData}
-                  fireRef={fireRef}
-                  place="question"
-                  calculatedRatings={calculatedRatings}
-                  questionData={questionData} />
+                  {...{
+                    myAuth,
+                    userData,
+                    fireRef,
+                    place: "question",
+                    calculatedRatings,
+                    questionID
+                  }} />
                 </div>
               </div>
             ) : <div className="separator-4-dim" />
@@ -427,10 +348,10 @@ export default React.createClass({
         userData,
         params = {},
       } = this.props;
-      if(!userData) return;
-      console.log("search params", params.username, userData.name, this.state.lastID);
+      // if(!userData) return;
+      // console.log("search params", params.username, userData, this.state.lastID);
       let refNode = fireRef.usersRef
-      .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
+      .child(`${params.username || userData ? userData.name : undefined}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
       if(this.state.lastID) {
         refNode = refNode.orderByKey().endAt(this.state.lastID || 0)
         .limitToLast(queryLimit+1);
@@ -482,7 +403,7 @@ export default React.createClass({
     if(this.props.params) {
       const last = this.props.params.username,
       curr = nextProps.params.username,
-      signedIn = this.props.userData.name;
+      signedIn = this.props.userData ? this.props.userData.name : "";
       if(last || curr) {
         if(
           last !== signedIn &&
@@ -507,7 +428,7 @@ export default React.createClass({
     } = this.props;
 
     if(
-      fireRef && userData
+      fireRef
     ) {
       this.getQuestions();
     }
@@ -562,7 +483,7 @@ export default React.createClass({
       params = {}
     } = this.props;
     fireRef.usersRef
-    .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+    .child(`${params.username || userData ? userData.name : ""}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
     .off("child_added", this.newAnswer);
   },
   render() {
