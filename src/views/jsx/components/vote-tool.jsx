@@ -157,6 +157,7 @@ export default React.createClass({
   render() {
     const {
       place,
+      userData,
       commentID
     } = this.props;
     const {
@@ -200,7 +201,11 @@ export default React.createClass({
         e.preventDefault();
       }}>
         <div className="wrapper">
-          <div className={`upvote-btn${calculatedRatings[place].myVote ? myVote : ""}`} onClick={this.castVote.bind(null, true)}/>
+          {
+            userData ? (
+              <div className={`upvote-btn${calculatedRatings[place].myVote ? myVote : ""}`} onClick={this.castVote.bind(null, true)}/>
+            ) : null
+          }
           <div className="ratings">
             <div className="overall">{calculatedRatings[place].overall || 0}</div>
             <div className="ups-and-downs">
@@ -209,7 +214,11 @@ export default React.createClass({
               <div className="down">{calculatedRatings[place].downvotes || 0}</div>
             </div>
           </div>
-          <div className={`downvote-btn${!calculatedRatings[place].myVote ? myVote : ""}`} onClick={this.castVote.bind(null, false)}/>
+          {
+            userData ? (
+              <div className={`downvote-btn${!calculatedRatings[place].myVote ? myVote : ""}`} onClick={this.castVote.bind(null, false)}/>
+            ) : null
+          }
         </div>
       </div>
     );

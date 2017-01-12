@@ -592,8 +592,8 @@ export const ViewQuestion = React.createClass({
     } = this.props;
 
     fireRef.commentsRef
-    .orderByChild("reply")
     .child(this.props.questionID)
+    .orderByChild("reply")
     .equalTo(false)
     .off("child_added", this.newComment)
   },

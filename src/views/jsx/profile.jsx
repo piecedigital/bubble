@@ -16,7 +16,7 @@ export default React.createClass({
     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
 
     // don't render without this data
-    if(!fireRef || !userData) return null;
+    if(!fireRef) return null;
     return (
       <div className="top-level-component profile">
         <div className="general-page profile">

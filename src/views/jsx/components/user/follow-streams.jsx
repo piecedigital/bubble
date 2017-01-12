@@ -380,7 +380,7 @@ export default React.createClass({
     // rerun gather data if...
     const last = this.props.params.username,
     curr = nextProps.params.username,
-    signedIn = this.props.userData.name;
+    signedIn = this.props.userData ? this.props.userData.name : "";
     // console.log("new name", last, curr, signedIn);
     if(last || curr) {
       if(
@@ -458,7 +458,7 @@ export default React.createClass({
 
       return (
         <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
-          <div className={`title`}>{this.props.follow === "IFollow" ? "Followed" : "Following"} Channels</div>
+          <div className={`title`}>{this.props.follow === "IFollow" ? "Followed" : "Following"} Channels{!userData ? " (login required for this feature)" : ""}</div>
           <div className="wrapper">
             <ul className="list">
               {list}
