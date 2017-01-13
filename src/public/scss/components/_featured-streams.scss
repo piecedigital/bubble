@@ -40,6 +40,7 @@
       }
       .display-name, .to-channel {
         margin-bottom: .7*$em;
+        word-wrap: break-word;
         a {
           color: white;
         }
