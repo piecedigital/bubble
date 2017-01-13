@@ -71,11 +71,11 @@ var ListItemHoverOptions = _react2["default"].createClass({
           "Send Message"
         )
       ),
-      _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
+      userData ? _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
         fireRef: fireRef,
         userData: userData,
         givenUsername: name,
-        versionData: versionData })
+        versionData: versionData }) : null
     );
   }
 });

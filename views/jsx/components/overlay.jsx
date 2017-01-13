@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _react = require("react");
@@ -16,54 +18,48 @@ var _questionToolsJsx = require("./question-tools.jsx");
 
 var _bookmarkToolsJsx = require("./bookmark-tools.jsx");
 
+var _notificationToolsJsx = require("./notification-tools.jsx");
+
+var components = {
+  "askQuestion": _questionToolsJsx.AskQuestion,
+  "answerQuestion": _questionToolsJsx.AnswerQuestion,
+  "viewQuestion": _questionToolsJsx.ViewQuestion,
+  "viewBookmarks": _bookmarkToolsJsx.ViewBookmarks,
+  "viewNotifications": _notificationToolsJsx.ViewNotifications
+};
+
 exports["default"] = _react2["default"].createClass({
   displayName: "Overlay",
   render: function render() {
-    // console.log("overlay", this.props);
+    console.log("overlay", this.props);
     var _props = this.props;
     var auth = _props.auth;
     var userData = _props.userData;
     var versionData = _props.versionData;
     var fireRef = _props.fireRef;
     var overlay = _props.overlay;
-    var askQuestion = _props.askQuestion;
-    var answerQuestion = _props.answerQuestion;
-    var viewQuestion = _props.viewQuestion;
+    var overlayState = _props.overlayState;
     var methods = _props.methods;
     var params = _props.params;
+    var location = _props.location;
     var popUpHandler = _props.methods.popUpHandler;
 
     return _react2["default"].createElement(
       "div",
       { className: "overlay" + (overlay ? " open" : ""), onClick: popUpHandler.bind(null, "close") },
       (function () {
-        var Component = null;
-        switch (overlay) {
-          case "askQuestion":
-            Component = _questionToolsJsx.AskQuestion;
-            break;
-          case "answerQuestion":
-            Component = _questionToolsJsx.AnswerQuestion;
-            break;
-          case "viewQuestion":
-            Component = _questionToolsJsx.ViewQuestion;
-            break;
-          case "viewBookmarks":
-            Component = _bookmarkToolsJsx.ViewBookmarks;
-            break;
-          default:
-            Component = null;
-        }
-        return Component ? _react2["default"].createElement(Component, {
-          overlay: overlay,
-          askQuestion: askQuestion,
-          answerQuestion: answerQuestion,
-          viewQuestion: viewQuestion,
+        var Component = components[overlay] || null;
+        // console.log(components, Component);
+        return Component ? _react2["default"].createElement(Component, _extends({
+          overlay: overlay
+        }, overlayState, {
           fireRef: fireRef,
+          versionData: versionData,
           auth: auth,
           params: params,
+          location: location,
           userData: userData,
-          methods: methods }) : null;
+          methods: methods })) : null;
       })()
     );
   }

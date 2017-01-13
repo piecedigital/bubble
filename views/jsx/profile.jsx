@@ -34,6 +34,7 @@ exports["default"] = _react2["default"].createClass({
   displayName: "Profile",
   render: function render() {
     var _props = this.props;
+    var auth = _props.auth;
     var fireRef = _props.fireRef;
     var userData = _props.userData;
     var _props$params = _props.params;
@@ -42,7 +43,7 @@ exports["default"] = _react2["default"].createClass({
     var name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
 
     // don't render without this data
-    if (!fireRef || !userData) return null;
+    if (!fireRef) return null;
     return _react2["default"].createElement(
       "div",
       { className: "top-level-component profile" },
@@ -67,10 +68,8 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserQuestionsJsx2["default"], this.props),
-        _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "IFollow" }, this.props)),
-        _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ follow: "followMe" }, this.props)),
+        auth && auth.access_token ? [_react2["default"].createElement("div", { key: "sep-IFollow", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-IFollow", follow: "IFollow" }, this.props))] : null,
+        auth && auth.access_token ? [_react2["default"].createElement("div", { key: "sep-followMe", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-followMe", follow: "followMe" }, this.props))] : null,
         _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserVideosListingJsx2["default"], _extends({ broadcasts: true }, this.props))
       )

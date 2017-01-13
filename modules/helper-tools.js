@@ -54,3 +54,109 @@ function makeNotification(data) {
     }
   }, (data.timeout || 2) * 1000);
 }
+
+var calculateRatings = function calculateRatings(options, cb) {
+  var ratingsData = options.ratingsData;
+  var userData = options.userData;
+
+  var calculatedRatings = {};
+  // don't continue if there is no ratings data
+  if (!ratingsData) return;
+  // if(!userData) return setTimeout(options.calculateRatings, 100);
+
+  calculatedRatings = {
+    question: {
+      upvotes: [],
+      downvotes: [],
+      overall: 0,
+      myVote: false,
+      "for": true
+    },
+    answer: {
+      upvotes: [],
+      downvotes: [],
+      overall: 0,
+      myVote: false,
+      "for": true
+    },
+    comment: {
+      upvotes: [],
+      downvotes: [],
+      overall: 0,
+      myVote: false,
+      "for": true
+    }
+  };
+
+  Object.keys(ratingsData || {}).map(function (vote) {
+    var voteData = ratingsData[vote];
+    var place = voteData["for"];
+
+    if (ratingsData[vote].upvote) calculatedRatings[place].upvotes.push(true);
+    if (!ratingsData[vote].upvote) calculatedRatings[place].downvotes.push(true);
+    if (userData && voteData.username === userData.name) {
+      calculatedRatings[place].myVote = voteData.upvote;
+      calculatedRatings[place]["for"] = voteData["for"];
+    }
+  });
+  ["question", "answer", "comment"].map(function (place) {
+    calculatedRatings[place].upvotes = calculatedRatings[place].upvotes.length;
+    calculatedRatings[place].downvotes = calculatedRatings[place].downvotes.length;
+    calculatedRatings[place].overall = calculatedRatings[place].upvotes - calculatedRatings[place].downvotes;
+  });
+
+  typeof cb === "function" ? cb(calculatedRatings) : console.log("no function to pass calculated data");
+};
+
+exports.calculateRatings = calculateRatings;
+var getQuestionData = function getQuestionData(questionID, fireRef, modCB, cb) {
+  var refNode = fireRef.questionsRef.child(questionID);
+  refNode = typeof modCB === "function" ? modCB : refNode;
+  refNode.once("value").then(function (snap) {
+    typeof cb === "function" ? cb(snap.val()) : null;
+  });
+};
+
+exports.getQuestionData = getQuestionData;
+var getAnswerData = function getAnswerData(questionID, fireRef, modCB, cb) {
+  var refNode = fireRef.answersRef.child(questionID);
+  refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
+  refNode.once("value").then(function (snap) {
+    typeof cb === "function" ? cb(snap.val()) : null;
+  });
+};
+
+exports.getAnswerData = getAnswerData;
+var getCommentsData = function getCommentsData(questionID, fireRef, modCB, cb) {
+  var refNode = fireRef.commentsRef.child(questionID);
+  refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
+  refNode.once("value").then(function (snap) {
+    typeof cb === "function" ? cb(snap.val()) : null;
+  });
+};
+
+exports.getCommentsData = getCommentsData;
+var getRatingsData = function getRatingsData(questionID, fireRef, modCB, cb) {
+  var refNode = fireRef.ratingsRef.child(questionID);
+  refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
+  refNode.once("value").then(function (snap) {
+    typeof cb === "function" ? cb(snap.val()) : null;
+  });
+};
+
+exports.getRatingsData = getRatingsData;
+var listenOnNewRatings = function listenOnNewRatings(questionID, fireRef, modCB, cb) {
+  if (typeof cb !== "function") return console.error("no callback to ratings watch");
+  var refNode = fireRef.ratingsRef.child(questionID);
+  refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
+  refNode.on("child_added", cb);
+  refNode.on("child_changed", cb);
+  refNode.on("child_removed", cb);
+  return function kill() {
+    console.log("killing ratings listeners");
+    refNode.off("child_added", cb);
+    refNode.off("child_changed", cb);
+    refNode.off("child_removed", cb);
+  };
+};
+exports.listenOnNewRatings = listenOnNewRatings;

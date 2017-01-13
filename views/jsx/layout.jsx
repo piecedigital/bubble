@@ -55,19 +55,7 @@ exports["default"] = _react2["default"].createClass({
       panelData: [],
       panelData: [],
       overlay: "",
-      askQuestion: {
-        to: "",
-        from: "",
-        body: ""
-      },
-      answerQuestion: {
-        questionData: null,
-        answerData: null
-      },
-      viewQuestion: {
-        questionData: null,
-        answerData: null
-      },
+      overlayState: null,
       fireRef: null,
       versionData: null
     }, this.props.initState || {});
@@ -80,6 +68,7 @@ exports["default"] = _react2["default"].createClass({
       root: _firebase2["default"].database().ref(),
       appConfigRef: _firebase2["default"].database().ref("appConfig"),
       usersRef: _firebase2["default"].database().ref("users"),
+      notificationsRef: _firebase2["default"].database().ref("notifications"),
       questionsRef: _firebase2["default"].database().ref("questions"),
       answersRef: _firebase2["default"].database().ref("answers"),
       ratingsRef: _firebase2["default"].database().ref("ratings"),
@@ -314,13 +303,13 @@ exports["default"] = _react2["default"].createClass({
       case "askQuestion":
         newState = Object.assign({
           overlay: action,
-          askQuestion: {
-            to: options.recipient.toLowerCase(),
+          overlayState: {
+            to: options.receiver.toLowerCase(),
             from: options.sender.toLowerCase()
           }
         }, options.reset ? {
           // reset askQuestion object if options.reset is there
-          askQuestion: {
+          overlayState: {
             to: "",
             from: "",
             body: ""
@@ -330,31 +319,14 @@ exports["default"] = _react2["default"].createClass({
         this.setState(newState);
         break;
       case "answerQuestion":
-        newState = {
-          overlay: action,
-          answerQuestion: {
-            questionData: options.questionData,
-            answerData: options.answerData
-          }
-        };
-        // console.log("new state:", newState);
-        this.setState(newState);
-        break;
       case "viewQuestion":
+      case "viewBookmarks":
+      case "viewNotifications":
         newState = {
           overlay: action,
-          viewQuestion: {
-            questionData: options.questionData,
-            answerData: options.answerData,
-            voteToolData: options.voteToolData
+          overlayState: {
+            questionID: options ? options.questionID : null
           }
-        };
-        // console.log("new state:", newState);
-        this.setState(newState);
-        break;
-      case "viewBookmarks":
-        newState = {
-          overlay: action
         };
         // console.log("new state:", newState);
         this.setState(newState);
@@ -387,9 +359,7 @@ exports["default"] = _react2["default"].createClass({
     var layout = _state.layout;
     var panelData = _state.panelData;
     var overlay = _state.overlay;
-    var askQuestion = _state.askQuestion;
-    var answerQuestion = _state.answerQuestion;
-    var viewQuestion = _state.viewQuestion;
+    var overlayState = _state.overlayState;
     var fireRef = _state.fireRef;
     var versionData = _state.versionData;
 
@@ -399,7 +369,12 @@ exports["default"] = _react2["default"].createClass({
     return _react2["default"].createElement(
       "div",
       { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + (layout || Object.keys(dataObject).length) },
-      _react2["default"].createElement(_componentsNavJsx2["default"], { authData: authData, userData: userData, url: url, methods: {
+      _react2["default"].createElement(_componentsNavJsx2["default"], {
+        fireRef: fireRef,
+        authData: authData,
+        userData: userData,
+        url: url,
+        methods: {
           search: this.search,
           appendStream: this.appendStream,
           logout: this.logout,
@@ -467,12 +442,11 @@ exports["default"] = _react2["default"].createClass({
         auth: authData,
         userData: userData,
         overlay: overlay,
-        askQuestion: askQuestion,
-        answerQuestion: answerQuestion,
-        viewQuestion: viewQuestion,
+        overlayState: overlayState,
         fireRef: fireRef,
         versionData: versionData,
         params: this.props.params,
+        location: this.props.location,
         methods: {
           popUpHandler: this.popUpHandler
         } }),

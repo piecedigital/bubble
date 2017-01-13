@@ -34,3 +34,5 @@ var ref = {
   pollsRef: Firebase.database().ref("polls")
 };
 var fireRef = ref;
+
+console.log(firebase.database.ServerValue.TIMESTAMP);

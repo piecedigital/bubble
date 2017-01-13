@@ -44,6 +44,7 @@ nav {
     nav > div > span {
       display: flex; }
     nav > div .nav-item {
+      position: relative;
       color: black;
       padding: 7.2px 16px;
       text-decoration: none;
@@ -92,6 +93,15 @@ nav {
             color: rgba(0, 0, 0, 0.5); }
           nav > div .nav-item.input input:focus {
             background-color: rgba(0, 0, 0, 0.1); }
+
+.notif {
+  display: inline-block;
+  margin-left: 8px;
+  border-radius: 8px;
+  background-color: #0082b4;
+  box-shadow: 0 0 0 6.4px #0082b4;
+  color: white;
+  text-shadow: 2px 2px 2px black; }
 
 @media (max-width: 980px) {
   nav {
@@ -1290,6 +1300,31 @@ nav {
     background-color: rgba(255, 165, 0, 0.8);
     cursor: pointer; }
     .bookmark-item label span:hover {
+      background-color: rgba(255, 0, 0, 0.8);
+      color: white; }
+
+.notif-item:not(:last-child) {
+  margin-bottom: 8px; }
+.notif-item.read {
+  opacity: .6; }
+.notif-item label {
+  display: -ms-flex !important;
+  display: -moz-flex !important;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center; }
+  .notif-item label a {
+    display: inline-block;
+    color: black;
+    margin-right: 16px; }
+  .notif-item label span {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(255, 165, 0, 0.8);
+    cursor: pointer; }
+    .notif-item label span:hover {
       background-color: rgba(255, 0, 0, 0.8);
       color: white; }
 

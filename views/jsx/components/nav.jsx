@@ -12,6 +12,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _notificationsJsx = require("./notifications.jsx");
+
+var _notificationsJsx2 = _interopRequireDefault(_notificationsJsx);
+
 var SlideInput = _react2["default"].createClass({
   displayName: "SlideInput",
   submit: function submit(e) {
@@ -123,6 +127,8 @@ exports["default"] = _react2["default"].createClass({
     var searchOpen = _state.searchOpen;
     var navOpen = _state.navOpen;
     var _props3 = this.props;
+    var auth = _props3.auth;
+    var fireRef = _props3.fireRef;
     var authData = _props3.authData;
     var userData = _props3.userData;
     var url = _props3.url;
@@ -185,6 +191,17 @@ exports["default"] = _react2["default"].createClass({
                 popUpHandler("viewBookmarks");
               } },
             "Bookmarks"
+          ), _react2["default"].createElement(
+            "a",
+            { key: "notifications", className: "nav-item", href: "#", onClick: function () {
+                _this2.toggleNav("close");
+                popUpHandler("viewNotifications");
+              } },
+            "Notifications",
+            _react2["default"].createElement(_notificationsJsx2["default"], {
+              auth: auth,
+              fireRef: fireRef,
+              userData: userData })
           )] : null,
           _react2["default"].createElement(
             "a",

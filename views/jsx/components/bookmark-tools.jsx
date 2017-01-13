@@ -108,6 +108,7 @@ var ViewBookmarks = _react2["default"].createClass({
     var _props4 = this.props;
     var fireRef = _props4.fireRef;
     var userData = _props4.userData;
+    var popUpHandler = _props4.methods.popUpHandler;
 
     var bookmarkList = Object.keys(this.state.bookmarks).map(function (bookmarkID) {
       return _react2["default"].createElement(BookmarkItem, _extends({
@@ -124,6 +125,11 @@ var ViewBookmarks = _react2["default"].createClass({
       { className: "overlay-ui-default view-bookmarks open", onClick: function (e) {
           return e.stopPropagation();
         } },
+      _react2["default"].createElement(
+        "div",
+        { className: "close", onClick: popUpHandler.bind(null, "close") },
+        "x"
+      ),
       _react2["default"].createElement(
         "div",
         { className: "title" },

@@ -185,7 +185,7 @@ exports["default"] = _react2["default"].createClass({
           ), " ", _react2["default"].createElement(
             "div",
             { key: "ask", className: "btn-default btn-rect color-black bold no-underline", onClick: popUpHandler.bind(null, "askQuestion", {
-                recipient: name.toLowerCase(),
+                receiver: name.toLowerCase(),
                 sender: userData.name
               }) },
             "Ask A Question"
@@ -196,11 +196,19 @@ exports["default"] = _react2["default"].createClass({
             { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
             "Open Stream"
           )] : null,
-          !params || !params.username || params && params.username === userData.name ? [" ", _react2["default"].createElement(
-            "a",
-            { key: "clips", className: "btn-default btn-rect color-black bold no-underline", href: "https://clips.twitch.tv/my-clips", target: "_blank" },
-            "My Clips"
-          )] : null
+          (function () {
+            var give = false;
+            if (userData) {
+              if (params && params.username === userData.name) {
+                give = true;
+              }
+            }
+            return give ? [" ", _react2["default"].createElement(
+              "a",
+              { key: "clips", className: "btn-default btn-rect color-black bold no-underline", href: "https://clips.twitch.tv/my-clips", target: "_blank" },
+              "My Clips"
+            )] : null;
+          })()
         )
       )
     );

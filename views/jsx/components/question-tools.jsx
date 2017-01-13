@@ -4,7 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -15,6 +19,8 @@ var _react2 = _interopRequireDefault(_react);
 var _firebase = require("firebase");
 
 var _firebase2 = _interopRequireDefault(_firebase);
+
+var _modulesHelperTools = require("../../../modules/helper-tools");
 
 var _voteToolJsx = require("./vote-tool.jsx");
 
@@ -28,7 +34,6 @@ var AskQuestion = _react2["default"].createClass({
     return {
       error: false,
       success: false,
-      versionData: null,
       validation: {
         titleMin: 3,
         titleMax: 60,
@@ -49,9 +54,9 @@ var AskQuestion = _react2["default"].createClass({
     var auth = _props.auth;
     var fireRef = _props.fireRef;
     var overlay = _props.overlay;
-    var _props$askQuestion = _props.askQuestion;
-    var to = _props$askQuestion.to;
-    var from = _props$askQuestion.from;
+    var versionData = _props.versionData;
+    var to = _props.to;
+    var from = _props.from;
     var popUpHandler = _props.methods.popUpHandler;
     var _refs = this.refs;
     var title = _refs.title;
@@ -69,14 +74,33 @@ var AskQuestion = _react2["default"].createClass({
         "email": false,
         "notification": false
       },
-      version: this.state.versionData
+      version: versionData
     };
+
     if (!this.state.validation.titleValid && !this.state.validation.bodyValid) return;
     // console.log("question object:", questionObject);
     // write question to `questions` node
     var questionID = fireRef.root.push().getKey();
     // console.log(questionID);
     fireRef.questionsRef.child(questionID).setWithPriority(questionObject, 0 - Date.now())["catch"](function (e) {
+      return console.error(e.val ? e.val() : e);
+    });
+
+    // send notification
+    // create notif obejct
+    var notifObject = {
+      type: "newQuestion",
+      info: {
+        sender: from,
+        questionID: questionID,
+        questionURL: "/profile/" + to + "/a/" + questionID
+      },
+      read: false,
+      date: new Date().getTime(),
+      version: versionData
+    };
+    // send notif
+    fireRef.notificationsRef.child(to).push().set(notifObject)["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
     // write question ID reference to user.<username>.questionsForMe
@@ -116,39 +140,19 @@ var AskQuestion = _react2["default"].createClass({
       success: false
     });
   },
-  componentDidMount: function componentDidMount() {
-    var _this2 = this;
-
-    // console.log("question tools mounted", this.props);
-    (0, _modulesAjax.ajax)({
-      url: "/get-version",
-      success: function success(data) {
-        _this2.setState({
-          versionData: JSON.parse(data)
-        });
-      },
-      error: function error(err) {
-        console.error(err);
-        _this2.setState({
-          error: true
-        });
-      }
-    });
-  },
   render: function render() {
     // console.log(this.props);
     var _props2 = this.props;
     var fireRef = _props2.fireRef;
     var overlay = _props2.overlay;
-    var _props2$askQuestion = _props2.askQuestion;
-    var to = _props2$askQuestion.to;
-    var from = _props2$askQuestion.from;
-    var body = _props2$askQuestion.body;
+    var versionData = _props2.versionData;
+    var to = _props2.to;
+    var from = _props2.from;
+    var body = _props2.body;
     var popUpHandler = _props2.methods.popUpHandler;
     var _state = this.state;
     var success = _state.success;
     var error = _state.error;
-    var versionData = _state.versionData;
 
     if (!versionData || !fireRef) {
       return _react2["default"].createElement(
@@ -313,6 +317,7 @@ var AnswerQuestion = _react2["default"].createClass({
       error: false,
       success: false,
       versionData: null,
+      questionData: null,
       validation: {
         titleMin: 3,
         titleMax: 60,
@@ -326,7 +331,7 @@ var AnswerQuestion = _react2["default"].createClass({
     };
   },
   submit: function submit(e) {
-    var _this3 = this;
+    var _this2 = this;
 
     e.preventDefault();
     var _props3 = this.props;
@@ -334,10 +339,10 @@ var AnswerQuestion = _react2["default"].createClass({
     var userData = _props3.userData;
     var fireRef = _props3.fireRef;
     var overlay = _props3.overlay;
-    var _props3$answerQuestion = _props3.answerQuestion;
-    var questionData = _props3$answerQuestion.questionData;
-    var answerData = _props3$answerQuestion.answerData;
+    var questionID = _props3.questionID;
+    var versionData = _props3.versionData;
     var popUpHandler = _props3.methods.popUpHandler;
+    var questionData = this.state.questionData;
     var _refs2 = this.refs;
     var title = _refs2.title;
     var body = _refs2.body;
@@ -346,7 +351,7 @@ var AnswerQuestion = _react2["default"].createClass({
       "myAuth": !!auth.access_token,
       "username": userData.name,
       "body": body.value,
-      "questionID": questionData.questionID,
+      "questionID": questionID,
       "date": new Date().getTime(),
       "sentStatuses": {
         "email": false,
@@ -357,11 +362,29 @@ var AnswerQuestion = _react2["default"].createClass({
     if (!this.state.validation.bodyValid) return;
     // return console.log("question object:", answerObject);
     // write answer to `answers` node
-    fireRef.answersRef.child(questionData.questionID).setWithPriority(answerObject, 0 - Date.now())["catch"](function (e) {
+    fireRef.answersRef.child(questionID).setWithPriority(answerObject, 0 - Date.now())["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
     // write answer reference to user account
-    fireRef.usersRef.child(questionData.receiver).child("answersFromMe").child(questionData.questionID).setWithPriority(answerObject.date, 0 - Date.now())["catch"](function (e) {
+    fireRef.usersRef.child(questionData.receiver).child("answersFromMe").child(questionID).setWithPriority(answerObject.date, 0 - Date.now())["catch"](function (e) {
+      return console.error(e.val ? e.val() : e);
+    });
+
+    // send notification
+    // create notif obejct
+    var notifObject = {
+      type: "newAnswer",
+      info: {
+        sender: userData.name,
+        questionID: questionID,
+        questionURL: "/profile/" + userData.name + "/q/" + questionID
+      },
+      read: false,
+      date: new Date().getTime(),
+      version: versionData
+    };
+    // send notif
+    fireRef.notificationsRef.child(questionData.creator).push().set(notifObject)["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
 
@@ -370,7 +393,7 @@ var AnswerQuestion = _react2["default"].createClass({
       success: true
     }, function () {
       setTimeout(function () {
-        _this3.props.methods.popUpHandler("close");
+        _this2.props.methods.popUpHandler("close");
       }, 2000);
     });
   },
@@ -389,37 +412,44 @@ var AnswerQuestion = _react2["default"].createClass({
     });
   },
   componentDidMount: function componentDidMount() {
-    var _this4 = this;
+    var _this3 = this;
 
-    // console.log("question tools mounted", this.props);
-    (0, _modulesAjax.ajax)({
-      url: "/get-version",
-      success: function success(data) {
-        _this4.setState({
-          versionData: JSON.parse(data)
-        });
-      },
-      error: function error(err) {
-        console.error(err);
-        _this4.setState({
-          error: true
-        });
-      }
+    var _props4 = this.props;
+    var questionID = _props4.questionID;
+    var fireRef = _props4.fireRef;
+    var popUpHandler = _props4.methods.popUpHandler;
+
+    (0, _modulesHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
+      console.log("got question data", questionData);
+      (0, _modulesHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
+        console.log("got answer data", answerData);
+
+        if (answerData) {
+          popUpHandler("viewQuestion", {
+            questionID: questionID
+          });
+        } else {
+          _this3.setState({
+            questionData: questionData
+          });
+        }
+      });
     });
   },
   render: function render() {
     // console.log(this.props);
-    var _props4 = this.props;
-    var fireRef = _props4.fireRef;
-    var overlay = _props4.overlay;
-    var _props4$answerQuestion = _props4.answerQuestion;
-    var questionData = _props4$answerQuestion.questionData;
-    var answerData = _props4$answerQuestion.answerData;
-    var popUpHandler = _props4.methods.popUpHandler;
+    var _props5 = this.props;
+    var fireRef = _props5.fireRef;
+    var overlay = _props5.overlay;
+    var versionData = _props5.versionData;
+    var popUpHandler = _props5.methods.popUpHandler;
+
+    _objectDestructuringEmpty(this.props);
+
     var _state2 = this.state;
     var success = _state2.success;
     var error = _state2.error;
-    var versionData = _state2.versionData;
+    var questionData = _state2.questionData;
 
     if (!versionData || !fireRef) {
       return _react2["default"].createElement(
@@ -578,7 +608,6 @@ var CommentTool = _react2["default"].createClass({
     return {
       error: false,
       success: false,
-      versionData: null,
       validation: {
         bodyMin: 30,
         bodyMax: 2000,
@@ -589,16 +618,16 @@ var CommentTool = _react2["default"].createClass({
   },
   submit: function submit(e) {
     e.preventDefault();
-    var _props5 = this.props;
-    var auth = _props5.auth;
-    var userData = _props5.userData;
-    var fireRef = _props5.fireRef;
-    var overlay = _props5.overlay;
-    var commentID = _props5.commentID;
-    var _props5$viewQuestion = _props5.viewQuestion;
-    var questionData = _props5$viewQuestion.questionData;
-    var answerData = _props5$viewQuestion.answerData;
-    var popUpHandler = _props5.methods.popUpHandler;
+    var _props6 = this.props;
+    var auth = _props6.auth;
+    var userData = _props6.userData;
+    var fireRef = _props6.fireRef;
+    var overlay = _props6.overlay;
+    var versionData = _props6.versionData;
+    var questionID = _props6.questionID;
+    var questionData = _props6.questionData;
+    var commentID = _props6.commentID;
+    var popUpHandler = _props6.methods.popUpHandler;
     var _refs3 = this.refs;
     var title = _refs3.title;
     var body = _refs3.body;
@@ -611,25 +640,48 @@ var CommentTool = _react2["default"].createClass({
       "commentID": commentID || null,
       //----------------------------------------
       "body": body.value,
-      "questionID": questionData.questionID,
+      questionID: questionID,
       "date": new Date().getTime(),
       "sentStatuses": {
         "email": false,
         "notification": false
       },
-      "version": this.state.versionData
+      "version": versionData
     };
     if (!this.state.validation.bodyValid) return;
-    // return console.log("comment object:", commentObject);
+    console.log("comment object:", commentObject);
     // write answer to `answers` node
-    fireRef.commentsRef.push().setWithPriority(commentObject, 0 - Date.now())["catch"](function (e) {
+    fireRef.commentsRef.child(questionID).push().setWithPriority(commentObject, 0 - Date.now())["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
+    body.value = "";
 
-    // close the pop up
-    this.setState({
-      success: true
-    });
+    // send notification
+    // create notif obejct
+    var notifObject = {
+      type: "newQuestionComment",
+      info: {
+        sender: userData.name,
+        questionID: questionID,
+        questionURL: "/profile/" + questionData.receiver + "/q/" + questionID
+      },
+      read: false,
+      date: new Date().getTime(),
+      version: versionData
+    };
+    // send notif
+    // to creator
+    if (questionData.creator !== userData.name) {
+      fireRef.notificationsRef.child(questionData.creator).push().set(notifObject)["catch"](function (e) {
+        return console.error(e.val ? e.val() : e);
+      });
+    }
+    // to receiver
+    if (questionData.receiver !== userData.name) {
+      fireRef.notificationsRef.child(questionData.receiver).push().set(notifObject)["catch"](function (e) {
+        return console.error(e.val ? e.val() : e);
+      });
+    }
   },
   validate: function validate(name, e) {
     var _Object$assign3;
@@ -645,30 +697,11 @@ var CommentTool = _react2["default"].createClass({
       validation: Object.assign(this.state.validation, (_Object$assign3 = {}, _defineProperty(_Object$assign3, thisValid, value.length >= thisMin && value.length <= thisMax), _defineProperty(_Object$assign3, thisCount, value.length), _Object$assign3))
     });
   },
-  componentDidMount: function componentDidMount() {
-    var _this5 = this;
-
-    // console.log("question tools mounted", this.props);
-    (0, _modulesAjax.ajax)({
-      url: "/get-version",
-      success: function success(data) {
-        _this5.setState({
-          versionData: JSON.parse(data)
-        });
-      },
-      error: function error(err) {
-        console.error(err);
-        _this5.setState({
-          error: true
-        });
-      }
-    });
-  },
   render: function render() {
-    var _props6 = this.props;
-    var fireRef = _props6.fireRef;
-    var commentData = _props6.commentData;
-    var versionData = this.state.versionData;
+    var _props7 = this.props;
+    var fireRef = _props7.fireRef;
+    var commentData = _props7.commentData;
+    var versionData = _props7.versionData;
 
     if (!versionData || !fireRef) {
       return _react2["default"].createElement(
@@ -732,12 +765,16 @@ exports.CommentTool = CommentTool;
 var CommentItem = _react2["default"].createClass({
   displayName: "CommentItem",
   render: function render() {
-    var _props7 = this.props;
-    var commentID = _props7.commentID;
-    var commentData = _props7.commentData;
-    var voteToolData = _props7.voteToolData;
+    var _props8 = this.props;
+    var auth = _props8.auth;
+    var fireRef = _props8.fireRef;
+    var userData = _props8.userData;
+    var questionID = _props8.questionID;
+    var questionData = _props8.questionData;
+    var commentID = _props8.commentID;
+    var commentData = _props8.commentData;
 
-    console.log("commentitem", commentID);
+    // console.log("commentitem", commentID);
     return _react2["default"].createElement(
       "div",
       { className: "section" },
@@ -754,11 +791,11 @@ var CommentItem = _react2["default"].createClass({
           )
         )
       ),
-      voteToolData ? _react2["default"].createElement(
+      _react2["default"].createElement(
         "label",
         { className: "vote" },
-        _react2["default"].createElement(_voteToolJsx2["default"], Object.assign(voteToolData, { place: "comment", commentData: commentData, commentID: commentID }))
-      ) : null
+        _react2["default"].createElement(_voteToolJsx2["default"], { place: "comment", myAuth: !!auth, questionID: questionID, questionData: questionData, commentID: commentID, commentData: commentData, fireRef: fireRef, userData: userData })
+      )
     );
   }
 });
@@ -767,6 +804,8 @@ var ViewQuestion = _react2["default"].createClass({
   displayName: "ViewQuestion",
   getInitialState: function getInitialState() {
     return {
+      questionData: null,
+      answerData: null,
       comments: null
     };
   },
@@ -776,42 +815,68 @@ var ViewQuestion = _react2["default"].createClass({
     var newComments = JSON.parse(JSON.stringify(this.state.comments));
     // console.log("new comment", commentKey, commentData);
     this.setState({
-      comments: Object.assign(newComments || {}, _defineProperty({}, commentKey, commentData))
+      comments: Object.assign(_defineProperty({}, commentKey, commentData), newComments || {})
     });
   },
+  initListener: function initListener() {
+    // console.log("initiating comment listener");
+    var _props9 = this.props;
+    var questionID = _props9.questionID;
+    var fireRef = _props9.fireRef;
+
+    fireRef.commentsRef.child(questionID).orderByChild("reply").equalTo(false).on("child_added", this.newComment);
+  },
   componentDidMount: function componentDidMount() {
-    var _this6 = this;
+    var _this4 = this;
 
-    var fireRef = this.props.fireRef;
+    var _props10 = this.props;
+    var questionID = _props10.questionID;
+    var fireRef = _props10.fireRef;
 
-    // console.log("yeah, view question mounted");
-    fireRef.commentsRef.orderByChild("reply").equalTo(false).once("value").then(function (snap) {
-      _this6.setState({
-        comments: snap.val()
+    console.log("viewing", this.props);
+
+    // get question data
+    (0, _modulesHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
+      _this4.setState({
+        questionData: questionData
       });
     });
-
-    fireRef.commentsRef.orderByChild("reply").equalTo(false).on("child_added", this.newComment);
+    (0, _modulesHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
+      _this4.setState({
+        answerData: answerData
+      });
+    });
+    (0, _modulesHelperTools.getCommentsData)(questionID, fireRef, function (refNode) {
+      return refNode.orderByChild("reply").equalTo(false);
+    }, function (commentsData) {
+      // console.log("got commentsData", commentsData);
+      _this4.setState({
+        comments: commentsData
+      }, _this4.initListener);
+    });
   },
   componentWillUnmount: function componentWillUnmount() {
     var fireRef = this.props.fireRef;
 
-    fireRef.commentsRef.orderByChild("reply").equalTo(false).off("child_added", this.newComment);
+    fireRef.commentsRef.child(this.props.questionID).orderByChild("reply").equalTo(false).off("child_added", this.newComment);
   },
   render: function render() {
     // console.log(this.props);
-    var _props8 = this.props;
-    var overlay = _props8.overlay;
-    var _props8$viewQuestion = _props8.viewQuestion;
-    var questionData = _props8$viewQuestion.questionData;
-    var answerData = _props8$viewQuestion.answerData;
-    var voteToolData = _props8$viewQuestion.voteToolData;
-    var popUpHandler = _props8.methods.popUpHandler;
+    var _props11 = this.props;
+    var auth = _props11.auth;
+    var overlay = _props11.overlay;
+    var fireRef = _props11.fireRef;
+    var questionID = _props11.questionID;
+    var userData = _props11.userData;
+    var popUpHandler = _props11.methods.popUpHandler;
+    var _state3 = this.state;
+    var questionData = _state3.questionData;
+    var answerData = _state3.answerData;
     var comments = this.state.comments;
 
     var commentList = Object.keys(comments || {}).map(function (commentID) {
       var commentData = comments[commentID];
-      return _react2["default"].createElement(CommentItem, { key: commentID, commentID: commentID, commentData: commentData, voteToolData: voteToolData });
+      return _react2["default"].createElement(CommentItem, { auth: auth, key: commentID, commentID: commentID, commentData: commentData, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData });
     });
 
     if (questionData && answerData) {
@@ -862,11 +927,11 @@ var ViewQuestion = _react2["default"].createClass({
                 questionData.body
               )
             ),
-            voteToolData ? _react2["default"].createElement(
+            _react2["default"].createElement(
               "label",
               { className: "vote" },
-              _react2["default"].createElement(_voteToolJsx2["default"], Object.assign(voteToolData, { place: "question" }))
-            ) : null
+              _react2["default"].createElement(_voteToolJsx2["default"], { place: "question", myAuth: !!auth, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData })
+            )
           ),
           _react2["default"].createElement("div", { className: "separator-4-dim" }),
           _react2["default"].createElement(
@@ -890,11 +955,11 @@ var ViewQuestion = _react2["default"].createClass({
                 )
               )
             ),
-            voteToolData ? _react2["default"].createElement(
+            _react2["default"].createElement(
               "label",
               { className: "vote" },
-              _react2["default"].createElement(_voteToolJsx2["default"], Object.assign(voteToolData, { place: "answer" }))
-            ) : null
+              _react2["default"].createElement(_voteToolJsx2["default"], { place: "answer", myAuth: !!auth, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData })
+            )
           ),
           _react2["default"].createElement("div", { className: "separator-4-dim" }),
           _react2["default"].createElement(
@@ -908,7 +973,7 @@ var ViewQuestion = _react2["default"].createClass({
             _react2["default"].createElement(
               "label",
               null,
-              _react2["default"].createElement(CommentTool, this.props)
+              _react2["default"].createElement(CommentTool, _extends({}, this.props, { questionData: questionData }))
             )
           ),
           _react2["default"].createElement(

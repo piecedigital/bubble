@@ -76,13 +76,13 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   newBookmark: function newBookmark(snap) {
-    console.log("new mark", snap.getKey());
+    // console.log("new mark", snap.getKey());
     if (snap.getKey() === this.props.givenUsername) this.setState({
       bookmarked: true
     });
   },
   removedBookmark: function removedBookmark(snap) {
-    console.log("removed mark", snap.getKey());
+    // console.log("removed mark", snap.getKey());
     if (snap.getKey() === this.props.givenUsername) this.setState({
       bookmarked: false
     });

@@ -246,7 +246,7 @@ exports["default"] = _react2["default"].createClass({
     // rerun gather data if...
     var last = this.props.params.username,
         curr = nextProps.params.username,
-        signedIn = this.props.userData.name;
+        signedIn = this.props.userData ? this.props.userData.name : "";
     // console.log("new name", last, curr, signedIn);
     if (last || curr) {
       if (

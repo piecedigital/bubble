@@ -436,7 +436,7 @@ exports["default"] = _react2["default"].createClass({
     // rerun gather data if...
     var last = this.props.params.username,
         curr = nextProps.params.username,
-        signedIn = this.props.userData.name;
+        signedIn = this.props.userData ? this.props.userData.name : "";
     // console.log("new name", last, curr, signedIn);
     if (last || curr) {
       if (
@@ -515,7 +515,8 @@ exports["default"] = _react2["default"].createClass({
               "div",
               { className: "title" },
               _this8.props.follow === "IFollow" ? "Followed" : "Following",
-              " Channels"
+              " Channels",
+              !userData ? " (login required for this feature)" : ""
             ),
             _react2["default"].createElement(
               "div",
