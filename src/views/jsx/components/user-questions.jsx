@@ -212,7 +212,7 @@ const QuestionListItem = React.createClass({
                 {questionData.title}
               </div>
               <div className="body">
-                {questionData.body}
+                {questionData.body.substr(0, 30)}{questionData.body.length > 30 ? "..." : ""}
               </div>
             </div>
             <div className="separator-4-black" />

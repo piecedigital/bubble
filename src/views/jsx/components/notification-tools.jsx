@@ -69,7 +69,7 @@ const NotifItem = React.createClass({
     const message = this.getMessage();
 
     return (
-      <div className="notif-item">
+      <div className={`notif-item${data.read ? " read" : ""}`}>
         <label>
           <Link className="name" to={{
             pathname: data.info.questionURL,
@@ -82,7 +82,8 @@ const NotifItem = React.createClass({
             popUpHandler(message.overlay, {
               questionID: data.info.questionID
             });
-          }}>{message.message}</Link><span className="mark-read" onClick={this.markRead}>x</span>
+            this.markRead();
+          }}>{message.message}</Link>{!data.read ? (<span className="mark-read" onClick={this.markRead}>x</span>) : null}
         </label>
       </div>
     );
@@ -191,7 +192,10 @@ export const ViewNotifications = React.createClass({
       fireRef,
       userData,
       location,
-      methods
+      methods,
+      methods: {
+        popUpHandler
+      }
     } = this.props;
     const {
       notifications,
@@ -216,10 +220,11 @@ export const ViewNotifications = React.createClass({
         }}
         />
       );
-    });
+    }).reverse();
 
     return (
       <div className={`overlay-ui-default view-notifications open`} onClick={e => e.stopPropagation()}>
+        <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
         <div className="title">
           Notifications
         </div>

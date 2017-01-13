@@ -86,6 +86,9 @@ export const ViewBookmarks = React.createClass({
     const {
       fireRef,
       userData,
+      methods: {
+        popUpHandler
+      }
     } = this.props;
 
     const bookmarkList = Object.keys(this.state.bookmarks).map(bookmarkID => {
@@ -103,6 +106,7 @@ export const ViewBookmarks = React.createClass({
 
     return (
       <div className={`overlay-ui-default view-bookmarks open`} onClick={e => e.stopPropagation()}>
+        <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
         <div className="title">
           Bookmarks
         </div>

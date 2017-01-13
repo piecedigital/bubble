@@ -8,7 +8,7 @@ var env = {
   STORAGE_BUCKET: "bubble-13387.appspot.com",
   MESSAGING_SENDER_ID: "766141212604",
   V_MAJOR: 0,
-  V_MINOR: 7,
+  V_MINOR: 8,
   V_PATCH: 0,
 };
 // would put other environment variables here

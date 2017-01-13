@@ -2,6 +2,9 @@
   &:not(:last-child) {
     margin-bottom: .5*$em;
   }
+  &.read {
+    opacity: .6;
+  }
   label {
     @include displayFlex(!important);
     justify-content: space-between;
