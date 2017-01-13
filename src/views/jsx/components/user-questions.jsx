@@ -256,7 +256,7 @@ export default React.createClass({
     locked: true,
     lockedTop: true,
     loadData: false,
-    queryLimit: 1
+    queryLimit: 5
   }),
   scrollEvent(e) {
     setTimeout(() => {

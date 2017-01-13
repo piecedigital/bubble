@@ -90,20 +90,40 @@ export default React.createClass({
         info: {
           sender: userData.name,
           questionID: questionID,
+          commentID: commentID || null,
           questionURL: `/profile/${receiverObject[place]}/q/${questionID}`
         },
         read: false,
         date: new Date().getTime(),
       };
-      console.log("sending object");
+      // console.log("sending object");
       // send notif
       if(receiverObject[place] !== userData.name) {
         if(voteData.upvote) {
+          // check if the user already sent an upvote notification
           fireRef.notificationsRef
           .child(receiverObject[place])
-          .push()
-          .set(notifObject)
-          .catch(e => console.error(e.val ? e.val() : e));
+          .orderByChild("type")
+          .equalTo(placeObject[place])
+          .once("value")
+          .then(snap => {
+            const notifs = snap.val();
+            let dupe = false;
+            Object.keys(notifs || {}).map(notifID => {
+              const notifData = notifs[notifID];
+              if(notifData.info.questionID === questionID) dupe = true;
+              if(notifData.info.commentID) dupe = (notifData.info.commentID === commentID) ? true : false;
+            });
+
+            // don't send a notification if it would be a duplicate
+            if(dupe) return;
+
+            fireRef.notificationsRef
+            .child(receiverObject[place])
+            .push()
+            .set(notifObject)
+            .catch(e => console.error(e.val ? e.val() : e));
+          });
         }
       }
     })
