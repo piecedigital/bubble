@@ -662,7 +662,8 @@ nav {
           max-width: 100%;
           max-height: 100%; }
       .featured-streams .featured-stream .stream-info .display-name, .featured-streams .featured-stream .stream-info .to-channel {
-        margin-bottom: 11.2px; }
+        margin-bottom: 11.2px;
+        word-wrap: break-word; }
         .featured-streams .featured-stream .stream-info .display-name a, .featured-streams .featured-stream .stream-info .to-channel a {
           color: white; }
         .featured-streams .featured-stream .stream-info .display-name:not(.to-channel) a, .featured-streams .featured-stream .stream-info .to-channel:not(.to-channel) a {
