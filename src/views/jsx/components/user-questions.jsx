@@ -52,14 +52,14 @@ const QuestionListItem = React.createClass({
     // set up pop up overlay for question view if at question URL
     if(params.questionID === questionID && !location.state || location.state && !location.state.modal) {
       History.push({
-        pathname: `/profile/${params.username || (userData ? userData.name : "")}/q/${questionID}`,
+      pathname: `/profile/${params.username || (userData ? userData.name : "")}/${params.q}/${questionID}`,
         state: {
           modal: true,
           returnTo: `/profile/${params.username || ""}`,
         }
       });
       // console.log("open pop ");
-      popUpHandler("viewQuestion", {
+      popUpHandler(params.q === "a" ? "answerQuestion" : "viewQuestion", {
         questionID
       });
     }
@@ -134,7 +134,7 @@ const QuestionListItem = React.createClass({
           if(params.questionID === questionID && !answerData) {
             console.log("no answer data", questionID, this.state);
             History.push({
-              pathname: `/profile/${questionData.receiver || ""}`
+              pathname: `/profile/${params.username || (questionData ? questionData.receiver : "")}`
             });
           }
 
@@ -442,7 +442,7 @@ export default React.createClass({
       params = {}
     } = this.props;
     fireRef.usersRef
-    .child(`${params.username || userData ? userData.name : ""}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+    .child(`${params.username || (userData ? userData.name : "")}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
     .off("child_added", this.newAnswer);
   },
   render() {

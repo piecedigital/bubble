@@ -1,0 +1,13 @@
+.view-notifications {
+  &.open {}
+  .close {}
+  .title {}
+  form {}
+  .section {
+    .label {}
+    .to {}
+    input, textarea {
+      &.valid {}
+    }
+  }
+}

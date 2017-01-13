@@ -18,7 +18,9 @@ export default React.createClass({
       fireRef,
       place,
       questionID,
+      questionData,
       commentID,
+      commentData
     } = this.props;
     const voteData = {
       myAuth,
@@ -27,7 +29,7 @@ export default React.createClass({
       "upvote": vote
     };
     // return console.log("vote data:", voteData);
-    // console.log("vote data:", voteData);
+    console.log("vote data:", voteData);
     // check if the user has already voted
     getRatingsData(questionID, fireRef, null, ratingsData => {
       // console.log(place);
@@ -66,6 +68,44 @@ export default React.createClass({
         .child(voteTypes[place])
         .update(voteData);
       }
+
+      // depending on the `place` determines what kind of rating notification this is
+      const placeObject = {
+        "question": "questionUpvote",
+        "answer": "answerUpvote",
+        "comment": "commentUpvote",
+      };
+      // depending on the `place` gets the username of the question creator, receiver, or commenter
+      const receiverObject = {
+        "question": questionData.creator,
+        "answer": questionData.receiver,
+        "comment": commentData ? commentData.username : null,
+      };
+
+      // send notification
+      // create notif obejct
+      // console.log("creating object");
+      let notifObject = {
+        type: placeObject[place],
+        info: {
+          sender: userData.name,
+          questionID: questionID,
+          questionURL: `/profile/${receiverObject[place]}/q/${questionID}`
+        },
+        read: false,
+        date: new Date().getTime(),
+      };
+      console.log("sending object");
+      // send notif
+      if(receiverObject[place] !== userData.name) {
+        if(voteData.upvote) {
+          fireRef.notificationsRef
+          .child(receiverObject[place])
+          .push()
+          .set(notifObject)
+          .catch(e => console.error(e.val ? e.val() : e));
+        }
+      }
     })
   },
   newRating(snap) {
@@ -90,6 +130,7 @@ export default React.createClass({
       userData,
       questionID,
       commentID,
+      commentData
     } = this.props;
     // console.log("init new comment", commentID);
     getRatingsData(questionID, fireRef, null, ratingsData => {
@@ -152,7 +193,7 @@ export default React.createClass({
   },
   componentWillUnmount() {
     // kill ratings listener on unmount
-    this.killRatingsWatch(this.newRating);
+    if(typeof this.killRatingsWatch === "function") this.killRatingsWatch(this.newRating);
   },
   render() {
     const {

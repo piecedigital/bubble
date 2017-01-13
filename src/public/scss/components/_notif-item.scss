@@ -1,0 +1,25 @@
+.notif-item {
+  &:not(:last-child) {
+    margin-bottom: .5*$em;
+  }
+  label {
+    @include displayFlex(!important);
+    justify-content: space-between;
+    align-items: center;
+    a {
+      display: inline-block;
+      color: black;
+      margin-right: 1*$em;
+    }
+    span {
+      display: inline-block;
+      padding: .25*$em .5*$em;
+      background-color: rgba(orange, .8);
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(red, .8);
+        color: white;
+      }
+    }
+  }
+}

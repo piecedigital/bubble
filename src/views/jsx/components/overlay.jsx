@@ -2,11 +2,20 @@ import React from "react";
 import { browserHistory as History } from "react-router";
 import { AskQuestion, AnswerQuestion, ViewQuestion } from "./question-tools.jsx";
 import { ViewBookmarks } from "./bookmark-tools.jsx";
+import { ViewNotifications } from "./notification-tools.jsx";
+
+const components = {
+  "askQuestion": AskQuestion,
+  "answerQuestion": AnswerQuestion,
+  "viewQuestion": ViewQuestion,
+  "viewBookmarks": ViewBookmarks,
+  "viewNotifications": ViewNotifications
+};
 
 export default React.createClass({
   displayName: "Overlay",
   render() {
-    // console.log("overlay", this.props);
+    console.log("overlay", this.props);
     const {
       auth,
       userData,
@@ -16,6 +25,7 @@ export default React.createClass({
       overlayState,
       methods,
       params,
+      location,
       methods: {
         popUpHandler
       }
@@ -24,23 +34,8 @@ export default React.createClass({
       <div className={`overlay${overlay ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>
         {
           function () {
-            let Component = null
-            switch (overlay) {
-              case "askQuestion":
-                Component = AskQuestion
-                break;
-              case "answerQuestion":
-                Component = AnswerQuestion
-                break;
-              case "viewQuestion":
-                Component = ViewQuestion
-                break;
-              case "viewBookmarks":
-                Component = ViewBookmarks
-                break;
-              default:
-                Component = null
-            }
+            let Component = components[overlay] || null;
+            // console.log(components, Component);
             return Component ? (
               <Component
               overlay={overlay}
@@ -49,6 +44,7 @@ export default React.createClass({
               versionData={versionData}
               auth={auth}
               params={params}
+              location={location}
               userData={userData}
               methods={methods}/>
             ) : null

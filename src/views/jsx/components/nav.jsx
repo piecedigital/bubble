@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router';
+import Notifications from "./notifications.jsx";
 
 const SlideInput = React.createClass({
   displayName: "SlideInput",
@@ -104,6 +105,8 @@ export default React.createClass({
       navOpen,
     } = this.state
     const {
+      auth,
+      fireRef,
       authData,
       userData,
       url,
@@ -146,6 +149,13 @@ export default React.createClass({
                       this.toggleNav("close");
                       popUpHandler("viewBookmarks");
                     }}>Bookmarks</a>,
+                    <a key="notifications" className="nav-item" href={`#`} onClick={() => {
+                      this.toggleNav("close");
+                      popUpHandler("viewNotifications");
+                    }}>Notifications<Notifications
+                                    auth={auth}
+                                    fireRef={fireRef}
+                                    userData={userData}/></a>,
                   ]
                 ) : null }
                 <a className="nav-item" href="#" onClick={() => {

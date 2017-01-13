@@ -21,6 +21,7 @@ nav {
       display: flex;
     }
     .nav-item {
+      position: relative;
       color: black;
       padding: .45*$em 1*$em;
       text-decoration: none;
@@ -71,6 +72,16 @@ nav {
       }
     }
   }
+}
+
+.notif {
+  display: inline-block;
+  margin-left: .5*$em;
+  border-radius: .5*$em;
+  background-color: $dimmer;
+  box-shadow: 0 0 0 .4*$em $dimmer;
+  color: white;
+  text-shadow: 2px 2px 2px black;
 }
 
 @media (max-width: 980px) {

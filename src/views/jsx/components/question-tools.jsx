@@ -31,10 +31,8 @@ export const AskQuestion = React.createClass({
       fireRef,
       overlay,
       versionData,
-      askQuestion: {
-        to,
-        from
-      },
+      to,
+      from,
       methods: {
         popUpHandler
       }
@@ -57,6 +55,7 @@ export const AskQuestion = React.createClass({
       },
       version: versionData
     };
+
     if(!this.state.validation.titleValid && !this.state.validation.bodyValid) return;
     // console.log("question object:", questionObject);
     // write question to `questions` node
@@ -65,6 +64,26 @@ export const AskQuestion = React.createClass({
     fireRef.questionsRef
     .child(questionID)
     .setWithPriority(questionObject, 0 - Date.now())
+    .catch(e => console.error(e.val ? e.val() : e));
+
+    // send notification
+    // create notif obejct
+    let notifObject = {
+      type: "newQuestion",
+      info: {
+        sender: from,
+        questionID: questionID,
+        questionURL: `/profile/${to}/a/${questionID}`
+      },
+      read: false,
+      date: new Date().getTime(),
+      version: versionData
+    };
+    // send notif
+    fireRef.notificationsRef
+    .child(to)
+    .push()
+    .set(notifObject)
     .catch(e => console.error(e.val ? e.val() : e));
     // write question ID reference to user.<username>.questionsForMe
     fireRef.usersRef
@@ -112,11 +131,9 @@ export const AskQuestion = React.createClass({
       fireRef,
       overlay,
       versionData,
-      askQuestion: {
-        to,
-        from,
-        body
-      },
+      to,
+      from,
+      body,
       methods: {
         popUpHandler
       }
@@ -234,7 +251,7 @@ export const AnswerQuestion = React.createClass({
       "myAuth": !!auth.access_token,
       "username": userData.name,
       "body": body.value,
-      "questionID": questionData.questionID,
+      "questionID": questionID,
       "date": new Date().getTime(),
       "sentStatuses": {
         "email": false,
@@ -246,15 +263,35 @@ export const AnswerQuestion = React.createClass({
     // return console.log("question object:", answerObject);
     // write answer to `answers` node
     fireRef.answersRef
-    .child(questionData.questionID)
+    .child(questionID)
     .setWithPriority(answerObject, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
     // write answer reference to user account
     fireRef.usersRef
     .child(questionData.receiver)
     .child("answersFromMe")
-    .child(questionData.questionID)
+    .child(questionID)
     .setWithPriority(answerObject.date, 0 - Date.now())
+    .catch(e => console.error(e.val ? e.val() : e));
+
+    // send notification
+    // create notif obejct
+    let notifObject = {
+      type: "newAnswer",
+      info: {
+        sender: userData.name,
+        questionID: questionID,
+        questionURL: `/profile/${userData.name}/q/${questionID}`
+      },
+      read: false,
+      date: new Date().getTime(),
+      version: versionData
+    };
+    // send notif
+    fireRef.notificationsRef
+    .child(questionData.creator)
+    .push()
+    .set(notifObject)
     .catch(e => console.error(e.val ? e.val() : e));
 
     // close the pop up
@@ -284,11 +321,25 @@ export const AnswerQuestion = React.createClass({
   componentDidMount() {
     const {
       questionID,
-      fireRef
+      fireRef,
+      methods: {
+        popUpHandler
+      }
     } = this.props;
     getQuestionData(questionID, fireRef, null, questionData => {
-      this.setState({
-        questionData
+      console.log("got question data", questionData);
+      getAnswerData(questionID, fireRef, null, answerData => {
+        console.log("got answer data", answerData);
+
+        if(answerData) {
+          popUpHandler("viewQuestion", {
+            questionID
+          });
+        } else {
+          this.setState({
+            questionData
+          });
+        }
       });
     })
   },
@@ -297,17 +348,17 @@ export const AnswerQuestion = React.createClass({
     const {
       fireRef,
       overlay,
+      versionData,
       methods: {
         popUpHandler
       }
     } = this.props;
     const {
-      questionData
     } = this.props;
     const {
       success,
       error,
-      versionData
+      questionData
     } = this.state;
     if(!versionData || !fireRef) {
       return (
@@ -404,15 +455,12 @@ export const CommentTool = React.createClass({
       overlay,
       versionData,
       questionID,
+      questionData,
       commentID,
       methods: {
         popUpHandler
       }
     } = this.props;
-    const {
-      questionData,
-      answerData
-    } = this.state;
     const {
       title,
       body,
@@ -443,6 +491,37 @@ export const CommentTool = React.createClass({
     .setWithPriority(commentObject, 0 - Date.now())
     .catch(e => console.error(e.val ? e.val() : e));
     body.value = "";
+
+    // send notification
+    // create notif obejct
+    let notifObject = {
+      type: "newQuestionComment",
+      info: {
+        sender: userData.name,
+        questionID: questionID,
+        questionURL: `/profile/${questionData.receiver}/q/${questionID}`
+      },
+      read: false,
+      date: new Date().getTime(),
+      version: versionData
+    };
+    // send notif
+    // to creator
+    if(questionData.creator !== userData.name) {
+      fireRef.notificationsRef
+      .child(questionData.creator)
+      .push()
+      .set(notifObject)
+      .catch(e => console.error(e.val ? e.val() : e));
+    }
+    // to receiver
+    if(questionData.receiver !== userData.name) {
+      fireRef.notificationsRef
+      .child(questionData.receiver)
+      .push()
+      .set(notifObject)
+      .catch(e => console.error(e.val ? e.val() : e));
+    }
   },
   validate(name, e) {
     // name will be the same as a referenced element
@@ -501,6 +580,7 @@ const CommentItem = React.createClass({
       fireRef,
       userData,
       questionID,
+      questionData,
       commentID,
       commentData,
     } = this.props;
@@ -519,7 +599,7 @@ const CommentItem = React.createClass({
           }
         </label>
         <label className="vote">
-          <VoteTool commentID={commentID} {...{ place: "comment", myAuth: !!auth, questionID, fireRef, userData }} />
+          <VoteTool {...{ place: "comment", myAuth: !!auth, questionID, questionData, commentID, commentData, fireRef, userData }} />
         </label>
       </div>
     );
@@ -617,7 +697,7 @@ export const ViewQuestion = React.createClass({
     const commentList = Object.keys(comments || {}).map(commentID => {
       const commentData = comments[commentID];
       return (
-        <CommentItem auth={auth} key={commentID} commentID={commentID} commentData={commentData} questionID={questionID} fireRef={fireRef} userData={userData} />
+        <CommentItem auth={auth} key={commentID} commentID={commentID} commentData={commentData} questionID={questionID} questionData={questionData} fireRef={fireRef} userData={userData} />
       );
     });
 
@@ -643,7 +723,7 @@ export const ViewQuestion = React.createClass({
                 <div className="label">{questionData.body}</div>
               </label>
               <label className="vote">
-                <VoteTool {...{ place: "question", myAuth: !!auth, questionID, fireRef, userData }} />
+                <VoteTool {...{ place: "question", myAuth: !!auth, questionID, questionData, fireRef, userData }} />
               </label>
             </div>
             <div className="separator-4-dim" />
@@ -655,7 +735,7 @@ export const ViewQuestion = React.createClass({
                 <div className="label"><p>{answerData.body}</p></div>
               </label>
               <label className="vote">
-                <VoteTool {...{ place: "answer", myAuth: !!auth, questionID, fireRef, userData }} />
+                <VoteTool {...{ place: "answer", myAuth: !!auth, questionID, questionData, fireRef, userData }} />
               </label>
             </div>
             <div className="separator-4-dim" />
@@ -664,7 +744,7 @@ export const ViewQuestion = React.createClass({
             </div>
             <div className="section">
               <label>
-                <CommentTool {...this.props} />
+                <CommentTool {...this.props} questionData={questionData} />
               </label>
             </div>
             <div className="section">

@@ -36,7 +36,7 @@ render((
     <Route path="" page="root" component={Layout}>
       <Route path="/" page="home" component={Home}>
       </Route>
-      <Route path="/profile(/:username(/q/:questionID))" page="profile" component={checkAuth.bind(null, Profile)}>
+      <Route path="/profile(/:username(/:q/:questionID))" page="profile" component={checkAuth.bind(null, Profile)}>
       </Route>
       <Route path="/:page" page="streams" component={GeneralPage}>
       </Route>

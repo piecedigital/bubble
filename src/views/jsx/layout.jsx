@@ -40,6 +40,7 @@ export default React.createClass({
       root: Firebase.database().ref(),
       appConfigRef: Firebase.database().ref("appConfig"),
       usersRef: Firebase.database().ref("users"),
+      notificationsRef: Firebase.database().ref("notifications"),
       questionsRef: Firebase.database().ref("questions"),
       answersRef: Firebase.database().ref("answers"),
       ratingsRef: Firebase.database().ref("ratings"),
@@ -269,13 +270,13 @@ export default React.createClass({
       case "askQuestion":
           newState = Object.assign({
             overlay: action,
-            askQuestion: {
-              to: options.recipient.toLowerCase(),
+            overlayState: {
+              to: options.receiver.toLowerCase(),
               from: options.sender.toLowerCase(),
             }
           }, options.reset ? {
             // reset askQuestion object if options.reset is there
-            askQuestion: {
+            overlayState: {
               to: "",
               from: "",
               body: ""
@@ -287,6 +288,7 @@ export default React.createClass({
       case "answerQuestion":
       case "viewQuestion":
       case "viewBookmarks":
+      case "viewNotifications":
           newState = {
             overlay: action,
             overlayState: {
@@ -337,7 +339,12 @@ export default React.createClass({
     "&scope=user_read+user_follows_edit";
     return (
       <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${layout || Object.keys(dataObject).length}`}>
-        <Nav authData={authData} userData={userData} url={url} methods={{
+        <Nav
+        fireRef={fireRef}
+        authData={authData}
+        userData={userData}
+        url={url}
+        methods={{
           search: this.search,
           appendStream: this.appendStream,
           logout: this.logout,
@@ -419,6 +426,7 @@ export default React.createClass({
         fireRef={fireRef}
         versionData={versionData}
         params={this.props.params}
+        location={this.props.location}
         methods={{
           popUpHandler: this.popUpHandler
         }} />

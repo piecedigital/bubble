@@ -213,7 +213,7 @@ export default React.createClass({
     // rerun gather data if...
     const last = this.props.params.username,
     curr = nextProps.params.username,
-    signedIn = this.props.userData.name;
+    signedIn = this.props.userData ? this.props.userData.name : "";
     // console.log("new name", last, curr, signedIn);
     if(last || curr) {
       if(

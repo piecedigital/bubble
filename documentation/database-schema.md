@@ -83,6 +83,21 @@ In addition to necessary data related to the Q&A aggregation this database will 
       }
     }
   },
+  "notifications": {
+    <username>: {
+      <notifID>: {
+        "type": String ("newQuestion" || "newAnswer" || "newQuestionComment" || "questionUpvote" || "answerUpvote" || "commentUpvote"),
+        "info": {
+          "sender": <username>, // the person that caused the notification to be sent
+          "questionID": <questionID>,
+          "questionURL": String
+        },
+        "read": Boolean,
+        "date": [date Object],
+        "version": [version Object]
+      }
+    }
+  },
   "questions": {
     <questionID>: {
       "myAuth": [myAuth Object],

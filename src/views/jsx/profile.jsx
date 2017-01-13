@@ -9,6 +9,7 @@ export default React.createClass({
   displayName: "Profile",
   render() {
     const {
+      auth,
       fireRef,
       userData,
       params = {}
@@ -30,10 +31,22 @@ export default React.createClass({
           <UserInfo {...this.props} />
           <div className="separator-4-black" />
           <UserQuestions {...this.props} />
-          <div className="separator-4-black" />
-          <FollowStreams follow={"IFollow"} {...this.props} />
-          <div className="separator-4-black" />
-          <FollowStreams follow={"followMe"} {...this.props}/>
+          {
+            auth && auth.access_token ? (
+              [
+                <div key="sep-IFollow" className="separator-4-black" />,
+                <FollowStreams key="comp-IFollow" follow={"IFollow"} {...this.props} />
+              ]
+            ) : null
+          }
+          {
+            auth && auth.access_token ? (
+              [
+                <div key="sep-followMe" className="separator-4-black" />,
+                <FollowStreams key="comp-followMe" follow={"followMe"} {...this.props}/>
+              ]
+            ) : null
+          }
           <div className="separator-4-black" />
           <VideosListing broadcasts={true} {...this.props} />
         </div>
