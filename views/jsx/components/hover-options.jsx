@@ -40,42 +40,46 @@ var ListItemHoverOptions = _react2["default"].createClass({
       { className: "hover-options" },
       _react2["default"].createElement(
         "div",
-        { className: "go-to-channel" },
+        { className: "wrapper" },
         _react2["default"].createElement(
-          _reactRouter.Link,
-          { to: "/profile/" + name },
-          "View Profile"
-        )
-      ),
-      userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
-      _react2["default"].createElement(
-        "div",
-        { className: "append-stream" },
+          "div",
+          { className: "go-to-channel" },
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { to: "/profile/" + name },
+            "View Profile"
+          )
+        ),
+        userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth, callback: followCallback }) : null,
         _react2["default"].createElement(
-          "a",
-          { href: vod ? "https://www.twitch.tv/" + name + "/v/" + vod : "https://www.twitch.tv/" + name, target: "_blank", rel: "nofollow", onClick: function (e) {
-              e.preventDefault();
-              clickCallback(name, display_name, vod);
-            } },
-          stream || vod ? "Watch" : "Open",
-          " ",
-          vod ? "VOD" : "Stream"
-        )
-      ),
-      _react2["default"].createElement(
-        "div",
-        { className: "send-message" },
+          "div",
+          { className: "append-stream" },
+          _react2["default"].createElement(
+            "a",
+            { href: vod ? "https://www.twitch.tv/" + name + "/v/" + vod : "https://www.twitch.tv/" + name, target: "_blank", rel: "nofollow", onClick: function (e) {
+                e.preventDefault();
+                clickCallback(name, display_name, vod);
+              } },
+            stream || vod ? "Watch" : "Open",
+            " ",
+            vod ? "VOD" : "Stream"
+          )
+        ),
         _react2["default"].createElement(
-          "a",
-          { className: "btn-default btn-rect btn-no-pad color-black no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
-          "Send Message"
-        )
-      ),
-      userData ? _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
-        fireRef: fireRef,
-        userData: userData,
-        givenUsername: name,
-        versionData: versionData }) : null
+          "div",
+          { className: "send-message" },
+          _react2["default"].createElement(
+            "a",
+            { className: "btn-default btn-rect btn-no-pad color-black no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+            "Send Message"
+          )
+        ),
+        userData ? _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
+          fireRef: fireRef,
+          userData: userData,
+          givenUsername: name,
+          versionData: versionData }) : null
+      )
     );
   }
 });
