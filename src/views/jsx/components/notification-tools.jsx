@@ -204,9 +204,8 @@ export const ViewNotifications = React.createClass({
     } = this.state;
     console.log(propsPresent, notifCount);
     if(!propsPresent) return null;
-    if(!notifCount) return null;
 
-    const notifList = Object.keys(notifications).map(notifID => {
+    const notifList = [] || Object.keys(notifications).map(notifID => {
       return (
         <NotifItem
         key={notifID}
@@ -234,7 +233,7 @@ export const ViewNotifications = React.createClass({
         <div className="separator-4-dim" />
         <div className="section">
           <div className="list">
-          {notifList}
+          {notifList.length > 0 ? notifList : "You have no notifications"}
           </div>
         </div>
       </div>

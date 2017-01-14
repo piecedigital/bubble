@@ -32,7 +32,11 @@
         word-wrap: break-word;
       }
     }
+    .follow {
+      background-color: mix($primary, rgba(orange, 1), .2);
+    }
+    .append-stream {
+      background-color: mix($primary, rgba(0, 255, 0, 1));
+    }
   }
-  .follow {}
-  .append-stream {}
 }

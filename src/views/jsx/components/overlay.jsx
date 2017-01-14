@@ -15,7 +15,7 @@ const components = {
 export default React.createClass({
   displayName: "Overlay",
   render() {
-    console.log("overlay", this.props);
+    // console.log("overlay", this.props);
     const {
       auth,
       userData,
