@@ -223,9 +223,8 @@ var ViewNotifications = _react2["default"].createClass({
 
     console.log(propsPresent, notifCount);
     if (!propsPresent) return null;
-    if (!notifCount) return null;
 
-    var notifList = Object.keys(notifications).map(function (notifID) {
+    var notifList = [] || Object.keys(notifications).map(function (notifID) {
       return _react2["default"].createElement(NotifItem, _extends({
         key: notifID
       }, {
@@ -263,7 +262,7 @@ var ViewNotifications = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "list" },
-          notifList
+          notifList.length > 0 ? notifList : "You have no notifications"
         )
       )
     );

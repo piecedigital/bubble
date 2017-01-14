@@ -31,7 +31,7 @@ var components = {
 exports["default"] = _react2["default"].createClass({
   displayName: "Overlay",
   render: function render() {
-    console.log("overlay", this.props);
+    // console.log("overlay", this.props);
     var _props = this.props;
     var auth = _props.auth;
     var userData = _props.userData;

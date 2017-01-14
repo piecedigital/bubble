@@ -1046,6 +1046,10 @@ nav {
       .hover-options .wrapper > * a {
         text-decoration: none;
         word-wrap: break-word; }
+    .hover-options .wrapper .follow {
+      background-color: #fea501; }
+    .hover-options .wrapper .append-stream {
+      background-color: #00e47d; }
 
 .stream-panels {
   position: absolute;
