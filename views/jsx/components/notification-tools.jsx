@@ -96,7 +96,6 @@ var NotifItem = _react2["default"].createClass({
                 returnTo: message.returnTo
               }
             }, onClick: function (e) {
-              e.preventDefault();
               popUpHandler(message.overlay, {
                 questionID: data.info.questionID
               });
@@ -187,7 +186,7 @@ var ViewNotifications = _react2["default"].createClass({
     var key = snap.getKey();
     var val = snap.val();
     console.log("new notif", key, val);
-    var newNotifications = Object.assign(JSON.parse(JSON.stringify(this.state.notifications)) || {}, _defineProperty({}, key, val));
+    var newNotifications = Object.assign(JSON.parse(JSON.stringify(this.state.notifications || {})), _defineProperty({}, key, val));
 
     var notifCount = Object.keys(newNotifications).filter(function (notifID) {
       var notifData = newNotifications[notifID];
@@ -224,7 +223,7 @@ var ViewNotifications = _react2["default"].createClass({
     console.log(propsPresent, notifCount);
     if (!propsPresent) return null;
 
-    var notifList = Object.keys(notifications).map(function (notifID) {
+    var notifList = Object.keys(notifications || {}).map(function (notifID) {
       return _react2["default"].createElement(NotifItem, _extends({
         key: notifID
       }, {

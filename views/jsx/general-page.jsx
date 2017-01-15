@@ -29,6 +29,7 @@ var components = {
       // console.log(this.props);
       var _props = this.props;
       var auth = _props.auth;
+      var fireRef = _props.fireRef;
       var userData = _props.userData;
       var index = _props.index;
       var appendStream = _props.methods.appendStream;
@@ -53,7 +54,7 @@ var components = {
       // let viewersString = viewers.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2') // https://www.livecoding.tv/efleming969/
 
       var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      var hoverOptions = _react2["default"].createElement(_componentsHoverOptionsJsx.ListItemHoverOptions, { auth: auth, stream: true, name: name, display_name: display_name, userData: userData, clickCallback: appendStream });
+      var hoverOptions = _react2["default"].createElement(_componentsHoverOptionsJsx.ListItemHoverOptions, { auth: auth, fireRef: fireRef, stream: true, name: name, display_name: display_name, userData: userData, clickCallback: appendStream });
 
       return _react2["default"].createElement(
         "li",
@@ -227,6 +228,7 @@ exports["default"] = _react2["default"].createClass({
     var component = _state.component;
     var _props4 = this.props;
     var auth = _props4.auth;
+    var fireRef = _props4.fireRef;
     var userData = _props4.userData;
     var data = _props4.data;
     var _props4$methods = _props4.methods;
@@ -251,7 +253,14 @@ exports["default"] = _react2["default"].createClass({
                   "ul",
                   { className: "list" },
                   dataArray.map(function (itemData, ind) {
-                    return _react2["default"].createElement(ListItem, { key: ind, auth: auth, userData: userData, data: itemData, index: ind, methods: {
+                    return _react2["default"].createElement(ListItem, {
+                      key: ind,
+                      fireRef: fireRef,
+                      auth: auth,
+                      userData: userData,
+                      data: itemData,
+                      index: ind,
+                      methods: {
                         appendStream: appendStream
                       } });
                   })

@@ -18,16 +18,38 @@ exports["default"] = _react2["default"].createClass({
   displayName: "BookmarkButton",
   getInitialState: function getInitialState() {
     return {
-      bookmarked: null
+      bookmarked: null,
+      userDataPresent: false,
+      fireRefPresent: false,
+      propsPresent: false,
+      init: false
     };
+  },
+  checkForProps: function checkForProps() {
+    var _props = this.props;
+    var userData = _props.userData;
+    var fireRef = _props.fireRef;
+
+    var propsPresent = !!userData && !!fireRef;
+    console.log(propsPresent);
+    if (propsPresent) {
+      this.setState({
+        userDataPresent: !!userData,
+        fireRefPresent: !!fireRef,
+        propsPresent: propsPresent
+      });
+
+      this.checkStatus();
+      this.initListener();
+    }
   },
   checkStatus: function checkStatus() {
     var _this = this;
 
-    var _props = this.props;
-    var fireRef = _props.fireRef;
-    var userData = _props.userData;
-    var givenUsername = _props.givenUsername;
+    var _props2 = this.props;
+    var fireRef = _props2.fireRef;
+    var userData = _props2.userData;
+    var givenUsername = _props2.givenUsername;
 
     if (!fireRef || !userData) setTimeout(this.checkStatus, 100);
 
@@ -38,11 +60,11 @@ exports["default"] = _react2["default"].createClass({
     });
   },
   markOrUnmark: function markOrUnmark(action) {
-    var _props2 = this.props;
-    var fireRef = _props2.fireRef;
-    var userData = _props2.userData;
-    var givenUsername = _props2.givenUsername;
-    var versionData = _props2.versionData;
+    var _props3 = this.props;
+    var fireRef = _props3.fireRef;
+    var userData = _props3.userData;
+    var givenUsername = _props3.givenUsername;
+    var versionData = _props3.versionData;
 
     switch (action) {
       case "mark":
@@ -87,31 +109,36 @@ exports["default"] = _react2["default"].createClass({
       bookmarked: false
     });
   },
-  componentDidMount: function componentDidMount() {
-    this.checkStatus();
-    var _props3 = this.props;
-    var fireRef = _props3.fireRef;
-    var userData = _props3.userData;
-    var givenUsername = _props3.givenUsername;
-
-    var refNode = fireRef.usersRef.child(userData.name + "/bookmarks/users");
-    refNode.on("child_added", this.newBookmark);
-    refNode.on("child_removed", this.removedBookmark);
-  },
-  componentWillUnount: function componentWillUnount() {
+  initListener: function initListener() {
     var _props4 = this.props;
     var fireRef = _props4.fireRef;
     var userData = _props4.userData;
     var givenUsername = _props4.givenUsername;
 
-    fireRef.usersRef.child(userData.name + "/bookmarks/users/" + givenUsername).on("changed", this.removedBookmark);
+    var refNode = fireRef.usersRef.child(userData.name + "/bookmarks/users");
+    refNode.on("child_added", this.newBookmark);
+    refNode.on("child_removed", this.removedBookmark);
   },
-  render: function render() {
-    var bookmarked = this.state.bookmarked;
+  componentDidMount: function componentDidMount() {
+    if (!this.state.propsPresent) this.checkForProps();
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    if (!this.state.propsPresent) this.checkForProps();
+  },
+  componentWillUnount: function componentWillUnount() {
     var _props5 = this.props;
     var fireRef = _props5.fireRef;
     var userData = _props5.userData;
     var givenUsername = _props5.givenUsername;
+
+    fireRef.usersRef.child(userData.name + "/bookmarks/users/" + givenUsername).on("changed", this.removedBookmark);
+  },
+  render: function render() {
+    var bookmarked = this.state.bookmarked;
+    var _props6 = this.props;
+    var fireRef = _props6.fireRef;
+    var userData = _props6.userData;
+    var givenUsername = _props6.givenUsername;
 
     if (!userData || !fireRef) return null;
     if (bookmarked === null) return null;

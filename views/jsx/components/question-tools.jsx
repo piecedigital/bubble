@@ -799,6 +799,15 @@ var CommentItem = _react2["default"].createClass({
           "div",
           { className: "label" },
           _react2["default"].createElement(
+            "div",
+            { className: "label username" },
+            _react2["default"].createElement(
+              _reactRouter.Link,
+              { to: "/profile/" + commentData.username },
+              commentData.username
+            )
+          ),
+          _react2["default"].createElement(
             "p",
             null,
             commentData.body
@@ -1066,7 +1075,6 @@ var QuestionItem = _react2["default"].createClass({
                 returnTo: location.pathname
               }
             }, onClick: function (e) {
-              e.preventDefault();
               popUpHandler("viewQuestion", {
                 questionID: questionID
               });
@@ -1096,23 +1104,22 @@ var QuestionItem = _react2["default"].createClass({
   }
 });
 
-var ViewAskedQuestions = _react2["default"].createClass({
-  displayName: "ViewAskedQuestions",
+var AnswerItem = _react2["default"].createClass({
+  displayName: "AnswerItem",
   getInitialState: function getInitialState() {
     return {
-      questionData: null,
-      answerData: null
+      questionData: null
     };
   },
   componentDidMount: function componentDidMount() {
     var _this6 = this;
 
     var _props14 = this.props;
+    var questionID = _props14.questionID;
     var fireRef = _props14.fireRef;
-    var userData = _props14.userData;
 
-    fireRef.questionsRef.orderByChild("creator").equalTo(userData.name).once("value").then(function (snap) {
-      var questionData = snap.val();
+    (0, _modulesHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
+      console.log("got question data");
       _this6.setState({
         questionData: questionData
       });
@@ -1120,18 +1127,100 @@ var ViewAskedQuestions = _react2["default"].createClass({
   },
   render: function render() {
     var _props15 = this.props;
-    var fireRef = _props15.fireRef;
-    var userData = _props15.userData;
-    var methods = _props15.methods;
+    var questionID = _props15.questionID;
+    var answerData = _props15.answerData;
+    var locations = _props15.locations;
     var popUpHandler = _props15.methods.popUpHandler;
     var questionData = this.state.questionData;
 
-    var questionList = questionData ? Object.keys(questionData).map(function (questionID) {
-      var data = questionData[questionID];
-      return _react2["default"].createElement(QuestionItem, _extends({ key: questionID }, {
+    if (!questionData) return null;
+
+    return _react2["default"].createElement(
+      "div",
+      { className: "answer-item" },
+      _react2["default"].createElement(
+        "label",
+        null,
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { className: "name", to: {
+              pathname: "/profile/" + questionData.receiver + "/q/" + questionID,
+              state: {
+                modal: true,
+                returnTo: location.pathname
+              }
+            }, onClick: function (e) {
+              popUpHandler("viewQuestion", {
+                questionID: questionID
+              });
+            } },
+          questionData.title
+        ),
+        _react2["default"].createElement(
+          "span",
+          { className: "answered" },
+          "✔"
+        )
+      )
+    );
+  }
+});
+
+var ViewAskedQuestions = _react2["default"].createClass({
+  displayName: "ViewAskedQuestions",
+  getInitialState: function getInitialState() {
+    return {
+      questionData: null,
+      answerData: null,
+      toggle: "asked"
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this7 = this;
+
+    var _props16 = this.props;
+    var fireRef = _props16.fireRef;
+    var userData = _props16.userData;
+
+    fireRef.questionsRef.orderByChild("creator").equalTo(userData.name).once("value").then(function (snap) {
+      var questionData = snap.val();
+      _this7.setState({
+        questionData: questionData
+      });
+    });
+    fireRef.answersRef.orderByChild("username").equalTo(userData.name).once("value").then(function (snap) {
+      var answerData = snap.val();
+      _this7.setState({
+        answerData: answerData
+      });
+    });
+  },
+  toggleView: function toggleView(toggle) {
+    this.setState({
+      toggle: toggle
+    });
+  },
+  render: function render() {
+    var _props17 = this.props;
+    var fireRef = _props17.fireRef;
+    var userData = _props17.userData;
+    var methods = _props17.methods;
+    var popUpHandler = _props17.methods.popUpHandler;
+    var _state4 = this.state;
+    var questionData = _state4.questionData;
+    var answerData = _state4.answerData;
+    var toggle = _state4.toggle;
+
+    var data = toggle === "asked" ? questionData : answerData;
+    var Component = toggle === "asked" ? QuestionItem : AnswerItem;
+
+    var list = data ? Object.keys(data).map(function (questionID) {
+      var thisData = data[questionID];
+      return _react2["default"].createElement(Component, _extends({ key: questionID }, {
         fireRef: fireRef,
         questionID: questionID,
-        questionData: data,
+        questionData: thisData,
+        AnswerData: thisData,
         location: location,
         methods: methods
       }));
@@ -1149,8 +1238,28 @@ var ViewAskedQuestions = _react2["default"].createClass({
       ),
       _react2["default"].createElement(
         "div",
+        { className: "tabs" },
+        _react2["default"].createElement(
+          "div",
+          { className: "asked", onClick: this.toggleView.bind(null, "asked") },
+          "Asked"
+        ),
+        "|",
+        _react2["default"].createElement(
+          "div",
+          { className: "answered", onClick: this.toggleView.bind(null, "answered") },
+          "Answered"
+        )
+      ),
+      _react2["default"].createElement("div", { className: "separator-4-dim" }),
+      _react2["default"].createElement("div", { className: "separator-4-dim" }),
+      _react2["default"].createElement(
+        "div",
         { className: "title" },
-        "Question's You've Asked"
+        "Question's You've ",
+        toggle.replace(/^(.)/, function (_, letter) {
+          return letter.toUpperCase();
+        })
       ),
       _react2["default"].createElement("div", { className: "separator-4-dim" }),
       _react2["default"].createElement("div", { className: "separator-4-dim" }),
@@ -1162,7 +1271,7 @@ var ViewAskedQuestions = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "list" },
-          questionList.length > 0 ? questionList : "You haven't asked any questions yet."
+          list.length > 0 ? list : "You haven't asked any questions yet."
         )
       )
     );

@@ -1220,11 +1220,21 @@ nav {
 
 .view-question.open {
   max-width: 960px; }
+.view-question .section .label.username {
+  display: inline-block;
+  padding: 4px 0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+  font-weight: bold; }
+  .view-question .section .label.username a {
+    color: #0082b4; }
 .view-question .section .label.title {
   padding: 0;
   text-align: left;
   margin-bottom: 8px;
   font-size: 24px; }
+.view-question .section .label p {
+  margin: 0; }
 .view-question .section .label.body {
   margin-top: 8px; }
 
@@ -1276,6 +1286,22 @@ nav {
       background-color: rgba(255, 0, 0, 0.8);
       color: white; }
 
+.view-questions .tabs {
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
+  justify-content: space-around;
+  padding: 16px;
+  color: black;
+  text-align: center;
+  font-size: 24px; }
+  .view-questions .tabs > div {
+    display: inline-block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    cursor: pointer; }
+
 .question-item:not(:last-child) {
   margin-bottom: 8px; }
 .question-item label {
@@ -1296,6 +1322,29 @@ nav {
     background-color: rgba(30, 30, 30, 0.2);
     cursor: pointer; }
     .question-item label span.answered {
+      background-color: #00c8fa;
+      color: white; }
+
+.answer-item:not(:last-child) {
+  margin-bottom: 8px; }
+.answer-item label {
+  display: -ms-flex !important;
+  display: -moz-flex !important;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center; }
+  .answer-item label a {
+    display: inline-block;
+    color: black;
+    margin-right: 16px; }
+  .answer-item label span {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(30, 30, 30, 0.2);
+    cursor: pointer; }
+    .answer-item label span.answered {
       background-color: #00c8fa;
       color: white; }
 
