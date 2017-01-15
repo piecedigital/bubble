@@ -40,12 +40,16 @@ app
 })
 .get("/streams", function (req, res) {
   res.send(renderHTML("general-page", {
-    page: "streams"
+    params: {
+      page: "streams"
+    }
   }));
 })
 .get("/games", function (req, res) {
   res.send(renderHTML("general-page", {
-    page: "games"
+    params: {
+      page: "games"
+    }
   }));
 })
 .get("/get-test-data", function (req, res) {

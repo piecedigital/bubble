@@ -600,7 +600,10 @@ const CommentItem = React.createClass({
     return (
       <div className="section">
         <label className="comment">
-          <div className="label"><p>{commentData.body}</p></div>
+          <div className="label">
+            <div className="label username"><Link to={`/profile/${commentData.username}`}>{commentData.username}</Link></div>
+            <p>{commentData.body}</p>
+            </div>
           {
             // <div className="tools">
             //   <div className="tool reply">
@@ -821,7 +824,6 @@ const QuestionItem = React.createClass({
                   returnTo: location.pathname
                 }
               }} onClick={e => {
-                e.preventDefault();
                 popUpHandler("viewQuestion", {
                   questionID
                 });
@@ -838,11 +840,65 @@ const QuestionItem = React.createClass({
   }
 });
 
+const AnswerItem = React.createClass({
+  displayName: "AnswerItem",
+  getInitialState: () => ({
+    questionData: null
+  }),
+  componentDidMount() {
+    const {
+      questionID,
+      fireRef
+    } = this.props;
+    getQuestionData(questionID, fireRef, null, questionData => {
+      console.log("got question data");
+      this.setState({
+        questionData
+      });
+    });
+  },
+  render() {
+    const {
+      questionID,
+      answerData,
+      locations,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    const {
+      questionData
+    } = this.state;
+
+    if(!questionData) return null;
+
+    return (
+      <div className="answer-item">
+        <label>
+          <Link className="name" to={{
+            pathname: `/profile/${questionData.receiver}/q/${questionID}`,
+            state: {
+              modal: true,
+              returnTo: location.pathname
+            }
+          }} onClick={e => {
+            popUpHandler("viewQuestion", {
+              questionID
+            });
+          }}>{questionData.title}</Link><span className="answered">&#x2714;</span>
+        </label>
+      </div>
+    );
+  }
+});
+
 export const ViewAskedQuestions = React.createClass({
   displayName: "ViewAskedQuestions",
   getInitialState: () => ({
     questionData: null,
-    answerData: null
+    answerData: null,
+    toggle: "asked"
   }),
   componentDidMount() {
     const {
@@ -860,6 +916,21 @@ export const ViewAskedQuestions = React.createClass({
         questionData
       });
     });
+    fireRef.answersRef
+    .orderByChild("username")
+    .equalTo(userData.name)
+    .once("value")
+    .then(snap => {
+      const answerData = snap.val();
+      this.setState({
+        answerData
+      });
+    });
+  },
+  toggleView(toggle) {
+    this.setState({
+      toggle
+    })
   },
   render() {
     const {
@@ -873,15 +944,21 @@ export const ViewAskedQuestions = React.createClass({
 
     const {
       questionData,
+      answerData,
+      toggle
     } = this.state;
 
-    const questionList = questionData ? Object.keys(questionData).map(questionID => {
-      const data = questionData[questionID]
+    const data = toggle === "asked" ? questionData : answerData;
+    const Component = toggle === "asked" ? QuestionItem : AnswerItem;
+
+    const list = data ? Object.keys(data).map(questionID => {
+      const thisData = data[questionID]
       return (
-        <QuestionItem key={questionID} {...{
+        <Component key={questionID} {...{
           fireRef,
           questionID,
-          questionData: data,
+          questionData: thisData,
+          AnswerData: thisData,
           location,
           methods
         }} />
@@ -891,8 +968,15 @@ export const ViewAskedQuestions = React.createClass({
     return (
       <div className={`overlay-ui-default view-questions open`} onClick={e => e.stopPropagation()}>
         <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
+        <div className="tabs">
+          <div className="asked" onClick={this.toggleView.bind(null, "asked")}>Asked</div>
+          |
+          <div className="answered" onClick={this.toggleView.bind(null, "answered")}>Answered</div>
+        </div>
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
         <div className="title">
-          Question's You've Asked
+          Question's You've {toggle.replace(/^(.)/, (_, letter) => letter.toUpperCase())}
         </div>
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
@@ -900,7 +984,7 @@ export const ViewAskedQuestions = React.createClass({
         <div className="separator-4-dim" />
         <div className="section">
           <div className="list">
-          {questionList.length > 0 ? questionList : "You haven't asked any questions yet."}
+          {list.length > 0 ? list : "You haven't asked any questions yet."}
           </div>
         </div>
       </div>

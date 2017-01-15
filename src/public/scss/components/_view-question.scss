@@ -6,11 +6,24 @@
   .title {}
   .section {
     .label {
+      &.username {
+        display: inline-block;
+        padding: .25*$em 0;
+        margin-bottom: .5*$em;
+        border-bottom: 1px solid rgba(black, .8);
+        font-weight: bold;
+        a {
+          color: $dimmer;
+        }
+      }
       &.title {
         padding: 0;
         text-align: left;
         margin-bottom: .5*$em;
         font-size: 1.5*$em;
+      }
+      p {
+        margin: 0;
       }
       &.body {
         margin-top: .5*$em;

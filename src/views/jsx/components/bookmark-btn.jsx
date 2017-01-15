@@ -4,8 +4,30 @@ import Firebase from "firebase";
 export default React.createClass({
   displayName: "BookmarkButton",
   getInitialState: () => ({
-    bookmarked: null
+    bookmarked: null,
+    userDataPresent: false,
+    fireRefPresent: false,
+    propsPresent: false,
+    init: false
   }),
+  checkForProps() {
+    const {
+      userData,
+      fireRef
+    } = this.props;
+    const propsPresent = !!userData && !!fireRef;
+    console.log(propsPresent);
+    if(propsPresent) {
+      this.setState({
+        userDataPresent: !!userData,
+        fireRefPresent: !!fireRef,
+        propsPresent
+      });
+
+      this.checkStatus();
+      this.initListener();
+    }
+  },
   checkStatus() {
     const {
       fireRef,
@@ -76,8 +98,7 @@ export default React.createClass({
       bookmarked: false
     });
   },
-  componentDidMount() {
-    this.checkStatus();
+  initListener() {
     const {
       fireRef,
       userData,
@@ -87,6 +108,12 @@ export default React.createClass({
     .child(`${userData.name}/bookmarks/users`);
     refNode.on("child_added", this.newBookmark);
     refNode.on("child_removed", this.removedBookmark);
+  },
+  componentDidMount() {
+    if(!this.state.propsPresent) this.checkForProps();
+  },
+  componentDidUpdate() {
+    if(!this.state.propsPresent) this.checkForProps();
   },
   componentWillUnount() {
     const {

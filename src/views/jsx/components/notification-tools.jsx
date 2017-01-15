@@ -78,7 +78,6 @@ const NotifItem = React.createClass({
               returnTo: message.returnTo
             }
           }} onClick={e => {
-            e.preventDefault();
             popUpHandler(message.overlay, {
               questionID: data.info.questionID
             });
@@ -163,7 +162,7 @@ export const ViewNotifications = React.createClass({
     const key = snap.getKey();
     const val = snap.val();
     console.log("new notif", key, val);
-    const newNotifications = Object.assign(JSON.parse(JSON.stringify(this.state.notifications)) || {}, {
+    const newNotifications = Object.assign(JSON.parse(JSON.stringify(this.state.notifications || {})), {
       [key]: val
     });
 
@@ -205,7 +204,7 @@ export const ViewNotifications = React.createClass({
     console.log(propsPresent, notifCount);
     if(!propsPresent) return null;
 
-    const notifList = Object.keys(notifications).map(notifID => {
+    const notifList = Object.keys(notifications || {}).map(notifID => {
       return (
         <NotifItem
         key={notifID}
