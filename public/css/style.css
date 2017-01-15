@@ -1276,6 +1276,29 @@ nav {
       background-color: rgba(255, 0, 0, 0.8);
       color: white; }
 
+.question-item:not(:last-child) {
+  margin-bottom: 8px; }
+.question-item label {
+  display: -ms-flex !important;
+  display: -moz-flex !important;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center; }
+  .question-item label a {
+    display: inline-block;
+    color: black;
+    margin-right: 16px; }
+  .question-item label span {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(30, 30, 30, 0.2);
+    cursor: pointer; }
+    .question-item label span.answered {
+      background-color: #00c8fa;
+      color: white; }
+
 .question-list-item {
   position: relative;
   width: 50%;

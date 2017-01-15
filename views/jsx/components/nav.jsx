@@ -186,13 +186,6 @@ exports["default"] = _react2["default"].createClass({
             "Profile"
           ), _react2["default"].createElement(
             "a",
-            { key: "bookmarks", className: "nav-item", href: "#", onClick: function () {
-                _this2.toggleNav("close");
-                popUpHandler("viewBookmarks");
-              } },
-            "Bookmarks"
-          ), _react2["default"].createElement(
-            "a",
             { key: "notifications", className: "nav-item", href: "#", onClick: function () {
                 _this2.toggleNav("close");
                 popUpHandler("viewNotifications");
@@ -202,6 +195,20 @@ exports["default"] = _react2["default"].createClass({
               auth: auth,
               fireRef: fireRef,
               userData: userData })
+          ), _react2["default"].createElement(
+            "a",
+            { key: "bookmarks", className: "nav-item", href: "#", onClick: function () {
+                _this2.toggleNav("close");
+                popUpHandler("viewBookmarks");
+              } },
+            "Bookmarks"
+          ), _react2["default"].createElement(
+            "a",
+            { key: "questions", className: "nav-item", href: "#", onClick: function () {
+                _this2.toggleNav("close");
+                popUpHandler("viewAskedQuestions");
+              } },
+            "Questions"
           )] : null,
           _react2["default"].createElement(
             "a",

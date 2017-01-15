@@ -24,6 +24,7 @@ var components = {
   "askQuestion": _questionToolsJsx.AskQuestion,
   "answerQuestion": _questionToolsJsx.AnswerQuestion,
   "viewQuestion": _questionToolsJsx.ViewQuestion,
+  "viewAskedQuestions": _questionToolsJsx.ViewAskedQuestions,
   "viewBookmarks": _bookmarkToolsJsx.ViewBookmarks,
   "viewNotifications": _notificationToolsJsx.ViewNotifications
 };
@@ -44,12 +45,12 @@ exports["default"] = _react2["default"].createClass({
     var location = _props.location;
     var popUpHandler = _props.methods.popUpHandler;
 
+    var Component = components[overlay] || null;
+    // console.log(overlay, components, Component);
     return _react2["default"].createElement(
       "div",
-      { className: "overlay" + (overlay ? " open" : ""), onClick: popUpHandler.bind(null, "close") },
+      { className: "overlay" + (Component ? " open" : ""), onClick: popUpHandler.bind(null, "close") },
       (function () {
-        var Component = components[overlay] || null;
-        // console.log(components, Component);
         return Component ? _react2["default"].createElement(Component, _extends({
           overlay: overlay
         }, overlayState, {
