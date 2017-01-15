@@ -205,7 +205,7 @@ export const ViewNotifications = React.createClass({
     console.log(propsPresent, notifCount);
     if(!propsPresent) return null;
 
-    const notifList = [] || Object.keys(notifications).map(notifID => {
+    const notifList = Object.keys(notifications).map(notifID => {
       return (
         <NotifItem
         key={notifID}

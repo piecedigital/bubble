@@ -284,9 +284,10 @@ export default React.createClass({
           } : {});
           // console.log("new state:", newState);
           this.setState(newState);
-        break;
+        break;ViewAskedQuestions
       case "answerQuestion":
       case "viewQuestion":
+      case "viewAskedQuestions":
       case "viewBookmarks":
       case "viewNotifications":
           newState = {

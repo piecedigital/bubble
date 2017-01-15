@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase";
+import { Link } from 'react-router';
 import { calculateRatings,
 getQuestionData,
 getAnswerData,
@@ -543,12 +544,22 @@ export const CommentTool = React.createClass({
       fireRef,
       commentData,
       versionData,
+      userData,
     } = this.props;
     if(!versionData || !fireRef) {
       return (
         <form onSubmit={this.submit}>
           <div className="section bold">
             Preparing Form...
+          </div>
+        </form>
+      );
+    }
+    if(!userData) {
+      return (
+        <form onSubmit={this.submit}>
+          <div className="section bold">
+            Login to leave a comment
           </div>
         </form>
       );
@@ -766,3 +777,133 @@ export const ViewQuestion = React.createClass({
     }
   }
 })
+
+const QuestionItem = React.createClass({
+  displayName: "QuestionItem",
+  getInitialState: () => ({
+    answerData: null
+  }),
+  componentDidMount() {
+    const {
+      questionID,
+      fireRef
+    } = this.props;
+    getAnswerData(questionID, fireRef, null, answerData => {
+      console.log("got answer data");
+      this.setState({
+        answerData
+      });
+    });
+  },
+  render() {
+    const {
+      questionID,
+      questionData,
+      locations,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    const {
+      answerData
+    } = this.state;
+
+    return (
+      <div className="question-item">
+        {
+          answerData ? (
+            <label>
+              <Link className="name" to={{
+                pathname: `/profile/${questionData.receiver}/q/${questionID}`,
+                state: {
+                  modal: true,
+                  returnTo: location.pathname
+                }
+              }} onClick={e => {
+                e.preventDefault();
+                popUpHandler("viewQuestion", {
+                  questionID
+                });
+              }}>{questionData.title}</Link><span className="answered">&#x2714;</span>
+            </label>
+          ) : (
+            <label>
+              <a className="name" href="#">{questionData.title}</a><span className="">&#x2716;</span>
+            </label>
+          )
+        }
+      </div>
+    );
+  }
+});
+
+export const ViewAskedQuestions = React.createClass({
+  displayName: "ViewAskedQuestions",
+  getInitialState: () => ({
+    questionData: null,
+    answerData: null
+  }),
+  componentDidMount() {
+    const {
+      fireRef,
+      userData
+    } = this.props;
+
+    fireRef.questionsRef
+    .orderByChild("creator")
+    .equalTo(userData.name)
+    .once("value")
+    .then(snap => {
+      const questionData = snap.val();
+      this.setState({
+        questionData
+      });
+    });
+  },
+  render() {
+    const {
+      fireRef,
+      userData,
+      methods,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    const {
+      questionData,
+    } = this.state;
+
+    const questionList = questionData ? Object.keys(questionData).map(questionID => {
+      const data = questionData[questionID]
+      return (
+        <QuestionItem key={questionID} {...{
+          fireRef,
+          questionID,
+          questionData: data,
+          location,
+          methods
+        }} />
+      );
+    }) : [];
+
+    return (
+      <div className={`overlay-ui-default view-questions open`} onClick={e => e.stopPropagation()}>
+        <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
+        <div className="title">
+          Question's You've Asked
+        </div>
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="section">
+          <div className="list">
+          {questionList.length > 0 ? questionList : "You haven't asked any questions yet."}
+          </div>
+        </div>
+      </div>
+    );
+  }
+});

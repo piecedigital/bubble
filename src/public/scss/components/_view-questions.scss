@@ -1,0 +1,13 @@
+.view-questions {
+  &.open {}
+  .close {}
+  .title {}
+  form {}
+  .section {
+    .label {}
+    .to {}
+    input, textarea {
+      &.valid {}
+    }
+  }
+}

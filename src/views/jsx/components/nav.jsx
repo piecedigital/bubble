@@ -145,10 +145,6 @@ export default React.createClass({
                 { userData ? (
                   [
                     <Link key="profile" className="nav-item" to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link>,
-                    <a key="bookmarks" className="nav-item" href={`#`} onClick={() => {
-                      this.toggleNav("close");
-                      popUpHandler("viewBookmarks");
-                    }}>Bookmarks</a>,
                     <a key="notifications" className="nav-item" href={`#`} onClick={() => {
                       this.toggleNav("close");
                       popUpHandler("viewNotifications");
@@ -156,6 +152,14 @@ export default React.createClass({
                                     auth={auth}
                                     fireRef={fireRef}
                                     userData={userData}/></a>,
+                    <a key="bookmarks" className="nav-item" href={`#`} onClick={() => {
+                      this.toggleNav("close");
+                      popUpHandler("viewBookmarks");
+                    }}>Bookmarks</a>,
+                    <a key="questions" className="nav-item" href={`#`} onClick={() => {
+                      this.toggleNav("close");
+                      popUpHandler("viewAskedQuestions");
+                    }}>Questions</a>,
                   ]
                 ) : null }
                 <a className="nav-item" href="#" onClick={() => {

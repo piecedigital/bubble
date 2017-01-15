@@ -1,6 +1,6 @@
 import React from "react";
 import { browserHistory as History } from "react-router";
-import { AskQuestion, AnswerQuestion, ViewQuestion } from "./question-tools.jsx";
+import { AskQuestion, AnswerQuestion, ViewQuestion, ViewAskedQuestions } from "./question-tools.jsx";
 import { ViewBookmarks } from "./bookmark-tools.jsx";
 import { ViewNotifications } from "./notification-tools.jsx";
 
@@ -8,6 +8,7 @@ const components = {
   "askQuestion": AskQuestion,
   "answerQuestion": AnswerQuestion,
   "viewQuestion": ViewQuestion,
+  "viewAskedQuestions": ViewAskedQuestions,
   "viewBookmarks": ViewBookmarks,
   "viewNotifications": ViewNotifications
 };
@@ -30,12 +31,12 @@ export default React.createClass({
         popUpHandler
       }
     } = this.props;
+    const Component = components[overlay] || null;
+    // console.log(overlay, components, Component);
     return (
-      <div className={`overlay${overlay ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>
+      <div className={`overlay${Component ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>
         {
           function () {
-            let Component = components[overlay] || null;
-            // console.log(components, Component);
             return Component ? (
               <Component
               overlay={overlay}
