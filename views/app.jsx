@@ -33,7 +33,7 @@ var _jsxSearchJsx2 = _interopRequireDefault(_jsxSearchJsx);
 var container = document.querySelector(".react-app");
 
 function checkAuth(Component, props) {
-  console.log("check auth", props);
+  // console.log("check auth", props);
   if (props.auth !== null) {
     if (props.auth.access_token) {
       return _react2["default"].createElement(Component, props);

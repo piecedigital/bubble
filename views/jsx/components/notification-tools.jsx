@@ -18,6 +18,11 @@ var _reactRouter = require('react-router');
 
 var NotifItem = _react2["default"].createClass({
   displayName: "NotifItem",
+  getInitialState: function getInitialState() {
+    return {
+      questionData: null
+    };
+  },
   markRead: function markRead() {
     var _props = this.props;
     var fireRef = _props.fireRef;
@@ -32,6 +37,7 @@ var NotifItem = _react2["default"].createClass({
     var data = _props2.data;
     var userData = _props2.userData;
     var location = _props2.location;
+    var questionData = this.state.questionData;
 
     var object = {
       "message": "You have a new notification"
@@ -39,31 +45,37 @@ var NotifItem = _react2["default"].createClass({
 
     switch (data.type) {
       case "newQuestion":
-        object.message = data.info.sender + " has asked you a question";
+        object.message = data.info.sender + " asked a question: " + questionData.title;
+        object.modal = true;
+        object.returnTo = location.pathname;
+        object.overlay = "answerQuestion";
+        break;
+      case "newAnswer":
+        object.message = data.info.sender + " answered your question: " + questionData.title;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
         break;
       case "newQuestionComment":
-        object.message = data.info.sender + " has commented on a question";
+        object.message = data.info.sender + " commented on a question: " + questionData.title;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "viewQuestion";
         break;
       case "questionUpvote":
-        object.message = "You're question has been upvoted";
+        object.message = "You're question was upvoted: " + questionData.title;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "viewQuestion";
         break;
       case "answerUpvote":
-        object.message = "You're answer has been upvoted";
+        object.message = "You're answer was upvoted: " + questionData.title;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "viewQuestion";
         break;
       case "commentUpvote":
-        object.message = "You're comment has been upvoted";
+        object.message = "You're comment was upvoted: " + questionData.title;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "viewQuestion";
@@ -71,13 +83,42 @@ var NotifItem = _react2["default"].createClass({
     }
     return object;
   },
-  render: function render() {
+  componentDidMount: function componentDidMount() {
     var _this = this;
 
     var _props3 = this.props;
-    var notifID = _props3.notifID;
+    var fireRef = _props3.fireRef;
     var data = _props3.data;
-    var popUpHandler = _props3.methods.popUpHandler;
+
+    if (data && data.info && data.info.questionID) {
+      fireRef.questionsRef.child(data.info.questionID).child("title").once("value").then(function (snap) {
+        _this.setState({
+          "questionData": {
+            "title": snap.val()
+          }
+        });
+      });
+    }
+  },
+  render: function render() {
+    var _this2 = this;
+
+    var _props4 = this.props;
+    var notifID = _props4.notifID;
+    var data = _props4.data;
+    var popUpHandler = _props4.methods.popUpHandler;
+    var questionData = this.state.questionData;
+
+    switch (data.type) {
+      case "newQuestion":
+      case "newAnswer":
+      case "newQuestionComment":
+      case "questionUpvote":
+      case "answerUpvote":
+      case "commentUpvote":
+        // for the above notification types some question data is required
+        if (!questionData) return null;
+    }
 
     var message = this.getMessage();
 
@@ -99,7 +140,7 @@ var NotifItem = _react2["default"].createClass({
               popUpHandler(message.overlay, {
                 questionID: data.info.questionID
               });
-              _this.markRead();
+              _this2.markRead();
             } },
           message.message
         ),
@@ -125,12 +166,12 @@ var ViewNotifications = _react2["default"].createClass({
     };
   },
   checkForProps: function checkForProps() {
-    var _props4 = this.props;
-    var userData = _props4.userData;
-    var fireRef = _props4.fireRef;
+    var _props5 = this.props;
+    var userData = _props5.userData;
+    var fireRef = _props5.fireRef;
 
     var propsPresent = !!userData && !!fireRef;
-    console.log(propsPresent);
+    // console.log(propsPresent);
     if (propsPresent) {
       this.setState({
         userDataPresent: !!userData,
@@ -142,12 +183,12 @@ var ViewNotifications = _react2["default"].createClass({
     }
   },
   prepListener: function prepListener() {
-    var _this2 = this;
+    var _this3 = this;
 
     // console.log("init prep 2");
-    var _props5 = this.props;
-    var fireRef = _props5.fireRef;
-    var userData = _props5.userData;
+    var _props6 = this.props;
+    var fireRef = _props6.fireRef;
+    var userData = _props6.userData;
 
     var temp = function temp(snap) {
       // console.log("prep 2");
@@ -155,27 +196,27 @@ var ViewNotifications = _react2["default"].createClass({
       var val = snap.val();
       if (key === userData.name) {
         fireRef.notificationsRef.off("child_added", temp);
-        _this2.initListener();
+        _this3.initListener();
       }
     };
 
     fireRef.notificationsRef.on("child_added", temp);
   },
   initListener: function initListener() {
-    var _this3 = this;
+    var _this4 = this;
 
-    var _props6 = this.props;
-    var fireRef = _props6.fireRef;
-    var userData = _props6.userData;
+    var _props7 = this.props;
+    var fireRef = _props7.fireRef;
+    var userData = _props7.userData;
 
     var nodeRef = fireRef.notificationsRef.child(userData.name);
     nodeRef.once("value").then(function (snap) {
-      _this3.setState({
+      _this4.setState({
         notifications: snap.val()
       }, function () {
-        nodeRef.on("child_added", _this3.newNotif);
-        nodeRef.on("child_changed", _this3.newNotif);
-        _this3.killListener = function () {
+        nodeRef.on("child_added", _this4.newNotif);
+        nodeRef.on("child_changed", _this4.newNotif);
+        _this4.killListener = function () {
           nodeRef.off("child_added", this.newNotif);
           nodeRef.off("child_changed", this.newNotif);
         };
@@ -209,18 +250,18 @@ var ViewNotifications = _react2["default"].createClass({
     if (this.killListener === "function") this.killListener();
   },
   render: function render() {
-    var _props7 = this.props;
-    var fireRef = _props7.fireRef;
-    var userData = _props7.userData;
-    var location = _props7.location;
-    var methods = _props7.methods;
-    var popUpHandler = _props7.methods.popUpHandler;
+    var _props8 = this.props;
+    var fireRef = _props8.fireRef;
+    var userData = _props8.userData;
+    var location = _props8.location;
+    var methods = _props8.methods;
+    var popUpHandler = _props8.methods.popUpHandler;
     var _state = this.state;
     var notifications = _state.notifications;
     var notifCount = _state.notifCount;
     var propsPresent = _state.propsPresent;
 
-    console.log(propsPresent, notifCount);
+    // console.log(propsPresent, notifCount);
     if (!propsPresent) return null;
 
     var notifList = Object.keys(notifications || {}).map(function (notifID) {

@@ -357,7 +357,7 @@ exports["default"] = _react2["default"].createClass({
     var userData = _state.userData;
     var authData = _state.authData;
 
-    console.log(registeredAuth, !!fireRef, !!authData, !!userData);
+    // console.log(registeredAuth, !!fireRef, !!authData, !!userData);
     if (!registeredAuth && fireRef && authData && authData.access_token && userData) {
       console.log("register auth. should only happen once");
       this.setState({
