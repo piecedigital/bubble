@@ -61,6 +61,10 @@ exports["default"] = _react2["default"].createClass({
       registeredAuth: false
     }, this.props.initState || {});
   },
+  /**
+   * initializes Firebase connection and returns an object with premade base node references
+   * @return object
+   */
   initFirebase: function initFirebase(data) {
     // console.log("init firebase", this.state.fireRef);
     var config = data;

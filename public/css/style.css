@@ -732,7 +732,6 @@ nav {
       position: absolute;
       top: 100%;
       left: 50%;
-      width: 160px;
       padding: 16px;
       transform: translate(-50%, -64px);
       text-align: center;
