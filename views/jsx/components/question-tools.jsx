@@ -66,7 +66,7 @@ var AskQuestion = _react2["default"].createClass({
 
     var questionObject = {
       // true if `access_token` exists
-      myAuth: !!auth.access_token,
+      auth: auth.access_token,
       creator: from,
       receiver: to,
       title: title.value,
@@ -350,7 +350,7 @@ var AnswerQuestion = _react2["default"].createClass({
     var body = _refs2.body;
 
     var answerObject = {
-      "myAuth": !!auth.access_token,
+      "auth": auth.access_token,
       "username": userData.name,
       "body": body.value,
       "questionID": questionID,
@@ -635,7 +635,7 @@ var CommentTool = _react2["default"].createClass({
     var body = _refs3.body;
 
     var commentObject = {
-      "myAuth": !!auth.access_token,
+      "auth": auth.access_token,
       "username": userData.name,
       // to be truthy only if this is a comment reply
       "reply": !!commentID,
@@ -817,7 +817,7 @@ var CommentItem = _react2["default"].createClass({
       _react2["default"].createElement(
         "label",
         { className: "vote" },
-        _react2["default"].createElement(_voteToolJsx2["default"], { place: "comment", myAuth: !!auth, questionID: questionID, questionData: questionData, commentID: commentID, commentData: commentData, fireRef: fireRef, userData: userData })
+        _react2["default"].createElement(_voteToolJsx2["default"], { place: "comment", auth: auth, questionID: questionID, questionData: questionData, commentID: commentID, commentData: commentData, fireRef: fireRef, userData: userData })
       )
     );
   }
@@ -953,7 +953,7 @@ var ViewQuestion = _react2["default"].createClass({
             _react2["default"].createElement(
               "label",
               { className: "vote" },
-              _react2["default"].createElement(_voteToolJsx2["default"], { place: "question", myAuth: !!auth, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData })
+              _react2["default"].createElement(_voteToolJsx2["default"], { place: "question", auth: auth, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData })
             )
           ),
           _react2["default"].createElement("div", { className: "separator-4-dim" }),
@@ -981,7 +981,7 @@ var ViewQuestion = _react2["default"].createClass({
             _react2["default"].createElement(
               "label",
               { className: "vote" },
-              _react2["default"].createElement(_voteToolJsx2["default"], { place: "answer", myAuth: !!auth, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData })
+              _react2["default"].createElement(_voteToolJsx2["default"], { place: "answer", auth: auth, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData })
             )
           ),
           _react2["default"].createElement("div", { className: "separator-4-dim" }),

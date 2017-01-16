@@ -47,25 +47,27 @@ exports["default"] = _react2["default"].createClass({
   getInitialState: function getInitialState() {
     return Object.assign({
       authData: this.props.data && this.props.data.authData || null,
+      userData: null,
       streamersInPlayer: {},
       playerCollapsed: true,
       layout: "",
       playerStreamMax: 6,
       panelDataFor: [],
       panelData: [],
-      panelData: [],
       overlay: "",
       overlayState: null,
       fireRef: null,
-      versionData: null
+      versionData: null,
+      registeredAuth: false
     }, this.props.initState || {});
   },
   initFirebase: function initFirebase(data) {
-    // console.log("init firebase", data);
+    // console.log("init firebase", this.state.fireRef);
     var config = data;
     _firebase2["default"].initializeApp(config);
     var ref = {
       root: _firebase2["default"].database().ref(),
+      authTokensRef: _firebase2["default"].database().ref("authTokens"),
       appConfigRef: _firebase2["default"].database().ref("appConfig"),
       usersRef: _firebase2["default"].database().ref("users"),
       notificationsRef: _firebase2["default"].database().ref("notifications"),
@@ -157,7 +159,8 @@ exports["default"] = _react2["default"].createClass({
     delete newAuthData.access_token;
     this.setState({
       authData: newAuthData,
-      userData: null
+      userData: null,
+      registeredAuth: false
     });
     document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
   },
@@ -215,67 +218,6 @@ exports["default"] = _react2["default"].createClass({
           panelData: []
         });
     }
-  },
-  componentDidMount: function componentDidMount() {
-    var _this2 = this;
-
-    var authData = {};
-    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
-      authData[key] = value;
-      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
-    });
-    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
-      authData[key] = value;
-    });
-    // console.log(authData, "auth data");
-    // load user data
-    _modulesLoadData2["default"].call(this, function (e) {
-      console.error(e.stack);
-    }, {
-      access_token: authData.access_token
-    }).then(function (methods) {
-      methods.getCurrentUser().then(function (data) {
-        _this2.setState({
-          userData: data,
-          authData: authData
-        });
-      })["catch"](function (e) {
-        return console.error(e.stack || e);
-      });
-    })["catch"](function (e) {
-      return console.error(e.stack || e);
-    });
-
-    // load firebase config
-    _modulesLoadData2["default"].call(this, function (e) {
-      console.error(e.stack);
-    }).then(function (methods) {
-      methods.getFirebaseConfig().then(function (data) {
-        // console.log("firebase data", data);
-        _this2.initFirebase(JSON.parse(atob(data)));
-      })["catch"](function (e) {
-        return console.error(e.stack || e);
-      });
-    })["catch"](function (e) {
-      return console.error(e.stack || e);
-    });
-
-    window.location.hash = "";
-
-    (0, _modulesAjax.ajax)({
-      url: "/get-version",
-      success: function success(data) {
-        _this2.setState({
-          versionData: JSON.parse(data)
-        });
-      },
-      error: function error(err) {
-        console.error(err);
-        _this2.setState({
-          error: true
-        });
-      }
-    });
   },
   alertAuthNeeded: function alertAuthNeeded() {
     console.log("Auth needed");
@@ -343,6 +285,84 @@ exports["default"] = _react2["default"].createClass({
         }
     }
   },
+  componentDidMount: function componentDidMount() {
+    var _this2 = this;
+
+    var authData = {};
+    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
+      authData[key] = value;
+      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
+    });
+    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
+      authData[key] = value;
+    });
+    // console.log(authData, "auth data");
+    // load user data
+    _modulesLoadData2["default"].call(this, function (e) {
+      console.error(e.stack);
+    }, {
+      access_token: authData.access_token
+    }).then(function (methods) {
+      methods.getCurrentUser().then(function (data) {
+        _this2.setState({
+          userData: data,
+          authData: authData
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack || e);
+      });
+    })["catch"](function (e) {
+      return console.error(e.stack || e);
+    });
+
+    // load firebase config
+    _modulesLoadData2["default"].call(this, function (e) {
+      console.error(e.stack);
+    }).then(function (methods) {
+      methods.getFirebaseConfig().then(function (data) {
+        // console.log("firebase data", data);
+        _this2.initFirebase(JSON.parse(atob(data)));
+      })["catch"](function (e) {
+        return console.error(e.stack || e);
+      });
+    })["catch"](function (e) {
+      return console.error(e.stack || e);
+    });
+
+    window.location.hash = "";
+
+    (0, _modulesAjax.ajax)({
+      url: "/get-version",
+      success: function success(data) {
+        _this2.setState({
+          versionData: JSON.parse(data)
+        });
+      },
+      error: function error(err) {
+        console.error(err);
+        _this2.setState({
+          error: true
+        });
+      }
+    });
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    var _state = this.state;
+    var registeredAuth = _state.registeredAuth;
+    var fireRef = _state.fireRef;
+    var userData = _state.userData;
+    var authData = _state.authData;
+
+    console.log(registeredAuth, !!fireRef, !!authData, !!userData);
+    if (!registeredAuth && fireRef && authData && authData.access_token && userData) {
+      console.log("register auth. should only happen once");
+      this.setState({
+        registeredAuth: true
+      }, function () {
+        fireRef.authTokensRef.child(userData.name).set(authData.access_token);
+      });
+    }
+  },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     console.log(nextProps.location);
     if (nextProps.location.state && nextProps.location.state.modal) {
@@ -352,17 +372,17 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   render: function render() {
-    var _state = this.state;
-    var authData = _state.authData;
-    var userData = _state.userData;
-    var dataObject = _state.streamersInPlayer;
-    var playerCollapsed = _state.playerCollapsed;
-    var layout = _state.layout;
-    var panelData = _state.panelData;
-    var overlay = _state.overlay;
-    var overlayState = _state.overlayState;
-    var fireRef = _state.fireRef;
-    var versionData = _state.versionData;
+    var _state2 = this.state;
+    var authData = _state2.authData;
+    var userData = _state2.userData;
+    var dataObject = _state2.streamersInPlayer;
+    var playerCollapsed = _state2.playerCollapsed;
+    var layout = _state2.layout;
+    var panelData = _state2.panelData;
+    var overlay = _state2.overlay;
+    var overlayState = _state2.overlayState;
+    var fireRef = _state2.fireRef;
+    var versionData = _state2.versionData;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 

@@ -155,7 +155,7 @@ var QuestionListItem = _react2["default"].createClass({
   },
   render: function render() {
     var _props7 = this.props;
-    var myAuth = _props7.myAuth;
+    var auth = _props7.auth;
     var userData = _props7.userData;
     var fireRef = _props7.fireRef;
     var questionID = _props7.questionID;
@@ -232,12 +232,13 @@ var QuestionListItem = _react2["default"].createClass({
             "div",
             { className: "info question" },
             _react2["default"].createElement(_voteToolJsx2["default"], {
-              myAuth: myAuth,
+              auth: auth,
               userData: userData,
               fireRef: fireRef,
               place: "question",
               calculatedRatings: calculatedRatings,
-              questionID: questionID
+              questionID: questionID,
+              questionData: questionData
             })
           )
         ) : _react2["default"].createElement("div", { className: "separator-4-dim" })
@@ -447,7 +448,7 @@ exports["default"] = _react2["default"].createClass({
 
     // make an array of questions
     var list = questions ? Object.keys(questions).map(function (questionID) {
-      return _react2["default"].createElement(QuestionListItem, { key: questionID, userData: userData, questionID: questionID, location: location, params: params, fireRef: fireRef, myAuth: auth ? !!auth.access_token : false, overlay: overlay, pageOverride: pageOverride, methods: methods });
+      return _react2["default"].createElement(QuestionListItem, { key: questionID, userData: userData, questionID: questionID, location: location, params: params, fireRef: fireRef, auth: auth, overlay: overlay, pageOverride: pageOverride, methods: methods });
     }) : null;
     return _react2["default"].createElement(
       "div",

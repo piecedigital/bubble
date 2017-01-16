@@ -24,7 +24,7 @@ exports["default"] = _react2["default"].createClass({
   },
   castVote: function castVote(vote) {
     var _props = this.props;
-    var myAuth = _props.myAuth;
+    var auth = _props.auth;
     var userData = _props.userData;
     var fireRef = _props.fireRef;
     var place = _props.place;
@@ -34,7 +34,7 @@ exports["default"] = _react2["default"].createClass({
     var commentData = _props.commentData;
 
     var voteData = {
-      myAuth: myAuth,
+      auth: auth.access_token,
       "for": place,
       "username": userData.name,
       "upvote": vote
