@@ -13,7 +13,7 @@ export default React.createClass({
   }),
   castVote(vote) {
     const {
-      myAuth,
+      auth,
       userData,
       fireRef,
       place,
@@ -23,7 +23,7 @@ export default React.createClass({
       commentData
     } = this.props;
     const voteData = {
-      myAuth,
+      auth: auth.access_token,
       "for": place,
       "username": userData.name,
       "upvote": vote

@@ -159,7 +159,7 @@ const QuestionListItem = React.createClass({
   },
   render() {
     const {
-      myAuth,
+      auth,
       userData,
       fireRef,
       questionID,
@@ -231,12 +231,13 @@ const QuestionListItem = React.createClass({
                 <div className="info question">
                   <VoteTool
                   {...{
-                    myAuth,
+                    auth,
                     userData,
                     fireRef,
                     place: "question",
                     calculatedRatings,
-                    questionID
+                    questionID,
+                    questionData
                   }} />
                 </div>
               </div>
@@ -464,7 +465,7 @@ export default React.createClass({
     // make an array of questions
     const list = questions ? Object.keys(questions).map(questionID => {
       return (
-        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} myAuth={ auth ? !!auth.access_token : false} overlay={overlay} pageOverride={pageOverride} methods={methods} />
+        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} auth={ auth } overlay={overlay} pageOverride={pageOverride} methods={methods} />
       );
     }) : null;
     return (

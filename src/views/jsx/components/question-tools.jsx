@@ -44,7 +44,7 @@ export const AskQuestion = React.createClass({
     } = this.refs;
     let questionObject = {
       // true if `access_token` exists
-      myAuth: !!auth.access_token,
+      auth: auth.access_token,
       creator: from,
       receiver: to,
       title: title.value,
@@ -249,7 +249,7 @@ export const AnswerQuestion = React.createClass({
       body,
     } = this.refs;
     let answerObject = {
-      "myAuth": !!auth.access_token,
+      "auth": auth.access_token,
       "username": userData.name,
       "body": body.value,
       "questionID": questionID,
@@ -468,7 +468,7 @@ export const CommentTool = React.createClass({
     } = this.refs;
 
     let commentObject = {
-      "myAuth": !!auth.access_token,
+      "auth": auth.access_token,
       "username": userData.name,
       // to be truthy only if this is a comment reply
       "reply": !!commentID,
@@ -613,7 +613,7 @@ const CommentItem = React.createClass({
           }
         </label>
         <label className="vote">
-          <VoteTool {...{ place: "comment", myAuth: !!auth, questionID, questionData, commentID, commentData, fireRef, userData }} />
+          <VoteTool {...{ place: "comment", auth: auth, questionID, questionData, commentID, commentData, fireRef, userData }} />
         </label>
       </div>
     );
@@ -737,7 +737,7 @@ export const ViewQuestion = React.createClass({
                 <div className="label">{questionData.body}</div>
               </label>
               <label className="vote">
-                <VoteTool {...{ place: "question", myAuth: !!auth, questionID, questionData, fireRef, userData }} />
+                <VoteTool {...{ place: "question", auth: auth, questionID, questionData, fireRef, userData }} />
               </label>
             </div>
             <div className="separator-4-dim" />
@@ -749,7 +749,7 @@ export const ViewQuestion = React.createClass({
                 <div className="label"><p>{answerData.body}</p></div>
               </label>
               <label className="vote">
-                <VoteTool {...{ place: "answer", myAuth: !!auth, questionID, questionData, fireRef, userData }} />
+                <VoteTool {...{ place: "answer", auth: auth, questionID, questionData, fireRef, userData }} />
               </label>
             </div>
             <div className="separator-4-dim" />

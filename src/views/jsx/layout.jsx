@@ -19,25 +19,27 @@ export default React.createClass({
   getInitialState() {
     return Object.assign({
       authData: (this.props.data && this.props.data.authData) || null,
+      userData: null,
       streamersInPlayer: {},
       playerCollapsed: true,
       layout: "",
       playerStreamMax: 6,
       panelDataFor: [],
       panelData: [],
-      panelData: [],
       overlay: "",
       overlayState: null,
       fireRef: null,
-      versionData: null
+      versionData: null,
+      registeredAuth: false,
     }, this.props.initState || {});
   },
   initFirebase(data) {
-    // console.log("init firebase", data);
+    // console.log("init firebase", this.state.fireRef);
     var config = data;
     Firebase.initializeApp(config);
     const ref = {
       root: Firebase.database().ref(),
+      authTokensRef: Firebase.database().ref("authTokens"),
       appConfigRef: Firebase.database().ref("appConfig"),
       usersRef: Firebase.database().ref("users"),
       notificationsRef: Firebase.database().ref("notifications"),
@@ -125,7 +127,8 @@ export default React.createClass({
     delete newAuthData.access_token;
     this.setState({
       authData: newAuthData,
-      userData: null
+      userData: null,
+      registeredAuth: false
     });
     document.cookie = "access_token=; expires=" + new Date(0).toUTCString() + ";";
   },
@@ -182,67 +185,6 @@ export default React.createClass({
         panelData: [],
       });
     }
-  },
-  componentDidMount() {
-    let authData = {};
-    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
-      authData[key] = value;
-      document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
-    });
-    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
-      authData[key] = value;
-    });
-    // console.log(authData, "auth data");
-    // load user data
-    loadData.call(this, e => {
-      console.error(e.stack);
-    }, {
-      access_token: authData.access_token
-    })
-    .then(methods => {
-      methods
-      .getCurrentUser()
-      .then(data => {
-        this.setState({
-          userData: data,
-          authData
-        });
-      })
-      .catch(e => console.error(e.stack || e));
-    })
-    .catch(e => console.error(e.stack || e));
-
-    // load firebase config
-    loadData.call(this, e => {
-      console.error(e.stack);
-    })
-    .then(methods => {
-      methods
-      .getFirebaseConfig()
-      .then(data => {
-        // console.log("firebase data", data);
-        this.initFirebase(JSON.parse(atob(data)))
-      })
-      .catch(e => console.error(e.stack || e));
-    })
-    .catch(e => console.error(e.stack || e));
-
-    window.location.hash = "";
-
-    ajax({
-      url: "/get-version",
-      success: (data) => {
-        this.setState({
-          versionData: JSON.parse(data)
-        });
-      },
-      error: (err) => {
-        console.error(err);
-        this.setState({
-          error: true
-        });
-      }
-    })
   },
   alertAuthNeeded() {
     console.log("Auth needed");
@@ -308,6 +250,87 @@ export default React.createClass({
             pathname: this.props.location.state.returnTo
           });
         }
+    }
+  },
+  componentDidMount() {
+    let authData = {};
+    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
+      authData[key] = value;
+      document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
+    });
+    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
+      authData[key] = value;
+    });
+    // console.log(authData, "auth data");
+    // load user data
+    loadData.call(this, e => {
+      console.error(e.stack);
+    }, {
+      access_token: authData.access_token
+    })
+    .then(methods => {
+      methods
+      .getCurrentUser()
+      .then(data => {
+        this.setState({
+          userData: data,
+          authData
+        });
+      })
+      .catch(e => console.error(e.stack || e));
+    })
+    .catch(e => console.error(e.stack || e));
+
+    // load firebase config
+    loadData.call(this, e => {
+      console.error(e.stack);
+    })
+    .then(methods => {
+      methods
+      .getFirebaseConfig()
+      .then(data => {
+        // console.log("firebase data", data);
+        this.initFirebase(JSON.parse(atob(data)))
+      })
+      .catch(e => console.error(e.stack || e));
+    })
+    .catch(e => console.error(e.stack || e));
+
+    window.location.hash = "";
+
+    ajax({
+      url: "/get-version",
+      success: (data) => {
+        this.setState({
+          versionData: JSON.parse(data)
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        this.setState({
+          error: true
+        });
+      }
+    })
+  },
+  componentDidUpdate() {
+    const {
+      registeredAuth,
+      fireRef,
+      userData,
+      authData,
+    } = this.state;
+
+    console.log(registeredAuth, !!fireRef, !!authData, !!userData);
+    if(!registeredAuth && fireRef && authData && authData.access_token && userData) {
+      console.log("register auth. should only happen once");
+      this.setState({
+        registeredAuth: true
+      }, () => {
+        fireRef.authTokensRef
+        .child(userData.name)
+        .set(authData.access_token);
+      });
     }
   },
   componentWillReceiveProps(nextProps) {
