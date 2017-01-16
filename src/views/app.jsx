@@ -10,7 +10,7 @@ import SearchPage from "./jsx/search.jsx";
 const container = document.querySelector(".react-app");
 
 function checkAuth(Component, props) {
-  console.log("check auth", props);
+  // console.log("check auth", props);
   if(props.auth !== null) {
     if(props.auth.access_token) {
       return (<Component {...props} />);

@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 
 const NotifItem = React.createClass({
   displayName: "NotifItem",
+  getInitialState: () => ({
+    questionData: null
+  }),
   markRead() {
     const {
       fireRef,
@@ -20,43 +23,76 @@ const NotifItem = React.createClass({
       userData,
       location
     } = this.props;
+    const {
+      questionData
+    } = this.state;
     let object = {
       "message": "You have a new notification"
     };
 
     switch (data.type) {
       case "newQuestion":
-        object.message = `${data.info.sender} has asked you a question`;
+        object.message = `${data.info.sender} asked a question: ${questionData.title}`;
+        object.modal = true;
+        object.returnTo = location.pathname;
+        object.overlay = "answerQuestion";
+      break;
+      case "newAnswer":
+        object.message = `${data.info.sender} answered your question: ${questionData.title}`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
       break;
       case "newQuestionComment":
-        object.message = `${data.info.sender} has commented on a question`;
+        object.message = `${data.info.sender} commented on a question: ${questionData.title}`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "viewQuestion";
       break;
       case "questionUpvote":
-        object.message = `You're question has been upvoted`;
+        object.message = `You're question was upvoted: ${questionData.title}`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "viewQuestion";
       break;
       case "answerUpvote":
-        object.message = `You're answer has been upvoted`;
+        object.message = `You're answer was upvoted: ${questionData.title}`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "viewQuestion";
       break;
       case "commentUpvote":
-        object.message = `You're comment has been upvoted`;
+        object.message = `You're comment was upvoted: ${questionData.title}`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "viewQuestion";
       break;
     }
     return object;
+  },
+  componentDidMount() {
+    const {
+      fireRef,
+      data
+    } = this.props;
+
+    if(
+      data &&
+      data.info &&
+      data.info.questionID
+    ) {
+      fireRef.questionsRef
+      .child(data.info.questionID)
+      .child("title")
+      .once("value")
+      .then(snap => {
+        this.setState({
+          "questionData": {
+            "title": snap.val()
+          }
+        })
+      });
+    }
   },
   render() {
     const {
@@ -66,6 +102,22 @@ const NotifItem = React.createClass({
         popUpHandler
       }
     } = this.props;
+
+    const {
+      questionData
+    } = this.state;
+
+    switch (data.type) {
+      case "newQuestion":
+      case "newAnswer":
+      case "newQuestionComment":
+      case "questionUpvote":
+      case "answerUpvote":
+      case "commentUpvote":
+        // for the above notification types some question data is required
+        if(!questionData) return null;
+    }
+
     const message = this.getMessage();
 
     return (
@@ -104,7 +156,7 @@ export const ViewNotifications = React.createClass({
       fireRef
     } = this.props;
     const propsPresent = !!userData && !!fireRef;
-    console.log(propsPresent);
+    // console.log(propsPresent);
     if(propsPresent) {
       this.setState({
         userDataPresent: !!userData,
@@ -201,7 +253,7 @@ export const ViewNotifications = React.createClass({
       notifCount,
       propsPresent
     } = this.state;
-    console.log(propsPresent, notifCount);
+    // console.log(propsPresent, notifCount);
     if(!propsPresent) return null;
 
     const notifList = Object.keys(notifications || {}).map(notifID => {

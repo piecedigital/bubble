@@ -325,7 +325,7 @@ export default React.createClass({
       authData,
     } = this.state;
 
-    console.log(registeredAuth, !!fireRef, !!authData, !!userData);
+    // console.log(registeredAuth, !!fireRef, !!authData, !!userData);
     if(!registeredAuth && fireRef && authData && authData.access_token && userData) {
       console.log("register auth. should only happen once");
       this.setState({
