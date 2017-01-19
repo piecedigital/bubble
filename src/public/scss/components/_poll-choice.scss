@@ -1,0 +1,25 @@
+.poll-choice {
+  @include displayFlex;
+  justify-content: space-between;
+  &:not(:last-child) {
+    margin-bottom: .5*$em;
+  }
+  &:not(:first-child) {
+    input {
+      max-width: 20*$em;
+    }
+  }
+  input {
+    padding: .3*$em;
+  }
+  span {
+    display: inline-block;
+    padding: .25*$em .5*$em;
+    background-color: rgba(orange, .8);
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(red, .8);
+      color: white;
+    }
+  }
+}

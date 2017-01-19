@@ -26,8 +26,10 @@ export default React.createClass({
       playerStreamMax: 6,
       panelDataFor: [],
       panelData: [],
-      overlay: "",
-      overlayState: null,
+      overlay: "viewPoll",
+      overlayState: {
+        pollID: "-Kao8aMluCFmlVPmJ9kh"
+      },
       fireRef: null,
       versionData: null,
       registeredAuth: false,

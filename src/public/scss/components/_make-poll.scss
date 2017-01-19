@@ -1,0 +1,19 @@
+.make-poll {
+  &.open {}
+  .close {}
+  .title {}
+  form {}
+  .section {
+    &.column {
+      flex-direction: column;
+    }
+    .label {}
+    .to {}
+    input, textarea {
+      &:not(:last-child) {
+        // margin-bottom: .5*$em;
+      }
+      &.valid {}
+    }
+  }
+}

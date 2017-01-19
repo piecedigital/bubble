@@ -77,6 +77,13 @@
     .to {
       font-weight: bold;
     }
+    input {
+      width: 100%;
+      border-radius: .25*$em;
+      border: none;
+      border: 1px solid black;
+      box-shadow: none;
+    }
     textarea {
       width: 100%;
       border-radius: .25*$em;

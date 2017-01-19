@@ -3,6 +3,7 @@ import { browserHistory as History } from "react-router";
 import { AskQuestion, AnswerQuestion, ViewQuestion, ViewAskedQuestions } from "./question-tools.jsx";
 import { ViewBookmarks } from "./bookmark-tools.jsx";
 import { ViewNotifications } from "./notification-tools.jsx";
+import { MakePoll, VotePoll, ViewPoll } from "./poll-tools.jsx";
 
 const components = {
   "askQuestion": AskQuestion,
@@ -10,7 +11,10 @@ const components = {
   "viewQuestion": ViewQuestion,
   "viewAskedQuestions": ViewAskedQuestions,
   "viewBookmarks": ViewBookmarks,
-  "viewNotifications": ViewNotifications
+  "viewNotifications": ViewNotifications,
+  "makePoll": MakePoll,
+  "votePoll": VotePoll,
+  "viewPoll": ViewPoll,
 };
 
 export default React.createClass({
@@ -33,6 +37,7 @@ export default React.createClass({
     } = this.props;
     const Component = components[overlay] || null;
     // console.log(overlay, components, Component);
+    if(!fireRef) return null;
     return (
       <div className={`overlay${Component ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>
         {

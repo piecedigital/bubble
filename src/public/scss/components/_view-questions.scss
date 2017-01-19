@@ -1,6 +1,7 @@
 .view-questions {
   &.open {}
   .close {}
+  .title {}
   .tabs {
     @include displayFlex;
     justify-content: space-around;
@@ -14,7 +15,6 @@
       cursor: pointer;
     }
   }
-  .title {}
   form {}
   .section {
     .label {}

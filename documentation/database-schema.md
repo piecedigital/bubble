@@ -100,7 +100,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "questions": {
     <questionID>: {
-      "myAuth": [myAuth Object],
+      "myAuth": <auth token>,
       "creator": <username>: String, //
       "receiver": <username>: String,
       "title": String or Number // If number it'll be 0. Firebase does not accept null as a value,
@@ -113,7 +113,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "answers": {
     <questionID>: {
-      "myAuth": [myAuth Object],
+      "myAuth": <auth token>,
       "username": <username>,
       "questionID": <questionID>
       "body": String, // minimum 30 characters
@@ -125,7 +125,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   "ratings": {
     <questionID>: {
       <ratingID>: {
-        "myAuth": [myAuth Object],
+        "myAuth": <auth token>,
         "for": String ("question" || "answer" || "comment"),
         "commentID": <commentID>, // won't exist for non-comments
         "username": <username>,
@@ -136,7 +136,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   "comments": {
     <questionID>: {
       <commentID>: {
-        "myAuth": [myAuth Object],
+        "myAuth": <auth token>,
         "username": <username>,
         "questionID": <questionID>,
         "body": String,
@@ -148,31 +148,30 @@ In addition to necessary data related to the Q&A aggregation this database will 
       }
     }
   },
-  "AMAs": {
-    <AMAID>: {
-      "myAuth": [myAuth Object],
-      "creator": <username>,
-      "associatedQuestions": {
-        <questionID>: true
-      },
-      "date": [date Number],
-      "version": [version Object]
-    }
-  },
   "polls": {
     <pollID>: {
-      "myAuth": [myAuth Object],
+      "auth": <auth token>,
       "creator": <username>,
+      "title": String,
       "choices": {
-        vote_<Number>: {
-          "text": String,
-        }
+        vote_<Number>: String
       },
       "votes": {
         <username>: {
           "username": <username>,
           "vote": String (vote_<Number>)
         }
+      },
+      "date": [date Number],
+      "version": [version Object]
+    }
+  },
+  "AMAs": {
+    <AMAID>: {
+      "auth": <auth token>,
+      "creator": <username>,
+      "associatedQuestions": {
+        <questionID>: true
       },
       "date": [date Number],
       "version": [version Object]
@@ -207,22 +206,13 @@ Number (UTCTime)
 }
 ```
 
-#### `myAuth` Object
-
-```js
-{
-  "username": <username>,
-  "ID": <Twitch auth ID>
-}
-```
-
 Extra stuff:
 
 #### `voteToolData` Object
 
 ```js
 {
-  "myAuth": [myAuth Object],
+  "myAuth": <auth token>,
   "userData": <userData>,
   "fireRef": <fireRef>,
   "place": "question",
