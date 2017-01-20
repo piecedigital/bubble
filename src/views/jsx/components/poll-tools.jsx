@@ -236,12 +236,17 @@ const ChoiceItem = React.createClass({
       userData,
       choiceData,
     } = this.props;
+  // console.log("vote:", choiceData);
+    if(!choiceData.calcData) return null;
 
     return (
       <div className="section">
         <label className="choice">
           <div className="label">
-            <div>{choiceData}</div>
+            <div className="gauge" style={{
+              width: (100 * choiceData.calcData.percentage) + "%"
+            }}/>
+            <div className="text">{choiceData.text}</div>
           </div>
         </label>
       </div>
@@ -252,7 +257,10 @@ const ChoiceItem = React.createClass({
 export const ViewPoll = React.createClass({
   displayName: "ViewPoll",
   getInitialState: () => ({
-    pollData: null
+    pollData: null,
+    calculatedData: {
+      // <voteID>: Object
+    }
   }),
   getPollData() {
     const {
@@ -265,6 +273,7 @@ export const ViewPoll = React.createClass({
     .once("value")
     .then(snap => {
       const pollData = snap.val();
+      if(!pollData) return;
       this.setState({
         pollData
       }, () => {
@@ -278,7 +287,7 @@ export const ViewPoll = React.createClass({
       fireRef,
       pollID
     } = this.props;
-
+    this.calculate();
     fireRef.pollsRef
     .child(pollID)
     .child("votes")
@@ -286,8 +295,62 @@ export const ViewPoll = React.createClass({
       const username = snap.getKey();
       const voteData = snap.val();
 
-      console.log("new vote", username, voteData);
+      // console.log("new vote", username, voteData);
+
+      const newPollData = JSON.parse(JSON.stringify( this.state.pollData || {} ));
+
+      newPollData.votes[username] = voteData;
+
+      this.setState({
+        pollData: newPollData
+      }, this.calculate);
     });
+  },
+  calculate() {
+    const {
+      pollData
+    } = this.state;
+    let calculatedData = {};
+
+
+    if(pollData.votes) {
+      const votesArray = Object.keys(pollData.votes);
+      votesArray.map(username => {
+        const voteData = pollData.votes[username];
+        if(!calculatedData[voteData.vote]) {
+          calculatedData[voteData.vote] = {
+            votes: 0,
+            percentage: 0
+          };
+        }
+        calculatedData[voteData.vote].votes += 1;
+      });
+      const totalVotes = votesArray.length;
+      console.log(calculatedData);
+      Object.keys(pollData.choices).map(choiceID => {
+        if(!calculatedData[choiceID]) {
+          calculatedData[choiceID] = {
+            votes: 0,
+            percentage: 0
+          };
+        } else {
+          calculatedData[choiceID].percentage = calculatedData[choiceID].votes / totalVotes;
+        }
+      });
+      this.setState({
+        calculatedData
+      });
+    } else {
+      Object.keys(pollData.choices).map(choiceID => {
+        calculatedData[choiceID] = {
+          votes: 0,
+          percentage: 0
+        };
+      });
+      this.setState({
+        calculatedData
+      });
+    }
   },
   componentDidMount() {
     this.getPollData();
@@ -305,6 +368,10 @@ export const ViewPoll = React.createClass({
       }
     } = this.props;
 
+    const {
+      calculatedData
+    } = this.state;
+console.log(this.state);
     const { pollData } = this.state;
 
     if(pollData) {
@@ -328,7 +395,10 @@ export const ViewPoll = React.createClass({
                   {
                     Object.keys(pollData.choices).map(choiceID => {
                       return (
-                        <ChoiceItem key={choiceID} choiceData={pollData.choices[choiceID]} />
+                        <ChoiceItem key={choiceID} choiceData={{
+                          text: pollData.choices[choiceID],
+                          calcData: calculatedData[choiceID]
+                        }} />
                       );
                     })
                   }

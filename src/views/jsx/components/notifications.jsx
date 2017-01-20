@@ -15,7 +15,7 @@ export default React.createClass({
       fireRef
     } = this.props;
     const propsPresent = !!userData && !!fireRef;
-    console.log(propsPresent);
+    // console.log(propsPresent);
     if(propsPresent) {
       this.setState({
         userDataPresent: !!userData,
@@ -72,7 +72,7 @@ export default React.createClass({
   newNotif(snap) {
     const key = snap.getKey();
     const val = snap.val();
-    console.log("new notif", key, val);
+    // console.log("new notif", key, val);
     const newNotifications = Object.assign(JSON.parse(JSON.stringify(this.state.notifications)) || {}, {
       [key]: val
     });

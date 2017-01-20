@@ -4,7 +4,22 @@
   .title {}
   form {}
   .section {
-    .label {}
+    .label {
+    }
+    .choice {
+      position: relative;
+      .gauge {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        border-radius: .5*$em 0 0 .5*$em;
+        background-color: rgba(red, .5);
+      }
+    }
+    .text {
+      position: relative;
+    }
     .to {}
     input, textarea {
       &.valid {}
