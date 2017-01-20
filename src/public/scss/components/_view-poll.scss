@@ -4,8 +4,7 @@
   .title {}
   form {}
   .section {
-    .label {
-    }
+    .label {}
     .choice {
       position: relative;
       .gauge {
@@ -17,8 +16,12 @@
         background-color: rgba(red, .5);
       }
     }
-    .text {
-      position: relative;
+    .spread {
+      @include displayFlex;
+      justify-content: space-between;
+      .text {
+        position: relative;
+      }
     }
     .to {}
     input, textarea {

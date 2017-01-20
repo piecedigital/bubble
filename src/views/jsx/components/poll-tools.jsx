@@ -246,7 +246,10 @@ const ChoiceItem = React.createClass({
             <div className="gauge" style={{
               width: (100 * choiceData.calcData.percentage) + "%"
             }}/>
-            <div className="text">{choiceData.text}</div>
+            <div className="spread">
+              <div className="text">{choiceData.text}</div>
+              <div className="number">{choiceData.calcData.votes} | {100 * choiceData.calcData.percentage}%</div>
+            </div>
           </div>
         </label>
       </div>
