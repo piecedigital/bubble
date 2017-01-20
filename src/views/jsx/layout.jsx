@@ -26,7 +26,7 @@ export default React.createClass({
       playerStreamMax: 6,
       panelDataFor: [],
       panelData: [],
-      overlay: "viewPoll",
+      overlay: "votePoll",
       overlayState: {
         pollID: "-Kao8aMluCFmlVPmJ9kh"
       },
@@ -238,11 +238,12 @@ export default React.createClass({
       case "viewAskedQuestions":
       case "viewBookmarks":
       case "viewNotifications":
+      case "makePoll":
+      case "votePoll":
+      case "viewPoll":
           newState = {
             overlay: action,
-            overlayState: {
-              questionID: options ? options.questionID : null
-            }
+            overlayState: options
           };
           // console.log("new state:", newState);
           this.setState(newState);

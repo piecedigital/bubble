@@ -226,6 +226,164 @@ export const MakePoll = React.createClass({
 });
 
 
+const ChoiceOption = React.createClass({
+  displayName: "ChoiceOption",
+  vote() {
+    const {
+      fireRef,
+      userData,
+      pollID,
+      choiceData: {
+        choiceID
+      },
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    console.log(this.props);
+    fireRef.pollsRef
+    .child(pollID)
+    .child("votes")
+    .child(userData.name)
+    .set({
+      username: userData.name,
+      vote: choiceID
+    });
+    popUpHandler("viewPoll", { pollID });
+  },
+  render() {
+    const {
+      fireRef,
+      userData,
+      choiceData,
+    } = this.props;
+
+    return (
+      <div className="section">
+        <label className="choice">
+          <div className="label">
+            <div className="spread">
+              <div className="text">{choiceData.text}</div>
+              <div className="checkbox" onClick={this.vote}>&#x2714;</div>
+            </div>
+          </div>
+        </label>
+      </div>
+    );
+  }
+});
+
+export const VotePoll = React.createClass({
+  displayName: "VotePoll",
+  getInitialState: () => ({
+    pollData: null,
+  }),
+  getPollData() {
+    const {
+      fireRef,
+      userData,
+      pollID,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    fireRef.pollsRef
+    .child(pollID)
+    .once("value")
+    .then(snap => {
+      const pollData = snap.val();
+      if(!pollData) return;
+      if(pollData.votes && pollData.votes[userData.name]) {
+        return popUpHandler("viewPoll", {
+          pollID
+        });
+      }
+      this.setState({
+        pollData
+      });
+    });
+  },
+  componentDidMount() {
+    this.getPollData();
+  },
+  render() {
+    // console.log(this.props);
+    const {
+      auth,
+      overlay,
+      fireRef,
+      pollID,
+      userData,
+      methods,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    // console.log(this.state);
+    const { pollData } = this.state;
+
+    if(pollData) {
+      return (
+        <div className={`overlay-ui-default vote-poll${overlay === "votePoll" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
+          <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
+          <div className="title">
+            <Link to={`/profile/${pollData.creator}`}>{pollData.creator}</Link>'s Poll: "{pollData.title}"
+          </div>
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <div className="scroll">
+            <div className="title sub">
+              Votes:
+            </div>
+            <div className="section">
+              <label>
+                <div className="label">
+                  {
+                    Object.keys(pollData.choices).map(choiceID => {
+                      return (
+                        <ChoiceOption
+                          key={choiceID}
+                          userData={userData}
+                          fireRef={fireRef}
+                          pollID={pollID}
+                          choiceData={{
+                          text: pollData.choices[choiceID],
+                          choiceID
+                        }} methods={methods} />
+                      );
+                    })
+                  }
+                </div>
+              </label>
+            </div>
+            <div className="section">
+              <label>
+                <div className="label">
+                  <div className="label bold">Copy Link</div>
+                  <input type="test" value={`http://${location ? location.host : "localhost:8080"}/profile/${pollData.creator}/p/${pollID}`} onClick={e => e.target.select()} readOnly />
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className={`overlay-ui-default vote-poll${overlay === "votePoll" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
+          <div className="title">
+            No poll data
+          </div>
+        </div>
+      );
+    }
+  }
+});
+
 
 const ChoiceItem = React.createClass({
   displayName: "ChoiceItem",
@@ -255,7 +413,7 @@ const ChoiceItem = React.createClass({
       </div>
     );
   }
-})
+});
 
 export const ViewPoll = React.createClass({
   displayName: "ViewPoll",
@@ -356,6 +514,7 @@ export const ViewPoll = React.createClass({
     }
   },
   componentDidMount() {
+    console.log("mounted view");
     this.getPollData();
   },
   render() {
@@ -374,7 +533,7 @@ export const ViewPoll = React.createClass({
     const {
       calculatedData
     } = this.state;
-console.log(this.state);
+    // console.log(this.state);
     const { pollData } = this.state;
 
     if(pollData) {
@@ -405,6 +564,14 @@ console.log(this.state);
                       );
                     })
                   }
+                </div>
+              </label>
+            </div>
+            <div className="section">
+              <label>
+                <div className="label">
+                  <div className="label bold">Copy Link</div>
+                  <input type="test" value={`http://${location ? location.host : "localhost:8080"}/profile/${pollData.creator}/p/${pollID}`} onClick={e => e.target.select()} readOnly />
                 </div>
               </label>
             </div>

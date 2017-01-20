@@ -5,6 +5,19 @@
   form {}
   .section {
     .label {}
+    .choice {}
+    .spread {
+      @include displayFlex;
+      justify-content: space-between;
+      .text {
+        position: relative;
+      }
+      .checkbox {
+        padding: .25*$em .5*$em;
+        background-color: rgba($primary, .8);
+        cursor: pointer;
+      }
+    }
     .to {}
     input, textarea {
       &.valid {}

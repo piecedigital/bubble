@@ -52,6 +52,29 @@ export const ViewBookmarks = React.createClass({
       bookmarks: newBookmarks
     })
   },
+  addBookmark(e) {
+    e.preventDefault();
+    const {
+      fireRef,
+      userData,
+      versionData,
+    } = this.props;
+    const username = this.refs["new-bookmark"].value;
+
+    if(!username) return;
+
+    const bookmarkObject = {
+      username,
+      "date": firebase.database.ServerValue.TIMESTAMP,
+      "version": versionData
+    };
+
+    fireRef.usersRef
+    .child(`${userData.name}/bookmarks/users/${username}`)
+    .set(bookmarkObject);
+
+    this.refs["new-bookmark"].value;
+  },
   componentDidMount() {
     const {
       fireRef,
@@ -118,6 +141,20 @@ export const ViewBookmarks = React.createClass({
           <div className="list">
           {bookmarkList}
           </div>
+        </div>
+        <div className="separator-4-dim" />
+        <div className="section">
+          <form onSubmit={this.addBookmark}>
+            <div className="section">
+              <label>
+                <div className="label bold">Add Bookmark</div>
+                <input type="text" ref="new-bookmark" />
+              </label>
+            </div>
+            <div className="section">
+              <button className="submit btn-default">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     );

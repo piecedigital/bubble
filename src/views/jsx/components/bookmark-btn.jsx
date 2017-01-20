@@ -2,6 +2,11 @@ import React from "react";
 import Firebase from "firebase";
 
 export default React.createClass({
+  // required props
+  // fireRef
+  // userData
+  // givenUsername (username)
+  // versionData
   displayName: "BookmarkButton",
   getInitialState: () => ({
     bookmarked: null,
@@ -16,7 +21,7 @@ export default React.createClass({
       fireRef
     } = this.props;
     const propsPresent = !!userData && !!fireRef;
-    console.log(propsPresent);
+    // console.log(propsPresent);
     if(propsPresent) {
       this.setState({
         userDataPresent: !!userData,

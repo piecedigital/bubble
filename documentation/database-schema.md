@@ -134,14 +134,15 @@ In addition to necessary data related to the Q&A aggregation this database will 
     }
   },
   "comments": {
-    <questionID>: {
+    <questionID || pollID>: {
       <commentID>: {
         "myAuth": <auth token>,
         "username": <username>,
-        "questionID": <questionID>,
+        "questionID": <questionID>, // if this is a comment for a question
+        "pollID": <pollID>, // if this is a comment for a poll
         "body": String,
         "reply": true || false,
-        "commentID": <commentID? || null,
+        "commentID": <commentID> || null, // String or null, depending on whether this is a reply or not
         "date": [date Number],
         "sentStatuses": [sentStatuses Object],
         "version": [version Object]

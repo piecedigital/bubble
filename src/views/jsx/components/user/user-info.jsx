@@ -2,6 +2,7 @@ import React from "react";
 // import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/load-data";
 import FollowButton from "../follow-btn.jsx";
+import BookmarkButton from "../bookmark-btn.jsx";
 
 const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -58,8 +59,10 @@ export default React.createClass({
   render() {
     const {
       auth,
+      fireRef,
       params,
       userData,
+      versionData,
       methods: {
         appendStream,
         popUpHandler,
@@ -121,46 +124,55 @@ export default React.createClass({
               ) : null
             }
             <div className="separator-4-3" />
-            {
-              name && userData && userData.name !== name ? (
-                [
-                  <a key="msg" className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>,
-                  " ",
-                  <div key="ask" className="btn-default btn-rect color-black bold no-underline" onClick={popUpHandler.bind(null, "askQuestion", {
-                    receiver: name.toLowerCase(),
-                    sender: userData.name
-                  })}>Ask A Question</div>
-                ]
-              ) : null
-            }
-            {userData && userData.name !== name ? (
-              [
-                " ",
-                <FollowButton key="follow" name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default btn-rect color-black bold no-underline" />
-              ]
-            ) : null}
-            {
-              userChannelData ? (
-                [
-                  " ",
-                  <div key="open" className="btn-default btn-rect color-black bold no-underline" onClick={appendStream.bind(null, userChannelData.name, userChannelData.display_name)}>Open Stream</div>
-                ]
-              ) : null
-            }
-            {
-              function() {
-                let give = false;
-                if(userData) {
-                  if(params && params.username === userData.name) {
-                    give = true
-                  }
+            <div className="button-wrapper">
+              {
+                name && userData && userData.name !== name ? (
+                  [
+                    <a key="msg" className="btn-default btn-rect color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>,
+                    " ",
+                    <div key="ask" className="btn-default btn-rect color-black bold no-underline" onClick={popUpHandler.bind(null, "askQuestion", {
+                      receiver: name.toLowerCase(),
+                      sender: userData.name
+                    })}>Ask A Question</div>,
+                    <BookmarkButton
+                      key="bookmark"
+                      className="btn-default btn-rect color-black bold no-underline"
+                      fireRef={fireRef}
+                      userData={userData}
+                      givenUsername={name}
+                      versionData={versionData}/>
+                    ]
+                  ) : null
                 }
-                return give ? ([
-                  " ",
-                  <a key="clips" className="btn-default btn-rect color-black bold no-underline" href={`https://clips.twitch.tv/my-clips`} target="_blank">My Clips</a>
-                ]) : null;
-              }()
-            }
+                {userData && userData.name !== name ? (
+                  [
+                    " ",
+                    <FollowButton key="follow" name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default btn-rect color-black bold no-underline" />
+                  ]
+                ) : null}
+                {
+                  userChannelData ? (
+                    [
+                      " ",
+                      <div key="open" className="btn-default btn-rect color-black bold no-underline" onClick={appendStream.bind(null, userChannelData.name, userChannelData.display_name)}>Open Stream</div>
+                    ]
+                  ) : null
+                }
+                {
+                  function() {
+                    let give = false;
+                    if(userData) {
+                      if(params && params.username === userData.name) {
+                        give = true
+                      }
+                    }
+                    return give ? ([
+                      " ",
+                      <a key="clips" className="btn-default btn-rect color-black bold no-underline" href={`https://clips.twitch.tv/my-clips`} target="_blank">My Clips</a>
+                    ]) : null;
+                  }()
+                }
+            </div>
           </div>
         </div>
       </div>

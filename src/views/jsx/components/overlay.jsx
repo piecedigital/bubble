@@ -35,9 +35,17 @@ export default React.createClass({
         popUpHandler
       }
     } = this.props;
-    const Component = components[overlay] || null;
+    let Component = components[overlay] || null;
     // console.log(overlay, components, Component);
     if(!fireRef) return null;
+    if(!userData) {
+      switch (overlay) {
+        case "viewQuestion":
+        case "viewPoll":
+          return Component = Component;
+      }
+      Component = null;
+    }
     return (
       <div className={`overlay${Component ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>
         {
