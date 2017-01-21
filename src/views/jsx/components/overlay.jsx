@@ -3,7 +3,7 @@ import { browserHistory as History } from "react-router";
 import { AskQuestion, AnswerQuestion, ViewQuestion, ViewAskedQuestions } from "./question-tools.jsx";
 import { ViewBookmarks } from "./bookmark-tools.jsx";
 import { ViewNotifications } from "./notification-tools.jsx";
-import { MakePoll, VotePoll, ViewPoll } from "./poll-tools.jsx";
+import { MakePoll, VotePoll, ViewPoll, ViewCreatedPolls } from "./poll-tools.jsx";
 
 const components = {
   "askQuestion": AskQuestion,
@@ -15,6 +15,7 @@ const components = {
   "makePoll": MakePoll,
   "votePoll": VotePoll,
   "viewPoll": ViewPoll,
+  "viewCreatedPolls": ViewCreatedPolls,
 };
 
 export default React.createClass({

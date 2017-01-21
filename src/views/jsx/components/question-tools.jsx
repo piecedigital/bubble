@@ -976,7 +976,7 @@ export const ViewAskedQuestions = React.createClass({
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
         <div className="title">
-          Question's You've {toggle.replace(/^(.)/, (_, letter) => letter.toUpperCase())}
+          Questions You've {toggle.replace(/^(.)/, (_, letter) => letter.toUpperCase())}
         </div>
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />

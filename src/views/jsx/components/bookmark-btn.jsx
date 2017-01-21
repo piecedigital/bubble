@@ -137,14 +137,16 @@ export default React.createClass({
     const {
       fireRef,
       userData,
-      givenUsername
+      givenUsername,
+      named,
     } = this.props;
+    console.log(userData, fireRef, bookmarked);
     if(!userData || !fireRef) return null;
     if(bookmarked === null) return null;
     if(userData.name === givenUsername) return null;
     return (
       <div className="bookmark">
-        <a href="#" className={this.props.className} onClick={this.toggleBookmark}>{bookmarked ? "Un-bookmark" : "Bookmark"} {givenUsername}</a>
+        <a href="#" className={this.props.className} onClick={this.toggleBookmark}>{bookmarked ? "Un-bookmark" : "Bookmark"} {!named ? givenUsername : ""}</a>
       </div>
     );
   }

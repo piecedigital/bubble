@@ -9,6 +9,7 @@ import { Link } from 'react-router';
 // import VoteTool from "./vote-tool.jsx";
 // import { ajax } from "../../../modules/ajax";
 
+// poll creation related components
 const ChoiceInput = React.createClass({
   displayName: "ChoiceInput",
   render() {
@@ -226,6 +227,7 @@ export const MakePoll = React.createClass({
 });
 
 
+// poll voting related components
 const ChoiceOption = React.createClass({
   displayName: "ChoiceOption",
   vote() {
@@ -385,6 +387,7 @@ export const VotePoll = React.createClass({
 });
 
 
+// poll viewing related components
 const ChoiceItem = React.createClass({
   displayName: "ChoiceItem",
   render() {
@@ -589,3 +592,203 @@ export const ViewPoll = React.createClass({
     }
   }
 })
+
+
+// all polls viewing related components
+const CreatedItem = React.createClass({
+  displayName: "CreatedItem",
+  getInitialState: () => ({
+    pollData: null
+  }),
+  componentDidMount() {
+    // const {
+    //   pollID,
+    //   fireRef
+    // } = this.props;
+    // fireRef.pollsRef
+    // .child(pollID)
+    // .once("value")
+    // .then(snap => {
+    //   const pollData = snap.val();
+    //
+    //   this.setState({
+    //     pollData
+    //   });
+    // });
+  },
+  render() {
+    const {
+      pollID,
+      pollData,
+      locations,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    const {
+      // pollData
+    } = this.state;
+
+    return (
+      <div className="poll-item">
+        <label>
+          <Link className="name" to={{
+            pathname: `/profile/${pollData.creator}/p/${pollID}`,
+            state: {
+              modal: true,
+              returnTo: location.pathname
+            }
+          }} onClick={e => {
+            popUpHandler("viewQuestion", {
+              questionID
+            });
+          }}>{pollData.title}</Link><span className="answered">&#x2714;</span>
+        </label>
+      </div>
+    );
+  }
+});
+
+const AnswerItem = React.createClass({
+  displayName: "AnswerItem",
+  getInitialState: () => ({
+    questionData: null
+  }),
+  componentDidMount() {
+    const {
+      questionID,
+      fireRef
+    } = this.props;
+    getQuestionData(questionID, fireRef, null, questionData => {
+      console.log("got question data");
+      this.setState({
+        questionData
+      });
+    });
+  },
+  render() {
+    const {
+      questionID,
+      answerData,
+      locations,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    const {
+      questionData
+    } = this.state;
+
+    if(!questionData) return null;
+
+    return (
+      <div className="answer-item">
+        <label>
+          <Link className="name" to={{
+            pathname: `/profile/${questionData.receiver}/q/${questionID}`,
+            state: {
+              modal: true,
+              returnTo: location.pathname
+            }
+          }} onClick={e => {
+            popUpHandler("viewQuestion", {
+              questionID
+            });
+          }}>{questionData.title}</Link><span className="answered">&#x2714;</span>
+        </label>
+      </div>
+    );
+  }
+});
+
+export const ViewCreatedPolls = React.createClass({
+  displayName: "ViewCreatedPolls",
+  getInitialState: () => ({
+    polls: null,
+    toggle: "asked"
+  }),
+  componentDidMount() {
+    const {
+      fireRef,
+      userData
+    } = this.props;
+
+    fireRef.pollsRef
+    .orderByChild("creator")
+    .equalTo(userData.name)
+    .once("value")
+    .then(snap => {
+      const polls = snap.val();
+      this.setState({
+        polls
+      });
+    });
+  },
+  toggleView(toggle) {
+    this.setState({
+      toggle
+    })
+  },
+  render() {
+    const {
+      fireRef,
+      userData,
+      methods,
+      methods: {
+        popUpHandler
+      }
+    } = this.props;
+
+    const {
+      polls,
+      toggle
+    } = this.state;
+
+    // const data = toggle === "asked" ? questionData : answerData;
+    const data = polls;
+    // const Component = toggle === "asked" ? QuestionItem : AnswerItem;
+    const Component = CreatedItem;
+
+    const list = data ? Object.keys(data).map(pollID => {
+      const thisData = data[pollID]
+      return (
+        <Component key={pollID} {...{
+          fireRef,
+          pollID,
+          pollData: thisData,
+          location,
+          methods
+        }} />
+      );
+    }) : [];
+
+    return (
+      <div className={`overlay-ui-default view-created-polls open`} onClick={e => e.stopPropagation()}>
+        <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
+        {
+          // <div className="tabs">
+          //   <div className="asked" onClick={this.toggleView.bind(null, "asked")}>Asked</div>
+          //   |
+          //   <div className="answered" onClick={this.toggleView.bind(null, "answered")}>Answered</div>
+          // </div>
+        }
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="title">
+          polls You've {toggle.replace(/^(.)/, (_, letter) => letter.toUpperCase())}
+        </div>
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="section">
+          <div className="list">
+          {list.length > 0 ? list : "You haven't created any polls yet."}
+          </div>
+        </div>
+      </div>
+    );
+  }
+});

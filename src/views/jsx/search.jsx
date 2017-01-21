@@ -11,6 +11,7 @@ components.StreamsListItem = React.createClass({
     // console.log(this.props);
     const {
       auth,
+      fireRef,
       index,
       userData,
       methods: {
@@ -32,7 +33,14 @@ components.StreamsListItem = React.createClass({
       }
     } = this.props;
     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-    let hoverOptions = <ListItemHoverOptions auth={auth} stream={true} name={name} display_name={display_name} userData={userData} clickCallback={appendStream} />;
+    let hoverOptions = <ListItemHoverOptions
+                        auth={auth}
+                        fireRef={fireRef}
+                        stream={true}
+                        name={name}
+                        display_name={display_name}
+                        userData={userData}
+                        clickCallback={appendStream} />;
 
     return (
       <li className={`stream-list-item search`}>
@@ -138,6 +146,8 @@ export default React.createClass({
     } = this.state;
     const {
       auth,
+      fireRef,
+      userData,
       data,
       methods: {
         appendStream,
@@ -154,7 +164,14 @@ export default React.createClass({
               <ul className="list">
                 {
                   dataArray.map((itemData, ind) => {
-                    return <ListItem auth={auth} key={ind} data={itemData} index={ind} methods={{
+                    return <ListItem
+                      auth={auth}
+                      fireRef={fireRef}
+                      userData={userData}
+                      key={ind}
+                      data={itemData}
+                      index={ind}
+                      methods={{
                       appendStream
                     }} />
                   })

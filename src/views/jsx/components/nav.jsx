@@ -160,6 +160,10 @@ export default React.createClass({
                       this.toggleNav("close");
                       popUpHandler("viewAskedQuestions");
                     }}>Questions</a>,
+                    <a key="polls" className="nav-item" href={`#`} onClick={() => {
+                      this.toggleNav("close");
+                      popUpHandler("viewCreatedPolls");
+                    }}>Polls</a>,
                   ]
                 ) : null }
                 <a className="nav-item" href="#" onClick={() => {

@@ -4,6 +4,7 @@ import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../modules/load-data";
 import FollowButton from "./follow-btn.jsx";
 import StreamPanels from "./stream-panels.jsx";
+import BookmarkButton from "./bookmark-btn.jsx";
 
 // stream component for player
 const PlayerStream = React.createClass({
@@ -115,6 +116,7 @@ const PlayerStream = React.createClass({
   render() {
     // console.log(this.props);
     const {
+      fireRef,
       userData,
       name,
       display_name,
@@ -123,6 +125,7 @@ const PlayerStream = React.createClass({
       isFor,
       index,
       vod,
+      versionData,
       methods: {
         spliceStream,
         togglePlayer,
@@ -213,6 +216,13 @@ const PlayerStream = React.createClass({
               }}>
                 Open Stream Panels
               </div>
+              <BookmarkButton
+                className="no-underline"
+                named
+                fireRef={fireRef}
+                userData={userData}
+                givenUsername={name}
+                versionData={versionData}/>
               {
                 userData ? (
                   <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth}/>
@@ -351,10 +361,12 @@ export default React.createClass({
   },
   render() {
     let {
+      fireRef,
       userData,
       auth,
       playerState,
       panelData,
+      versionData,
       methods: {
         spliceStream,
         clearPlayer,
@@ -394,7 +406,19 @@ export default React.createClass({
                   let channelData = dataObject[key];
                   // console.log(streamInView, ind, streamInView === ind);
                   return (
-                    <PlayerStream key={key} vod={isObject ? id : false} name={isObject ? username : key} display_name={isObject ? displayName : dataObject[key]} userData={userData} auth={auth} inView={streamInView === ind} isFor="video" index={ind} methods={{
+                    <PlayerStream
+                      key={key}
+                      fireRef={fireRef}
+                      versionData={versionData}
+                      vod={isObject ? id : false}
+                      name={isObject ? username : key}
+                      display_name={isObject ? displayName : dataObject[key]}
+                      userData={userData}
+                      auth={auth}
+                      inView={streamInView === ind}
+                      isFor="video"
+                      index={ind}
+                      methods={{
                       spliceStream,
                       togglePlayer,
                       panelsHandler,

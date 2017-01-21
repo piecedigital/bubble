@@ -241,6 +241,7 @@ export default React.createClass({
       case "makePoll":
       case "votePoll":
       case "viewPoll":
+      case "viewCreatedPolls":
           newState = {
             overlay: action,
             overlayState: options
@@ -382,29 +383,32 @@ export default React.createClass({
           popUpHandler: this.popUpHandler,
         }} />
         {
-          <Player data={{
-            dataObject
-          }}
-          userData={userData}
-          auth={authData}
-          panelData={panelData}
-          playerState={{
-            playerCollapsed
-          }}
-          layout={layout}
-          fireRef={fireRef}
-          versionData={versionData}
-          methods={{
-            spliceStream: this.spliceStream,
-            clearPlayer: this.clearPlayer,
-            expandPlayer: this.expandPlayer,
-            collapsePlayer: this.collapsePlayer,
-            togglePlayer: this.togglePlayer,
-            alertAuthNeeded: this.alertAuthNeeded,
-            setLayout: this.setLayout,
-            panelsHandler: this.panelsHandler,
-            popUpHandler: this.popUpHandler,
-          }}/>
+          <Player
+            fireRef={fireRef}
+            versionData={versionData}
+            data={{
+              dataObject
+            }}
+            userData={userData}
+            auth={authData}
+            panelData={panelData}
+            playerState={{
+              playerCollapsed
+            }}
+            layout={layout}
+            fireRef={fireRef}
+            versionData={versionData}
+            methods={{
+              spliceStream: this.spliceStream,
+              clearPlayer: this.clearPlayer,
+              expandPlayer: this.expandPlayer,
+              collapsePlayer: this.collapsePlayer,
+              togglePlayer: this.togglePlayer,
+              alertAuthNeeded: this.alertAuthNeeded,
+              setLayout: this.setLayout,
+              panelsHandler: this.panelsHandler,
+              popUpHandler: this.popUpHandler,
+            }}/>
         }
         {
           this.child ? (

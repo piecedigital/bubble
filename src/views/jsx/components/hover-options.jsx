@@ -38,10 +38,10 @@ export const ListItemHoverOptions = React.createClass({
           {
             userData ? (
               <BookmarkButton
-              fireRef={fireRef}
-              userData={userData}
-              givenUsername={name}
-              versionData={versionData}/>
+                fireRef={fireRef}
+                userData={userData}
+                givenUsername={name}
+                versionData={versionData}/>
             ) : null
           }
         </div>
