@@ -335,9 +335,9 @@ exports["default"] = _react2["default"].createClass({
       }
     };
 
-    // if(nextProps.params.q) {
-    //   console.log(nextProps.location);
-    // }
+    if (nextProps.params.q) {
+      console.log(nextProps.location);
+    }
 
     if (nextState.overlay !== this.state.overlay) {
       if (!nextState.overlay) {
@@ -353,6 +353,21 @@ exports["default"] = _react2["default"].createClass({
         });
         // console.log("change overlay");
         changeOverlay(nextState.overlay, nextProps.params.q, nextProps.params.postID);
+      }
+    } else if (nextProps.location.pathname !== this.props.location.pathname) {
+      // console.log("push history");
+      if (nextProps.params.q) {
+        _reactRouter.browserHistory.push({
+          pathname: nextProps.location.pathname,
+          state: {
+            modal: true,
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || "/profile/" + nextProps.params.username : "/profile/" + nextProps.params.username
+          }
+        });
+        // console.log("change overlay");
+        changeOverlay(null, nextProps.params.q, nextProps.params.postID);
+      } else {
+        changeOverlay(null, null, null);
       }
     }
   },
