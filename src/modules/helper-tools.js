@@ -119,9 +119,9 @@ export const getAnswerData = function(questionID, fireRef, modCB, cb) {
   });
 }
 
-export const getCommentsData = function(questionID, fireRef, modCB, cb) {
+export const getCommentsData = function(postID, fireRef, modCB, cb) {
   let refNode = fireRef.commentsRef
-  .child(questionID);
+  .child(postID);
   refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
   refNode.once("value")
   .then(snap => {
@@ -129,9 +129,9 @@ export const getCommentsData = function(questionID, fireRef, modCB, cb) {
   });
 }
 
-export const getRatingsData = function(questionID, fireRef, modCB, cb) {
+export const getRatingsData = function(postID, fireRef, modCB, cb) {
   let refNode = fireRef.ratingsRef
-  .child(questionID);
+  .child(postID);
   refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
   refNode.once("value")
   .then(snap => {
@@ -139,10 +139,10 @@ export const getRatingsData = function(questionID, fireRef, modCB, cb) {
   });
 }
 
-export const listenOnNewRatings = function(questionID, fireRef, modCB, cb) {
+export const listenOnNewRatings = function(postID, fireRef, modCB, cb) {
   if(typeof cb !== "function") return console.error("no callback to ratings watch");
   let refNode = fireRef.ratingsRef
-  .child(questionID);
+  .child(postID);
   refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
   refNode.on("child_added", cb);
   refNode.on("child_changed", cb);

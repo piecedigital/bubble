@@ -4,7 +4,7 @@
   &:not(:last-child) {
     margin-bottom: .5*$em;
   }
-  &:not(:first-child) {
+  &:nth-child(n+6) {
     input {
       max-width: 20*$em;
     }

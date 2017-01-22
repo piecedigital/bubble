@@ -39,7 +39,8 @@
     }
   }
   .scroll {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   form {}
   .section {

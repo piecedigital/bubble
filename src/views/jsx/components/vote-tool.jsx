@@ -17,8 +17,12 @@ export default React.createClass({
       userData,
       fireRef,
       place,
+      // questions
       questionID,
       questionData,
+      // polls
+      pollID,
+      pollData,
       commentID,
       commentData
     } = this.props;
@@ -31,7 +35,12 @@ export default React.createClass({
     // return console.log("vote data:", voteData);
     // console.log("vote data:", voteData);
     // check if the user has already voted
-    getRatingsData(questionID, fireRef, null, ratingsData => {
+    fireRef.ratingsRef
+    // get ratings for question or poll content
+    .child(questionID || pollID)
+    .once("value")
+    .then(snap => {
+      const ratingsData = snap.val();
       // console.log(place);
       let votes = ratingsData;
       // console.log(votes);
@@ -59,12 +68,12 @@ export default React.createClass({
       }
       if(!voteTypes[place]) {
         fireRef.ratingsRef
-        .child(questionID)
+        .child(questionID || pollID)
         .push()
         .set(voteData);
       } else {
         fireRef.ratingsRef
-        .child(questionID)
+        .child(questionID || pollID)
         .child(voteTypes[place])
         .update(voteData);
       }
@@ -77,8 +86,8 @@ export default React.createClass({
       };
       // depending on the `place` gets the username of the question creator, receiver, or commenter
       const receiverObject = {
-        "question": questionData.creator,
-        "answer": questionData.receiver,
+        "question": questionID ? questionData.creator : null,
+        "answer": questionID ? questionData.receiver : null,
         "comment": commentData ? commentData.username : null,
       };
 
@@ -89,9 +98,10 @@ export default React.createClass({
         type: placeObject[place],
         info: {
           sender: userData.name,
-          questionID: questionID,
+          questionID: questionID || null,
+          pollID: pollID || null,
           commentID: commentID || null,
-          questionURL: `/profile/${receiverObject[place]}/q/${questionID}`
+          postURL: `/profile/${receiverObject[place]}/${questionID ? "q" : "p"}/${questionID || pollID}`
         },
         read: false,
         date: new Date().getTime(),
@@ -111,8 +121,14 @@ export default React.createClass({
             let dupe = false;
             Object.keys(notifs || {}).map(notifID => {
               const notifData = notifs[notifID];
-              if(notifData.info.questionID === questionID) dupe = true;
-              if(notifData.info.commentID) dupe = (notifData.info.commentID === commentID) ? true : false;
+              if(questionID) {
+                if(notifData.info.questionID === questionID) dupe = true;
+                if(notifData.info.commentID) dupe = (notifData.info.commentID === commentID) ? true : false;
+              }
+              if(pollID) {
+                if(notifData.info.pollID === pollID) dupe = true;
+                if(notifData.info.commentID) dupe = (notifData.info.commentID === commentID) ? true : false;
+              }
             });
 
             // don't send a notification if it would be a duplicate
@@ -149,11 +165,17 @@ export default React.createClass({
       fireRef,
       userData,
       questionID,
+      pollID,
       commentID,
       commentData
     } = this.props;
     // console.log("init new comment", commentID);
-    getRatingsData(questionID, fireRef, null, ratingsData => {
+    fireRef.ratingsRef
+    // get ratings for question or poll content
+    .child(questionID || pollID)
+    .once("value")
+    .then(snap => {
+      const ratingsData = snap.val();
       // console.log("got ratings", ratingsData, questionID, commentID || "not a comment");
       Object.keys(ratingsData || {}).map(ratingID => {
         const voteData = ratingsData[ratingID];
@@ -188,18 +210,23 @@ export default React.createClass({
       place,
       fireRef,
       questionID,
+      pollID,
       commentID,
     } = this.props;
-    this.killRatingsWatch = listenOnNewRatings(questionID, fireRef, null, this.newRating);
+    this.killRatingsWatch = listenOnNewRatings(questionID || pollID, fireRef, null, this.newRating);
   },
   componentDidMount() {
     const {
       questionID,
+      pollID,
       fireRef
     } = this.props;
 
     const temp = snap => {
-      if(snap.getKey() === questionID) {
+      if(
+        snap.getKey() === questionID ||
+        snap.getKey() === pollID
+      ) {
         fireRef.ratingsRef
         .off("child_added", temp);
 

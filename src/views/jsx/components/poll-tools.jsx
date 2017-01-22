@@ -1,17 +1,19 @@
 import React from "react";
 import firebase from "firebase";
 import { Link } from 'react-router';
-// import { calculateRatings,
-// getQuestionData,
-// getAnswerData,
-// getRatingsData,
-// getCommentsData } from "../../../modules/helper-tools";
+import {
+  CommentTool,
+  CommentItem
+} from "./comment-tools.jsx";
 // import VoteTool from "./vote-tool.jsx";
 // import { ajax } from "../../../modules/ajax";
 
 // poll creation related components
 const ChoiceInput = React.createClass({
   displayName: "ChoiceInput",
+  componentDidMount() {
+    this.refs.input.focus();
+  },
   render() {
     const {
       choiceID,
@@ -21,9 +23,9 @@ const ChoiceInput = React.createClass({
     } = this.props;
     return (
       <div className="poll-choice">
-        <input type="text" value={choiceData} onChange={changeCB.bind(null, choiceID)}/>
+        <input ref="input" type="text" value={choiceData} onChange={changeCB.bind(null, choiceID)}/>
         {
-          choiceID !== 0 ? (
+          choiceID > 1 ? (
             <span className="remove" onClick={removeCB.bind(null, choiceID)}>x</span>
           ) : null
         }
@@ -37,13 +39,14 @@ export const MakePoll = React.createClass({
   getInitialState: () => ({
     error: false,
     success: false,
+    time: "Infinite",
     validation: {
       titleMin: 15,
       titleMax: 500,
       titleCount: 0,
       titleValid: false,
     },
-    choices: [""]
+    choices: ["", ""]
   }),
   submit(e) {
     e.preventDefault();
@@ -83,7 +86,7 @@ export const MakePoll = React.createClass({
       //     "vote": String (vote_<Number>)
       //   }
       // },
-      endDate: (parseInt(hours.value) || parseInt(minutes.value)) ? dateNow + parseInt(hours.value) + parseInt(minutes.value) : Infinity,
+      endDate: (parseInt(hours.value) || parseInt(minutes.value)) ? dateNow + parseInt(hours.value) + parseInt(minutes.value) : null,
       date: dateNow,
       version: versionData
     };
@@ -105,7 +108,7 @@ export const MakePoll = React.createClass({
       success: true
     }, () => {
       setTimeout(() => {
-        this.props.methods.popUpHandler("close")
+        this.props.methods.popUpHandler("viewPoll", { pollID });
       }, 2000);
     });
   },
@@ -132,7 +135,8 @@ export const MakePoll = React.createClass({
       choices: newChoices
     });
   },
-  addChoice() {
+  addChoice(e) {
+    e.preventDefault();
     const newChoices = JSON.parse(JSON.stringify(this.state.choices));
     if(!newChoices[newChoices.length-1]) return;
     newChoices.push("");
@@ -143,10 +147,33 @@ export const MakePoll = React.createClass({
   removeChoice(choiceID) {
     const newChoices = JSON.parse(JSON.stringify(this.state.choices));
     newChoices.splice(choiceID, 1);
-    if(newChoices.length === 0) newChoices.push("");
+    if(newChoices.length < 2) newChoices.push("");
     this.setState({
       choices: newChoices
     });
+  },
+  updateTimes() {
+    const days = parseInt(this.refs.days.value) / (1000 * 60 * 60 * 24);
+    const hours = parseInt(this.refs.hours.value) / (1000 * 60 * 60 );
+    const minutes = parseInt(this.refs.minutes.value) / (1000 * 60);
+    if(!days && !hours && !minutes) {
+      this.setState({
+        time: "Infinite"
+      });
+    } else {
+      const part1 = days ? `${days} day${days > 1 ? "s" : ""}` : null;
+      const part2 = hours ? `${hours} hour${hours > 1 ? "s" : ""}` : null;
+      const part3 = minutes ? `${minutes} minute${minutes > 1 ? "s" : ""}` : null;
+      let sentence = [];
+
+      part1 ? sentence.push(part1) : null;
+      part2 ? sentence.push(part2) : null;
+      part3 ? sentence.push(part3) : null;
+      sentence.length > 1 ? sentence.push(`and ${ sentence.pop() }`) : null;
+      this.setState({
+        time: sentence.join(", ")
+      });
+    }
   },
   render() {
     // console.log(this.props);
@@ -162,23 +189,33 @@ export const MakePoll = React.createClass({
       success,
       error,
       choices,
+      time,
     } = this.state;
+    const daysArray = new Uint8Array(8).map(() => true);
     const hoursArray = new Uint8Array(25).map(() => true);
     const minutesArray = new Uint8Array(60).map(() => true);
-    let hoursOptions = [], minutesOptions = [];
+    let daysOptions = [], hoursOptions = [], minutesOptions = [];
 
+    daysArray.map((_, ind) => {
+      // console.log(_, ind);
+      const elem = <option key={ind} value={(ind) * 1000 * 60 * 60 * 24}>{ind}</option>
+      // console.log(elem);
+      daysOptions.push(elem);
+    });
     hoursArray.map((_, ind) => {
       // console.log(_, ind);
-      const elem = <option value={(ind) * 1000 * 60 * 60}>{ind}</option>
+      const elem = <option key={ind} value={(ind) * 1000 * 60 * 60}>{ind}</option>
       // console.log(elem);
       hoursOptions.push(elem);
-    })
+    });
     minutesArray.map((_, ind) => {
       // console.log(_, ind);
-      const elem = <option value={(ind) * 1000 * 60}>{ind}</option>
+      const elem = <option key={ind} value={(ind) * 1000 * 60}>{ind}</option>
       // console.log(elem);
       minutesOptions.push(elem);
-    })
+    });
+
+
 
     if(!versionData || !fireRef) {
       return (
@@ -217,51 +254,67 @@ export const MakePoll = React.createClass({
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
-        <form onSubmit={this.submit}>
-          <div className="section">
-            <label>
-              <div className="label bold">Title/Intro</div>
-              <input type="text" ref="title" className={`${this.state.validation["titleValid"] ? " valid" : ""}`} onChange={this.validate.bind(null, "title")}/>
-              <div>{this.state.validation["titleCount"]}/<span className={`${this.state.validation["titleCount"] < this.state.validation["titleMin"] ? "color-red" : ""}`}>{this.state.validation["titleMin"]}</span>-<span className={`${this.state.validation["titleCount"] > this.state.validation["titleMax"] ? "color-red" : ""}`}>{this.state.validation["titleMax"]}</span></div>
-            </label>
-          </div>
-          <div className="separator-1-dim" />
-          <div className="section">
-            <label>
-              {
-                choices.map((choiceData, choiceID) => {
-                  return (
-                    <ChoiceInput key={choiceID} {...this.props} changeCB={this.choiceInputChange} removeCB={this.removeChoice} choiceID={choiceID} choiceData={choiceData} />
-                  );
-                })
-              }
-              <div className="section column">
+        <div className="scroll">
+          <form onSubmit={this.submit}>
+            <div className="section">
+              <label>
+                <div className="label bold">Title/Intro</div>
+                <input type="text" ref="title" className={`${this.state.validation["titleValid"] ? " valid" : ""}`} onChange={this.validate.bind(null, "title")}/>
+                <div>{this.state.validation["titleCount"]}/<span className={`${this.state.validation["titleCount"] < this.state.validation["titleMin"] ? "color-red" : ""}`}>{this.state.validation["titleMin"]}</span>-<span className={`${this.state.validation["titleCount"] > this.state.validation["titleMax"] ? "color-red" : ""}`}>{this.state.validation["titleMax"]}</span></div>
+              </label>
+            </div>
+            <div className="separator-1-dim" />
+            <div className="section">
+              <label>
+                <div className="label bold">Add Choices</div>
                 <div className="separator-1-dim" />
-              </div>
-              <div className="btn-default" onClick={this.addChoice}>Add Choice</div>
-            </label>
-          </div>
-          <div className="separator-1-dim" />
-          <div className="section">
-            <label>
-              <div className="section">
-                <div className="label bold">Hours: </div>
-                <select ref="hours">
-                  {hoursOptions}
-                </select>
-              </div>
-              <div className="section">
-                <div className="label bold">Minutes: </div>
-                <select ref="minutes">
-                  {minutesOptions}
-                </select>
-              </div>
-            </label>
-          </div>
-          <div className="section">
-            <button className="submit btn-default">Submit</button>
-          </div>
-        </form>
+                <div className="section" />
+                {
+                  choices.map((choiceData, choiceID) => {
+                    return (
+                      <ChoiceInput key={choiceID} {...this.props} changeCB={this.choiceInputChange} removeCB={this.removeChoice} choiceID={choiceID} choiceData={choiceData} />
+                    );
+                  })
+                }
+                <div className="section column">
+                  <div className="separator-1-dim" />
+                </div>
+                <button className="btn-default" onClick={this.addChoice} tabIndex="0">Add Choice</button>
+              </label>
+            </div>
+            <div className="separator-1-dim" />
+            <div className="section">
+              <label>
+                <div className="label bold">Set TIme Limit</div>
+                <div className="separator-1-dim" />
+                <div className="section">
+                  <div className="label bold">Days: </div>
+                  <select ref="days" onChange={this.updateTimes}>
+                    {daysOptions}
+                  </select>
+                </div>
+                <div className="section">
+                  <div className="label bold">Hours: </div>
+                  <select ref="hours" onChange={this.updateTimes}>
+                    {hoursOptions}
+                  </select>
+                </div>
+                <div className="section">
+                  <div className="label bold">Minutes: </div>
+                  <select ref="minutes" onChange={this.updateTimes}>
+                    {minutesOptions}
+                  </select>
+                </div>
+                <div className="section">
+                  <div className="label">Time frame: {time}</div>
+                </div>
+              </label>
+            </div>
+            <div className="section">
+              <button className="submit btn-default">Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
@@ -293,6 +346,11 @@ const ChoiceOption = React.createClass({
       username: userData.name,
       vote: choiceID
     });
+    fireRef.usersRef
+    .child(userData.name)
+    .child("pollsParticipated")
+    .child(pollID)
+    .set(true);
     popUpHandler("viewPoll", { pollID });
   },
   render() {
@@ -438,7 +496,7 @@ const ChoiceItem = React.createClass({
       userData,
       choiceData,
     } = this.props;
-  // console.log("vote:", choiceData);
+    // console.log("vote:", choiceData);
     if(!choiceData.calcData) return null;
 
     return (
@@ -463,6 +521,7 @@ export const ViewPoll = React.createClass({
   displayName: "ViewPoll",
   getInitialState: () => ({
     pollData: null,
+    comments: null,
     calculatedData: {
       // <voteID>: Object
     }
@@ -482,11 +541,28 @@ export const ViewPoll = React.createClass({
       this.setState({
         pollData
       }, () => {
-        if(pollData) this.initListener();
+        if(pollData) {
+          this.timeTicker();
+          this.initVoteListener();
+        }
       });
     });
   },
-  initListener() {
+  timeTicker() {
+    const { pollData } = this.state;
+    // only initiate the ticker if the end time is finite
+    if(pollData.endTime !== Infinity) {
+      // this ticker will update the component every 1/10 of a second to update the vote button
+      // if the current time surpasses the end time the user can no longer vote
+      this.ticker = setInterval(() => {
+        if(Date.now() >= pollData.endDate) {
+          clearInterval(this.ticker);
+        }
+        this._mounted ? this.setState({}) : null;
+      }, 100);
+    }
+  },
+  initVoteListener() {
     const {
       userData,
       fireRef,
@@ -496,21 +572,40 @@ export const ViewPoll = React.createClass({
     fireRef.pollsRef
     .child(pollID)
     .child("votes")
-    .on("child_added", snap => {
-      const username = snap.getKey();
-      const voteData = snap.val();
+    .on("child_added", this.newVote);
+  },
+  newVote(snap) {
+    const username = snap.getKey();
+    const voteData = snap.val();
 
-      // console.log("new vote", username, voteData);
+    // console.log("new vote", username, voteData);
 
-      const newPollData = JSON.parse(JSON.stringify( this.state.pollData || {} ));
+    const newPollData = JSON.parse(JSON.stringify( this.state.pollData || {} ));
 
-      newPollData.votes = newPollData.votes || {};
-      newPollData.votes[username] = voteData;
+    newPollData.votes = newPollData.votes || {};
+    newPollData.votes[username] = voteData;
 
-      this.setState({
-        pollData: newPollData
-      }, this.calculate);
-    });
+    this.setState({
+      pollData: newPollData
+    }, this.calculate);
+  },
+  uninitListener() {
+    const {
+      userData,
+      fireRef,
+      pollID
+    } = this.props;
+    this.calculate();
+    fireRef.pollsRef
+    .child(pollID)
+    .child("votes")
+    .off("child_added", this.newVote);
+
+    fireRef.commentsRef
+    .child(this.props.pollID)
+    .orderByChild("reply")
+    .equalTo(false)
+    .off("child_added", this.newComment)
   },
   calculate() {
     const {
@@ -532,7 +627,7 @@ export const ViewPoll = React.createClass({
         calculatedData[voteData.vote].votes += 1;
       });
       const totalVotes = votesArray.length;
-      console.log(calculatedData);
+      // console.log("calculated data", calculatedData);
       Object.keys(pollData.choices).map(choiceID => {
         if(!calculatedData[choiceID]) {
           calculatedData[choiceID] = {
@@ -558,8 +653,55 @@ export const ViewPoll = React.createClass({
       });
     }
   },
+  newComment(snap) {
+    const commentKey = snap.getKey();
+    const commentData = snap.val();
+    let newComments = JSON.parse(JSON.stringify(this.state.comments));
+    // console.log("new comment", commentKey, commentData);
+    this.setState({
+      comments: Object.assign({
+        [commentKey]: commentData
+      }, newComments || {})
+    });
+  },
+  initCommentListener() {
+    // console.log("initiating comment listener");
+    const {
+      pollID,
+      fireRef
+    } = this.props;
+
+    fireRef.commentsRef
+    .child(pollID)
+    .orderByChild("reply")
+    .equalTo(false)
+    .on("child_added", this.newComment);
+  },
   componentDidMount() {
+    this._mounted = true;
+    const {
+      pollID,
+      fireRef
+    } = this.props;
+
+    fireRef.commentsRef
+    .child(pollID)
+    .orderByChild("reply")
+    .equalTo(false)
+    .once("value")
+    .then(snap => {
+      const comments = snap.val();
+
+      this.setState({
+        comments
+      }, this.initCommentListener);
+    });
+
     this.getPollData();
+  },
+  componentWillUnmount() {
+    delete this._mounted;
+    this.uninitListener();
   },
   render() {
     // console.log(this.props);
@@ -578,9 +720,21 @@ export const ViewPoll = React.createClass({
       calculatedData
     } = this.state;
     // console.log(this.state);
-    const { pollData } = this.state;
+    const {
+      pollData,
+      comments
+    } = this.state;
+
 
     if(pollData) {
+      // create array of comment items
+      const commentList = Object.keys(comments || {}).map(commentID => {
+        const commentData = comments[commentID];
+        return (
+          <CommentItem auth={auth} key={commentID} commentID={commentID} commentData={commentData} pollID={pollID} pollData={pollData} fireRef={fireRef} userData={userData} />
+        );
+      });
+      // console.log("date", Date.now(), pollData.endDate, Date.now() < pollData.endDate);
       return (
         <div className={`overlay-ui-default view-poll${overlay === "viewPoll" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
           <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
@@ -624,12 +778,26 @@ export const ViewPoll = React.createClass({
             <div className="separator-4-dim" />
             <div className="section">
               {
-                Date.now() < pollData.endDate ||
+                !userData ? "Login to vote!" :
+                Date.now() >= pollData.endDate ? "Voting closed" :
                 !pollData.votes ||
                 !pollData.votes[userData.name] ? (
                   <button className="submit btn-default" onClick={popUpHandler.bind(null, "votePoll", { pollID })}>Vote On Poll</button>
-                ) : null
+                ) : "You've casted your vote!"
               }
+            </div>
+            <div className="title sub">
+              Comments:
+            </div>
+            <div className="section">
+              <label>
+                <CommentTool {...this.props} pollData={pollData} />
+              </label>
+            </div>
+            <div className="section">
+              <label>
+                <div className="label">{commentList.length > 0 ? commentList : "No comments"}</div>
+              </label>
             </div>
           </div>
         </div>
@@ -653,22 +821,6 @@ const CreatedItem = React.createClass({
   getInitialState: () => ({
     pollData: null
   }),
-  componentDidMount() {
-    // const {
-    //   pollID,
-    //   fireRef
-    // } = this.props;
-    // fireRef.pollsRef
-    // .child(pollID)
-    // .once("value")
-    // .then(snap => {
-    //   const pollData = snap.val();
-    //
-    //   this.setState({
-    //     pollData
-    //   });
-    // });
-  },
   render() {
     const {
       pollID,
@@ -843,15 +995,17 @@ export const ViewCreatedPolls = React.createClass({
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
-        <div className="section">
-          <div className="list">
-            {list.length > 0 ? list : "You haven't created any polls yet."}
+        <div className="scroll">
+          <div className="section">
+            <div className="list">
+              {list.length > 0 ? list : "You haven't created any polls yet."}
+            </div>
           </div>
-        </div>
-        <div className="separator-4-dim" />
-        <div className="separator-4-dim" />
-        <div className="section">
-          <button className="submit btn-default" onClick={popUpHandler.bind(null, "makePoll")}>Make New Poll</button>
+          <div className="separator-4-dim" />
+          <div className="separator-4-dim" />
+          <div className="section">
+            <button className="submit btn-default" onClick={popUpHandler.bind(null, "makePoll")}>Make New Poll</button>
+          </div>
         </div>
       </div>
     );

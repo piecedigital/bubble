@@ -4,7 +4,8 @@ import { Link } from 'react-router';
 const NotifItem = React.createClass({
   displayName: "NotifItem",
   getInitialState: () => ({
-    questionData: null
+    questionData: null,
+    pollData: null
   }),
   markRead() {
     const {
@@ -24,48 +25,51 @@ const NotifItem = React.createClass({
       location
     } = this.props;
     const {
-      questionData
+      questionData,
+      pollData
     } = this.state;
     let object = {
       "message": "You have a new notification"
     };
 
+    const postData = questionData || pollData;
+
     switch (data.type) {
       case "newQuestion":
-        object.message = `${data.info.sender} asked a question: ${questionData.title}`;
+        object.message = `${data.info.sender} asked a question: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
       break;
       case "newAnswer":
-        object.message = `${data.info.sender} answered your question: ${questionData.title}`;
+        object.message = `${data.info.sender} answered your question: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
       break;
       case "newQuestionComment":
-        object.message = `${data.info.sender} commented on a question: ${questionData.title}`;
+        object.message = `${data.info.sender} commented on a question: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
-        object.overlay = "viewQuestion";
+        object.overlay = questionData ? "viewQuestion" : "viewPoll";
       break;
       case "questionUpvote":
-        object.message = `You're question was upvoted: ${questionData.title}`;
+        object.message = `You're question was upvoted: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
-        object.overlay = "viewQuestion";
+        object.overlay = questionData ? "viewQuestion" : "viewPoll";
       break;
       case "answerUpvote":
-        object.message = `You're answer was upvoted: ${questionData.title}`;
+        object.message = `You're answer was upvoted: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
-        object.overlay = "viewQuestion";
+        object.overlay = questionData ? "viewQuestion" : "viewPoll";
       break;
       case "commentUpvote":
-        object.message = `You're comment was upvoted: ${questionData.title}`;
+        object.message = `You're comment was upvoted: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
-        object.overlay = "viewQuestion";
+        object.overlay = questionData ? "viewQuestion" : "viewPoll";
       break;
     }
     return object;
@@ -92,6 +96,23 @@ const NotifItem = React.createClass({
           }
         })
       });
+    } else
+    if(
+      data &&
+      data.info &&
+      data.info.pollID
+    ) {
+      fireRef.pollsRef
+      .child(data.info.pollID)
+      .child("title")
+      .once("value")
+      .then(snap => {
+        this.setState({
+          "pollData": {
+            "title": snap.val()
+          }
+        })
+      });
     }
   },
   render() {
@@ -104,7 +125,8 @@ const NotifItem = React.createClass({
     } = this.props;
 
     const {
-      questionData
+      questionData,
+      pollData
     } = this.state;
 
     switch (data.type) {
@@ -115,23 +137,22 @@ const NotifItem = React.createClass({
       case "answerUpvote":
       case "commentUpvote":
         // for the above notification types some question data is required
-        if(!questionData) return null;
+        if(!questionData && !pollData) return null;
     }
-
     const message = this.getMessage();
 
     return (
       <div className={`notif-item${data.read ? " read" : ""}`}>
         <label>
           <Link className="name" to={{
-            pathname: data.info.questionURL,
+            pathname: data.info.questionURL || data.info.postURL,
             state: {
               modal: message.modal,
               returnTo: message.returnTo
             }
           }} onClick={e => {
             popUpHandler(message.overlay, {
-              questionID: data.info.questionID
+              [questionData ? "questionID" : "pollID"]: data.info[[questionData ? "questionID" : "pollID"]]
             });
             this.markRead();
           }}>{message.message}</Link>{!data.read ? (<span className="mark-read" onClick={this.markRead}>x</span>) : null}

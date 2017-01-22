@@ -43,9 +43,11 @@ export default React.createClass({
       switch (overlay) {
         case "viewQuestion":
         case "viewPoll":
-          return Component = Component;
+          Component = Component;
+        break;
+        default:
+          Component = null;
       }
-      Component = null;
     }
     return (
       <div className={`overlay${Component ? " open" : ""}`} onClick={popUpHandler.bind(null, "close")}>

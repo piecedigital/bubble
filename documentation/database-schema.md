@@ -126,7 +126,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
     }
   },
   "ratings": {
-    <questionID>: {
+    <questionID || pollID>: {
       <ratingID>: {
         "myAuth": <auth token>,
         "for": String ("question" || "answer" || "comment"),
