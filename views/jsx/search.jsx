@@ -26,6 +26,7 @@ components.StreamsListItem = _react2["default"].createClass({
     // console.log(this.props);
     var _props = this.props;
     var auth = _props.auth;
+    var fireRef = _props.fireRef;
     var index = _props.index;
     var userData = _props.userData;
     var appendStream = _props.methods.appendStream;
@@ -43,7 +44,14 @@ components.StreamsListItem = _react2["default"].createClass({
     var language = _props$data$channel.language;
 
     var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-    var hoverOptions = _react2["default"].createElement(_componentsHoverOptionsJsx.ListItemHoverOptions, { auth: auth, stream: true, name: name, display_name: display_name, userData: userData, clickCallback: appendStream });
+    var hoverOptions = _react2["default"].createElement(_componentsHoverOptionsJsx.ListItemHoverOptions, {
+      auth: auth,
+      fireRef: fireRef,
+      stream: true,
+      name: name,
+      display_name: display_name,
+      userData: userData,
+      clickCallback: appendStream });
 
     return _react2["default"].createElement(
       "li",
@@ -169,6 +177,8 @@ exports["default"] = _react2["default"].createClass({
     var component = _state.component;
     var _props3 = this.props;
     var auth = _props3.auth;
+    var fireRef = _props3.fireRef;
+    var userData = _props3.userData;
     var data = _props3.data;
     var _props3$methods = _props3.methods;
     var appendStream = _props3$methods.appendStream;
@@ -192,7 +202,14 @@ exports["default"] = _react2["default"].createClass({
                   "ul",
                   { className: "list" },
                   dataArray.map(function (itemData, ind) {
-                    return _react2["default"].createElement(ListItem, { auth: auth, key: ind, data: itemData, index: ind, methods: {
+                    return _react2["default"].createElement(ListItem, {
+                      auth: auth,
+                      fireRef: fireRef,
+                      userData: userData,
+                      key: ind,
+                      data: itemData,
+                      index: ind,
+                      methods: {
                         appendStream: appendStream
                       } });
                   })

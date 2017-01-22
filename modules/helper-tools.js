@@ -127,8 +127,8 @@ var getAnswerData = function getAnswerData(questionID, fireRef, modCB, cb) {
 };
 
 exports.getAnswerData = getAnswerData;
-var getCommentsData = function getCommentsData(questionID, fireRef, modCB, cb) {
-  var refNode = fireRef.commentsRef.child(questionID);
+var getCommentsData = function getCommentsData(postID, fireRef, modCB, cb) {
+  var refNode = fireRef.commentsRef.child(postID);
   refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
   refNode.once("value").then(function (snap) {
     typeof cb === "function" ? cb(snap.val()) : null;
@@ -136,8 +136,8 @@ var getCommentsData = function getCommentsData(questionID, fireRef, modCB, cb) {
 };
 
 exports.getCommentsData = getCommentsData;
-var getRatingsData = function getRatingsData(questionID, fireRef, modCB, cb) {
-  var refNode = fireRef.ratingsRef.child(questionID);
+var getRatingsData = function getRatingsData(postID, fireRef, modCB, cb) {
+  var refNode = fireRef.ratingsRef.child(postID);
   refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
   refNode.once("value").then(function (snap) {
     typeof cb === "function" ? cb(snap.val()) : null;
@@ -145,9 +145,9 @@ var getRatingsData = function getRatingsData(questionID, fireRef, modCB, cb) {
 };
 
 exports.getRatingsData = getRatingsData;
-var listenOnNewRatings = function listenOnNewRatings(questionID, fireRef, modCB, cb) {
+var listenOnNewRatings = function listenOnNewRatings(postID, fireRef, modCB, cb) {
   if (typeof cb !== "function") return console.error("no callback to ratings watch");
-  var refNode = fireRef.ratingsRef.child(questionID);
+  var refNode = fireRef.ratingsRef.child(postID);
   refNode = typeof modCB === "function" ? modCB(refNode) : refNode;
   refNode.on("child_added", cb);
   refNode.on("child_changed", cb);

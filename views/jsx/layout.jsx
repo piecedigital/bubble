@@ -45,6 +45,26 @@ console.log(redirectURI, clientID);
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
+    var overlay = undefined,
+        overlayState = undefined;
+    if (this.props.params && this.props.params.q) {
+      switch (this.props.params.q) {
+        case "q":
+          overlay = "viewQuestion";
+          overlayState = { questionID: this.props.params.postID };
+          break;
+        case "a":
+          overlay = "viewAnswer";
+          overlayState = { questionID: this.props.params.postID };
+          break;
+        case "p":
+          overlay = "viewPoll";
+          overlayState = { pollID: this.props.params.postID };
+          break;
+        default:
+          overlay = "";
+      }
+    }
     return Object.assign({
       authData: this.props.data && this.props.data.authData || null,
       userData: null,
@@ -54,8 +74,8 @@ exports["default"] = _react2["default"].createClass({
       playerStreamMax: 6,
       panelDataFor: [],
       panelData: [],
-      overlay: "",
-      overlayState: null,
+      overlay: overlay,
+      overlayState: overlayState,
       fireRef: null,
       versionData: null,
       registeredAuth: false
@@ -263,17 +283,19 @@ exports["default"] = _react2["default"].createClass({
         } : {});
         // console.log("new state:", newState);
         this.setState(newState);
-        break;ViewAskedQuestions;
+        break;
       case "answerQuestion":
       case "viewQuestion":
       case "viewAskedQuestions":
       case "viewBookmarks":
       case "viewNotifications":
+      case "makePoll":
+      case "votePoll":
+      case "viewPoll":
+      case "viewCreatedPolls":
         newState = {
           overlay: action,
-          overlayState: {
-            questionID: options ? options.questionID : null
-          }
+          overlayState: options
         };
         // console.log("new state:", newState);
         this.setState(newState);
@@ -282,6 +304,7 @@ exports["default"] = _react2["default"].createClass({
         this.setState({
           overlay: ""
         });
+        // console.log(this.props.location);
         if (this.props.location.state && this.props.location.state.modal) {
           _reactRouter.browserHistory.push({
             pathname: this.props.location.state.returnTo
@@ -289,8 +312,52 @@ exports["default"] = _react2["default"].createClass({
         }
     }
   },
-  componentDidMount: function componentDidMount() {
+  checkURL: function checkURL(nextProps, nextState) {
     var _this2 = this;
+
+    // console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
+
+    var changeOverlay = function changeOverlay(overlay, q, postID) {
+      // console.log(overlay);
+      switch (q) {
+        case "q":
+          _this2.popUpHandler(overlay || "viewQuestion", {
+            questionID: postID
+          });
+          break;
+        case "p":
+          _this2.popUpHandler(overlay || "viewPoll", {
+            pollID: postID
+          });
+          break;
+        default:
+          if (!overlay) _this2.popUpHandler("close", null);
+      }
+    };
+
+    // if(nextProps.params.q) {
+    //   console.log(nextProps.location);
+    // }
+
+    if (nextState.overlay !== this.state.overlay) {
+      if (!nextState.overlay) {
+        changeOverlay(null, null, null);
+      } else {
+        // console.log("push history");
+        _reactRouter.browserHistory.push({
+          pathname: nextProps.location.pathname,
+          state: {
+            modal: true,
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || "/profile/" + nextProps.params.username : "/profile/" + nextProps.params.username
+          }
+        });
+        // console.log("change overlay");
+        changeOverlay(nextState.overlay, nextProps.params.q, nextProps.params.postID);
+      }
+    }
+  },
+  componentDidMount: function componentDidMount() {
+    var _this3 = this;
 
     var authData = {};
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
@@ -308,7 +375,7 @@ exports["default"] = _react2["default"].createClass({
       access_token: authData.access_token
     }).then(function (methods) {
       methods.getCurrentUser().then(function (data) {
-        _this2.setState({
+        _this3.setState({
           userData: data,
           authData: authData
         });
@@ -325,7 +392,7 @@ exports["default"] = _react2["default"].createClass({
     }).then(function (methods) {
       methods.getFirebaseConfig().then(function (data) {
         // console.log("firebase data", data);
-        _this2.initFirebase(JSON.parse(atob(data)));
+        _this3.initFirebase(JSON.parse(atob(data)));
       })["catch"](function (e) {
         return console.error(e.stack || e);
       });
@@ -338,13 +405,13 @@ exports["default"] = _react2["default"].createClass({
     (0, _modulesAjax.ajax)({
       url: "/get-version",
       success: function success(data) {
-        _this2.setState({
+        _this3.setState({
           versionData: JSON.parse(data)
         });
       },
       error: function error(err) {
         console.error(err);
-        _this2.setState({
+        _this3.setState({
           error: true
         });
       }
@@ -367,8 +434,11 @@ exports["default"] = _react2["default"].createClass({
       });
     }
   },
+  componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
+    this.checkURL(nextProps, nextState);
+  },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    console.log(nextProps.location);
+    // console.log(nextProps.location);
     if (nextProps.location.state && nextProps.location.state.modal) {
       this.child = this.props.children;
     } else {
@@ -405,7 +475,10 @@ exports["default"] = _react2["default"].createClass({
           logout: this.logout,
           popUpHandler: this.popUpHandler
         } }),
-      _react2["default"].createElement(_componentsPlayerJsx2["default"], { data: {
+      _react2["default"].createElement(_componentsPlayerJsx2["default"], {
+        fireRef: fireRef,
+        versionData: versionData,
+        data: {
           dataObject: dataObject
         },
         userData: userData,

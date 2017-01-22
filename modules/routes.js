@@ -40,7 +40,7 @@ app.get("/", function (req, res) {
       username: req.params.username
     }
   }));
-}).get("/profile/:username/q/:questionID", function (req, res) {
+}).get("/profile/:username/:q/:questionID", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("profile", {
     params: {
       username: req.params.username

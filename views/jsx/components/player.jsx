@@ -32,6 +32,10 @@ var _streamPanelsJsx = require("./stream-panels.jsx");
 
 var _streamPanelsJsx2 = _interopRequireDefault(_streamPanelsJsx);
 
+var _bookmarkBtnJsx = require("./bookmark-btn.jsx");
+
+var _bookmarkBtnJsx2 = _interopRequireDefault(_bookmarkBtnJsx);
+
 // stream component for player
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
@@ -145,6 +149,7 @@ var PlayerStream = _react2["default"].createClass({
 
     // console.log(this.props);
     var _props2 = this.props;
+    var fireRef = _props2.fireRef;
     var userData = _props2.userData;
     var name = _props2.name;
     var display_name = _props2.display_name;
@@ -153,6 +158,7 @@ var PlayerStream = _react2["default"].createClass({
     var isFor = _props2.isFor;
     var index = _props2.index;
     var vod = _props2.vod;
+    var versionData = _props2.versionData;
     var _props2$methods = _props2.methods;
     var spliceStream = _props2$methods.spliceStream;
     var togglePlayer = _props2$methods.togglePlayer;
@@ -306,6 +312,13 @@ var PlayerStream = _react2["default"].createClass({
                   } },
                 "Open Stream Panels"
               ),
+              _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
+                className: "no-underline",
+                named: true,
+                fireRef: fireRef,
+                userData: userData,
+                givenUsername: name,
+                versionData: versionData }),
               userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
                 "div",
                 { className: "follow need-auth", onClick: function () {
@@ -444,10 +457,12 @@ exports["default"] = _react2["default"].createClass({
     var _this5 = this;
 
     var _props3 = this.props;
+    var fireRef = _props3.fireRef;
     var userData = _props3.userData;
     var auth = _props3.auth;
     var playerState = _props3.playerState;
     var panelData = _props3.panelData;
+    var versionData = _props3.versionData;
     var _props3$methods = _props3.methods;
     var spliceStream = _props3$methods.spliceStream;
     var clearPlayer = _props3$methods.clearPlayer;
@@ -484,7 +499,19 @@ exports["default"] = _react2["default"].createClass({
             }
             var channelData = dataObject[key];
             // console.log(streamInView, ind, streamInView === ind);
-            return _react2["default"].createElement(PlayerStream, { key: key, vod: isObject ? id : false, name: isObject ? username : key, display_name: isObject ? displayName : dataObject[key], userData: userData, auth: auth, inView: streamInView === ind, isFor: "video", index: ind, methods: {
+            return _react2["default"].createElement(PlayerStream, {
+              key: key,
+              fireRef: fireRef,
+              versionData: versionData,
+              vod: isObject ? id : false,
+              name: isObject ? username : key,
+              display_name: isObject ? displayName : dataObject[key],
+              userData: userData,
+              auth: auth,
+              inView: streamInView === ind,
+              isFor: "video",
+              index: ind,
+              methods: {
                 spliceStream: spliceStream,
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,

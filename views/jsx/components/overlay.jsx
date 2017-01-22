@@ -20,13 +20,19 @@ var _bookmarkToolsJsx = require("./bookmark-tools.jsx");
 
 var _notificationToolsJsx = require("./notification-tools.jsx");
 
+var _pollToolsJsx = require("./poll-tools.jsx");
+
 var components = {
   "askQuestion": _questionToolsJsx.AskQuestion,
   "answerQuestion": _questionToolsJsx.AnswerQuestion,
   "viewQuestion": _questionToolsJsx.ViewQuestion,
   "viewAskedQuestions": _questionToolsJsx.ViewAskedQuestions,
   "viewBookmarks": _bookmarkToolsJsx.ViewBookmarks,
-  "viewNotifications": _notificationToolsJsx.ViewNotifications
+  "viewNotifications": _notificationToolsJsx.ViewNotifications,
+  "makePoll": _pollToolsJsx.MakePoll,
+  "votePoll": _pollToolsJsx.VotePoll,
+  "viewPoll": _pollToolsJsx.ViewPoll,
+  "viewCreatedPolls": _pollToolsJsx.ViewCreatedPolls
 };
 
 exports["default"] = _react2["default"].createClass({
@@ -47,6 +53,17 @@ exports["default"] = _react2["default"].createClass({
 
     var Component = components[overlay] || null;
     // console.log(overlay, components, Component);
+    if (!fireRef) return null;
+    if (!userData) {
+      switch (overlay) {
+        case "viewQuestion":
+        case "viewPoll":
+          Component = Component;
+          break;
+        default:
+          Component = null;
+      }
+    }
     return _react2["default"].createElement(
       "div",
       { className: "overlay" + (Component ? " open" : ""), onClick: popUpHandler.bind(null, "close") },

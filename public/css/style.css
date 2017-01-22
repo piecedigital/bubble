@@ -783,6 +783,14 @@ nav {
       font-style: italic; }
       .user-info .user .bio.no-bio .sad-face {
         max-width: 16px; }
+.user-info .button-wrapper {
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ; }
+  .user-info .button-wrapper > *:not(:last-child) {
+    margin-right: 8px; }
 
 .stream-list-item {
   position: relative;
@@ -1163,7 +1171,8 @@ nav {
       font-size: 27.2px;
       text-align: left; }
   .overlay-ui-default .scroll {
-    overflow: auto; }
+    overflow-x: hidden;
+    overflow-y: auto; }
   .overlay-ui-default .section {
     display: -ms-flex ;
     display: -moz-flex ;
@@ -1200,6 +1209,12 @@ nav {
       vertical-align: top; }
     .overlay-ui-default .section .to {
       font-weight: bold; }
+    .overlay-ui-default .section input {
+      width: 100%;
+      border-radius: 4px;
+      border: none;
+      border: 1px solid black;
+      box-shadow: none; }
     .overlay-ui-default .section textarea {
       width: 100%;
       border-radius: 4px;
@@ -1344,6 +1359,128 @@ nav {
     background-color: rgba(30, 30, 30, 0.2);
     cursor: pointer; }
     .answer-item label span.answered {
+      background-color: #00c8fa;
+      color: white; }
+
+.make-poll .section.column {
+  flex-direction: column; }
+
+.vote-poll .section .spread {
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
+  justify-content: space-between; }
+  .vote-poll .section .spread .text {
+    position: relative; }
+  .vote-poll .section .spread .checkbox {
+    padding: 4px 8px;
+    background-color: rgba(0, 200, 250, 0.8);
+    cursor: pointer; }
+
+.view-poll.open {
+  max-width: 960px; }
+.view-poll .section .choice {
+  position: relative; }
+  .view-poll .section .choice .gauge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    border-radius: 8px 0 0 8px;
+    background-color: rgba(255, 0, 0, 0.5); }
+.view-poll .section .spread {
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
+  justify-content: space-between; }
+  .view-poll .section .spread .text {
+    position: relative; }
+
+.poll-item:not(:last-child) {
+  margin-bottom: 8px; }
+.poll-item label {
+  display: -ms-flex !important;
+  display: -moz-flex !important;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center; }
+  .poll-item label a {
+    display: inline-block;
+    color: black;
+    margin-right: 16px; }
+  .poll-item label span {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(30, 30, 30, 0.2); }
+    .poll-item label span.completed {
+      background-color: #00c8fa;
+      color: white; }
+
+.poll-choice {
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
+  justify-content: space-between; }
+  .poll-choice:not(:last-child) {
+    margin-bottom: 8px; }
+  .poll-choice:nth-child(n+6) input {
+    max-width: 320px; }
+  .poll-choice input {
+    padding: 4.8px; }
+  .poll-choice span {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(255, 165, 0, 0.8);
+    cursor: pointer; }
+    .poll-choice span:hover {
+      background-color: rgba(255, 0, 0, 0.8);
+      color: white; }
+
+.view-created-polls .tabs {
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
+  justify-content: space-around;
+  padding: 16px;
+  color: black;
+  text-align: center;
+  font-size: 24px; }
+  .view-created-polls .tabs > div {
+    display: inline-block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    cursor: pointer; }
+
+.participated-poll-item:not(:last-child) {
+  margin-bottom: 8px; }
+.participated-poll-item label {
+  display: -ms-flex !important;
+  display: -moz-flex !important;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center; }
+  .participated-poll-item label a {
+    display: inline-block;
+    color: black;
+    margin-right: 16px; }
+  .participated-poll-item label span {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(30, 30, 30, 0.2);
+    cursor: pointer; }
+    .participated-poll-item label span.answered {
       background-color: #00c8fa;
       color: white; }
 

@@ -28,8 +28,11 @@ var _voteToolJsx = require("./vote-tool.jsx");
 
 var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
+var _commentToolsJsx = require("./comment-tools.jsx");
+
 var _modulesAjax = require("../../../modules/ajax");
 
+// for asking a question
 var AskQuestion = _react2["default"].createClass({
   displayName: "AskQuestion",
   getInitialState: function getInitialState() {
@@ -312,6 +315,7 @@ var AskQuestion = _react2["default"].createClass({
 });
 
 exports.AskQuestion = AskQuestion;
+// for answering a question
 var AnswerQuestion = _react2["default"].createClass({
   displayName: "AnswerQuestion",
   getInitialState: function getInitialState() {
@@ -604,225 +608,7 @@ var AnswerQuestion = _react2["default"].createClass({
 });
 
 exports.AnswerQuestion = AnswerQuestion;
-var CommentTool = _react2["default"].createClass({
-  displayName: "CommentTool",
-  getInitialState: function getInitialState() {
-    return {
-      error: false,
-      success: false,
-      validation: {
-        bodyMin: 30,
-        bodyMax: 2000,
-        bodyCount: 0,
-        bodyValid: false
-      }
-    };
-  },
-  submit: function submit(e) {
-    e.preventDefault();
-    var _props6 = this.props;
-    var auth = _props6.auth;
-    var userData = _props6.userData;
-    var fireRef = _props6.fireRef;
-    var overlay = _props6.overlay;
-    var versionData = _props6.versionData;
-    var questionID = _props6.questionID;
-    var questionData = _props6.questionData;
-    var commentID = _props6.commentID;
-    var popUpHandler = _props6.methods.popUpHandler;
-    var _refs3 = this.refs;
-    var title = _refs3.title;
-    var body = _refs3.body;
-
-    var commentObject = {
-      "auth": auth.access_token,
-      "username": userData.name,
-      // to be truthy only if this is a comment reply
-      "reply": !!commentID,
-      "commentID": commentID || null,
-      //----------------------------------------
-      "body": body.value,
-      questionID: questionID,
-      "date": new Date().getTime(),
-      "sentStatuses": {
-        "email": false,
-        "notification": false
-      },
-      "version": versionData
-    };
-    if (!this.state.validation.bodyValid) return;
-    console.log("comment object:", commentObject);
-    // write answer to `answers` node
-    fireRef.commentsRef.child(questionID).push().setWithPriority(commentObject, 0 - Date.now())["catch"](function (e) {
-      return console.error(e.val ? e.val() : e);
-    });
-    body.value = "";
-
-    // send notification
-    // create notif obejct
-    var notifObject = {
-      type: "newQuestionComment",
-      info: {
-        sender: userData.name,
-        questionID: questionID,
-        questionURL: "/profile/" + questionData.receiver + "/q/" + questionID
-      },
-      read: false,
-      date: new Date().getTime(),
-      version: versionData
-    };
-    // send notif
-    // to creator
-    if (questionData.creator !== userData.name) {
-      fireRef.notificationsRef.child(questionData.creator).push().set(notifObject)["catch"](function (e) {
-        return console.error(e.val ? e.val() : e);
-      });
-    }
-    // to receiver
-    if (questionData.receiver !== userData.name) {
-      fireRef.notificationsRef.child(questionData.receiver).push().set(notifObject)["catch"](function (e) {
-        return console.error(e.val ? e.val() : e);
-      });
-    }
-  },
-  validate: function validate(name, e) {
-    var _Object$assign3;
-
-    // name will be the same as a referenced element
-    // the name will be used to be validated, matched with a variable "suffix"
-    var value = e.target.value;
-    var thisMin = this.state.validation[name + "Min"];
-    var thisMax = this.state.validation[name + "Max"];
-    var thisValid = name + "Valid";
-    var thisCount = name + "Count";
-    this.setState({
-      validation: Object.assign(this.state.validation, (_Object$assign3 = {}, _defineProperty(_Object$assign3, thisValid, value.length >= thisMin && value.length <= thisMax), _defineProperty(_Object$assign3, thisCount, value.length), _Object$assign3))
-    });
-  },
-  render: function render() {
-    var _props7 = this.props;
-    var fireRef = _props7.fireRef;
-    var commentData = _props7.commentData;
-    var versionData = _props7.versionData;
-    var userData = _props7.userData;
-
-    if (!versionData || !fireRef) {
-      return _react2["default"].createElement(
-        "form",
-        { onSubmit: this.submit },
-        _react2["default"].createElement(
-          "div",
-          { className: "section bold" },
-          "Preparing Form..."
-        )
-      );
-    }
-    if (!userData) {
-      return _react2["default"].createElement(
-        "form",
-        { onSubmit: this.submit },
-        _react2["default"].createElement(
-          "div",
-          { className: "section bold" },
-          "Login to leave a comment"
-        )
-      );
-    }
-    return _react2["default"].createElement(
-      "form",
-      { onSubmit: this.submit },
-      _react2["default"].createElement(
-        "div",
-        { className: "section bold" },
-        "Leave a comment"
-      ),
-      _react2["default"].createElement(
-        "div",
-        { className: "section" },
-        _react2["default"].createElement(
-          "label",
-          null,
-          _react2["default"].createElement("textarea", { ref: "body", className: "" + (this.state.validation["bodyValid"] ? " valid" : ""), onChange: this.validate.bind(null, "body") }),
-          _react2["default"].createElement(
-            "div",
-            null,
-            this.state.validation["bodyCount"],
-            "/",
-            _react2["default"].createElement(
-              "span",
-              { className: "" + (this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : "") },
-              this.state.validation["bodyMin"]
-            ),
-            "-",
-            _react2["default"].createElement(
-              "span",
-              { className: "" + (this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : "") },
-              this.state.validation["bodyMax"]
-            )
-          )
-        )
-      ),
-      _react2["default"].createElement(
-        "div",
-        { className: "section" },
-        _react2["default"].createElement(
-          "button",
-          { className: "submit btn-default" },
-          "Submit"
-        )
-      )
-    );
-  }
-});
-
-exports.CommentTool = CommentTool;
-var CommentItem = _react2["default"].createClass({
-  displayName: "CommentItem",
-  render: function render() {
-    var _props8 = this.props;
-    var auth = _props8.auth;
-    var fireRef = _props8.fireRef;
-    var userData = _props8.userData;
-    var questionID = _props8.questionID;
-    var questionData = _props8.questionData;
-    var commentID = _props8.commentID;
-    var commentData = _props8.commentData;
-
-    // console.log("commentitem", commentID);
-    return _react2["default"].createElement(
-      "div",
-      { className: "section" },
-      _react2["default"].createElement(
-        "label",
-        { className: "comment" },
-        _react2["default"].createElement(
-          "div",
-          { className: "label" },
-          _react2["default"].createElement(
-            "div",
-            { className: "label username" },
-            _react2["default"].createElement(
-              _reactRouter.Link,
-              { to: "/profile/" + commentData.username },
-              commentData.username
-            )
-          ),
-          _react2["default"].createElement(
-            "p",
-            null,
-            commentData.body
-          )
-        )
-      ),
-      _react2["default"].createElement(
-        "label",
-        { className: "vote" },
-        _react2["default"].createElement(_voteToolJsx2["default"], { place: "comment", auth: auth, questionID: questionID, questionData: questionData, commentID: commentID, commentData: commentData, fireRef: fireRef, userData: userData })
-      )
-    );
-  }
-});
-
+// for viewing a question
 var ViewQuestion = _react2["default"].createClass({
   displayName: "ViewQuestion",
   getInitialState: function getInitialState() {
@@ -843,18 +629,18 @@ var ViewQuestion = _react2["default"].createClass({
   },
   initListener: function initListener() {
     // console.log("initiating comment listener");
-    var _props9 = this.props;
-    var questionID = _props9.questionID;
-    var fireRef = _props9.fireRef;
+    var _props6 = this.props;
+    var questionID = _props6.questionID;
+    var fireRef = _props6.fireRef;
 
     fireRef.commentsRef.child(questionID).orderByChild("reply").equalTo(false).on("child_added", this.newComment);
   },
   componentDidMount: function componentDidMount() {
     var _this4 = this;
 
-    var _props10 = this.props;
-    var questionID = _props10.questionID;
-    var fireRef = _props10.fireRef;
+    var _props7 = this.props;
+    var questionID = _props7.questionID;
+    var fireRef = _props7.fireRef;
 
     console.log("viewing", this.props);
 
@@ -885,13 +671,13 @@ var ViewQuestion = _react2["default"].createClass({
   },
   render: function render() {
     // console.log(this.props);
-    var _props11 = this.props;
-    var auth = _props11.auth;
-    var overlay = _props11.overlay;
-    var fireRef = _props11.fireRef;
-    var questionID = _props11.questionID;
-    var userData = _props11.userData;
-    var popUpHandler = _props11.methods.popUpHandler;
+    var _props8 = this.props;
+    var auth = _props8.auth;
+    var overlay = _props8.overlay;
+    var fireRef = _props8.fireRef;
+    var questionID = _props8.questionID;
+    var userData = _props8.userData;
+    var popUpHandler = _props8.methods.popUpHandler;
     var _state3 = this.state;
     var questionData = _state3.questionData;
     var answerData = _state3.answerData;
@@ -899,7 +685,7 @@ var ViewQuestion = _react2["default"].createClass({
 
     var commentList = Object.keys(comments || {}).map(function (commentID) {
       var commentData = comments[commentID];
-      return _react2["default"].createElement(CommentItem, { auth: auth, key: commentID, commentID: commentID, commentData: commentData, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData });
+      return _react2["default"].createElement(_commentToolsJsx.CommentItem, { auth: auth, key: commentID, commentID: commentID, commentData: commentData, questionID: questionID, questionData: questionData, fireRef: fireRef, userData: userData });
     });
 
     if (questionData && answerData) {
@@ -996,7 +782,7 @@ var ViewQuestion = _react2["default"].createClass({
             _react2["default"].createElement(
               "label",
               null,
-              _react2["default"].createElement(CommentTool, _extends({}, this.props, { questionData: questionData }))
+              _react2["default"].createElement(_commentToolsJsx.CommentTool, _extends({}, this.props, { questionData: questionData }))
             )
           ),
           _react2["default"].createElement(
@@ -1031,6 +817,7 @@ var ViewQuestion = _react2["default"].createClass({
 });
 
 exports.ViewQuestion = ViewQuestion;
+// for viewing a list of created questions
 var QuestionItem = _react2["default"].createClass({
   displayName: "QuestionItem",
   getInitialState: function getInitialState() {
@@ -1041,9 +828,9 @@ var QuestionItem = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this5 = this;
 
-    var _props12 = this.props;
-    var questionID = _props12.questionID;
-    var fireRef = _props12.fireRef;
+    var _props9 = this.props;
+    var questionID = _props9.questionID;
+    var fireRef = _props9.fireRef;
 
     (0, _modulesHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
       console.log("got answer data");
@@ -1053,11 +840,11 @@ var QuestionItem = _react2["default"].createClass({
     });
   },
   render: function render() {
-    var _props13 = this.props;
-    var questionID = _props13.questionID;
-    var questionData = _props13.questionData;
-    var locations = _props13.locations;
-    var popUpHandler = _props13.methods.popUpHandler;
+    var _props10 = this.props;
+    var questionID = _props10.questionID;
+    var questionData = _props10.questionData;
+    var locations = _props10.locations;
+    var popUpHandler = _props10.methods.popUpHandler;
     var answerData = this.state.answerData;
 
     return _react2["default"].createElement(
@@ -1114,9 +901,9 @@ var AnswerItem = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this6 = this;
 
-    var _props14 = this.props;
-    var questionID = _props14.questionID;
-    var fireRef = _props14.fireRef;
+    var _props11 = this.props;
+    var questionID = _props11.questionID;
+    var fireRef = _props11.fireRef;
 
     (0, _modulesHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
       console.log("got question data");
@@ -1126,11 +913,11 @@ var AnswerItem = _react2["default"].createClass({
     });
   },
   render: function render() {
-    var _props15 = this.props;
-    var questionID = _props15.questionID;
-    var answerData = _props15.answerData;
-    var locations = _props15.locations;
-    var popUpHandler = _props15.methods.popUpHandler;
+    var _props12 = this.props;
+    var questionID = _props12.questionID;
+    var answerData = _props12.answerData;
+    var locations = _props12.locations;
+    var popUpHandler = _props12.methods.popUpHandler;
     var questionData = this.state.questionData;
 
     if (!questionData) return null;
@@ -1178,9 +965,9 @@ var ViewAskedQuestions = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this7 = this;
 
-    var _props16 = this.props;
-    var fireRef = _props16.fireRef;
-    var userData = _props16.userData;
+    var _props13 = this.props;
+    var fireRef = _props13.fireRef;
+    var userData = _props13.userData;
 
     fireRef.questionsRef.orderByChild("creator").equalTo(userData.name).once("value").then(function (snap) {
       var questionData = snap.val();
@@ -1201,11 +988,11 @@ var ViewAskedQuestions = _react2["default"].createClass({
     });
   },
   render: function render() {
-    var _props17 = this.props;
-    var fireRef = _props17.fireRef;
-    var userData = _props17.userData;
-    var methods = _props17.methods;
-    var popUpHandler = _props17.methods.popUpHandler;
+    var _props14 = this.props;
+    var fireRef = _props14.fireRef;
+    var userData = _props14.userData;
+    var methods = _props14.methods;
+    var popUpHandler = _props14.methods.popUpHandler;
     var _state4 = this.state;
     var questionData = _state4.questionData;
     var answerData = _state4.answerData;
@@ -1256,7 +1043,7 @@ var ViewAskedQuestions = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "title" },
-        "Question's You've ",
+        "Questions You've ",
         toggle.replace(/^(.)/, function (_, letter) {
           return letter.toUpperCase();
         })
@@ -1278,9 +1065,3 @@ var ViewAskedQuestions = _react2["default"].createClass({
   }
 });
 exports.ViewAskedQuestions = ViewAskedQuestions;
-
-// <div className="tools">
-//   <div className="tool reply">
-//     Reply
-//   </div>
-// </div>

@@ -28,8 +28,14 @@ exports["default"] = _react2["default"].createClass({
     var userData = _props.userData;
     var fireRef = _props.fireRef;
     var place = _props.place;
-    var questionID = _props.questionID;
+    var
+    // questions
+    questionID = _props.questionID;
     var questionData = _props.questionData;
+    var
+    // polls
+    pollID = _props.pollID;
+    var pollData = _props.pollData;
     var commentID = _props.commentID;
     var commentData = _props.commentData;
 
@@ -40,9 +46,12 @@ exports["default"] = _react2["default"].createClass({
       "upvote": vote
     };
     // return console.log("vote data:", voteData);
-    console.log("vote data:", voteData);
+    // console.log("vote data:", voteData);
     // check if the user has already voted
-    (0, _modulesHelperTools.getRatingsData)(questionID, fireRef, null, function (ratingsData) {
+    fireRef.ratingsRef
+    // get ratings for question or poll content
+    .child(questionID || pollID).once("value").then(function (snap) {
+      var ratingsData = snap.val();
       // console.log(place);
       var votes = ratingsData;
       // console.log(votes);
@@ -69,9 +78,9 @@ exports["default"] = _react2["default"].createClass({
         voteData.commentID = commentID;
       }
       if (!voteTypes[place]) {
-        fireRef.ratingsRef.child(questionID).push().set(voteData);
+        fireRef.ratingsRef.child(questionID || pollID).push().set(voteData);
       } else {
-        fireRef.ratingsRef.child(questionID).child(voteTypes[place]).update(voteData);
+        fireRef.ratingsRef.child(questionID || pollID).child(voteTypes[place]).update(voteData);
       }
 
       // depending on the `place` determines what kind of rating notification this is
@@ -82,8 +91,8 @@ exports["default"] = _react2["default"].createClass({
       };
       // depending on the `place` gets the username of the question creator, receiver, or commenter
       var receiverObject = {
-        "question": questionData.creator,
-        "answer": questionData.receiver,
+        "question": questionID ? questionData.creator : null,
+        "answer": questionID ? questionData.receiver : null,
         "comment": commentData ? commentData.username : null
       };
 
@@ -94,9 +103,10 @@ exports["default"] = _react2["default"].createClass({
         type: placeObject[place],
         info: {
           sender: userData.name,
-          questionID: questionID,
+          questionID: questionID || null,
+          pollID: pollID || null,
           commentID: commentID || null,
-          questionURL: "/profile/" + receiverObject[place] + "/q/" + questionID
+          postURL: "/profile/" + receiverObject[place] + "/" + (questionID ? "q" : "p") + "/" + (questionID || pollID)
         },
         read: false,
         date: new Date().getTime()
@@ -111,8 +121,14 @@ exports["default"] = _react2["default"].createClass({
             var dupe = false;
             Object.keys(notifs || {}).map(function (notifID) {
               var notifData = notifs[notifID];
-              if (notifData.info.questionID === questionID) dupe = true;
-              if (notifData.info.commentID) dupe = notifData.info.commentID === commentID ? true : false;
+              if (questionID) {
+                if (notifData.info.questionID === questionID) dupe = true;
+                if (notifData.info.commentID) dupe = notifData.info.commentID === commentID ? true : false;
+              }
+              if (pollID) {
+                if (notifData.info.pollID === pollID) dupe = true;
+                if (notifData.info.commentID) dupe = notifData.info.commentID === commentID ? true : false;
+              }
             });
 
             // don't send a notification if it would be a duplicate
@@ -150,11 +166,15 @@ exports["default"] = _react2["default"].createClass({
     var fireRef = _props3.fireRef;
     var userData = _props3.userData;
     var questionID = _props3.questionID;
+    var pollID = _props3.pollID;
     var commentID = _props3.commentID;
     var commentData = _props3.commentData;
 
     // console.log("init new comment", commentID);
-    (0, _modulesHelperTools.getRatingsData)(questionID, fireRef, null, function (ratingsData) {
+    fireRef.ratingsRef
+    // get ratings for question or poll content
+    .child(questionID || pollID).once("value").then(function (snap) {
+      var ratingsData = snap.val();
       // console.log("got ratings", ratingsData, questionID, commentID || "not a comment");
       Object.keys(ratingsData || {}).map(function (ratingID) {
         var voteData = ratingsData[ratingID];
@@ -190,19 +210,21 @@ exports["default"] = _react2["default"].createClass({
     var place = _props4.place;
     var fireRef = _props4.fireRef;
     var questionID = _props4.questionID;
+    var pollID = _props4.pollID;
     var commentID = _props4.commentID;
 
-    this.killRatingsWatch = (0, _modulesHelperTools.listenOnNewRatings)(questionID, fireRef, null, this.newRating);
+    this.killRatingsWatch = (0, _modulesHelperTools.listenOnNewRatings)(questionID || pollID, fireRef, null, this.newRating);
   },
   componentDidMount: function componentDidMount() {
     var _this3 = this;
 
     var _props5 = this.props;
     var questionID = _props5.questionID;
+    var pollID = _props5.pollID;
     var fireRef = _props5.fireRef;
 
     var temp = function temp(snap) {
-      if (snap.getKey() === questionID) {
+      if (snap.getKey() === questionID || snap.getKey() === pollID) {
         fireRef.ratingsRef.off("child_added", temp);
 
         // get the initial bulk of ratings and/or initialize listeners
@@ -225,7 +247,7 @@ exports["default"] = _react2["default"].createClass({
     var ratings = _state.ratings;
     var calculatedRatings = _state.calculatedRatings;
 
-    place === "comment" ? console.log("wher eis itsatfds", this.props) : null;
+    // place === "comment" ? console.log("wher eis itsatfds", this.props) : null;
     if (!calculatedRatings || !calculatedRatings[place]) return _react2["default"].createElement(
       "div",
       { className: "vote-tool", onClick: function (e) {

@@ -78,12 +78,33 @@ var ViewBookmarks = _react2["default"].createClass({
       bookmarks: newBookmarks
     });
   },
-  componentDidMount: function componentDidMount() {
-    var _this = this;
-
+  addBookmark: function addBookmark(e) {
+    e.preventDefault();
     var _props2 = this.props;
     var fireRef = _props2.fireRef;
     var userData = _props2.userData;
+    var versionData = _props2.versionData;
+
+    var username = this.refs["new-bookmark"].value;
+
+    if (!username) return;
+
+    var bookmarkObject = {
+      username: username,
+      "date": _firebase2["default"].database.ServerValue.TIMESTAMP,
+      "version": versionData
+    };
+
+    fireRef.usersRef.child(userData.name + "/bookmarks/users/" + username).set(bookmarkObject);
+
+    this.refs["new-bookmark"].value;
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    var _props3 = this.props;
+    var fireRef = _props3.fireRef;
+    var userData = _props3.userData;
 
     fireRef.usersRef.child(userData.name + "/bookmarks/users").once("value").then(function (snap) {
       _this.setState({
@@ -96,19 +117,19 @@ var ViewBookmarks = _react2["default"].createClass({
     refNode.on("child_removed", this.removedBookmark);
   },
   componentWillUnmount: function componentWillUnmount() {
-    var _props3 = this.props;
-    var fireRef = _props3.fireRef;
-    var userData = _props3.userData;
+    var _props4 = this.props;
+    var fireRef = _props4.fireRef;
+    var userData = _props4.userData;
 
     var refNode = fireRef.usersRef.child(userData.name + "/bookmarks/users");
     refNode.off("child_added", this.newBookmark);
     refNode.off("child_removed", this.removedBookmark);
   },
   render: function render() {
-    var _props4 = this.props;
-    var fireRef = _props4.fireRef;
-    var userData = _props4.userData;
-    var popUpHandler = _props4.methods.popUpHandler;
+    var _props5 = this.props;
+    var fireRef = _props5.fireRef;
+    var userData = _props5.userData;
+    var popUpHandler = _props5.methods.popUpHandler;
 
     var bookmarkList = Object.keys(this.state.bookmarks).map(function (bookmarkID) {
       return _react2["default"].createElement(BookmarkItem, _extends({
@@ -146,6 +167,38 @@ var ViewBookmarks = _react2["default"].createClass({
           "div",
           { className: "list" },
           bookmarkList
+        )
+      ),
+      _react2["default"].createElement("div", { className: "separator-4-dim" }),
+      _react2["default"].createElement(
+        "div",
+        { className: "section" },
+        _react2["default"].createElement(
+          "form",
+          { onSubmit: this.addBookmark },
+          _react2["default"].createElement(
+            "div",
+            { className: "section" },
+            _react2["default"].createElement(
+              "label",
+              null,
+              _react2["default"].createElement(
+                "div",
+                { className: "label bold" },
+                "Add Bookmark"
+              ),
+              _react2["default"].createElement("input", { type: "text", ref: "new-bookmark" })
+            )
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "section" },
+            _react2["default"].createElement(
+              "button",
+              { className: "submit btn-default" },
+              "Submit"
+            )
+          )
         )
       )
     );

@@ -29,7 +29,7 @@ exports["default"] = _react2["default"].createClass({
     var fireRef = _props.fireRef;
 
     var propsPresent = !!userData && !!fireRef;
-    console.log(propsPresent);
+    // console.log(propsPresent);
     if (propsPresent) {
       this.setState({
         userDataPresent: !!userData,
@@ -84,7 +84,7 @@ exports["default"] = _react2["default"].createClass({
   newNotif: function newNotif(snap) {
     var key = snap.getKey();
     var val = snap.val();
-    console.log("new notif", key, val);
+    // console.log("new notif", key, val);
     var newNotifications = Object.assign(JSON.parse(JSON.stringify(this.state.notifications)) || {}, _defineProperty({}, key, val));
 
     var notifCount = Object.keys(newNotifications).filter(function (notifID) {

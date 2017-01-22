@@ -15,6 +15,11 @@ var _firebase = require("firebase");
 var _firebase2 = _interopRequireDefault(_firebase);
 
 exports["default"] = _react2["default"].createClass({
+  // required props
+  // fireRef
+  // userData
+  // givenUsername (username)
+  // versionData
   displayName: "BookmarkButton",
   getInitialState: function getInitialState() {
     return {
@@ -31,7 +36,7 @@ exports["default"] = _react2["default"].createClass({
     var fireRef = _props.fireRef;
 
     var propsPresent = !!userData && !!fireRef;
-    console.log(propsPresent);
+    // console.log(propsPresent);
     if (propsPresent) {
       this.setState({
         userDataPresent: !!userData,
@@ -139,7 +144,9 @@ exports["default"] = _react2["default"].createClass({
     var fireRef = _props6.fireRef;
     var userData = _props6.userData;
     var givenUsername = _props6.givenUsername;
+    var named = _props6.named;
 
+    // console.log(userData, fireRef, bookmarked);
     if (!userData || !fireRef) return null;
     if (bookmarked === null) return null;
     if (userData.name === givenUsername) return null;
@@ -151,7 +158,7 @@ exports["default"] = _react2["default"].createClass({
         { href: "#", className: this.props.className, onClick: this.toggleBookmark },
         bookmarked ? "Un-bookmark" : "Bookmark",
         " ",
-        givenUsername
+        !named ? givenUsername : ""
       )
     );
   }

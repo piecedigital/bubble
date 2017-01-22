@@ -209,6 +209,13 @@ exports["default"] = _react2["default"].createClass({
                 popUpHandler("viewAskedQuestions");
               } },
             "Questions"
+          ), _react2["default"].createElement(
+            "a",
+            { key: "polls", className: "nav-item", href: "#", onClick: function () {
+                _this2.toggleNav("close");
+                popUpHandler("viewCreatedPolls");
+              } },
+            "Polls"
           )] : null,
           _react2["default"].createElement(
             "a",

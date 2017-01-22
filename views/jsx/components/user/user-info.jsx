@@ -22,6 +22,10 @@ var _followBtnJsx = require("../follow-btn.jsx");
 
 var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
 
+var _bookmarkBtnJsx = require("../bookmark-btn.jsx");
+
+var _bookmarkBtnJsx2 = _interopRequireDefault(_bookmarkBtnJsx);
+
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 // primary section for the search component
@@ -80,8 +84,10 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     var _props2 = this.props;
     var auth = _props2.auth;
+    var fireRef = _props2.fireRef;
     var params = _props2.params;
     var userData = _props2.userData;
+    var versionData = _props2.versionData;
     var _props2$methods = _props2.methods;
     var appendStream = _props2$methods.appendStream;
     var popUpHandler = _props2$methods.popUpHandler;
@@ -178,37 +184,47 @@ exports["default"] = _react2["default"].createClass({
             userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { key: "img", className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
           ) : null,
           _react2["default"].createElement("div", { className: "separator-4-3" }),
-          name && userData && userData.name !== name ? [_react2["default"].createElement(
-            "a",
-            { key: "msg", className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
-            "Send Message"
-          ), " ", _react2["default"].createElement(
+          _react2["default"].createElement(
             "div",
-            { key: "ask", className: "btn-default btn-rect color-black bold no-underline", onClick: popUpHandler.bind(null, "askQuestion", {
-                receiver: name.toLowerCase(),
-                sender: userData.name
-              }) },
-            "Ask A Question"
-          )] : null,
-          userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" })] : null,
-          userChannelData ? [" ", _react2["default"].createElement(
-            "div",
-            { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
-            "Open Stream"
-          )] : null,
-          (function () {
-            var give = false;
-            if (userData) {
-              if (params && params.username === userData.name) {
-                give = true;
-              }
-            }
-            return give ? [" ", _react2["default"].createElement(
+            { className: "button-wrapper" },
+            name && userData && userData.name !== name ? [_react2["default"].createElement(
               "a",
-              { key: "clips", className: "btn-default btn-rect color-black bold no-underline", href: "https://clips.twitch.tv/my-clips", target: "_blank" },
-              "My Clips"
-            )] : null;
-          })()
+              { key: "msg", className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+              "Send Message"
+            ), " ", _react2["default"].createElement(
+              "div",
+              { key: "ask", className: "btn-default btn-rect color-black bold no-underline", onClick: popUpHandler.bind(null, "askQuestion", {
+                  receiver: name.toLowerCase(),
+                  sender: userData.name
+                }) },
+              "Ask A Question"
+            ), _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
+              key: "bookmark",
+              className: "btn-default btn-rect color-black bold no-underline",
+              fireRef: fireRef,
+              userData: userData,
+              givenUsername: name,
+              versionData: versionData })] : null,
+            userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" })] : null,
+            userChannelData ? [" ", _react2["default"].createElement(
+              "div",
+              { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
+              "Open Stream"
+            )] : null,
+            (function () {
+              var give = false;
+              if (userData) {
+                if (params && params.username === userData.name) {
+                  give = true;
+                }
+              }
+              return give ? [" ", _react2["default"].createElement(
+                "a",
+                { key: "clips", className: "btn-default btn-rect color-black bold no-underline", href: "https://clips.twitch.tv/my-clips", target: "_blank" },
+                "My Clips"
+              )] : null;
+            })()
+          )
         )
       )
     );

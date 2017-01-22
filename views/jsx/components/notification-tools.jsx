@@ -20,7 +20,8 @@ var NotifItem = _react2["default"].createClass({
   displayName: "NotifItem",
   getInitialState: function getInitialState() {
     return {
-      questionData: null
+      questionData: null,
+      pollData: null
     };
   },
   markRead: function markRead() {
@@ -37,48 +38,52 @@ var NotifItem = _react2["default"].createClass({
     var data = _props2.data;
     var userData = _props2.userData;
     var location = _props2.location;
-    var questionData = this.state.questionData;
+    var _state = this.state;
+    var questionData = _state.questionData;
+    var pollData = _state.pollData;
 
     var object = {
       "message": "You have a new notification"
     };
 
+    var postData = questionData || pollData;
+
     switch (data.type) {
       case "newQuestion":
-        object.message = data.info.sender + " asked a question: " + questionData.title;
+        object.message = data.info.sender + " asked a question: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
         break;
       case "newAnswer":
-        object.message = data.info.sender + " answered your question: " + questionData.title;
+        object.message = data.info.sender + " answered your question: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
         break;
       case "newQuestionComment":
-        object.message = data.info.sender + " commented on a question: " + questionData.title;
+        object.message = data.info.sender + " commented on a question: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
-        object.overlay = "viewQuestion";
+        object.overlay = questionData ? "viewQuestion" : "viewPoll";
         break;
       case "questionUpvote":
-        object.message = "You're question was upvoted: " + questionData.title;
+        object.message = "You're question was upvoted: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
-        object.overlay = "viewQuestion";
+        object.overlay = questionData ? "viewQuestion" : "viewPoll";
         break;
       case "answerUpvote":
-        object.message = "You're answer was upvoted: " + questionData.title;
+        object.message = "You're answer was upvoted: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
-        object.overlay = "viewQuestion";
+        object.overlay = questionData ? "viewQuestion" : "viewPoll";
         break;
       case "commentUpvote":
-        object.message = "You're comment was upvoted: " + questionData.title;
+        object.message = "You're comment was upvoted: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
-        object.overlay = "viewQuestion";
+        object.overlay = questionData ? "viewQuestion" : "viewPoll";
         break;
     }
     return object;
@@ -98,6 +103,14 @@ var NotifItem = _react2["default"].createClass({
           }
         });
       });
+    } else if (data && data.info && data.info.pollID) {
+      fireRef.pollsRef.child(data.info.pollID).child("title").once("value").then(function (snap) {
+        _this.setState({
+          "pollData": {
+            "title": snap.val()
+          }
+        });
+      });
     }
   },
   render: function render() {
@@ -107,7 +120,9 @@ var NotifItem = _react2["default"].createClass({
     var notifID = _props4.notifID;
     var data = _props4.data;
     var popUpHandler = _props4.methods.popUpHandler;
-    var questionData = this.state.questionData;
+    var _state2 = this.state;
+    var questionData = _state2.questionData;
+    var pollData = _state2.pollData;
 
     switch (data.type) {
       case "newQuestion":
@@ -117,9 +132,8 @@ var NotifItem = _react2["default"].createClass({
       case "answerUpvote":
       case "commentUpvote":
         // for the above notification types some question data is required
-        if (!questionData) return null;
+        if (!questionData && !pollData) return null;
     }
-
     var message = this.getMessage();
 
     return _react2["default"].createElement(
@@ -131,15 +145,13 @@ var NotifItem = _react2["default"].createClass({
         _react2["default"].createElement(
           _reactRouter.Link,
           { className: "name", to: {
-              pathname: data.info.questionURL,
+              pathname: data.info.questionURL || data.info.postURL,
               state: {
                 modal: message.modal,
                 returnTo: message.returnTo
               }
             }, onClick: function (e) {
-              popUpHandler(message.overlay, {
-                questionID: data.info.questionID
-              });
+              popUpHandler(message.overlay, _defineProperty({}, questionData ? "questionID" : "pollID", data.info[[questionData ? "questionID" : "pollID"]]));
               _this2.markRead();
             } },
           message.message
@@ -256,10 +268,10 @@ var ViewNotifications = _react2["default"].createClass({
     var location = _props8.location;
     var methods = _props8.methods;
     var popUpHandler = _props8.methods.popUpHandler;
-    var _state = this.state;
-    var notifications = _state.notifications;
-    var notifCount = _state.notifCount;
-    var propsPresent = _state.propsPresent;
+    var _state3 = this.state;
+    var notifications = _state3.notifications;
+    var notifCount = _state3.notifCount;
+    var propsPresent = _state3.propsPresent;
 
     // console.log(propsPresent, notifCount);
     if (!propsPresent) return null;

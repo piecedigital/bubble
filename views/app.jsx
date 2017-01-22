@@ -65,7 +65,7 @@ function checkAuth(Component, props) {
     _reactRouter.Route,
     { path: "", page: "root", component: _jsxLayoutJsx2["default"] },
     _react2["default"].createElement(_reactRouter.Route, { path: "/", page: "home", component: _jsxHomeJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/profile(/:username(/:q/:questionID))", page: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile(/:username(/:q/:postID))", page: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "streams", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "games", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", page: "search", component: _jsxSearchJsx2["default"] })

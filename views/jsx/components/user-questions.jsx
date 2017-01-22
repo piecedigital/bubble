@@ -64,19 +64,19 @@ var QuestionListItem = _react2["default"].createClass({
     var popUpHandler = _props2.methods.popUpHandler;
 
     // set up pop up overlay for question view if at question URL
-    if (params.questionID === questionID && !location.state || location.state && !location.state.modal) {
-      _reactRouter.browserHistory.push({
-        pathname: "/profile/" + (params.username || (userData ? userData.name : "")) + "/" + params.q + "/" + questionID,
-        state: {
-          modal: true,
-          returnTo: "/profile/" + (params.username || "")
-        }
-      });
-      // console.log("open pop ");
-      popUpHandler(params.q === "a" ? "answerQuestion" : "viewQuestion", {
-        questionID: questionID
-      });
-    }
+    // if(params.postID === questionID && !location.state || location.state && !location.state.modal) {
+    //   History.push({
+    //     pathname: `/profile/${params.username || (userData ? userData.name : "")}/${params.q}/${questionID}`,
+    //     state: {
+    //       modal: true,
+    //       returnTo: `/profile/${params.username || ""}`,
+    //     }
+    //   });
+    //   // console.log("open pop ");
+    //   popUpHandler(params.q === "a" ? "answerQuestion" : "viewQuestion", {
+    //     questionID
+    //   });
+    // }
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     // if(nextProps.location.pathname !== this.props.location.pathname) {
@@ -130,7 +130,7 @@ var QuestionListItem = _react2["default"].createClass({
       }, function () {
         if (!pageOverride) {
           // do a possible page redirect if pageOverride is not present
-          if (params.questionID === questionID && !answerData) {
+          if (params.postID === questionID && !answerData) {
             console.log("no answer data", questionID, _this2.state);
             _reactRouter.browserHistory.push({
               pathname: "/profile/" + (params.username || (questionData ? questionData.receiver : ""))
