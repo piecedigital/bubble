@@ -1,0 +1,26 @@
+.view-created-polls {
+  &.open {}
+  .close {}
+  .title {}
+  .tabs {
+    @include displayFlex;
+    justify-content: space-around;
+    padding: 1*$em;
+    color: black;
+    text-align: center;
+    font-size: 1.5*$em;
+    > div {
+      display: inline-block;
+      border-bottom: 1px solid rgba(black, .8);
+      cursor: pointer;
+    }
+  }
+  form {}
+  .section {
+    .label {}
+    .to {}
+    input, textarea {
+      &.valid {}
+    }
+  }
+}

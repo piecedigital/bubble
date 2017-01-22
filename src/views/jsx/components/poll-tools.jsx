@@ -861,27 +861,31 @@ const CreatedItem = React.createClass({
   }
 });
 
-const AnswerItem = React.createClass({
-  displayName: "AnswerItem",
+const ParticipatedItem = React.createClass({
+  displayName: "ParticipatedItem",
   getInitialState: () => ({
-    questionData: null
+    pollData: null
   }),
   componentDidMount() {
     const {
-      questionID,
+      pollID,
       fireRef
     } = this.props;
-    getQuestionData(questionID, fireRef, null, questionData => {
-      console.log("got question data");
+
+    fireRef.pollsRef
+    .child(pollID)
+    .once("value")
+    .then(snap => {
+      const pollData = snap.val();
+      console.log("got poll data", pollData);
       this.setState({
-        questionData
+        pollData
       });
     });
   },
   render() {
     const {
-      questionID,
-      answerData,
+      pollID,
       locations,
       methods: {
         popUpHandler
@@ -889,26 +893,32 @@ const AnswerItem = React.createClass({
     } = this.props;
 
     const {
-      questionData,
-      completed
+      pollData,
     } = this.state;
 
-    if(!questionData) return null;
+    if(!pollData) return null;
+
+    let completed, symbol = "&#x2716;";
+
+    if(Date.now() >= pollData.endDate) {
+      completed = "completed";
+      symbol = "&#x2714";
+    }
 
     return (
-      <div className="answer-item">
+      <div className="participated-poll-item">
         <label>
           <Link className="name" to={{
-            pathname: `/profile/${questionData.receiver}/q/${questionID}`,
+            pathname: `/profile/${pollData.creator}/p/${pollID}`,
             state: {
               modal: true,
               returnTo: location.pathname
             }
           }} onClick={e => {
-            popUpHandler("viewQuestion", {
-              questionID
+            popUpHandler("viewPoll", {
+              pollID
             });
-          }}>{questionData.title}</Link><span className={completed ? "completed" : ""}>{completed ? "&#x2714;" : "&#x2716;"}</span>
+          }}>{pollData.title}</Link><span className={completed} dangerouslySetInnerHTML={{ __html: symbol }}></span>
         </label>
       </div>
     );
@@ -919,7 +929,8 @@ export const ViewCreatedPolls = React.createClass({
   displayName: "ViewCreatedPolls",
   getInitialState: () => ({
     polls: null,
-    toggle: "asked"
+    participated: null,
+    toggle: "created"
   }),
   componentDidMount() {
     const {
@@ -935,6 +946,16 @@ export const ViewCreatedPolls = React.createClass({
       const polls = snap.val();
       this.setState({
         polls
+      });
+    });
+    fireRef.usersRef
+    .child(userData.name)
+    .child("pollsParticipated")
+    .once("value")
+    .then(snap => {
+      const participated = snap.val();
+      this.setState({
+        participated
       });
     });
   },
@@ -955,13 +976,14 @@ export const ViewCreatedPolls = React.createClass({
 
     const {
       polls,
+      participated,
       toggle
     } = this.state;
 
-    // const data = toggle === "asked" ? questionData : answerData;
-    const data = polls;
-    // const Component = toggle === "asked" ? QuestionItem : AnswerItem;
-    const Component = CreatedItem;
+    const data = toggle === "created" ? polls : participated;
+    // const data = polls;
+    const Component = toggle === "created" ? CreatedItem : ParticipatedItem;
+    // const Component = CreatedItem;
 
     const list = data ? Object.keys(data).map(pollID => {
       const thisData = data[pollID]
@@ -979,17 +1001,15 @@ export const ViewCreatedPolls = React.createClass({
     return (
       <div className={`overlay-ui-default view-created-polls open`} onClick={e => e.stopPropagation()}>
         <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
-        {
-          // <div className="tabs">
-          //   <div className="asked" onClick={this.toggleView.bind(null, "asked")}>Asked</div>
-          //   |
-          //   <div className="answered" onClick={this.toggleView.bind(null, "answered")}>Answered</div>
-          // </div>
-          // <div className="separator-4-dim" />
-          // <div className="separator-4-dim" />
-        }
+        <div className="tabs">
+          <div className="asked" onClick={this.toggleView.bind(null, "created")}>Created</div>
+          |
+          <div className="answered" onClick={this.toggleView.bind(null, "voted On")}>Voted On</div>
+        </div>
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
         <div className="title">
-          polls You've {toggle.replace(/^(.)/, (_, letter) => letter.toUpperCase())}
+          Polls You've {toggle.replace(/^(.)/, (_, letter) => letter.toUpperCase())}
         </div>
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
@@ -998,7 +1018,7 @@ export const ViewCreatedPolls = React.createClass({
         <div className="scroll">
           <div className="section">
             <div className="list">
-              {list.length > 0 ? list : "You haven't created any polls yet."}
+              {list.length > 0 ? list : `You haven't ${toggle} any polls yet.`}
             </div>
           </div>
           <div className="separator-4-dim" />
