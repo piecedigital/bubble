@@ -58,6 +58,8 @@ export const MakePoll = React.createClass({
     } = this.props;
     const {
       title,
+      hours,
+      minutes
     } = this.refs;
 
     const choices = {};
@@ -65,6 +67,10 @@ export const MakePoll = React.createClass({
     this.state.choices.map((choiceData, choiceID) => {
       choices[`vote_${choiceID}`] = choiceData;
     });
+
+    console.log(parseInt(hours.value), parseInt(minutes.value));
+
+    const dateNow = Date.now();
 
     let pollObject = {
       auth: auth.access_token,
@@ -77,7 +83,8 @@ export const MakePoll = React.createClass({
       //     "vote": String (vote_<Number>)
       //   }
       // },
-      date: new Date().getTime(),
+      endDate: (parseInt(hours.value) || parseInt(minutes.value)) ? dateNow + parseInt(hours.value) + parseInt(minutes.value) : Infinity,
+      date: dateNow,
       version: versionData
     };
 
@@ -156,6 +163,23 @@ export const MakePoll = React.createClass({
       error,
       choices,
     } = this.state;
+    const hoursArray = new Uint8Array(25).map(() => true);
+    const minutesArray = new Uint8Array(60).map(() => true);
+    let hoursOptions = [], minutesOptions = [];
+
+    hoursArray.map((_, ind) => {
+      // console.log(_, ind);
+      const elem = <option value={(ind) * 1000 * 60 * 60}>{ind}</option>
+      // console.log(elem);
+      hoursOptions.push(elem);
+    })
+    minutesArray.map((_, ind) => {
+      // console.log(_, ind);
+      const elem = <option value={(ind) * 1000 * 60}>{ind}</option>
+      // console.log(elem);
+      minutesOptions.push(elem);
+    })
+
     if(!versionData || !fireRef) {
       return (
         <div className={`overlay-ui-default make-poll${overlay === "makePoll" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
@@ -215,6 +239,23 @@ export const MakePoll = React.createClass({
                 <div className="separator-1-dim" />
               </div>
               <div className="btn-default" onClick={this.addChoice}>Add Choice</div>
+            </label>
+          </div>
+          <div className="separator-1-dim" />
+          <div className="section">
+            <label>
+              <div className="section">
+                <div className="label bold">Hours: </div>
+                <select ref="hours">
+                  {hoursOptions}
+                </select>
+              </div>
+              <div className="section">
+                <div className="label bold">Minutes: </div>
+                <select ref="minutes">
+                  {minutesOptions}
+                </select>
+              </div>
             </label>
           </div>
           <div className="section">
@@ -463,6 +504,7 @@ export const ViewPoll = React.createClass({
 
       const newPollData = JSON.parse(JSON.stringify( this.state.pollData || {} ));
 
+      newPollData.votes = newPollData.votes || {};
       newPollData.votes[username] = voteData;
 
       this.setState({
@@ -517,7 +559,6 @@ export const ViewPoll = React.createClass({
     }
   },
   componentDidMount() {
-    console.log("mounted view");
     this.getPollData();
   },
   render() {
@@ -570,6 +611,7 @@ export const ViewPoll = React.createClass({
                 </div>
               </label>
             </div>
+            <div className="separator-4-dim" />
             <div className="section">
               <label>
                 <div className="label">
@@ -577,6 +619,17 @@ export const ViewPoll = React.createClass({
                   <input type="test" value={`http://${location ? location.host : "localhost:8080"}/profile/${pollData.creator}/p/${pollID}`} onClick={e => e.target.select()} readOnly />
                 </div>
               </label>
+            </div>
+            <div className="separator-4-dim" />
+            <div className="separator-4-dim" />
+            <div className="section">
+              {
+                Date.now() < pollData.endDate ||
+                !pollData.votes ||
+                !pollData.votes[userData.name] ? (
+                  <button className="submit btn-default" onClick={popUpHandler.bind(null, "votePoll", { pollID })}>Vote On Poll</button>
+                ) : null
+              }
             </div>
           </div>
         </div>
@@ -792,8 +845,13 @@ export const ViewCreatedPolls = React.createClass({
         <div className="separator-4-dim" />
         <div className="section">
           <div className="list">
-          {list.length > 0 ? list : "You haven't created any polls yet."}
+            {list.length > 0 ? list : "You haven't created any polls yet."}
           </div>
+        </div>
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="section">
+          <button className="submit btn-default" onClick={popUpHandler.bind(null, "makePoll")}>Make New Poll</button>
         </div>
       </div>
     );

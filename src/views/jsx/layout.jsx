@@ -279,18 +279,18 @@ export default React.createClass({
     }
   },
   checkURL(nextProps, nextState) {
-    console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
+    // console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
 
     const changeOverlay = (overlay, q, postID) => {
-      console.log(overlay);
+      // console.log(overlay);
       switch (q) {
         case "q":
-        this.popUpHandler("viewQuestion", {
+        this.popUpHandler(overlay || "viewQuestion", {
           questionID: postID
         })
         break;
         case "p":
-        this.popUpHandler("viewPoll", {
+        this.popUpHandler(overlay || "viewPoll", {
           pollID: postID
         })
         break;
@@ -299,24 +299,23 @@ export default React.createClass({
       }
     }
 
-    if(nextProps.params.q) {
-      console.log(nextProps.location);
-    }
+    // if(nextProps.params.q) {
+    //   console.log(nextProps.location);
+    // }
 
     if(nextState.overlay !== this.state.overlay) {
       if(!nextState.overlay) {
         changeOverlay(null, null, null);
       } else {
-        console.log("push history");
+        // console.log("push history");
         History.push({
           pathname: nextProps.location.pathname,
-          key: "new"
           state: {
             modal: true,
             returnTo: nextProps.location.state ? nextProps.location.state.returnTo || `/profile/${nextProps.params.username}` : `/profile/${nextProps.params.username}`
           }
         })
-        console.log("change overlay");
+        // console.log("change overlay");
         changeOverlay(nextState.overlay, nextProps.params.q, nextProps.params.postID);
       }
     }
