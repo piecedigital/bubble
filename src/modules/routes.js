@@ -31,7 +31,7 @@ app
     }
   }));
 })
-.get("/profile/:username/q/:questionID", function (req, res) {
+.get("/profile/:username/:q/:questionID", function (req, res) {
   res.send(renderHTML("profile", {
     params: {
       username: req.params.username

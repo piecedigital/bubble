@@ -17,6 +17,25 @@ console.log(redirectURI, clientID);
 export default React.createClass({
   displayName: "Layout",
   getInitialState() {
+    let overlay, overlayState;
+    if(this.props.params && this.props.params.q) {
+      switch (this.props.params.q) {
+        case "q":
+        overlay = "viewQuestion";
+        overlayState = { questionID: this.props.params.postID };
+        break;
+        case "a":
+        overlay = "viewAnswer";
+        overlayState = { questionID: this.props.params.postID };
+        break;
+        case "p":
+        overlay = "viewPoll";
+        overlayState = { pollID: this.props.params.postID };
+        break;
+        default:
+          overlay = "";
+      }
+    }
     return Object.assign({
       authData: (this.props.data && this.props.data.authData) || null,
       userData: null,
@@ -26,10 +45,8 @@ export default React.createClass({
       playerStreamMax: 6,
       panelDataFor: [],
       panelData: [],
-      overlay: "votePoll",
-      overlayState: {
-        pollID: "-Kao8aMluCFmlVPmJ9kh"
-      },
+      overlay,
+      overlayState,
       fireRef: null,
       versionData: null,
       registeredAuth: false,
@@ -232,7 +249,7 @@ export default React.createClass({
           } : {});
           // console.log("new state:", newState);
           this.setState(newState);
-        break;ViewAskedQuestions
+        break;
       case "answerQuestion":
       case "viewQuestion":
       case "viewAskedQuestions":
@@ -253,11 +270,55 @@ export default React.createClass({
         this.setState({
           overlay: ""
         });
+        // console.log(this.props.location);
         if(this.props.location.state && this.props.location.state.modal) {
           History.push({
             pathname: this.props.location.state.returnTo
           });
         }
+    }
+  },
+  checkURL(nextProps, nextState) {
+    console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
+
+    const changeOverlay = (overlay, q, postID) => {
+      console.log(overlay);
+      switch (q) {
+        case "q":
+        this.popUpHandler("viewQuestion", {
+          questionID: postID
+        })
+        break;
+        case "p":
+        this.popUpHandler("viewPoll", {
+          pollID: postID
+        })
+        break;
+        default:
+        if(!overlay) this.popUpHandler("close", null);
+      }
+    }
+
+    if(nextProps.params.q) {
+      console.log(nextProps.location);
+    }
+
+    if(nextState.overlay !== this.state.overlay) {
+      if(!nextState.overlay) {
+        changeOverlay(null, null, null);
+      } else {
+        console.log("push history");
+        History.push({
+          pathname: nextProps.location.pathname,
+          key: "new"
+          state: {
+            modal: true,
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || `/profile/${nextProps.params.username}` : `/profile/${nextProps.params.username}`
+          }
+        })
+        console.log("change overlay");
+        changeOverlay(nextState.overlay, nextProps.params.q, nextProps.params.postID);
+      }
     }
   },
   componentDidMount() {
@@ -341,8 +402,11 @@ export default React.createClass({
       });
     }
   },
+  componentWillUpdate(nextProps, nextState) {
+    this.checkURL(nextProps, nextState);
+  },
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.location);
+    // console.log(nextProps.location);
     if(nextProps.location.state && nextProps.location.state.modal) {
       this.child = this.props.children;
     } else {

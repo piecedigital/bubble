@@ -50,19 +50,19 @@ const QuestionListItem = React.createClass({
     } = this.props;
 
     // set up pop up overlay for question view if at question URL
-    if(params.questionID === questionID && !location.state || location.state && !location.state.modal) {
-      History.push({
-      pathname: `/profile/${params.username || (userData ? userData.name : "")}/${params.q}/${questionID}`,
-        state: {
-          modal: true,
-          returnTo: `/profile/${params.username || ""}`,
-        }
-      });
-      // console.log("open pop ");
-      popUpHandler(params.q === "a" ? "answerQuestion" : "viewQuestion", {
-        questionID
-      });
-    }
+    // if(params.postID === questionID && !location.state || location.state && !location.state.modal) {
+    //   History.push({
+    //     pathname: `/profile/${params.username || (userData ? userData.name : "")}/${params.q}/${questionID}`,
+    //     state: {
+    //       modal: true,
+    //       returnTo: `/profile/${params.username || ""}`,
+    //     }
+    //   });
+    //   // console.log("open pop ");
+    //   popUpHandler(params.q === "a" ? "answerQuestion" : "viewQuestion", {
+    //     questionID
+    //   });
+    // }
   },
   componentWillReceiveProps(nextProps) {
     // if(nextProps.location.pathname !== this.props.location.pathname) {
@@ -131,7 +131,7 @@ const QuestionListItem = React.createClass({
       }, () => {
         if(!pageOverride) {
           // do a possible page redirect if pageOverride is not present
-          if(params.questionID === questionID && !answerData) {
+          if(params.postID === questionID && !answerData) {
             console.log("no answer data", questionID, this.state);
             History.push({
               pathname: `/profile/${params.username || (questionData ? questionData.receiver : "")}`

@@ -140,7 +140,7 @@ export default React.createClass({
       givenUsername,
       named,
     } = this.props;
-    console.log(userData, fireRef, bookmarked);
+    // console.log(userData, fireRef, bookmarked);
     if(!userData || !fireRef) return null;
     if(bookmarked === null) return null;
     if(userData.name === givenUsername) return null;

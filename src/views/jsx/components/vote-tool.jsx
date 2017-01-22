@@ -29,7 +29,7 @@ export default React.createClass({
       "upvote": vote
     };
     // return console.log("vote data:", voteData);
-    console.log("vote data:", voteData);
+    // console.log("vote data:", voteData);
     // check if the user has already voted
     getRatingsData(questionID, fireRef, null, ratingsData => {
       // console.log(place);
@@ -225,7 +225,7 @@ export default React.createClass({
       ratings,
       calculatedRatings
     } = this.state;
-    place === "comment" ? console.log("wher eis itsatfds", this.props) : null;
+    // place === "comment" ? console.log("wher eis itsatfds", this.props) : null;
     if(
       !calculatedRatings || !calculatedRatings[place]
     ) return (

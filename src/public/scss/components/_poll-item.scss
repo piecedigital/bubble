@@ -15,8 +15,7 @@
       display: inline-block;
       padding: .25*$em .5*$em;
       background-color: rgba($offBlack, .2);
-      cursor: pointer;
-      &.answered {
+      &.completed {
         background-color: $primary;
         color: white;
       }

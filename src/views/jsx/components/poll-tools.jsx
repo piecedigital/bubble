@@ -629,6 +629,12 @@ const CreatedItem = React.createClass({
     const {
       // pollData
     } = this.state;
+    let completed, symbol = "&#x2716;";
+
+    if(Date.now() >= pollData.endDate) {
+      completed = "completed";
+      symbol = "&#x2714";
+    }
 
     return (
       <div className="poll-item">
@@ -640,10 +646,10 @@ const CreatedItem = React.createClass({
               returnTo: location.pathname
             }
           }} onClick={e => {
-            popUpHandler("viewQuestion", {
-              questionID
+            popUpHandler("viewPoll", {
+              pollID
             });
-          }}>{pollData.title}</Link><span className="answered">&#x2714;</span>
+          }}>{pollData.title}</Link><span className={completed} dangerouslySetInnerHTML={{ __html: symbol }}></span>
         </label>
       </div>
     );
@@ -678,7 +684,8 @@ const AnswerItem = React.createClass({
     } = this.props;
 
     const {
-      questionData
+      questionData,
+      completed
     } = this.state;
 
     if(!questionData) return null;
@@ -696,7 +703,7 @@ const AnswerItem = React.createClass({
             popUpHandler("viewQuestion", {
               questionID
             });
-          }}>{questionData.title}</Link><span className="answered">&#x2714;</span>
+          }}>{questionData.title}</Link><span className={completed ? "completed" : ""}>{completed ? "&#x2714;" : "&#x2716;"}</span>
         </label>
       </div>
     );
@@ -773,9 +780,9 @@ export const ViewCreatedPolls = React.createClass({
           //   |
           //   <div className="answered" onClick={this.toggleView.bind(null, "answered")}>Answered</div>
           // </div>
+          // <div className="separator-4-dim" />
+          // <div className="separator-4-dim" />
         }
-        <div className="separator-4-dim" />
-        <div className="separator-4-dim" />
         <div className="title">
           polls You've {toggle.replace(/^(.)/, (_, letter) => letter.toUpperCase())}
         </div>

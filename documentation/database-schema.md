@@ -36,6 +36,9 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "answersFromMe": {
         <questionID>: true
       },
+      "pollsParticipated": {
+        <pollID>: true
+      },
       "notifications": {
         <notificationID>: {
           "notifType": String ("askedNewQuestion" || "newCommentToQuestion" || "newCommentToAnswer" || "taggedInAnswer" || "taggedInComment"),
@@ -163,7 +166,8 @@ In addition to necessary data related to the Q&A aggregation this database will 
           "vote": String (vote_<Number>)
         }
       },
-      "date": [date Number],
+      "endDate": Number,
+      "date": Number,
       "version": [version Object]
     }
   },
