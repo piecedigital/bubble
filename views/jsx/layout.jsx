@@ -576,7 +576,16 @@ exports["default"] = _react2["default"].createClass({
             { href: "http://piecedigital.net", rel: "nofollow", target: "_blank" },
             "Piece Digital"
           )
-        )
+        ),
+        " | ",
+        versionData ? _react2["default"].createElement(
+          "div",
+          { className: "version" },
+          "Current version: ",
+          versionData.major,
+          versionData.minor,
+          versionData.patch
+        ) : null
       )
     );
   }
