@@ -458,7 +458,7 @@ export default React.createClass({
 
       return (
         <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
-          <div className={`title`}>{this.props.follow === "IFollow" ? "Followed" : "Following"} Channels{!userData ? " (login required for this feature)" : ""}</div>
+          <div className={`title`}>Channels {this.props.follow === "IFollow" ? "You Follow" : "Following You"}{!userData ? " (login required for this feature)" : ""}</div>
           <div className="wrapper">
             <ul className="list">
               {list}

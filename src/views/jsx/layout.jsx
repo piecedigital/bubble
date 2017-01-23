@@ -547,6 +547,12 @@ export default React.createClass({
         <div className="created-by">
           <div className="separator-4-black" />
           <div className="by">Created by <a href="http://piecedigital.net" rel="nofollow" target="_blank">Piece Digital</a></div>
+          {" | "}
+          {
+            versionData ? (
+              <div className="version">Current version: {versionData.major}{versionData.minor}{versionData.patch}</div>
+            ) : null
+          }
         </div>
       </div>
     )
