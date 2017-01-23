@@ -583,7 +583,9 @@ exports["default"] = _react2["default"].createClass({
           { className: "version" },
           "Current version: ",
           versionData.major,
+          ".",
           versionData.minor,
+          ".",
           versionData.patch
         ) : null
       )
