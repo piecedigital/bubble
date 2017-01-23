@@ -550,7 +550,7 @@ export default React.createClass({
           {" | "}
           {
             versionData ? (
-              <div className="version">Current version: {versionData.major}{versionData.minor}{versionData.patch}</div>
+              <div className="version">Current version: {versionData.major}.{versionData.minor}.{versionData.patch}</div>
             ) : null
           }
         </div>
