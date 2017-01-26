@@ -149,7 +149,7 @@ export default React.createClass({
     if(!snap) return;
     const key = snap.getKey();
     const val = snap.val();
-    place === "comment" ? console.log("new rating", key, val, commentID) : null;
+    // console.log("new rating", key, val, commentID);
     // console.log(this.props);
     if(place === "comment" && val.commentID !== commentID) return;
     const ratings = Object.assign(this.state.ratings || {}, {

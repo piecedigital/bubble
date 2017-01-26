@@ -479,7 +479,7 @@ export const ViewQuestion = React.createClass({
       fireRef
     } = this.props;
 
-    console.log("viewing", this.props);
+    // console.log("viewing", this.props);
 
     // get question data
     getQuestionData(questionID, fireRef, null, questionData => {

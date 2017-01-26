@@ -4,5 +4,6 @@
 - Polls - 0.10.0 **done**
   - Featured section titles - 0.10.3
   - Bookmark button for featured stream - 0.10.3
+  - Fixed overlay modal - 0.10.4
 - AMAs - 0.11.0
 - Meta data update 0.12.0

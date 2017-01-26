@@ -229,7 +229,7 @@ export default React.createClass({
     }
   },
   popUpHandler(action, options) {
-    console.log("pop up handler", action, options);
+    // console.log("pop up handler", action, options);
     let newState;
     switch (action) {
       case "askQuestion":
@@ -300,7 +300,7 @@ export default React.createClass({
     }
 
     if(nextProps.params.q) {
-      console.log(nextProps.location);
+      // console.log(nextProps.location);
     }
 
     if(nextState.overlay !== this.state.overlay) {
@@ -418,15 +418,15 @@ export default React.createClass({
     }
   },
   componentWillUpdate(nextProps, nextState) {
-    this.checkURL(nextProps, nextState);
-  },
-  componentWillReceiveProps(nextProps) {
     // console.log(nextProps.location);
     if(nextProps.location.state && nextProps.location.state.modal) {
-      this.child = this.props.children;
+      this.child = this.child || this.props.children;
     } else {
       this.child = null;
     }
+    this.checkURL(nextProps, nextState);
+  },
+  componentWillReceiveProps(nextProps) {
   },
   render() {
     const {
@@ -448,19 +448,20 @@ export default React.createClass({
     `&client_id=${clientID}`+
     `&redirect_uri=${redirectURI}`+
     "&scope=user_read+user_follows_edit";
+
     return (
       <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${layout || Object.keys(dataObject).length}`}>
         <Nav
-        fireRef={fireRef}
-        authData={authData}
-        userData={userData}
-        url={url}
-        methods={{
-          search: this.search,
-          appendStream: this.appendStream,
-          logout: this.logout,
-          popUpHandler: this.popUpHandler,
-        }} />
+          fireRef={fireRef}
+          authData={authData}
+          userData={userData}
+          url={url}
+          methods={{
+            search: this.search,
+            appendStream: this.appendStream,
+            logout: this.logout,
+            popUpHandler: this.popUpHandler,
+          }} />
         {
           <Player
             fireRef={fireRef}
