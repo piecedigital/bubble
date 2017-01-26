@@ -642,7 +642,7 @@ var ViewQuestion = _react2["default"].createClass({
     var questionID = _props7.questionID;
     var fireRef = _props7.fireRef;
 
-    console.log("viewing", this.props);
+    // console.log("viewing", this.props);
 
     // get question data
     (0, _modulesHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {

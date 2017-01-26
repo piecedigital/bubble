@@ -263,7 +263,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   popUpHandler: function popUpHandler(action, options) {
-    console.log("pop up handler", action, options);
+    // console.log("pop up handler", action, options);
     var newState = undefined;
     switch (action) {
       case "askQuestion":
@@ -336,7 +336,7 @@ exports["default"] = _react2["default"].createClass({
     };
 
     if (nextProps.params.q) {
-      console.log(nextProps.location);
+      // console.log(nextProps.location);
     }
 
     if (nextState.overlay !== this.state.overlay) {
@@ -450,16 +450,15 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
-    this.checkURL(nextProps, nextState);
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     // console.log(nextProps.location);
     if (nextProps.location.state && nextProps.location.state.modal) {
-      this.child = this.props.children;
+      this.child = this.child || this.props.children;
     } else {
       this.child = null;
     }
+    this.checkURL(nextProps, nextState);
   },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {},
   render: function render() {
     var _state2 = this.state;
     var authData = _state2.authData;
@@ -476,6 +475,7 @@ exports["default"] = _react2["default"].createClass({
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
     var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + ("&client_id=" + clientID) + ("&redirect_uri=" + redirectURI) + "&scope=user_read+user_follows_edit";
+
     return _react2["default"].createElement(
       "div",
       { className: "root" + (playerHasStreamers ? " player-open" : "") + (playerHasStreamers && playerCollapsed ? " player-collapsed" : "") + " layout-" + (layout || Object.keys(dataObject).length) },

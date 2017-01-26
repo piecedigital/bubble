@@ -150,7 +150,7 @@ exports["default"] = _react2["default"].createClass({
     if (!snap) return;
     var key = snap.getKey();
     var val = snap.val();
-    place === "comment" ? console.log("new rating", key, val, commentID) : null;
+    // console.log("new rating", key, val, commentID);
     // console.log(this.props);
     if (place === "comment" && val.commentID !== commentID) return;
     var ratings = Object.assign(this.state.ratings || {}, _defineProperty({}, key, val));
