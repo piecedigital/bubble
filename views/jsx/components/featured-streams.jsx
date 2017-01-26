@@ -18,6 +18,10 @@ var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
 
 var _modulesHelperTools = require("../../../modules/helper-tools");
 
+var _bookmarkBtnJsx = require("./bookmark-btn.jsx");
+
+var _bookmarkBtnJsx2 = _interopRequireDefault(_bookmarkBtnJsx);
+
 var _userQuestionsJsx = require("./user-questions.jsx");
 
 var _userQuestionsJsx2 = _interopRequireDefault(_userQuestionsJsx);
@@ -136,6 +140,9 @@ var FeaturedStream = _react2["default"].createClass({
   },
   render: function render() {
     var _props2 = this.props;
+    var fireRef = _props2.fireRef;
+    var userData = _props2.userData;
+    var versionData = _props2.versionData;
     var appendStream = _props2.methods.appendStream;
     var _props2$data$stream$channel = _props2.data.stream.channel;
     var name = _props2$data$stream$channel.name;
@@ -162,7 +169,7 @@ var FeaturedStream = _react2["default"].createClass({
         ),
         _react2["default"].createElement(
           "div",
-          { className: "text" },
+          { className: "links" },
           _react2["default"].createElement(
             "div",
             { className: "display-name" },
@@ -189,11 +196,17 @@ var FeaturedStream = _react2["default"].createClass({
               } },
             "Watch in Player"
           ),
+          _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
+            className: "color-white",
+            fireRef: fireRef,
+            userData: userData,
+            givenUsername: name,
+            versionData: versionData }),
           _react2["default"].createElement("div", { className: "separator-1-1" })
         ),
         _react2["default"].createElement(
           "div",
-          { className: "text" },
+          { className: "body" },
           _react2["default"].createElement(
             "div",
             { className: "bio" },
@@ -263,6 +276,7 @@ exports["default"] = _react2["default"].createClass({
     var auth = _props4.auth;
     var userData = _props4.userData;
     var fireRef = _props4.fireRef;
+    var versionData = _props4.versionData;
     var _props4$methods = _props4.methods;
     var appendStream = _props4$methods.appendStream;
     var loadData = _props4$methods.loadData;
@@ -273,46 +287,39 @@ exports["default"] = _react2["default"].createClass({
       "div",
       { className: "featured-streams" },
       fireRef ? _react2["default"].createElement(_userQuestionsJsx2["default"], _extends({}, this.props, { pageOverride: "featured" })) : null,
-      streamDataArray.length > 0 ? _react2["default"].createElement(FeaturedStream, { data: streamDataArray[this.state.featuredStreamIndex], methods: {
+      streamDataArray.length > 0 ? _react2["default"].createElement(FeaturedStream, {
+        fireRef: fireRef,
+        userData: userData,
+        versionData: versionData,
+        data: streamDataArray[this.state.featuredStreamIndex],
+        methods: {
           appendStream: appendStream,
           loadData: loadData
         } }) : null,
       _react2["default"].createElement(
         "div",
-        { className: "wrapper" },
+        { className: "top-stream-list" },
         _react2["default"].createElement(
-          "ul",
-          { className: "list" },
-          streamDataArray.map(function (itemData, ind) {
-            return _react2["default"].createElement(StreamListItem, { key: ind, index: ind, data: itemData, methods: {
-                appendStream: appendStream,
-                displayStream: _this3.displayStream
-              } });
-          })
+          "div",
+          { className: "section-title" },
+          "Top Streams"
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "wrapper" },
+          _react2["default"].createElement(
+            "ul",
+            { className: "list" },
+            streamDataArray.map(function (itemData, ind) {
+              return _react2["default"].createElement(StreamListItem, { key: ind, index: ind, data: itemData, methods: {
+                  appendStream: appendStream,
+                  displayStream: _this3.displayStream
+                } });
+            })
+          )
         )
       )
     );
   }
 });
 module.exports = exports["default"];
-
-// questionsList.length > 0 ? (
-//   <div className="wrapper qna">
-//     <ul className="list">
-//     {
-//       questionsList.map((questionID, ind) => {
-//         return (
-//           <QuestionListItem
-//           auth={auth}
-//           userData={userData}
-//           fireRef={fireRef}
-//           key={ind}
-//           questionID={questionID}
-//           data={questions[questionID]}
-//           methods={{ popUpHandler }}/>
-//         );
-//       })
-//     }
-//     </ul>
-//   </div>
-// ) : null

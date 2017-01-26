@@ -458,6 +458,11 @@ exports["default"] = _react2["default"].createClass({
         { className: "title" },
         "Questions"
       ) : null,
+      pageOverride === "featured" ? _react2["default"].createElement(
+        "div",
+        { className: "section-title" },
+        "Top Questions"
+      ) : null,
       _react2["default"].createElement(
         "div",
         { className: "wrapper" },

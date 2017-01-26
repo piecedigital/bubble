@@ -28,6 +28,7 @@ exports["default"] = _react2["default"].createClass({
     var auth = _props.auth;
     var userData = _props.userData;
     var fireRef = _props.fireRef;
+    var versionData = _props.versionData;
     var _props$methods = _props.methods;
     var loadData = _props$methods.loadData;
     var appendStream = _props$methods.appendStream;
@@ -40,6 +41,7 @@ exports["default"] = _react2["default"].createClass({
         auth: auth,
         userData: userData,
         fireRef: fireRef,
+        versionData: versionData,
         methods: {
           appendStream: appendStream,
           loadData: loadData,
