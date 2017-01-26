@@ -12,7 +12,7 @@ export default React.createClass({
       auth,
       userData,
       fireRef,
-
+      versionData,
       methods: {
         loadData,
         appendStream,
@@ -25,6 +25,7 @@ export default React.createClass({
         auth={auth}
         userData={userData}
         fireRef={fireRef}
+        versionData={versionData}
         methods={{
           appendStream,
           loadData,

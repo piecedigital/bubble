@@ -1,6 +1,7 @@
 import React from "react";
 import loadData from "../../../modules/load-data";
 import { missingLogo } from "../../../modules/helper-tools";
+import BookmarkButton from "./bookmark-btn.jsx";
 import UserQuestions from "./user-questions.jsx";
 import { Link } from 'react-router';
 
@@ -108,6 +109,9 @@ const FeaturedStream = React.createClass({
   componentWillReceiveProps() { this.fetchUserData() },
   render() {
     const {
+      fireRef,
+      userData,
+      versionData,
       methods: {
         appendStream
       },
@@ -135,7 +139,7 @@ const FeaturedStream = React.createClass({
               <div className="image">
                 <img src={logo} alt={`profile image of ${displayName || name}`} />
               </div>
-              <div className="text">
+              <div className="links">
                 <div className="display-name">
                   <Link to={`/profile/${name}`} >{displayName}</Link>
                 </div>
@@ -146,11 +150,17 @@ const FeaturedStream = React.createClass({
                 <a href="#" className="watch" onClick={() => {
                   appendStream.call(null, name, displayName);
                 }}>
-                {"Watch in Player"}
+                  {"Watch in Player"}
                 </a>
+                <BookmarkButton
+                  className="color-white"
+                  fireRef={fireRef}
+                  userData={userData}
+                  givenUsername={name}
+                  versionData={versionData}/>
                 <div className={`separator-1-1`}></div>
               </div>
-              <div className="text">
+              <div className="body">
                 <div className="bio">
                   {bio}
                 </div>
@@ -220,6 +230,7 @@ export default React.createClass({
       auth,
       userData,
       fireRef,
+      versionData,
       methods: {
         appendStream,
         loadData,
@@ -235,46 +246,34 @@ export default React.createClass({
           ) : null
         }
         {
-          // questionsList.length > 0 ? (
-          //   <div className="wrapper qna">
-          //     <ul className="list">
-          //     {
-          //       questionsList.map((questionID, ind) => {
-          //         return (
-          //           <QuestionListItem
-          //           auth={auth}
-          //           userData={userData}
-          //           fireRef={fireRef}
-          //           key={ind}
-          //           questionID={questionID}
-          //           data={questions[questionID]}
-          //           methods={{ popUpHandler }}/>
-          //         );
-          //       })
-          //     }
-          //     </ul>
-          //   </div>
-          // ) : null
-        }
-        {
           streamDataArray.length > 0 ? (
-            <FeaturedStream data={streamDataArray[this.state.featuredStreamIndex]} methods={{
-              appendStream,
-              loadData
-            }} />
+            <FeaturedStream
+              fireRef={fireRef}
+              userData={userData}
+              versionData={versionData}
+              data={streamDataArray[this.state.featuredStreamIndex]}
+              methods={{
+                appendStream,
+                loadData
+              }} />
           ) : null
         }
-        <div className="wrapper">
-          <ul className="list">
-            {
-              streamDataArray.map((itemData, ind) => {
-                return <StreamListItem key={ind} index={ind} data={itemData} methods={{
-                  appendStream,
-                  displayStream: this.displayStream
-                }} />
-              })
-            }
-          </ul>
+        <div className="top-stream-list">
+          <div className="section-title">
+            Top Streams
+          </div>
+          <div className="wrapper">
+            <ul className="list">
+              {
+                streamDataArray.map((itemData, ind) => {
+                  return <StreamListItem key={ind} index={ind} data={itemData} methods={{
+                    appendStream,
+                    displayStream: this.displayStream
+                  }} />
+                })
+              }
+            </ul>
+          </div>
         </div>
       </div>
     );

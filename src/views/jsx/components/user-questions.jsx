@@ -471,6 +471,13 @@ export default React.createClass({
     return (
       <div ref="root" className={`user-questions tool-assisted${locked ? " locked" : ""}`}>
         { !pageOverride ? (<div className={`title`}>Questions</div>) : null }
+        {
+          pageOverride === "featured" ? (
+            <div className="section-title">
+              Top Questions
+            </div>
+          ) : null
+        }
         <div className="wrapper">
           <div className="list">
             {list}
