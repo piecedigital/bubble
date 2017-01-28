@@ -654,7 +654,8 @@ nav {
       overflow-x: hidden;
       overflow-y: auto; }
       .featured-streams .featured-stream .stream-info .image {
-        min-width: 128px; }
+        min-width: 128px;
+        max-width: 128px; }
         .featured-streams .featured-stream .stream-info .image img {
           max-width: 100%;
           max-height: 100%; }
@@ -1515,7 +1516,8 @@ nav {
   .question-list-item.home {
     width: 100%; }
   .question-list-item.featured {
-    width: 100%; }
+    width: 100%;
+    padding: 4px 0; }
     .question-list-item.featured > a {
       flex-direction: column; }
   .question-list-item > a {

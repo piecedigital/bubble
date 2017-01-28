@@ -69,7 +69,6 @@ var AskQuestion = _react2["default"].createClass({
 
     var questionObject = {
       // true if `access_token` exists
-      auth: auth.access_token,
       creator: from,
       receiver: to,
       title: title.value,
@@ -354,7 +353,6 @@ var AnswerQuestion = _react2["default"].createClass({
     var body = _refs2.body;
 
     var answerObject = {
-      "auth": auth.access_token,
       "username": userData.name,
       "body": body.value,
       "questionID": questionID,

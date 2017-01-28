@@ -38,7 +38,7 @@ var _firebase2 = _interopRequireDefault(_firebase);
 
 var redirectURI = typeof location === "object" && !location.host.match(/localhost/) ? "https://" + location.host : "http://localhost:8080";
 var clientID = redirectURI.match(/http(s)?\:\/\/localhost\:[0-9]{4,5}/) ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
-console.log(redirectURI, clientID);
+// console.log(redirectURI, clientID);
 
 // Initialize Firebase
 
@@ -81,11 +81,24 @@ exports["default"] = _react2["default"].createClass({
       registeredAuth: false
     }, this.props.initState || {});
   },
-  /**
-   * initializes Firebase connection and returns an object with premade base node references
-   * @return object
-   */
+  getQueryData: function getQueryData() {
+    var queryData = {};
+    console.log(window.location.hash);
+    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
+      queryData[key] = value;
+      // set token for 2 hours
+      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
+    });
+    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
+      queryData[key] = value;
+    });
+    window.location.hash = "";
+    return queryData;
+  },
   initFirebase: function initFirebase(data) {
+    var _this = this;
+
+    var authData = this.getQueryData();
     // console.log("init firebase", this.state.fireRef);
     var config = data;
     _firebase2["default"].initializeApp(config);
@@ -102,6 +115,27 @@ exports["default"] = _react2["default"].createClass({
       AMAsRef: _firebase2["default"].database().ref("AMAs"),
       pollsRef: _firebase2["default"].database().ref("polls")
     };
+    _firebase2["default"].auth().signInAnonymously()["catch"](function (e) {
+      console.error("login error:", e.message, e.code);
+    });
+    _firebase2["default"].auth().onAuthStateChanged(function (user) {
+      _modulesLoadData2["default"].call(_this, function (e) {
+        console.error(e.stack);
+      }, {
+        access_token: authData.access_token
+      }).then(function (methods) {
+        methods.getCurrentUser().then(function (data) {
+          _this.setState({
+            userData: data,
+            authData: authData
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack || e);
+        });
+      })["catch"](function (e) {
+        return console.error(e.stack || e);
+      });
+    });
     this.setState({
       fireRef: ref
     });
@@ -209,7 +243,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   panelsHandler: function panelsHandler(type, name) {
-    var _this = this;
+    var _this2 = this;
 
     switch (type) {
       case "open":
@@ -224,7 +258,7 @@ exports["default"] = _react2["default"].createClass({
           methods.getPanels().then(function (data) {
             console.log("panel data", data);
             if (data.length > 0) {
-              _this.setState({
+              _this2.setState({
                 panelDataFor: name,
                 panelData: data
               });
@@ -313,7 +347,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   checkURL: function checkURL(nextProps, nextState) {
-    var _this2 = this;
+    var _this3 = this;
 
     // console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
 
@@ -321,17 +355,17 @@ exports["default"] = _react2["default"].createClass({
       // console.log(overlay);
       switch (q) {
         case "q":
-          _this2.popUpHandler(overlay || "viewQuestion", {
+          _this3.popUpHandler(overlay || "viewQuestion", {
             questionID: postID
           });
           break;
         case "p":
-          _this2.popUpHandler(overlay || "viewPoll", {
+          _this3.popUpHandler(overlay || "viewPoll", {
             pollID: postID
           });
           break;
         default:
-          if (!overlay) _this2.popUpHandler("close", null);
+          if (!overlay) _this3.popUpHandler("close", null);
       }
     };
 
@@ -372,34 +406,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentDidMount: function componentDidMount() {
-    var _this3 = this;
-
-    var authData = {};
-    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
-      authData[key] = value;
-      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
-    });
-    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
-      authData[key] = value;
-    });
-    // console.log(authData, "auth data");
-    // load user data
-    _modulesLoadData2["default"].call(this, function (e) {
-      console.error(e.stack);
-    }, {
-      access_token: authData.access_token
-    }).then(function (methods) {
-      methods.getCurrentUser().then(function (data) {
-        _this3.setState({
-          userData: data,
-          authData: authData
-        });
-      })["catch"](function (e) {
-        return console.error(e.stack || e);
-      });
-    })["catch"](function (e) {
-      return console.error(e.stack || e);
-    });
+    var _this4 = this;
 
     // load firebase config
     _modulesLoadData2["default"].call(this, function (e) {
@@ -407,7 +414,7 @@ exports["default"] = _react2["default"].createClass({
     }).then(function (methods) {
       methods.getFirebaseConfig().then(function (data) {
         // console.log("firebase data", data);
-        _this3.initFirebase(JSON.parse(atob(data)));
+        _this4.initFirebase(JSON.parse(atob(data)));
       })["catch"](function (e) {
         return console.error(e.stack || e);
       });
@@ -415,18 +422,16 @@ exports["default"] = _react2["default"].createClass({
       return console.error(e.stack || e);
     });
 
-    window.location.hash = "";
-
     (0, _modulesAjax.ajax)({
       url: "/get-version",
       success: function success(data) {
-        _this3.setState({
+        _this4.setState({
           versionData: JSON.parse(data)
         });
       },
       error: function error(err) {
         console.error(err);
-        _this3.setState({
+        _this4.setState({
           error: true
         });
       }
@@ -575,19 +580,19 @@ exports["default"] = _react2["default"].createClass({
             "a",
             { href: "http://piecedigital.net", rel: "nofollow", target: "_blank" },
             "Piece Digital"
-          )
-        ),
-        " | ",
-        versionData ? _react2["default"].createElement(
-          "div",
-          { className: "version" },
-          "Current version: ",
-          versionData.major,
-          ".",
-          versionData.minor,
-          ".",
-          versionData.patch
-        ) : null
+          ),
+          " | ",
+          versionData ? _react2["default"].createElement(
+            "span",
+            { className: "version" },
+            "Current version: ",
+            versionData.major,
+            ".",
+            versionData.minor,
+            ".",
+            versionData.patch
+          ) : null
+        )
       )
     );
   }

@@ -256,7 +256,7 @@ exports["default"] = _react2["default"].createClass({
       locked: true,
       lockedTop: true,
       loadData: false,
-      queryLimit: 5
+      queryLimit: this.props.pageOverride === "featured" ? 10 : 5
     };
   },
   scrollEvent: function scrollEvent(e) {
@@ -312,10 +312,20 @@ exports["default"] = _react2["default"].createClass({
       var userData = _props8.userData;
       var _props8$params = _props8.params;
       var params = _props8$params === undefined ? {} : _props8$params;
+      var pageOverride = _props8.pageOverride;
 
       // if(!userData) return;
       // console.log("search params", params.username, userData, this.state.lastID);
-      var refNode = fireRef.usersRef.child((params.username || (userData ? userData.name : undefined)) + "/" + (!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"));
+      var refNode = fireRef;
+      // for the featured component we want to get all recent questions
+      if (pageOverride === "Featured") {
+        refNode = refNode.answersRef;
+      } else {
+        // if we're on a profile we just want questions for a specific user
+        // if we're on the signed in user's profile we'll get all questions for them
+        // else, we'll get answered questions
+        refNode = refNode.usersRef.child((params.username || (userData ? userData.name : undefined)) + "/" + (!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"));
+      }
       if (_this4.state.lastID) {
         refNode = refNode.orderByKey().endAt(_this4.state.lastID || 0).limitToLast(queryLimit + 1);
       } else {
@@ -324,7 +334,7 @@ exports["default"] = _react2["default"].createClass({
       refNode.once("value").then(function (snap) {
         var questions = snap.val();
         var newQuestions = JSON.parse(JSON.stringify(_this4.state.questions));
-        console.log("questions", questions);
+        // console.log("questions", questions);
         _this4.setState({
           questions: Object.assign(newQuestions, questions),
           lastID: questions ? Object.keys(questions).pop() : null,

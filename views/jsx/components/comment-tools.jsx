@@ -65,7 +65,6 @@ var CommentTool = _react2["default"].createClass({
     // if for a question post
     if (questionID) {
       var commentObject = {
-        "auth": auth.access_token,
         "username": userData.name,
         // to be truthy only if this is a comment reply
         "reply": !!commentID,
@@ -119,7 +118,6 @@ var CommentTool = _react2["default"].createClass({
     // if for a poll post
     if (pollID) {
       var commentObject = {
-        "auth": auth.access_token,
         "username": userData.name,
         // to be truthy only if this is a comment reply
         "reply": !!commentID,

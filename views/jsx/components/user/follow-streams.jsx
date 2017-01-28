@@ -481,6 +481,7 @@ exports["default"] = _react2["default"].createClass({
     var userData = _props4.userData;
     var follow = _props4.follow;
     var versionData = _props4.versionData;
+    var params = _props4.params;
     var _props4$methods = _props4.methods;
     var appendStream = _props4$methods.appendStream;
     var loadData = _props4$methods.loadData;
@@ -506,7 +507,7 @@ exports["default"] = _react2["default"].createClass({
               removeFromDataArray: _this8.removeFromDataArray
             } });
         });
-
+        var person = userData.name === params.username ? "You" : params.username;
         return {
           v: _react2["default"].createElement(
             "div",

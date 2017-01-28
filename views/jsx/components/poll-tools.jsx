@@ -95,7 +95,6 @@ var MakePoll = _react2["default"].createClass({
     var dateNow = Date.now();
 
     var pollObject = {
-      auth: auth.access_token,
       title: title.value,
       creator: userData.name,
       choices: choices,

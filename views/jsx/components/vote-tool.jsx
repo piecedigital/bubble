@@ -40,7 +40,6 @@ exports["default"] = _react2["default"].createClass({
     var commentData = _props.commentData;
 
     var voteData = {
-      auth: auth.access_token,
       "for": place,
       "username": userData.name,
       "upvote": vote

@@ -65,8 +65,10 @@ var ViewBookmarks = _react2["default"].createClass({
     var bookmarkKey = snap.getKey();
     var bookmarkData = snap.val();
     var newBookmarks = JSON.parse(JSON.stringify(this.state.bookmarks));
+    // console.log("new bookmark", bookmarkKey, bookmarkData);
+    // appends the new bookmark to the top of the bookmark list
     this.setState({
-      bookmarks: Object.assign(_defineProperty({}, bookmarkKey, bookmarkData), this.state)
+      bookmarks: Object.assign(newBookmarks, _defineProperty({}, bookmarkKey, bookmarkData))
     });
   },
   removedBookmark: function removedBookmark(snap) {
@@ -97,7 +99,7 @@ var ViewBookmarks = _react2["default"].createClass({
 
     fireRef.usersRef.child(userData.name + "/bookmarks/users/" + username).set(bookmarkObject);
 
-    this.refs["new-bookmark"].value;
+    this.refs["new-bookmark"].value = "";
   },
   componentDidMount: function componentDidMount() {
     var _this = this;
@@ -139,7 +141,7 @@ var ViewBookmarks = _react2["default"].createClass({
         userData: userData,
         username: bookmarkID
       }));
-    });
+    }).reverse();
 
     return _react2["default"].createElement(
       "div",
