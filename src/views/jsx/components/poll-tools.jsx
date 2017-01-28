@@ -76,7 +76,6 @@ export const MakePoll = React.createClass({
     const dateNow = Date.now();
 
     let pollObject = {
-      auth: auth.access_token,
       title: title.value,
       creator: userData.name,
       choices,

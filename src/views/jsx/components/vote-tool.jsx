@@ -27,7 +27,6 @@ export default React.createClass({
       commentData
     } = this.props;
     const voteData = {
-      auth: auth.access_token,
       "for": place,
       "username": userData.name,
       "upvote": vote

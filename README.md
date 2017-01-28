@@ -5,5 +5,8 @@
   - Featured section titles - 0.10.3
   - Bookmark button for featured stream - 0.10.3
   - Fixed overlay modal - 0.10.4
-- AMAs - 0.11.0
+  - Fixed bookmarking - 0.10.5
+- Game invite queuing - 0.11.0
 - Meta data update 0.12.0
+- Beta launch. Try harder to get more people to use the app
+- AMAs - 0.13.0

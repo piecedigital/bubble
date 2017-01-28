@@ -48,7 +48,6 @@ export const CommentTool = React.createClass({
     // if for a question post
     if(questionID) {
       let commentObject = {
-        "auth": auth.access_token,
         "username": userData.name,
         // to be truthy only if this is a comment reply
         "reply": !!commentID,
@@ -108,7 +107,6 @@ export const CommentTool = React.createClass({
     // if for a poll post
     if(pollID) {
       let commentObject = {
-        "auth": auth.access_token,
         "username": userData.name,
         // to be truthy only if this is a comment reply
         "reply": !!commentID,

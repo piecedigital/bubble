@@ -251,14 +251,16 @@ const QuestionListItem = React.createClass({
 
 export default React.createClass({
   displayName: "UserQuestions",
-  getInitialState: () => ({
-    questions: {},
-    lastID: null,
-    locked: true,
-    lockedTop: true,
-    loadData: false,
-    queryLimit: 5
-  }),
+  getInitialState() {
+    return {
+      questions: {},
+      lastID: null,
+      locked: true,
+      lockedTop: true,
+      loadData: false,
+      queryLimit: this.props.pageOverride === "featured" ? 10 : 5
+    }
+  },
   scrollEvent(e) {
     setTimeout(() => {
       let {
@@ -307,11 +309,20 @@ export default React.createClass({
         fireRef,
         userData,
         params = {},
+        pageOverride
       } = this.props;
       // if(!userData) return;
       // console.log("search params", params.username, userData, this.state.lastID);
-      let refNode = fireRef.usersRef
-      .child(`${params.username || (userData ? userData.name : undefined)}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
+      let refNode = fireRef;
+      // for the featured component we want to get all recent questions
+      if(pageOverride === "Featured") {
+        refNode = refNode.answersRef;
+      } else {
+        // if we're on a profile we just want questions for a specific user
+        // if we're on the signed in user's profile we'll get all questions for them
+        // else, we'll get answered questions
+        refNode = refNode.usersRef.child(`${params.username || (userData ? userData.name : undefined)}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
+      }
       if(this.state.lastID) {
         refNode = refNode.orderByKey().endAt(this.state.lastID || 0)
         .limitToLast(queryLimit+1);
@@ -323,7 +334,7 @@ export default React.createClass({
       .then(snap => {
         const questions = snap.val();
         const newQuestions = JSON.parse(JSON.stringify(this.state.questions));
-        console.log("questions", questions);
+        // console.log("questions", questions);
         this.setState({
           questions: Object.assign(newQuestions, questions),
           lastID: questions ? Object.keys(questions).pop() : null,

@@ -9,7 +9,7 @@ import Firebase from "firebase";
 
 const redirectURI = typeof location === "object" && !location.host.match(/localhost/) ? `https://${location.host}` : "http://localhost:8080";
 const clientID = redirectURI.match(/http(s)?\:\/\/localhost\:[0-9]{4,5}/) ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
-console.log(redirectURI, clientID);
+// console.log(redirectURI, clientID);
 
 // Initialize Firebase
 
@@ -52,11 +52,22 @@ export default React.createClass({
       registeredAuth: false,
     }, this.props.initState || {});
   },
-  /**
-   * initializes Firebase connection and returns an object with premade base node references
-   * @return object
-   */
+  getQueryData() {
+    let queryData = {};
+    console.log(window.location.hash);
+    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
+      queryData[key] = value;
+      // set token for 2 hours
+      document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
+    });
+    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
+      queryData[key] = value;
+    });
+    window.location.hash = "";
+    return queryData;
+  },
   initFirebase(data) {
+    let authData = this.getQueryData();
     // console.log("init firebase", this.state.fireRef);
     var config = data;
     Firebase.initializeApp(config);
@@ -73,6 +84,29 @@ export default React.createClass({
       AMAsRef: Firebase.database().ref("AMAs"),
       pollsRef: Firebase.database().ref("polls"),
     };
+    Firebase.auth().signInAnonymously()
+    .catch(e => {
+      console.error("login error:", e.message, e.code);
+    });
+    Firebase.auth().onAuthStateChanged(user => {
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        access_token: authData.access_token
+      })
+      .then(methods => {
+        methods
+        .getCurrentUser()
+        .then(data => {
+          this.setState({
+            userData: data,
+            authData
+          });
+        })
+        .catch(e => console.error(e.stack || e));
+      })
+      .catch(e => console.error(e.stack || e));
+    });
     this.setState({
       fireRef: ref
     });
@@ -337,34 +371,6 @@ export default React.createClass({
     }
   },
   componentDidMount() {
-    let authData = {};
-    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
-      authData[key] = value;
-      document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
-    });
-    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
-      authData[key] = value;
-    });
-    // console.log(authData, "auth data");
-    // load user data
-    loadData.call(this, e => {
-      console.error(e.stack);
-    }, {
-      access_token: authData.access_token
-    })
-    .then(methods => {
-      methods
-      .getCurrentUser()
-      .then(data => {
-        this.setState({
-          userData: data,
-          authData
-        });
-      })
-      .catch(e => console.error(e.stack || e));
-    })
-    .catch(e => console.error(e.stack || e));
-
     // load firebase config
     loadData.call(this, e => {
       console.error(e.stack);
@@ -379,8 +385,6 @@ export default React.createClass({
       .catch(e => console.error(e.stack || e));
     })
     .catch(e => console.error(e.stack || e));
-
-    window.location.hash = "";
 
     ajax({
       url: "/get-version",
@@ -547,13 +551,15 @@ export default React.createClass({
         }} />
         <div className="created-by">
           <div className="separator-4-black" />
-          <div className="by">Created by <a href="http://piecedigital.net" rel="nofollow" target="_blank">Piece Digital</a></div>
-          {" | "}
-          {
-            versionData ? (
-              <div className="version">Current version: {versionData.major}.{versionData.minor}.{versionData.patch}</div>
-            ) : null
-          }
+          <div className="by">
+            Created by <a href="http://piecedigital.net" rel="nofollow" target="_blank">Piece Digital</a>
+            {" | "}
+            {
+              versionData ? (
+                <span className="version">Current version: {versionData.major}.{versionData.minor}.{versionData.patch}</span>
+              ) : null
+            }
+          </div>
         </div>
       </div>
     )

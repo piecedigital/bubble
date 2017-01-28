@@ -29,6 +29,7 @@
       overflow-y: auto;
       .image {
         min-width: 8*$em;
+        max-width: 8*$em;
         img {
           max-width: 100%;
           max-height: 100%;

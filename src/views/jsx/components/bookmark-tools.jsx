@@ -37,10 +37,12 @@ export const ViewBookmarks = React.createClass({
     const bookmarkKey = snap.getKey();
     const bookmarkData = snap.val();
     const newBookmarks = JSON.parse(JSON.stringify(this.state.bookmarks));
+    // console.log("new bookmark", bookmarkKey, bookmarkData);
+    // appends the new bookmark to the top of the bookmark list
     this.setState({
-      bookmarks: Object.assign({
+      bookmarks: Object.assign(newBookmarks, {
         [bookmarkKey]: bookmarkData
-      }, this.state)
+      })
     })
   },
   removedBookmark(snap) {
@@ -66,14 +68,14 @@ export const ViewBookmarks = React.createClass({
     const bookmarkObject = {
       username,
       "date": firebase.database.ServerValue.TIMESTAMP,
-      "version": versionData
+      "version": versionData,
     };
 
     fireRef.usersRef
     .child(`${userData.name}/bookmarks/users/${username}`)
     .set(bookmarkObject);
 
-    this.refs["new-bookmark"].value;
+    this.refs["new-bookmark"].value = "";
   },
   componentDidMount() {
     const {
@@ -125,7 +127,7 @@ export const ViewBookmarks = React.createClass({
         }}
         />
       );
-    });
+    }).reverse();
 
     return (
       <div className={`overlay-ui-default view-bookmarks open`} onClick={e => e.stopPropagation()}>

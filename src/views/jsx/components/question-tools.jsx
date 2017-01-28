@@ -49,7 +49,6 @@ export const AskQuestion = React.createClass({
     } = this.refs;
     let questionObject = {
       // true if `access_token` exists
-      auth: auth.access_token,
       creator: from,
       receiver: to,
       title: title.value,
@@ -255,7 +254,6 @@ export const AnswerQuestion = React.createClass({
       body,
     } = this.refs;
     let answerObject = {
-      "auth": auth.access_token,
       "username": userData.name,
       "body": body.value,
       "questionID": questionID,

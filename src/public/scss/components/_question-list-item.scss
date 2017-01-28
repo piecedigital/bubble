@@ -8,6 +8,7 @@
   }
   &.featured {
     width: percentage(1/1);
+    padding: .25*$em 0;
     > a {
       flex-direction: column;
     }
