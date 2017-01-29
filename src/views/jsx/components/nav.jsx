@@ -136,15 +136,15 @@ export default React.createClass({
               toggleCallback: this.toggleInput,
             }} />
           </span>
-          <Link className="nav-item" to={"/"} onClick={this.toggleNav.bind(null, "close")}>Home</Link>
-          <Link className="nav-item" to={"/streams"} onClick={this.toggleNav.bind(null, "close")}>Streams</Link>
-          <Link className="nav-item" to={"/games"} onClick={this.toggleNav.bind(null, "close")}>Games</Link>
+          <Link className="nav-item" href={"/"} to={"/"} onClick={this.toggleNav.bind(null, "close")}>Home</Link>
+          <Link className="nav-item" href={"/streams"} to={"/streams"} onClick={this.toggleNav.bind(null, "close")}>Streams</Link>
+          <Link className="nav-item" href={"/games"} to={"/games"} onClick={this.toggleNav.bind(null, "close")}>Games</Link>
           {
             authData && authData.access_token ? (
               <span className="auth">
                 { userData ? (
                   [
-                    <Link key="profile" className="nav-item" to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link>,
+                    <Link key="profile" className="nav-item" href={`/profile`} to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link>,
                     <a key="notifications" className="nav-item" href={`#`} onClick={() => {
                       this.toggleNav("close");
                       popUpHandler("viewNotifications");

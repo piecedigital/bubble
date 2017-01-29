@@ -10,7 +10,7 @@ import { Link, browserHistory as History } from "react-router";
 const QuestionListItem = React.createClass({
   displayName: "QuestionListItem",
   getInitialState() {
-    console.log("ques", this.props.initState);
+    // console.log("ques", this.props.initState);
     let questionData = null, answerData = null;
     if(this.props.initState) {
       questionData = this.props.initState.userQuestions.questions[this.props.questionID];
@@ -174,10 +174,15 @@ const QuestionListItem = React.createClass({
     if(pageOverride && !answerData) return null;
 
     const URL = pageOverride === "featured" ? `/` : null;
-
     return (
       <li className={`question-list-item ${pageOverride}`}>
-        <Link to={
+        <Link href={
+          answerData ? (
+            `/profile/${questionData.receiver || (userData ? userData.name : "")}/q/${questionID}`
+          ) : (
+            URL || `/profile/${questionData.receiver || ""}`
+          )
+        } to={
           answerData ? (
             {
               pathname: `/profile/${questionData.receiver || (userData ? userData.name : "")}/q/${questionID}`,
