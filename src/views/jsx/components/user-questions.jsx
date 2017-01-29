@@ -4,12 +4,26 @@ import VoteTool from "./vote-tool.jsx";
 import { calculateRatings,
 getQuestionData,
 getAnswerData,
-getRatingsData } from "../../../modules/helper-tools";
+getRatingsData } from "../../../modules/client/helper-tools";
 import { Link, browserHistory as History } from "react-router";
 
 const QuestionListItem = React.createClass({
   displayName: "QuestionListItem",
-  getInitialState: () => ({ questionData: null, answerData: null, commentData: null, ratingsData: null, calculatedRatings: null }),
+  getInitialState() {
+    console.log("ques", this.props.initState);
+    let questionData = null, answerData = null;
+    if(this.props.initState) {
+      questionData = this.props.initState.userQuestions.questions[this.props.questionID];
+      answerData = this.props.initState.userQuestions.answers[this.props.questionID];
+    }
+    return Object.assign({
+      questionData,
+      answerData,
+      commentData: null,
+      ratingsData: null,
+      calculatedRatings: null
+    });
+  },
   newAnswer(snap) {
     const {
       questionID,
@@ -48,26 +62,6 @@ const QuestionListItem = React.createClass({
         popUpHandler
       }
     } = this.props;
-
-    // set up pop up overlay for question view if at question URL
-    // if(params.postID === questionID && !location.state || location.state && !location.state.modal) {
-    //   History.push({
-    //     pathname: `/profile/${params.username || (userData ? userData.name : "")}/${params.q}/${questionID}`,
-    //     state: {
-    //       modal: true,
-    //       returnTo: `/profile/${params.username || ""}`,
-    //     }
-    //   });
-    //   // console.log("open pop ");
-    //   popUpHandler(params.q === "a" ? "answerQuestion" : "viewQuestion", {
-    //     questionID
-    //   });
-    // }
-  },
-  componentWillReceiveProps(nextProps) {
-    // if(nextProps.location.pathname !== this.props.location.pathname) {
-    //   this.setupOverlay();
-    // }
   },
   setupAnswerListeners() {
     const {
@@ -252,14 +246,14 @@ const QuestionListItem = React.createClass({
 export default React.createClass({
   displayName: "UserQuestions",
   getInitialState() {
-    return {
+    return Object.assign({
       questions: {},
       lastID: null,
       locked: true,
       lockedTop: true,
       loadData: false,
       queryLimit: this.props.pageOverride === "featured" ? 10 : 5
-    }
+    }, this.props.initState ? this.props.initState.userQuestions || {} : {});
   },
   scrollEvent(e) {
     setTimeout(() => {
@@ -468,15 +462,18 @@ export default React.createClass({
       auth,
       userData,
       params,
+      location,
       fireRef,
       overlay,
       methods,
-      pageOverride
+      pageOverride,
+
+      initState
     } = this.props;
     // make an array of questions
     const list = questions ? Object.keys(questions).map(questionID => {
       return (
-        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} auth={ auth } overlay={overlay} pageOverride={pageOverride} methods={methods} />
+        <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} auth={ auth } overlay={overlay} pageOverride={pageOverride} methods={methods} initState={initState} />
       );
     }) : null;
     return (

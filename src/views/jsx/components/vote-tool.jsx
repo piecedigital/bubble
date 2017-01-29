@@ -3,7 +3,7 @@ import { calculateRatings,
 getQuestionData,
 getAnswerData,
 getRatingsData,
-listenOnNewRatings } from "../../../modules/helper-tools";
+listenOnNewRatings } from "../../../modules/client/helper-tools";
 
 export default React.createClass({
   displayName: "VoteTool",

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
-import loadData from "../../../modules/load-data";
+import loadData from "../../../modules/client/load-data";
 
 // list item for featured streams
 const ListItem = React.createClass({

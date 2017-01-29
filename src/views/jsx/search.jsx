@@ -1,5 +1,5 @@
 import React from "react";
-import loadData from "../../modules/load-data";
+import loadData from "../../modules/client/load-data";
 import { ListItemHoverOptions } from "./components/hover-options.jsx";
 // components
 let components = {};

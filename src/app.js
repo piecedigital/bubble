@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
-import routes from "./modules/routes";
+import routes from "./modules/server/routes";
 import { logOut } from "./log-out";
 
 console.log("Environment:", process.env["NODE_ENV"]);

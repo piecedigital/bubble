@@ -1,16 +1,48 @@
 import express from "express";
-import { renderHTML } from "./render-jsx";
 import https from "https";
+import { renderHTML } from "./render-jsx";
+import { initFirebase } from "./firebase-config";
 
 const app = express();
-
+const fireRef = initFirebase();
 app
 .get("/", function (req, res) {
-  res.send(renderHTML("home", {
-    auth: {
-      access_token: req.cookies["access_token"]
+  let initState = {
+    layout: {
+      fireRef: true, // to get a certain compunent to render with truthiness
+      versionData: {
+        major: process.env["V_MAJOR"],
+        minor: process.env["V_MINOR"],
+        patch: process.env["V_PATCH"],
+      }
     }
-  }));
+  };
+
+  new Promise(function(resolve, reject) {
+    fireRef.answersRef.orderByKey().limitToLast(10).once("value").then(snap => {
+      const answers = snap.val();
+      initState.userQuestions = {}
+      initState.userQuestions.answers = answers;
+      Object.keys(answers).map((questionID, ind, arr) => {
+        fireRef.questionsRef.child(questionID).once("value").then(snap => {
+          const questionData = snap.val();
+          initState.userQuestions.questions = initState.userQuestions.questions || {};
+          initState.userQuestions.questions[questionID] = questionData;
+          if(ind === arr.length-1) resolve(initState);
+        });
+      });
+    });
+  })
+  .then(initState => {
+    res.send(
+      renderHTML("home", {
+        auth: {
+          access_token: req.cookies["access_token"]
+        },
+        initState
+      })
+    );
+  });
 })
 .get("/search/:searchtype", function (req, res) {
   res.send(renderHTML("search", {

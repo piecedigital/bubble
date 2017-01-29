@@ -5,6 +5,7 @@ import Games from "./components/top-games.jsx";
 export default React.createClass({
   displayName: "Home",
   getInitialState() {
+    // console.log("home", this.props.initState);
     return {}
   },
   render() {
@@ -13,6 +14,8 @@ export default React.createClass({
       userData,
       fireRef,
       versionData,
+
+      initState,
       methods: {
         loadData,
         appendStream,
@@ -26,6 +29,7 @@ export default React.createClass({
         userData={userData}
         fireRef={fireRef}
         versionData={versionData}
+        initState={initState}
         methods={{
           appendStream,
           loadData,

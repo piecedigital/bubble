@@ -5,13 +5,13 @@ import { calculateRatings,
 getQuestionData,
 getAnswerData,
 getRatingsData,
-getCommentsData } from "../../../modules/helper-tools";
+getCommentsData } from "../../../modules/client/helper-tools";
 import VoteTool from "./vote-tool.jsx";
 import {
   CommentTool,
   CommentItem
 } from "./comment-tools.jsx";
-import { ajax } from "../../../modules/ajax";
+import { ajax } from "../../../modules/client/ajax";
 
 // for asking a question
 export const AskQuestion = React.createClass({

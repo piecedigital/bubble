@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
-import loadData from "../../modules/load-data";
+import loadData from "../../modules/client/load-data";
 import { ListItemHoverOptions } from "./components/hover-options.jsx";
 
 // components

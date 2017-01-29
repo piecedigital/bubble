@@ -1,6 +1,6 @@
 import React from "react";
-import loadData from "../../../modules/load-data";
-import { missingLogo } from "../../../modules/helper-tools";
+import loadData from "../../../modules/client/load-data";
+import { missingLogo } from "../../../modules/client/helper-tools";
 import BookmarkButton from "./bookmark-btn.jsx";
 import UserQuestions from "./user-questions.jsx";
 import { Link } from 'react-router';
@@ -184,7 +184,6 @@ export default React.createClass({
     return {
       requestOffset: 0,
       streamDataArray: [],
-      questions: {},
       featuredStreamIndex: 0
     }
   },
@@ -221,10 +220,10 @@ export default React.createClass({
     }
   },
   render() {
+    // console.log("feat", this.props.initState);
     const {
       requestOffset,
       streamDataArray,
-      questions,
     } = this.state;
     const {
       auth,
@@ -237,7 +236,6 @@ export default React.createClass({
         popUpHandler
       }
     } = this.props
-    const questionsList = Object.keys(questions);
     return (
       <div className="featured-streams">
         {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
-import loadData from "../../../../modules/load-data";
-import { browserNotification as notification } from "../../../../modules/helper-tools";
+import loadData from "../../../../modules/client/load-data";
+import { browserNotification as notification } from "../../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "../hover-options.jsx";
 
 const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";

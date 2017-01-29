@@ -5,9 +5,9 @@ import { calculateRatings,
 getQuestionData,
 getAnswerData,
 getRatingsData,
-getCommentsData } from "../../../modules/helper-tools";
+getCommentsData } from "../../../modules/client/helper-tools";
 import VoteTool from "./vote-tool.jsx";
-import { ajax } from "../../../modules/ajax";
+import { ajax } from "../../../modules/client/ajax";
 
 export const CommentTool = React.createClass({
   displayName: "CommentTool",

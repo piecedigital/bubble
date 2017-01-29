@@ -1,8 +1,8 @@
 import React from "react";
 import Player from "./components/player.jsx";
 import Overlay from "./components/overlay.jsx";
-import loadData from "../../modules/load-data";
-import { ajax } from "../../modules/ajax";
+import loadData from "../../modules/client/load-data";
+import { ajax } from "../../modules/client/ajax";
 import Nav from "./components/nav.jsx";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
@@ -50,7 +50,7 @@ export default React.createClass({
       fireRef: null,
       versionData: null,
       registeredAuth: false,
-    }, this.props.initState || {});
+    }, this.props.initState ? this.props.initState.layout || {} : {});
   },
   getQueryData() {
     let queryData = {};
@@ -444,7 +444,14 @@ export default React.createClass({
       overlayState,
       fireRef,
       versionData,
+
+      // server unique
     } = this.state;
+
+    const {
+      initState
+    } = this.props;
+
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
@@ -460,6 +467,7 @@ export default React.createClass({
           authData={authData}
           userData={userData}
           url={url}
+          initState={initState}
           methods={{
             search: this.search,
             appendStream: this.appendStream,
@@ -482,6 +490,7 @@ export default React.createClass({
             layout={layout}
             fireRef={fireRef}
             versionData={versionData}
+            initState={initState}
             methods={{
               spliceStream: this.spliceStream,
               clearPlayer: this.clearPlayer,
@@ -506,6 +515,7 @@ export default React.createClass({
               ...this.props,
               fireRef,
               versionData,
+              initState,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,
@@ -525,6 +535,7 @@ export default React.createClass({
               ...this.props,
               fireRef,
               versionData,
+              initState,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,
@@ -546,6 +557,7 @@ export default React.createClass({
         versionData={versionData}
         params={this.props.params}
         location={this.props.location}
+        initState={initState}
         methods={{
           popUpHandler: this.popUpHandler
         }} />

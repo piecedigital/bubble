@@ -3,8 +3,8 @@ import RDS from "react-dom/server";
 
 export const renderHTML = function(fileName, prePlaceData = {}) {
   prePlaceData.title = prePlaceData.title || "Q&A Aggregator for Twitch streamers | TwiQuA"
-  var Layout = require(`../views/jsx/layout.jsx`);
-  var Page = require(`../views/jsx/${fileName}.jsx`);
+  var Layout = require(`../../views/jsx/layout.jsx`);
+  var Page = require(`../../views/jsx/${fileName}.jsx`);
 
   let data = RDS.renderToStaticMarkup(
     <html>
@@ -26,7 +26,7 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
             <Page />
           </Layout>
         </div>
-        <script src={`/js/bundle${process.env["NODE_ENV"] === "prod" ? "-live" : ""}.js`}></script>
+        {/* <script src={`/js/bundle${process.env["NODE_ENV"] === "prod" ? "-live" : ""}.js`}></script> */}
       </body>
     </html>
   );

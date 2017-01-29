@@ -1,4 +1,8 @@
 import fs from "fs";
+// String message
+// Bool logIt
+// Object options
+// - String type === ("" || "error")
 export const logOut = function (message, logIt, options = {
   type: ""
 }) {

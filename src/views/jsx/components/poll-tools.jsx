@@ -6,7 +6,7 @@ import {
   CommentItem
 } from "./comment-tools.jsx";
 // import VoteTool from "./vote-tool.jsx";
-// import { ajax } from "../../../modules/ajax";
+// import { ajax } from "../../../modules/client/ajax";
 
 // poll creation related components
 const ChoiceInput = React.createClass({
