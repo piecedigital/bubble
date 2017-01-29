@@ -18,13 +18,13 @@ var _firebase2 = _interopRequireDefault(_firebase);
 
 var _reactRouter = require('react-router');
 
-var _modulesHelperTools = require("../../../modules/helper-tools");
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 
 var _voteToolJsx = require("./vote-tool.jsx");
 
 var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
-var _modulesAjax = require("../../../modules/ajax");
+var _modulesClientAjax = require("../../../modules/client/ajax");
 
 var CommentTool = _react2["default"].createClass({
   displayName: "CommentTool",

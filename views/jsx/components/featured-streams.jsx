@@ -12,11 +12,11 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _modulesLoadData = require("../../../modules/load-data");
+var _modulesClientLoadData = require("../../../modules/client/load-data");
 
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
-var _modulesHelperTools = require("../../../modules/helper-tools");
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 
 var _bookmarkBtnJsx = require("./bookmark-btn.jsx");
 
@@ -64,7 +64,7 @@ var StreamListItem = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "image" },
-            _react2["default"].createElement("img", { src: preview.medium || _modulesHelperTools.missingLogo })
+            _react2["default"].createElement("img", { src: preview.medium || _modulesClientHelperTools.missingLogo })
           ),
           _react2["default"].createElement(
             "div",
@@ -113,7 +113,7 @@ var FeaturedStream = _react2["default"].createClass({
       var name = _props$data$stream$channel2.name;
       var logo = _props$data$stream$channel2.logo;
 
-      _modulesLoadData2["default"].call(_this, function (e) {
+      _modulesClientLoadData2["default"].call(_this, function (e) {
         console.error(e.stack);
       }, {
         username: name
@@ -229,7 +229,6 @@ exports["default"] = _react2["default"].createClass({
     return {
       requestOffset: 0,
       streamDataArray: [],
-      questions: {},
       featuredStreamIndex: 0
     };
   },
@@ -268,10 +267,10 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     var _this3 = this;
 
+    // console.log("feat", this.props.initState);
     var _state2 = this.state;
     var requestOffset = _state2.requestOffset;
     var streamDataArray = _state2.streamDataArray;
-    var questions = _state2.questions;
     var _props4 = this.props;
     var auth = _props4.auth;
     var userData = _props4.userData;
@@ -282,7 +281,6 @@ exports["default"] = _react2["default"].createClass({
     var loadData = _props4$methods.loadData;
     var popUpHandler = _props4$methods.popUpHandler;
 
-    var questionsList = Object.keys(questions);
     return _react2["default"].createElement(
       "div",
       { className: "featured-streams" },

@@ -25,7 +25,7 @@ var _reactRouter = require('react-router');
 var _commentToolsJsx = require("./comment-tools.jsx");
 
 // import VoteTool from "./vote-tool.jsx";
-// import { ajax } from "../../../modules/ajax";
+// import { ajax } from "../../../modules/client/ajax";
 
 // poll creation related components
 var ChoiceInput = _react2["default"].createClass({

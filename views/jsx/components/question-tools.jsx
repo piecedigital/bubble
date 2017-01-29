@@ -22,7 +22,7 @@ var _firebase2 = _interopRequireDefault(_firebase);
 
 var _reactRouter = require('react-router');
 
-var _modulesHelperTools = require("../../../modules/helper-tools");
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 
 var _voteToolJsx = require("./vote-tool.jsx");
 
@@ -30,7 +30,7 @@ var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
 var _commentToolsJsx = require("./comment-tools.jsx");
 
-var _modulesAjax = require("../../../modules/ajax");
+var _modulesClientAjax = require("../../../modules/client/ajax");
 
 // for asking a question
 var AskQuestion = _react2["default"].createClass({
@@ -423,9 +423,9 @@ var AnswerQuestion = _react2["default"].createClass({
     var fireRef = _props4.fireRef;
     var popUpHandler = _props4.methods.popUpHandler;
 
-    (0, _modulesHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
+    (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
       console.log("got question data", questionData);
-      (0, _modulesHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
+      (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
         console.log("got answer data", answerData);
 
         if (answerData) {
@@ -643,17 +643,17 @@ var ViewQuestion = _react2["default"].createClass({
     // console.log("viewing", this.props);
 
     // get question data
-    (0, _modulesHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
+    (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
       _this4.setState({
         questionData: questionData
       });
     });
-    (0, _modulesHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
+    (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
       _this4.setState({
         answerData: answerData
       });
     });
-    (0, _modulesHelperTools.getCommentsData)(questionID, fireRef, function (refNode) {
+    (0, _modulesClientHelperTools.getCommentsData)(questionID, fireRef, function (refNode) {
       return refNode.orderByChild("reply").equalTo(false);
     }, function (commentsData) {
       // console.log("got commentsData", commentsData);
@@ -830,7 +830,7 @@ var QuestionItem = _react2["default"].createClass({
     var questionID = _props9.questionID;
     var fireRef = _props9.fireRef;
 
-    (0, _modulesHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
+    (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
       console.log("got answer data");
       _this5.setState({
         answerData: answerData
@@ -903,7 +903,7 @@ var AnswerItem = _react2["default"].createClass({
     var questionID = _props11.questionID;
     var fireRef = _props11.fireRef;
 
-    (0, _modulesHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
+    (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
       console.log("got question data");
       _this6.setState({
         questionData: questionData

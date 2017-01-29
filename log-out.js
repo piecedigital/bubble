@@ -10,6 +10,10 @@ var _fs = require("fs");
 
 var _fs2 = _interopRequireDefault(_fs);
 
+// String message
+// Bool logIt
+// Object options
+// - String type === ("" || "error")
 var logOut = function logOut(message, logIt) {
   var options = arguments.length <= 2 || arguments[2] === undefined ? {
     type: ""

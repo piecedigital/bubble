@@ -14,9 +14,9 @@ var _react2 = _interopRequireDefault(_react);
 
 // import { Link, browserHistory as History } from 'react-router';
 
-var _modulesLoadData = require("../../../../modules/load-data");
+var _modulesClientLoadData = require("../../../../modules/client/load-data");
 
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
 var _followBtnJsx = require("../follow-btn.jsx");
 
@@ -51,10 +51,10 @@ exports["default"] = _react2["default"].createClass({
         username = userData.name;
       }
       // console.log(username, this.props.params, this.props.userData);
-      if (_modulesLoadData2["default"]) {
+      if (_modulesClientLoadData2["default"]) {
         // console.log("gathering data");
         // console.log(`Given Channel Name ${method}`, username);
-        _modulesLoadData2["default"].call(_this, function (e) {
+        _modulesClientLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
         }, {
           username: username

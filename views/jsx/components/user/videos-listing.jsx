@@ -12,11 +12,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
-var _modulesLoadData = require("../../../../modules/load-data");
+var _modulesClientLoadData = require("../../../../modules/client/load-data");
 
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
-var _modulesHelperTools = require("../../../../modules/helper-tools");
+var _modulesClientHelperTools = require("../../../../modules/client/helper-tools");
 
 var _hoverOptionsJsx = require("../hover-options.jsx");
 
@@ -147,13 +147,13 @@ exports["default"] = _react2["default"].createClass({
         username = userData.name;
       }
       // console.log(username, this.props.params, this.props.userData);
-      if (_modulesLoadData2["default"]) {
+      if (_modulesClientLoadData2["default"]) {
         _this.setState({
           requestOffset: offset + limit
         });
         // console.log("gathering data", limit, offset);
         // console.log(`Given Channel Name getVideos`, username);
-        _modulesLoadData2["default"].call(_this, function (e) {
+        _modulesClientLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
         }, {
           offset: offset,

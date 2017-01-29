@@ -10,9 +10,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _modulesLoadData = require("../../modules/load-data");
+var _modulesClientLoadData = require("../../modules/client/load-data");
 
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
 var _componentsHoverOptionsJsx = require("./components/hover-options.jsx");
 
@@ -112,7 +112,7 @@ exports["default"] = _react2["default"].createClass({
     var params = _props2.params;
     var location = _props2.location;
 
-    if (_modulesLoadData2["default"]) {
+    if (_modulesClientLoadData2["default"]) {
       (function () {
         var capitalType = params.searchtype.replace(/^(.)/, function (_, letter) {
           return letter.toUpperCase();
@@ -122,7 +122,7 @@ exports["default"] = _react2["default"].createClass({
           requestOffset: _this.state.requestOffset + 25
         }) : null;
         console.log(_this);
-        _modulesLoadData2["default"].call(_this, function (e) {
+        _modulesClientLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
         }, {
           query: location.query.q,

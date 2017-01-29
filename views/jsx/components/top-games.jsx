@@ -12,9 +12,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
-var _modulesLoadData = require("../../../modules/load-data");
+var _modulesClientLoadData = require("../../../modules/client/load-data");
 
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
 // list item for featured streams
 var ListItem = _react2["default"].createClass({

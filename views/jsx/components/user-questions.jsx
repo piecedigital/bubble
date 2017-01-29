@@ -20,14 +20,27 @@ var _voteToolJsx = require("./vote-tool.jsx");
 
 var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
-var _modulesHelperTools = require("../../../modules/helper-tools");
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 
 var _reactRouter = require("react-router");
 
 var QuestionListItem = _react2["default"].createClass({
   displayName: "QuestionListItem",
   getInitialState: function getInitialState() {
-    return { questionData: null, answerData: null, commentData: null, ratingsData: null, calculatedRatings: null };
+    console.log("ques", this.props.initState);
+    var questionData = null,
+        answerData = null;
+    if (this.props.initState) {
+      questionData = this.props.initState.userQuestions.questions[this.props.questionID];
+      answerData = this.props.initState.userQuestions.answers[this.props.questionID];
+    }
+    return Object.assign({
+      questionData: questionData,
+      answerData: answerData,
+      commentData: null,
+      ratingsData: null,
+      calculatedRatings: null
+    });
   },
   newAnswer: function newAnswer(snap) {
     var _this = this;
@@ -62,26 +75,6 @@ var QuestionListItem = _react2["default"].createClass({
     var params = _props2.params;
     var location = _props2.location;
     var popUpHandler = _props2.methods.popUpHandler;
-
-    // set up pop up overlay for question view if at question URL
-    // if(params.postID === questionID && !location.state || location.state && !location.state.modal) {
-    //   History.push({
-    //     pathname: `/profile/${params.username || (userData ? userData.name : "")}/${params.q}/${questionID}`,
-    //     state: {
-    //       modal: true,
-    //       returnTo: `/profile/${params.username || ""}`,
-    //     }
-    //   });
-    //   // console.log("open pop ");
-    //   popUpHandler(params.q === "a" ? "answerQuestion" : "viewQuestion", {
-    //     questionID
-    //   });
-    // }
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    // if(nextProps.location.pathname !== this.props.location.pathname) {
-    //   this.setupOverlay();
-    // }
   },
   setupAnswerListeners: function setupAnswerListeners() {
     var _props3 = this.props;
@@ -250,14 +243,14 @@ var QuestionListItem = _react2["default"].createClass({
 exports["default"] = _react2["default"].createClass({
   displayName: "UserQuestions",
   getInitialState: function getInitialState() {
-    return {
+    return Object.assign({
       questions: {},
       lastID: null,
       locked: true,
       lockedTop: true,
       loadData: false,
       queryLimit: this.props.pageOverride === "featured" ? 10 : 5
-    };
+    }, this.props.initState ? this.props.initState.userQuestions || {} : {});
   },
   scrollEvent: function scrollEvent(e) {
     var _this3 = this;
@@ -451,14 +444,16 @@ exports["default"] = _react2["default"].createClass({
     var auth = _props11.auth;
     var userData = _props11.userData;
     var params = _props11.params;
+    var location = _props11.location;
     var fireRef = _props11.fireRef;
     var overlay = _props11.overlay;
     var methods = _props11.methods;
     var pageOverride = _props11.pageOverride;
+    var initState = _props11.initState;
 
     // make an array of questions
     var list = questions ? Object.keys(questions).map(function (questionID) {
-      return _react2["default"].createElement(QuestionListItem, { key: questionID, userData: userData, questionID: questionID, location: location, params: params, fireRef: fireRef, auth: auth, overlay: overlay, pageOverride: pageOverride, methods: methods });
+      return _react2["default"].createElement(QuestionListItem, { key: questionID, userData: userData, questionID: questionID, location: location, params: params, fireRef: fireRef, auth: auth, overlay: overlay, pageOverride: pageOverride, methods: methods, initState: initState });
     }) : null;
     return _react2["default"].createElement(
       "div",

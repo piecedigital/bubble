@@ -20,11 +20,11 @@ var _componentsOverlayJsx = require("./components/overlay.jsx");
 
 var _componentsOverlayJsx2 = _interopRequireDefault(_componentsOverlayJsx);
 
-var _modulesLoadData = require("../../modules/load-data");
+var _modulesClientLoadData = require("../../modules/client/load-data");
 
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
-var _modulesAjax = require("../../modules/ajax");
+var _modulesClientAjax = require("../../modules/client/ajax");
 
 var _componentsNavJsx = require("./components/nav.jsx");
 
@@ -79,7 +79,7 @@ exports["default"] = _react2["default"].createClass({
       fireRef: null,
       versionData: null,
       registeredAuth: false
-    }, this.props.initState || {});
+    }, this.props.initState ? this.props.initState.layout || {} : {});
   },
   getQueryData: function getQueryData() {
     var queryData = {};
@@ -119,7 +119,7 @@ exports["default"] = _react2["default"].createClass({
       console.error("login error:", e.message, e.code);
     });
     _firebase2["default"].auth().onAuthStateChanged(function (user) {
-      _modulesLoadData2["default"].call(_this, function (e) {
+      _modulesClientLoadData2["default"].call(_this, function (e) {
         console.error(e.stack);
       }, {
         access_token: authData.access_token
@@ -249,7 +249,7 @@ exports["default"] = _react2["default"].createClass({
       case "open":
         console.log("This would open panels for:", name);
         // alert("Feature coming soon (I hope...)")
-        _modulesLoadData2["default"].call(this, function (e) {
+        _modulesClientLoadData2["default"].call(this, function (e) {
           console.error(e.stack);
         }, {
           // access_token: this.state.authData.access_token,
@@ -409,7 +409,7 @@ exports["default"] = _react2["default"].createClass({
     var _this4 = this;
 
     // load firebase config
-    _modulesLoadData2["default"].call(this, function (e) {
+    _modulesClientLoadData2["default"].call(this, function (e) {
       console.error(e.stack);
     }).then(function (methods) {
       methods.getFirebaseConfig().then(function (data) {
@@ -422,7 +422,7 @@ exports["default"] = _react2["default"].createClass({
       return console.error(e.stack || e);
     });
 
-    (0, _modulesAjax.ajax)({
+    (0, _modulesClientAjax.ajax)({
       url: "/get-version",
       success: function success(data) {
         _this4.setState({
@@ -465,7 +465,10 @@ exports["default"] = _react2["default"].createClass({
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {},
   render: function render() {
-    var _state2 = this.state;
+    var _state2 =
+
+    // server unique
+    this.state;
     var authData = _state2.authData;
     var userData = _state2.userData;
     var dataObject = _state2.streamersInPlayer;
@@ -476,6 +479,7 @@ exports["default"] = _react2["default"].createClass({
     var overlayState = _state2.overlayState;
     var fireRef = _state2.fireRef;
     var versionData = _state2.versionData;
+    var initState = this.props.initState;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
@@ -489,6 +493,7 @@ exports["default"] = _react2["default"].createClass({
         authData: authData,
         userData: userData,
         url: url,
+        initState: initState,
         methods: {
           search: this.search,
           appendStream: this.appendStream,
@@ -510,6 +515,7 @@ exports["default"] = _react2["default"].createClass({
         layout: layout,
         fireRef: fireRef,
         versionData: versionData,
+        initState: initState,
         methods: {
           spliceStream: this.spliceStream,
           clearPlayer: this.clearPlayer,
@@ -531,11 +537,12 @@ exports["default"] = _react2["default"].createClass({
       }, this.props, {
         fireRef: fireRef,
         versionData: versionData,
+        initState: initState,
         methods: {
           appendStream: this.appendStream,
           appendVOD: this.appendVOD,
           spliceStream: this.spliceStream,
-          loadData: _modulesLoadData2["default"],
+          loadData: _modulesClientLoadData2["default"],
           popUpHandler: this.popUpHandler
         }
       })) : this.props.children ? _react2["default"].cloneElement(this.props.children, _extends({
@@ -548,11 +555,12 @@ exports["default"] = _react2["default"].createClass({
       }, this.props, {
         fireRef: fireRef,
         versionData: versionData,
+        initState: initState,
         methods: {
           appendStream: this.appendStream,
           appendVOD: this.appendVOD,
           spliceStream: this.spliceStream,
-          loadData: _modulesLoadData2["default"],
+          loadData: _modulesClientLoadData2["default"],
           popUpHandler: this.popUpHandler
         }
       })) : null,
@@ -565,6 +573,7 @@ exports["default"] = _react2["default"].createClass({
         versionData: versionData,
         params: this.props.params,
         location: this.props.location,
+        initState: initState,
         methods: {
           popUpHandler: this.popUpHandler
         } }),

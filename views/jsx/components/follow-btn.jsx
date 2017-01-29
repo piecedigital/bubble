@@ -10,9 +10,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _modulesLoadData = require("../../../modules/load-data");
+var _modulesClientLoadData = require("../../../modules/client/load-data");
 
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
 exports["default"] = _react2["default"].createClass({
   displayName: "FollowButton",
@@ -28,7 +28,7 @@ exports["default"] = _react2["default"].createClass({
     var name = _props.name;
     var targetName = _props.targetName;
 
-    _modulesLoadData2["default"].call(this, function (e) {
+    _modulesClientLoadData2["default"].call(this, function (e) {
       console.error(e.stack);
     }, {
       username: name,
@@ -59,7 +59,7 @@ exports["default"] = _react2["default"].createClass({
 
     var method = action + "Stream";
     console.log(method);
-    _modulesLoadData2["default"].call(this, function (e) {
+    _modulesClientLoadData2["default"].call(this, function (e) {
       console.error(e.stack);
     }, {
       username: name,

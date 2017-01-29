@@ -12,11 +12,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
-var _modulesLoadData = require("../../../../modules/load-data");
+var _modulesClientLoadData = require("../../../../modules/client/load-data");
 
-var _modulesLoadData2 = _interopRequireDefault(_modulesLoadData);
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
-var _modulesHelperTools = require("../../../../modules/helper-tools");
+var _modulesClientHelperTools = require("../../../../modules/client/helper-tools");
 
 var _hoverOptionsJsx = require("../hover-options.jsx");
 
@@ -42,7 +42,7 @@ var components = {
       var display_name = _ref.display_name;
 
       // console.log(`getting stream data for ${name}`);
-      _modulesLoadData2["default"].call(this, function (e) {
+      _modulesClientLoadData2["default"].call(this, function (e) {
         console.error(e.stack);
       }, {
         username: name
@@ -98,7 +98,7 @@ var components = {
       //     }
       //   });
       // }, (timeout * 1000) * (multiplier % 3));
-      var action = _modulesHelperTools.browserNotification.bind(this, {
+      var action = _modulesClientHelperTools.browserNotification.bind(this, {
         type: "stream_online",
         channelName: display_name,
         timeout: timeout,
@@ -180,7 +180,7 @@ var components = {
               _react2["default"].createElement(
                 "div",
                 { className: "image" },
-                _react2["default"].createElement("img", { src: logo || _modulesHelperTools.missingLogo })
+                _react2["default"].createElement("img", { src: logo || _modulesClientHelperTools.missingLogo })
               ),
               _react2["default"].createElement(
                 "div",
@@ -221,7 +221,7 @@ var components = {
             _react2["default"].createElement(
               "div",
               { className: "image" },
-              _react2["default"].createElement("img", { src: logo || _modulesHelperTools.missingLogo })
+              _react2["default"].createElement("img", { src: logo || _modulesClientHelperTools.missingLogo })
             ),
             _react2["default"].createElement(
               "div",
@@ -301,14 +301,14 @@ exports["default"] = _react2["default"].createClass({
       } else {
         username = userData.name;
       }
-      if (_modulesLoadData2["default"]) {
+      if (_modulesClientLoadData2["default"]) {
         _this3._mounted ? _this3.setState({
           requestOffset: offset + limit
         }) : null;
         // console.log("gathering data", limit, offset);
         // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
         // console.log("follow:", this.props.follow);
-        _modulesLoadData2["default"].call(_this3, function (e) {
+        _modulesClientLoadData2["default"].call(_this3, function (e) {
           console.error(e.stack);
         }, {
           offset: offset,

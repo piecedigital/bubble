@@ -12,7 +12,7 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _modulesHelperTools = require("../../../modules/helper-tools");
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 
 exports["default"] = _react2["default"].createClass({
   displayName: "VoteTool",
@@ -192,7 +192,7 @@ exports["default"] = _react2["default"].createClass({
     var userData = this.props.userData;
 
     // console.log("calculation", this.state.ratings, this.props.commentID);
-    (0, _modulesHelperTools.calculateRatings)({
+    (0, _modulesClientHelperTools.calculateRatings)({
       ratingsData: this.state.ratings,
       userData: userData
     }, function (calculatedRatings) {
@@ -212,7 +212,7 @@ exports["default"] = _react2["default"].createClass({
     var pollID = _props4.pollID;
     var commentID = _props4.commentID;
 
-    this.killRatingsWatch = (0, _modulesHelperTools.listenOnNewRatings)(questionID || pollID, fireRef, null, this.newRating);
+    this.killRatingsWatch = (0, _modulesClientHelperTools.listenOnNewRatings)(questionID || pollID, fireRef, null, this.newRating);
   },
   componentDidMount: function componentDidMount() {
     var _this3 = this;

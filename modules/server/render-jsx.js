@@ -18,8 +18,8 @@ var renderHTML = function renderHTML(fileName) {
   var prePlaceData = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
   prePlaceData.title = prePlaceData.title || "Q&A Aggregator for Twitch streamers | TwiQuA";
-  var Layout = require("../views/jsx/layout.jsx");
-  var Page = require("../views/jsx/" + fileName + ".jsx");
+  var Layout = require("../../views/jsx/layout.jsx");
+  var Page = require("../../views/jsx/" + fileName + ".jsx");
 
   var data = _reactDomServer2["default"].renderToStaticMarkup(_react2["default"].createElement(
     "html",
@@ -53,8 +53,7 @@ var renderHTML = function renderHTML(fileName) {
           prePlaceData,
           _react2["default"].createElement(Page, null)
         )
-      ),
-      _react2["default"].createElement("script", { src: "/js/bundle" + (process.env["NODE_ENV"] === "prod" ? "-live" : "") + ".js" })
+      )
     )
   ));
   return "<!DOCTYPE html>" + data;
@@ -69,3 +68,4 @@ exports.renderHTML = renderHTML;
 // <meta property="og:title" content="Piece Digital"/>
 // <meta property="og:image" content="http://piecedigital.net/public/images/1logo.png"/>
 // <meta property="og:site_name" content="Piece Digital Studios"/>
+/* <script src={`/js/bundle${process.env["NODE_ENV"] === "prod" ? "-live" : ""}.js`}></script> */

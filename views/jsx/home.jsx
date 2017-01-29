@@ -21,6 +21,7 @@ var _componentsTopGamesJsx2 = _interopRequireDefault(_componentsTopGamesJsx);
 exports["default"] = _react2["default"].createClass({
   displayName: "Home",
   getInitialState: function getInitialState() {
+    // console.log("home", this.props.initState);
     return {};
   },
   render: function render() {
@@ -29,6 +30,7 @@ exports["default"] = _react2["default"].createClass({
     var userData = _props.userData;
     var fireRef = _props.fireRef;
     var versionData = _props.versionData;
+    var initState = _props.initState;
     var _props$methods = _props.methods;
     var loadData = _props$methods.loadData;
     var appendStream = _props$methods.appendStream;
@@ -42,6 +44,7 @@ exports["default"] = _react2["default"].createClass({
         userData: userData,
         fireRef: fireRef,
         versionData: versionData,
+        initState: initState,
         methods: {
           appendStream: appendStream,
           loadData: loadData,

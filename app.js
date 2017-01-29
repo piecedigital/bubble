@@ -14,9 +14,9 @@ var _cookieParser = require("cookie-parser");
 
 var _cookieParser2 = _interopRequireDefault(_cookieParser);
 
-var _modulesRoutes = require("./modules/routes");
+var _modulesServerRoutes = require("./modules/server/routes");
 
-var _modulesRoutes2 = _interopRequireDefault(_modulesRoutes);
+var _modulesServerRoutes2 = _interopRequireDefault(_modulesServerRoutes);
 
 var _logOut = require("./log-out");
 
@@ -27,7 +27,7 @@ var PORT = process.env["PORT"] || 8080;
 
 app.use(_express2["default"]["static"](_path2["default"].join(__dirname, "public")));
 app.use((0, _cookieParser2["default"])());
-app.use(_modulesRoutes2["default"]);
+app.use(_modulesServerRoutes2["default"]);
 app.listen(PORT);
 
 (0, _logOut.logOut)("Listening on port " + PORT, true);

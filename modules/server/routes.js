@@ -10,20 +10,50 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _renderJsx = require("./render-jsx");
-
 var _https = require("https");
 
 var _https2 = _interopRequireDefault(_https);
 
-var app = (0, _express2["default"])();
+var _renderJsx = require("./render-jsx");
 
+var _firebaseConfig = require("./firebase-config");
+
+var app = (0, _express2["default"])();
+var fireRef = (0, _firebaseConfig.initFirebase)();
 app.get("/", function (req, res) {
-  res.send((0, _renderJsx.renderHTML)("home", {
-    auth: {
-      access_token: req.cookies["access_token"]
+  var initState = {
+    layout: {
+      fireRef: true, // to get a certain compunent to render with truthiness
+      versionData: {
+        major: process.env["V_MAJOR"],
+        minor: process.env["V_MINOR"],
+        patch: process.env["V_PATCH"]
+      }
     }
-  }));
+  };
+
+  new Promise(function (resolve, reject) {
+    fireRef.answersRef.orderByKey().limitToLast(10).once("value").then(function (snap) {
+      var answers = snap.val();
+      initState.userQuestions = {};
+      initState.userQuestions.answers = answers;
+      Object.keys(answers).map(function (questionID, ind, arr) {
+        fireRef.questionsRef.child(questionID).once("value").then(function (snap) {
+          var questionData = snap.val();
+          initState.userQuestions.questions = initState.userQuestions.questions || {};
+          initState.userQuestions.questions[questionID] = questionData;
+          if (ind === arr.length - 1) resolve(initState);
+        });
+      });
+    });
+  }).then(function (initState) {
+    res.send((0, _renderJsx.renderHTML)("home", {
+      auth: {
+        access_token: req.cookies["access_token"]
+      },
+      initState: initState
+    }));
+  });
 }).get("/search/:searchtype", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("search", {
     location: {
