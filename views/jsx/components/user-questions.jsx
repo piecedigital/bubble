@@ -54,7 +54,7 @@ var QuestionListItem = _react2["default"].createClass({
     if (answerKey === questionID) {
       fireRef.answersRef.child(questionID).once("value").then(function (snap) {
         var answerData = snap.val();
-        console.log("got new answer", answerData);
+        // console.log("got new answer", answerData);
         _this.setState({
           answerData: answerData
         });
@@ -294,7 +294,7 @@ exports["default"] = _react2["default"].createClass({
   getQuestions: function getQuestions() {
     var _this4 = this;
 
-    console.log("tryna get questions", this.props);
+    // console.log("tryna get questions", this.props);
     this.setState({
       loadingData: true
     }, function () {
@@ -378,7 +378,7 @@ exports["default"] = _react2["default"].createClass({
   componentDidMount: function componentDidMount(prevProps) {
     var _this5 = this;
 
-    console.log("mounted user quesions");
+    // console.log("mounted user quesions");
     var _props9 = this.props;
     var fireRef = _props9.fireRef;
     var userData = _props9.userData;

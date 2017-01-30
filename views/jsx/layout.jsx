@@ -84,7 +84,7 @@ exports["default"] = _react2["default"].createClass({
   },
   getHashData: function getHashData() {
     var queryData = {};
-    console.log(window.location.hash);
+    // console.log(window.location.hash);
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
       queryData[key] = value;
       // set token for 2 hours
@@ -447,7 +447,7 @@ exports["default"] = _react2["default"].createClass({
 
     // console.log(registeredAuth, !!fireRef, !!authData, !!userData);
     if (!registeredAuth && fireRef && authData && authData.access_token && userData) {
-      console.log("register auth. should only happen once");
+      // console.log("register auth. should only happen once");
       this.setState({
         registeredAuth: true
       }, function () {

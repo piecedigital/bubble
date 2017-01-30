@@ -58,19 +58,12 @@ function checkAuth(Component, props) {
     }
   }
 }
-_jsxLayoutJsx2["default"].prototype.setNewState = function () {
-  console.log(this);
-  return this;
-};
-console.log(_jsxLayoutJsx2["default"]);
-_reactDom.render.call({
-  thisIsGlobal: true
-}, _react2["default"].createElement(
+(0, _reactDom.render)(_react2["default"].createElement(
   _reactRouter.Router,
   { history: _reactRouter.browserHistory },
   _react2["default"].createElement(
     _reactRouter.Route,
-    { foooolish: true, path: "", page: "root", component: _jsxLayoutJsx2["default"] },
+    { path: "", page: "root", component: _jsxLayoutJsx2["default"] },
     _react2["default"].createElement(_reactRouter.Route, { path: "/", page: "home", component: _jsxHomeJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/profile(/:username(/:q/:postID))", page: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "streams", component: _jsxGeneralPageJsx2["default"] }),

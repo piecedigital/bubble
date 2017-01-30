@@ -21,42 +21,11 @@ var renderHTML = function renderHTML(fileName) {
   var Layout = require("../../views/jsx/layout.jsx");
   var Page = require("../../views/jsx/" + fileName + ".jsx");
 
-  var data = _reactDomServer2["default"].renderToStaticMarkup(_react2["default"].createElement(
-    "html",
-    null,
-    _react2["default"].createElement(
-      "head",
-      null,
-      _react2["default"].createElement("meta", { charSet: "utf-8" }),
-      _react2["default"].createElement("meta", { httpEquiv: "Content-Type", content: "text/html", charSet: "UTF-8" }),
-      _react2["default"].createElement("meta", { name: "language", content: "en-us" }),
-      _react2["default"].createElement("meta", { name: "publisher", content: "Piece Digital Studios" }),
-      _react2["default"].createElement("meta", { name: "classification", content: "multistream, multiple stream, multiple broadcast viewing, question and answer aggregation" }),
-      _react2["default"].createElement("meta", { property: "og:description", content: "Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session." }),
-      _react2["default"].createElement("link", { rel: "stylesheet", href: "/css/style.css", media: "screen", title: "no title", charSet: "utf-8" }),
-      _react2["default"].createElement("link", { rel: "shortcut icon", type: "image/x-icon", href: "/media/logo-ico.ico" }),
-      _react2["default"].createElement("link", { rel: "apple-touch-icon", type: "image/x-icon", href: "/media/logo-ico.ico" }),
-      _react2["default"].createElement(
-        "title",
-        null,
-        prePlaceData.title
-      )
-    ),
-    _react2["default"].createElement(
-      "body",
-      null,
-      _react2["default"].createElement(
-        "div",
-        { className: "react-app" },
-        _react2["default"].createElement(
-          Layout,
-          prePlaceData,
-          _react2["default"].createElement(Page, null)
-        )
-      ),
-      _react2["default"].createElement("script", { src: "/js/bundle" + (process.env["NODE_ENV"] === "prod" ? "-live" : "") + ".js" })
-    )
-  ));
+  var data = "<html>" + "<head>" + "<meta charSet=\"utf-8\" />" + "<meta httpEquiv=\"Content-Type\" content=\"text/html\" charSet=\"UTF-8\" />" + "<meta name=\"language\" content=\"en-us\" />" + "<meta name=\"publisher\" content=\"Piece Digital Studios\" />" + "<meta name=\"classification\" content=\"multistream, multiple stream, multiple broadcast viewing, question and answer aggregation\" />" + "<meta property=\"og:description\" content=\"Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session.\"/>" + "<link rel=\"stylesheet\" href=\"/css/style.css\" media=\"screen\" title=\"no title\" charSet=\"utf-8\"/>" + "<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/media/logo-ico.ico\"/>" + "<link rel=\"apple-touch-icon\" type=\"image/x-icon\" href=\"/media/logo-ico.ico\"/>" + ("<title>" + prePlaceData.title + "</title>") + "</head>" + "<body>" + "<div class=\"react-app\">" + _reactDomServer2["default"].renderToStaticMarkup(_react2["default"].createElement(
+    Layout,
+    prePlaceData,
+    _react2["default"].createElement(Page, null)
+  )) + "</div>" + ("<script src=" + ("/js/bundle" + (process.env["NODE_ENV"] === "prod" ? "-live" : "") + ".js") + "></script>") + "</body>" + "</html>";
   return "<!DOCTYPE html>" + data;
 };
 exports.renderHTML = renderHTML;
