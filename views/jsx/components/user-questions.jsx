@@ -454,6 +454,7 @@ exports["default"] = _react2["default"].createClass({
     var list = questions ? Object.keys(questions).map(function (questionID) {
       return _react2["default"].createElement(QuestionListItem, { key: questionID, userData: userData, questionID: questionID, location: location, params: params, fireRef: fireRef, auth: auth, overlay: overlay, pageOverride: pageOverride, methods: methods, initState: initState });
     }) : null;
+    if (pageOverride === "featured" && list.length === 0) return null;
     return _react2["default"].createElement(
       "div",
       { ref: "root", className: "user-questions tool-assisted" + (locked ? " locked" : "") },

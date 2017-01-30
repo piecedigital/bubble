@@ -53,7 +53,8 @@ var renderHTML = function renderHTML(fileName) {
           prePlaceData,
           _react2["default"].createElement(Page, null)
         )
-      )
+      ),
+      _react2["default"].createElement("script", { src: "/js/bundle" + (process.env["NODE_ENV"] === "prod" ? "-live" : "") + ".js" })
     )
   ));
   return "<!DOCTYPE html>" + data;
@@ -68,4 +69,3 @@ exports.renderHTML = renderHTML;
 // <meta property="og:title" content="Piece Digital"/>
 // <meta property="og:image" content="http://piecedigital.net/public/images/1logo.png"/>
 // <meta property="og:site_name" content="Piece Digital Studios"/>
-/* <script src={`/js/bundle${process.env["NODE_ENV"] === "prod" ? "-live" : ""}.js`}></script> */

@@ -45,6 +45,7 @@ var clientID = redirectURI.match(/http(s)?\:\/\/localhost\:[0-9]{4,5}/) ? "cye2h
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
+    // console.log(this.props);
     var overlay = undefined,
         overlayState = undefined;
     if (this.props.params && this.props.params.q) {
