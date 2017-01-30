@@ -19,7 +19,12 @@ var _renderJsx = require("./render-jsx");
 var _firebaseConfig = require("./firebase-config");
 
 var app = (0, _express2["default"])();
-var fireRef = (0, _firebaseConfig.initFirebase)();
+try {
+
+  var _fireRef = (0, _firebaseConfig.initFirebase)();
+} catch (e) {
+  console.error(e.stack);
+} finally {}
 app.get("/", function (req, res) {
   var initState = {
     layout: {
@@ -47,16 +52,12 @@ app.get("/", function (req, res) {
       });
     });
   }).then(function (initState) {
-    try {
-      res.send((0, _renderJsx.renderHTML)("home", {
-        auth: {
-          access_token: req.cookies["access_token"]
-        },
-        initState: initState
-      }));
-    } catch (e) {
-      console.log(e.stack);
-    }
+    res.send((0, _renderJsx.renderHTML)("home", {
+      auth: {
+        access_token: req.cookies["access_token"]
+      },
+      initState: initState
+    }));
   });
 }).get("/search/:searchtype", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("search", {
