@@ -47,12 +47,16 @@ app.get("/", function (req, res) {
       });
     });
   }).then(function (initState) {
-    res.send((0, _renderJsx.renderHTML)("home", {
-      auth: {
-        access_token: req.cookies["access_token"]
-      },
-      initState: initState
-    }));
+    try {
+      res.send((0, _renderJsx.renderHTML)("home", {
+        auth: {
+          access_token: req.cookies["access_token"]
+        },
+        initState: initState
+      }));
+    } catch (e) {
+      console.log(e.stack);
+    }
   });
 }).get("/search/:searchtype", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("search", {
