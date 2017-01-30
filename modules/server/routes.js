@@ -24,7 +24,7 @@ try {
 
   fireRef = (0, _firebaseConfig.initFirebase)();
 } catch (e) {
-  console.error(e.stack);
+  console.error("error initializing firebase", e.stack);
 } finally {
   console.log(fireRef);
 }
@@ -41,25 +41,19 @@ app.get("/", function (req, res) {
   };
 
   new Promise(function (resolve, reject) {
-    try {
-
-      fireRef.answersRef.orderByKey().limitToLast(10).once("value").then(function (snap) {
-        var answers = snap.val();
-        initState.userQuestions = {};
-        initState.userQuestions.answers = answers;
-        Object.keys(answers).map(function (questionID, ind, arr) {
-          fireRef.questionsRef.child(questionID).once("value").then(function (snap) {
-            var questionData = snap.val();
-            initState.userQuestions.questions = initState.userQuestions.questions || {};
-            initState.userQuestions.questions[questionID] = questionData;
-            if (ind === arr.length - 1) resolve(initState);
-          });
+    fireRef.answersRef.orderByKey().limitToLast(10).once("value").then(function (snap) {
+      var answers = snap.val();
+      initState.userQuestions = {};
+      initState.userQuestions.answers = answers;
+      Object.keys(answers).map(function (questionID, ind, arr) {
+        fireRef.questionsRef.child(questionID).once("value").then(function (snap) {
+          var questionData = snap.val();
+          initState.userQuestions.questions = initState.userQuestions.questions || {};
+          initState.userQuestions.questions[questionID] = questionData;
+          if (ind === arr.length - 1) resolve(initState);
         });
       });
-    } catch (e) {
-      console.error(e.stack);
-      resolve(initState);
-    }
+    });
   }).then(function (initState) {
     res.send((0, _renderJsx.renderHTML)("home", {
       auth: {
