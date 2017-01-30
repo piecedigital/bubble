@@ -52,7 +52,7 @@ export default React.createClass({
       registeredAuth: false,
     }, this.props.initState ? this.props.initState.layout || {} : {});
   },
-  getQueryData() {
+  getHashData() {
     let queryData = {};
     console.log(window.location.hash);
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
@@ -67,7 +67,7 @@ export default React.createClass({
     return queryData;
   },
   initFirebase(data) {
-    let authData = this.getQueryData();
+    let authData = this.getHashData();
     // console.log("init firebase", this.state.fireRef);
     var config = data;
     Firebase.initializeApp(config);

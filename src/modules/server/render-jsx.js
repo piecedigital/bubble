@@ -30,7 +30,6 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
       </body>
     </html>
   );
-  console.log(data);
   return `<!DOCTYPE html>${data}`;
 };
 // console.log(renderHTML("home"));
