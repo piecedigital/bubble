@@ -25,8 +25,6 @@ try {
   fireRef = (0, _firebaseConfig.initFirebase)();
 } catch (e) {
   console.error("error initializing firebase", e.stack);
-} finally {
-  console.log(fireRef);
 }
 app.get("/", function (req, res) {
   var initState = {
