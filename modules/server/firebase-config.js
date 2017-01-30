@@ -25,7 +25,7 @@ try {
     "type": process.env["SERV_ACC_TYPE"],
     "project_id": process.env["SERV_ACC_PROJECT_ID"],
     "private_key_id": process.env["SERV_ACC_PRIV_KEY_ID"],
-    "private_key": process.env["SERV_ACC_PRIV_KEY"],
+    "private_key": decodeURI(process.env["SERV_ACC_PRIV_KEY"]),
     "client_email": process.env["SERV_ACC_CLIENT_EMAIL"],
     "client_id": process.env["SERV_ACC_CLIENT_ID"],
     "auth_uri": process.env["SERV_ACC_AUTH_URI"],
