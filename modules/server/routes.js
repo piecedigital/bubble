@@ -21,7 +21,6 @@ var _firebaseConfig = require("./firebase-config");
 var app = (0, _express2["default"])();
 var fireRef = undefined;
 try {
-
   fireRef = (0, _firebaseConfig.initFirebase)();
 } catch (e) {
   console.error("error initializing firebase", e.stack);
