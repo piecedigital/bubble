@@ -36,7 +36,7 @@ try {
 }
 
 var initFirebase = function initFirebase() {
-  console.log("service accoutn", JSON.parse(JSON.stringify(serviceAccount)));
+  console.log("service account", serviceAccount.private_key);
   _firebaseAdmin2["default"].initializeApp({
     credential: _firebaseAdmin2["default"].credential.cert(JSON.parse(JSON.stringify(serviceAccount))),
     databaseURL: process.env["DATABASE_URL"]
