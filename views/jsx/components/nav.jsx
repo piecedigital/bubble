@@ -164,17 +164,17 @@ exports["default"] = _react2["default"].createClass({
         ),
         _react2["default"].createElement(
           _reactRouter.Link,
-          { className: "nav-item", to: "/", onClick: this.toggleNav.bind(null, "close") },
+          { className: "nav-item", href: "/", to: "/", onClick: this.toggleNav.bind(null, "close") },
           "Home"
         ),
         _react2["default"].createElement(
           _reactRouter.Link,
-          { className: "nav-item", to: "/streams", onClick: this.toggleNav.bind(null, "close") },
+          { className: "nav-item", href: "/streams", to: "/streams", onClick: this.toggleNav.bind(null, "close") },
           "Streams"
         ),
         _react2["default"].createElement(
           _reactRouter.Link,
-          { className: "nav-item", to: "/games", onClick: this.toggleNav.bind(null, "close") },
+          { className: "nav-item", href: "/games", to: "/games", onClick: this.toggleNav.bind(null, "close") },
           "Games"
         ),
         authData && authData.access_token ? _react2["default"].createElement(
@@ -182,7 +182,7 @@ exports["default"] = _react2["default"].createClass({
           { className: "auth" },
           userData ? [_react2["default"].createElement(
             _reactRouter.Link,
-            { key: "profile", className: "nav-item", to: "/profile", onClick: this.toggleNav.bind(null, "close") },
+            { key: "profile", className: "nav-item", href: "/profile", to: "/profile", onClick: this.toggleNav.bind(null, "close") },
             "Profile"
           ), _react2["default"].createElement(
             "a",

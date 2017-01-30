@@ -81,7 +81,7 @@ exports["default"] = _react2["default"].createClass({
       registeredAuth: false
     }, this.props.initState ? this.props.initState.layout || {} : {});
   },
-  getQueryData: function getQueryData() {
+  getHashData: function getHashData() {
     var queryData = {};
     console.log(window.location.hash);
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
@@ -98,7 +98,7 @@ exports["default"] = _react2["default"].createClass({
   initFirebase: function initFirebase(data) {
     var _this = this;
 
-    var authData = this.getQueryData();
+    var authData = this.getHashData();
     // console.log("init firebase", this.state.fireRef);
     var config = data;
     _firebase2["default"].initializeApp(config);

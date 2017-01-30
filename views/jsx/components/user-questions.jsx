@@ -27,7 +27,7 @@ var _reactRouter = require("react-router");
 var QuestionListItem = _react2["default"].createClass({
   displayName: "QuestionListItem",
   getInitialState: function getInitialState() {
-    console.log("ques", this.props.initState);
+    // console.log("ques", this.props.initState);
     var questionData = null,
         answerData = null;
     if (this.props.initState) {
@@ -166,13 +166,12 @@ var QuestionListItem = _react2["default"].createClass({
     if (pageOverride && !answerData) return null;
 
     var URL = pageOverride === "featured" ? "/" : null;
-
     return _react2["default"].createElement(
       "li",
       { className: "question-list-item " + pageOverride },
       _react2["default"].createElement(
         _reactRouter.Link,
-        { to: answerData ? {
+        { href: answerData ? "/profile/" + (questionData.receiver || (userData ? userData.name : "")) + "/q/" + questionID : URL || "/profile/" + (questionData.receiver || ""), to: answerData ? {
             pathname: "/profile/" + (questionData.receiver || (userData ? userData.name : "")) + "/q/" + questionID,
             state: {
               modal: true,
