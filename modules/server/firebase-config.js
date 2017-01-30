@@ -36,22 +36,22 @@ try {
 }
 
 var initFirebase = function initFirebase() {
-  _firebase2["default"].initializeApp({
+  _firebaseAdmin2["default"].initializeApp({
     credential: _firebaseAdmin2["default"].credential.cert(serviceAccount),
     databaseURL: process.env["DATABASE_URL"]
   });
   var ref = {
-    root: _firebase2["default"].database().ref(),
-    authTokensRef: _firebase2["default"].database().ref("authTokens"),
-    appConfigRef: _firebase2["default"].database().ref("appConfig"),
-    usersRef: _firebase2["default"].database().ref("users"),
-    notificationsRef: _firebase2["default"].database().ref("notifications"),
-    questionsRef: _firebase2["default"].database().ref("questions"),
-    answersRef: _firebase2["default"].database().ref("answers"),
-    ratingsRef: _firebase2["default"].database().ref("ratings"),
-    commentsRef: _firebase2["default"].database().ref("comments"),
-    AMAsRef: _firebase2["default"].database().ref("AMAs"),
-    pollsRef: _firebase2["default"].database().ref("polls")
+    root: _firebaseAdmin2["default"].database().ref(),
+    authTokensRef: _firebaseAdmin2["default"].database().ref("authTokens"),
+    appConfigRef: _firebaseAdmin2["default"].database().ref("appConfig"),
+    usersRef: _firebaseAdmin2["default"].database().ref("users"),
+    notificationsRef: _firebaseAdmin2["default"].database().ref("notifications"),
+    questionsRef: _firebaseAdmin2["default"].database().ref("questions"),
+    answersRef: _firebaseAdmin2["default"].database().ref("answers"),
+    ratingsRef: _firebaseAdmin2["default"].database().ref("ratings"),
+    commentsRef: _firebaseAdmin2["default"].database().ref("comments"),
+    AMAsRef: _firebaseAdmin2["default"].database().ref("AMAs"),
+    pollsRef: _firebaseAdmin2["default"].database().ref("polls")
   };
   return ref;
 };
