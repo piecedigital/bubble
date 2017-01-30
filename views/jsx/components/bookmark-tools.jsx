@@ -164,11 +164,15 @@ var ViewBookmarks = _react2["default"].createClass({
       _react2["default"].createElement("div", { className: "separator-4-dim" }),
       _react2["default"].createElement(
         "div",
-        { className: "section" },
+        { className: "scroll" },
         _react2["default"].createElement(
           "div",
-          { className: "list" },
-          bookmarkList
+          { className: "section" },
+          _react2["default"].createElement(
+            "div",
+            { className: "list" },
+            bookmarkList
+          )
         )
       ),
       _react2["default"].createElement("div", { className: "separator-4-dim" }),
