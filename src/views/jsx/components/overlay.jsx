@@ -4,6 +4,7 @@ import { AskQuestion, AnswerQuestion, ViewQuestion, ViewAskedQuestions } from ".
 import { ViewBookmarks } from "./bookmark-tools.jsx";
 import { ViewNotifications } from "./notification-tools.jsx";
 import { MakePoll, VotePoll, ViewPoll, ViewCreatedPolls } from "./poll-tools.jsx";
+import { ViewGameQueue } from "./game-queue-tools.jsx";
 
 const components = {
   "askQuestion": AskQuestion,
@@ -16,6 +17,7 @@ const components = {
   "votePoll": VotePoll,
   "viewPoll": ViewPoll,
   "viewCreatedPolls": ViewCreatedPolls,
+  "viewGameQueue": ViewGameQueue,
 };
 
 export default React.createClass({
@@ -40,9 +42,11 @@ export default React.createClass({
     // console.log(overlay, components, Component);
     if(!fireRef) return null;
     if(!userData) {
+      // with the correct case we wont require the user to be logged in
       switch (overlay) {
         case "viewQuestion":
         case "viewPoll":
+        case "viewGameQueue":
           Component = Component;
         break;
         default:

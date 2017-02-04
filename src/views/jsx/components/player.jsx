@@ -145,7 +145,7 @@ const PlayerStream = React.createClass({
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className="video">
             <div className="nested">
-              <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
+              <iframe ref="video" src={`http://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
             </div>
           </div>
           <div ref="tools" className="tools-wrapper">
@@ -185,7 +185,7 @@ const PlayerStream = React.createClass({
                 </span>
               </div>
               <div className="to-channel">
-                <Link to={`https://twitch.tv/${name}`} target="_blank" onClick={() => {
+                <Link to={`http://twitch.tv/${name}`} target="_blank" onClick={() => {
                   this.toggleMenu("close");
                 }}>Visit On Twitch</Link>
               </div>
@@ -242,7 +242,7 @@ const PlayerStream = React.createClass({
       case "chat": return (
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className={`chat`}>
-            <iframe ref={`chat`} src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
+            <iframe ref={`chat`} src={`http://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
           </div>
         </li>
       );

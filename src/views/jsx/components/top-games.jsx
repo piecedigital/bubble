@@ -17,8 +17,8 @@ const ListItem = React.createClass({
         }
       }
     } = this.props;
-    let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-    let channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+    let viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
+    let channelsString = channels.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
     return (
       <li className={`game-list-item`}>
         <Link to={`/search/streams?q=${name}`}>

@@ -4,7 +4,12 @@ import { renderHTML } from "./render-jsx";
 import { initFirebase } from "./firebase-config";
 
 const app = express();
-const fireRef = initFirebase();
+let fireRef;
+try {
+  fireRef = initFirebase();
+} catch (e) {
+  console.error("error initializing firebase", e.stack);
+}
 app
 .get("/", function (req, res) {
   let initState = {

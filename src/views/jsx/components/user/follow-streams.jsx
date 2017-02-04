@@ -4,7 +4,7 @@ import loadData from "../../../../modules/client/load-data";
 import { browserNotification as notification, missingLogo } from "../../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "../hover-options.jsx";
 
-// const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+// const missingLogo = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 let currentNotifs = 0;
 // components
@@ -180,7 +180,7 @@ let components = {
         _id: id,
         preview,
       } = stream;
-      let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+      let viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
       if(filter === "all" || filter === "online") {
         return (
           <li className={`channel-list-item`}>

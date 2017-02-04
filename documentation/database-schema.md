@@ -103,7 +103,6 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "questions": {
     <questionID>: {
-      "myAuth": <auth token>,
       "creator": <username>: String, //
       "receiver": <username>: String,
       "title": String or Number // If number it'll be 0. Firebase does not accept null as a value,
@@ -116,7 +115,6 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "answers": {
     <questionID>: {
-      "myAuth": <auth token>,
       "username": <username>,
       "questionID": <questionID>
       "body": String, // minimum 30 characters
@@ -128,7 +126,6 @@ In addition to necessary data related to the Q&A aggregation this database will 
   "ratings": {
     <questionID || pollID>: {
       <ratingID>: {
-        "myAuth": <auth token>,
         "for": String ("question" || "answer" || "comment"),
         "commentID": <commentID>, // won't exist for non-comments
         "username": <username>,
@@ -139,7 +136,6 @@ In addition to necessary data related to the Q&A aggregation this database will 
   "comments": {
     <questionID || pollID>: {
       <commentID>: {
-        "myAuth": <auth token>,
         "username": <username>,
         "questionID": <questionID>, // if this is a comment for a question
         "pollID": <pollID>, // if this is a comment for a poll
@@ -154,7 +150,6 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "polls": {
     <pollID>: {
-      "auth": <auth token>,
       "creator": <username>,
       "title": String,
       "choices": {
@@ -171,9 +166,31 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "version": [version Object]
     }
   },
+  "gameQueues": {
+    <username>: {
+      "title": String,
+      "game": String,
+      "queueLimit": Number,
+      "queue": {
+        <username>: {
+          "gameID": String,
+          "platform": String ("PC/Steam" || "PC/Uplay" || "PC/Origin" || "PS4/PSN" || "XBox/XBL" || "Wii/NN"),
+          "rank": String,
+          "date": Number
+        }
+      },
+      "nowPlaying": {
+        <username>: Object // same as queue user object
+      },
+      "alreadyPlayed": {
+        <username>: Object // same as queue user object
+      },
+      "date": Number,
+      "version": [version Object]
+    }
+  }
   "AMAs": {
     <AMAID>: {
-      "auth": <auth token>,
       "creator": <username>,
       "associatedQuestions": {
         <questionID>: true
@@ -217,7 +234,6 @@ Extra stuff:
 
 ```js
 {
-  "myAuth": <auth token>,
   "userData": <userData>,
   "fireRef": <fireRef>,
   "place": "question",

@@ -139,9 +139,11 @@ export const ViewBookmarks = React.createClass({
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
         <div className="separator-4-dim" />
-        <div className="section">
-          <div className="list">
-          {bookmarkList}
+        <div className="scroll">
+          <div className="section">
+            <div className="list">
+              {bookmarkList}
+            </div>
           </div>
         </div>
         <div className="separator-4-dim" />

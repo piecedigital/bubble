@@ -143,28 +143,35 @@ export default React.createClass({
             authData && authData.access_token ? (
               <span className="auth">
                 { userData ? (
-                  [
-                    <Link key="profile" className="nav-item" href={`/profile`} to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link>,
-                    <a key="notifications" className="nav-item" href={`#`} onClick={() => {
-                      this.toggleNav("close");
-                      popUpHandler("viewNotifications");
-                    }}>Notifications<Notifications
-                                    auth={auth}
-                                    fireRef={fireRef}
-                                    userData={userData}/></a>,
-                    <a key="bookmarks" className="nav-item" href={`#`} onClick={() => {
-                      this.toggleNav("close");
-                      popUpHandler("viewBookmarks");
-                    }}>Bookmarks</a>,
-                    <a key="questions" className="nav-item" href={`#`} onClick={() => {
-                      this.toggleNav("close");
-                      popUpHandler("viewAskedQuestions");
-                    }}>Questions</a>,
-                    <a key="polls" className="nav-item" href={`#`} onClick={() => {
-                      this.toggleNav("close");
-                      popUpHandler("viewCreatedPolls");
-                    }}>Polls</a>,
-                  ]
+                  <div className="nav-item with-submenu" onClick={this.toggleNav}>
+                    My Stuff
+                    <div className="submenu">
+                      <Link key="profile" className="nav-item" href={`/profile`} to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link>
+                      <a key="notifications" className="nav-item" href={`#`} onClick={() => {
+                        this.toggleNav("close");
+                        popUpHandler("viewNotifications");
+                      }}><span>Notifications</span><Notifications
+                        auth={auth}
+                        fireRef={fireRef}
+                        userData={userData}/></a>
+                      <a key="bookmarks" className="nav-item" href={`#`} onClick={() => {
+                        this.toggleNav("close");
+                        popUpHandler("viewBookmarks");
+                      }}>Bookmarks</a>
+                      <a key="questions" className="nav-item" href={`#`} onClick={() => {
+                        this.toggleNav("close");
+                        popUpHandler("viewAskedQuestions");
+                      }}>Questions</a>
+                      <a key="polls" className="nav-item" href={`#`} onClick={() => {
+                        this.toggleNav("close");
+                        popUpHandler("viewCreatedPolls");
+                      }}>Polls</a>
+                    </div>
+                    <Notifications
+                      auth={auth}
+                      fireRef={fireRef}
+                      userData={userData}/>
+                  </div>
                 ) : null }
                 <a className="nav-item" href="#" onClick={() => {
                   logout();

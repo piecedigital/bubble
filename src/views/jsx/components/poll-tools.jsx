@@ -41,6 +41,7 @@ export const MakePoll = React.createClass({
     success: false,
     time: "Infinite",
     validation: {
+      // title
       titleMin: 15,
       titleMax: 500,
       titleCount: 0,
@@ -365,7 +366,7 @@ const ChoiceOption = React.createClass({
           <div className="label">
             <div className="spread">
               <div className="text">{choiceData.text}</div>
-              <div className="checkbox" onClick={this.vote}>&#x2714;</div>
+              <div className="checkbox" onClick={this.vote}>vote!</div>
             </div>
           </div>
         </label>

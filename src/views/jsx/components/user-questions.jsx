@@ -37,7 +37,7 @@ const QuestionListItem = React.createClass({
       .once("value")
       .then(snap => {
         const answerData = snap.val();
-        console.log("got new answer", answerData);
+        // console.log("got new answer", answerData);
         this.setState({
           answerData
         });
@@ -299,7 +299,7 @@ export default React.createClass({
     }, 200);
   },
   getQuestions() {
-    console.log("tryna get questions", this.props);
+    // console.log("tryna get questions", this.props);
     this.setState({
       loadingData: true
     }, () => {
@@ -389,7 +389,7 @@ export default React.createClass({
     }
   },
   componentDidMount(prevProps) {
-    console.log("mounted user quesions");
+    // console.log("mounted user quesions");
     const {
       fireRef,
       userData,
@@ -481,6 +481,7 @@ export default React.createClass({
         <QuestionListItem key={questionID} userData={userData} questionID={questionID} location={location} params={params} fireRef={fireRef} auth={ auth } overlay={overlay} pageOverride={pageOverride} methods={methods} initState={initState} />
       );
     }) : null;
+    if(pageOverride === "featured" && list.length === 0) return null;
     return (
       <div ref="root" className={`user-questions tool-assisted${locked ? " locked" : ""}`}>
         { !pageOverride ? (<div className={`title`}>Questions</div>) : null }

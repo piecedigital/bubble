@@ -327,6 +327,7 @@ export const AnswerQuestion = React.createClass({
     const {
       questionID,
       fireRef,
+      userData,
       methods: {
         popUpHandler
       }
@@ -341,9 +342,11 @@ export const AnswerQuestion = React.createClass({
             questionID
           });
         } else {
-          this.setState({
-            questionData
-          });
+          if(questionData.receiver === userData.name) {
+            this.setState({
+              questionData
+            });
+          }
         }
       });
     })

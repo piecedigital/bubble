@@ -17,7 +17,8 @@ const clientID = redirectURI.match(/http(s)?\:\/\/localhost\:[0-9]{4,5}/) ? "cye
 export default React.createClass({
   displayName: "Layout",
   getInitialState() {
-    let overlay, overlayState;
+    // console.log(this.props);
+    let overlay = "viewGameQueue", overlayState = { queueHost: "piecedigital" };
     if(this.props.params && this.props.params.q) {
       switch (this.props.params.q) {
         case "q":
@@ -54,7 +55,7 @@ export default React.createClass({
   },
   getHashData() {
     let queryData = {};
-    console.log(window.location.hash);
+    // console.log(window.location.hash);
     window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
       queryData[key] = value;
       // set token for 2 hours
@@ -83,6 +84,7 @@ export default React.createClass({
       commentsRef: Firebase.database().ref("comments"),
       AMAsRef: Firebase.database().ref("AMAs"),
       pollsRef: Firebase.database().ref("polls"),
+      gameQueuesRef: Firebase.database().ref("gameQueues"),
     };
     Firebase.auth().signInAnonymously()
     .catch(e => {
@@ -401,26 +403,6 @@ export default React.createClass({
       }
     })
   },
-  componentDidUpdate() {
-    const {
-      registeredAuth,
-      fireRef,
-      userData,
-      authData,
-    } = this.state;
-
-    // console.log(registeredAuth, !!fireRef, !!authData, !!userData);
-    if(!registeredAuth && fireRef && authData && authData.access_token && userData) {
-      console.log("register auth. should only happen once");
-      this.setState({
-        registeredAuth: true
-      }, () => {
-        fireRef.authTokensRef
-        .child(userData.name)
-        .set(authData.access_token);
-      });
-    }
-  },
   componentWillUpdate(nextProps, nextState) {
     // console.log(nextProps.location);
     if(nextProps.location.state && nextProps.location.state.modal) {
@@ -429,8 +411,6 @@ export default React.createClass({
       this.child = null;
     }
     this.checkURL(nextProps, nextState);
-  },
-  componentWillReceiveProps(nextProps) {
   },
   render() {
     const {
