@@ -170,12 +170,13 @@ In addition to necessary data related to the Q&A aggregation this database will 
     <username>: {
       "title": String,
       "game": String,
+      "subOnly": Boolean,
+      "rank": String,
       "queueLimit": Number,
+      "platform": String ("PC/Steam" || "PC/Uplay" || "PC/Origin" || "PS4/PSN" || "XBox/XBL" || "Wii/NN"), // text will be flattened as values for simplification
       "queue": {
         <username>: {
-          "gameID": String,
-          "platform": String ("PC/Steam" || "PC/Uplay" || "PC/Origin" || "PS4/PSN" || "XBox/XBL" || "Wii/NN"),
-          "rank": String,
+          "gamerID": String,
           "date": Number
         }
       },

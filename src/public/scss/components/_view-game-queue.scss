@@ -1,0 +1,20 @@
+.view-game-queue {
+  &.open {}
+  .close {}
+  .title {}
+  form {}
+  .section {
+    .label {}
+    .choice {}
+    .cr-logo {
+      max-width: 1.5*$em;
+    }
+    .align {
+      @include displayInlineFlex;
+      align-items: center;
+    }
+    input, textarea {
+      &.valid {}
+    }
+  }
+}

@@ -84,6 +84,9 @@
       border: none;
       border: 1px solid black;
       box-shadow: none;
+      &[type="checkbox"], &[type="radio"] {
+        width: auto;
+      }
     }
     textarea {
       width: 100%;
