@@ -1,161 +1,41 @@
 import React from "react";
 import { Link } from 'react-router';
+import loadData from "../../../modules/client/load-data";
 
 const UserItem = React.createClass({
   displayName: "UserItem",
-  getInitialState: () => ({
-    questionData: null,
-    pollData: null
-  }),
-  markRead() {
-    const {
-      fireRef,
-      userData,
-      notifID,
-      data
-    } = this.props;
-    fireRef.notificationsRef
-    .child(`${userData.name}/${notifID}/read`)
-    .set(true);
-  },
-  getMessage() {
-    const {
-      data,
-      userData,
-      location
-    } = this.props;
-    const {
-      questionData,
-      pollData
-    } = this.state;
-    let object = {
-      "message": "You have a new notification"
-    };
-
-    const postData = questionData || pollData;
-
-    switch (data.type) {
-      case "newQuestion":
-        object.message = `${data.info.sender} asked a question: "${postData.title}"`;
-        object.modal = true;
-        object.returnTo = location.pathname;
-        object.overlay = "answerQuestion";
-      break;
-      case "newAnswer":
-        object.message = `${data.info.sender} answered your question: "${postData.title}"`;
-        object.modal = true;
-        object.returnTo = location.pathname;
-        object.overlay = "answerQuestion";
-      break;
-      case "newQuestionComment":
-        object.message = `${data.info.sender} commented on a question: "${postData.title}"`;
-        object.modal = true;
-        object.returnTo = location.pathname;
-        object.overlay = questionData ? "viewQuestion" : "viewPoll";
-      break;
-      case "questionUpvote":
-        object.message = `You're question was upvoted: "${postData.title}"`;
-        object.modal = true;
-        object.returnTo = location.pathname;
-        object.overlay = questionData ? "viewQuestion" : "viewPoll";
-      break;
-      case "answerUpvote":
-        object.message = `You're answer was upvoted: "${postData.title}"`;
-        object.modal = true;
-        object.returnTo = location.pathname;
-        object.overlay = questionData ? "viewQuestion" : "viewPoll";
-      break;
-      case "commentUpvote":
-        object.message = `You're comment was upvoted: "${postData.title}"`;
-        object.modal = true;
-        object.returnTo = location.pathname;
-        object.overlay = questionData ? "viewQuestion" : "viewPoll";
-      break;
-    }
-    return object;
-  },
-  componentDidMount() {
-    const {
-      fireRef,
-      data
-    } = this.props;
-
-    if(
-      data &&
-      data.info &&
-      data.info.questionID
-    ) {
-      fireRef.questionsRef
-      .child(data.info.questionID)
-      .child("title")
-      .once("value")
-      .then(snap => {
-        this.setState({
-          "questionData": {
-            "title": snap.val()
-          }
-        })
-      });
-    } else
-    if(
-      data &&
-      data.info &&
-      data.info.pollID
-    ) {
-      fireRef.pollsRef
-      .child(data.info.pollID)
-      .child("title")
-      .once("value")
-      .then(snap => {
-        this.setState({
-          "pollData": {
-            "title": snap.val()
-          }
-        })
-      });
-    }
-  },
   render() {
     const {
-      notifID,
-      data,
+      list,
+      username,
+      control,
       methods: {
-        popUpHandler
+        removeFromList,
+        moveToList
       }
     } = this.props;
 
-    const {
-      questionData,
-      pollData
-    } = this.state;
-
-    switch (data.type) {
-      case "newQuestion":
-      case "newAnswer":
-      case "newQuestionComment":
-      case "questionUpvote":
-      case "answerUpvote":
-      case "commentUpvote":
-        // for the above notification types some question data is required
-        if(!questionData && !pollData) return null;
-    }
-    const message = this.getMessage();
-
     return (
-      <div className={`notif-item${data.read ? " read" : ""}`}>
+      <div className={`user-item`}>
         <label>
-          <Link className="name" to={{
-            pathname: data.info.questionURL || data.info.postURL,
-            state: {
-              modal: message.modal,
-              returnTo: message.returnTo
-            }
-          }} onClick={e => {
-            popUpHandler(message.overlay, {
-              [questionData ? "questionID" : "pollID"]: data.info[[questionData ? "questionID" : "pollID"]]
-            });
-            this.markRead();
-          }}>{message.message}</Link>{!data.read ? (<span className="mark-read" onClick={this.markRead}>x</span>) : null}
+          <Link href={`/profile/${username}`} to={`/profile/${username}`}>{username}</Link>
+          {
+            control ? (
+              <span className="wrap">
+                {
+                  list === "queue" ? (
+                    [
+                      <span key="playing" onClick={moveToList.bind(null, "nowPlaying")} title={`Will move this person to the queue Now Playing`}>Now Playing</span>,
+                      <span key="played" onClick={moveToList.bind(null, "alreadyPlayed")} title={`Will move this person to the queue Already Played`}>Already Played</span>
+                    ]
+                  ) : list === "nowPlaying" ? (
+                    <span key="played" onClick={moveToList.bind(null, "alreadyPlayed")} title={`Will move this person to the queue Already Played`}>Already Played</span>
+                  ) : null
+                }
+                <span className="danger" onClick={removeFromList} title="Will remove this person from the queue completely">Remove</span>
+              </span>
+            ) : null
+          }
         </label>
       </div>
     );
@@ -170,6 +50,7 @@ export const ViewGameQueue = React.createClass({
     propsPresent: false,
     queueInfo: null,
     icon: ("PC/Steam").toLowerCase(),
+    confirmedSub: false,
     validation: {
       // title
       titleMin: 2,
@@ -193,28 +74,64 @@ export const ViewGameQueue = React.createClass({
       rankValid: false,
       // queueLimit
       queueLimitMin: 1,
-      queueLimitMax: 64,
-      queueLimitCount: 1,
+      queueLimitMax: 1,
+      queueLimitCount: 64,
       queueLimitValid: false,
     },
   }),
   checkForProps() {
     const {
-      // userData,
+      userData,
       fireRef
     } = this.props;
     const propsPresent =
       // !!userData &&
       !!fireRef;
     // console.log(propsPresent);
-    if(propsPresent) {
+    if(propsPresent && !this.state.propsPresent) {
       this.setState({
-        // userDataPresent: !!userData,
         fireRefPresent: !!fireRef,
         propsPresent
       });
 
-      this.prepListener();
+      if(!this.state.propsPresent) this.prepListener();
+    }
+    if(!!userData) {
+      this.setState({
+        userDataPresent: !!userData,
+      });
+      this.checkSub();
+    }
+  },
+  checkSub() {
+    const {
+      userData,
+      queueHost,
+      auth
+    } = this.props;
+
+    if(userData && (userData.name !== queueHost)) {
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        target: queueHost,
+        username: userData.name,
+        access_token: auth.access_token,
+      })
+      .then(methods => {
+        methods
+        .getSubscriptionStatus()
+        .then(data => {
+          // if they're a sub then set confirmedSub to true
+          // otherwise this will trigger a bad request response and we don't have to do anything else
+          console.log("subscribed");
+          this.setState({
+            confirmedSub: true
+          });
+        })
+        .catch((e = {}) => console.error(e.stack || e));
+      })
+      .catch((e = {}) => console.error(e.stack || e));
     }
   },
   prepListener() {
@@ -273,7 +190,7 @@ export const ViewGameQueue = React.createClass({
     const key = snap.getKey();
     const val = snap.val();
     let newQueueInfo = JSON.parse(JSON.stringify(this.state.queueInfo || {}))
-    // console.log(type, key, val);
+    console.log(type, key, val);
     switch (key) {
       case "title":
       case "game":
@@ -412,11 +329,50 @@ export const ViewGameQueue = React.createClass({
       icon: this.refs.platform.value
     });
   },
+  removeFromList(username, list) {
+    const {
+      fireRef,
+      queueHost
+    } = this.props;
+
+    console.log("remove from list", arguments);
+    fireRef.gameQueuesRef
+    .child(queueHost)
+    .child(list)
+    .update({
+      [username]: null
+    })
+  },
+  moveToList(username, userData, currList, nextList) {
+    const {
+      fireRef,
+      queueHost
+    } = this.props;
+
+    console.log("move to list", arguments);
+    fireRef.gameQueuesRef
+    .child(queueHost)
+    .child(nextList)
+    .update({
+      [username]: userData
+    })
+    .catch((e = {}) => console.error(e.stack || e))
+
+    setTimeout(() => {
+      fireRef.gameQueuesRef
+      .child(queueHost)
+      .child(currList)
+      .update({
+        [username]: null
+      })
+      .catch((e = {}) => console.error(e.stack || e))
+    });
+  },
   componentDidMount() {
-    if(!this.state.propsPresent) this.checkForProps();
+    if(!this.state.propsPresent || !this.state.userDataPresent) this.checkForProps();
   },
   componentDidUpdate() {
-    if(!this.state.propsPresent) this.checkForProps();
+    if(!this.state.propsPresent || !this.state.userDataPresent) this.checkForProps();
   },
   componentWillUnmount() {
     if(this.killListener === "function") this.killListener();
@@ -435,6 +391,7 @@ export const ViewGameQueue = React.createClass({
       queueInfo,
       propsPresent,
       icon,
+      confirmedSub,
     } = this.state;
 
     if(!propsPresent) return null;
@@ -456,21 +413,46 @@ export const ViewGameQueue = React.createClass({
     const queueList = queue ? Object.keys(queue).map(username => {
       const data = queue[username];
       return (
-        <span key={username}>{username}</span>
+        <UserItem
+          controls={userData && (userData.name === queueHost)}
+          key={username}
+          username={username}
+          list="queue"
+          methods={{
+            removeFromList: this.removeFromList.bind(this, username, "queue"),
+            moveToList: this.moveToList.bind(this, username, data, "queue"),
+          }} />
       );
     }) : <span className="bold">No one in this queue</span>;
     const nowPlayingList = nowPlaying ? Object.keys(nowPlaying).map(username => {
       const data = nowPlaying[username];
       return (
-        <span key={username}>{username}</span>
+        <UserItem
+          controls={userData && (userData.name === queueHost)}
+          key={username}
+          username={username}
+          list="nowPlaying"
+          methods={{
+            removeFromList: this.removeFromList.bind(this, username, "nowPlaying"),
+            moveToList: this.moveToList.bind(this, username, data, "nowPlaying"),
+          }} />
       );
     }) : <span className="bold">No one in this queue</span>;
     const alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).map(username => {
       const data = alreadyPlayed[username];
-      return (
-        <span key={username}>{username}</span>
+        return (
+          <UserItem
+            controls={userData && (userData.name === queueHost)}
+            key={username}
+            username={username}
+            list="alreadyPlayed"
+            methods={{
+              removeFromList: this.removeFromList.bind(this, username, "alreadyPlayed"),
+              moveToList: this.moveToList.bind(this, username, data, "alreadyPlayed"),
+            }} />
       );
     }) : <span className="bold">No one in this queue</span>;
+    const queueLimitMet = queueInfo && queueInfo.queue ? ( Object.keys(queueInfo.queue).length >= (queueInfo.queueLimit || 1) ) : false;
 
     return (
       <div className={`overlay-ui-default view-game-queue open`} onClick={e => e.stopPropagation()}>
@@ -576,24 +558,34 @@ export const ViewGameQueue = React.createClass({
           <div className="separator-1-dim" />
           {
             userData && userData.name === queueHost ? (
-              [
-                <form key="update" onSubmit={this.submit.bind(this, "update")}>
-                  <div className="section">
-                    <button className="submit btn-default">Update Game Queue</button>
-                  </div>
-                </form>,
-                <form key="reset" onSubmit={this.submit.bind(this, "reset")}>
-                  <div className="section">
-                    <button className="submit btn-default">Reset Game Queue</button>
-                  </div>
-                </form>
-              ]
+              <div className="section">
+                <div className="align wide">
+                  <form onSubmit={this.submit.bind(this, "update")}>
+                    <div className="section">
+                      <button className="submit btn-default">Update Game Queue</button>
+                    </div>
+                  </form>
+                  <form onSubmit={this.submit.bind(this, "reset")}>
+                    <div className="section">
+                      <button className="submit btn-default">Reset Game Queue</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             ) : null
           }
           <div className="separator-1-dim" />
           <div className="separator-1-dim" />
           {
             queueInfo && userData && userData.name !== queueHost ? (
+              ( queueInfo.subOnly && !confirmedSub) ? (
+                <div className="section">
+                  <label>
+                    <div className="label bold">Sorry! You have to be a subscriber to join this queue. <a href={`https://www.twitch.tv/${queueHost}/subscribe`} target="_blank" rel="nofollow">Click here to subscribe to {queueHost}</a></div>
+                  </label>
+                </div>
+              ) :
+              ( !queueLimitMet ) &&
               ( !queueInfo.queue || !queueInfo.queue[userData.name] ) &&
               ( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData.name] ) &&
               ( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData.name] ) ? (
@@ -614,7 +606,13 @@ export const ViewGameQueue = React.createClass({
                     </form>
                   </label>
                 </div>
-              ) : null
+              ) : (
+                <div className="section">
+                  <label>
+                    <div className="label bold">Can't queue up right now. It's either full, you're already queued up, or you already played.</div>
+                  </label>
+                </div>
+              )
             ) : !userData ? (
               <div className="section">
                 <label>
@@ -626,9 +624,9 @@ export const ViewGameQueue = React.createClass({
           <div className="separator-1-dim" />
           <div className="separator-1-dim" />
           <div className="section">
-            {/* waiting queue */}
+            {/* now playing queue */}
             <label>
-              <div className="label bold">Now Playing</div>
+              <div className="label bold">Now Playing: ({queueInfo && queueInfo.nowPlaying ? Object.keys(queueInfo.nowPlaying).length : 0})</div>
               <div className="section">
                 <label>
                   <div className="list">
@@ -639,9 +637,9 @@ export const ViewGameQueue = React.createClass({
             </label>
           </div>
           <div className="section">
-            {/* now playing queue */}
+            {/* waiting queue */}
             <label>
-              <div className="label bold">In Queue</div>
+              <div className="label bold">In Queue: ({queueInfo && queueInfo.queue ? Object.keys(queueInfo.queue).length : 0})</div>
               <div className="section">
                 <label>
                   <div className="list">
@@ -651,10 +649,10 @@ export const ViewGameQueue = React.createClass({
               </div>
             </label>
           </div>
-            <div className="section">
+          <div className="section">
             {/* already played */}
             <label>
-              <div className="label bold">Already Played</div>
+              <div className="label bold">Already Played: ({queueInfo && queueInfo.alreadyPlayed ? Object.keys(queueInfo.alreadyPlayed).length : 0})</div>
               <div className="section">
                 <label>
                   <div className="list">

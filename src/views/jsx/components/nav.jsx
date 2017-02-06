@@ -166,6 +166,10 @@ export default React.createClass({
                         this.toggleNav("close");
                         popUpHandler("viewCreatedPolls");
                       }}>Polls</a>
+                      <a key="gamequeue" className="nav-item" href={`#`} onClick={() => {
+                        this.toggleNav("close");
+                        popUpHandler("viewGameQueue", { queueHost: userData.name });
+                      }}>Game Queue</a>
                     </div>
                     <Notifications
                       auth={auth}

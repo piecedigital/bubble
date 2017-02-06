@@ -607,3 +607,33 @@ The process cannot access the file because it is being used by another process.
 [1486246654621] [Sat, 04 Feb 2017 22:17:34 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js"
 The process cannot access the file because it is being used by another process.
 ]
+[1486366038828] [Mon, 06 Feb 2017 07:27:18 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js"
+Error: Cannot find module '../../modules/client/load-data' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1486366236117] [Mon, 06 Feb 2017 07:30:36 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js"
+Error: Cannot find module '../../modules/client/load-data' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1486366244488] [Mon, 06 Feb 2017 07:30:44 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js"
+Error: Cannot find module '../../modules/client/load-data' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:82:15)
+]
+[1486373276870] [Mon, 06 Feb 2017 09:27:56 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js"
+The process cannot access the file because it is being used by another process.
+]
+[1486382210370] [Mon, 06 Feb 2017 11:56:50 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js"
+The process cannot access the file because it is being used by another process.
+]

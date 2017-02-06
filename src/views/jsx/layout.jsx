@@ -18,7 +18,8 @@ export default React.createClass({
   displayName: "Layout",
   getInitialState() {
     // console.log(this.props);
-    let overlay = "viewGameQueue", overlayState = { queueHost: "piecedigital" };
+    let overlay, overlayState;
+    // let overlay = "viewGameQueue", overlayState = { queueHost: "piecedigital" };
     if(this.props.params && this.props.params.q) {
       switch (this.props.params.q) {
         case "q":
@@ -268,40 +269,6 @@ export default React.createClass({
     // console.log("pop up handler", action, options);
     let newState;
     switch (action) {
-      case "askQuestion":
-          newState = Object.assign({
-            overlay: action,
-            overlayState: {
-              to: options.receiver.toLowerCase(),
-              from: options.sender.toLowerCase(),
-            }
-          }, options.reset ? {
-            // reset askQuestion object if options.reset is there
-            overlayState: {
-              to: "",
-              from: "",
-              body: ""
-            }
-          } : {});
-          // console.log("new state:", newState);
-          this.setState(newState);
-        break;
-      case "answerQuestion":
-      case "viewQuestion":
-      case "viewAskedQuestions":
-      case "viewBookmarks":
-      case "viewNotifications":
-      case "makePoll":
-      case "votePoll":
-      case "viewPoll":
-      case "viewCreatedPolls":
-          newState = {
-            overlay: action,
-            overlayState: options
-          };
-          // console.log("new state:", newState);
-          this.setState(newState);
-        break;
       case "close":
         this.setState({
           overlay: ""
@@ -312,6 +279,43 @@ export default React.createClass({
             pathname: this.props.location.state.returnTo
           });
         }
+      break;
+      case "askQuestion":
+        newState = Object.assign({
+          overlay: action,
+          overlayState: {
+            to: options.receiver.toLowerCase(),
+            from: options.sender.toLowerCase(),
+          }
+        }, options.reset ? {
+          // reset askQuestion object if options.reset is there
+          overlayState: {
+            to: "",
+            from: "",
+            body: ""
+          }
+        } : {});
+        // console.log("new state:", newState);
+        this.setState(newState);
+      break;
+      case "answerQuestion":
+      case "viewQuestion":
+      case "viewAskedQuestions":
+      case "viewBookmarks":
+      case "viewNotifications":
+      case "makePoll":
+      case "votePoll":
+      case "viewPoll":
+      case "viewCreatedPolls":
+      case "viewGameQueue":
+      default:
+        newState = {
+          overlay: action,
+          overlayState: options
+        };
+        // console.log("new state:", newState);
+        this.setState(newState);
+      break;
     }
   },
   checkURL(nextProps, nextState) {
@@ -438,7 +442,7 @@ export default React.createClass({
     "?response_type=token"+
     `&client_id=${clientID}`+
     `&redirect_uri=${redirectURI}`+
-    "&scope=user_read+user_follows_edit";
+    "&scope=user_read+user_follows_edit+channel_check_subscription+user_subscriptions";
 
     return (
       <div className={`root${playerHasStreamers ? " player-open" : ""}${playerHasStreamers && playerCollapsed ? " player-collapsed" : ""} layout-${layout || Object.keys(dataObject).length}`}>

@@ -154,7 +154,8 @@ export default React.createClass({
                   userChannelData ? (
                     [
                       " ",
-                      <div key="open" className="btn-default btn-rect color-black bold no-underline" onClick={appendStream.bind(null, userChannelData.name, userChannelData.display_name)}>Open Stream</div>
+                      <div key="open" className="btn-default btn-rect color-black bold no-underline" onClick={appendStream.bind(null, userChannelData.name, userChannelData.display_name)}>Open Stream</div>,
+                      <div key="gamequeue" className="btn-default btn-rect color-black bold no-underline" onClick={popUpHandler.bind(null, "viewGameQueue", { queueHost: userChannelData.name })}>Open Game Queue</div>,
                     ]
                   ) : null
                 }

@@ -59,15 +59,15 @@ export default React.createClass({
           function () {
             return Component ? (
               <Component
-              overlay={overlay}
-              {...overlayState}
-              fireRef={fireRef}
-              versionData={versionData}
-              auth={auth}
-              params={params}
-              location={location}
-              userData={userData}
-              methods={methods}/>
+                auth={auth}
+                overlay={overlay}
+                {...overlayState}
+                fireRef={fireRef}
+                versionData={versionData}
+                params={params}
+                location={location}
+                userData={userData}
+                methods={methods} />
             ) : null
           }()
         }

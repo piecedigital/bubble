@@ -38,7 +38,7 @@ export const initFirebase = () => {
     commentsRef: admin.database().ref("comments"),
     AMAsRef: admin.database().ref("AMAs"),
     pollsRef: admin.database().ref("polls"),
-    gameQueuesRef: Firebase.database().ref("gameQueues"),
+    gameQueuesRef: admin.database().ref("gameQueues"),
   };
   return (ref);
 }

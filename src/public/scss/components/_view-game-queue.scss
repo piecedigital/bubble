@@ -12,6 +12,11 @@
     .align {
       @include displayInlineFlex;
       align-items: center;
+      &.wide {
+        @include displayFlex;
+        justify-content: space-around;
+        width: 100%;
+      }
     }
     input, textarea {
       &.valid {}
