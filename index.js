@@ -8,8 +8,8 @@ var env = {
   STORAGE_BUCKET: "bubble-13387.appspot.com",
   MESSAGING_SENDER_ID: "766141212604",
   V_MAJOR: 0,
-  V_MINOR: 10,
-  V_PATCH: 5,
+  V_MINOR: 11,
+  V_PATCH: 0,
 };
 // would put other environment variables here
 cp.fork("./dist/app.js", [], {
