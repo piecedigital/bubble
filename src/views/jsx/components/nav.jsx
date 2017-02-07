@@ -95,7 +95,7 @@ export default React.createClass({
   componentDidMount() {
     this.refs.nav.addEventListener("mouseleave", () => {
       console.log("leave");
-      this.toggleNav("close");
+      // this.toggleNav("close");
     }, false);
   },
   render() {

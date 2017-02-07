@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import Player from "./components/player.jsx";
 import Overlay from "./components/overlay.jsx";
@@ -71,7 +72,8 @@ export default React.createClass({
   initFirebase(data) {
     let authData = this.getHashData();
     // console.log("init firebase", this.state.fireRef);
-    var config = data;
+    // this is current
+    var config: number = data;
     Firebase.initializeApp(config);
     const ref = {
       root: Firebase.database().ref(),

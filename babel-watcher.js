@@ -73,6 +73,14 @@ function babelWatcher() {
             logOut("browserification complete: live", true)
           }
         });
+        // console.log("running Flow test...");
+        // cp.exec("npm run-script flow --show-all-errors", (err, stdout, stderr) => {
+        //   if(err) {
+        //     console.log(err.stack || err);
+        //   }
+        //   console.log("stdout:", stdout);
+        //   console.log("stderr:", stderr);
+        // });
       } else {
         if(timer > 0) {
           timer--;

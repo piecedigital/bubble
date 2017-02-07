@@ -543,7 +543,7 @@ export const ViewQuestion = React.createClass({
         <div className={`overlay-ui-default view-question${overlay === "viewQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
           <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
           <div className="title">
-            {questionData.creator}'s Question To {questionData.receiver}
+            <a href={`/profile/${questionData.creator}`} to={`/profile/${questionData.creator}`}>{questionData.creator}</a>'s Question To <a href={`/profile/${questionData.receiver}`} to={`/profile/${questionData.receiver}`}>{questionData.receiver}</a>
           </div>
           <div className="separator-4-dim" />
           <div className="separator-4-dim" />

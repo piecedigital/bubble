@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "flow": "flow ./dist || exit 0"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "envify": "^4.0.0",
+    "flow-bin": "^0.38.0",
     "react-autocomplete-cli": "0.0.3",
-    "uglifyjs": "^2.4.10"
+    "uglifyjs": "^2.4.10",
+    "unflowify": "^1.0.1"
   },
   "dependencies": {
     "shoehornjs": "^2.0.1"
