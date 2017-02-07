@@ -20,7 +20,7 @@ var _modulesClientHelperTools = require("../../../../modules/client/helper-tools
 
 var _hoverOptionsJsx = require("../hover-options.jsx");
 
-var missingLogo = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 // components
 var components = {

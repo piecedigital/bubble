@@ -182,7 +182,7 @@ var PlayerStream = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "nested" },
-              _react2["default"].createElement("iframe", { ref: "video", src: "http://player.twitch.tv/?" + (vod ? "video=" + vod : "channel=" + name) + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
+              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?" + (vod ? "video=" + vod : "channel=" + name) + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
             )
           ),
           _react2["default"].createElement(
@@ -257,7 +257,7 @@ var PlayerStream = _react2["default"].createClass({
                 { className: "to-channel" },
                 _react2["default"].createElement(
                   _reactRouter.Link,
-                  { to: "http://twitch.tv/" + name, target: "_blank", onClick: function () {
+                  { to: "https://twitch.tv/" + name, target: "_blank", onClick: function () {
                       _this3.toggleMenu("close");
                     } },
                   "Visit On Twitch"
@@ -338,7 +338,7 @@ var PlayerStream = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "chat" },
-            _react2["default"].createElement("iframe", { ref: "chat", src: "http://www.twitch.tv/" + name + "/chat", frameBorder: "0", scrolling: "no" })
+            _react2["default"].createElement("iframe", { ref: "chat", src: "https://www.twitch.tv/" + name + "/chat", frameBorder: "0", scrolling: "no" })
           )
         );
       default:

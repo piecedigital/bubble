@@ -157,7 +157,7 @@ var FeaturedStream = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "stream" },
-        _react2["default"].createElement("iframe", { src: "http://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
+        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
       ),
       displayName ? _react2["default"].createElement(
         "div",
@@ -184,7 +184,7 @@ var FeaturedStream = _react2["default"].createClass({
             { className: "to-channel" },
             _react2["default"].createElement(
               "a",
-              { href: "http://www.twitch.tv/" + name, target: "_black", rel: "nofollow" },
+              { href: "https://www.twitch.tv/" + name, target: "_black", rel: "nofollow" },
               "Visit on Twitch"
             )
           ),
