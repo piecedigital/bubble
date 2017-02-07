@@ -4,7 +4,7 @@ import loadData from "../../../../modules/client/load-data";
 import { browserNotification as notification } from "../../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "../hover-options.jsx";
 
-const missingLogo = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 // components
 let components = {

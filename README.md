@@ -7,6 +7,7 @@
   - Fixed overlay modal - 0.10.4 **ok**
   - Fixed bookmarking - 0.10.5 **ok**
 - Game invite queuing - 0.11.0 **done**
+  - Hot fix HTTPS fixed **ok**
 - Meta data update 0.12.0
 - Beta launch. Try harder to get more people to use the app
 - AMAs - 0.13.0

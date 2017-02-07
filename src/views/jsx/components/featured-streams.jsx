@@ -131,7 +131,7 @@ const FeaturedStream = React.createClass({
     return (
       <div className="featured-stream">
         <div className="stream">
-          <iframe src={`http://player.twitch.tv/?channel=${name}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
+          <iframe src={`https://player.twitch.tv/?channel=${name}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
         </div>
         {
           displayName ? (
@@ -144,7 +144,7 @@ const FeaturedStream = React.createClass({
                   <Link to={`/profile/${name}`} >{displayName}</Link>
                 </div>
                 <div className="to-channel">
-                  <a href={`http://www.twitch.tv/${name}`} target="_black" rel="nofollow">Visit on Twitch</a>
+                  <a href={`https://www.twitch.tv/${name}`} target="_black" rel="nofollow">Visit on Twitch</a>
                 </div>
                 <div className={`separator-1-1`}></div>
                 <a href="#" className="watch" onClick={() => {
