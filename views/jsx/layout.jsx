@@ -48,6 +48,7 @@ exports["default"] = _react2["default"].createClass({
     // console.log(this.props);
     var overlay = undefined,
         overlayState = undefined;
+    // let overlay = "viewGameQueue", overlayState = { queueHost: "piecedigital" };
     if (this.props.params && this.props.params.q) {
       switch (this.props.params.q) {
         case "q":
@@ -101,6 +102,7 @@ exports["default"] = _react2["default"].createClass({
 
     var authData = this.getHashData();
     // console.log("init firebase", this.state.fireRef);
+    // this is current
     var config = data;
     _firebase2["default"].initializeApp(config);
     var ref = {
@@ -114,7 +116,8 @@ exports["default"] = _react2["default"].createClass({
       ratingsRef: _firebase2["default"].database().ref("ratings"),
       commentsRef: _firebase2["default"].database().ref("comments"),
       AMAsRef: _firebase2["default"].database().ref("AMAs"),
-      pollsRef: _firebase2["default"].database().ref("polls")
+      pollsRef: _firebase2["default"].database().ref("polls"),
+      gameQueuesRef: _firebase2["default"].database().ref("gameQueues")
     };
     _firebase2["default"].auth().signInAnonymously()["catch"](function (e) {
       console.error("login error:", e.message, e.code);
@@ -301,6 +304,17 @@ exports["default"] = _react2["default"].createClass({
     // console.log("pop up handler", action, options);
     var newState = undefined;
     switch (action) {
+      case "close":
+        this.setState({
+          overlay: ""
+        });
+        // console.log(this.props.location);
+        if (this.props.location.state && this.props.location.state.modal) {
+          _reactRouter.browserHistory.push({
+            pathname: this.props.location.state.returnTo
+          });
+        }
+        break;
       case "askQuestion":
         newState = Object.assign({
           overlay: action,
@@ -328,6 +342,8 @@ exports["default"] = _react2["default"].createClass({
       case "votePoll":
       case "viewPoll":
       case "viewCreatedPolls":
+      case "viewGameQueue":
+      default:
         newState = {
           overlay: action,
           overlayState: options
@@ -335,16 +351,6 @@ exports["default"] = _react2["default"].createClass({
         // console.log("new state:", newState);
         this.setState(newState);
         break;
-      case "close":
-        this.setState({
-          overlay: ""
-        });
-        // console.log(this.props.location);
-        if (this.props.location.state && this.props.location.state.modal) {
-          _reactRouter.browserHistory.push({
-            pathname: this.props.location.state.returnTo
-          });
-        }
     }
   },
   checkURL: function checkURL(nextProps, nextState) {
@@ -438,23 +444,6 @@ exports["default"] = _react2["default"].createClass({
       }
     });
   },
-  componentDidUpdate: function componentDidUpdate() {
-    var _state = this.state;
-    var registeredAuth = _state.registeredAuth;
-    var fireRef = _state.fireRef;
-    var userData = _state.userData;
-    var authData = _state.authData;
-
-    // console.log(registeredAuth, !!fireRef, !!authData, !!userData);
-    if (!registeredAuth && fireRef && authData && authData.access_token && userData) {
-      // console.log("register auth. should only happen once");
-      this.setState({
-        registeredAuth: true
-      }, function () {
-        fireRef.authTokensRef.child(userData.name).set(authData.access_token);
-      });
-    }
-  },
   componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
     // console.log(nextProps.location);
     if (nextProps.location.state && nextProps.location.state.modal) {
@@ -464,27 +453,26 @@ exports["default"] = _react2["default"].createClass({
     }
     this.checkURL(nextProps, nextState);
   },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {},
   render: function render() {
-    var _state2 =
+    var _state =
 
     // server unique
     this.state;
-    var authData = _state2.authData;
-    var userData = _state2.userData;
-    var dataObject = _state2.streamersInPlayer;
-    var playerCollapsed = _state2.playerCollapsed;
-    var layout = _state2.layout;
-    var panelData = _state2.panelData;
-    var overlay = _state2.overlay;
-    var overlayState = _state2.overlayState;
-    var fireRef = _state2.fireRef;
-    var versionData = _state2.versionData;
+    var authData = _state.authData;
+    var userData = _state.userData;
+    var dataObject = _state.streamersInPlayer;
+    var playerCollapsed = _state.playerCollapsed;
+    var layout = _state.layout;
+    var panelData = _state.panelData;
+    var overlay = _state.overlay;
+    var overlayState = _state.overlayState;
+    var fireRef = _state.fireRef;
+    var versionData = _state.versionData;
     var initState = this.props.initState;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
-    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + ("&client_id=" + clientID) + ("&redirect_uri=" + redirectURI) + "&scope=user_read+user_follows_edit";
+    var url = "https://api.twitch.tv/kraken/oauth2/authorize" + "?response_type=token" + ("&client_id=" + clientID) + ("&redirect_uri=" + redirectURI) + "&scope=user_read+user_follows_edit+channel_check_subscription+user_subscriptions";
 
     return _react2["default"].createElement(
       "div",

@@ -127,6 +127,14 @@ exports["default"] = function (errorCB) {
         delete options.limit;
         return makeRequest(okayCB, "users/" + options.username + "/follows/channels/" + options.target);
       },
+      getSubscriptionStatus: function getSubscriptionStatus(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        options = needAuth(options);
+        options.to = options.to || "user";
+        var url = options.to === "channel" ? "channels/" + options.target + "/subscriptions/" + options.username : "users/" + options.username + "/subscriptions/" + options.target;
+        return makeRequest(okayCB, url);
+      },
       getPanels: function getPanels(okayCB) {
         delete options.stream_type;
         delete options.limit;

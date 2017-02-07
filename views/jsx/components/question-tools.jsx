@@ -421,6 +421,7 @@ var AnswerQuestion = _react2["default"].createClass({
     var _props4 = this.props;
     var questionID = _props4.questionID;
     var fireRef = _props4.fireRef;
+    var userData = _props4.userData;
     var popUpHandler = _props4.methods.popUpHandler;
 
     (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
@@ -433,9 +434,11 @@ var AnswerQuestion = _react2["default"].createClass({
             questionID: questionID
           });
         } else {
-          _this3.setState({
-            questionData: questionData
-          });
+          if (questionData.receiver === userData.name) {
+            _this3.setState({
+              questionData: questionData
+            });
+          }
         }
       });
     });
@@ -700,9 +703,17 @@ var ViewQuestion = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "title" },
-          questionData.creator,
+          _react2["default"].createElement(
+            "a",
+            { href: "/profile/" + questionData.creator, to: "/profile/" + questionData.creator },
+            questionData.creator
+          ),
           "'s Question To ",
-          questionData.receiver
+          _react2["default"].createElement(
+            "a",
+            { href: "/profile/" + questionData.receiver, to: "/profile/" + questionData.receiver },
+            questionData.receiver
+          )
         ),
         _react2["default"].createElement("div", { className: "separator-4-dim" }),
         _react2["default"].createElement("div", { className: "separator-4-dim" }),

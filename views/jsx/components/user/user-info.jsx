@@ -210,6 +210,10 @@ exports["default"] = _react2["default"].createClass({
               "div",
               { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
               "Open Stream"
+            ), _react2["default"].createElement(
+              "div",
+              { key: "gamequeue", className: "btn-default btn-rect color-black bold no-underline", onClick: popUpHandler.bind(null, "viewGameQueue", { queueHost: userChannelData.name }) },
+              "Open Game Queue"
             )] : null,
             (function () {
               var give = false;

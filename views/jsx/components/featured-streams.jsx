@@ -49,7 +49,7 @@ var StreamListItem = _react2["default"].createClass({
     var name = _props$data$stream$channel.name;
     var language = _props$data$stream$channel.language;
 
-    var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+    var viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
     return _react2["default"].createElement(
       "span",
       null,
@@ -157,7 +157,7 @@ var FeaturedStream = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "stream" },
-        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
+        _react2["default"].createElement("iframe", { src: "http://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
       ),
       displayName ? _react2["default"].createElement(
         "div",
@@ -184,7 +184,7 @@ var FeaturedStream = _react2["default"].createClass({
             { className: "to-channel" },
             _react2["default"].createElement(
               "a",
-              { href: "https://www.twitch.tv/" + name, target: "_black", rel: "nofollow" },
+              { href: "http://www.twitch.tv/" + name, target: "_black", rel: "nofollow" },
               "Visit on Twitch"
             )
           ),

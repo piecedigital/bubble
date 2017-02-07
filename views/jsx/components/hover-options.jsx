@@ -56,7 +56,7 @@ var ListItemHoverOptions = _react2["default"].createClass({
           { className: "append-stream" },
           _react2["default"].createElement(
             "a",
-            { href: vod ? "https://www.twitch.tv/" + name + "/v/" + vod : "https://www.twitch.tv/" + name, target: "_blank", rel: "nofollow", onClick: function (e) {
+            { href: vod ? "http://www.twitch.tv/" + name + "/v/" + vod : "http://www.twitch.tv/" + name, target: "_blank", rel: "nofollow", onClick: function (e) {
                 e.preventDefault();
                 clickCallback(name, display_name, vod);
               } },
@@ -70,7 +70,7 @@ var ListItemHoverOptions = _react2["default"].createClass({
           { className: "send-message" },
           _react2["default"].createElement(
             "a",
-            { className: "btn-default btn-rect btn-no-pad color-black no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+            { className: "btn-default btn-rect btn-no-pad color-black no-underline", href: "http://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
             "Send Message"
           )
         ),

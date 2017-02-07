@@ -112,15 +112,13 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentDidMount: function componentDidMount() {
-    var _this = this;
-
     this.refs.nav.addEventListener("mouseleave", function () {
       console.log("leave");
-      _this.toggleNav("close");
+      // this.toggleNav("close");
     }, false);
   },
   render: function render() {
-    var _this2 = this;
+    var _this = this;
 
     var _state = this.state;
     var addOpen = _state.addOpen;
@@ -148,14 +146,14 @@ exports["default"] = _react2["default"].createClass({
           "span",
           { className: "inputs" },
           _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: function (value, bool) {
-              _this2.toggleNav("close");
+              _this.toggleNav("close");
               appendStream(value, undefined, bool);
             }, methods: {
               focusCallback: this.focusInput,
               toggleCallback: this.toggleInput
             } }),
           _react2["default"].createElement(SlideInput, { ref: "searchInput", commandValue: "search", symbol: "S", open: searchOpen, placeholder: "Search Twitch", callback: function (value, bool) {
-              _this2.toggleNav("close");
+              _this.toggleNav("close");
               search(value, undefined, bool);
             }, methods: {
               focusCallback: this.focusInput,
@@ -180,48 +178,77 @@ exports["default"] = _react2["default"].createClass({
         authData && authData.access_token ? _react2["default"].createElement(
           "span",
           { className: "auth" },
-          userData ? [_react2["default"].createElement(
-            _reactRouter.Link,
-            { key: "profile", className: "nav-item", href: "/profile", to: "/profile", onClick: this.toggleNav.bind(null, "close") },
-            "Profile"
-          ), _react2["default"].createElement(
-            "a",
-            { key: "notifications", className: "nav-item", href: "#", onClick: function () {
-                _this2.toggleNav("close");
-                popUpHandler("viewNotifications");
-              } },
-            "Notifications",
+          userData ? _react2["default"].createElement(
+            "div",
+            { className: "nav-item with-submenu", onClick: this.toggleNav },
+            "My Stuff",
+            _react2["default"].createElement(
+              "div",
+              { className: "submenu" },
+              _react2["default"].createElement(
+                _reactRouter.Link,
+                { key: "profile", className: "nav-item", href: "/profile", to: "/profile", onClick: this.toggleNav.bind(null, "close") },
+                "Profile"
+              ),
+              _react2["default"].createElement(
+                "a",
+                { key: "notifications", className: "nav-item", href: "#", onClick: function () {
+                    _this.toggleNav("close");
+                    popUpHandler("viewNotifications");
+                  } },
+                _react2["default"].createElement(
+                  "span",
+                  null,
+                  "Notifications"
+                ),
+                _react2["default"].createElement(_notificationsJsx2["default"], {
+                  auth: auth,
+                  fireRef: fireRef,
+                  userData: userData })
+              ),
+              _react2["default"].createElement(
+                "a",
+                { key: "bookmarks", className: "nav-item", href: "#", onClick: function () {
+                    _this.toggleNav("close");
+                    popUpHandler("viewBookmarks");
+                  } },
+                "Bookmarks"
+              ),
+              _react2["default"].createElement(
+                "a",
+                { key: "questions", className: "nav-item", href: "#", onClick: function () {
+                    _this.toggleNav("close");
+                    popUpHandler("viewAskedQuestions");
+                  } },
+                "Questions"
+              ),
+              _react2["default"].createElement(
+                "a",
+                { key: "polls", className: "nav-item", href: "#", onClick: function () {
+                    _this.toggleNav("close");
+                    popUpHandler("viewCreatedPolls");
+                  } },
+                "Polls"
+              ),
+              _react2["default"].createElement(
+                "a",
+                { key: "gamequeue", className: "nav-item", href: "#", onClick: function () {
+                    _this.toggleNav("close");
+                    popUpHandler("viewGameQueue", { queueHost: userData.name });
+                  } },
+                "Game Queue"
+              )
+            ),
             _react2["default"].createElement(_notificationsJsx2["default"], {
               auth: auth,
               fireRef: fireRef,
               userData: userData })
-          ), _react2["default"].createElement(
-            "a",
-            { key: "bookmarks", className: "nav-item", href: "#", onClick: function () {
-                _this2.toggleNav("close");
-                popUpHandler("viewBookmarks");
-              } },
-            "Bookmarks"
-          ), _react2["default"].createElement(
-            "a",
-            { key: "questions", className: "nav-item", href: "#", onClick: function () {
-                _this2.toggleNav("close");
-                popUpHandler("viewAskedQuestions");
-              } },
-            "Questions"
-          ), _react2["default"].createElement(
-            "a",
-            { key: "polls", className: "nav-item", href: "#", onClick: function () {
-                _this2.toggleNav("close");
-                popUpHandler("viewCreatedPolls");
-              } },
-            "Polls"
-          )] : null,
+          ) : null,
           _react2["default"].createElement(
             "a",
             { className: "nav-item", href: "#", onClick: function () {
                 logout();
-                _this2.toggleNav("close");
+                _this.toggleNav("close");
               } },
             "Disconnect"
           )

@@ -20,7 +20,7 @@ var _modulesClientHelperTools = require("../../../../modules/client/helper-tools
 
 var _hoverOptionsJsx = require("../hover-options.jsx");
 
-// const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+// const missingLogo = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 var currentNotifs = 0;
 // components
@@ -210,7 +210,7 @@ var components = {
       var id = stream._id;
       var preview = stream.preview;
 
-      var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+      var viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
       if (filter === "all" || filter === "online") {
         return _react2["default"].createElement(
           "li",

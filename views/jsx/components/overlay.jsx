@@ -22,6 +22,8 @@ var _notificationToolsJsx = require("./notification-tools.jsx");
 
 var _pollToolsJsx = require("./poll-tools.jsx");
 
+var _gameQueueToolsJsx = require("./game-queue-tools.jsx");
+
 var components = {
   "askQuestion": _questionToolsJsx.AskQuestion,
   "answerQuestion": _questionToolsJsx.AnswerQuestion,
@@ -32,7 +34,8 @@ var components = {
   "makePoll": _pollToolsJsx.MakePoll,
   "votePoll": _pollToolsJsx.VotePoll,
   "viewPoll": _pollToolsJsx.ViewPoll,
-  "viewCreatedPolls": _pollToolsJsx.ViewCreatedPolls
+  "viewCreatedPolls": _pollToolsJsx.ViewCreatedPolls,
+  "viewGameQueue": _gameQueueToolsJsx.ViewGameQueue
 };
 
 exports["default"] = _react2["default"].createClass({
@@ -55,9 +58,11 @@ exports["default"] = _react2["default"].createClass({
     // console.log(overlay, components, Component);
     if (!fireRef) return null;
     if (!userData) {
+      // with the correct case we wont require the user to be logged in
       switch (overlay) {
         case "viewQuestion":
         case "viewPoll":
+        case "viewGameQueue":
           Component = Component;
           break;
         default:
@@ -69,11 +74,11 @@ exports["default"] = _react2["default"].createClass({
       { className: "overlay" + (Component ? " open" : ""), onClick: popUpHandler.bind(null, "close") },
       (function () {
         return Component ? _react2["default"].createElement(Component, _extends({
+          auth: auth,
           overlay: overlay
         }, overlayState, {
           fireRef: fireRef,
           versionData: versionData,
-          auth: auth,
           params: params,
           location: location,
           userData: userData,

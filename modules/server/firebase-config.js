@@ -51,7 +51,8 @@ var initFirebase = function initFirebase() {
     ratingsRef: _firebaseAdmin2["default"].database().ref("ratings"),
     commentsRef: _firebaseAdmin2["default"].database().ref("comments"),
     AMAsRef: _firebaseAdmin2["default"].database().ref("AMAs"),
-    pollsRef: _firebaseAdmin2["default"].database().ref("polls")
+    pollsRef: _firebaseAdmin2["default"].database().ref("polls"),
+    gameQueuesRef: _firebaseAdmin2["default"].database().ref("gameQueues")
   };
   return ref;
 };

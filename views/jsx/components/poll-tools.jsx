@@ -61,6 +61,7 @@ var MakePoll = _react2["default"].createClass({
       success: false,
       time: "Infinite",
       validation: {
+        // title
         titleMin: 15,
         titleMax: 500,
         titleCount: 0,
@@ -500,7 +501,7 @@ var ChoiceOption = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "checkbox", onClick: this.vote },
-              "✔"
+              "vote!"
             )
           )
         )
