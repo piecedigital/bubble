@@ -28,11 +28,16 @@ export default React.createClass({
             </div>
           </div>
           <div className="separator-4-black" />
-          <UserInfo {...this.props} />
+          {
+            params.username || userData ? (
+              <UserInfo {...this.props} />
+            ) : null
+          }
           <div className="separator-4-black" />
           <UserQuestions {...this.props} />
           {
-            auth && auth.access_token ? (
+            auth && auth.access_token &&
+            (userData || params.username) ? (
               [
                 <div key="sep-IFollow" className="separator-4-black" />,
                 <FollowStreams key="comp-IFollow" follow={"IFollow"} {...this.props} />
@@ -40,7 +45,8 @@ export default React.createClass({
             ) : null
           }
           {
-            auth && auth.access_token ? (
+            auth && auth.access_token &&
+            (userData || params.username) ? (
               [
                 <div key="sep-followMe" className="separator-4-black" />,
                 <FollowStreams key="comp-followMe" follow={"followMe"} {...this.props}/>
@@ -48,7 +54,11 @@ export default React.createClass({
             ) : null
           }
           <div className="separator-4-black" />
-          <VideosListing broadcasts={true} {...this.props} />
+          {
+            params.username || userData ? (
+              <VideosListing broadcasts={true} {...this.props} />
+            ) : null
+          }
         </div>
       </div>
     );

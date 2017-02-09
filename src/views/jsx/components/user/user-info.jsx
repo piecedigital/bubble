@@ -16,6 +16,7 @@ export default React.createClass({
         params,
         userData,
       } = this.props;
+      // console.log("userdata", userData);
       let username;
       if(params && params.username) {
         username = params.username;

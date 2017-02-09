@@ -16,6 +16,7 @@
     - **load-data.js** - various functions to perform an XHR request to an API. Browserified
     - **render-jsx.js** - renders JSX files for HTML serving. Not Browserified
     - **routes.js** - refines routes for the application. Not Browserified
+  - **private/** - contains private data for the server or client. Is not included in the repo itself; it must be manually added with the correct data
   - **public/**
     - **scss/** - Sass files
       - **components/** - component Sass files that are compiled into the main Sass file

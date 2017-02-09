@@ -69,11 +69,13 @@ export default React.createClass({
     window.location.hash = "";
     return queryData;
   },
-  initFirebase(data) {
+  initAuthAndFirebase(data, token) {
     let authData = this.getHashData();
     // console.log("init firebase", this.state.fireRef);
-    // this is current
-    var config: number = data;
+    this.setState({
+      authData
+    });
+    var config = data;
     Firebase.initializeApp(config);
     const ref = {
       root: Firebase.database().ref(),
@@ -89,29 +91,38 @@ export default React.createClass({
       pollsRef: Firebase.database().ref("polls"),
       gameQueuesRef: Firebase.database().ref("gameQueues"),
     };
-    Firebase.auth().signInAnonymously()
+    // console.log("got auth token", token, typeof token);
+    Firebase.auth().signInWithCustomToken(token)
     .catch(e => {
       console.error("login error:", e.message, e.code);
     });
-    Firebase.auth().onAuthStateChanged(user => {
-      loadData.call(this, e => {
-        console.error(e.stack);
-      }, {
-        access_token: authData.access_token
-      })
-      .then(methods => {
-        methods
-        .getCurrentUser()
-        .then(data => {
-          this.setState({
-            userData: data,
-            authData
-          });
+    // contantly check for current user
+    const interval = setInterval(() => {
+      // console.log("current user:", Firebase.auth().currentUser);
+      // finish getting user data once the Firebase auth is confirmed
+      if(Firebase.auth().currentUser) {
+        console.log("current user is authed with Firebase");
+        clearInterval(interval);
+
+        loadData.call(this, e => {
+          console.error(e.stack);
+        }, {
+          access_token: authData.access_token
+        })
+        .then(methods => {
+          methods
+          .getCurrentUser()
+          .then(data => {
+            this.setState({
+              userData: data,
+            });
+          })
+          .catch(e => console.error(e.stack || e));
         })
         .catch(e => console.error(e.stack || e));
-      })
-      .catch(e => console.error(e.stack || e));
-    });
+      }
+    }, 100);
+
     this.setState({
       fireRef: ref
     });
@@ -379,20 +390,33 @@ export default React.createClass({
     }
   },
   componentDidMount() {
-    // load firebase config
-    loadData.call(this, e => {
-      console.error(e.stack);
-    })
-    .then(methods => {
-      methods
-      .getFirebaseConfig()
-      .then(data => {
-        // console.log("firebase data", data);
-        this.initFirebase(JSON.parse(atob(data)))
-      })
-      .catch(e => console.error(e.stack || e));
-    })
-    .catch(e => console.error(e.stack || e));
+    // get auth token
+    ajax({
+      url: "/get-auth-token",
+      success: (authToken) => {
+        // load firebase config
+        // console.log("auth token", authToken);
+        loadData.call(this, e => {
+          console.error(e.stack);
+        })
+        .then(methods => {
+          methods
+          .getFirebaseConfig()
+          .then(data => {
+            // console.log("firebase data", data);
+            this.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
+          })
+          .catch(e => console.error(e.stack || e));
+        })
+        .catch(e => console.error(e.stack || e));
+      },
+      error: (err) => {
+        console.error(err);
+        this.setState({
+          error: true
+        });
+      }
+    });
 
     ajax({
       url: "/get-version",
@@ -407,7 +431,7 @@ export default React.createClass({
           error: true
         });
       }
-    })
+    });
   },
   componentWillUpdate(nextProps, nextState) {
     // console.log(nextProps.location);

@@ -1,7 +1,7 @@
 import express from "express";
 import https from "https";
 import { renderHTML } from "./render-jsx";
-import { initFirebase } from "./firebase-config";
+import { initFirebase, getAuthToken } from "./firebase-config";
 
 const app = express();
 let fireRef;
@@ -106,6 +106,13 @@ app
   const stringified = JSON.stringify(data);
   const base64Encoded = new Buffer(stringified).toString("base64");
   res.send(base64Encoded);
+})
+.get("/get-auth-token", function (req, res) {
+  getAuthToken()
+  .then(token => {
+    res.send(token);
+  })
+  .catch((e = {}) => console.error(e.stack || e));
 })
 .get("/get-version", function (req, res) {
   const data = {
