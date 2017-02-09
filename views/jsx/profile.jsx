@@ -65,13 +65,13 @@ exports["default"] = _react2["default"].createClass({
           )
         ),
         _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props),
+        params.username || userData ? _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props) : null,
         _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(_componentsUserQuestionsJsx2["default"], this.props),
-        auth && auth.access_token ? [_react2["default"].createElement("div", { key: "sep-IFollow", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-IFollow", follow: "IFollow" }, this.props))] : null,
-        auth && auth.access_token ? [_react2["default"].createElement("div", { key: "sep-followMe", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-followMe", follow: "followMe" }, this.props))] : null,
+        auth && auth.access_token && (userData || params.username) ? [_react2["default"].createElement("div", { key: "sep-IFollow", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-IFollow", follow: "IFollow" }, this.props))] : null,
+        auth && auth.access_token && (userData || params.username) ? [_react2["default"].createElement("div", { key: "sep-followMe", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-followMe", follow: "followMe" }, this.props))] : null,
         _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserVideosListingJsx2["default"], _extends({ broadcasts: true }, this.props))
+        params.username || userData ? _react2["default"].createElement(_componentsUserVideosListingJsx2["default"], _extends({ broadcasts: true }, this.props)) : null
       )
     );
   }

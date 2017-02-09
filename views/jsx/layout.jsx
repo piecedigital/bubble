@@ -97,12 +97,14 @@ exports["default"] = _react2["default"].createClass({
     window.location.hash = "";
     return queryData;
   },
-  initFirebase: function initFirebase(data) {
+  initAuthAndFirebase: function initAuthAndFirebase(data, token) {
     var _this = this;
 
     var authData = this.getHashData();
     // console.log("init firebase", this.state.fireRef);
-    // this is current
+    this.setState({
+      authData: authData
+    });
     var config = data;
     _firebase2["default"].initializeApp(config);
     var ref = {
@@ -119,27 +121,36 @@ exports["default"] = _react2["default"].createClass({
       pollsRef: _firebase2["default"].database().ref("polls"),
       gameQueuesRef: _firebase2["default"].database().ref("gameQueues")
     };
-    _firebase2["default"].auth().signInAnonymously()["catch"](function (e) {
+    // console.log("got auth token", token, typeof token);
+    _firebase2["default"].auth().signInWithCustomToken(token)["catch"](function (e) {
       console.error("login error:", e.message, e.code);
     });
-    _firebase2["default"].auth().onAuthStateChanged(function (user) {
-      _modulesClientLoadData2["default"].call(_this, function (e) {
-        console.error(e.stack);
-      }, {
-        access_token: authData.access_token
-      }).then(function (methods) {
-        methods.getCurrentUser().then(function (data) {
-          _this.setState({
-            userData: data,
-            authData: authData
+    // contantly check for current user
+    var interval = setInterval(function () {
+      // console.log("current user:", Firebase.auth().currentUser);
+      // finish getting user data once the Firebase auth is confirmed
+      if (_firebase2["default"].auth().currentUser) {
+        console.log("current user is authed with Firebase");
+        clearInterval(interval);
+
+        _modulesClientLoadData2["default"].call(_this, function (e) {
+          console.error(e.stack);
+        }, {
+          access_token: authData.access_token
+        }).then(function (methods) {
+          methods.getCurrentUser().then(function (data) {
+            _this.setState({
+              userData: data
+            });
+          })["catch"](function (e) {
+            return console.error(e.stack || e);
           });
         })["catch"](function (e) {
           return console.error(e.stack || e);
         });
-      })["catch"](function (e) {
-        return console.error(e.stack || e);
-      });
-    });
+      }
+    }, 100);
+
     this.setState({
       fireRef: ref
     });
@@ -415,18 +426,31 @@ exports["default"] = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this4 = this;
 
-    // load firebase config
-    _modulesClientLoadData2["default"].call(this, function (e) {
-      console.error(e.stack);
-    }).then(function (methods) {
-      methods.getFirebaseConfig().then(function (data) {
-        // console.log("firebase data", data);
-        _this4.initFirebase(JSON.parse(atob(data)));
-      })["catch"](function (e) {
-        return console.error(e.stack || e);
-      });
-    })["catch"](function (e) {
-      return console.error(e.stack || e);
+    // get auth token
+    (0, _modulesClientAjax.ajax)({
+      url: "/get-auth-token",
+      success: function success(authToken) {
+        // load firebase config
+        // console.log("auth token", authToken);
+        _modulesClientLoadData2["default"].call(_this4, function (e) {
+          console.error(e.stack);
+        }).then(function (methods) {
+          methods.getFirebaseConfig().then(function (data) {
+            // console.log("firebase data", data);
+            _this4.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
+          })["catch"](function (e) {
+            return console.error(e.stack || e);
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack || e);
+        });
+      },
+      error: function error(err) {
+        console.error(err);
+        _this4.setState({
+          error: true
+        });
+      }
     });
 
     (0, _modulesClientAjax.ajax)({

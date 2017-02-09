@@ -109,6 +109,13 @@ app.get("/", function (req, res) {
   var stringified = JSON.stringify(data);
   var base64Encoded = new Buffer(stringified).toString("base64");
   res.send(base64Encoded);
+}).get("/get-auth-token", function (req, res) {
+  (0, _firebaseConfig.getAuthToken)().then(function (token) {
+    res.send(token);
+  })["catch"](function () {
+    var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    return console.error(e.stack || e);
+  });
 }).get("/get-version", function (req, res) {
   var data = {
     major: process.env["V_MAJOR"],

@@ -22,6 +22,7 @@ try {
   serviceAccount = require("../../private/bubble-13387-firebase-adminsdk-cbrvg-5186dc4eb2.json");
 } catch (e) {
   serviceAccount = {
+    "custom_server_auth_uid": process.env["CUSTOM_AUTH_UID"],
     "type": process.env["SERV_ACC_TYPE"],
     "project_id": process.env["SERV_ACC_PROJECT_ID"],
     "private_key_id": process.env["SERV_ACC_PRIV_KEY_ID"],
@@ -40,6 +41,7 @@ var initFirebase = function initFirebase() {
     credential: _firebaseAdmin2["default"].credential.cert(serviceAccount),
     databaseURL: process.env["DATABASE_URL"]
   });
+
   var ref = {
     root: _firebaseAdmin2["default"].database().ref(),
     authTokensRef: _firebaseAdmin2["default"].database().ref("authTokens"),
@@ -56,4 +58,16 @@ var initFirebase = function initFirebase() {
   };
   return ref;
 };
+
 exports.initFirebase = initFirebase;
+var getAuthToken = function getAuthToken() {
+  return new Promise(function (resolve, reject) {
+    _firebaseAdmin2["default"].auth().createCustomToken(serviceAccount.custom_server_auth_uid).then(function (customToken) {
+      resolve(customToken);
+    })["catch"](function (error) {
+      console.log("Error creating custom token:", error);
+      reject(error);
+    });
+  });
+};
+exports.getAuthToken = getAuthToken;

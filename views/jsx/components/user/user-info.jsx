@@ -44,6 +44,7 @@ exports["default"] = _react2["default"].createClass({
       var params = _props.params;
       var userData = _props.userData;
 
+      // console.log("userdata", userData);
       var username = undefined;
       if (params && params.username) {
         username = params.username;
