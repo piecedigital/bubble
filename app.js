@@ -21,6 +21,7 @@ var _modulesServerRoutes2 = _interopRequireDefault(_modulesServerRoutes);
 var _logOut = require("./log-out");
 
 console.log("Environment:", process.env["NODE_ENV"]);
+console.log("App version:", process.env["V_MAJOR"] + "." + process.env["V_MINOR"] + "." + process.env["V_PATCH"]);
 
 var app = (0, _express2["default"])();
 var PORT = process.env["PORT"] || 8080;
