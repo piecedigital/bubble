@@ -5,6 +5,7 @@ import routes from "./modules/server/routes";
 import { logOut } from "./log-out";
 
 console.log("Environment:", process.env["NODE_ENV"]);
+console.log("App version:", `${process.env["V_MAJOR"]}.${process.env["V_MINOR"]}.${process.env["V_PATCH"]}`);
 
 const app = express();
 const PORT = process.env["PORT"] || 8080;
