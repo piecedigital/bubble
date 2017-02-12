@@ -9,9 +9,12 @@
 - Game invite queuing - 0.11.0 **done**
   - Hot fix HTTPS fixed - 0.11.1 **ok**
   - Improved Firebase authorization - 0.11.2 **ok**
-- Meta data update 0.12.0
+- Meta data update and full server-side rendering - 0.12.0
 - Beta launch. Try harder to get more people to use the app
-- AMAs - 0.13.0
+
+# Things to add eventually
+- AMAs - TBD
+
 
 Latin words:
 - Flumine - "Stream" - river
@@ -23,17 +26,19 @@ Latin words:
 - Amicus - "friend"
 
 Name concepts:
-- FlumPenAm - Flumine + Penitus + Amicis
-- FluPenAm - Flumine + Penitus + Amicis
-- PentiFlum - Penitus + Flumine
-- PentiFlu - Penitus + Flumine
-- PenAmic - Penitus + Amicis
-- TorrAmic - Torrens + Amicis
-- AmiTor - Amicis + Torrens
-- ATorius - Amicis + Torrens + Penitus
+<!-- - FlumPenAm - Flumine + Penitus + Amicis -->
+<!-- - FluPenAm - Flumine + Penitus + Amicis -->
+<!-- - PentiFlum - Penitus + Flumine -->
+<!-- - PentiFlu - Penitus + Flumine -->
+<!-- - PenAmic - Penitus + Amicis -->
+<!-- - TorrAmic - Torrens + Amicis -->
+<!-- - AmiTor - Amicis + Torrens -->
+<!-- - AmicisTor - Amicis + Torrens -->
+<!-- - ATorius - Amicis + Torrens + Penitus -->
 - Amorrius - Amicis + Torrens + Penitus
-- PenTor - Penitus + Torrens
-- PenTorrens - Penitus + Torrens
-- PenTorren - Penitus + Torrens
-- FluTorrus - Flumine + Torrens + Penitus
-- FluTorius - Flumine + Torrens + Penitus
+<!-- - PenTor - Penitus + Torrens -->
+<!-- - AmPeniTor - Penitus + Torrens -->
+<!-- - PenTorrens - Penitus + Torrens
+- PenTorren - Penitus + Torrens -->
+<!-- - FluTorrus - Flumine + Torrens + Penitus -->
+<!-- - FluTorius - Flumine + Torrens + Penitus -->

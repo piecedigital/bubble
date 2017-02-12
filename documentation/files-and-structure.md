@@ -11,11 +11,15 @@
   - **package.json**
 - **src/** - raw JavaScript and JSX Files
   - **modules/**
-    - **ajax.js** - XHR function. Browserified
-    - **helper-tools.js** - helpful JavaScript functions. Browserified
-    - **load-data.js** - various functions to perform an XHR request to an API. Browserified
-    - **render-jsx.js** - renders JSX files for HTML serving. Not Browserified
-    - **routes.js** - refines routes for the application. Not Browserified
+    . **client/** - modules for the client
+      - **ajax.js** - XHR function. Browserified
+      - **helper-tools.js** - helpful JavaScript functions. Browserified
+      - **load-data.js** - various functions to perform an XHR request to an API. Browserified
+    . **server/** - modules for the server
+      - **firebase-config.js** - sets up all server config for the server. Also used for creating user auth tokens. Not Browserified
+      - **render-jsx.js** - renders JSX files for HTML serving. Not Browserified
+      - **routes.js** - refines routes for the application. Not Browserified
+      - **subdomain-routes.js** - refines subdomain routes for the application. Not Browserified
   - **private/** - contains private data for the server or client. Is not included in the repo itself; it must be manually added with the correct data
   - **public/**
     - **scss/** - Sass files

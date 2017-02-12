@@ -17,6 +17,7 @@
     "unflowify": "^1.0.1"
   },
   "dependencies": {
+    "express-subdomain": "^1.0.5",
     "shoehornjs": "^2.0.1"
   }
 }

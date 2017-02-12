@@ -81,11 +81,12 @@ export default React.createClass({
       this.setState({
         navOpen: false
       });
-        break;
+      break;
       case "open":
         this.setState({
           navOpen: true
         });
+      break;
       default:
         this.setState({
           navOpen: !this.state.navOpen
@@ -93,9 +94,13 @@ export default React.createClass({
     }
   },
   componentDidMount() {
+    this.refs.nav.addEventListener("mouseenter", () => {
+      // console.log("enter");
+      this.toggleNav("open");
+    }, false);
     this.refs.nav.addEventListener("mouseleave", () => {
-      console.log("leave");
-      // this.toggleNav("close");
+      // console.log("leave");
+      this.toggleNav("close");
     }, false);
   },
   render() {

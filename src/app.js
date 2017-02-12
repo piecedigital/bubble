@@ -1,7 +1,9 @@
 import express from "express";
+import subdomain from "express-subdomain";
 import path from "path";
 import cookieParser from "cookie-parser";
 import routes from "./modules/server/routes";
+import subdomainRoutes from "./modules/server/subdomain-routes";
 import { logOut } from "./log-out";
 
 console.log("Environment:", process.env["NODE_ENV"]);
@@ -12,6 +14,7 @@ const PORT = process.env["PORT"] || 8080;
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
+app.use(subdomain("*", subdomainRoutes));
 app.use(routes);
 app.listen(PORT);
 

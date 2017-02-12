@@ -459,7 +459,7 @@ export default React.createClass({
       const person = userData.name === params.username ? "You" : params.username;
       return (
         <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
-          <div className={`title`}>Channels {this.props.follow === "IFollow" ? `You Follow` : `Following You`}{!userData ? " (login required for this feature)" : ""}</div>
+          <div className={`title`}>Channels {this.props.follow === "IFollow" ? `${person} Follow` : `Following ${person}`}{!userData ? " (login required for this feature)" : ""}</div>
           <div className="wrapper">
             <ul className="list">
               {list}
