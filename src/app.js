@@ -14,6 +14,8 @@ const PORT = process.env["PORT"] || 8080;
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
+app.use(subdomain("www", routes));
+app.use(subdomain("twinchill", routes));
 app.use(subdomain("*", subdomainRoutes));
 app.use(routes);
 app.listen(PORT);
