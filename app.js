@@ -6,6 +6,10 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
+var _expressSubdomain = require("express-subdomain");
+
+var _expressSubdomain2 = _interopRequireDefault(_expressSubdomain);
+
 var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
@@ -18,6 +22,10 @@ var _modulesServerRoutes = require("./modules/server/routes");
 
 var _modulesServerRoutes2 = _interopRequireDefault(_modulesServerRoutes);
 
+var _modulesServerSubdomainRoutes = require("./modules/server/subdomain-routes");
+
+var _modulesServerSubdomainRoutes2 = _interopRequireDefault(_modulesServerSubdomainRoutes);
+
 var _logOut = require("./log-out");
 
 console.log("Environment:", process.env["NODE_ENV"]);
@@ -28,6 +36,7 @@ var PORT = process.env["PORT"] || 8080;
 
 app.use(_express2["default"]["static"](_path2["default"].join(__dirname, "public")));
 app.use((0, _cookieParser2["default"])());
+app.use((0, _expressSubdomain2["default"])("*", _modulesServerSubdomainRoutes2["default"]));
 app.use(_modulesServerRoutes2["default"]);
 app.listen(PORT);
 

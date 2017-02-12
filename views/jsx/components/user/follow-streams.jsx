@@ -516,7 +516,7 @@ exports["default"] = _react2["default"].createClass({
               "div",
               { className: "title" },
               "Channels ",
-              _this8.props.follow === "IFollow" ? "You Follow" : "Following You",
+              _this8.props.follow === "IFollow" ? person + " Follow" : "Following " + person,
               !userData ? " (login required for this feature)" : ""
             ),
             _react2["default"].createElement(

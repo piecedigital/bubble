@@ -105,6 +105,7 @@ exports["default"] = _react2["default"].createClass({
         this.setState({
           navOpen: true
         });
+        break;
       default:
         this.setState({
           navOpen: !this.state.navOpen
@@ -112,13 +113,19 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    this.refs.nav.addEventListener("mouseenter", function () {
+      // console.log("enter");
+      _this.toggleNav("open");
+    }, false);
     this.refs.nav.addEventListener("mouseleave", function () {
-      console.log("leave");
-      // this.toggleNav("close");
+      // console.log("leave");
+      _this.toggleNav("close");
     }, false);
   },
   render: function render() {
-    var _this = this;
+    var _this2 = this;
 
     var _state = this.state;
     var addOpen = _state.addOpen;
@@ -146,14 +153,14 @@ exports["default"] = _react2["default"].createClass({
           "span",
           { className: "inputs" },
           _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: function (value, bool) {
-              _this.toggleNav("close");
+              _this2.toggleNav("close");
               appendStream(value, undefined, bool);
             }, methods: {
               focusCallback: this.focusInput,
               toggleCallback: this.toggleInput
             } }),
           _react2["default"].createElement(SlideInput, { ref: "searchInput", commandValue: "search", symbol: "S", open: searchOpen, placeholder: "Search Twitch", callback: function (value, bool) {
-              _this.toggleNav("close");
+              _this2.toggleNav("close");
               search(value, undefined, bool);
             }, methods: {
               focusCallback: this.focusInput,
@@ -193,7 +200,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "a",
                 { key: "notifications", className: "nav-item", href: "#", onClick: function () {
-                    _this.toggleNav("close");
+                    _this2.toggleNav("close");
                     popUpHandler("viewNotifications");
                   } },
                 _react2["default"].createElement(
@@ -209,7 +216,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "a",
                 { key: "bookmarks", className: "nav-item", href: "#", onClick: function () {
-                    _this.toggleNav("close");
+                    _this2.toggleNav("close");
                     popUpHandler("viewBookmarks");
                   } },
                 "Bookmarks"
@@ -217,7 +224,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "a",
                 { key: "questions", className: "nav-item", href: "#", onClick: function () {
-                    _this.toggleNav("close");
+                    _this2.toggleNav("close");
                     popUpHandler("viewAskedQuestions");
                   } },
                 "Questions"
@@ -225,7 +232,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "a",
                 { key: "polls", className: "nav-item", href: "#", onClick: function () {
-                    _this.toggleNav("close");
+                    _this2.toggleNav("close");
                     popUpHandler("viewCreatedPolls");
                   } },
                 "Polls"
@@ -233,7 +240,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "a",
                 { key: "gamequeue", className: "nav-item", href: "#", onClick: function () {
-                    _this.toggleNav("close");
+                    _this2.toggleNav("close");
                     popUpHandler("viewGameQueue", { queueHost: userData.name });
                   } },
                 "Game Queue"
@@ -248,7 +255,7 @@ exports["default"] = _react2["default"].createClass({
             "a",
             { className: "nav-item", href: "#", onClick: function () {
                 logout();
-                _this.toggleNav("close");
+                _this2.toggleNav("close");
               } },
             "Disconnect"
           )
