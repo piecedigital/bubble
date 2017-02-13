@@ -8,9 +8,15 @@ import Nav from "./components/nav.jsx";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";
 
-const redirectURI = typeof location === "object" && !location.port === 8080 ? `https://${location.host}` : "http://localhost:8080";
-const clientID = redirectURI.match(/http(s)?\:\/\/localhost\:[0-9]{4,5}/) ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
-// console.log(redirectURI, clientID);
+let redirectURI, clientID;
+if( typeof location === "object" && !location.host.match("amorrius.net") ) {
+  redirectURI =`https://${location.host}`;
+  clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
+} else {
+  redirectURI = "http://localhost:8080";
+  clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
+}
+console.log(redirectURI, clientID);
 
 // Initialize Firebase
 

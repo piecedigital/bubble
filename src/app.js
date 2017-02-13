@@ -1,7 +1,7 @@
 import express from "express";
-import subdomain from "express-subdomain";
 import path from "path";
 import cookieParser from "cookie-parser";
+import subdomain from "./modules/server/subdomain";
 import routes from "./modules/server/routes";
 import subdomainRoutes from "./modules/server/subdomain-routes";
 import { logOut } from "./log-out";
@@ -14,9 +14,10 @@ const PORT = process.env["PORT"] || 8080;
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
-app.use(subdomain("www", routes));
-app.use(subdomain("twinchill", routes));
-app.use(subdomain("*", subdomainRoutes));
+app.use( subdomain({
+  whiteList: ["amorrius.dev", "amorrius.net"],
+  blackList: ["www", "twinchill"],
+}, subdomainRoutes) );
 app.use(routes);
 app.listen(PORT);
 
