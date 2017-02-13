@@ -38,7 +38,7 @@ var _firebase2 = _interopRequireDefault(_firebase);
 
 var redirectURI = undefined,
     clientID = undefined;
-if (typeof location === "object" && !location.port === 8080) {
+if (typeof location === "object" && !location.host.match("amorrius.net")) {
   redirectURI = "https://" + location.host;
   clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
 } else {

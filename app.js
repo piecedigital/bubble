@@ -6,10 +6,6 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _expressSubdomain = require("express-subdomain");
-
-var _expressSubdomain2 = _interopRequireDefault(_expressSubdomain);
-
 var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
@@ -17,6 +13,10 @@ var _path2 = _interopRequireDefault(_path);
 var _cookieParser = require("cookie-parser");
 
 var _cookieParser2 = _interopRequireDefault(_cookieParser);
+
+var _modulesServerSubdomain = require("./modules/server/subdomain");
+
+var _modulesServerSubdomain2 = _interopRequireDefault(_modulesServerSubdomain);
 
 var _modulesServerRoutes = require("./modules/server/routes");
 
@@ -36,11 +36,10 @@ var PORT = process.env["PORT"] || 8080;
 
 app.use(_express2["default"]["static"](_path2["default"].join(__dirname, "public")));
 app.use((0, _cookieParser2["default"])());
-// app.use(subdomain("www", routes));
-// app.use(subdomain("twinchill", routes));
-// app.use(subdomain("amorrius", routes));
-// app.use(subdomain("localhost", routes));
-// app.use(subdomain("*.amorrius", subdomainRoutes));
+app.use((0, _modulesServerSubdomain2["default"])({
+  whiteList: ["amorrius.dev", "amorrius.net"],
+  blackList: ["www", "twinchill"]
+}, _modulesServerSubdomainRoutes2["default"]));
 app.use(_modulesServerRoutes2["default"]);
 app.listen(PORT);
 
