@@ -59,11 +59,9 @@ app.use((0, _cookieParser2["default"])());
 // redirect to SSL, if on server
 app.use(function (req, res, next) {
   // only do this if we're on the production server
-  if (process.env["NODE_ENV"] === "prod") {
-    if (req.protocol === "http") {
-      console.log("not secure");
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
-    }
+  if (process.env["NODE_ENV"] === "prod" && req.protocol === "http") {
+    console.log("not secure");
+    return res.redirect(['https://', req.get('Host'), req.url].join(''));
   }
   next();
 });
