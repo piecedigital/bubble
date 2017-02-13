@@ -39,12 +39,12 @@ var app = (0, _express2["default"])();
 var PORT = process.env["PORT"] || 8080;
 
 // // let's encrypt
-// const letsEncryptReponse = process.env.CERTBOT_RESPONSE;
+var letsEncryptReponse = process.env.CERTBOT_RESPONSE;
 //
 // // Return the Let's Encrypt certbot response:
-// app.get('/.well-known/acme-challenge/:content', function(req, res) {
-//   res.send(letsEncryptReponse);
-// });
+app.get('/.well-known/acme-challenge/:content', function (req, res) {
+  res.send(letsEncryptReponse);
+});
 // // end let's encrypt
 
 app.use(_express2["default"]["static"](_path2["default"].join(__dirname, "public")));
