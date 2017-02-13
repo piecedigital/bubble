@@ -6,6 +6,10 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
+var _https = require("https");
+
+var _https2 = _interopRequireDefault(_https);
+
 var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
@@ -50,7 +54,15 @@ app.use((0, _modulesServerSubdomain2["default"])({
   blackList: ["www", "twinchill"]
 }, _modulesServerSubdomainRoutes2["default"]));
 app.use(_modulesServerRoutes2["default"]);
-app.listen(PORT);
+
+if (process.env["NODE_ENV"] === "prod") {
+  _https2["default"].createServer({
+    key: process.env["SSL_PRIVKEY"],
+    cert: process.env["SSL_CERT"]
+  }, app).listen(PORT);
+} else {
+  app.listen(PORT);
+}
 
 (0, _logOut.logOut)("Listening on port " + PORT, true);
 
