@@ -9,7 +9,13 @@
 - Game invite queuing - 0.11.0 **done**
   - Hot fix HTTPS fixed - 0.11.1 **ok**
   - Improved Firebase authorization - 0.11.2 **ok**
-- Meta data update and full server-side rendering - 0.12.0
+  - Sneak update: added SSL - 0.11.2 **ok**
+  - Fixed undefined name on `follow-streams` titles - 0.11.2 **ok**
+- Add polish: - 0.12.0
+  - Add pages: About, Terms of Service
+  - Add logo
+  - Add application name
+- Meta data update and full server-side rendering - 0.13.0
 - Beta launch. Try harder to get more people to use the app
 
 # Things to add eventually
@@ -25,7 +31,7 @@ Latin words:
 - Amicis - "friends"
 - Amicus - "friend"
 
-Name concepts:
+# Name concepts:
 <!-- - FlumPenAm - Flumine + Penitus + Amicis -->
 <!-- - FluPenAm - Flumine + Penitus + Amicis -->
 <!-- - PentiFlum - Penitus + Flumine -->
@@ -42,3 +48,5 @@ Name concepts:
 - PenTorren - Penitus + Torrens -->
 <!-- - FluTorrus - Flumine + Torrens + Penitus -->
 <!-- - FluTorius - Flumine + Torrens + Penitus -->
+
+Officially this application is called Amorrius. https://amorrius.net
