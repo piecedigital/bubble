@@ -60,7 +60,7 @@ app.use((0, _cookieParser2["default"])());
 app.use(function (req, res, next) {
   // only do this if we're on the production server
   if (process.env["NODE_ENV"] === "prod") {
-    if (!req.secure) {
+    if (req.protocol === "http") {
       console.log("not secure");
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
