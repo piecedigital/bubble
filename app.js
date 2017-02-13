@@ -58,7 +58,8 @@ app.use(_modulesServerRoutes2["default"]);
 if (process.env["NODE_ENV"] === "prod") {
   _https2["default"].createServer({
     key: process.env["SSL_PRIVKEY"],
-    cert: process.env["SSL_CERT"]
+    cert: process.env["SSL_CERT"],
+    ca: process.env["SSL_CHAIN"]
   }, app).listen(PORT);
 } else {
   app.listen(PORT);
