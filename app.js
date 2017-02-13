@@ -62,7 +62,7 @@ app.use(function (req, res, next) {
   if (process.env["NODE_ENV"] === "prod" && req.protocol === "http") {
     console.log("not secure");
     console.log(req.protocol, req.url);
-    res.setHeader("Location", "https://" + req.headers['host'] + req.url);
+    res.redirect(301, "https://" + req.headers['host'] + req.url);
   }
   next();
 });
