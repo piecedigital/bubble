@@ -59,8 +59,10 @@ app.use((0, _cookieParser2["default"])());
 // redirect to SSL, if on server
 app.use(function (req, res, next) {
   // only do this if we're on the production server
-  res.setHeader("Location", "https://" + req.headers['host'] + req.url);
-  res.end();
+  if (process.env["NODE_ENV"] === "prod" && req.protocol === "http") {
+    console.log("not secure");
+    // res.setHeader("Location", "https://" + req.headers['host'] + req.url );
+  }
   next();
 });
 app.use((0, _modulesServerSubdomain2["default"])({
