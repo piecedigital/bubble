@@ -40,10 +40,17 @@ var PORT = process.env["PORT"] || 8080;
 
 // // let's encrypt
 var letsEncryptReponse = process.env.CERTBOT_RESPONSE;
+var letsEncryptReponse2 = process.env.CERTBOT_RESPONSE2;
 //
 // // Return the Let's Encrypt certbot response:
 app.get('/.well-known/acme-challenge/:content', function (req, res) {
-  res.send(letsEncryptReponse);
+  if (req.headers.host.match("www")) {
+    // www.amorrius.net
+    res.send(letsEncryptReponse2);
+  } else {
+    // amorrius.net
+    res.send(letsEncryptReponse);
+  }
 });
 // // end let's encrypt
 
@@ -55,15 +62,6 @@ app.use((0, _modulesServerSubdomain2["default"])({
 }, _modulesServerSubdomainRoutes2["default"]));
 app.use(_modulesServerRoutes2["default"]);
 
-// if(process.env["NODE_ENV"] === "prod") {
-//   https.createServer({
-//     key: process.env["SSL_PRIVKEY"],
-//     cert: process.env["SSL_CERT"],
-//     ca: process.env["SSL_CHAIN"],
-//   }, app).listen(PORT)
-// } else {
-//   app.listen(PORT);
-// }
 app.listen(PORT);
 
 (0, _logOut.logOut)("Listening on port " + PORT, true);
