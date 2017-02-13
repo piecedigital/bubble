@@ -56,21 +56,6 @@ var PORT = process.env["PORT"] || 8080;
 
 app.use(_express2["default"]["static"](_path2["default"].join(__dirname, "public")));
 app.use((0, _cookieParser2["default"])());
-// redirect to HTTPS, if on production server
-// app.use(function(req, res, next) {
-//   // only do this if we're on the production server
-//   console.log(req.protocol, req.url);
-//   if(process.env["NODE_ENV"] === "prod") {
-//     if(!req.secure || req.protocol === "http") {
-//       console.log("not secure");
-//       res.redirect(301, "https://" + req.headers['host'] + req.url );
-//     } else {
-//       next();
-//     }
-//   } else {
-//     next();
-//   }
-// });
 app.use((0, _modulesServerSubdomain2["default"])({
   whiteList: ["amorrius.dev", "amorrius.net"],
   blackList: ["www", "twinchill"]

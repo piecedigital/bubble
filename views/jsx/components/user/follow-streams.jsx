@@ -507,7 +507,9 @@ exports["default"] = _react2["default"].createClass({
               removeFromDataArray: _this8.removeFromDataArray
             } });
         });
-        var person = userData.name === params.username ? "You" : params.username;
+        var person = params.username === undefined || userData.name === params.username ? "You" : params.username;
+        // this will append an "s" to "follows" in the string if the user is on someone elses page
+        var s = params.username === undefined || userData.name === params.username ? "s" : "";
         return {
           v: _react2["default"].createElement(
             "div",
@@ -516,7 +518,7 @@ exports["default"] = _react2["default"].createClass({
               "div",
               { className: "title" },
               "Channels ",
-              _this8.props.follow === "IFollow" ? person + " Follow" : "Following " + person,
+              _this8.props.follow === "IFollow" ? person + " Follow" + s : "Following " + person,
               !userData ? " (login required for this feature)" : ""
             ),
             _react2["default"].createElement(
