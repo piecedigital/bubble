@@ -39,10 +39,10 @@ var _firebase2 = _interopRequireDefault(_firebase);
 var redirectURI = undefined,
     clientID = undefined;
 if (typeof location === "object" && !location.host.match("amorrius.net")) {
-  redirectURI = "https://" + location.host;
+  redirectURI = "http://localhost:8080";
   clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
 } else {
-  redirectURI = "http://localhost:8080";
+  redirectURI = "https://" + location.host;
   clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
 }
 console.log(redirectURI, clientID);
