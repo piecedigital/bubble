@@ -55,15 +55,16 @@ app.use((0, _modulesServerSubdomain2["default"])({
 }, _modulesServerSubdomainRoutes2["default"]));
 app.use(_modulesServerRoutes2["default"]);
 
-if (process.env["NODE_ENV"] === "prod") {
-  _https2["default"].createServer({
-    key: process.env["SSL_PRIVKEY"],
-    cert: process.env["SSL_CERT"],
-    ca: process.env["SSL_CHAIN"]
-  }, app).listen(PORT);
-} else {
-  app.listen(PORT);
-}
+// if(process.env["NODE_ENV"] === "prod") {
+//   https.createServer({
+//     key: process.env["SSL_PRIVKEY"],
+//     cert: process.env["SSL_CERT"],
+//     ca: process.env["SSL_CHAIN"],
+//   }, app).listen(PORT)
+// } else {
+//   app.listen(PORT);
+// }
+app.listen(PORT);
 
 (0, _logOut.logOut)("Listening on port " + PORT, true);
 
