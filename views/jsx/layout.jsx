@@ -12,6 +12,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require("react-dom");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _componentsPlayerJsx = require("./components/player.jsx");
 
 var _componentsPlayerJsx2 = _interopRequireDefault(_componentsPlayerJsx);
@@ -474,6 +478,11 @@ exports["default"] = _react2["default"].createClass({
         });
       }
     });
+
+    console.log(this.refs.page);
+    console.log(_reactDom2["default"].findDOMNode(this.refs.page));
+    _reactDom2["default"].findDOMNode(this.refs.page).setAttribute("tabindex", -1);
+    _reactDom2["default"].findDOMNode(this.refs.page).focus();
   },
   componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
     // console.log(nextProps.location);
@@ -548,6 +557,7 @@ exports["default"] = _react2["default"].createClass({
           popUpHandler: this.popUpHandler
         } }),
       this.child ? _react2["default"].cloneElement(this.child, _extends({
+        ref: "page",
         // this is a top-level-component
         parent: this,
         auth: authData,
@@ -566,6 +576,7 @@ exports["default"] = _react2["default"].createClass({
           popUpHandler: this.popUpHandler
         }
       })) : this.props.children ? _react2["default"].cloneElement(this.props.children, _extends({
+        ref: "page",
         // this is a top-level-component
         parent: this,
         auth: authData,

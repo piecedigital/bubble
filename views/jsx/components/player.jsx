@@ -265,19 +265,19 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "closer", onClick: function () {
+                { className: "closer bgc-orange-priority", onClick: function () {
                     _this3.swapOut();
                     _this3.toggleMenu("close");
                   } },
-                "Close"
+                "Close This Stream"
               ),
               _react2["default"].createElement(
                 "div",
                 { className: "refresh" },
                 _react2["default"].createElement(
                   "span",
-                  { className: "title" },
-                  "Refresh"
+                  { className: "title bold" },
+                  "Refresh:"
                 ),
                 _react2["default"].createElement(
                   "span",
@@ -287,6 +287,7 @@ var PlayerStream = _react2["default"].createClass({
                     } },
                   "Video"
                 ),
+                "/",
                 _react2["default"].createElement(
                   "span",
                   { className: "chat", onClick: function () {
@@ -471,7 +472,7 @@ exports["default"] = _react2["default"].createClass({
     var setLayout = _props3$methods.setLayout;
     var panelsHandler = _props3$methods.panelsHandler;
     var dataObject = _props3.data.dataObject;
-    var layout = _props3.layout;
+    var layout = this.props.layout;
     var _state2 = this.state;
     var streamInView = _state2.streamInView;
     var chatOpen = _state2.chatOpen;
@@ -543,12 +544,12 @@ exports["default"] = _react2["default"].createClass({
           { className: "tools" },
           _react2["default"].createElement(
             "div",
-            { title: "Closing the player will remove all current streams", className: "closer", onClick: clearPlayer },
-            "Close"
+            { title: "Closes all streams in the player", className: "closer bold bgc-red-priority", onClick: clearPlayer },
+            "x"
           ),
           _react2["default"].createElement(
             "div",
-            { title: "Shrink the player to the side of the browser", className: "closer", onClick: togglePlayer.bind(null, "toggle") },
+            { title: "Shrink the player to the side of the browser", className: "flexer", onClick: togglePlayer.bind(null, "toggle") },
             playerState.playerCollapsed ? "Expand" : "Collapse"
           ),
           _react2["default"].createElement(
@@ -558,26 +559,52 @@ exports["default"] = _react2["default"].createClass({
             " Chat"
           ),
           _react2["default"].createElement(
-            "select",
-            { title: "Choose a layout for the streams", ref: "selectLayout", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setLayout") },
-            ["", "Singular", dataArray.length > 2 ? "By 2" : null, dataArray.length > 3 ? "By 3" : null].map(function (layoutName) {
-              if (layoutName !== null) return _react2["default"].createElement(
-                "option",
-                { key: layoutName, value: layoutName.toLowerCase() },
-                layoutName || "Auto"
-              );
-            })
+            "div",
+            { className: "wrap" },
+            _react2["default"].createElement(
+              "select",
+              { title: "Choose a layout for the streams", ref: "selectLayout", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setLayout") },
+              ["", "Singular", dataArray.length > 2 ? "By 2" : null, dataArray.length > 3 ? "By 3" : null].map(function (layoutName) {
+                if (layoutName !== null) return _react2["default"].createElement(
+                  "option",
+                  { key: layoutName, value: layoutName.toLowerCase() },
+                  layoutName || "Auto"
+                );
+              })
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "hover-msg" },
+              _react2["default"].createElement(
+                "span",
+                null,
+                "Change Layout"
+              )
+            )
           ),
           dataObject && layout === "singular" || layout !== "layout-1" || layout !== "layout-by-2" || layout !== "layout-by-3" ? _react2["default"].createElement(
-            "select",
-            { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "streamers", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
-            dataObject ? dataArray.map(function (key, ind) {
-              return _react2["default"].createElement(
-                "option",
-                { key: key, value: ind },
-                key
-              );
-            }) : null
+            "div",
+            { className: "wrap" },
+            _react2["default"].createElement(
+              "select",
+              { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "streamers", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
+              dataObject ? dataArray.map(function (key, ind) {
+                return _react2["default"].createElement(
+                  "option",
+                  { key: key, value: ind },
+                  key
+                );
+              }) : null
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "hover-msg" },
+              _react2["default"].createElement(
+                "span",
+                null,
+                "Change In-View stream/chat"
+              )
+            )
           ) : null
         ),
         _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {

@@ -43,7 +43,28 @@ exports["default"] = _react2["default"].createClass({
     var name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
 
     // don't render without this data
-    if (!fireRef) return null;
+    if (!fireRef) return _react2["default"].createElement(
+      "div",
+      { className: "top-level-component profile" },
+      _react2["default"].createElement(
+        "div",
+        { className: "general-page profile" },
+        _react2["default"].createElement(
+          "div",
+          { className: "page-header" },
+          _react2["default"].createElement(
+            "div",
+            { className: "title" },
+            "Profile: ",
+            name ? _react2["default"].createElement(
+              "a",
+              { target: "_blank", rel: "nofollow", href: "https://twitch.com/" + name },
+              name
+            ) : null
+          )
+        )
+      )
+    );
     return _react2["default"].createElement(
       "div",
       { className: "top-level-component profile" },
