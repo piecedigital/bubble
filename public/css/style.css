@@ -376,8 +376,7 @@ nav {
       color: rgba(0, 0, 0, 0.5);
       text-decoration: none; }
     .player-stream .tools a {
-      color: black;
-      font-weight: bold; }
+      color: black; }
   .player-stream .tools {
     top: 32px;
     flex-direction: column;

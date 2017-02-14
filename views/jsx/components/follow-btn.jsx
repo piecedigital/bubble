@@ -99,7 +99,7 @@ exports["default"] = _react2["default"].createClass({
     if (isFollowing === null) return null;
     return _react2["default"].createElement(
       "div",
-      { className: "follow" },
+      { className: this.props.className + " follow" },
       _react2["default"].createElement(
         "a",
         { href: "#", className: this.props.className, onClick: this.toggleFollow },

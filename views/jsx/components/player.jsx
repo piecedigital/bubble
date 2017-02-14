@@ -320,7 +320,12 @@ var PlayerStream = _react2["default"].createClass({
                 userData: userData,
                 givenUsername: name,
                 versionData: versionData }),
-              userData ? _react2["default"].createElement(_followBtnJsx2["default"], { name: userData.name, targetName: name, targetDisplay: display_name, auth: auth }) : _react2["default"].createElement(
+              userData ? _react2["default"].createElement(_followBtnJsx2["default"], {
+                className: "no-underline bold",
+                name: userData.name,
+                targetName: name,
+                targetDisplay: display_name,
+                auth: auth }) : _react2["default"].createElement(
                 "div",
                 { className: "follow need-auth", onClick: function () {
                     alertAuthNeeded();
