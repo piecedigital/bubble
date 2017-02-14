@@ -225,7 +225,12 @@ const PlayerStream = React.createClass({
                 versionData={versionData}/>
               {
                 userData ? (
-                  <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth}/>
+                  <FollowButton
+                    className="no-underline bold"
+                    name={userData.name}
+                    targetName={name}
+                    targetDisplay={display_name}
+                    auth={auth}/>
                 ) : (
                   <div className="follow need-auth" onClick={() => {
                     alertAuthNeeded();
