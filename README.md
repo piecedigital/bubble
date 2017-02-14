@@ -11,6 +11,7 @@
   - Improved Firebase authorization - 0.11.2 **ok**
   - Sneak update: added SSL - 0.11.2 **ok**
   - Fixed undefined name on `follow-streams` titles - 0.11.2 **ok**
+  - UI improvements - 0.11.3 **ok**
 - Add polish: - 0.12.0
   - Add pages: About, Terms of Service
   - Add logo

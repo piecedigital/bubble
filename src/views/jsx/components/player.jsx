@@ -189,17 +189,17 @@ const PlayerStream = React.createClass({
                   this.toggleMenu("close");
                 }}>Visit On Twitch</Link>
               </div>
-              <div className="closer" onClick={() => {
+              <div className="closer bgc-orange-priority" onClick={() => {
                 this.swapOut();
                 this.toggleMenu("close");
               }}>
-                Close
+                Close This Stream
               </div>
               <div className="refresh">
-                <span className="title">Refresh</span><span className="video" onClick={() => {
+                <span className="title bold">Refresh:</span><span className="video" onClick={() => {
                   this.refresh("video");
                   this.toggleMenu("close");
-                }}>Video</span><span className="chat" onClick={() => {
+                }}>Video</span>/<span className="chat" onClick={() => {
                   this.refresh("chat");
                   this.toggleMenu("close");
                 }}>Chat</span>
@@ -360,7 +360,7 @@ export default React.createClass({
     this.rescroll = null;
   },
   render() {
-    let {
+    const {
       fireRef,
       userData,
       auth,
@@ -378,6 +378,8 @@ export default React.createClass({
       data: {
         dataObject
       },
+    } = this.props;
+    let {
       layout,
     } = this.props;
     const {
@@ -454,44 +456,50 @@ export default React.createClass({
             }
           </ul>
           <div className={`tools`}>
-            <div title="Closing the player will remove all current streams" className="closer" onClick={clearPlayer}>
-              Close
+            <div title="Closes all streams in the player" className="closer bold bgc-red-priority" onClick={clearPlayer}>
+              x
             </div>
-            <div title="Shrink the player to the side of the browser" className="closer" onClick={togglePlayer.bind(null, "toggle")}>
+            <div title="Shrink the player to the side of the browser" className="flexer" onClick={togglePlayer.bind(null, "toggle")}>
               {playerState.playerCollapsed ? "Expand" : "Collapse"}
             </div>
             <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
               {chatOpen ? "Hide" : "Show"} Chat
             </div>
-            <select title="Choose a layout for the streams" ref="selectLayout" className="layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setLayout")}>
-              {
-                ["",
-                "Singular",
-                dataArray.length > 2 ? "By 2" : null,
-                dataArray.length > 3 ? "By 3" : null].map(layoutName => {
-                  if(layoutName !== null) return (
-                    <option key={layoutName} value={layoutName.toLowerCase()}>{layoutName || "Auto"}</option>
-                  );
-                })
-              }
-            </select>
+            <div className="wrap">
+              <select title="Choose a layout for the streams" ref="selectLayout" className="layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setLayout")}>
+                {
+                  ["",
+                  "Singular",
+                  dataArray.length > 2 ? "By 2" : null,
+                  dataArray.length > 3 ? "By 3" : null].map(layoutName => {
+                    if(layoutName !== null) return (
+                      <option key={layoutName} value={layoutName.toLowerCase()}>{layoutName || "Auto"}</option>
+                    );
+                  })
+                }
+              </select>
+              <div className="hover-msg"><span>Change Layout</span></div>
+            </div>
             {
               dataObject &&
               layout === "singular" ||
               layout !== "layout-1" ||
               layout !== "layout-by-2" ||
               layout !== "layout-by-3" ? (
-                <select title="Choose which stream and chat appears as the main or in-view stream" ref="selectStream" className="streamers" defaultValue={0} onChange={this.layoutTools.bind(null, "setStreamToView")}>
-                  {
-                    dataObject ? (
-                      dataArray.map((key, ind) => {
-                        return (
-                          <option key={key} value={ind}>{key}</option>
-                        );
-                      })
-                    ) : null
-                  }
-                </select>
+                <div className="wrap">
+                  <select title="Choose which stream and chat appears as the main or in-view stream" ref="selectStream" className="streamers" defaultValue={0} onChange={this.layoutTools.bind(null, "setStreamToView")}>
+                    {
+                      dataObject ? (
+                        dataArray.map((key, ind) => {
+                          return (
+                            <option key={key} value={ind}>{key}</option>
+                          );
+                        })
+                      ) : null
+                    }
+                  </select>
+                  <div className="hover-msg"><span>Change In-View stream/chat</span></div>
+                </div>
               )  : null
             }
           </div>

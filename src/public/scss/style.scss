@@ -7,6 +7,8 @@ $primary: rgba(0, 200, 250, 1);
 $dim: rgba(0, 170, 220, 1);
 $dimmer: rgba(0, 130, 180, 1);
 $light: rgba(150, 230, 255, 1);
+$orange: rgba(250, 120, 0, 1);
+$red: rgba(250, 0, 0, 1);
 $allColors: (
 midGrey: $midGrey, // 1
 offWhite: $offWhite, // 2
@@ -15,7 +17,9 @@ purple: $purple, // 4
 primary: $primary, // 5
 dim: $dim, // 6
 dimmer: $dimmer, // 7
-light: $light // 8
+light: $light, // 8
+orange: $orange, // 8
+red: $red // 8
 );
 
 @mixin displayInlineFlex($mod:"") {
@@ -189,11 +193,17 @@ body {
   .color-#{$name} {
     color: #{$color};
   }
+  .color-#{$name}-priority {
+    color: #{$color} !important;
+  }
 }
-@each $color in $allColors {
+@each $name, $color in $allColors {
   // $i: index($allColors, $color);
-  .color-#{$color} {
-    color: #{$color};
+  .bgc-#{$name} {
+    background-color: #{$color};
+  }
+  .bgc-#{$name}-priority {
+    background-color: #{$color} !important;
   }
 }
 

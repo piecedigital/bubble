@@ -17,7 +17,18 @@ export default React.createClass({
     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
 
     // don't render without this data
-    if(!fireRef) return null;
+    if(!fireRef) return (
+      <div className="top-level-component profile">
+        <div className="general-page profile">
+          <div className="page-header">
+            <div className="title">
+              {`Profile: `}
+              {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
     return (
       <div className="top-level-component profile">
         <div className="general-page profile">

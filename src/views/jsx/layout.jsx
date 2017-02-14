@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import ReactDOM from "react-dom";
 import Player from "./components/player.jsx";
 import Overlay from "./components/overlay.jsx";
 import loadData from "../../modules/client/load-data";
@@ -438,6 +439,11 @@ export default React.createClass({
         });
       }
     });
+
+    console.log(this.refs.page);
+    console.log(ReactDOM.findDOMNode(this.refs.page));
+    ReactDOM.findDOMNode(this.refs.page).setAttribute("tabindex", -1);
+    ReactDOM.findDOMNode(this.refs.page).focus();
   },
   componentWillUpdate(nextProps, nextState) {
     // console.log(nextProps.location);
@@ -522,6 +528,7 @@ export default React.createClass({
         {
           this.child ? (
             React.cloneElement(this.child, {
+              ref: "page",
               // this is a top-level-component
               parent: this,
               auth: authData,
@@ -541,7 +548,8 @@ export default React.createClass({
               }
             })
           ) : this.props.children ? (
-            React.cloneElement(this.props.children, {
+              React.cloneElement(this.props.children, {
+              ref: "page",
               // this is a top-level-component
               parent: this,
               auth: authData,
