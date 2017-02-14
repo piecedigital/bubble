@@ -509,7 +509,7 @@ exports["default"] = _react2["default"].createClass({
         });
         var person = params.username === undefined || userData.name === params.username ? "You" : params.username;
         // this will append an "s" to "follows" in the string if the user is on someone elses page
-        var s = params.username === undefined || userData.name === params.username ? "s" : "";
+        var s = params.username === undefined || userData.name === params.username ? "" : "s";
         return {
           v: _react2["default"].createElement(
             "div",
