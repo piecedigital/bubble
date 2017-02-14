@@ -458,7 +458,7 @@ export default React.createClass({
       });
       const person = params.username === undefined || (userData.name === params.username) ? "You" : params.username;
       // this will append an "s" to "follows" in the string if the user is on someone elses page
-      const s = params.username === undefined || (userData.name === params.username) ? "s" : "";
+      const s = params.username === undefined || (userData.name === params.username) ? "" : "s";
       return (
         <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
           <div className={`title`}>Channels {this.props.follow === "IFollow" ? `${person} Follow${s}` : `Following ${person}`}{!userData ? " (login required for this feature)" : ""}</div>
