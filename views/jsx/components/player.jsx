@@ -202,12 +202,11 @@ var PlayerStream = _react2["default"].createClass({
                     { ref: "streamerName1", style: {
                         position: "relative",
                         left: nameScroll1,
-                        transition: "0s all"
-                      } },
+                        transition: "0s all" } },
                     _react2["default"].createElement(
                       _reactRouter.Link,
                       {
-                        title: "Go to " + name + "'s channel on Twitch.tv",
+                        title: "Go to " + name + " on Twitch.tv",
                         className: "bold",
                         to: "/profile/" + name,
                         onClick: function () {
@@ -238,12 +237,11 @@ var PlayerStream = _react2["default"].createClass({
                   { ref: "streamerName2", style: {
                       position: "relative",
                       left: nameScroll2,
-                      transition: "0s all"
-                    } },
+                      transition: "0s all" } },
                   _react2["default"].createElement(
                     _reactRouter.Link,
                     {
-                      title: "Go to " + name + "'s channel on Twitch.tv",
+                      title: "Go to " + name + " on Twitch.tv",
                       className: "bold",
                       to: "/profile/" + name,
                       onClick: function () {
@@ -273,11 +271,11 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "closer bgc-orange-priority", onClick: function () {
-                    _this3.swapOut();
+                { className: "put-in-view bgc-green-priority", onClick: function () {
+                    putInView(index);
                     _this3.toggleMenu("close");
                   } },
-                "Close This Stream"
+                "Put In View"
               ),
               _react2["default"].createElement(
                 "div",
@@ -307,14 +305,6 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "put-in-view bgc-green-priority", onClick: function () {
-                    putInView(index);
-                    _this3.toggleMenu("close");
-                  } },
-                "Put In View"
-              ),
-              _react2["default"].createElement(
-                "div",
                 { className: "open-panels", onClick: function () {
                     panelsHandler("open", name);
                     _this3.toggleMenu("close");
@@ -341,6 +331,14 @@ var PlayerStream = _react2["default"].createClass({
                   } },
                 "Follow ",
                 name
+              ),
+              _react2["default"].createElement(
+                "div",
+                { className: "closer bgc-orange-priority", onClick: function () {
+                    _this3.swapOut();
+                    _this3.toggleMenu("close");
+                  } },
+                "Close This Stream"
               )
             )
           )
