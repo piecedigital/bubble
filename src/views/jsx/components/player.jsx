@@ -157,7 +157,11 @@ const PlayerStream = React.createClass({
                     left: nameScroll1,
                     transition: "0s all"
                   }}>
-                    <Link title={name} to={`/profile/${name}`} onClick={() => {
+                    <Link
+                      title={`Go to ${name}'s channel on Twitch.tv`}
+                      className="bold"
+                      to={`/profile/${name}`}
+                      onClick={() => {
                       togglePlayer("collapse");
                       this.toggleMenu("close");
                     }}>{display_name || name}{vod ? `/${vod}` : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
@@ -178,7 +182,11 @@ const PlayerStream = React.createClass({
                   left: nameScroll2,
                   transition: "0s all"
                 }}>
-                  <Link to={`/profile/${name}`} onClick={() => {
+                  <Link
+                    title={`Go to ${name}'s channel on Twitch.tv`}
+                    className="bold"
+                    to={`/profile/${name}`}
+                    onClick={() => {
                     togglePlayer("collapse");
                     this.toggleMenu("close");
                   }}>{vod ? <span className="vod">VOD: </span> : ""}{display_name || name}{vod ? `/${vod}` : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
@@ -204,7 +212,7 @@ const PlayerStream = React.createClass({
                   this.toggleMenu("close");
                 }}>Chat</span>
               </div>
-              <div className="put-in-view" onClick={() => {
+              <div className="put-in-view bgc-green-priority" onClick={() => {
                 putInView(index);
                 this.toggleMenu("close");
               }}>
@@ -226,7 +234,7 @@ const PlayerStream = React.createClass({
               {
                 userData ? (
                   <FollowButton
-                    className="no-underline bold bgc-orange-priority"
+                    className="no-underline bold"
                     name={userData.name}
                     targetName={name}
                     targetDisplay={display_name}

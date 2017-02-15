@@ -9,6 +9,7 @@ $dimmer: rgba(0, 130, 180, 1);
 $light: rgba(150, 230, 255, 1);
 $orange: rgba(250, 120, 0, 1);
 $red: rgba(250, 0, 0, 1);
+$green: rgba(0, 250, 150, 1);
 $allColors: (
 midGrey: $midGrey, // 1
 offWhite: $offWhite, // 2
@@ -19,7 +20,8 @@ dim: $dim, // 6
 dimmer: $dimmer, // 7
 light: $light, // 8
 orange: $orange, // 8
-red: $red // 8
+red: $red, // 8
+green: $green // 8
 );
 
 @mixin displayInlineFlex($mod:"") {
