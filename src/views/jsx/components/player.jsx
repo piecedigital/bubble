@@ -155,10 +155,9 @@ const PlayerStream = React.createClass({
                   <span ref="streamerName1" style={{
                     position: "relative",
                     left: nameScroll1,
-                    transition: "0s all"
-                  }}>
+                    transition: "0s all" }}>
                     <Link
-                      title={`Go to ${name}'s channel on Twitch.tv`}
+                      title={`Go to ${name} on Twitch.tv`}
                       className="bold"
                       to={`/profile/${name}`}
                       onClick={() => {
@@ -180,10 +179,9 @@ const PlayerStream = React.createClass({
                 <span ref="streamerName2" style={{
                   position: "relative",
                   left: nameScroll2,
-                  transition: "0s all"
-                }}>
+                  transition: "0s all" }}>
                   <Link
-                    title={`Go to ${name}'s channel on Twitch.tv`}
+                    title={`Go to ${name} on Twitch.tv`}
                     className="bold"
                     to={`/profile/${name}`}
                     onClick={() => {
@@ -197,31 +195,23 @@ const PlayerStream = React.createClass({
                   this.toggleMenu("close");
                 }}>Visit On Twitch</Link>
               </div>
-              <div className="closer bgc-orange-priority" onClick={() => {
-                this.swapOut();
-                this.toggleMenu("close");
-              }}>
-                Close This Stream
+              <div className="put-in-view bgc-green-priority" onClick={() => {
+                putInView(index);
+                this.toggleMenu("close"); }}>
+                Put In View
               </div>
               <div className="refresh">
                 <span className="title bold">Refresh:</span><span className="video" onClick={() => {
                   this.refresh("video");
-                  this.toggleMenu("close");
-                }}>Video</span>/<span className="chat" onClick={() => {
+                  this.toggleMenu("close"); }}>
+                  Video</span>/<span className="chat" onClick={() => {
                   this.refresh("chat");
-                  this.toggleMenu("close");
-                }}>Chat</span>
-              </div>
-              <div className="put-in-view bgc-green-priority" onClick={() => {
-                putInView(index);
-                this.toggleMenu("close");
-              }}>
-                Put In View
+                  this.toggleMenu("close"); }}>
+                  Chat</span>
               </div>
               <div className="open-panels" onClick={() => {
                 panelsHandler("open", name);
-                this.toggleMenu("close");
-              }}>
+                this.toggleMenu("close"); }}>
                 Open Stream Panels
               </div>
               <BookmarkButton
@@ -242,12 +232,16 @@ const PlayerStream = React.createClass({
                 ) : (
                   <div className="follow need-auth" onClick={() => {
                     alertAuthNeeded();
-                    this.toggleMenu("close");
-                  }}>
+                    this.toggleMenu("close"); }}>
                     Follow {name}
                   </div>
                 )
               }
+              <div className="closer bgc-orange-priority" onClick={() => {
+                this.swapOut();
+                this.toggleMenu("close"); }}>
+                Close This Stream
+              </div>
             </div>
           </div>
         </li>
