@@ -479,10 +479,13 @@ exports["default"] = _react2["default"].createClass({
       }
     });
 
-    console.log(this.refs.page);
-    console.log(_reactDom2["default"].findDOMNode(this.refs.page));
-    _reactDom2["default"].findDOMNode(this.refs.page).setAttribute("tabindex", -1);
-    _reactDom2["default"].findDOMNode(this.refs.page).focus();
+    // console.log(this.refs.page);
+    // console.log(ReactDOM.findDOMNode(this.refs.page));
+    var topLevelComponent = _reactDom2["default"].findDOMNode(this.refs.page);
+    if (topLevelComponent) {
+      topLevelComponent.setAttribute("tabindex", -1);
+      topLevelComponent.focus();
+    }
   },
   componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
     // console.log(nextProps.location);

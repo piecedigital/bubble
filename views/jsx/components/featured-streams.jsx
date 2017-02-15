@@ -64,7 +64,12 @@ var StreamListItem = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "image" },
-            _react2["default"].createElement("img", { src: preview.medium || _modulesClientHelperTools.missingLogo })
+            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+              style: {
+                width: 215,
+                height: 121
+              },
+              src: preview.medium || _modulesClientHelperTools.missingLogo })
           ),
           _react2["default"].createElement(
             "div",
@@ -165,7 +170,13 @@ var FeaturedStream = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "image" },
-          _react2["default"].createElement("img", { src: logo, alt: "profile image of " + (displayName || name) })
+          _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+            style: {
+              width: 168,
+              height: 234.7
+            },
+            src: logo,
+            alt: "profile image of " + (displayName || name) })
         ),
         _react2["default"].createElement(
           "div",

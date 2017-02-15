@@ -20,6 +20,8 @@ var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
 var _componentsHoverOptionsJsx = require("./components/hover-options.jsx");
 
+var _modulesClientHelperTools = require("../../modules/client/helper-tools");
+
 // components
 var components = {
   // list item for streams matching the search
@@ -65,7 +67,12 @@ var components = {
           _react2["default"].createElement(
             "div",
             { className: "image" },
-            _react2["default"].createElement("img", { src: preview.medium })
+            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+              style: {
+                width: 136,
+                height: 76.5
+              },
+              src: preview.medium })
           ),
           _react2["default"].createElement(
             "div",
@@ -126,7 +133,12 @@ var components = {
             _react2["default"].createElement(
               "div",
               { className: "image" },
-              _react2["default"].createElement("img", { src: box ? box.medium : "" })
+              _react2["default"].createElement("img", {
+                style: {
+                  width: 168,
+                  height: 234.7
+                },
+                src: box ? box.medium : "" })
             ),
             _react2["default"].createElement(
               "div",

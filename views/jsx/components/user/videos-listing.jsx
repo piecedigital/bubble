@@ -76,7 +76,9 @@ var components = {
           _react2["default"].createElement(
             "div",
             { className: "image" },
-            _react2["default"].createElement("img", { src: preview })
+            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+              "for": "video-list-item",
+              src: preview })
           ),
           _react2["default"].createElement(
             "div",

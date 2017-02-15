@@ -16,6 +16,8 @@ var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
 var _componentsHoverOptionsJsx = require("./components/hover-options.jsx");
 
+var _modulesClientHelperTools = require("../../modules/client/helper-tools");
+
 // components
 var components = {};
 
@@ -62,7 +64,13 @@ components.StreamsListItem = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "image" },
-          _react2["default"].createElement("img", { src: preview.medium })
+          _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+            style: {
+              width: 216,
+              height: 121.5
+            },
+            className: "test",
+            src: preview.medium })
         ),
         _react2["default"].createElement(
           "div",

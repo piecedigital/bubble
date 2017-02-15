@@ -137,7 +137,7 @@ nav {
   color: white;
   text-shadow: 2px 2px 2px black; }
 
-@media (max-width: 1400px) {
+@media (max-width: 1190px) {
   nav {
     min-width: 224px;
     height: 100%;
@@ -269,7 +269,7 @@ nav {
           top: 0;
           left: 0;
           height: 100%;
-          box-shadow: inset 0 0 0 2px #00aadc;
+          box-shadow: inset -2px 0 0 0 #0082b4;
           background-color: #00c8fa;
           color: #1e1e1e;
           pointer-events: none;
@@ -1103,6 +1103,8 @@ nav {
   width: 20%;
   padding: 4px;
   list-style: none; }
+  .game-list-item .wrapper {
+    height: 100%; }
   .game-list-item a {
     display: block;
     height: 100%;
@@ -1799,6 +1801,9 @@ nav {
 .bg-color-red {
   background-color: #fa0000; }
 
+.bg-color-green {
+  background-color: #00fa96; }
+
 .separator-1-white {
   height: 1px;
   background-color: white; }
@@ -1846,6 +1851,10 @@ nav {
 .separator-1-red {
   height: 1px;
   background-color: #fa0000; }
+
+.separator-1-green {
+  height: 1px;
+  background-color: #00fa96; }
 
 .separator-2-white {
   height: 2px;
@@ -1895,6 +1904,10 @@ nav {
   height: 2px;
   background-color: #fa0000; }
 
+.separator-2-green {
+  height: 2px;
+  background-color: #00fa96; }
+
 .separator-3-white {
   height: 3px;
   background-color: white; }
@@ -1942,6 +1955,10 @@ nav {
 .separator-3-red {
   height: 3px;
   background-color: #fa0000; }
+
+.separator-3-green {
+  height: 3px;
+  background-color: #00fa96; }
 
 .separator-4-white {
   height: 4px;
@@ -1991,6 +2008,10 @@ nav {
   height: 4px;
   background-color: #fa0000; }
 
+.separator-4-green {
+  height: 4px;
+  background-color: #00fa96; }
+
 .separator-1-white {
   height: 1px;
   background-color: white; }
@@ -2001,43 +2022,47 @@ nav {
 
 .separator-1-1 {
   height: 1px;
-  background-color: midGrey #7d7d7d; }
+  background-color: #7d7d7d; }
 
 .separator-1-2 {
   height: 1px;
-  background-color: offWhite #ebebeb; }
+  background-color: #ebebeb; }
 
 .separator-1-3 {
   height: 1px;
-  background-color: offBlack #1e1e1e; }
+  background-color: #1e1e1e; }
 
 .separator-1-4 {
   height: 1px;
-  background-color: purple #6441a4; }
+  background-color: #6441a4; }
 
 .separator-1-5 {
   height: 1px;
-  background-color: primary #00c8fa; }
+  background-color: #00c8fa; }
 
 .separator-1-6 {
   height: 1px;
-  background-color: dim #00aadc; }
+  background-color: #00aadc; }
 
 .separator-1-7 {
   height: 1px;
-  background-color: dimmer #0082b4; }
+  background-color: #0082b4; }
 
 .separator-1-8 {
   height: 1px;
-  background-color: light #96e6ff; }
+  background-color: #96e6ff; }
 
 .separator-1-9 {
   height: 1px;
-  background-color: orange #fa7800; }
+  background-color: #fa7800; }
 
 .separator-1-10 {
   height: 1px;
-  background-color: red #fa0000; }
+  background-color: #fa0000; }
+
+.separator-1-11 {
+  height: 1px;
+  background-color: #00fa96; }
 
 .separator-2-white {
   height: 2px;
@@ -2049,43 +2074,47 @@ nav {
 
 .separator-2-1 {
   height: 2px;
-  background-color: midGrey #7d7d7d; }
+  background-color: #7d7d7d; }
 
 .separator-2-2 {
   height: 2px;
-  background-color: offWhite #ebebeb; }
+  background-color: #ebebeb; }
 
 .separator-2-3 {
   height: 2px;
-  background-color: offBlack #1e1e1e; }
+  background-color: #1e1e1e; }
 
 .separator-2-4 {
   height: 2px;
-  background-color: purple #6441a4; }
+  background-color: #6441a4; }
 
 .separator-2-5 {
   height: 2px;
-  background-color: primary #00c8fa; }
+  background-color: #00c8fa; }
 
 .separator-2-6 {
   height: 2px;
-  background-color: dim #00aadc; }
+  background-color: #00aadc; }
 
 .separator-2-7 {
   height: 2px;
-  background-color: dimmer #0082b4; }
+  background-color: #0082b4; }
 
 .separator-2-8 {
   height: 2px;
-  background-color: light #96e6ff; }
+  background-color: #96e6ff; }
 
 .separator-2-9 {
   height: 2px;
-  background-color: orange #fa7800; }
+  background-color: #fa7800; }
 
 .separator-2-10 {
   height: 2px;
-  background-color: red #fa0000; }
+  background-color: #fa0000; }
+
+.separator-2-11 {
+  height: 2px;
+  background-color: #00fa96; }
 
 .separator-3-white {
   height: 3px;
@@ -2097,43 +2126,47 @@ nav {
 
 .separator-3-1 {
   height: 3px;
-  background-color: midGrey #7d7d7d; }
+  background-color: #7d7d7d; }
 
 .separator-3-2 {
   height: 3px;
-  background-color: offWhite #ebebeb; }
+  background-color: #ebebeb; }
 
 .separator-3-3 {
   height: 3px;
-  background-color: offBlack #1e1e1e; }
+  background-color: #1e1e1e; }
 
 .separator-3-4 {
   height: 3px;
-  background-color: purple #6441a4; }
+  background-color: #6441a4; }
 
 .separator-3-5 {
   height: 3px;
-  background-color: primary #00c8fa; }
+  background-color: #00c8fa; }
 
 .separator-3-6 {
   height: 3px;
-  background-color: dim #00aadc; }
+  background-color: #00aadc; }
 
 .separator-3-7 {
   height: 3px;
-  background-color: dimmer #0082b4; }
+  background-color: #0082b4; }
 
 .separator-3-8 {
   height: 3px;
-  background-color: light #96e6ff; }
+  background-color: #96e6ff; }
 
 .separator-3-9 {
   height: 3px;
-  background-color: orange #fa7800; }
+  background-color: #fa7800; }
 
 .separator-3-10 {
   height: 3px;
-  background-color: red #fa0000; }
+  background-color: #fa0000; }
+
+.separator-3-11 {
+  height: 3px;
+  background-color: #00fa96; }
 
 .separator-4-white {
   height: 4px;
@@ -2145,43 +2178,47 @@ nav {
 
 .separator-4-1 {
   height: 4px;
-  background-color: midGrey #7d7d7d; }
+  background-color: #7d7d7d; }
 
 .separator-4-2 {
   height: 4px;
-  background-color: offWhite #ebebeb; }
+  background-color: #ebebeb; }
 
 .separator-4-3 {
   height: 4px;
-  background-color: offBlack #1e1e1e; }
+  background-color: #1e1e1e; }
 
 .separator-4-4 {
   height: 4px;
-  background-color: purple #6441a4; }
+  background-color: #6441a4; }
 
 .separator-4-5 {
   height: 4px;
-  background-color: primary #00c8fa; }
+  background-color: #00c8fa; }
 
 .separator-4-6 {
   height: 4px;
-  background-color: dim #00aadc; }
+  background-color: #00aadc; }
 
 .separator-4-7 {
   height: 4px;
-  background-color: dimmer #0082b4; }
+  background-color: #0082b4; }
 
 .separator-4-8 {
   height: 4px;
-  background-color: light #96e6ff; }
+  background-color: #96e6ff; }
 
 .separator-4-9 {
   height: 4px;
-  background-color: orange #fa7800; }
+  background-color: #fa7800; }
 
 .separator-4-10 {
   height: 4px;
-  background-color: red #fa0000; }
+  background-color: #fa0000; }
+
+.separator-4-11 {
+  height: 4px;
+  background-color: #00fa96; }
 
 .color-white {
   color: white; }
@@ -2252,6 +2289,12 @@ nav {
 .color-red-priority {
   color: #fa0000 !important; }
 
+.color-green {
+  color: #00fa96; }
+
+.color-green-priority {
+  color: #00fa96 !important; }
+
 .bgc-midGrey {
   background-color: #7d7d7d; }
 
@@ -2311,6 +2354,12 @@ nav {
 
 .bgc-red-priority {
   background-color: #fa0000 !important; }
+
+.bgc-green {
+  background-color: #00fa96; }
+
+.bgc-green-priority {
+  background-color: #00fa96 !important; }
 
 .bold {
   font-weight: bold; }

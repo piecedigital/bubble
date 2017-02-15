@@ -206,7 +206,11 @@ var PlayerStream = _react2["default"].createClass({
                       } },
                     _react2["default"].createElement(
                       _reactRouter.Link,
-                      { title: name, to: "/profile/" + name, onClick: function () {
+                      {
+                        title: "Go to " + name + "'s channel on Twitch.tv",
+                        className: "bold",
+                        to: "/profile/" + name,
+                        onClick: function () {
                           togglePlayer("collapse");
                           _this3.toggleMenu("close");
                         } },
@@ -238,7 +242,11 @@ var PlayerStream = _react2["default"].createClass({
                     } },
                   _react2["default"].createElement(
                     _reactRouter.Link,
-                    { to: "/profile/" + name, onClick: function () {
+                    {
+                      title: "Go to " + name + "'s channel on Twitch.tv",
+                      className: "bold",
+                      to: "/profile/" + name,
+                      onClick: function () {
                         togglePlayer("collapse");
                         _this3.toggleMenu("close");
                       } },
@@ -299,7 +307,7 @@ var PlayerStream = _react2["default"].createClass({
               ),
               _react2["default"].createElement(
                 "div",
-                { className: "put-in-view", onClick: function () {
+                { className: "put-in-view bgc-green-priority", onClick: function () {
                     putInView(index);
                     _this3.toggleMenu("close");
                   } },
@@ -607,7 +615,7 @@ exports["default"] = _react2["default"].createClass({
               _react2["default"].createElement(
                 "span",
                 null,
-                "Change In-View stream/chat"
+                "Change In-View Stream/Chat"
               )
             )
           ) : null

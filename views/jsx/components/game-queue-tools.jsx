@@ -93,6 +93,7 @@ var ViewGameQueue = _react2["default"].createClass({
       queueInfo: null,
       icon: "PC/Steam".toLowerCase(),
       confirmedSub: false,
+      partnered: false,
       validation: {
         // title
         titleMin: 2,
@@ -154,6 +155,7 @@ var ViewGameQueue = _react2["default"].createClass({
     var queueHost = _props3.queueHost;
     var auth = _props3.auth;
 
+    // for the viewer, check if they are subbed to the channel
     if (userData && userData.name !== queueHost) {
       _modulesClientLoadData2["default"].call(this, function (e) {
         console.error(e.stack);
@@ -168,6 +170,30 @@ var ViewGameQueue = _react2["default"].createClass({
           console.log("subscribed");
           _this.setState({
             confirmedSub: true
+          });
+        })["catch"](function () {
+          var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+          return console.error(e.stack || e);
+        });
+      })["catch"](function () {
+        var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+        return console.error(e.stack || e);
+      });
+    } else {
+      // for the channel, check if they are partnered
+      _modulesClientLoadData2["default"].call(this, function (e) {
+        console.error(e.stack);
+      }, {
+        target: queueHost,
+        username: userData.name,
+        access_token: auth.access_token
+      }).then(function (methods) {
+        methods.getChannelByName().then(function (data) {
+          // if they're a sub then set confirmedSub to true
+          // otherwise this will trigger a bad request response and we don't have to do anything else
+          console.log("partnered", data.partner);
+          _this.setState({
+            partnered: data.partner
           });
         })["catch"](function () {
           var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -309,7 +335,7 @@ var ViewGameQueue = _react2["default"].createClass({
           rank: this.refs.rank.value,
           queueLimit: parseInt(this.refs.queueLimit.value),
           platform: this.refs.platform.value,
-          subOnly: this.refs.subOnly.checked
+          subOnly: this.state.partnered ? this.refs.subOnly.checked : false
         });
         break;
       case "reset":
@@ -332,7 +358,13 @@ var ViewGameQueue = _react2["default"].createClass({
 
     var platform = arguments.length <= 0 || arguments[0] === undefined ? "PC/Steam".toLowerCase() : arguments[0];
 
-    var obj = (_obj = {}, _defineProperty(_obj, "PC/Steam".toLowerCase(), {
+    var obj = (_obj = {
+      "none": {
+        name: "none",
+        displayName: "None",
+        url: "http://amorrius.net"
+      }
+    }, _defineProperty(_obj, "PC/Steam".toLowerCase(), {
       name: "steam",
       displayName: "PC/Steam",
       url: "http://steampowered.com"
@@ -428,6 +460,7 @@ var ViewGameQueue = _react2["default"].createClass({
     var propsPresent = _state.propsPresent;
     var icon = _state.icon;
     var confirmedSub = _state.confirmedSub;
+    var partnered = _state.partnered;
 
     if (!propsPresent) return null;
 
@@ -712,7 +745,7 @@ var ViewGameQueue = _react2["default"].createClass({
                     _this4.setChange(e, "platform");
                     _this4.changeIcon();
                   } },
-                ["PC/Steam", "PC/Uplay", "PC/Origin", "PS4/PSN", "XBox/XBL", "Wii/NN"].map(function (text) {
+                ["None", "PC/Steam", "PC/Uplay", "PC/Origin", "PS4/PSN", "XBox/XBL", "Wii/NN"].map(function (text) {
                   return _react2["default"].createElement(
                     "option",
                     { key: text.toLowerCase(), value: text.toLowerCase() },
@@ -739,9 +772,9 @@ var ViewGameQueue = _react2["default"].createClass({
               { className: "label bold" },
               "Subscriber Only? "
             ),
-            userData && userData.name === queueHost ? _react2["default"].createElement("input", { key: "input", type: "checkbox", ref: "subOnly", onChange: function (e) {
+            userData && userData.name === queueHost ? partnered ? _react2["default"].createElement("input", { key: "input", type: "checkbox", ref: "subOnly", onChange: function (e) {
                 _this4.setChange(e, "subOnly");
-              }, checked: queueInfo ? queueInfo.subOnly : false }) : queueInfo ? queueInfo.subOnly ? "Yes" : "No" : "No"
+              }, checked: queueInfo ? queueInfo.subOnly : false }) : "You must be a Twitch partner to change this option" : queueInfo ? queueInfo.subOnly ? "Yes" : "No" : "No"
           )
         ),
         _react2["default"].createElement("div", { className: "separator-1-dim" }),

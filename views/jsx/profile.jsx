@@ -43,28 +43,6 @@ exports["default"] = _react2["default"].createClass({
     var name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
 
     // don't render without this data
-    if (!fireRef) return _react2["default"].createElement(
-      "div",
-      { className: "top-level-component profile" },
-      _react2["default"].createElement(
-        "div",
-        { className: "general-page profile" },
-        _react2["default"].createElement(
-          "div",
-          { className: "page-header" },
-          _react2["default"].createElement(
-            "div",
-            { className: "title" },
-            "Profile: ",
-            name ? _react2["default"].createElement(
-              "a",
-              { target: "_blank", rel: "nofollow", href: "https://twitch.com/" + name },
-              name
-            ) : null
-          )
-        )
-      )
-    );
     return _react2["default"].createElement(
       "div",
       { className: "top-level-component profile" },
@@ -80,19 +58,12 @@ exports["default"] = _react2["default"].createClass({
             "Profile: ",
             name ? _react2["default"].createElement(
               "a",
-              { target: "_blank", rel: "nofollow", href: "https://twitch.com/" + name },
+              { target: "_blank", rel: "nofollow", href: "//twitch.com/" + name },
               name
             ) : null
           )
         ),
-        _react2["default"].createElement("div", { className: "separator-4-black" }),
-        params.username || userData ? _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], this.props) : null,
-        _react2["default"].createElement("div", { className: "separator-4-black" }),
-        _react2["default"].createElement(_componentsUserQuestionsJsx2["default"], this.props),
-        auth && auth.access_token && (userData || params.username) ? [_react2["default"].createElement("div", { key: "sep-IFollow", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-IFollow", follow: "IFollow" }, this.props))] : null,
-        auth && auth.access_token && (userData || params.username) ? [_react2["default"].createElement("div", { key: "sep-followMe", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-followMe", follow: "followMe" }, this.props))] : null,
-        _react2["default"].createElement("div", { className: "separator-4-black" }),
-        params.username || userData ? _react2["default"].createElement(_componentsUserVideosListingJsx2["default"], _extends({ broadcasts: true }, this.props)) : null
+        fireRef ? [_react2["default"].createElement("div", { key: "1", className: "separator-4-black" }), params.username || userData ? _react2["default"].createElement(_componentsUserUserInfoJsx2["default"], _extends({ key: "2" }, this.props)) : null, _react2["default"].createElement("div", { key: "3", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserQuestionsJsx2["default"], _extends({ key: "4" }, this.props)), auth && auth.access_token && (userData || params.username) ? [_react2["default"].createElement("div", { key: "sep-IFollow", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-IFollow", follow: "IFollow" }, this.props))] : null, auth && auth.access_token && (userData || params.username) ? [_react2["default"].createElement("div", { key: "sep-followMe", className: "separator-4-black" }), _react2["default"].createElement(_componentsUserFollowStreamsJsx2["default"], _extends({ key: "comp-followMe", follow: "followMe" }, this.props))] : null, _react2["default"].createElement("div", { key: "5", className: "separator-4-black" }), params.username || userData ? _react2["default"].createElement(_componentsUserVideosListingJsx2["default"], _extends({ key: "6", broadcasts: true }, this.props)) : null] : null
       )
     );
   }

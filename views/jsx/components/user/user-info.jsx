@@ -26,6 +26,8 @@ var _bookmarkBtnJsx = require("../bookmark-btn.jsx");
 
 var _bookmarkBtnJsx2 = _interopRequireDefault(_bookmarkBtnJsx);
 
+var _modulesClientHelperTools = require("../../../../modules/client/helper-tools");
+
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 // primary section for the search component
@@ -115,8 +117,19 @@ exports["default"] = _react2["default"].createClass({
           { className: "channel" },
           _react2["default"].createElement(
             "div",
-            { className: "banner" },
-            _react2["default"].createElement("img", { src: userChannelData.profile_banner }),
+            { className: "banner", style: {
+                backgroundImage: "url(" + userChannelData.profile_banner + ")",
+                backgroundPosition: "50% 50%",
+                backgroundSize: "100% auto",
+                backgroundRepeat: "no-repeat"
+              } },
+            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+              "for": "banner",
+              style: {
+                opacity: 0,
+                pointerEvents: "none"
+              },
+              noImgRequest: true }),
             _react2["default"].createElement(
               "div",
               { className: "hover" },
@@ -126,7 +139,13 @@ exports["default"] = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "a",
                   { href: "https://twitch.tv/" + userChannelData.name, target: "_blank", rel: "nofollow" },
-                  _react2["default"].createElement("img", { src: userChannelData.logo || missingLogo })
+                  _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+                    "for": "fill",
+                    style: {
+                      width: 96,
+                      height: 96
+                    },
+                    src: userChannelData.logo || missingLogo })
                 )
               ),
               _react2["default"].createElement(
