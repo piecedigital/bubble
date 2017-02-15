@@ -169,8 +169,8 @@ body {
     height: #{$L}px;
     background-color: black;
   }
-  @each $color in $allColors {
-    $i: index($allColors, $color);
+  @each $name, $color in $allColors {
+    $i: index($allColors, ($name $color));
     .separator-#{$L}-#{$i} {
       height: #{$L}px;
       background-color: #{$color};

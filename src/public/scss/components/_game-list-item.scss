@@ -2,6 +2,9 @@
   width: percentage(1/5);
   padding: .25*$em;
   list-style: none;
+  .wrapper {
+    height: 100%;
+  }
   a {
     display: block;
     height: 100%;

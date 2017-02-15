@@ -1,3 +1,6 @@
+import React from "react";
+import { ajax } from "./ajax";
+
 export const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 export const browserNotification = function (options) {
@@ -154,3 +157,122 @@ export const listenOnNewRatings = function(postID, fireRef, modCB, cb) {
     refNode.off("child_removed", cb);
   }
 }
+
+export const CImg = React.createClass({
+  displayName: "CImg",
+  getInitialState() {
+    let style, src;
+    switch (this.props.for) {
+      case "channel-list-item":
+        style = {
+          width: 136,
+          height: 136,
+        };
+      break;
+      case "video-list-item":
+        style = {
+          width: 136,
+          height: 102,
+        };
+      break;
+      case "banner":
+      case undefined:
+        style = {
+          width: 880,
+          height: 380,
+        };
+      break;
+      case "fill":
+        style = this.props.style;
+      break;
+      default: src = this.props.src;
+    }
+    return {
+      style,
+      src
+    }
+  },
+  makeBlankImage() {
+    // http://stackoverflow.com/a/22824493/4107851
+    // create canvas and canvas context
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // set dimensions of the canvas
+    if(!this.state.style) console.log(this.props, this.state);
+    canvas.width = this.state.style.width;
+    canvas.height = this.state.style.height;
+
+    // get image data from the canvas
+    const imageData = ctx.getImageData(0,0,this.state.style.width,this.state.style.height);
+    const data = imageData.data;
+
+    // set pixel color data
+    for(let i = 0; i < data.length; i+=4) {
+      data[i] = 0; // set R pixel to 0
+      data[i+2] = 0; // set G pixel to 0
+      data[i+2] = 0; // set B pixel to 0
+      data[i+3] = 255; // set opacity to full
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    // set image
+    this.setState({
+      src: canvas.toDataURL()
+    });
+  },
+  getImage() {
+    ajax({
+      url: this.props.src,
+      success: (data) => {
+        // console.log(data);
+        // this.makeImageBlob(data);
+      },
+      error(data) {
+        console.error(data);
+      },
+    })
+  },
+  makeImageBlob(response) {
+    const urlCreator = window.URL || window.webkitURL;
+    const blob = new Blob([response]);
+    const imageUrl = urlCreator.createObjectURL(blob);
+    console.log("blob", blob);
+    console.log("image URL", imageUrl);
+    // this.setImage(imageUrl);
+    // http://stackoverflow.com/a/27737668/4107851
+  },
+  setImage(src) {
+    this.setState({
+      src
+    });
+  },
+  componentDidMount() {
+    this.makeBlankImage();
+    if(!this.props.noImgRequest) {
+      setTimeout(() => {
+        this.setImage(this.props.src);
+      }, 100);
+    }
+    // none of the below-related code is working
+    // setTimeout(() => {
+    //   console.log("getting image");
+    //   this.getImage();
+    // }, 3000);
+  },
+  render() {
+    if(!this.state.src) return null;
+    const purgedStyle = this.props.style;
+    delete purgedStyle.width;
+    delete purgedStyle.height;
+    return (
+      <img
+        src={this.state.src}
+        {...{
+          className: (this.props.className || "") + " CImg",
+          alt: this.props.alt,
+          style: purgedStyle,
+        }} />
+    );
+  }
+});

@@ -3,6 +3,7 @@ import loadData from "../../../modules/client/load-data";
 import { missingLogo } from "../../../modules/client/helper-tools";
 import BookmarkButton from "./bookmark-btn.jsx";
 import UserQuestions from "./user-questions.jsx";
+import { CImg } from "../../../modules/client/helper-tools";
 import { Link } from 'react-router';
 
 // list item for featured streams
@@ -39,7 +40,12 @@ const StreamListItem = React.createClass({
         }}>
           <div className="wrapper">
             <div className="image">
-              <img src={preview.medium || missingLogo} />
+              <CImg
+                style={{
+                  width: 215,
+                  height: 121
+                }}
+                src={preview.medium || missingLogo} />
             </div>
             <div className="info">
               <div className="channel-name">
@@ -137,7 +143,13 @@ const FeaturedStream = React.createClass({
           displayName ? (
             <div className="stream-info">
               <div className="image">
-                <img src={logo} alt={`profile image of ${displayName || name}`} />
+                <CImg
+                  style={{
+                    width: 168,
+                    height: 234.7
+                  }}
+                  src={logo}
+                  alt={`profile image of ${displayName || name}`} />
               </div>
               <div className="links">
                 <div className="display-name">

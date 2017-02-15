@@ -3,6 +3,7 @@ import React from "react";
 import loadData from "../../../../modules/client/load-data";
 import FollowButton from "../follow-btn.jsx";
 import BookmarkButton from "../bookmark-btn.jsx";
+import { CImg } from "../../../../modules/client/helper-tools";
 
 const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -88,10 +89,27 @@ export default React.createClass({
           {
             userChannelData ? (
               <div className="channel">
-                <div className="banner">
-                  <img src={userChannelData.profile_banner} />
+                <div className="banner" style={{
+                  backgroundImage: `url(${userChannelData.profile_banner})`,
+                  backgroundPosition: "50% 50%",
+                  backgroundSize: "100% auto",
+                  backgroundRepeat: "no-repeat",
+                }}>
+                  <CImg
+                    for="banner"
+                    style={{
+                      opacity: 0,
+                      pointerEvents: "none",
+                    }}
+                    noImgRequest={true} />
                   <div className="hover">
-                    <div className="logo"><a href={`https://twitch.tv/${userChannelData.name}`} target="_blank" rel="nofollow"><img src={userChannelData.logo || missingLogo} /></a></div>
+                    <div className="logo"><a href={`https://twitch.tv/${userChannelData.name}`} target="_blank" rel="nofollow"><CImg
+                      for="fill"
+                      style={{
+                        width: 96,
+                        height: 96,
+                      }}
+                      src={userChannelData.logo || missingLogo} /></a></div>
                     <div className="info">
                       <div className="name">{userChannelData.display_name}</div>
                       <div className="views">Views: {userChannelData.views.toLocaleString("en")}</div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/client/load-data";
-import { browserNotification as notification } from "../../../../modules/client/helper-tools";
+import { browserNotification as notification, CImg } from "../../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "../hover-options.jsx";
 
 const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
@@ -60,7 +60,9 @@ let components = {
         <li className="video-list-item">
           <div className="wrapper">
             <div className="image">
-              <img src={preview} />
+              <CImg
+                for="video-list-item"
+                src={preview} />
             </div>
             <div className="info">
               <div className="channel-name">

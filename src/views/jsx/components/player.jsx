@@ -226,7 +226,7 @@ const PlayerStream = React.createClass({
               {
                 userData ? (
                   <FollowButton
-                    className="no-underline bold"
+                    className="no-underline bold bgc-orange-priority"
                     name={userData.name}
                     targetName={name}
                     targetDisplay={display_name}
@@ -503,7 +503,7 @@ export default React.createClass({
                       ) : null
                     }
                   </select>
-                  <div className="hover-msg"><span>Change In-View stream/chat</span></div>
+                  <div className="hover-msg"><span>Change In-View Stream/Chat</span></div>
                 </div>
               )  : null
             }

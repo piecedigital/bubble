@@ -59,6 +59,7 @@ export const ViewGameQueue = React.createClass({
     queueInfo: null,
     icon: ("PC/Steam").toLowerCase(),
     confirmedSub: false,
+    partnered: false,
     validation: {
       // title
       titleMin: 2,
@@ -118,6 +119,7 @@ export const ViewGameQueue = React.createClass({
       auth
     } = this.props;
 
+    // for the viewer, check if they are subbed to the channel
     if(userData && (userData.name !== queueHost)) {
       loadData.call(this, e => {
         console.error(e.stack);
@@ -135,6 +137,29 @@ export const ViewGameQueue = React.createClass({
           console.log("subscribed");
           this.setState({
             confirmedSub: true
+          });
+        })
+        .catch((e = {}) => console.error(e.stack || e));
+      })
+      .catch((e = {}) => console.error(e.stack || e));
+    } else {
+      // for the channel, check if they are partnered
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        target: queueHost,
+        username: userData.name,
+        access_token: auth.access_token,
+      })
+      .then(methods => {
+        methods
+        .getChannelByName()
+        .then(data => {
+          // if they're a sub then set confirmedSub to true
+          // otherwise this will trigger a bad request response and we don't have to do anything else
+          console.log("partnered", data.partner);
+          this.setState({
+            partnered: data.partner
           });
         })
         .catch((e = {}) => console.error(e.stack || e));
@@ -284,7 +309,7 @@ export const ViewGameQueue = React.createClass({
           rank: this.refs.rank.value,
           queueLimit: parseInt(this.refs.queueLimit.value),
           platform: this.refs.platform.value,
-          subOnly: this.refs.subOnly.checked,
+          subOnly: this.state.partnered ? this.refs.subOnly.checked : false,
         })
       break;
       case "reset":
@@ -310,6 +335,11 @@ export const ViewGameQueue = React.createClass({
   },
   getPlatformLogo(platform = ("PC/Steam").toLowerCase()) {
     const obj = {
+      "none": {
+        name: "none",
+        displayName: "None",
+        url: "http://amorrius.net"
+      },
       [("PC/Steam").toLowerCase()]: {
         name: "steam",
         displayName: "PC/Steam",
@@ -428,6 +458,7 @@ export const ViewGameQueue = React.createClass({
       propsPresent,
       icon,
       confirmedSub,
+      partnered,
     } = this.state;
 
     if(!propsPresent) return null;
@@ -589,7 +620,7 @@ export const ViewGameQueue = React.createClass({
                       this.changeIcon();
                     }}>
                       {
-                        ["PC/Steam", "PC/Uplay", "PC/Origin", "PS4/PSN", "XBox/XBL", "Wii/NN"].map(text => {
+                        ["None", "PC/Steam", "PC/Uplay", "PC/Origin", "PS4/PSN", "XBox/XBL", "Wii/NN"].map(text => {
                           return (
                             <option key={text.toLowerCase()} value={text.toLowerCase()}>{text}</option>
                           );
@@ -606,10 +637,12 @@ export const ViewGameQueue = React.createClass({
             <label>
               <span className="label bold">Subscriber Only? </span>
               {
-                userData && userData.name === queueHost ? (
-                  <input key="input" type="checkbox" ref="subOnly" onChange={e => {
-                    this.setChange(e, "subOnly");
-                  }} checked={queueInfo ? queueInfo.subOnly : false} />
+                (userData && userData.name === queueHost) ? (
+                  partnered ? (
+                    <input key="input" type="checkbox" ref="subOnly" onChange={e => {
+                      this.setChange(e, "subOnly");
+                    }} checked={queueInfo ? queueInfo.subOnly : false} />
+                  ) : "You must be a Twitch partner to change this option"
                 ) : (
                   queueInfo ? ( queueInfo.subOnly ? "Yes" : "No" ) : "No"
                 )

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/client/load-data";
-import { browserNotification as notification, missingLogo } from "../../../../modules/client/helper-tools";
+import { browserNotification as notification, missingLogo, CImg } from "../../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "../hover-options.jsx";
 
 // const missingLogo = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
@@ -154,7 +154,9 @@ let components = {
             <li className={`channel-list-item null`}>
               <div className="wrapper">
                 <div className="image">
-                  <img src={logo || missingLogo} />
+                  <CImg
+                    for="channel-list-item"
+                    src={logo || missingLogo} />
                 </div>
                 <div className="info">
                   <div className={`live-indicator offline`} />
@@ -186,7 +188,9 @@ let components = {
           <li className={`channel-list-item`}>
             <div className="wrapper">
               <div className="image">
-                <img src={logo || missingLogo} />
+                <CImg
+                  for="channel-list-item"
+                  src={logo || missingLogo} />
               </div>
               <div className="info">
                 <div className={`live-indicator online`} />
@@ -456,9 +460,9 @@ export default React.createClass({
           }} />
         )
       });
-      const person = params.username === undefined || (userData.name === params.username) ? "You" : params.username;
+      const person = params.username === undefined || (userData && userData.name === params.username) ? "You" : params.username;
       // this will append an "s" to "follows" in the string if the user is on someone elses page
-      const s = params.username === undefined || (userData.name === params.username) ? "" : "s";
+      const s = params.username === undefined || (userData && userData.name === params.username) ? "" : "s";
       return (
         <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
           <div className={`title`}>Channels {this.props.follow === "IFollow" ? `${person} Follow${s}` : `Following ${person}`}{!userData ? " (login required for this feature)" : ""}</div>

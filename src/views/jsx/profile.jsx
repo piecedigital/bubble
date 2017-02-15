@@ -17,57 +17,50 @@ export default React.createClass({
     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
 
     // don't render without this data
-    if(!fireRef) return (
-      <div className="top-level-component profile">
-        <div className="general-page profile">
-          <div className="page-header">
-            <div className="title">
-              {`Profile: `}
-              {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
     return (
       <div className="top-level-component profile">
         <div className="general-page profile">
           <div className="page-header">
             <div className="title">
               {`Profile: `}
-              {name ? <a target="_blank" rel="nofollow" href={`https://twitch.com/${name}`}>{name}</a> : null}
+              {name ? <a target="_blank" rel="nofollow" href={`//twitch.com/${name}`}>{name}</a> : null}
             </div>
           </div>
-          <div className="separator-4-black" />
           {
-            params.username || userData ? (
-              <UserInfo {...this.props} />
-            ) : null
-          }
-          <div className="separator-4-black" />
-          <UserQuestions {...this.props} />
-          {
-            auth && auth.access_token &&
-            (userData || params.username) ? (
+            fireRef ? (
               [
-                <div key="sep-IFollow" className="separator-4-black" />,
-                <FollowStreams key="comp-IFollow" follow={"IFollow"} {...this.props} />
+                <div key="1" className="separator-4-black" />,
+
+                params.username || userData ? (
+                  <UserInfo key="2" {...this.props} />
+                ) : null,
+
+                <div key="3" className="separator-4-black" />,
+
+                <UserQuestions key="4" {...this.props} />,
+
+                auth && auth.access_token &&
+                (userData || params.username) ? (
+                  [
+                    <div key="sep-IFollow" className="separator-4-black" />,
+                    <FollowStreams key="comp-IFollow" follow={"IFollow"} {...this.props} />
+                  ]
+                ) : null,
+
+                auth && auth.access_token &&
+                (userData || params.username) ? (
+                  [
+                    <div key="sep-followMe" className="separator-4-black" />,
+                    <FollowStreams key="comp-followMe" follow={"followMe"} {...this.props}/>
+                  ]
+                ) : null,
+
+                <div key="5" className="separator-4-black" />,
+
+                params.username || userData ? (
+                  <VideosListing key="6" broadcasts={true} {...this.props} />
+                ) : null,
               ]
-            ) : null
-          }
-          {
-            auth && auth.access_token &&
-            (userData || params.username) ? (
-              [
-                <div key="sep-followMe" className="separator-4-black" />,
-                <FollowStreams key="comp-followMe" follow={"followMe"} {...this.props}/>
-              ]
-            ) : null
-          }
-          <div className="separator-4-black" />
-          {
-            params.username || userData ? (
-              <VideosListing broadcasts={true} {...this.props} />
             ) : null
           }
         </div>

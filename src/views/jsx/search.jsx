@@ -1,6 +1,7 @@
 import React from "react";
 import loadData from "../../modules/client/load-data";
 import { ListItemHoverOptions } from "./components/hover-options.jsx";
+import { CImg } from "../../modules/client/helper-tools";
 // components
 let components = {};
 
@@ -46,7 +47,13 @@ components.StreamsListItem = React.createClass({
       <li className={`stream-list-item search`}>
         <div className="wrapper">
           <div className="image">
-            <img src={preview.medium} />
+            <CImg
+              style={{
+                width: 216,
+                height: 121.5,
+              }}
+              className="test"
+              src={preview.medium} />
           </div>
           <div className="info">
             <div className="channel-name">

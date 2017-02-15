@@ -2,6 +2,7 @@ import React from "react";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../modules/client/load-data";
 import { ListItemHoverOptions } from "./components/hover-options.jsx";
+import { CImg } from "../../modules/client/helper-tools";
 
 // components
 let components = {
@@ -47,7 +48,12 @@ let components = {
         <li className={`stream-list-item`}>
           <div className="wrapper">
             <div className="image">
-              <img src={preview.medium} />
+              <CImg
+                style={{
+                  width: 136,
+                  height: 76.5,
+                }}
+                src={preview.medium} />
             </div>
             <div className="info">
               <div className="channel-name">
@@ -96,7 +102,12 @@ let components = {
           <div className="wrapper">
             <Link to={`/search/streams?q=${encodeURIComponent(name)}`}>
               <div className="image">
-                <img src={box ? box.medium : ""} />
+                <img
+                  style={{
+                    width: 168,
+                    height: 234.7,
+                  }}
+                  src={box ? box.medium : ""} />
               </div>
               <div className="info">
                 <div className="game-name">

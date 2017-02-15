@@ -440,10 +440,13 @@ export default React.createClass({
       }
     });
 
-    console.log(this.refs.page);
-    console.log(ReactDOM.findDOMNode(this.refs.page));
-    ReactDOM.findDOMNode(this.refs.page).setAttribute("tabindex", -1);
-    ReactDOM.findDOMNode(this.refs.page).focus();
+    // console.log(this.refs.page);
+    // console.log(ReactDOM.findDOMNode(this.refs.page));
+    const topLevelComponent = ReactDOM.findDOMNode(this.refs.page);
+    if(topLevelComponent) {
+      topLevelComponent.setAttribute("tabindex", -1);
+      topLevelComponent.focus();
+    }
   },
   componentWillUpdate(nextProps, nextState) {
     // console.log(nextProps.location);
