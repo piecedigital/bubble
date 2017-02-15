@@ -281,8 +281,10 @@ var CImg = _react2["default"].createClass({
   render: function render() {
     if (!this.state.src) return null;
     var purgedStyle = this.props.style;
-    delete purgedStyle.width;
-    delete purgedStyle.height;
+    if (purgedStyle) {
+      delete purgedStyle.width;
+      delete purgedStyle.height;
+    }
     return _react2["default"].createElement("img", _extends({
       src: this.state.src
     }, {
