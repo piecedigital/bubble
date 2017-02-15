@@ -263,8 +263,10 @@ export const CImg = React.createClass({
   render() {
     if(!this.state.src) return null;
     const purgedStyle = this.props.style;
-    delete purgedStyle.width;
-    delete purgedStyle.height;
+    if(purgedStyle) {
+      delete purgedStyle.width;
+      delete purgedStyle.height;
+    }
     return (
       <img
         src={this.state.src}

@@ -13,6 +13,7 @@
   - Fixed undefined name on `follow-streams` titles - 0.11.2 **ok**
   - UI improvements - 0.11.3 **ok**
   - Images use special "primer" component. Text tweaks. Game queue "Subscribers Only" option now only available to partnered streamers. - 0.11.4
+  - Hot Fix. - 0.11.5 **ok**
 - Add polish: - 0.12.0
   - Add pages: About, Terms of Service
   - Add logo
