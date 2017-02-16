@@ -565,7 +565,7 @@ nav {
       width: 100% !important;
       max-height: 240px; }
       .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child) {
-        border-bottom: 8px solid #00aadc; }
+        margin-bottom: 16px; }
   .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list {
     width: 0;
     min-width: 0; }
@@ -837,9 +837,9 @@ nav {
       flex-direction: column;
       position: absolute;
       top: 100%;
-      left: 50%;
+      left: 160px;
       padding: 16px;
-      transform: translate(-50%, -64px);
+      transform: translate(0, -64px);
       text-align: center;
       align-items: center; }
       .user-info .channel .banner .hover:before {
@@ -854,7 +854,8 @@ nav {
       .user-info .channel .banner .hover .logo {
         z-index: 1;
         position: relative;
-        width: 96px; }
+        width: 96px;
+        background-color: white; }
         .user-info .channel .banner .hover .logo:after {
           content: "";
           position: absolute;
@@ -878,10 +879,29 @@ nav {
         padding-top: 8px;
         color: white; }
 .user-info .user {
+  display: -ms-flex ;
+  display: -moz-flex ;
+  display: -webkit-box ;
+  display: -webkit-flex ;
+  display: flex ;
   max-width: 880px;
   margin: 16px auto 12px;
   background-color: #ebebeb;
   color: black; }
+  .user-info .user .button-wrapper {
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: -webkit-flex ;
+    display: flex ;
+    flex-direction: column;
+    min-width: 152px;
+    padding: 8px;
+    border-right: 8px solid #1e1e1e; }
+    .user-info .user .button-wrapper > * {
+      width: 100%; }
+      .user-info .user .button-wrapper > *:not(:last-child) {
+        margin-bottom: 8px; }
   .user-info .user .bio {
     padding: 160px 16px 16px;
     text-align: center; }
@@ -889,14 +909,6 @@ nav {
       font-style: italic; }
       .user-info .user .bio.no-bio .sad-face {
         max-width: 16px; }
-.user-info .button-wrapper {
-  display: -ms-flex ;
-  display: -moz-flex ;
-  display: -webkit-box ;
-  display: -webkit-flex ;
-  display: flex ; }
-  .user-info .button-wrapper > *:not(:last-child) {
-    margin-right: 8px; }
 
 .stream-list-item {
   position: relative;
@@ -1325,6 +1337,8 @@ nav {
       box-shadow: none; }
       .overlay-ui-default .section input[type="checkbox"], .overlay-ui-default .section input[type="radio"] {
         width: auto; }
+      .overlay-ui-default .section input.invalid {
+        border: 1px solid red; }
     .overlay-ui-default .section textarea {
       width: 100%;
       border-radius: 4px;
@@ -1333,6 +1347,8 @@ nav {
       box-shadow: none; }
       .overlay-ui-default .section textarea.valid {
         border: 1px solid #0082b4; }
+      .overlay-ui-default .section textarea.invalid {
+        border: 1px solid red; }
 
 .answer-question .section .label.title {
   padding: 0;

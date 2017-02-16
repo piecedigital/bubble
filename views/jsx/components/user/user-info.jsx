@@ -198,41 +198,35 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "user" },
-          userUserData ? _react2["default"].createElement(
-            "div",
-            { className: "bio" + (!userUserData.bio ? " no-bio" : "") },
-            userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { key: "img", className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
-          ) : null,
-          _react2["default"].createElement("div", { className: "separator-4-3" }),
           _react2["default"].createElement(
             "div",
             { className: "button-wrapper" },
             name && userData && userData.name !== name ? [_react2["default"].createElement(
               "a",
-              { key: "msg", className: "btn-default btn-rect color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
+              { key: "msg", className: "btn-default color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
               "Send Message"
             ), " ", _react2["default"].createElement(
               "div",
-              { key: "ask", className: "btn-default btn-rect color-black bold no-underline", onClick: popUpHandler.bind(null, "askQuestion", {
+              { key: "ask", className: "btn-default color-black bold no-underline", onClick: popUpHandler.bind(null, "askQuestion", {
                   receiver: name.toLowerCase(),
                   sender: userData.name
                 }) },
               "Ask A Question"
             ), _react2["default"].createElement(_bookmarkBtnJsx2["default"], {
               key: "bookmark",
-              className: "btn-default btn-rect color-black bold no-underline",
+              className: "btn-default color-black bold no-underline",
               fireRef: fireRef,
               userData: userData,
               givenUsername: name,
               versionData: versionData })] : null,
-            userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default btn-rect color-black bold no-underline" })] : null,
+            userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default color-black bold no-underline" })] : null,
             userChannelData ? [" ", _react2["default"].createElement(
               "div",
-              { key: "open", className: "btn-default btn-rect color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
+              { key: "open", className: "btn-default color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
               "Open Stream"
             ), _react2["default"].createElement(
               "div",
-              { key: "gamequeue", className: "btn-default btn-rect color-black bold no-underline", onClick: popUpHandler.bind(null, "viewGameQueue", { queueHost: userChannelData.name }) },
+              { key: "gamequeue", className: "btn-default color-black bold no-underline", onClick: popUpHandler.bind(null, "viewGameQueue", { queueHost: userChannelData.name }) },
               "Open Game Queue"
             )] : null,
             (function () {
@@ -244,11 +238,16 @@ exports["default"] = _react2["default"].createClass({
               }
               return give ? [" ", _react2["default"].createElement(
                 "a",
-                { key: "clips", className: "btn-default btn-rect color-black bold no-underline", href: "https://clips.twitch.tv/my-clips", target: "_blank" },
+                { key: "clips", className: "btn-default color-black bold no-underline", href: "https://clips.twitch.tv/my-clips", target: "_blank" },
                 "My Clips"
               )] : null;
             })()
-          )
+          ),
+          userUserData ? _react2["default"].createElement(
+            "div",
+            { className: "bio" + (!userUserData.bio ? " no-bio" : "") },
+            userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { key: "img", className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
+          ) : null
         )
       )
     );

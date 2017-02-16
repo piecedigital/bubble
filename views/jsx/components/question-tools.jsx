@@ -323,6 +323,7 @@ var AnswerQuestion = _react2["default"].createClass({
       success: false,
       versionData: null,
       questionData: null,
+      answerType: "text",
       validation: {
         titleMin: 3,
         titleMax: 60,
@@ -331,7 +332,8 @@ var AnswerQuestion = _react2["default"].createClass({
         bodyMin: 30,
         bodyMax: 2000,
         bodyCount: 0,
-        bodyValid: false
+        bodyValid: false,
+        bodyMatch: new RegExp("http(s)?:\\/\\/www.twitch.tv/videos\\/[0-9]*")
       }
     };
   },
@@ -347,14 +349,29 @@ var AnswerQuestion = _react2["default"].createClass({
     var questionID = _props3.questionID;
     var versionData = _props3.versionData;
     var popUpHandler = _props3.methods.popUpHandler;
-    var questionData = this.state.questionData;
+    var _state2 = this.state;
+    var questionData = _state2.questionData;
+    var answerType = _state2.answerType;
     var _refs2 = this.refs;
     var title = _refs2.title;
     var body = _refs2.body;
+    var bodyHour = _refs2.bodyHour;
+    var bodyMinute = _refs2.bodyMinute;
+    var bodySecond = _refs2.bodySecond;
+
+    var t = "";
+
+    if (answerType === "link") {
+      t = "?t=";
+      t += bodyHour ? bodyHour.value + "h" : "";
+      t += bodyMinute ? bodyMinute.value + "m" : "";
+      t += bodySecond ? bodySecond.value + "s" : "";
+    }
 
     var answerObject = {
       "username": userData.name,
-      "body": body.value,
+      "body": body.value + t,
+      answerType: answerType,
       "questionID": questionID,
       "date": new Date().getTime(),
       "sentStatuses": {
@@ -402,21 +419,52 @@ var AnswerQuestion = _react2["default"].createClass({
     });
   },
   validate: function validate(name, e) {
-    var _Object$assign2;
-
     // name will be the same as a referenced element
     // the name will be used to be validated, matched with a variable "suffix"
-    var value = e.target.value;
+
+    var value = e ? e.target.value : null;
     var thisMin = this.state.validation[name + "Min"];
     var thisMax = this.state.validation[name + "Max"];
+    // unique: regex for some values that need it
+    var thisMatch = this.state.validation[name + "Match"];
     var thisValid = name + "Valid";
     var thisCount = name + "Count";
+
+    // don't worry about validation for these things depending on the answer type
+    if (this.state.answerType === "link") {
+      if (name === "body") {
+        var _Object$assign2;
+
+        this.setState({
+          validation: Object.assign(this.state.validation, (_Object$assign2 = {}, _defineProperty(_Object$assign2, thisValid, !!value.match(thisMatch)), _defineProperty(_Object$assign2, thisCount, (thisMin + thisMax) / 2), _Object$assign2), console.log(this.state.validation))
+        });
+      }
+    } else {
+      var _Object$assign3;
+
+      this.setState({
+        validation: Object.assign(this.state.validation, (_Object$assign3 = {}, _defineProperty(_Object$assign3, thisValid, value.length >= thisMin && value.length <= thisMax), _defineProperty(_Object$assign3, thisCount, value.length), _Object$assign3))
+      });
+    }
+  },
+  handleChange: function handleChange() {
+    var _this3 = this;
+
+    // console.log(this.refs["answerType-text"].checked);
+    // console.log(this.refs["answerType-link"].checked);
+    var textType = this.refs["answerType-text"].checked ? "text" : false;
+    var linkType = this.refs["answerType-link"].checked ? "link" : false;
+
     this.setState({
-      validation: Object.assign(this.state.validation, (_Object$assign2 = {}, _defineProperty(_Object$assign2, thisValid, value.length >= thisMin && value.length <= thisMax), _defineProperty(_Object$assign2, thisCount, value.length), _Object$assign2))
+      answerType: textType || linkType
+    }, function () {
+      _this3.validate("body", {
+        target: _this3.refs.body
+      });
     });
   },
   componentDidMount: function componentDidMount() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _props4 = this.props;
     var questionID = _props4.questionID;
@@ -425,9 +473,9 @@ var AnswerQuestion = _react2["default"].createClass({
     var popUpHandler = _props4.methods.popUpHandler;
 
     (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
-      console.log("got question data", questionData);
+      // console.log("got question data", questionData);
       (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
-        console.log("got answer data", answerData);
+        // console.log("got answer data", answerData);
 
         if (answerData) {
           popUpHandler("viewQuestion", {
@@ -435,7 +483,7 @@ var AnswerQuestion = _react2["default"].createClass({
           });
         } else {
           if (questionData.receiver === userData.name) {
-            _this3.setState({
+            _this4.setState({
               questionData: questionData
             });
           }
@@ -453,10 +501,11 @@ var AnswerQuestion = _react2["default"].createClass({
 
     _objectDestructuringEmpty(this.props);
 
-    var _state2 = this.state;
-    var success = _state2.success;
-    var error = _state2.error;
-    var questionData = _state2.questionData;
+    var _state3 = this.state;
+    var success = _state3.success;
+    var error = _state3.error;
+    var questionData = _state3.questionData;
+    var answerType = _state3.answerType;
 
     if (!versionData || !fireRef) {
       return _react2["default"].createElement(
@@ -558,24 +607,88 @@ var AnswerQuestion = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "div",
                   { className: "label bold" },
-                  "What's Your Answer?"
+                  "How Do You Want To Answer?"
                 ),
-                _react2["default"].createElement("textarea", { ref: "body", className: "" + (this.state.validation["bodyValid"] ? " valid" : ""), onChange: this.validate.bind(null, "body") }),
+                _react2["default"].createElement(
+                  "span",
+                  { className: "bold" },
+                  "Text:"
+                ),
+                _react2["default"].createElement("input", { ref: "answerType-text", type: "radio", name: "answerType", value: "text", defaultChecked: true, onChange: this.handleChange }),
+                _react2["default"].createElement(
+                  "span",
+                  { className: "bold" },
+                  "Link to VOD:"
+                ),
+                _react2["default"].createElement("input", { ref: "answerType-link", type: "radio", name: "answerType", value: "link", defaultChecked: false, onChange: this.handleChange })
+              )
+            ),
+            _react2["default"].createElement("div", { className: "separator-4-dim" }),
+            _react2["default"].createElement(
+              "div",
+              { className: "section" },
+              _react2["default"].createElement(
+                "label",
+                null,
                 _react2["default"].createElement(
                   "div",
+                  { className: "label bold" },
+                  answerType === "link" ? "Link to VOD" : "What's Your Answer?"
+                ),
+                answerType === "text" ? _react2["default"].createElement(
+                  "span",
                   null,
-                  this.state.validation["bodyCount"],
-                  "/",
+                  _react2["default"].createElement("textarea", { ref: "body", className: "" + (this.state.validation["bodyValid"] ? " valid" : ""), onChange: this.validate.bind(null, "body") }),
                   _react2["default"].createElement(
-                    "span",
-                    { className: "" + (this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : "") },
-                    this.state.validation["bodyMin"]
+                    "div",
+                    null,
+                    this.state.validation["bodyCount"],
+                    "/",
+                    _react2["default"].createElement(
+                      "span",
+                      { className: "" + (this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : "") },
+                      this.state.validation["bodyMin"]
+                    ),
+                    "-",
+                    _react2["default"].createElement(
+                      "span",
+                      { className: "" + (this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : "") },
+                      this.state.validation["bodyMax"]
+                    )
+                  )
+                ) : _react2["default"].createElement(
+                  "span",
+                  null,
+                  _react2["default"].createElement("input", { ref: "body", type: "text", className: "" + (this.state.validation["bodyValid"] ? " valid" : "invalid"), onChange: this.validate.bind(null, "body") }),
+                  _react2["default"].createElement(
+                    "div",
+                    null,
+                    _react2["default"].createElement(
+                      "span",
+                      { className: "bold" },
+                      "Hour:"
+                    ),
+                    _react2["default"].createElement("input", { ref: "bodyHour", type: "number", min: "0", defaultValue: "0" })
                   ),
-                  "-",
                   _react2["default"].createElement(
-                    "span",
-                    { className: "" + (this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : "") },
-                    this.state.validation["bodyMax"]
+                    "div",
+                    null,
+                    _react2["default"].createElement(
+                      "span",
+                      { className: "bold" },
+                      "Minute:"
+                    ),
+                    _react2["default"].createElement("input", { ref: "bodyMinute", type: "number", min: "0", defaultValue: "0" })
+                  ),
+                  _react2["default"].createElement(
+                    "div",
+                    null,
+                    _react2["default"].createElement(
+                      "span",
+                      { className: "bold" },
+                      "Second:"
+                    ),
+                    _react2["default"].createElement("input", { ref: "bodySecond", type: "number", min: "0", defaultValue: "0" })
                   )
                 )
               )
@@ -637,7 +750,7 @@ var ViewQuestion = _react2["default"].createClass({
     fireRef.commentsRef.child(questionID).orderByChild("reply").equalTo(false).on("child_added", this.newComment);
   },
   componentDidMount: function componentDidMount() {
-    var _this4 = this;
+    var _this5 = this;
 
     var _props7 = this.props;
     var questionID = _props7.questionID;
@@ -647,12 +760,12 @@ var ViewQuestion = _react2["default"].createClass({
 
     // get question data
     (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
-      _this4.setState({
+      _this5.setState({
         questionData: questionData
       });
     });
     (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
-      _this4.setState({
+      _this5.setState({
         answerData: answerData
       });
     });
@@ -660,9 +773,9 @@ var ViewQuestion = _react2["default"].createClass({
       return refNode.orderByChild("reply").equalTo(false);
     }, function (commentsData) {
       // console.log("got commentsData", commentsData);
-      _this4.setState({
+      _this5.setState({
         comments: commentsData
-      }, _this4.initListener);
+      }, _this5.initListener);
     });
   },
   componentWillUnmount: function componentWillUnmount() {
@@ -679,9 +792,9 @@ var ViewQuestion = _react2["default"].createClass({
     var questionID = _props8.questionID;
     var userData = _props8.userData;
     var popUpHandler = _props8.methods.popUpHandler;
-    var _state3 = this.state;
-    var questionData = _state3.questionData;
-    var answerData = _state3.answerData;
+    var _state4 = this.state;
+    var questionData = _state4.questionData;
+    var answerData = _state4.answerData;
     var comments = this.state.comments;
 
     var commentList = Object.keys(comments || {}).map(function (commentID) {
@@ -704,13 +817,13 @@ var ViewQuestion = _react2["default"].createClass({
           "div",
           { className: "title" },
           _react2["default"].createElement(
-            "a",
+            _reactRouter.Link,
             { href: "/profile/" + questionData.creator, to: "/profile/" + questionData.creator },
             questionData.creator
           ),
           "'s Question To ",
           _react2["default"].createElement(
-            "a",
+            _reactRouter.Link,
             { href: "/profile/" + questionData.receiver, to: "/profile/" + questionData.receiver },
             questionData.receiver
           )
@@ -835,7 +948,7 @@ var QuestionItem = _react2["default"].createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    var _this5 = this;
+    var _this6 = this;
 
     var _props9 = this.props;
     var questionID = _props9.questionID;
@@ -843,7 +956,7 @@ var QuestionItem = _react2["default"].createClass({
 
     (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
       console.log("got answer data");
-      _this5.setState({
+      _this6.setState({
         answerData: answerData
       });
     });
@@ -908,7 +1021,7 @@ var AnswerItem = _react2["default"].createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    var _this6 = this;
+    var _this7 = this;
 
     var _props11 = this.props;
     var questionID = _props11.questionID;
@@ -916,7 +1029,7 @@ var AnswerItem = _react2["default"].createClass({
 
     (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
       console.log("got question data");
-      _this6.setState({
+      _this7.setState({
         questionData: questionData
       });
     });
@@ -972,7 +1085,7 @@ var ViewAskedQuestions = _react2["default"].createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    var _this7 = this;
+    var _this8 = this;
 
     var _props13 = this.props;
     var fireRef = _props13.fireRef;
@@ -980,13 +1093,13 @@ var ViewAskedQuestions = _react2["default"].createClass({
 
     fireRef.questionsRef.orderByChild("creator").equalTo(userData.name).once("value").then(function (snap) {
       var questionData = snap.val();
-      _this7.setState({
+      _this8.setState({
         questionData: questionData
       });
     });
     fireRef.answersRef.orderByChild("username").equalTo(userData.name).once("value").then(function (snap) {
       var answerData = snap.val();
-      _this7.setState({
+      _this8.setState({
         answerData: answerData
       });
     });
@@ -1002,10 +1115,10 @@ var ViewAskedQuestions = _react2["default"].createClass({
     var userData = _props14.userData;
     var methods = _props14.methods;
     var popUpHandler = _props14.methods.popUpHandler;
-    var _state4 = this.state;
-    var questionData = _state4.questionData;
-    var answerData = _state4.answerData;
-    var toggle = _state4.toggle;
+    var _state5 = this.state;
+    var questionData = _state5.questionData;
+    var answerData = _state5.answerData;
+    var toggle = _state5.toggle;
 
     var data = toggle === "asked" ? questionData : answerData;
     var Component = toggle === "asked" ? QuestionItem : AnswerItem;

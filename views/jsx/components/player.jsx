@@ -40,7 +40,7 @@ var _bookmarkBtnJsx2 = _interopRequireDefault(_bookmarkBtnJsx);
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
   getInitialState: function getInitialState() {
-    return { chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0 };
+    return { chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0, time: 0, playing: true };
   },
   toggleMenu: function toggleMenu(type) {
     switch (type) {
@@ -87,7 +87,7 @@ var PlayerStream = _react2["default"].createClass({
     }, 100);
   },
   mouseEvent: function mouseEvent(action, e) {
-    console.log("name - mouse", action);
+    // console.log("name - mouse", action);
     switch (action) {
       case "enter":
         this._mounted ? this.setState({
@@ -132,20 +132,75 @@ var PlayerStream = _react2["default"].createClass({
       }
     }, 10);
   },
-  componentDidMount: function componentDidMount() {
+  makePlayer: function makePlayer() {
     var _this2 = this;
+
+    var vod = this.props.vod;
+
+    var options = {};
+    vod ? options.video = vod : options.channel = name;
+    var player = new Twitch.Player(this.refs.playerDiv, options);
+    player.setMuted(true);
+    player.addEventListener(Twitch.Player.READY, function () {
+      console.log('Player is ready!');
+      if (vod) {
+        _this2.ticker = setInterval(function () {
+          var time = player.getCurrentTime();
+          // console.log("time", time);
+          _this2.setState({
+            time: _this2.makeTime(time)
+          });
+        }, 1000);
+      }
+    });
+    player.addEventListener(Twitch.Player.PLAY, function () {
+      _this2.setState({
+        playing: true
+      });
+      console.log('Player is playing!');
+    });
+    player.addEventListener(Twitch.Player.PAUSE, function () {
+      _this2.setState({
+        playing: false
+      });
+      console.log('Player is playing!');
+    });
+  },
+  makeTime: function makeTime(time) {
+    // http://stackoverflow.com/a/11486026/4107851
+    var hour = Math.floor(time / 3600);
+    var minute = Math.floor(time % 3600 / 60);
+    var second = Math.floor(time % 60);
+    var formatted = "";
+
+    if (hour > 0) {
+      formatted += hour + ":" + (minute < 10 ? "0" : "");
+    }
+    formatted += minute + ":" + (second < 10 ? "0" : "") + second;
+    // console.log(formatted);
+    return {
+      hour: hour,
+      minute: minute,
+      second: second,
+      formatted: formatted
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this3 = this;
 
     this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", function () {
       // console.log("leave");
-      _this2.toggleMenu("close");
+      _this3.toggleMenu("close");
     }, false) : null;
+    this.makePlayer();
   },
   componentWillUnmount: function componentWillUnmount() {
     delete this._mounted;
+    clearInterval(this.ticker);
   },
   render: function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     // console.log(this.props);
     var _props2 = this.props;
@@ -166,10 +221,13 @@ var PlayerStream = _react2["default"].createClass({
     var layoutTools = _props2$methods.layoutTools;
     var panelsHandler = _props2$methods.panelsHandler;
     var putInView = _props2$methods.putInView;
+    var popUpHandler = _props2$methods.popUpHandler;
     var _state = this.state;
     var menuOpen = _state.menuOpen;
     var nameScroll1 = _state.nameScroll1;
     var nameScroll2 = _state.nameScroll2;
+    var time = _state.time;
+    var playing = _state.playing;
 
     switch (isFor) {
       case "video":
@@ -179,11 +237,7 @@ var PlayerStream = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "video" },
-            _react2["default"].createElement(
-              "div",
-              { className: "nested" },
-              _react2["default"].createElement("iframe", { ref: "video", src: "https://player.twitch.tv/?" + (vod ? "video=" + vod : "channel=" + name) + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
-            )
+            _react2["default"].createElement("div", { ref: "playerDiv", className: "nested player-div" })
           ),
           _react2["default"].createElement(
             "div",
@@ -211,7 +265,7 @@ var PlayerStream = _react2["default"].createClass({
                         to: "/profile/" + name,
                         onClick: function () {
                           togglePlayer("collapse");
-                          _this3.toggleMenu("close");
+                          _this4.toggleMenu("close");
                         } },
                       display_name || name,
                       vod ? "/" + vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
@@ -246,7 +300,7 @@ var PlayerStream = _react2["default"].createClass({
                       to: "/profile/" + name,
                       onClick: function () {
                         togglePlayer("collapse");
-                        _this3.toggleMenu("close");
+                        _this4.toggleMenu("close");
                       } },
                     vod ? _react2["default"].createElement(
                       "span",
@@ -264,7 +318,7 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   _reactRouter.Link,
                   { to: "https://twitch.tv/" + name, target: "_blank", onClick: function () {
-                      _this3.toggleMenu("close");
+                      _this4.toggleMenu("close");
                     } },
                   "Visit On Twitch"
                 )
@@ -273,7 +327,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "put-in-view bgc-green-priority", onClick: function () {
                     putInView(index);
-                    _this3.toggleMenu("close");
+                    _this4.toggleMenu("close");
                   } },
                 "Put In View"
               ),
@@ -288,8 +342,8 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "span",
                   { className: "video", onClick: function () {
-                      _this3.refresh("video");
-                      _this3.toggleMenu("close");
+                      _this4.refresh("video");
+                      _this4.toggleMenu("close");
                     } },
                   "Video"
                 ),
@@ -297,8 +351,8 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "span",
                   { className: "chat", onClick: function () {
-                      _this3.refresh("chat");
-                      _this3.toggleMenu("close");
+                      _this4.refresh("chat");
+                      _this4.toggleMenu("close");
                     } },
                   "Chat"
                 )
@@ -307,7 +361,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "open-panels", onClick: function () {
                     panelsHandler("open", name);
-                    _this3.toggleMenu("close");
+                    _this4.toggleMenu("close");
                   } },
                 "Open Stream Panels"
               ),
@@ -318,25 +372,51 @@ var PlayerStream = _react2["default"].createClass({
                 userData: userData,
                 givenUsername: name,
                 versionData: versionData }),
-              userData ? _react2["default"].createElement(_followBtnJsx2["default"], {
-                className: "no-underline bold",
+              userData ? [_react2["default"].createElement(_followBtnJsx2["default"], {
+                key: "follow",
+                className: "no-underline",
                 name: userData.name,
                 targetName: name,
                 targetDisplay: display_name,
-                auth: auth }) : _react2["default"].createElement(
+                auth: auth
+              }), _react2["default"].createElement(
+                "div",
+                {
+                  key: "ask",
+                  className: "ask",
+                  onClick: function () {
+                    popUpHandler("askQuestion", {
+                      receiver: name,
+                      sender: userData.name
+                    });
+                    _this4.toggleMenu("close");
+                  } },
+                "Ask A Question"
+              )] : _react2["default"].createElement(
                 "div",
                 { className: "follow need-auth", onClick: function () {
                     alertAuthNeeded();
-                    _this3.toggleMenu("close");
+                    _this4.toggleMenu("close");
                   } },
                 "Follow ",
                 name
               ),
+              vod ? _react2["default"].createElement(
+                "div",
+                { className: "closer" },
+                !playing ? _react2["default"].createElement("input", { type: "text", value: "https://www.twitch.tv/videos/122450470?t=" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : ""), onClick: function (e) {
+                    return e.target.select();
+                  }, readOnly: true }) : _react2["default"].createElement(
+                  "span",
+                  null,
+                  "Pause VOD For Timestamped Link"
+                )
+              ) : null,
               _react2["default"].createElement(
                 "div",
                 { className: "closer bgc-orange-priority", onClick: function () {
-                    _this3.swapOut();
-                    _this3.toggleMenu("close");
+                    _this4.swapOut();
+                    _this4.toggleMenu("close");
                   } },
                 "Close This Stream"
               )
@@ -454,10 +534,10 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentDidMount: function componentDidMount() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.rescroll = setInterval(function () {
-      var videoList = _this4.refs.videoList;
+      var videoList = _this5.refs.videoList;
 
       // videoList.scrollTop = 0;
     }, 1000);
@@ -466,7 +546,7 @@ exports["default"] = _react2["default"].createClass({
     this.rescroll = null;
   },
   render: function render() {
-    var _this5 = this;
+    var _this6 = this;
 
     var _props3 = this.props;
     var fireRef = _props3.fireRef;
@@ -482,6 +562,7 @@ exports["default"] = _react2["default"].createClass({
     var alertAuthNeeded = _props3$methods.alertAuthNeeded;
     var setLayout = _props3$methods.setLayout;
     var panelsHandler = _props3$methods.panelsHandler;
+    var popUpHandler = _props3$methods.popUpHandler;
     var dataObject = _props3.data.dataObject;
     var layout = this.props.layout;
     var _state2 = this.state;
@@ -528,10 +609,10 @@ exports["default"] = _react2["default"].createClass({
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
-                layoutTools: _this5.layoutTools,
-                putInView: _this5.putInView,
-                refreshChat: _this5.refreshChat
-              } });
+                popUpHandler: popUpHandler,
+                layoutTools: _this6.layoutTools,
+                putInView: _this6.putInView,
+                refreshChat: _this6.refreshChat } });
           }) : null
         ),
         _react2["default"].createElement(
@@ -626,3 +707,4 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
+/* <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen /> */

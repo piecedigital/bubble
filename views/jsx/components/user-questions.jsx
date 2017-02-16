@@ -55,9 +55,9 @@ var QuestionListItem = _react2["default"].createClass({
       fireRef.answersRef.child(questionID).once("value").then(function (snap) {
         var answerData = snap.val();
         // console.log("got new answer", answerData);
-        _this.setState({
+        _this._mounted ? _this.setState({
           answerData: answerData
-        });
+        }) : null;
       });
     }
   },
@@ -102,6 +102,7 @@ var QuestionListItem = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this2 = this;
 
+    this._mounted = true;
     var _props5 = this.props;
     var questionID = _props5.questionID;
     var fireRef = _props5.fireRef;
@@ -111,14 +112,14 @@ var QuestionListItem = _react2["default"].createClass({
     // get question data
     fireRef.questionsRef.child(questionID).once("value").then(function (snap) {
       var questionData = snap.val();
-      _this2.setState({
+      _this2._mounted ? _this2.setState({
         questionData: questionData
-      }, _this2.setupAnswerListeners);
+      }, _this2.setupAnswerListeners) : null;
     });
     // get answer data
     fireRef.answersRef.child(questionID).once("value").then(function (snap) {
       var answerData = snap.val();
-      _this2.setState({
+      _this2._mounted ? _this2.setState({
         answerData: answerData
       }, function () {
         if (!pageOverride) {
@@ -130,12 +131,13 @@ var QuestionListItem = _react2["default"].createClass({
             });
           }
         }
-      });
+      }) : null;
     });
 
     this.setupOverlay();
   },
   componentWillUnmount: function componentWillUnmount() {
+    delete this._mounted;
     var _props6 = this.props;
     var questionID = _props6.questionID;
     var fireRef = _props6.fireRef;
@@ -318,10 +320,12 @@ exports["default"] = _react2["default"].createClass({
         // else, we'll get answered questions
         refNode = refNode.usersRef.child((params.username || (userData ? userData.name : undefined)) + "/" + (!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"));
       }
+      // console.log(this.state.lastID);
       if (_this4.state.lastID) {
         refNode = refNode.orderByKey().endAt(_this4.state.lastID || 0).limitToLast(queryLimit + 1);
       } else {
         refNode = refNode.orderByKey().limitToLast(queryLimit);
+        // console.log(refNode.toString());
       }
       refNode.once("value").then(function (snap) {
         var questions = snap.val();
@@ -367,12 +371,12 @@ exports["default"] = _react2["default"].createClass({
           signedIn = this.props.userData ? this.props.userData.name : "";
       if (last || curr) {
         if (last !== signedIn && curr !== signedIn && last !== curr) {
-          this.setState({
-            questions: {},
-            lastID: null
-          }, this.getQuestions);
+          this.refreshList();
         }
       }
+    }
+    if (nextProps.userData && nextProps.userData.name === nextProps.params.username) {
+      this.refreshList();
     }
   },
   componentDidMount: function componentDidMount(prevProps) {

@@ -379,7 +379,6 @@ exports["default"] = _react2["default"].createClass({
     var _this3 = this;
 
     // console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
-
     var changeOverlay = function changeOverlay(overlay, q, postID) {
       // console.log(overlay);
       switch (q) {
@@ -398,11 +397,12 @@ exports["default"] = _react2["default"].createClass({
       }
     };
 
-    if (nextProps.params.q) {
-      // console.log(nextProps.location);
-    }
+    if (nextProps.params.q) {}
+    // console.log(nextProps.location);
 
+    // if the overlay is different
     if (nextState.overlay !== this.state.overlay) {
+      // if the next state doest not have a truthy value for overlay
       if (!nextState.overlay) {
         changeOverlay(null, null, null);
       } else {
@@ -411,28 +411,31 @@ exports["default"] = _react2["default"].createClass({
           pathname: nextProps.location.pathname,
           state: {
             modal: true,
-            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || "/profile/" + nextProps.params.username : "/profile/" + nextProps.params.username
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || "/profile/" + (nextProps.params.username || "") : "/profile/" + (nextProps.params.username || "")
           }
         });
         // console.log("change overlay");
         changeOverlay(nextState.overlay, nextProps.params.q, nextProps.params.postID);
       }
-    } else if (nextProps.location.pathname !== this.props.location.pathname) {
-      // console.log("push history");
-      if (nextProps.params.q) {
-        _reactRouter.browserHistory.push({
-          pathname: nextProps.location.pathname,
-          state: {
-            modal: true,
-            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || "/profile/" + nextProps.params.username : "/profile/" + nextProps.params.username
-          }
-        });
-        // console.log("change overlay");
-        changeOverlay(null, nextProps.params.q, nextProps.params.postID);
-      } else {
-        changeOverlay(null, null, null);
+    } else
+      // if the url changes
+      if (nextProps.location.pathname !== this.props.location.pathname) {
+        // console.log("push history");
+        // if this is a post (question, poll, etc)
+        if (nextProps.params.q) {
+          _reactRouter.browserHistory.push({
+            pathname: nextProps.location.pathname,
+            state: {
+              modal: true,
+              returnTo: nextProps.location.state ? nextProps.location.state.returnTo || "/profile/" + (nextProps.params.username || "") : "/profile/" + (nextProps.params.username || "")
+            }
+          });
+          // console.log("change overlay");
+          changeOverlay(null, nextProps.params.q, nextProps.params.postID);
+        } else {
+          changeOverlay(null, null, null);
+        }
       }
-    }
   },
   componentDidMount: function componentDidMount() {
     var _this4 = this;

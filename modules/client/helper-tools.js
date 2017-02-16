@@ -208,7 +208,22 @@ var CImg = _react2["default"].createClass({
       src: src
     };
   },
+  init: function init() {
+    var _this = this;
+
+    var src = arguments.length <= 0 || arguments[0] === undefined ? this.props.src : arguments[0];
+
+    this.makeBlankImage();
+    if (!this.props.noImgRequest) {
+      setTimeout(function () {
+        _this.setImage(src);
+      }, 100);
+    }
+  },
   makeBlankImage: function makeBlankImage() {
+    // don't bother continuing without style
+    console.log(this.state.style);
+    if (!this.state.style || !this.state.style.width || !this.state.style.height) return;
     // http://stackoverflow.com/a/22824493/4107851
     // create canvas and canvas context
     var canvas = document.createElement("canvas");
@@ -263,15 +278,13 @@ var CImg = _react2["default"].createClass({
       src: src
     });
   },
-  componentDidMount: function componentDidMount() {
-    var _this = this;
-
-    this.makeBlankImage();
-    if (!this.props.noImgRequest) {
-      setTimeout(function () {
-        _this.setImage(_this.props.src);
-      }, 100);
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    if (nextProps.src !== this.props.src) {
+      this.init(nextProps.src);
     }
+  },
+  componentDidMount: function componentDidMount() {
+    this.init();
     // none of the below-related code is working
     // setTimeout(() => {
     //   console.log("getting image");
