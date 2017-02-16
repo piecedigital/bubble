@@ -36,8 +36,9 @@ export default React.createClass({
                 ) : null,
 
                 <div key="3" className="separator-4-black" />,
-
-                <UserQuestions key="4" {...this.props} />,
+                (userData || params.username) ? (
+                  <UserQuestions key="4" {...this.props} />
+                ) : null,
 
                 auth && auth.access_token &&
                 (userData || params.username) ? (

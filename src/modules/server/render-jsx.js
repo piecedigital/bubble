@@ -28,6 +28,7 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
           </Layout>
         )+
       `</div>`+
+      `<script src= "http://player.twitch.tv/js/embed/v1.js"></script>`+
       `<script src=${`/js/bundle${process.env["NODE_ENV"] === "prod" ? "-live" : ""}.js`}></script>`+
     `</body>`+
   `</html>`;

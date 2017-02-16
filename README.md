@@ -12,16 +12,16 @@
   - Sneak update: added SSL - 0.11.2 **ok**
   - Fixed undefined name on `follow-streams` titles - 0.11.2 **ok**
   - UI improvements - 0.11.3 **ok**
-  - Images use special "primer" component. Text tweaks. Game queue "Subscribers Only" option now only available to partnered streamers. - 0.11.4
+  - Images use special "primer" component. Text tweaks. Game queue "Subscribers Only" option now only available to partnered streamers - 0.11.4 **ok**
   - Hot Fix. - 0.11.5 **ok**
+  - Navigation fix for overlays. - 0.11.6
 - Add polish: - 0.12.0
   - Add pages: About, Terms of Service
   - Add logo
   - Add application name
-- Meta data update and full server-side rendering - 0.13.0
-- Beta launch. Try harder to get more people to use the app
 
 # Things to add eventually
+- Meta data update and full server-side rendering - TBD
 - AMAs - TBD
 
 

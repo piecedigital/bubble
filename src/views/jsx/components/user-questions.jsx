@@ -38,9 +38,9 @@ const QuestionListItem = React.createClass({
       .then(snap => {
         const answerData = snap.val();
         // console.log("got new answer", answerData);
-        this.setState({
+        this._mounted ? this.setState({
           answerData
-        });
+        }) : null;
       });
     }
   },
@@ -97,6 +97,7 @@ const QuestionListItem = React.createClass({
     .on("child_removed", this.newRating.bind(null, true));
   },
   componentDidMount() {
+    this._mounted = true;
     const {
       questionID,
       fireRef,
@@ -110,9 +111,9 @@ const QuestionListItem = React.createClass({
     .once("value")
     .then(snap => {
       const questionData = snap.val();
-      this.setState({
+      this._mounted ? this.setState({
         questionData
-      }, this.setupAnswerListeners);
+      }, this.setupAnswerListeners) : null;
     });
     // get answer data
     fireRef.answersRef
@@ -120,7 +121,7 @@ const QuestionListItem = React.createClass({
     .once("value")
     .then(snap => {
       const answerData = snap.val();
-      this.setState({
+      this._mounted ? this.setState({
         answerData
       }, () => {
         if(!pageOverride) {
@@ -133,12 +134,13 @@ const QuestionListItem = React.createClass({
           }
 
         }
-      });
+      }) : null;
     });
 
     this.setupOverlay();
   },
   componentWillUnmount() {
+    delete this._mounted;
     const {
       questionID,
       fireRef
@@ -322,12 +324,14 @@ export default React.createClass({
         // else, we'll get answered questions
         refNode = refNode.usersRef.child(`${params.username || (userData ? userData.name : undefined)}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
       }
+      // console.log(this.state.lastID);
       if(this.state.lastID) {
         refNode = refNode.orderByKey().endAt(this.state.lastID || 0)
         .limitToLast(queryLimit+1);
       } else {
         refNode = refNode.orderByKey()
         .limitToLast(queryLimit);
+        // console.log(refNode.toString());
       }
       refNode.once("value")
       .then(snap => {
@@ -380,12 +384,12 @@ export default React.createClass({
           curr !== signedIn &&
           last !== curr
         ) {
-          this.setState({
-            questions: {},
-            lastID: null
-          }, this.getQuestions);
+          this.refreshList();
         }
       }
+    }
+    if(nextProps.userData && nextProps.userData.name === nextProps.params.username) {
+      this.refreshList();
     }
   },
   componentDidMount(prevProps) {

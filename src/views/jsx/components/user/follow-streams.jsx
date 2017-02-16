@@ -32,6 +32,7 @@ let components = {
         .getStreamByName()
         .then(data => {
           // console.log(name, ", data:", data);
+          // if(name === "spawnofodd") console.log(data);
           this.setState({
             streamData: data
           });

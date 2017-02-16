@@ -87,6 +87,9 @@
       &[type="checkbox"], &[type="radio"] {
         width: auto;
       }
+      &.invalid {
+        border: 1px solid red;
+      }
     }
     textarea {
       width: 100%;
@@ -96,6 +99,9 @@
       box-shadow: none;
       &.valid {
         border: 1px solid $dimmer;
+      }
+      &.invalid {
+        border: 1px solid red;
       }
     }
     .submit {}

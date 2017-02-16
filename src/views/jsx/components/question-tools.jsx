@@ -222,6 +222,7 @@ export const AnswerQuestion = React.createClass({
     success: false,
     versionData: null,
     questionData: null,
+    answerType: "text",
     validation: {
       titleMin: 3,
       titleMax: 60,
@@ -230,7 +231,8 @@ export const AnswerQuestion = React.createClass({
       bodyMin: 30,
       bodyMax: 2000,
       bodyCount: 0,
-      bodyValid: false
+      bodyValid: false,
+      bodyMatch: new RegExp("http(s)?:\\/\\/www.twitch.tv/videos\\/[0-9]*")
     }
   }),
   submit(e) {
@@ -247,15 +249,30 @@ export const AnswerQuestion = React.createClass({
       }
     } = this.props;
     const {
-      questionData
+      questionData,
+      answerType
     } = this.state;
     const {
       title,
       body,
+      bodyHour,
+      bodyMinute,
+      bodySecond,
     } = this.refs;
+
+    let t = "";
+
+    if(answerType === "link")  {
+      t = "?t=";
+      t += bodyHour ? `${bodyHour.value}h` : "";
+      t += bodyMinute ? `${bodyMinute.value}m` : "";
+      t += bodySecond ? `${bodySecond.value}s` : "";
+    }
+
     let answerObject = {
       "username": userData.name,
-      "body": body.value,
+      "body": body.value + t,
+      answerType,
       "questionID": questionID,
       "date": new Date().getTime(),
       "sentStatuses": {
@@ -311,16 +328,47 @@ export const AnswerQuestion = React.createClass({
   validate(name, e) {
     // name will be the same as a referenced element
     // the name will be used to be validated, matched with a variable "suffix"
-    let value = e.target.value;
+
+
+    let value = e ? e.target.value : null;
     let thisMin = this.state.validation[`${name}Min`];
     let thisMax = this.state.validation[`${name}Max`];
+    // unique: regex for some values that need it
+    let thisMatch = this.state.validation[`${name}Match`];
     let thisValid = `${name}Valid`;
     let thisCount = `${name}Count`;
+
+    // don't worry about validation for these things depending on the answer type
+    if(this.state.answerType === "link") {
+      if(name === "body") {
+        this.setState({
+          validation: Object.assign(this.state.validation, {
+            [thisValid]: !!value.match(thisMatch),
+            [thisCount]: (thisMin + thisMax) / 2,
+          }, console.log(this.state.validation))
+        });
+      }
+    } else {
+      this.setState({
+        validation: Object.assign(this.state.validation, {
+          [thisValid]: value.length >= thisMin && value.length <= thisMax,
+          [thisCount]: value.length,
+        })
+      });
+    }
+  },
+  handleChange() {
+    // console.log(this.refs["answerType-text"].checked);
+    // console.log(this.refs["answerType-link"].checked);
+    const textType = this.refs["answerType-text"].checked ? "text" : false;
+    const linkType = this.refs["answerType-link"].checked ? "link" : false;
+
     this.setState({
-      validation: Object.assign(this.state.validation, {
-        [thisValid]: value.length >= thisMin && value.length <= thisMax,
-        [thisCount]: value.length,
-      })
+      answerType: textType || linkType
+    }, () => {
+      this.validate("body", {
+        target: this.refs.body
+      });
     });
   },
   componentDidMount() {
@@ -333,9 +381,9 @@ export const AnswerQuestion = React.createClass({
       }
     } = this.props;
     getQuestionData(questionID, fireRef, null, questionData => {
-      console.log("got question data", questionData);
+      // console.log("got question data", questionData);
       getAnswerData(questionID, fireRef, null, answerData => {
-        console.log("got answer data", answerData);
+        // console.log("got answer data", answerData);
 
         if(answerData) {
           popUpHandler("viewQuestion", {
@@ -366,7 +414,8 @@ export const AnswerQuestion = React.createClass({
     const {
       success,
       error,
-      questionData
+      questionData,
+      answerType,
     } = this.state;
     if(!versionData || !fireRef) {
       return (
@@ -418,9 +467,36 @@ export const AnswerQuestion = React.createClass({
               <div className="separator-4-dim" />
               <div className="section">
                 <label>
-                  <div className="label bold">What's Your Answer?</div>
-                  <textarea ref="body" className={`${this.state.validation["bodyValid"] ? " valid" : ""}`} onChange={this.validate.bind(null, "body")}/>
-                  <div>{this.state.validation["bodyCount"]}/<span className={`${this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : ""}`}>{this.state.validation["bodyMin"]}</span>-<span className={`${this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : ""}`}>{this.state.validation["bodyMax"]}</span></div>
+                  <div className="label bold">How Do You Want To Answer?</div>
+                  <span className="bold">Text:</span><input ref="answerType-text" type="radio" name="answerType" value="text" defaultChecked={true} onChange={this.handleChange} />
+                  <span className="bold">Link to VOD:</span><input ref="answerType-link" type="radio" name="answerType" value="link" defaultChecked={false} onChange={this.handleChange} />
+                </label>
+              </div>
+              <div className="separator-4-dim" />
+              <div className="section">
+                <label>
+                  <div className="label bold">{answerType === "link" ? "Link to VOD" : "What's Your Answer?"}</div>
+                  {
+                    answerType === "text" ? (
+                      <span>
+                        <textarea ref="body" className={`${this.state.validation["bodyValid"] ? " valid" : ""}`} onChange={this.validate.bind(null, "body")}/>
+                        <div>{this.state.validation["bodyCount"]}/<span className={`${this.state.validation["bodyCount"] < this.state.validation["bodyMin"] ? "color-red" : ""}`}>{this.state.validation["bodyMin"]}</span>-<span className={`${this.state.validation["bodyCount"] > this.state.validation["bodyMax"] ? "color-red" : ""}`}>{this.state.validation["bodyMax"]}</span></div>
+                      </span>
+                    ) : (
+                      <span>
+                        <input ref="body" type="text" className={`${this.state.validation["bodyValid"] ? " valid" : "invalid"}`} onChange={this.validate.bind(null, "body")}/>
+                        <div>
+                          <span className="bold">Hour:</span><input ref="bodyHour" type="number" min="0" defaultValue="0"/>
+                        </div>
+                        <div>
+                          <span className="bold">Minute:</span><input ref="bodyMinute" type="number" min="0" defaultValue="0"/>
+                        </div>
+                        <div>
+                          <span className="bold">Second:</span><input ref="bodySecond" type="number" min="0" defaultValue="0"/>
+                        </div>
+                      </span>
+                    )
+                  }
                 </label>
               </div>
               <div className="section">
@@ -543,7 +619,7 @@ export const ViewQuestion = React.createClass({
         <div className={`overlay-ui-default view-question${overlay === "viewQuestion" ? " open" : ""}`} onClick={e => e.stopPropagation()}>
           <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
           <div className="title">
-            <a href={`/profile/${questionData.creator}`} to={`/profile/${questionData.creator}`}>{questionData.creator}</a>'s Question To <a href={`/profile/${questionData.receiver}`} to={`/profile/${questionData.receiver}`}>{questionData.receiver}</a>
+            <Link href={`/profile/${questionData.creator}`} to={`/profile/${questionData.creator}`}>{questionData.creator}</Link>'s Question To <Link href={`/profile/${questionData.receiver}`} to={`/profile/${questionData.receiver}`}>{questionData.receiver}</Link>
           </div>
           <div className="separator-4-dim" />
           <div className="separator-4-dim" />

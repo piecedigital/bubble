@@ -9,7 +9,7 @@ import BookmarkButton from "./bookmark-btn.jsx";
 // stream component for player
 const PlayerStream = React.createClass({
   displayName: "PlayerStream",
-  getInitialState: () => ({ chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0 }),
+  getInitialState: () => ({ chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0, time: 0, playing: true }),
   toggleMenu(type) {
     switch (type) {
       case "close":
@@ -56,7 +56,7 @@ const PlayerStream = React.createClass({
     }, 100);
   },
   mouseEvent(action, e) {
-    console.log("name - mouse", action);
+    // console.log("name - mouse", action);
     switch (action) {
       case "enter":
         this._mounted ? this.setState({
@@ -103,15 +103,67 @@ const PlayerStream = React.createClass({
       }
     }, 10);
   },
+  makePlayer() {
+    const { vod } = this.props;
+    var options = {};
+    vod ? options.video = vod : options.channel = name;
+    var player = new Twitch.Player(this.refs.playerDiv, options);
+    player.setMuted(true);
+    player.addEventListener(Twitch.Player.READY, () => {
+      console.log('Player is ready!');
+      if(vod) {
+        this.ticker = setInterval(() => {
+          const time = player.getCurrentTime();
+          // console.log("time", time);
+          this.setState({
+            time: this.makeTime(time)
+          });
+        }, 1000);
+      }
+    });
+    player.addEventListener(Twitch.Player.PLAY, () => {
+      this.setState({
+        playing: true
+      });
+      console.log('Player is playing!');
+    });
+      player.addEventListener(Twitch.Player.PAUSE, () => {
+      this.setState({
+        playing: false
+      });
+      console.log('Player is playing!');
+    });
+  },
+  makeTime(time) {
+    // http://stackoverflow.com/a/11486026/4107851
+    const hour = Math.floor(time / 3600);
+    const minute = Math.floor((time % 3600) / 60);
+    const second = Math.floor(time % 60);
+    let formatted = "";
+
+    if(hour > 0) {
+      formatted += `${hour}:${minute < 10 ? "0" : ""}`;
+    }
+    formatted += `${minute}:${second < 10 ? "0" : ""}${second}`;
+    // console.log(formatted);
+    return {
+      hour,
+      minute,
+      second,
+      formatted
+    }
+  },
   componentDidMount() {
     this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", () => {
       // console.log("leave");
       this.toggleMenu("close");
     }, false) : null;
+    this.makePlayer();
   },
   componentWillUnmount() {
     delete this._mounted;
+    clearInterval(this.ticker);
   },
   render() {
     // console.log(this.props);
@@ -133,19 +185,22 @@ const PlayerStream = React.createClass({
         layoutTools,
         panelsHandler,
         putInView,
+        popUpHandler,
       }
     } = this.props;
     const {
       menuOpen,
       nameScroll1,
       nameScroll2,
+      time,
+      playing
     } = this.state;
     switch (isFor) {
       case "video": return (
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className="video">
-            <div className="nested">
-              <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
+            <div ref="playerDiv" className="nested player-div">
+              {/* <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen /> */}
             </div>
           </div>
           <div ref="tools" className="tools-wrapper">
@@ -223,12 +278,27 @@ const PlayerStream = React.createClass({
                 versionData={versionData}/>
               {
                 userData ? (
-                  <FollowButton
-                    className="no-underline bold"
-                    name={userData.name}
-                    targetName={name}
-                    targetDisplay={display_name}
-                    auth={auth}/>
+                  [
+                    <FollowButton
+                      key="follow"
+                      className="no-underline"
+                      name={userData.name}
+                      targetName={name}
+                      targetDisplay={display_name}
+                      auth={auth}
+                    />,
+                    <div
+                      key="ask"
+                      className="ask"
+                      onClick={() => {
+                      popUpHandler("askQuestion", {
+                        receiver: name,
+                        sender: userData.name
+                      });
+                      this.toggleMenu("close"); }}>
+                      Ask A Question
+                    </div>
+                  ]
                 ) : (
                   <div className="follow need-auth" onClick={() => {
                     alertAuthNeeded();
@@ -236,6 +306,19 @@ const PlayerStream = React.createClass({
                     Follow {name}
                   </div>
                 )
+              }
+              {
+                vod ? (
+                  <div className="closer">
+                    {
+                      !playing ? (
+                        <input type="text" value={`https://www.twitch.tv/videos/122450470?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
+                      ) : (
+                        <span>Pause VOD For Timestamped Link</span>
+                      )
+                    }
+                  </div>
+                ) : null
               }
               <div className="closer bgc-orange-priority" onClick={() => {
                 this.swapOut();
@@ -381,6 +464,7 @@ export default React.createClass({
         alertAuthNeeded,
         setLayout,
         panelsHandler,
+        popUpHandler,
       },
       data: {
         dataObject
@@ -428,14 +512,14 @@ export default React.createClass({
                       isFor="video"
                       index={ind}
                       methods={{
-                      spliceStream,
-                      togglePlayer,
-                      panelsHandler,
-                      alertAuthNeeded,
-                      layoutTools: this.layoutTools,
-                      putInView: this.putInView,
-                      refreshChat: this.refreshChat
-                    }} />
+                        spliceStream,
+                        togglePlayer,
+                        panelsHandler,
+                        alertAuthNeeded,
+                        popUpHandler,
+                        layoutTools: this.layoutTools,
+                        putInView: this.putInView,
+                        refreshChat: this.refreshChat }} />
                   );
                 })
               ) : null

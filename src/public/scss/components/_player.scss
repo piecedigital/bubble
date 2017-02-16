@@ -502,7 +502,7 @@
             width: 100% !important;
             max-height: 15*$em;
             &:not(:last-child) {
-              border-bottom: .5*$em solid $dim;
+              margin-bottom: 1*$em;
             }
           }
         }

@@ -192,7 +192,18 @@ export const CImg = React.createClass({
       src
     }
   },
+  init(src = this.props.src) {
+    this.makeBlankImage();
+    if(!this.props.noImgRequest) {
+      setTimeout(() => {
+        this.setImage(src);
+      }, 100);
+    }
+  },
   makeBlankImage() {
+    // don't bother continuing without style
+    console.log(this.state.style);
+    if(!this.state.style || !this.state.style.width || !this.state.style.height) return;
     // http://stackoverflow.com/a/22824493/4107851
     // create canvas and canvas context
     const canvas = document.createElement("canvas");
@@ -247,13 +258,13 @@ export const CImg = React.createClass({
       src
     });
   },
-  componentDidMount() {
-    this.makeBlankImage();
-    if(!this.props.noImgRequest) {
-      setTimeout(() => {
-        this.setImage(this.props.src);
-      }, 100);
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.src !== this.props.src) {
+      this.init(nextProps.src);
     }
+  },
+  componentDidMount() {
+    this.init();
     // none of the below-related code is working
     // setTimeout(() => {
     //   console.log("getting image");

@@ -340,7 +340,6 @@ export default React.createClass({
   },
   checkURL(nextProps, nextState) {
     // console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
-
     const changeOverlay = (overlay, q, postID) => {
       // console.log(overlay);
       switch (q) {
@@ -363,7 +362,9 @@ export default React.createClass({
       // console.log(nextProps.location);
     }
 
+    // if the overlay is different
     if(nextState.overlay !== this.state.overlay) {
+      // if the next state doest not have a truthy value for overlay
       if(!nextState.overlay) {
         changeOverlay(null, null, null);
       } else {
@@ -372,21 +373,23 @@ export default React.createClass({
           pathname: nextProps.location.pathname,
           state: {
             modal: true,
-            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || `/profile/${nextProps.params.username}` : `/profile/${nextProps.params.username}`
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || `/profile/${nextProps.params.username || ""}` : `/profile/${nextProps.params.username || ""}`
           }
         })
         // console.log("change overlay");
         changeOverlay(nextState.overlay, nextProps.params.q, nextProps.params.postID);
       }
     } else
+    // if the url changes
     if(nextProps.location.pathname !== this.props.location.pathname) {
       // console.log("push history");
+      // if this is a post (question, poll, etc)
       if(nextProps.params.q) {
         History.push({
           pathname: nextProps.location.pathname,
           state: {
             modal: true,
-            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || `/profile/${nextProps.params.username}` : `/profile/${nextProps.params.username}`
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || `/profile/${nextProps.params.username || ""}` : `/profile/${nextProps.params.username || ""}`
           }
         })
         // console.log("change overlay");

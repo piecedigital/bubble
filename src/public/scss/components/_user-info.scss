@@ -15,11 +15,11 @@
         flex-direction: column;
         position: absolute;
         top: 100%;
-        left: 50%;
+        left: 10*$em;
         // width: 10*$em;
         padding: 1*$em;
         // background-color: rgba(0, 0, 0, .5);
-        transform: translate(-50%, -4*$em);
+        transform: translate(0, -4*$em);
         text-align: center;
         align-items: center;
         &:before {
@@ -36,6 +36,7 @@
           z-index: 1;
           position: relative;
           width: 6*$em;
+          background-color: white;
           &:after {
             content: "";
             position: absolute;
@@ -65,10 +66,24 @@
     }
   }
   .user {
+    @include displayFlex;
     max-width: 55*$em;
     margin: 1*$em auto .75*$em;
     background-color: $offWhite;
     color: black;
+    .button-wrapper {
+      @include displayFlex;
+      flex-direction: column;
+      min-width: 9.5*$em;
+      padding: .5*$em;
+      border-right: .5*$em solid $offBlack;
+      > * {
+        width: 100%;
+        &:not(:last-child) {
+          margin-bottom: .5*$em;
+        }
+      }
+    }
     .bio {
       padding: 10*$em 1*$em 1*$em;
       text-align: center;
@@ -77,14 +92,6 @@
         .sad-face {
           max-width: 1*$em;
         }
-      }
-    }
-  }
-  .button-wrapper {
-    @include displayFlex;
-    > * {
-      &:not(:last-child) {
-        margin-right: .5*$em;
       }
     }
   }
