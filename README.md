@@ -14,7 +14,7 @@
   - UI improvements - 0.11.3 **ok**
   - Images use special "primer" component. Text tweaks. Game queue "Subscribers Only" option now only available to partnered streamers - 0.11.4 **ok**
   - Hot Fix. - 0.11.5 **ok**
-  - Navigation fix for overlays. - 0.11.6
+  - Navigation fix for overlays. Added timestamped link to stream players menu. Using embed API. Fixed `CImg` component not updating image. Updated `answerQuestion` to accept video links as answers. Adjusted `UserInfo` to handle buttons better. Fixed `returnTo` navigation when going from a question view - 0.11.6
 - Add polish: - 0.12.0
   - Add pages: About, Terms of Service
   - Add logo
