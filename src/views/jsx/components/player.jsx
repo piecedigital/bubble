@@ -34,7 +34,7 @@ const PlayerStream = React.createClass({
     console.log("iframe:", iframe);
     switch (iframe) {
       case "video":
-        this.refs.video.src = this.refs.video.src;
+        this.refs.video.getElementsByTagName("iframe")[0].src = this.refs.video.getElementsByTagName("iframe")[0].src;
         break;
       case "chat":
         this.props.methods.refreshChat(this.props.vod || this.props.name);
@@ -104,10 +104,11 @@ const PlayerStream = React.createClass({
     }, 10);
   },
   makePlayer() {
-    const { vod } = this.props;
+    const { vod, name } = this.props;
     var options = {};
     vod ? options.video = vod : options.channel = name;
-    var player = new Twitch.Player(this.refs.playerDiv, options);
+    console.log("player options", options);
+    var player = new Twitch.Player(this.refs.video, options);
     player.setMuted(true);
     player.addEventListener(Twitch.Player.READY, () => {
       console.log('Player is ready!');
@@ -127,12 +128,14 @@ const PlayerStream = React.createClass({
       });
       console.log('Player is playing!');
     });
+    if(vod) {
       player.addEventListener(Twitch.Player.PAUSE, () => {
-      this.setState({
-        playing: false
+        this.setState({
+          playing: false
+        });
+        console.log('Player is playing!');
       });
-      console.log('Player is playing!');
-    });
+    }
   },
   makeTime(time) {
     // http://stackoverflow.com/a/11486026/4107851
@@ -159,7 +162,7 @@ const PlayerStream = React.createClass({
       // console.log("leave");
       this.toggleMenu("close");
     }, false) : null;
-    this.makePlayer();
+    if(this.props.isFor === "video") this.makePlayer();
   },
   componentWillUnmount() {
     delete this._mounted;
@@ -199,7 +202,7 @@ const PlayerStream = React.createClass({
       case "video": return (
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className="video">
-            <div ref="playerDiv" className="nested player-div">
+            <div ref="video" className="nested player-div">
               {/* <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen /> */}
             </div>
           </div>

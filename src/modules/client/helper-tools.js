@@ -202,7 +202,7 @@ export const CImg = React.createClass({
   },
   makeBlankImage() {
     // don't bother continuing without style
-    console.log(this.state.style);
+    // console.log(this.state.style);
     if(!this.state.style || !this.state.style.width || !this.state.style.height) return;
     // http://stackoverflow.com/a/22824493/4107851
     // create canvas and canvas context
@@ -248,8 +248,8 @@ export const CImg = React.createClass({
     const urlCreator = window.URL || window.webkitURL;
     const blob = new Blob([response]);
     const imageUrl = urlCreator.createObjectURL(blob);
-    console.log("blob", blob);
-    console.log("image URL", imageUrl);
+    // console.log("blob", blob);
+    // console.log("image URL", imageUrl);
     // this.setImage(imageUrl);
     // http://stackoverflow.com/a/27737668/4107851
   },
