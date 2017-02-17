@@ -16,7 +16,7 @@
   - Hot Fix. - 0.11.5 **ok**
   - Navigation fix for overlays. Added timestamped link to stream players menu. Using embed API. Fixed `CImg` component not updating image. Updated `answerQuestion` to accept video links as answers. Adjusted `UserInfo` to handle buttons better. Fixed `returnTo` navigation when going from a question view - 0.11.6 **ok**
   - Fixed mixed content for Twitch embed SDK. Fixed channel streams not appending - 0.11.7 **ok**
-  - Fixed menu longness (need a better solution) - 0.11.8 **ok**
+  - Fixed menu longness - 0.11.8 **ok**
 - Add polish: - 0.12.0
   - Add pages: About, Terms of Service
   - Add logo
