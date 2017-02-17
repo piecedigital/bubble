@@ -9,7 +9,7 @@ var env = {
   MESSAGING_SENDER_ID: "766141212604",
   V_MAJOR: 0,
   V_MINOR: 11,
-  V_PATCH: 7,
+  V_PATCH: 8,
 };
 // would put other environment variables here
 cp.fork("./dist/app.js", [], {

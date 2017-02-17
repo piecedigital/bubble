@@ -231,6 +231,9 @@
   @include displayFlex;
   position: relative;
   height: 100%;
+  &:hover {
+    z-index: 1;
+  }
   .video, .chat {
     position: relative;
     background-color: black;
@@ -501,9 +504,9 @@
           .player-stream {
             width: 100% !important;
             max-height: 15*$em;
-            &:not(:last-child) {
-              margin-bottom: 1*$em;
-            }
+            // &:not(:last-child) {
+            //   margin-bottom: 4*$em;
+            // }
           }
         }
         .list.chat-list {
