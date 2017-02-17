@@ -299,6 +299,8 @@ nav {
   display: flex ;
   position: relative;
   height: 100%; }
+  .player-stream:hover {
+    z-index: 1; }
   .player-stream .video, .player-stream .chat {
     position: relative;
     background-color: black; }
@@ -564,8 +566,6 @@ nav {
     .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream, .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream {
       width: 100% !important;
       max-height: 240px; }
-      .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child), .root.player-open.player-collapsed .player > .wrapper .list.video-list .player-stream:not(:last-child) {
-        margin-bottom: 16px; }
   .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list, .root.player-open.player-collapsed .player > .wrapper .list.chat-list {
     width: 0;
     min-width: 0; }

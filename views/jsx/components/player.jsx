@@ -141,7 +141,7 @@ var PlayerStream = _react2["default"].createClass({
 
     var options = {};
     vod ? options.video = vod : options.channel = name;
-    console.log("player options", options);
+    // console.log("player options", options);
     var player = new Twitch.Player(this.refs.video, options);
     player.setMuted(true);
     player.addEventListener(Twitch.Player.READY, function () {
