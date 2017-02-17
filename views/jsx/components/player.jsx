@@ -66,7 +66,7 @@ var PlayerStream = _react2["default"].createClass({
     console.log("iframe:", iframe);
     switch (iframe) {
       case "video":
-        this.refs.video.src = this.refs.video.src;
+        this.refs.video.getElementsByTagName("iframe")[0].src = this.refs.video.getElementsByTagName("iframe")[0].src;
         break;
       case "chat":
         this.props.methods.refreshChat(this.props.vod || this.props.name);
@@ -135,11 +135,14 @@ var PlayerStream = _react2["default"].createClass({
   makePlayer: function makePlayer() {
     var _this2 = this;
 
-    var vod = this.props.vod;
+    var _props2 = this.props;
+    var vod = _props2.vod;
+    var name = _props2.name;
 
     var options = {};
     vod ? options.video = vod : options.channel = name;
-    var player = new Twitch.Player(this.refs.playerDiv, options);
+    console.log("player options", options);
+    var player = new Twitch.Player(this.refs.video, options);
     player.setMuted(true);
     player.addEventListener(Twitch.Player.READY, function () {
       console.log('Player is ready!');
@@ -159,12 +162,14 @@ var PlayerStream = _react2["default"].createClass({
       });
       console.log('Player is playing!');
     });
-    player.addEventListener(Twitch.Player.PAUSE, function () {
-      _this2.setState({
-        playing: false
+    if (vod) {
+      player.addEventListener(Twitch.Player.PAUSE, function () {
+        _this2.setState({
+          playing: false
+        });
+        console.log('Player is playing!');
       });
-      console.log('Player is playing!');
-    });
+    }
   },
   makeTime: function makeTime(time) {
     // http://stackoverflow.com/a/11486026/4107851
@@ -193,7 +198,7 @@ var PlayerStream = _react2["default"].createClass({
       // console.log("leave");
       _this3.toggleMenu("close");
     }, false) : null;
-    this.makePlayer();
+    if (this.props.isFor === "video") this.makePlayer();
   },
   componentWillUnmount: function componentWillUnmount() {
     delete this._mounted;
@@ -203,25 +208,25 @@ var PlayerStream = _react2["default"].createClass({
     var _this4 = this;
 
     // console.log(this.props);
-    var _props2 = this.props;
-    var fireRef = _props2.fireRef;
-    var userData = _props2.userData;
-    var name = _props2.name;
-    var display_name = _props2.display_name;
-    var auth = _props2.auth;
-    var inView = _props2.inView;
-    var isFor = _props2.isFor;
-    var index = _props2.index;
-    var vod = _props2.vod;
-    var versionData = _props2.versionData;
-    var _props2$methods = _props2.methods;
-    var spliceStream = _props2$methods.spliceStream;
-    var togglePlayer = _props2$methods.togglePlayer;
-    var alertAuthNeeded = _props2$methods.alertAuthNeeded;
-    var layoutTools = _props2$methods.layoutTools;
-    var panelsHandler = _props2$methods.panelsHandler;
-    var putInView = _props2$methods.putInView;
-    var popUpHandler = _props2$methods.popUpHandler;
+    var _props3 = this.props;
+    var fireRef = _props3.fireRef;
+    var userData = _props3.userData;
+    var name = _props3.name;
+    var display_name = _props3.display_name;
+    var auth = _props3.auth;
+    var inView = _props3.inView;
+    var isFor = _props3.isFor;
+    var index = _props3.index;
+    var vod = _props3.vod;
+    var versionData = _props3.versionData;
+    var _props3$methods = _props3.methods;
+    var spliceStream = _props3$methods.spliceStream;
+    var togglePlayer = _props3$methods.togglePlayer;
+    var alertAuthNeeded = _props3$methods.alertAuthNeeded;
+    var layoutTools = _props3$methods.layoutTools;
+    var panelsHandler = _props3$methods.panelsHandler;
+    var putInView = _props3$methods.putInView;
+    var popUpHandler = _props3$methods.popUpHandler;
     var _state = this.state;
     var menuOpen = _state.menuOpen;
     var nameScroll1 = _state.nameScroll1;
@@ -237,7 +242,7 @@ var PlayerStream = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "video" },
-            _react2["default"].createElement("div", { ref: "playerDiv", className: "nested player-div" })
+            _react2["default"].createElement("div", { ref: "video", className: "nested player-div" })
           ),
           _react2["default"].createElement(
             "div",
@@ -548,22 +553,22 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     var _this6 = this;
 
-    var _props3 = this.props;
-    var fireRef = _props3.fireRef;
-    var userData = _props3.userData;
-    var auth = _props3.auth;
-    var playerState = _props3.playerState;
-    var panelData = _props3.panelData;
-    var versionData = _props3.versionData;
-    var _props3$methods = _props3.methods;
-    var spliceStream = _props3$methods.spliceStream;
-    var clearPlayer = _props3$methods.clearPlayer;
-    var togglePlayer = _props3$methods.togglePlayer;
-    var alertAuthNeeded = _props3$methods.alertAuthNeeded;
-    var setLayout = _props3$methods.setLayout;
-    var panelsHandler = _props3$methods.panelsHandler;
-    var popUpHandler = _props3$methods.popUpHandler;
-    var dataObject = _props3.data.dataObject;
+    var _props4 = this.props;
+    var fireRef = _props4.fireRef;
+    var userData = _props4.userData;
+    var auth = _props4.auth;
+    var playerState = _props4.playerState;
+    var panelData = _props4.panelData;
+    var versionData = _props4.versionData;
+    var _props4$methods = _props4.methods;
+    var spliceStream = _props4$methods.spliceStream;
+    var clearPlayer = _props4$methods.clearPlayer;
+    var togglePlayer = _props4$methods.togglePlayer;
+    var alertAuthNeeded = _props4$methods.alertAuthNeeded;
+    var setLayout = _props4$methods.setLayout;
+    var panelsHandler = _props4$methods.panelsHandler;
+    var popUpHandler = _props4$methods.popUpHandler;
+    var dataObject = _props4.data.dataObject;
     var layout = this.props.layout;
     var _state2 = this.state;
     var streamInView = _state2.streamInView;
