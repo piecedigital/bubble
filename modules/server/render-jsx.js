@@ -25,7 +25,7 @@ var renderHTML = function renderHTML(fileName) {
     Layout,
     prePlaceData,
     _react2["default"].createElement(Page, null)
-  )) + "</div>" + "<script src= \"http://player.twitch.tv/js/embed/v1.js\"></script>" + ("<script src=" + ("/js/bundle" + (process.env["NODE_ENV"] === "prod" ? "-live" : "") + ".js") + "></script>") + "</body>" + "</html>";
+  )) + "</div>" + "<script src= \"https://player.twitch.tv/js/embed/v1.js\"></script>" + ("<script src=" + ("/js/bundle" + (process.env["NODE_ENV"] === "prod" ? "-live" : "") + ".js") + "></script>") + "</body>" + "</html>";
   return "<!DOCTYPE html>" + data;
 };
 exports.renderHTML = renderHTML;
