@@ -375,8 +375,10 @@ exports["default"] = _react2["default"].createClass({
         }
       }
     }
-    if (nextProps.userData && nextProps.userData.name === nextProps.params.username) {
-      this.refreshList();
+    if (!this.props.pageOverride) {
+      if (nextProps.userData && nextProps.userData.name === nextProps.params.username) {
+        this.refreshList();
+      }
     }
   },
   componentDidMount: function componentDidMount(prevProps) {
