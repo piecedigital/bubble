@@ -388,8 +388,10 @@ export default React.createClass({
         }
       }
     }
-    if(nextProps.userData && nextProps.userData.name === nextProps.params.username) {
-      this.refreshList();
+    if(!this.props.pageOverride) {
+      if(nextProps.userData && nextProps.userData.name === nextProps.params.username) {
+        this.refreshList();
+      }
     }
   },
   componentDidMount(prevProps) {
