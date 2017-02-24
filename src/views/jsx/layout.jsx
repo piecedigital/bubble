@@ -591,14 +591,14 @@ export default React.createClass({
         methods={{
           popUpHandler: this.popUpHandler
         }} />
+        <div className="separator-4-black" />
         <div className="created-by">
-          <div className="separator-4-black" />
           <div className="by">
             Created by <a href="http://piecedigital.net" rel="nofollow" target="_blank">Piece Digital</a>
             {" | "}
             {
               versionData ? (
-                <span className="version">Current version: {versionData.major}.{versionData.minor}.{versionData.patch}</span>
+                <span className="version">App version: {versionData.major}.{versionData.minor}.{versionData.patch}</span>
               ) : null
             }
           </div>

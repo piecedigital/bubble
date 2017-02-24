@@ -4,6 +4,7 @@ import { Router, Route, Link, browserHistory as History } from 'react-router';
 import Layout from "./jsx/layout.jsx";
 import Home from "./jsx/home.jsx";
 import About from "./jsx/about.jsx";
+import TOS from "./jsx/tos.jsx";
 import Profile from "./jsx/profile.jsx";
 import GeneralPage from "./jsx/general-page.jsx";
 import SearchPage from "./jsx/search.jsx";
@@ -38,6 +39,12 @@ render((
       <Route path="/" page="home" component={Home}>
       </Route>
       <Route path="/about" page="about" component={About}>
+      </Route>
+      <Route path="/tos" page="about" component={TOS}>
+      </Route>
+      <Route path="/terms" page="about" component={TOS}>
+      </Route>
+      <Route path="/terms-of-service" page="about" component={TOS}>
       </Route>
       <Route path="/profile(/:username(/:q/:postID))" page="profile" component={checkAuth.bind(null, Profile)}>
       </Route>

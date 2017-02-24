@@ -11,6 +11,10 @@ try {
   console.error("error initializing firebase", e.stack);
 }
 app
+.get("*", function (req, res, next) {
+  console.log(req.url);
+  next();
+})
 .get("/", function (req, res) {
   let initState = {
     layout: {
@@ -52,8 +56,15 @@ app
 .get("/about", function (req, res) {
   res.send(renderHTML("about"));
 })
-.get(["/tos", "/terms", "/terms-of-service"], function (req, res) {
-  res.send(renderHTML("terms-of-service"));
+.get("/tos", function (req, res) {
+  res.redirect("/terms-of-service")
+})
+.get("/terms", function (req, res) {
+  res.redirect("/terms-of-service")
+})
+.get("/terms-of-service", function (req, res) {
+  console.log("git him");
+  res.send(renderHTML("tos"));
 })
 .get("/search/:searchtype", function (req, res) {
   res.send(renderHTML("search", {
@@ -161,7 +172,7 @@ app
   // res.send(["test"]);
 })
 .get("*", function (req, res) {
-  res.status(404).send("not found");
+  res.status(404).send("Page not found: " + req.url);
 });
 
 export default app;

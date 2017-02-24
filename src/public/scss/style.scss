@@ -216,3 +216,14 @@ body {
 .no-underline {
   text-decoration: none;
 }
+
+.created-by {
+  padding: 1*$em 0;
+  text-align: center;
+  a {
+    color: $dim;
+    &:visited {
+      color: $dimmer;
+    }
+  }
+}

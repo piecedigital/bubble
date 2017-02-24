@@ -1277,3 +1277,9 @@ The process cannot access the file because it is being used by another process.
 ]
 [1487905018245] [Fri, 24 Feb 2017 02:56:58 GMT] [error] [stderr maxBuffer exceeded]
 [1487922105916] [Fri, 24 Feb 2017 07:41:45 GMT] [error] [stderr maxBuffer exceeded]
+[1487933754134] [Fri, 24 Feb 2017 10:55:54 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js"
+The process cannot access the file because it is being used by another process.
+]
+[1487933860874] [Fri, 24 Feb 2017 10:57:40 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js"
+The process cannot access the file because it is being used by another process.
+]

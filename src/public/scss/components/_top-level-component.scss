@@ -1,7 +1,7 @@
 .top-level-component {
   border-width: 0;
   &.home-page {}
-  &.about, &.profile, &.streams, &.games, &.search-page {
+  &.about, &.tos, &.profile, &.streams, &.games, &.search-page {
     .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info, .user-questions {
       overflow: hidden;
       &.locked {
@@ -78,6 +78,7 @@
           color: rgba(100, 100, 100, 1);
           font-weight: bold;
           font-size: 3*$em;
+          line-height: 2.5*$em;
         }
         .list {
           text-align: left;
