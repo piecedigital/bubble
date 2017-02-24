@@ -49,6 +49,12 @@ app
     );
   });
 })
+.get("/about", function (req, res) {
+  res.send(renderHTML("about"));
+})
+.get(["/tos", "/terms", "/terms-of-service"], function (req, res) {
+  res.send(renderHTML("terms-of-service"));
+})
 .get("/search/:searchtype", function (req, res) {
   res.send(renderHTML("search", {
     location: {

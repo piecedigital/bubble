@@ -1,6 +1,7 @@
 .top-level-component {
+  border-width: 0;
   &.home-page {}
-  &.profile, &.streams, &.games, &.search-page {
+  &.about, &.profile, &.streams, &.games, &.search-page {
     .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info, .user-questions {
       overflow: hidden;
       &.locked {
@@ -42,6 +43,44 @@
           overflow-x: hidden;
           overflow-y: auto;
           transition: 0s all;
+        }
+      }
+      // about page
+      > .wrapper-about, > .wrapper-tos {
+        // width: 20*$em;
+        // height: 100%;
+        padding: 1*$em 2*$em;
+        color: $offBlack;
+        margin: auto;
+        text-align: center;
+        font-size: 1.1*$em;
+        line-height: 1.5*$em;
+        transition: 0s all;
+        .limit {
+          display: block;
+          max-width: 30*$em;
+          margin: auto;
+        }
+        section {
+          padding: 1*$em 0;
+          &:not(:last-child) {
+            padding-bottom: 2*$em;
+          }
+        }
+        a {
+          color: $offBlack;
+        }
+        .headline {
+          display: inline-block;
+          padding: 1*$em;
+          margin: 0 0 1*$em;
+          border-bottom: 2px solid $primary;
+          color: rgba(100, 100, 100, 1);
+          font-weight: bold;
+          font-size: 3*$em;
+        }
+        .list {
+          text-align: left;
         }
       }
       .tools {

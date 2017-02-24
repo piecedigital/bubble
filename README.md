@@ -22,10 +22,12 @@
   - Add pages: About, Terms of Service
   - Add logo
   - Add application name
+  - Add feedback overlay
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
 - AMAs - TBD
+- Share stream - TBD
 
 
 Latin words:

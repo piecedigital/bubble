@@ -99,6 +99,8 @@ function sassWatcher() {
       logOut(err, true, {
         type: "error"
       });
+      console.log("restarting sass...");
+      sassWatcher();
     } else {
       logOut(stdout, true)
       logOut(stderr, true, {
