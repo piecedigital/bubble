@@ -5,7 +5,7 @@ import { logOut } from "../../log-out";
 let serviceAccount;
 
 try {
-  serviceAccount = require("../../private/bubble-13387-firebase-adminsdk-cbrvg-5186dc4eb2.json");
+  serviceAccount = require(__dirname + "/../../private/bubble-13387-firebase-adminsdk-cbrvg-5186dc4eb2.json");
 } catch (e) {
   serviceAccount = {
     "custom_server_auth_uid": process.env["CUSTOM_AUTH_UID"],
@@ -25,7 +25,7 @@ try {
 export const initFirebase = () => {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: process.env["DATABASE_URL"]
+    databaseURL: process.env["DATABASE_URL"] || "https://bubble-13387.firebaseio.com"
   });
 
   const ref = {
