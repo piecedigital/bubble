@@ -11,10 +11,10 @@ try {
   console.error("error initializing firebase", e.stack);
 }
 app
-.get("*", function (req, res, next) {
-  console.log(req.url);
-  next();
-})
+// .get("*", function (req, res, next) {
+//   console.log(req.url);
+//   next();
+// })
 .get("/", function (req, res) {
   let initState = {
     layout: {

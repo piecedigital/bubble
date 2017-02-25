@@ -285,7 +285,7 @@ export default React.createClass({
         });
     }
   },
-  popUpHandler(action, options) {
+  popUpHandler(action, options = {}) {
     // console.log("pop up handler", action, options);
     let newState;
     switch (action) {
@@ -295,8 +295,9 @@ export default React.createClass({
         });
         // console.log(this.props.location);
         if(this.props.location.state && this.props.location.state.modal) {
-          History.push({
-            pathname: this.props.location.state.returnTo
+          // console.log("returnTo");
+          History[options.newReturn ? "replace" : "push"]({
+            pathname: options.newReturn || this.props.location.state.returnTo
           });
         }
       break;
@@ -354,7 +355,10 @@ export default React.createClass({
         })
         break;
         default:
-        if(!overlay) this.popUpHandler("close", null);
+        console.log(nextProps.location.state);
+        if(!overlay) this.popUpHandler("close", {
+          newReturn: (nextProps.location.state && nextProps.location.state.returnTo) ? nextProps.location.state.returnTo : null
+        });
       }
     }
 
@@ -595,6 +599,10 @@ export default React.createClass({
         <div className="created-by">
           <div className="by">
             Created by <a href="http://piecedigital.net" rel="nofollow" target="_blank">Piece Digital</a>
+            {" | "}
+            <Link href="/about" to="/about">About Amorrius</Link>
+            {" | "}
+            <Link href="/terms-of-service" to="/terms-of-service">Terms of Service and Privacy Policy</Link>
             {" | "}
             {
               versionData ? (

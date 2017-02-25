@@ -1,11 +1,13 @@
 import { ajax } from "./ajax";
-export default function(errorCB, options = {}) {
+export default function loadData(errorCB, options = {}) {
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
   options.limit = options.limit || 20;
   options.headers = options.headers || {};
   // accept v3 api
-  options.headers["Accept"] = "application/vnd.twitchtv.v3+json";
+  // options.headers["Accept"] = "application/vnd.twitchtv.v3+json";
+  // accept v5 api
+  options.headers["Accept"] = "application/vnd.twitchtv.v5+json";
 
   const redirectURI = typeof location === "object" ? `http://${location.host}` : "http://localhost:8080";
   const clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
@@ -62,13 +64,13 @@ export default function(errorCB, options = {}) {
         // console.log(this);
         return makeRequest(okayCB, "/get-firebase-config", true);
       },
-      getUserID: () => {
+      getUserID: (okayCB) => {
         options.login = options.username;
         options.api_version = 5;
         delete options.username;
         // options.client_id = options.headers["Client-ID"];
         // options.headers = options.headers || {};
-        return makeRequest(okayCB, `/users`);
+        return makeRequest(okayCB, `users`);
       },
       featured: (okayCB) => {
         // console.log(this);
@@ -89,12 +91,56 @@ export default function(errorCB, options = {}) {
       getUserByName: (okayCB) => {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, `users/${options.username}`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: options.username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // real request
+              makeRequest(okayCB, `users/${data.users[0]._id}`)
+              .then(data => resolve(data))
+              .catch((e = {}) => reject(e));
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       getChannelByName: (okayCB) => {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, `channels/${options.username}`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: options.username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // real request
+              makeRequest(okayCB, `channels/${data.users[0]._id}`)
+              .then(data => resolve(data))
+              .catch((e = {}) => reject(e));
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       getCurrentUser: (okayCB) => {
         delete options.stream_type;
@@ -109,20 +155,117 @@ export default function(errorCB, options = {}) {
       getStreamByName: (okayCB) => {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, `streams/${options.username}`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: options.username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // real request
+              makeRequest(okayCB, `streams/${data.users[0]._id}`)
+              .then(data => resolve(data))
+              .catch((e = {}) => reject(e));
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       getFollowStatus: (okayCB) => {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, `users/${options.username}/follows/channels/${options.target}`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the first user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: options.username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // get the target user ID
+              loadData((e = {}) => {
+                console.error(e.stack || e);
+              }, {
+                username: options.target
+              })
+              .then(methods => {
+                methods
+                .getUserID()
+                .then(data2 => {
+                  // console.log("target id", data2);
+                  // real request
+                  makeRequest(okayCB, `users/${data.users[0]._id}/follows/channels/${data2.users[0]._id}`)
+                  .then(data => resolve(data))
+                  .catch((e = {}) => reject(e));
+                })
+                .catch((e = {}) => console.error(e.stack || e));
+              })
+              .catch((e = {}) => console.error(e.stack || e));
+
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       getSubscriptionStatus: (okayCB) => {
         delete options.stream_type;
         delete options.limit;
         options = needAuth(options);
         options.to = options.to || "user";
-        const url = options.to === "channel" ? `channels/${options.target}/subscriptions/${options.username}` : `users/${options.username}/subscriptions/${options.target}`;
-        return makeRequest(okayCB, url);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the first user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: options.username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // get the target user ID
+              loadData((e = {}) => {
+                console.error(e.stack || e);
+              }, {
+                username: options.target
+              })
+              .then(methods => {
+                methods
+                .getUserID()
+                .then(data2 => {
+                  // console.log("target id", data2);
+                  // real request
+                  const url = options.to === "channel" ? `channels/${data2.users[0]._id}/subscriptions/${data.users[0]._id}` : `users/${data.users[0]._id}/subscriptions/${data2.users[0]._id}`;
+                  return makeRequest(okayCB, url)
+                  .then(data => resolve(data))
+                  .catch((e = {}) => reject(e));
+                })
+                .catch((e = {}) => console.error(e.stack || e));
+              })
+              .catch((e = {}) => console.error(e.stack || e));
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       getPanels: (okayCB) => {
         delete options.stream_type;
@@ -140,7 +283,29 @@ export default function(errorCB, options = {}) {
         delete options.username;
         // options.client_id = options.headers["Client-ID"];
         // options.headers = options.headers || {};
-        return makeRequest(okayCB, `channels/${username}/videos`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: options.username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // real request
+              makeRequest(okayCB, `channels/${data.users[0]._id}/videos`)
+              .then(data => resolve(data))
+              .catch((e = {}) => reject(e));
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       followStream: (okayCB) => {
         delete options.stream_type;
@@ -151,7 +316,46 @@ export default function(errorCB, options = {}) {
         let username = options.username, target = options.target;
         delete options.username;
         delete options.target;
-        return makeRequest(okayCB, `users/${username}/follows/channels/${target}`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+
+              // getting the target user ID
+              loadData((e = {}) => {
+                console.error(e.stack || e);
+              }, {
+                username: target
+              })
+              .then(methods => {
+                methods
+                .getUserID()
+                .then(data2 => {
+                  // console.log("target id", data2);
+                  // real request
+                  makeRequest(okayCB, `users/${data.users[0]._id}/follows/channels/${data2.users[0]._id}`)
+                  .then(data => resolve(data))
+                  .catch((e = {}) => reject(e));
+                })
+                .catch((e = {}) => console.error(e.stack || e));
+              })
+              .catch((e = {}) => console.error(e.stack || e));
+
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       unfollowStream: (okayCB) => {
         delete options.stream_type;
@@ -161,19 +365,102 @@ export default function(errorCB, options = {}) {
         let username = options.username, target = options.target;
         delete options.username;
         delete options.target;
-        return makeRequest(okayCB, `users/${username}/follows/channels/${target}`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+
+              // start by getting the user ID
+              loadData((e = {}) => {
+                console.error(e.stack || e);
+              }, {
+                username: target
+              })
+              .then(methods => {
+                methods
+                .getUserID()
+                .then(data2 => {
+                  // console.log("target id", data2);
+                  // real request
+                  makeRequest(okayCB, `users/${data.users[0]._id}/follows/channels/${data2.users[0]._id}`)
+                  .then(data => resolve(data))
+                  .catch((e = {}) => reject(e));
+                })
+                .catch((e = {}) => console.error(e.stack || e));
+              })
+              .catch((e = {}) => console.error(e.stack || e));
+
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       followedStreams: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         options.headers = options.headers || {};
         options.headers.Authorization = `OAuth ${options.access_token || this.props.auth.access_token}`;
-        return makeRequest(okayCB, `users/${options.username || this.props.userData.name}/follows/channels`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: options.username || this.props.userData.name
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // real request
+              makeRequest(okayCB, `users/${data.users[0]._id}/follows/channels`)
+              .then(data => resolve(data))
+              .catch((e = {}) => reject(e));
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       followingStreams: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         options.headers = options.headers || {};
         options.headers.Authorization = `OAuth ${options.access_token || this.props.auth.access_token}`;
-        return makeRequest(okayCB, `channels/${options.username || this.props.userData.name}/follows`);
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username: options.username || this.props.userData.name
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // real request
+              makeRequest(okayCB, `channels/${data.users[0]._id}/follows`)
+              .then(data => resolve(data))
+              .catch((e = {}) => reject(e));
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
       },
       followedVideos: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;

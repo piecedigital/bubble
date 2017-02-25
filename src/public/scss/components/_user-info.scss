@@ -15,7 +15,7 @@
         flex-direction: column;
         position: absolute;
         top: 100%;
-        left: 10*$em;
+        left: 13*$em;
         // width: 10*$em;
         padding: 1*$em;
         // background-color: rgba(0, 0, 0, .5);
@@ -74,9 +74,10 @@
     .button-wrapper {
       @include displayFlex;
       flex-direction: column;
-      min-width: 9.5*$em;
+      width: 12*$em;
       padding: .5*$em;
       border-right: .5*$em solid $offBlack;
+      flex-shrink: 0;
       > * {
         width: 100%;
         &:not(:last-child) {

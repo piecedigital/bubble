@@ -42,12 +42,15 @@ let components = {
       .catch(e => console.error(e ? e.stack : e));
     },
     followCallback(follow) {
-      if(follow) {
-        // following channel
-        if(typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
-      } else {
-        // unfollowing channel
-        if(typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
+      console.log(this.props.follow);
+      if(this.props.follow === "IFollow") {
+        if(follow) {
+          // following channel
+          if(typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
+        } else {
+          // unfollowing channel
+          if(typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
+        }
       }
     },
     appendStream(name, display_name) {

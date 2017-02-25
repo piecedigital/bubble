@@ -19,7 +19,7 @@
   - Fixed menu longness - 0.11.8 **ok**
   - fixed undefined error - 0.11.9
 - Add polish: - 0.12.0
-  - Add pages: About, Terms of Service
+  - Add pages: About, Terms of Service **ok**
   - Add logo
   - Add application name
   - Add feedback overlay

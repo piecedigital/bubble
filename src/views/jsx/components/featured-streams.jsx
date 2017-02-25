@@ -91,6 +91,7 @@ const FeaturedStream = React.createClass({
           }
         }
       } = this.props;
+
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
@@ -106,9 +107,9 @@ const FeaturedStream = React.createClass({
             bio: data.bio
           });
         })
-        .catch(e => console.error(e.stack));
+        .catch((e = {}) => console.error(e.stack || e));
       })
-      .catch(e => console.error(e.stack));
+      .catch((e = {}) => console.error(e.stack || e));
     });
   },
   componentDidMount() { this.fetchUserData() },
