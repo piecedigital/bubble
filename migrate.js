@@ -64,14 +64,15 @@ fireRef
               userData.users.map(function (user) {
                 usersToReplace[user.name] = user._id;
               });
-              rewriteQuestions();
-              rewriteAnswers();
-              rewriteRatings();
-              rewriteComments();
-              rewriteUsers();
-              rewriteGameQueues();
-              rewriteNotifications();
-              rewritePolls();
+              // rewriteQuestions();
+              // rewriteAnswers();
+              // rewriteRatings();
+              // rewriteComments();
+              // rewriteUsers();
+              // rewriteGameQueues();
+              // rewriteNotifications();
+              // rewritePolls();
+              fixPolls();
             } catch (e) {
               console.error(e);
             }
@@ -357,5 +358,28 @@ function rewritePolls() {
         });
       }
     });
+  });
+}
+function fixPolls() {
+  fireRef
+  .pollsRef
+  .once("value")
+  .then(function (snap) {
+    var polls = snap.val()
+
+    if(polls) {
+      Object.keys(polls).map(function (pollID) {
+        var pollData = polls[pollID];
+
+        fireRef
+        .pollsRef
+        .child(pollID)
+        .update({
+          auth: null,
+          creatorID: pollData.creator,
+          votes: null
+        })
+      });
+    }
   });
 }

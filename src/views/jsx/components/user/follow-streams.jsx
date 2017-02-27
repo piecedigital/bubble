@@ -59,11 +59,13 @@ let components = {
     notify() {
       const {
         data,
-        params
+        params,
+        userData
       } = this.props;
       // I wouldn't care to receive desktop notifications regarding someone elses followings
       // this should keep that from happening
-      if(params && params.username) return;
+      if((params && userData) && (params.username !== userData.name)) console.log("not my follows, not my interest");
+      if((params && userData) && (params.username !== userData.name)) return;
       const {
         name,
         display_name
@@ -386,22 +388,27 @@ export default React.createClass({
       this.scrollEvent();
     }, 100);
     // rerun gather data if...
-    const last = this.props.params.username,
-    curr = nextProps.params.username,
-    signedIn = this.props.userData ? this.props.userData.name : "";
-    // console.log("new name", last, curr, signedIn);
-    if(last || curr) {
-      if(
-        // ... username changes
-        last !== signedIn &&
-        curr !== signedIn &&
-        last !== curr ||
-        // ... auth changes
-        !!this.props.auth !== !!nextProps.auth
-      ) {
-        this.gatherData(this.state.limit, 0, null, true);
-      }
+
+    if(this.props.params.username !== nextProps.params.username) {
+      this.gatherData(this.state.limit, 0, null, true);
     }
+
+    // const last = this.props.params.username,
+    // curr = nextProps.params.username,
+    // signedIn = this.props.userData ? this.props.userData.name : "";
+    // // console.log("new name", last, curr, signedIn);
+    // if(last || curr) {
+    //   if(
+    //     // ... username changes
+    //     (last !== signedIn &&
+    //     curr !== signedIn &&
+    //     last !== curr) ||
+    //     // ... auth changes
+    //     !!this.props.auth !== !!nextProps.auth
+    //   ) {
+    //     this.gatherData(this.state.limit, 0, null, true);
+    //   }
+    // }
   },
   componentDidMount() {
     // console.log("auth", this.props.auth);

@@ -9,8 +9,16 @@ export default function loadData(errorCB, options = {}) {
   // accept v5 api
   options.headers["Accept"] = "application/vnd.twitchtv.v5+json";
 
-  const redirectURI = typeof location === "object" ? `http://${location.host}` : "http://localhost:8080";
-  const clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
+  let redirectURI, clientID;
+  const match = location.host === ("amorrius.net");
+  if(match) {
+    redirectURI =`http://${location.host}`;
+    clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
+  } else {
+    redirectURI = "http://amorrius.dev";
+    clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
+  }
+
 
   options.headers["Client-ID"] = clientID;
   let baseURL = "https://api.twitch.tv/kraken/";
@@ -134,25 +142,31 @@ export default function loadData(errorCB, options = {}) {
         delete options.limit;
         return new Promise(function(resolve, reject) {
 
-          // start by getting the user ID
-          loadData((e = {}) => {
-            console.error(e.stack || e);
-          }, {
-            username: options.username
-          })
-          .then(methods => {
-            methods
-            .getUserID()
-            .then(data => {
-              // console.log("user id", data);
-              // real request
-              makeRequest(okayCB, `channels/${data.users[0]._id}`)
-              .then(data => resolve(data))
-              .catch((e = {}) => reject(e));
+          if(options.userID) {
+            makeRequest(okayCB, `channels/${options.userID}`)
+            .then(data => resolve(data))
+            .catch((e = {}) => reject(e));
+          } else {
+            // start by getting the user ID
+            loadData((e = {}) => {
+              console.error(e.stack || e);
+            }, {
+              username: options.username
+            })
+            .then(methods => {
+              methods
+              .getUserID()
+              .then(data => {
+                // console.log("user id", data);
+                // real request
+                makeRequest(okayCB, `channels/${data.users[0]._id}`)
+                .then(data => resolve(data))
+                .catch((e = {}) => reject(e));
+              })
+              .catch((e = {}) => console.error(e.stack || e));
             })
             .catch((e = {}) => console.error(e.stack || e));
-          })
-          .catch((e = {}) => console.error(e.stack || e));
+          }
 
         });
       },
@@ -171,25 +185,31 @@ export default function loadData(errorCB, options = {}) {
         delete options.limit;
         return new Promise(function(resolve, reject) {
 
-          // start by getting the user ID
-          loadData((e = {}) => {
-            console.error(e.stack || e);
-          }, {
-            username: options.username
-          })
-          .then(methods => {
-            methods
-            .getUserID()
-            .then(data => {
-              // console.log("user id", data);
-              // real request
-              makeRequest(okayCB, `streams/${data.users[0]._id}`)
-              .then(data => resolve(data))
-              .catch((e = {}) => reject(e));
+          if(options.userID) {
+            makeRequest(okayCB, `streams/${options.userID}`)
+            .then(data => resolve(data))
+            .catch((e = {}) => reject(e));
+          } else {
+            // start by getting the user ID
+            loadData((e = {}) => {
+              console.error(e.stack || e);
+            }, {
+              username: options.username
+            })
+            .then(methods => {
+              methods
+              .getUserID()
+              .then(data => {
+                // console.log("user id", data);
+                // real request
+                makeRequest(okayCB, `streams/${data.users[0]._id}`)
+                .then(data => resolve(data))
+                .catch((e = {}) => reject(e));
+              })
+              .catch((e = {}) => console.error(e.stack || e));
             })
             .catch((e = {}) => console.error(e.stack || e));
-          })
-          .catch((e = {}) => console.error(e.stack || e));
+          }
 
         });
       },
@@ -299,25 +319,32 @@ export default function loadData(errorCB, options = {}) {
         // options.headers = options.headers || {};
         return new Promise(function(resolve, reject) {
 
-          // start by getting the user ID
-          loadData((e = {}) => {
-            console.error(e.stack || e);
-          }, {
-            username: options.username
-          })
-          .then(methods => {
-            methods
-            .getUserID()
-            .then(data => {
-              // console.log("user id", data);
-              // real request
-              makeRequest(okayCB, `channels/${data.users[0]._id}/videos`)
-              .then(data => resolve(data))
-              .catch((e = {}) => reject(e));
+          if(options.userID) {
+            makeRequest(okayCB, `channels/${options.userID}/videos`)
+            .then(data => resolve(data))
+            .catch((e = {}) => reject(e));
+          } else {
+            // start by getting the user ID
+            loadData((e = {}) => {
+              console.error(e.stack || e);
+            }, {
+              username
+            })
+            .then(methods => {
+              methods
+              .getUserID()
+              .then(data => {
+                // console.log("user id", data);
+                // console.log(data.users[0]._id);
+                // real request
+                makeRequest(okayCB, `channels/${data.users[0]._id}/videos`)
+                .then(data => resolve(data))
+                .catch((e = {}) => reject(e));
+              })
+              .catch((e = {}) => console.error(e.stack || e));
             })
             .catch((e = {}) => console.error(e.stack || e));
-          })
-          .catch((e = {}) => console.error(e.stack || e));
+          }
 
         });
       },

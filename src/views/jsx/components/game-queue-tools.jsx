@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router';
 import loadData from "../../../modules/client/load-data";
+import { getUserID } from "../../../modules/client/helper-tools";
 
 const UserItem = React.createClass({
   displayName: "UserItem",
@@ -53,6 +54,7 @@ const UserItem = React.createClass({
 export const ViewGameQueue = React.createClass({
   displayName: "ViewGameQueue",
   getInitialState: () => ({
+    queueHostID: null,
     userDataPresent: false,
     fireRefPresent: false,
     propsPresent: false,
@@ -91,18 +93,21 @@ export const ViewGameQueue = React.createClass({
   checkForProps() {
     const {
       userData,
-      fireRef
+      fireRef,
     } = this.props;
+    const { queueHostID } = this.state;
+    // console.log(queueHostID);
     const propsPresent =
       // !!userData &&
-      !!fireRef;
+      !!fireRef &&
+      !!queueHostID;
     // console.log(propsPresent);
     if(propsPresent && !this.state.propsPresent) {
       this.setState({
         fireRefPresent: !!fireRef,
         propsPresent
       });
-
+      // console.log(propsPresent, fireRef, queueHostID);
       if(!this.state.propsPresent) this.prepListener();
     }
     if(!!userData) {
@@ -121,6 +126,7 @@ export const ViewGameQueue = React.createClass({
 
     // for the viewer, check if they are subbed to the channel
     if(userData && (userData.name !== queueHost)) {
+      console.log(userData.name, queueHost);
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
@@ -173,20 +179,21 @@ export const ViewGameQueue = React.createClass({
       fireRef,
       queueHost,
     } = this.props;
+    const { queueHostID } = this.state;
 
     const temp = (snap) => {
       // console.log("prep 2");
       const key = snap.getKey();
       const val = snap.val();
-      if(key === queueHost) {
+      if(key === queueHostID) {
         fireRef.gameQueuesRef
         .off("child_added", temp);
-        this.initListener();
       }
     }
 
-    fireRef.gameQueuesRef
-    .on("child_added", temp);
+    this.initListener();
+    // fireRef.gameQueuesRef
+    // .on("child_added", temp);
   },
   initListener() {
     const {
@@ -194,12 +201,15 @@ export const ViewGameQueue = React.createClass({
       userData,
       queueHost,
     } = this.props;
+    const { queueHostID } = this.state;
 
+    // console.log(queueHostID);
     const nodeRef = fireRef.gameQueuesRef
-    .child(queueHost);
+    .child(queueHostID);
     nodeRef.once("value")
     .then(snap => {
       const queueInfo = snap.val();
+      console.log(queueInfo);
       // console.log(snap.getKey(), snap.val());
       // set some initial value for the count in validation
       // not doing this would leave the inputs false since the validation woud not otherise be up todate
@@ -298,11 +308,12 @@ export const ViewGameQueue = React.createClass({
       userData,
       queueHost
     } = this.props;
+    const { queueHostID } = this.state;
 
     switch (type) {
       case "update":
         fireRef.gameQueuesRef
-        .child(userData.name)
+        .child(userData._id)
         .update({
           title: this.refs.title.value,
           game: this.refs.game.value,
@@ -314,7 +325,7 @@ export const ViewGameQueue = React.createClass({
       break;
       case "reset":
         fireRef.gameQueuesRef
-        .child(userData.name)
+        .child(userData._id)
         .update({
           queue: null,
           nowPlaying: null,
@@ -323,9 +334,9 @@ export const ViewGameQueue = React.createClass({
       break;
       case "queueUp":
         fireRef.gameQueuesRef
-        .child(queueHost)
+        .child(queueHostID)
         .child("queue")
-        .child(userData.name)
+        .child(userData._id)
         .update({
           gamerID: this.refs.gamerID.value,
           date: Date.now()
@@ -385,9 +396,10 @@ export const ViewGameQueue = React.createClass({
       fireRef,
       queueHost
     } = this.props;
+    const { queueHostID } = this.state;
 
     fireRef.gameQueuesRef
-    .child(queueHost)
+    .child(queueHostID)
     .child(list)
     .update({
       [username]: null
@@ -400,7 +412,7 @@ export const ViewGameQueue = React.createClass({
     } = this.props;
 
     fireRef.gameQueuesRef
-    .child(queueHost)
+    .child(queueHostID)
     .child(nextList)
     .update({
       [username]: userData
@@ -409,7 +421,7 @@ export const ViewGameQueue = React.createClass({
 
     setTimeout(() => {
       fireRef.gameQueuesRef
-      .child(queueHost)
+      .child(queueHostID)
       .child(currList)
       .update({
         [username]: null
@@ -422,23 +434,34 @@ export const ViewGameQueue = React.createClass({
     // console.log(e.target.value, e.target.checked, ref);
     if(ref === "subOnly") {
       this.setState({
-        queueInfo: Object.assign(this.state.queueInfo, {
+        queueInfo: Object.assign(this.state.queueInfo || {}, {
           subOnly: e.target.checked || null
         })
       });
     } else {
       this.setState({
-        queueInfo: Object.assign(this.state.queueInfo, {
+        queueInfo: Object.assign(this.state.queueInfo || {}, {
           [ref]: e.target.value
         })
       });
     }
   },
   componentDidMount() {
-    if(!this.state.propsPresent || !this.state.userDataPresent) this.checkForProps();
+    if(!this.state.queueHostID) {
+      getUserID([this.props.queueHost])
+      .then(dataArr => {
+        console.log(dataArr[0]._id);
+        this.setState({
+          queueHostID: dataArr[0]._id
+        });
+      });
+    }
+    // if(!this.state.propsPresent || !this.state.userDataPresent || !this.state.queueHostID) this.checkForProps();
   },
   componentDidUpdate() {
-    if(!this.state.propsPresent || !this.state.userDataPresent) this.checkForProps();
+    if(this.state.queueHostID) {
+      if(!this.state.propsPresent || !this.state.userDataPresent) this.checkForProps();
+    }
   },
   componentWillUnmount() {
     if(this.killListener === "function") this.killListener();

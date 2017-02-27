@@ -37,7 +37,7 @@ export default React.createClass({
       // console.log("prep 2");
       const key = snap.getKey();
       const val = snap.val();
-      if(key === userData.name) {
+      if(key === userData._id) {
         fireRef.notificationsRef
         .off("child_added", temp);
         this.initListener();
@@ -54,7 +54,7 @@ export default React.createClass({
     } = this.props;
 
     const nodeRef = fireRef.notificationsRef
-    .child(userData.name);
+    .child(userData._id);
     nodeRef.once("value")
     .then(snap => {
       this.setState({

@@ -1,0 +1,1011 @@
+{
+  "answers" : {
+    "-Ka1qLlBIiCL9PhFD0N7" : {
+      ".priority" : -1.483959464134E12,
+      "body" : "zdfawszdfxgchvjbknlutyjhfgrtdb",
+      "date" : 1483959464134,
+      "myAuth" : true,
+      "questionID" : "-Ka1qLlBIiCL9PhFD0N7",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "userID" : "83101325",
+      "username" : "piecedigital",
+      "version" : {
+        "major" : "0",
+        "minor" : "6",
+        "patch" : "0"
+      }
+    },
+    "-Ka1qZ74cKRHCbKqcIdH" : {
+      ".priority" : -1.483959469077E12,
+      "body" : "awszdexggtffgchhhvbhjnbnnmnbnjhgdfx",
+      "date" : 1483959469077,
+      "myAuth" : true,
+      "questionID" : "-Ka1qZ74cKRHCbKqcIdH",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "userID" : "83101325",
+      "username" : "piecedigital",
+      "version" : {
+        "major" : "0",
+        "minor" : "6",
+        "patch" : "0"
+      }
+    },
+    "-KaO2RwBCQZL3YWu4T7P" : {
+      ".priority" : -1.48453819413E12,
+      "auth" : "zwfx8gxzq7d8k29n9mzzhw1xjdz0my",
+      "body" : "waszDGTXFHCDGJVHBK,HFGBSERTDYFYGYHHH",
+      "date" : 1484538194130,
+      "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "userID" : "83101325",
+      "username" : "piecedigital"
+    },
+    "-KdxQYrvzqA7m9ERNDWK" : {
+      "answerType" : "text",
+      "body" : "I good enuh asdfa;lkdsjfaghshjdd",
+      "date" : 1488163865021,
+      "questionID" : "-KdxQYrvzqA7m9ERNDWK",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "userID" : "98147281"
+    }
+  },
+  "authTokens" : {
+    "piecedigital" : "0900q8cqmji7upwy832pin7hejfp8p",
+    "piecedigital2" : "f22n8rrllu92b8kq0dkk7vr9bfux6p"
+  },
+  "comments" : {
+    "-Ka1qZ74cKRHCbKqcIdH" : {
+      "-KaCDvfeDDzTw4_He6Vn" : {
+        ".priority" : -1.484133210886E12,
+        "body" : "da;lskdjfa;sldk;fljla;lsdf;k;;jla;lksdj",
+        "date" : 1484133210886,
+        "myAuth" : true,
+        "questionID" : "-Ka1qZ74cKRHCbKqcIdH",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "username" : "piecedigital",
+        "version" : {
+          "major" : "0",
+          "minor" : "7",
+          "patch" : "0"
+        }
+      },
+      "-KaCTvvSeQVHrlaBwQoM" : {
+        ".priority" : -1.484137406116E12,
+        "body" : "asdfasdf refsadas sadfs aadsff",
+        "date" : 1484137406115,
+        "myAuth" : true,
+        "questionID" : "-Ka1qZ74cKRHCbKqcIdH",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "version" : {
+          "major" : "0",
+          "minor" : "7",
+          "patch" : "0"
+        }
+      },
+      "-KaDzuiaWcB9snoQhmF4" : {
+        ".priority" : -1.484162828605E12,
+        "body" : "This is a new, legitimate comment.",
+        "date" : 1484162828604,
+        "myAuth" : true,
+        "questionID" : "-Ka1qZ74cKRHCbKqcIdH",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "username" : "piecedigital",
+        "version" : {
+          "major" : "0",
+          "minor" : "7",
+          "patch" : "0"
+        }
+      }
+    },
+    "-KaO2RwBCQZL3YWu4T7P" : {
+      "-KaOQyQiYvaNXidDaMsD" : {
+        ".priority" : -1.484337952164E12,
+        "body" : "sdffghfgdsddfghgyyyrdfhcgye5rtdhf",
+        "date" : 1484337952163,
+        "myAuth" : true,
+        "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "username" : "piecedigital",
+        "version" : {
+          "major" : "0",
+          "minor" : "7",
+          "patch" : "0"
+        }
+      },
+      "-KaQL516ZyelFri5SIdS" : {
+        ".priority" : -1.48436996468E12,
+        "body" : "new comment. get the upvotes bitch",
+        "date" : 1484369964678,
+        "myAuth" : true,
+        "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "version" : {
+          "major" : "0",
+          "minor" : "8",
+          "patch" : "0"
+        }
+      },
+      "-KaVoLb64jzzR1IqR7IL" : {
+        ".priority" : -1.484461780399E12,
+        "body" : "bit of a dumb question, though",
+        "date" : 1484461780398,
+        "myAuth" : true,
+        "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "version" : {
+          "major" : "0",
+          "minor" : "8",
+          "patch" : "2"
+        }
+      },
+      "-Kb5_LmNALVBaD5rlNAB" : {
+        ".priority" : -1.485095389843E12,
+        "auth" : "v744r0ihwvjnz3unhc8rf6jn2sm7hh",
+        "body" : "still works with questions. good",
+        "date" : 1485095389843,
+        "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "version" : {
+          "major" : "0",
+          "minor" : "9",
+          "patch" : "3"
+        }
+      },
+      "-KbYzrJ3YyNu59bgTbUr" : {
+        ".priority" : -1.485588886253E12,
+        "body" : "after the auth change this still works",
+        "date" : 1485588886252,
+        "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "username" : "piecedigital",
+        "version" : {
+          "major" : "0",
+          "minor" : "10",
+          "patch" : "5"
+        }
+      }
+    },
+    "-Kb5Tdcgo7-D_Mds-M24" : {
+      "-Kb5kK1aGE6jHoExDhOC" : {
+        ".priority" : -1.485098266205E12,
+        "auth" : "v744r0ihwvjnz3unhc8rf6jn2sm7hh",
+        "body" : "First comment on a poll, please.",
+        "date" : 1485098266204,
+        "pollID" : "-Kb5Tdcgo7-D_Mds-M24",
+        "reply" : false,
+        "sentStatuses" : {
+          "email" : false,
+          "notification" : false
+        },
+        "userID" : "83101325",
+        "version" : {
+          "major" : "0",
+          "minor" : "9",
+          "patch" : "3"
+        }
+      }
+    }
+  },
+  "gameQueues" : {
+    "83101325" : {
+      "game" : "sfvi",
+      "platform" : "none",
+      "queueLimit" : 8,
+      "rank" : "no",
+      "subOnly" : false,
+      "title" : "fun times!"
+    }
+  },
+  "notifications" : {
+    "28644304" : {
+      "-Ka_IsvIxvqoeRtwsaXa" : {
+        "date" : 1484537154624,
+        "info" : {
+          "questionID" : "-Ka_IsvE2Q6wLSxM5swL",
+          "questionURL" : "/profile/28644304/a/-Ka_IsvE2Q6wLSxM5swL",
+          "sender" : "83101325"
+        },
+        "read" : false,
+        "type" : "newQuestion",
+        "version" : {
+          "major" : "0",
+          "minor" : "9",
+          "patch" : "0"
+        }
+      },
+      "-Ka_Ju4xvdduQ3lFTzFh" : {
+        "date" : 1484537421527,
+        "info" : {
+          "questionID" : "-Ka_Ju4sh4tcuAXSPvn1",
+          "questionURL" : "/profile/28644304/a/-Ka_Ju4sh4tcuAXSPvn1",
+          "sender" : "83101325"
+        },
+        "read" : false,
+        "type" : "newQuestion",
+        "version" : {
+          "major" : "0",
+          "minor" : "9",
+          "patch" : "0"
+        }
+      }
+    },
+    "83101325" : {
+      "-KaNvxYjtFplH1H23Yk0" : {
+        "date" : 1484329560123,
+        "info" : {
+          "questionID" : "-Ka1qZ74cKRHCbKqcIdH",
+          "questionURL" : "/profile/83101325/q/-Ka1qZ74cKRHCbKqcIdH",
+          "sender" : "98147281"
+        },
+        "read" : true,
+        "type" : "answerUpvote"
+      },
+      "-KaO2RwEIYyquhfiY5y-" : {
+        "date" : 1484331523659,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/a/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "98147281"
+        },
+        "read" : true,
+        "type" : "newQuestion",
+        "version" : {
+          "major" : "0",
+          "minor" : "7",
+          "patch" : "0"
+        }
+      },
+      "-KaOjkqzZ4eVL5FACdDt" : {
+        "date" : 1484343139222,
+        "info" : {
+          "commentID" : "-KaOQyQiYvaNXidDaMsD",
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "98147281"
+        },
+        "read" : true,
+        "type" : "commentUpvote"
+      },
+      "-KaOkXYl7OlmjbCDWxFT" : {
+        "date" : 1484343342794,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "98147281"
+        },
+        "read" : true,
+        "type" : "answerUpvote"
+      },
+      "-KaQL7hvpVfFFYJSoc6c" : {
+        "date" : 1484369975622,
+        "info" : {
+          "commentID" : "-KaQL516ZyelFri5SIdS",
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "98147281"
+        },
+        "read" : true,
+        "type" : "commentUpvote"
+      },
+      "-Kb5v5px7iWTVaM6vvCd" : {
+        "date" : 1485101091309,
+        "info" : {
+          "commentID" : "-Kb5kK1aGE6jHoExDhOC",
+          "pollID" : "-Kb5Tdcgo7-D_Mds-M24",
+          "postURL" : "/profile/piecedigital/p/-Kb5Tdcgo7-D_Mds-M24",
+          "questionURL" : "",
+          "sender" : "98147281"
+        },
+        "read" : true,
+        "type" : "commentUpvote"
+      },
+      "-Kd51TT87KhTP9-XRXaQ" : {
+        "date" : 1487233736112,
+        "info" : {
+          "questionID" : "-Kd51TT3_312NyyooytT",
+          "questionURL" : "/profile/83101325/a/-Kd51TT3_312NyyooytT",
+          "sender" : "98147281"
+        },
+        "read" : true,
+        "type" : "newQuestion",
+        "version" : {
+          "major" : "0",
+          "minor" : "11",
+          "patch" : "4"
+        }
+      },
+      "-Kdw_0b-2IpIHPQYgoEt" : {
+        "date" : 1488148766834,
+        "info" : {
+          "questionID" : "-Kdw_0awcEHViF6DgMOA",
+          "questionURL" : "/profile/83101325/a/-Kdw_0awcEHViF6DgMOA",
+          "sender" : "98147281"
+        },
+        "read" : false,
+        "type" : "newQuestion",
+        "version" : {
+          "major" : "0",
+          "minor" : "11",
+          "patch" : "9"
+        }
+      },
+      "-KdxTbl6vub0k0oZpstf" : {
+        "date" : 1488163865028,
+        "info" : {
+          "questionID" : "-KdxQYrvzqA7m9ERNDWK",
+          "questionURL" : "/profile/piecedigital2/q/-KdxQYrvzqA7m9ERNDWK",
+          "sender" : "98147281"
+        },
+        "read" : false,
+        "type" : "newAnswer",
+        "version" : {
+          "major" : "0",
+          "minor" : "11",
+          "patch" : "9"
+        }
+      }
+    },
+    "84043407" : {
+      "-KaVhJvte2_uzR9GL3Cu" : {
+        "date" : 1484459938557,
+        "info" : {
+          "questionID" : "-KaVhJvojzfr6Ryaep0Y",
+          "questionURL" : "/profile/84043407/a/-KaVhJvojzfr6Ryaep0Y",
+          "sender" : "83101325"
+        },
+        "read" : false,
+        "type" : "newQuestion",
+        "version" : {
+          "major" : "0",
+          "minor" : "8",
+          "patch" : "2"
+        }
+      }
+    },
+    "98147281" : {
+      "-KaOMoqYrgJMBu8igx9W" : {
+        "date" : 1484336864334,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newAnswer",
+        "version" : {
+          "major" : "0",
+          "minor" : "7",
+          "patch" : "0"
+        }
+      },
+      "-KaOQqxYP1YsIiT4eJlU" : {
+        "date" : 1484337921561,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newAnswer",
+        "version" : {
+          "major" : "0",
+          "minor" : "7",
+          "patch" : "0"
+        }
+      },
+      "-KaOQyQj2JFD-Kmc_oRa" : {
+        "date" : 1484337952165,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newQuestionComment",
+        "version" : {
+          "major" : "0",
+          "minor" : "7",
+          "patch" : "0"
+        }
+      },
+      "-KaQL518GgmwW-i7N4hi" : {
+        "date" : 1484369964681,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newQuestionComment",
+        "version" : {
+          "major" : "0",
+          "minor" : "8",
+          "patch" : "0"
+        }
+      },
+      "-KaVoLb8k8i9FBAAQcl9" : {
+        "date" : 1484461780401,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newQuestionComment",
+        "version" : {
+          "major" : "0",
+          "minor" : "8",
+          "patch" : "2"
+        }
+      },
+      "-Ka_KbKswb5rq047wp1j" : {
+        "date" : 1484537606861,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newAnswer",
+        "version" : {
+          "major" : "0",
+          "minor" : "9",
+          "patch" : "0"
+        }
+      },
+      "-Ka_LCSV7T0UScDUikha" : {
+        "date" : 1484537762990,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newAnswer",
+        "version" : {
+          "major" : "0",
+          "minor" : "9",
+          "patch" : "0"
+        }
+      },
+      "-Ka_Mqi5PZa9yikqM-EG" : {
+        "date" : 1484538194133,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newAnswer",
+        "version" : {
+          "major" : "0",
+          "minor" : "9",
+          "patch" : "0"
+        }
+      },
+      "-Ka_NAuOspOEPrfz4hOh" : {
+        "date" : 1484538280609,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/98147281/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "questionUpvote"
+      },
+      "-Kb5_LmPdIA5MSJc7Ckp" : {
+        "date" : 1485095389845,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : true,
+        "type" : "newQuestionComment",
+        "version" : {
+          "major" : "0",
+          "minor" : "9",
+          "patch" : "3"
+        }
+      },
+      "-KbYzgdQFaqzZJTI7_ql" : {
+        "date" : 1485588842509,
+        "info" : {
+          "postURL" : "/profile/piecedigital2/q/-Ka1qLlBIiCL9PhFD0N7",
+          "questionID" : "-Ka1qLlBIiCL9PhFD0N7",
+          "questionURL" : "",
+          "sender" : "83101325"
+        },
+        "read" : false,
+        "type" : "questionUpvote"
+      },
+      "-KbYzrJ4o0SOT9Pk8dvS" : {
+        "date" : 1485588886254,
+        "info" : {
+          "questionID" : "-KaO2RwBCQZL3YWu4T7P",
+          "questionURL" : "/profile/83101325/q/-KaO2RwBCQZL3YWu4T7P",
+          "sender" : "83101325"
+        },
+        "read" : false,
+        "type" : "newQuestionComment",
+        "version" : {
+          "major" : "0",
+          "minor" : "10",
+          "patch" : "5"
+        }
+      },
+      "-KdxQYrxJlAakF6hmY5p" : {
+        "date" : 1488163062656,
+        "info" : {
+          "questionID" : "-KdxQYrvzqA7m9ERNDWK",
+          "questionURL" : "/profile/98147281/a/-KdxQYrvzqA7m9ERNDWK",
+          "sender" : "83101325"
+        },
+        "read" : false,
+        "type" : "newQuestion",
+        "version" : {
+          "major" : "0",
+          "minor" : "11",
+          "patch" : "9"
+        }
+      },
+      "-KdxfNJtXIDXhMUqqZDU" : {
+        "date" : 1488167209604,
+        "info" : {
+          "postURL" : "/profile/98147281/q/-Kdw_0awcEHViF6DgMOA",
+          "questionID" : "-Kdw_0awcEHViF6DgMOA",
+          "sender" : "83101325"
+        },
+        "read" : false,
+        "type" : "questionUpvote"
+      }
+    }
+  },
+  "polls" : {
+    "-Kao8M0ES6PELxU9yhBL" : {
+      "choices" : {
+        "vote_0" : "ass",
+        "vote_1" : "tits"
+      },
+      "creator" : "83101325",
+      "date" : 1484786068172,
+      "title" : "Preference: Ass or Tits? ",
+      "version" : {
+        "major" : "0",
+        "minor" : "9",
+        "patch" : "3"
+      }
+    },
+    "-Kao8aMluCFmlVPmJ9kh" : {
+      "choices" : {
+        "vote_0" : "asdfsdff",
+        "vote_1" : "dfged assds as"
+      },
+      "creator" : "83101325",
+      "date" : 1484786131052,
+      "title" : "a;sldk;fj ;lasdldfsd",
+      "version" : {
+        "major" : "0",
+        "minor" : "9",
+        "patch" : "3"
+      }
+    },
+    "-Kb4MdK92XT27gqNS4mO" : {
+      "choices" : {
+        "vote_0" : "spears",
+        "vote_1" : "\"spears\""
+      },
+      "creator" : "83101325",
+      "date" : 1485075019053,
+      "endDate" : 1485075079053,
+      "title" : "What would you chuck?",
+      "version" : {
+        "major" : "0",
+        "minor" : "9",
+        "patch" : "3"
+      }
+    },
+    "-Kb4_jON2_pmXeE__lIa" : {
+      "choices" : {
+        "vote_0" : "alex",
+        "vote_1" : "gief"
+      },
+      "creator" : "83101325",
+      "date" : 1485078713830,
+      "endDate" : 1485078773830,
+      "title" : "the worst in sfv",
+      "version" : {
+        "major" : "0",
+        "minor" : "9",
+        "patch" : "3"
+      }
+    },
+    "-Kb4bssqeERYlty7dFQu" : {
+      "choices" : {
+        "vote_0" : "Urien",
+        "vote_1" : "Cammy"
+      },
+      "creator" : "83101325",
+      "date" : 1485079276981,
+      "endDate" : 1485079336981,
+      "title" : "the best in sfv",
+      "version" : {
+        "major" : "0",
+        "minor" : "9",
+        "patch" : "3"
+      }
+    },
+    "-Kb4cPUoDbZXx5ygwz7a" : {
+      "choices" : {
+        "vote_0" : "Chun Lie",
+        "vote_1" : "Laura"
+      },
+      "creator" : "83101325",
+      "date" : 1485079414645,
+      "endDate" : 1485079474645,
+      "title" : "best looking in sfv",
+      "version" : {
+        "major" : "0",
+        "minor" : "9",
+        "patch" : "3"
+      }
+    },
+    "-Kb5Tdcgo7-D_Mds-M24" : {
+      "choices" : {
+        "vote_0" : "Cereal",
+        "vote_1" : "CHEESE!",
+        "vote_2" : "PBJ"
+      },
+      "creator" : "83101325",
+      "date" : 1485093632079,
+      "title" : "Best food for breakfast?",
+      "version" : {
+        "major" : "0",
+        "minor" : "9",
+        "patch" : "3"
+      }
+    }
+  },
+  "questions" : {
+    "-Ka1qLlBIiCL9PhFD0N7" : {
+      ".priority" : -1.483958999854E12,
+      "body" : "falskedjfa;lsdkjfasd;lfkjasd;lfkj",
+      "creatorID" : "98147281",
+      "date" : 1483958999853,
+      "myAuth" : true,
+      "receiverID" : "83101325",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "title" : "first",
+      "version" : {
+        "major" : "0",
+        "minor" : "6",
+        "patch" : "0"
+      }
+    },
+    "-Ka1qZ74cKRHCbKqcIdH" : {
+      ".priority" : -1.483959054566E12,
+      "body" : ";alskdfjasd;lfkjasdf;lkajsdl;kj",
+      "creatorID" : "98147281",
+      "date" : 1483959054566,
+      "myAuth" : true,
+      "receiverID" : "83101325",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "title" : "seconds",
+      "version" : {
+        "major" : "0",
+        "minor" : "6",
+        "patch" : "0"
+      }
+    },
+    "-KaO2RwBCQZL3YWu4T7P" : {
+      ".priority" : -1.484331523656E12,
+      "body" : ";alsKDJFASL;DKFJASDL;FK JASDLF; AJ LJSD LA;JF L;S",
+      "creatorID" : "98147281",
+      "date" : 1484331523656,
+      "myAuth" : true,
+      "receiverID" : "83101325",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "title" : "third",
+      "version" : {
+        "major" : "0",
+        "minor" : "7",
+        "patch" : "0"
+      }
+    },
+    "-KaVhJvojzfr6Ryaep0Y" : {
+      ".priority" : -1.484459938553E12,
+      "body" : "Parryyyyyyyyyyyyyyyyyyyyyyyyy!",
+      "creatorID" : "83101325",
+      "date" : 1484459938553,
+      "myAuth" : true,
+      "receiverID" : "84043407",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "title" : "Srs Q",
+      "version" : {
+        "major" : "0",
+        "minor" : "8",
+        "patch" : "2"
+      }
+    },
+    "-Kd51TT3_312NyyooytT" : {
+      ".priority" : -1.487233736107E12,
+      "body" : "this question will be used for testing\n",
+      "creatorID" : "98147281",
+      "date" : 1487233736107,
+      "receiverID" : "83101325",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "title" : "test",
+      "version" : {
+        "major" : "0",
+        "minor" : "11",
+        "patch" : "4"
+      }
+    },
+    "-Kdw_0awcEHViF6DgMOA" : {
+      ".priority" : -1.48814876683E12,
+      "body" : "this is a testicle test thingy",
+      "creatorID" : "98147281",
+      "date" : 1488148766829,
+      "receiverID" : "83101325",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "title" : "testicle",
+      "version" : {
+        "major" : "0",
+        "minor" : "11",
+        "patch" : "9"
+      }
+    },
+    "-KdxQYrvzqA7m9ERNDWK" : {
+      "body" : "how are you ajsdlfajsflasjf;aa\n",
+      "creatorID" : "83101325",
+      "date" : 1488163062654,
+      "receiverID" : "98147281",
+      "sentStatuses" : {
+        "email" : false,
+        "notification" : false
+      },
+      "title" : "hey",
+      "version" : {
+        "major" : "0",
+        "minor" : "11",
+        "patch" : "9"
+      }
+    }
+  },
+  "ratings" : {
+    "-Ka1qLlBIiCL9PhFD0N7" : {
+      "-KbYzgcZh05xGubgTWf5" : {
+        "for" : "question",
+        "upvote" : true,
+        "userID" : "83101325",
+        "username" : "piecedigital"
+      }
+    },
+    "-KaO2RwBCQZL3YWu4T7P" : {
+      "-Ka_OnJjlIjXvhxII2r7" : {
+        "auth" : "zwfx8gxzq7d8k29n9mzzhw1xjdz0my",
+        "for" : "question",
+        "upvote" : true,
+        "userID" : "83101325",
+        "username" : "piecedigital"
+      }
+    },
+    "-Kb5Tdcgo7-D_Mds-M24" : {
+      "-Kb5olZLWOMEFqFGK1Qi" : {
+        "auth" : "v744r0ihwvjnz3unhc8rf6jn2sm7hh",
+        "commentID" : "-Kb5kK1aGE6jHoExDhOC",
+        "for" : "comment",
+        "upvote" : true,
+        "userID" : "83101325",
+        "username" : "piecedigital"
+      },
+      "-Kb5v5lg-Zz7G_9E4VxI" : {
+        "auth" : "f22n8rrllu92b8kq0dkk7vr9bfux6p",
+        "commentID" : "-Kb5kK1aGE6jHoExDhOC",
+        "for" : "comment",
+        "upvote" : true,
+        "userID" : "98147281",
+        "username" : "piecedigital2"
+      }
+    },
+    "-Kdw_0awcEHViF6DgMOA" : {
+      "-KdzQr4aSp6yLHaa3OVb" : {
+        "for" : "question",
+        "upvote" : true,
+        "userID" : "83101325"
+      }
+    }
+  },
+  "users" : {
+    "83101325" : {
+      "answersFromMe" : {
+        "-Ka1qLlBIiCL9PhFD0N7" : 1483959464134,
+        "-Ka1qZ74cKRHCbKqcIdH" : 1483959469077,
+        "-KaO2RwBCQZL3YWu4T7P" : 1484538194130
+      },
+      "bookmarks" : {
+        "users" : {
+          "daigothebeastv" : {
+            "date" : 1484017999095,
+            "username" : "daigothebeastv",
+            "version" : {
+              "major" : "0",
+              "minor" : "7",
+              "patch" : "0"
+            }
+          },
+          "foo" : {
+            "date" : 1485768533735,
+            "username" : "foo",
+            "version" : {
+              "major" : "0",
+              "minor" : "10",
+              "patch" : "5"
+            }
+          },
+          "gamenewton" : {
+            "date" : 1484007610350,
+            "username" : "gamenewton",
+            "version" : {
+              "major" : "0",
+              "minor" : "6",
+              "patch" : "0"
+            }
+          },
+          "katgunn" : {
+            "date" : 1485773113302,
+            "username" : "katgunn",
+            "version" : {
+              "major" : "0",
+              "minor" : "10",
+              "patch" : "5"
+            }
+          },
+          "taimoutv" : {
+            "date" : 1484890903977,
+            "username" : "taimoutv",
+            "version" : {
+              "major" : "0",
+              "minor" : "9",
+              "patch" : "3"
+            }
+          },
+          "twingalaxieslive" : {
+            "date" : 1485401150915,
+            "username" : "twingalaxieslive",
+            "version" : {
+              "major" : "0",
+              "minor" : "10",
+              "patch" : "0"
+            }
+          },
+          "xxfoxkilla170xx" : {
+            "date" : 1485028773889,
+            "username" : "xxfoxkilla170xx",
+            "version" : {
+              "major" : "0",
+              "minor" : "9",
+              "patch" : "3"
+            }
+          }
+        }
+      },
+      "questionsForMe" : {
+        "-Ka1qLlBIiCL9PhFD0N7" : 1483958999853,
+        "-Ka1qZ74cKRHCbKqcIdH" : 1483959054566,
+        "-KaO2RwBCQZL3YWu4T7P" : 1484331523656,
+        "-Kd51TT3_312NyyooytT" : 1487233736107,
+        "-Kdw_0awcEHViF6DgMOA" : {
+          ".value" : 1488148766829,
+          ".priority" : -1.488148766837E12
+        }
+      },
+      "questionsForThem" : {
+        "-KaVhJvojzfr6Ryaep0Y" : 1484459938553,
+        "-Ka_IsvE2Q6wLSxM5swL" : 1484537154619,
+        "-Ka_Ju4sh4tcuAXSPvn1" : 1484537421523,
+        "-KdxQYrvzqA7m9ERNDWK" : 1488163062654
+      }
+    },
+    "84043407" : {
+      "questionsForMe" : {
+        "-KaVhJvojzfr6Ryaep0Y" : 1484459938553
+      }
+    },
+    "98147281" : {
+      "answersFromMe" : {
+        "-KdxQYrvzqA7m9ERNDWK" : 1488163865021
+      },
+      "pollsParticipated" : {
+        "-Kao8M0ES6PELxU9yhBL" : true
+      },
+      "questionsForMe" : {
+        "-KdxQYrvzqA7m9ERNDWK" : 1488163062654
+      },
+      "questionsForThem" : {
+        "-Ka1qLlBIiCL9PhFD0N7" : 1483958999853,
+        "-Ka1qZ74cKRHCbKqcIdH" : 1483959054566,
+        "-KaO2RwBCQZL3YWu4T7P" : 1484331523656,
+        "-Kd51TT3_312NyyooytT" : 1487233736107,
+        "-KdwZjE9f_lfLHE9OWcj" : {
+          ".value" : 1488148691580,
+          ".priority" : -1.48814869159E12
+        },
+        "-Kdw_0awcEHViF6DgMOA" : {
+          ".value" : 1488148766829,
+          ".priority" : -1.488148766838E12
+        }
+      }
+    }
+  }
+}

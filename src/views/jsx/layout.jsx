@@ -355,7 +355,7 @@ export default React.createClass({
         })
         break;
         default:
-        console.log(nextProps.location.state);
+        // console.log(nextProps.location.state);
         if(!overlay) this.popUpHandler("close", {
           newReturn: (nextProps.location.state && nextProps.location.state.returnTo) ? nextProps.location.state.returnTo : null
         });
@@ -377,7 +377,7 @@ export default React.createClass({
           pathname: nextProps.location.pathname,
           state: {
             modal: true,
-            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || `/profile/${nextProps.params.username || ""}` : `/profile/${nextProps.params.username || ""}`
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo : nextProps.params.username ? `/profile/${nextProps.params.username}` : nextProps.location.pathname
           }
         })
         // console.log("change overlay");
@@ -393,7 +393,7 @@ export default React.createClass({
           pathname: nextProps.location.pathname,
           state: {
             modal: true,
-            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || `/profile/${nextProps.params.username || ""}` : `/profile/${nextProps.params.username || ""}`
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo : nextProps.params.username ? `/profile/${nextProps.params.username}` : nextProps.location.pathname
           }
         })
         // console.log("change overlay");

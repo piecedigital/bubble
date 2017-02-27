@@ -237,6 +237,29 @@ export const CommentTool = React.createClass({
 
 export const CommentItem = React.createClass({
   displayName: "CommentItem",
+  getInitialState: () => ({ username: null }),
+  componentDidMount() {
+    const {
+      commentData
+    } = this.props;
+
+    loadData.call(this, e => {
+      console.error(e.stack);
+    }, {
+      userID: commentData.userID
+    })
+    .then(methods => {
+      methods
+      .getUserByName()
+      .then(data => {
+        this.setState({
+          username: data.name
+        })
+      })
+      .catch((e = null) => console.error(e));
+    })
+    .catch((e = null) => console.error(e));
+  },
   render() {
     const {
       auth,
@@ -251,13 +274,15 @@ export const CommentItem = React.createClass({
       commentID,
       commentData,
     } = this.props;
+    const { username } = this.state;
 
+    if(!username) return null;
     // console.log("commentitem", commentID);
     return (
       <div className="section">
         <label className="comment">
           <div className="label">
-            <div className="label username"><Link to={`/profile/${commentData.username}`}>{commentData.username}</Link></div>
+            <div className="label username"><Link to={`/profile/${username}`}>{username}</Link></div>
             <p>{commentData.body}</p>
             </div>
           {

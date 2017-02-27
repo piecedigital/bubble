@@ -62,7 +62,11 @@ let components = {
             <div className="image">
               <CImg
                 for="video-list-item"
-                src={preview} />
+                style={{
+                  width: 136,
+                  height: 102
+                }}
+                src={preview.template.replace("{width}", 136).replace("{height}", 102)} />
             </div>
             <div className="info">
               <div className="channel-name">
@@ -112,9 +116,9 @@ export default React.createClass({
         userData,
       } = this.props;
       let {
-        broadcasts
+        archive
       } = this.props;
-      broadcasts = (typeof broadcasts !== "boolean") ? true : broadcasts;
+      archive = (typeof archive !== "boolean") ? true : archive;
       let username;
       if(params && params.username) {
         username = params.username;
@@ -134,7 +138,7 @@ export default React.createClass({
           offset,
           limit,
           username,
-          broadcasts,
+          archive,
           stream_type: "all"
         })
         .then(methods => {
@@ -213,20 +217,23 @@ export default React.createClass({
       this.scrollEvent();
     }, 100);
     // rerun gather data if...
-    const last = this.props.params.username,
-    curr = nextProps.params.username,
-    signedIn = this.props.userData ? this.props.userData.name : "";
-    // console.log("new name", last, curr, signedIn);
-    if(last || curr) {
-      if(
-        // ... username changes
-        last !== signedIn &&
-        curr !== signedIn &&
-        last !== curr
-      ) {
-        this.gatherData(this.state.limit, 0, null, true);
-      }
+    if(this.props.params.username !== nextProps.params.username) {
+      this.gatherData(this.state.limit, 0, null, true);
     }
+    // const last = this.props.params.username,
+    // curr = nextProps.params.username,
+    // signedIn = this.props.userData ? this.props.userData.name : "";
+    // // console.log("new name", last, curr, signedIn);
+    // if(last || curr) {
+    //   if(
+    //     // ... username changes
+    //     last !== signedIn &&
+    //     curr !== signedIn &&
+    //     last !== curr
+    //   ) {
+    //     this.gatherData(this.state.limit, 0, null, true);
+    //   }
+    // }
   },
   componentDidMount() {
     this.gatherData();

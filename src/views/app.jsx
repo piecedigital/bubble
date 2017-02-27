@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import { Router, Route, Link, browserHistory as History } from 'react-router';
+import { Router, Redirect, Route, Link, browserHistory as History } from 'react-router';
 import Layout from "./jsx/layout.jsx";
 import Home from "./jsx/home.jsx";
 import About from "./jsx/about.jsx";
@@ -33,6 +33,7 @@ function checkAuth(Component, props) {
     }
   }
 }
+
 render((
   <Router history={History}>
     <Route path="" page="root" component={Layout}>
@@ -46,7 +47,7 @@ render((
       </Route>
       <Route path="/terms-of-service" page="about" component={TOS}>
       </Route>
-      <Route path="/profile(/:username(/:q/:postID))" page="profile" component={checkAuth.bind(null, Profile)}>
+      <Route path="/profile/:username(/:q/:postID)" page="profile" component={checkAuth.bind(null, Profile)}>
       </Route>
       <Route path="/:page" page="streams" component={GeneralPage}>
       </Route>

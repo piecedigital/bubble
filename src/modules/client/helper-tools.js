@@ -1,5 +1,6 @@
 import React from "react";
 import { ajax } from "./ajax";
+import loadData from "./load-data";
 
 export const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -88,7 +89,7 @@ export const calculateRatings = function(options, cb) {
 
     if(ratingsData[vote].upvote) calculatedRatings[place].upvotes.push(true);
     if(!ratingsData[vote].upvote) calculatedRatings[place].downvotes.push(true);
-    if(userData && voteData.username === userData.name) {
+    if(userData && voteData.userID === userData._id) {
       calculatedRatings[place].myVote = voteData.upvote;
       calculatedRatings[place].for = voteData.for;
     }
@@ -151,7 +152,7 @@ export const listenOnNewRatings = function(postID, fireRef, modCB, cb) {
   refNode.on("child_changed", cb);
   refNode.on("child_removed", cb);
   return function kill() {
-    console.log("killing ratings listeners");
+    // console.log("killing ratings listeners");
     refNode.off("child_added", cb);
     refNode.off("child_changed", cb);
     refNode.off("child_removed", cb);
@@ -196,7 +197,7 @@ export const CImg = React.createClass({
     this.makeBlankImage();
     if(!this.props.noImgRequest) {
       setTimeout(() => {
-        this.setImage(src);
+        if(src) this.setImage(src);
       }, 100);
     }
   },
@@ -289,3 +290,50 @@ export const CImg = React.createClass({
     );
   }
 });
+
+export const getUsername = function (userIDList, needIDInstead) {
+  return new Promise(function(resolve, reject) {
+
+    // only want to work with an array
+    // if it's a string, put it in an array
+    if(!Array.isArray(userIDList)) {
+      userIDList = [userIDList];
+    }
+
+    let users = [];
+
+    userIDList.map((userText, ind) => {
+      let username, userID;
+      if(needIDInstead) {
+        username = userText;
+      } else {
+        userID = userText;
+      }
+
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        userID,
+        username
+      })
+      .then(methods => {
+        methods
+        .getUserByName()
+        .then(data => {
+          users.push(data);
+
+          // resolve
+          if(ind >= (userIDList.length - 1)) resolve(users);
+        })
+        .catch((e = null) => console.error(e));
+      })
+      .catch((e = null) => console.error(e));
+
+    });
+
+  });
+}
+
+export const getUserID = function(data) {
+  return getUsername(data, true);
+}

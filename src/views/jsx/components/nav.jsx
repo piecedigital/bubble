@@ -151,7 +151,7 @@ export default React.createClass({
                   <div className="nav-item with-submenu" onClick={this.toggleNav}>
                     My Stuff
                     <div className="submenu">
-                      <Link key="profile" className="nav-item" href={`/profile`} to={`/profile`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link>
+                      <Link key="profile" className="nav-item" href={`/profile/${userData.name}`} to={`/profile/${userData.name}`} onClick={this.toggleNav.bind(null, "close")}>Profile</Link>
                       <a key="notifications" className="nav-item" href={`#`} onClick={() => {
                         this.toggleNav("close");
                         popUpHandler("viewNotifications");

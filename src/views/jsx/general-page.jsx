@@ -130,6 +130,7 @@ export default React.createClass({
   displayName: "StreamsPage",
   getInitialState() {
     return {
+      page: this.props.params ? this.props.params.page : null,
       requestOffset: 0,
       dataArray: []
     }
@@ -142,6 +143,7 @@ export default React.createClass({
       params,
       location
     } = this.props;
+    if(!params.page) return;
     if(loadData) {
       let capitalType = params.page.replace(/^(.)/, (_, letter) => {
         return letter.toUpperCase();
@@ -173,16 +175,22 @@ export default React.createClass({
     }
   },
   componentDidMount() { this.gatherData(); },
+  shouldComponentUpdate(nextProps) {
+    return !!this.props.params.page || !!nextProps.params.page;
+  },
   componentWillReceiveProps(nextProps) {
-    console.log("updated");
-    if(this.props.params.page !== nextProps.params.page) {
-      setTimeout(() => {
-        this.setState({
-          dataArray: [],
-          requestOffset: 0
-        }, () => {
-          this.gatherData();
-        });
+    // console.log("updated");
+    this.setState({
+      page: nextProps.params.page || this.state.page
+    });
+  },
+  componentDidUpdate(_, oldState) {
+    if(this.state.page !== oldState.page) {
+      this.setState({
+        dataArray: [],
+        requestOffset: 0
+      }, () => {
+        this.gatherData();
       });
     }
   },
@@ -190,7 +198,8 @@ export default React.createClass({
     const {
       requestOffset,
       dataArray,
-      component
+      component,
+      page
     } = this.state;
     const {
       auth,
@@ -207,7 +216,7 @@ export default React.createClass({
     if(component) {
       const ListItem = components[component];
       return (
-        <div className={`top-level-component ${params ? params.page : data.page}`}>
+        <div className={`top-level-component ${page || (params ? params.page : data.page)}`}>
           <div className="general-page">
             <div className="wrapper">
               <ul className="list">

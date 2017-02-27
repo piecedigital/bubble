@@ -59,7 +59,7 @@ export default React.createClass({
                 <div key="5" className="separator-4-black" />,
 
                 params.username || userData ? (
-                  <VideosListing key="6" broadcasts={true} {...this.props} />
+                  <VideosListing key="6" archive={true} {...this.props} />
                 ) : null,
               ]
             ) : null

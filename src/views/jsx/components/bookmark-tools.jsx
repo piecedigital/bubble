@@ -11,7 +11,7 @@ const BookmarkItem = React.createClass({
       username
     } = this.props;
     fireRef.usersRef
-    .child(`${userData.name}/bookmarks/users/${username}`)
+    .child(`${userData._id}/bookmarks/users/${username}`)
     .set(null);
   },
   render() {
@@ -72,7 +72,7 @@ export const ViewBookmarks = React.createClass({
     };
 
     fireRef.usersRef
-    .child(`${userData.name}/bookmarks/users/${username}`)
+    .child(`${userData._id}/bookmarks/users/${username}`)
     .set(bookmarkObject);
 
     this.refs["new-bookmark"].value = "";
@@ -84,7 +84,7 @@ export const ViewBookmarks = React.createClass({
     } = this.props;
 
     fireRef.usersRef
-    .child(`${userData.name}/bookmarks/users`)
+    .child(`${userData._id}/bookmarks/users`)
     .once("value")
     .then(snap => {
       this.setState({
@@ -93,7 +93,7 @@ export const ViewBookmarks = React.createClass({
     });
 
     let refNode = fireRef.usersRef
-    .child(`${userData.name}/bookmarks/users`);
+    .child(`${userData._id}/bookmarks/users`);
     refNode.on("child_added", this.newBookmark)
     refNode.on("child_removed", this.removedBookmark)
   },
@@ -103,7 +103,7 @@ export const ViewBookmarks = React.createClass({
       userData,
     } = this.props;
     let refNode = fireRef.usersRef
-    .child(`${userData.name}/bookmarks/users`);
+    .child(`${userData._id}/bookmarks/users`);
     refNode.off("child_added", this.newBookmark)
     refNode.off("child_removed", this.removedBookmark)
   },

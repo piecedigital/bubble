@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from 'react-router';
+import { getUsername } from "../../../modules/client/helper-tools";
 
 const NotifItem = React.createClass({
   displayName: "NotifItem",
   getInitialState: () => ({
     questionData: null,
-    pollData: null
+    pollData: null,
+    senderName: null
   }),
   markRead() {
     const {
@@ -15,7 +17,7 @@ const NotifItem = React.createClass({
       data
     } = this.props;
     fireRef.notificationsRef
-    .child(`${userData.name}/${notifID}/read`)
+    .child(`${userData._id}/${notifID}/read`)
     .set(true);
   },
   getMessage() {
@@ -26,7 +28,8 @@ const NotifItem = React.createClass({
     } = this.props;
     const {
       questionData,
-      pollData
+      pollData,
+      senderName
     } = this.state;
     let object = {
       "message": "You have a new notification"
@@ -36,19 +39,19 @@ const NotifItem = React.createClass({
 
     switch (data.type) {
       case "newQuestion":
-        object.message = `${data.info.sender} asked a question: "${postData.title}"`;
+        object.message = `${senderName} asked a question: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
       break;
       case "newAnswer":
-        object.message = `${data.info.sender} answered your question: "${postData.title}"`;
+        object.message = `${senderName} answered your question: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
       break;
       case "newQuestionComment":
-        object.message = `${data.info.sender} commented on a question: "${postData.title}"`;
+        object.message = `${senderName} commented on a question: "${postData.title}"`;
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = questionData ? "viewQuestion" : "viewPoll";
@@ -79,6 +82,13 @@ const NotifItem = React.createClass({
       fireRef,
       data
     } = this.props;
+
+    getUsername([data.info.sender])
+    .then(dataArr => {
+      this.setState({
+        senderName: dataArr[0].name
+      })
+    });
 
     if(
       data &&
@@ -126,8 +136,11 @@ const NotifItem = React.createClass({
 
     const {
       questionData,
-      pollData
+      pollData,
+      senderName
     } = this.state;
+
+    if(!questionData || !senderName) return null;
 
     switch (data.type) {
       case "newQuestion":
@@ -199,7 +212,7 @@ export const ViewNotifications = React.createClass({
       // console.log("prep 2");
       const key = snap.getKey();
       const val = snap.val();
-      if(key === userData.name) {
+      if(key === userData._id) {
         fireRef.notificationsRef
         .off("child_added", temp);
         this.initListener();
@@ -216,7 +229,7 @@ export const ViewNotifications = React.createClass({
     } = this.props;
 
     const nodeRef = fireRef.notificationsRef
-    .child(userData.name);
+    .child(userData._id);
     nodeRef.once("value")
     .then(snap => {
       this.setState({
@@ -234,7 +247,7 @@ export const ViewNotifications = React.createClass({
   newNotif(snap) {
     const key = snap.getKey();
     const val = snap.val();
-    console.log("new notif", key, val);
+    // console.log("new notif", key, val);
     const newNotifications = Object.assign(JSON.parse(JSON.stringify(this.state.notifications || {})), {
       [key]: val
     });

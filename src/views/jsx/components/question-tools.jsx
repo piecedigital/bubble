@@ -314,7 +314,7 @@ export const AnswerQuestion = React.createClass({
     .catch(e => console.error(e.val ? e.val() : e));
     // write answer reference to user account
     fireRef.usersRef
-    .child(questionData.receiver)
+    .child(questionData.receiverID)
     .child("answersFromMe")
     .child(questionID)
     .set(answerObject.date)
@@ -325,7 +325,7 @@ export const AnswerQuestion = React.createClass({
     let notifObject = {
       type: "newAnswer",
       info: {
-        sender: userData.name,
+        sender: userData._id,
         questionID: questionID,
         questionURL: `/profile/${userData.name}/q/${questionID}`
       },
@@ -335,7 +335,7 @@ export const AnswerQuestion = React.createClass({
     };
     // send notif
     fireRef.notificationsRef
-    .child(questionData.creator)
+    .child(questionData.creatorID)
     .push()
     .set(notifObject)
     .catch(e => console.error(e.val ? e.val() : e));
@@ -409,15 +409,39 @@ export const AnswerQuestion = React.createClass({
       getAnswerData(questionID, fireRef, null, answerData => {
         // console.log("got answer data", answerData);
 
+        // immediately show the answer if there is one
         if(answerData) {
           popUpHandler("viewQuestion", {
             questionID
           });
         } else {
-          if(questionData.receiver === userData.name) {
-            this.setState({
-              questionData
-            });
+          // else, thiw question needs to be answered
+          // get the username of the creator
+          if(questionData.receiverID === userData._id) {
+            new Promise(function(resolve, reject) {
+              loadData.call(this, e => {
+                console.error(e.stack);
+              }, {
+                userID: questionData.creatorID
+              })
+              .then(methods => {
+                methods
+                .getUserByName()
+                .then(data => {
+                  resolve(Object.assign(questionData, {
+                    creator: data.name
+                  }));
+                })
+                .catch((e = null) => console.error(e));
+              })
+              .catch((e = null) => console.error(e));
+            })
+            .then(questionData => {
+              this.setState({
+                questionData
+              });
+            })
+            .catch(e => console.error(e));
           }
         }
       });
@@ -584,9 +608,51 @@ export const ViewQuestion = React.createClass({
 
     // get question data
     getQuestionData(questionID, fireRef, null, questionData => {
-      this.setState({
-        questionData
-      });
+      new Promise(function(resolve, reject) {
+
+        // first, creator
+        loadData.call(this, e => {
+          console.error(e.stack);
+        }, {
+          userID: questionData.creatorID
+        })
+        .then(methods => {
+          methods
+          .getUserByName()
+          .then(creatorData => {
+            console.log("feature creatorData", creatorData);
+            // then, receiver
+            loadData.call(this, e => {
+              console.error(e.stack);
+            }, {
+              userID: questionData.receiverID
+            })
+            .then(methods => {
+              methods
+              .getUserByName()
+              .then(receiverData => {
+                console.log("feature receiverData", receiverData);
+                resolve(Object.assign(questionData, {
+                  creator: creatorData.name,
+                  receiver: receiverData.name
+                }));
+              })
+              .catch((e = null) => console.error(e));
+            })
+            .catch((e = null) => console.error(e));
+
+          })
+          .catch((e = null) => console.error(e));
+        })
+        .catch((e = null) => console.error(e));
+
+      })
+      .then(questionData => {
+        this.setState({
+          questionData
+        });
+      })
+      .catch(e => console.error(e))
     });
     getAnswerData(questionID, fireRef, null, answerData => {
       this.setState({
@@ -842,8 +908,8 @@ export const ViewAskedQuestions = React.createClass({
     } = this.props;
 
     fireRef.questionsRef
-    .orderByChild("creator")
-    .equalTo(userData.name)
+    .orderByChild("creatorID")
+    .equalTo(userData._id)
     .once("value")
     .then(snap => {
       const questionData = snap.val();
@@ -852,8 +918,8 @@ export const ViewAskedQuestions = React.createClass({
       });
     });
     fireRef.answersRef
-    .orderByChild("username")
-    .equalTo(userData.name)
+    .orderByChild("userID")
+    .equalTo(userData._id)
     .once("value")
     .then(snap => {
       const answerData = snap.val();

@@ -5,8 +5,7 @@ import {
   CommentTool,
   CommentItem
 } from "./comment-tools.jsx";
-// import VoteTool from "./vote-tool.jsx";
-// import { ajax } from "../../../modules/client/ajax";
+import { getUsername } from "../../../modules/client/helper-tools";
 
 // poll creation related components
 const ChoiceInput = React.createClass({
@@ -78,11 +77,11 @@ export const MakePoll = React.createClass({
 
     let pollObject = {
       title: title.value,
-      creator: userData.name,
+      creatorID: userData._id,
       choices,
       // "votes": {
-      //   <username>: {
-      //     "username": <username>,
+      //   <userID>: {
+      //     "userID": <userID>,
       //     "vote": String (vote_<Number>)
       //   }
       // },
@@ -92,7 +91,7 @@ export const MakePoll = React.createClass({
     };
 
     if(!this.state.validation.titleValid) return;
-    console.log("poll object:", pollObject);
+    // console.log("poll object:", pollObject);
     // return console.log("poll object:", pollObject);
 
     // write question to `questions` node
@@ -320,7 +319,6 @@ export const MakePoll = React.createClass({
   }
 });
 
-
 // poll voting related components
 const ChoiceOption = React.createClass({
   displayName: "ChoiceOption",
@@ -341,13 +339,13 @@ const ChoiceOption = React.createClass({
     fireRef.pollsRef
     .child(pollID)
     .child("votes")
-    .child(userData.name)
+    .child(userData._id)
     .set({
-      username: userData.name,
+      userID: userData._id,
       vote: choiceID
     });
     fireRef.usersRef
-    .child(userData.name)
+    .child(userData._id)
     .child("pollsParticipated")
     .child(pollID)
     .set(true);
@@ -379,6 +377,7 @@ export const VotePoll = React.createClass({
   displayName: "VotePoll",
   getInitialState: () => ({
     pollData: null,
+    creatorName: null,
   }),
   getPollData() {
     const {
@@ -394,15 +393,21 @@ export const VotePoll = React.createClass({
     .child(pollID)
     .once("value")
     .then(snap => {
-      const pollData = snap.val();
+      let pollData = snap.val();
       if(!pollData) return;
-      if(pollData.votes && pollData.votes[userData.name]) {
+      if(pollData.votes && pollData.votes[userData._id]) {
         return popUpHandler("viewPoll", {
           pollID
         });
       }
-      this.setState({
-        pollData
+      getUsername([pollData.creatorID])
+      .then(dataArr => {
+        pollData = Object.assign(pollData, {
+          creator: dataArr[0].name
+        });
+        this.setState({
+          pollData
+        });
       });
     });
   },
@@ -536,15 +541,22 @@ export const ViewPoll = React.createClass({
     .child(pollID)
     .once("value")
     .then(snap => {
-      const pollData = snap.val();
+      let pollData = snap.val();
       if(!pollData) return;
-      this.setState({
-        pollData
-      }, () => {
-        if(pollData) {
-          this.timeTicker();
-          this.initVoteListener();
-        }
+
+      getUsername([pollData.creatorID])
+      .then(dataArr => {
+        pollData = Object.assign(pollData, {
+          creator: dataArr[0].name
+        });
+        this.setState({
+          pollData
+        }, () => {
+          if(pollData) {
+            this.timeTicker();
+            this.initVoteListener();
+          }
+        });
       });
     });
   },
@@ -781,7 +793,7 @@ export const ViewPoll = React.createClass({
                 !userData ? "Login to vote!" :
                 Date.now() >= pollData.endDate ? "Voting closed" :
                 !pollData.votes ||
-                !pollData.votes[userData.name] ? (
+                !pollData.votes[userData._id] ? (
                   <button className="submit btn-default" onClick={popUpHandler.bind(null, "votePoll", { pollID })}>Vote On Poll</button>
                 ) : "You've casted your vote!"
               }
@@ -819,8 +831,17 @@ export const ViewPoll = React.createClass({
 const CreatedItem = React.createClass({
   displayName: "CreatedItem",
   getInitialState: () => ({
-    pollData: null
+    pollData: null,
+    creatorName: null
   }),
+  componentDidMount() {
+    getUsername([this.props.pollData.creatorID])
+    .then(dataArr => {
+      this.setState({
+        creatorName: dataArr[0].name
+      });
+    })
+  },
   render() {
     const {
       pollID,
@@ -832,8 +853,11 @@ const CreatedItem = React.createClass({
     } = this.props;
 
     const {
-      // pollData
+      creatorName
     } = this.state;
+
+    if(!creatorName) return null;
+
     let completed, symbol = "&#x2716;";
 
     if(Date.now() >= pollData.endDate) {
@@ -845,7 +869,7 @@ const CreatedItem = React.createClass({
       <div className="poll-item">
         <label>
           <Link className="name" to={{
-            pathname: `/profile/${pollData.creator}/p/${pollID}`,
+            pathname: `/profile/${creatorName}/p/${pollID}`,
             state: {
               modal: true,
               returnTo: location.pathname
@@ -876,11 +900,16 @@ const ParticipatedItem = React.createClass({
     .child(pollID)
     .once("value")
     .then(snap => {
-      const pollData = snap.val();
+      let pollData = snap.val();
       console.log("got poll data", pollData);
-      this.setState({
-        pollData
-      });
+      getUsername([pollData.creatorID])
+      .then(dataArr => {
+        console.log(dataArr);
+        pollData.creator = dataArr[0].name;
+        this.setState({
+          pollData
+        });
+      })
     });
   },
   render() {
@@ -939,8 +968,8 @@ export const ViewCreatedPolls = React.createClass({
     } = this.props;
 
     fireRef.pollsRef
-    .orderByChild("creator")
-    .equalTo(userData.name)
+    .orderByChild("creatorID")
+    .equalTo(userData._id)
     .once("value")
     .then(snap => {
       const polls = snap.val();
@@ -949,7 +978,7 @@ export const ViewCreatedPolls = React.createClass({
       });
     });
     fireRef.usersRef
-    .child(userData.name)
+    .child(userData._id)
     .child("pollsParticipated")
     .once("value")
     .then(snap => {

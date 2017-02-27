@@ -28,7 +28,7 @@ export default React.createClass({
     } = this.props;
     const voteData = {
       "for": place,
-      "username": userData._id,
+      "userID": userData._id,
       "upvote": vote
     };
     // return console.log("vote data:", voteData);
@@ -52,7 +52,7 @@ export default React.createClass({
       // checks each rating for their place (for)
       Object.keys(votes || {}).map(ratingID => {
         const ratingData = votes[ratingID];
-        if(ratingData.username !== userData._id) return;
+        if(ratingData.userID !== userData._id) return;
         if(place === "comment") {
           // console.log("comment IDs", ratingData.commentID, commentID, ratingData.commentID === commentID);
           voteTypes[ratingData.for] = (commentID === ratingData.commentID) ? ratingID : voteTypes[ratingData.for];
