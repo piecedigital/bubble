@@ -28,7 +28,7 @@ export default React.createClass({
     } = this.props;
     const voteData = {
       "for": place,
-      "username": userData.name,
+      "username": userData._id,
       "upvote": vote
     };
     // return console.log("vote data:", voteData);
@@ -52,7 +52,7 @@ export default React.createClass({
       // checks each rating for their place (for)
       Object.keys(votes || {}).map(ratingID => {
         const ratingData = votes[ratingID];
-        if(ratingData.username !== userData.name) return;
+        if(ratingData.username !== userData._id) return;
         if(place === "comment") {
           // console.log("comment IDs", ratingData.commentID, commentID, ratingData.commentID === commentID);
           voteTypes[ratingData.for] = (commentID === ratingData.commentID) ? ratingID : voteTypes[ratingData.for];
@@ -85,9 +85,9 @@ export default React.createClass({
       };
       // depending on the `place` gets the username of the question creator, receiver, or commenter
       const receiverObject = {
-        "question": questionID ? questionData.creator : null,
-        "answer": questionID ? questionData.receiver : null,
-        "comment": commentData ? commentData.username : null,
+        "question": questionID ? questionData.creatorID : null,
+        "answer": questionID ? questionData.receiverID : null,
+        "comment": commentData ? commentData.userID : null,
       };
 
       // send notification
@@ -96,7 +96,7 @@ export default React.createClass({
       let notifObject = {
         type: placeObject[place],
         info: {
-          sender: userData.name,
+          sender: userData._id,
           questionID: questionID || null,
           pollID: pollID || null,
           commentID: commentID || null,
@@ -107,7 +107,7 @@ export default React.createClass({
       };
       // console.log("sending object");
       // send notif
-      if(receiverObject[place] !== userData.name) {
+      if(receiverObject[place] !== userData._id) {
         if(voteData.upvote) {
           // check if the user already sent an upvote notification
           fireRef.notificationsRef

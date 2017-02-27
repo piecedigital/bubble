@@ -6,6 +6,7 @@ getQuestionData,
 getAnswerData,
 getRatingsData,
 getCommentsData } from "../../../modules/client/helper-tools";
+import loadData from "../../../modules/client/load-data";
 import VoteTool from "./vote-tool.jsx";
 import {
   CommentTool,
@@ -47,68 +48,91 @@ export const AskQuestion = React.createClass({
       title,
       body,
     } = this.refs;
-    let questionObject = {
-      // true if `access_token` exists
-      creator: from,
-      receiver: to,
-      title: title.value,
-      body: body.value,
-      date: new Date().getTime(),
-      sentStatuses: {
-        "email": false,
-        "notification": false
-      },
-      version: versionData
-    };
+    // get IDs for usernames
+    new Promise(function(resolve, reject) {
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        usernameList: [to, from]
+      })
+      .then(methods => {
+        methods
+        .getUserID()
+        .then(data => {
+          // console.log("feature data", data);
+          const toID = data.users[0]._id;
+          const fromID = data.users[1]._id;
+          resolve({ toID, fromID });
+        })
+        .catch((e = null) => console.error(e));
+      })
+      .catch((e = null) => console.error(e));
+    })
+    .then(({toID, fromID}) => {
+      let questionObject = {
+        // true if `access_token` exists
+        creatorID: fromID,
+        receiverID: toID,
+        title: title.value,
+        body: body.value,
+        date: new Date().getTime(),
+        sentStatuses: {
+          "email": false,
+          "notification": false
+        },
+        version: versionData
+      };
 
-    if(!this.state.validation.titleValid && !this.state.validation.bodyValid) return;
-    // console.log("question object:", questionObject);
-    // write question to `questions` node
-    let questionID = fireRef.root.push().getKey();
-    // console.log(questionID);
-    fireRef.questionsRef
-    .child(questionID)
-    .setWithPriority(questionObject, 0 - Date.now())
-    .catch(e => console.error(e.val ? e.val() : e));
+      if(!this.state.validation.titleValid && !this.state.validation.bodyValid) return;
+      // return console.log("question object:", questionObject);
+      // write question to `questions` node
+      let questionID = fireRef.root.push().getKey();
+      // console.log(questionID);
+      fireRef.questionsRef
+      .child(questionID)
+      .set(questionObject)
+      .catch(e => console.error(e.val ? e.val() : e));
 
-    // send notification
-    // create notif obejct
-    let notifObject = {
-      type: "newQuestion",
-      info: {
-        sender: from,
-        questionID: questionID,
-        questionURL: `/profile/${to}/a/${questionID}`
-      },
-      read: false,
-      date: new Date().getTime(),
-      version: versionData
-    };
-    // send notif
-    fireRef.notificationsRef
-    .child(to)
-    .push()
-    .set(notifObject)
-    .catch(e => console.error(e.val ? e.val() : e));
-    // write question ID reference to user.<username>.questionsForMe
-    fireRef.usersRef
-    .child(`${to}/questionsForMe/${questionID}`)
-    .setWithPriority(questionObject.date, 0 - Date.now())
-    .catch(e => console.error(e.val ? e.val() : e));
-    // write question ID reference to user.<username>.questionsForThem
-    fireRef.usersRef
-    .child(`${from}/questionsForThem/${questionID}`)
-    .setWithPriority(questionObject.date, 0 - Date.now())
-    .catch(e => console.error(e.val ? e.val() : e));
+      // send notification
+      // create notif obejct
+      let notifObject = {
+        type: "newQuestion",
+        info: {
+          sender: fromID,
+          questionID: questionID,
+          questionURL: `/profile/${toID}/a/${questionID}`
+        },
+        read: false,
+        date: new Date().getTime(),
+        version: versionData
+      };
+      // send notif
+      fireRef.notificationsRef
+      .child(toID)
+      .push()
+      .set(notifObject)
+      .catch(e => console.error(e.val ? e.val() : e));
+      // write question ID reference to user.<username>.questionsForMe
+      fireRef.usersRef
+      .child(`${toID}/questionsForMe/${questionID}`)
+      .set(questionObject.date)
+      .catch(e => console.error(e.val ? e.val() : e));
+      // write question ID reference to user.<username>.questionsForThem
+      fireRef.usersRef
+      .child(`${fromID}/questionsForThem/${questionID}`)
+      .set(questionObject.date)
+      .catch(e => console.error(e.val ? e.val() : e));
 
-    // close the pop up
-    this.setState({
-      success: true
-    }, () => {
-      setTimeout(() => {
-        this.props.methods.popUpHandler("close")
-      }, 2000)
-    });
+      // close the pop up
+      this.setState({
+        success: true
+      }, () => {
+        setTimeout(() => {
+          this.props.methods.popUpHandler("close")
+        }, 2000)
+      });
+    })
+    .catch((e = {}) => console.error(e));
   },
   validate(name, e) {
     // name will be the same as a referenced element
@@ -270,7 +294,7 @@ export const AnswerQuestion = React.createClass({
     }
 
     let answerObject = {
-      "username": userData.name,
+      "userID": userData._id,
       "body": body.value + t,
       answerType,
       "questionID": questionID,
@@ -286,14 +310,14 @@ export const AnswerQuestion = React.createClass({
     // write answer to `answers` node
     fireRef.answersRef
     .child(questionID)
-    .setWithPriority(answerObject, 0 - Date.now())
+    .set(answerObject)
     .catch(e => console.error(e.val ? e.val() : e));
     // write answer reference to user account
     fireRef.usersRef
     .child(questionData.receiver)
     .child("answersFromMe")
     .child(questionID)
-    .setWithPriority(answerObject.date, 0 - Date.now())
+    .set(answerObject.date)
     .catch(e => console.error(e.val ? e.val() : e));
 
     // send notification

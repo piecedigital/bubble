@@ -65,7 +65,11 @@ export default function loadData(errorCB, options = {}) {
         return makeRequest(okayCB, "/get-firebase-config", true);
       },
       getUserID: (okayCB) => {
-        options.login = options.username;
+        if(options.usernameList) {
+          options.login = options.usernameList.join(",");
+        } else {
+          options.login = options.username;
+        }
         options.api_version = 5;
         delete options.username;
         // options.client_id = options.headers["Client-ID"];
@@ -93,25 +97,35 @@ export default function loadData(errorCB, options = {}) {
         delete options.limit;
         return new Promise(function(resolve, reject) {
 
-          // start by getting the user ID
-          loadData((e = {}) => {
-            console.error(e.stack || e);
-          }, {
-            username: options.username
-          })
-          .then(methods => {
-            methods
-            .getUserID()
-            .then(data => {
-              // console.log("user id", data);
-              // real request
-              makeRequest(okayCB, `users/${data.users[0]._id}`)
-              .then(data => resolve(data))
-              .catch((e = {}) => reject(e));
+          if(options.userID) {
+
+            makeRequest(okayCB, `users/${options.userID}`)
+            .then(data => resolve(data))
+            .catch((e = {}) => reject(e));
+
+          } else {
+
+            // start by getting the user ID
+            loadData((e = {}) => {
+              console.error(e.stack || e);
+            }, {
+              username: options.username
+            })
+            .then(methods => {
+              methods
+              .getUserID()
+              .then(data => {
+                // console.log("user id", data);
+                // real request
+                makeRequest(okayCB, `users/${data.users[0]._id}`)
+                .then(data => resolve(data))
+                .catch((e = {}) => reject(e));
+              })
+              .catch((e = {}) => console.error(e.stack || e));
             })
             .catch((e = {}) => console.error(e.stack || e));
-          })
-          .catch((e = {}) => console.error(e.stack || e));
+
+          }
 
         });
       },
@@ -341,6 +355,7 @@ export default function loadData(errorCB, options = {}) {
                 .getUserID()
                 .then(data2 => {
                   // console.log("target id", data2);
+                  console.log(data, data2);
                   // real request
                   makeRequest(okayCB, `users/${data.users[0]._id}/follows/channels/${data2.users[0]._id}`)
                   .then(data => resolve(data))

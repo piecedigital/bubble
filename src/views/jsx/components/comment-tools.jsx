@@ -8,6 +8,7 @@ getRatingsData,
 getCommentsData } from "../../../modules/client/helper-tools";
 import VoteTool from "./vote-tool.jsx";
 import { ajax } from "../../../modules/client/ajax";
+import loadData from "../../../modules/client/load-data";
 
 export const CommentTool = React.createClass({
   displayName: "CommentTool",
@@ -44,116 +45,136 @@ export const CommentTool = React.createClass({
       title,
       body,
     } = this.refs;
-
-    // if for a question post
-    if(questionID) {
-      let commentObject = {
-        "username": userData.name,
-        // to be truthy only if this is a comment reply
-        "reply": !!commentID,
-        "commentID": commentID || null,
-        //----------------------------------------
-        "body": body.value,
-        questionID,
-        "date": new Date().getTime(),
-        "sentStatuses": {
-          "email": false,
-          "notification": false
-        },
-        "version": versionData,
-      };
-      if(!this.state.validation.bodyValid) return;
-      console.log("comment object:", commentObject);
-      // write answer to `answers` node
-      fireRef.commentsRef
-      .child(questionID)
-      .push()
-      .setWithPriority(commentObject, 0 - Date.now())
-      .catch(e => console.error(e.val ? e.val() : e));
-      body.value = "";
-
-      // send notification
-      // create notif obejct
-      let notifObject = {
-        type: "newQuestionComment",
-        info: {
-          sender: userData.name,
-          questionID: questionID,
-          questionURL: `/profile/${questionData.receiver}/q/${questionID}`
-        },
-        read: false,
-        date: new Date().getTime(),
-        version: versionData
-      };
-      // send notif
-      // to creator
-      if(questionData.creator !== userData.name) {
-        fireRef.notificationsRef
-        .child(questionData.creator)
+    new Promise(function(resolve, reject) {
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        username: questionData.receiver
+      })
+      .then(methods => {
+        methods
+        .getUserID()
+        .then(data => {
+          // console.log("feature data", data);
+          const receiverID = data.users[0]._id;
+          resolve(receiverID);
+        })
+        .catch((e = null) => console.error(e));
+      })
+      .catch((e = null) => console.error(e));
+    })
+    .then(receiverID => {
+      // if for a question post
+      if(questionID) {
+        let commentObject = {
+          "userID": userData._id,
+          // to be truthy only if this is a comment reply
+          "reply": !!commentID,
+          "commentID": commentID || null,
+          //----------------------------------------
+          "body": body.value,
+          questionID,
+          "date": new Date().getTime(),
+          "sentStatuses": {
+            "email": false,
+            "notification": false
+          },
+          "version": versionData,
+        };
+        if(!this.state.validation.bodyValid) return;
+        console.log("comment object:", commentObject);
+        // write answer to `answers` node
+        fireRef.commentsRef
+        .child(questionID)
         .push()
-        .set(notifObject)
+        .setWithPriority(commentObject, 0 - Date.now())
         .catch(e => console.error(e.val ? e.val() : e));
-      }
-      // to receiver
-      if(questionData.receiver !== userData.name) {
-        fireRef.notificationsRef
-        .child(questionData.receiver)
-        .push()
-        .set(notifObject)
-        .catch(e => console.error(e.val ? e.val() : e));
-      }
-    }
+        body.value = "";
 
-    // if for a poll post
-    if(pollID) {
-      let commentObject = {
-        "username": userData.name,
-        // to be truthy only if this is a comment reply
-        "reply": !!commentID,
-        "commentID": commentID || null,
-        //----------------------------------------
-        "body": body.value,
-        pollID,
-        "date": new Date().getTime(),
-        "sentStatuses": {
-          "email": false,
-          "notification": false
-        },
-        "version": versionData,
-      };
-      if(!this.state.validation.bodyValid) return;
-      console.log("comment object:", commentObject);
-      // write answer to `answers` node
-      fireRef.commentsRef
-      .child(pollID)
-      .push()
-      .setWithPriority(commentObject, 0 - Date.now())
-      .catch(e => console.error(e.val ? e.val() : e));
-      body.value = "";
+        // send notification
+        // create notif obejct
+        let notifObject = {
+          type: "newQuestionComment",
+          info: {
+            sender: userData._id,
+            questionID: questionID,
+            questionURL: `/profile/${receiverID}/q/${questionID}`
+          },
+          read: false,
+          date: new Date().getTime(),
+          version: versionData
+        };
+        // send notif
+        // to creator
+        if(questionData.creator !== userData._id) {
+          fireRef.notificationsRef
+          .child(questionData.creator)
+          .push()
+          .set(notifObject)
+          .catch(e => console.error(e.val ? e.val() : e));
+        }
+        // to receiver
+        if(receiverID !== userData._id) {
+          fireRef.notificationsRef
+          .child(receiverID)
+          .push()
+          .set(notifObject)
+          .catch(e => console.error(e.val ? e.val() : e));
+        }
+      }
 
-      // send notification
-      // create notif obejct
-      let notifObject = {
-        type: "newPollComment",
-        info: {
-          sender: userData.name,
+      // if for a poll post
+      if(pollID) {
+        let commentObject = {
+          "userID": userData._id,
+          // to be truthy only if this is a comment reply
+          "reply": !!commentID,
+          "commentID": commentID || null,
+          //----------------------------------------
+          "body": body.value,
           pollID,
-          pollURL: `/profile/${pollData.creator}/p/${pollID}`
-        },
-        read: false,
-        date: new Date().getTime(),
-        version: versionData
-      };
-      // send notif
-      // to creator
-      if(pollData.creator !== userData.name) {
-        fireRef.notificationsRef
-        .child(pollData.creator)
+          "date": new Date().getTime(),
+          "sentStatuses": {
+            "email": false,
+            "notification": false
+          },
+          "version": versionData,
+        };
+        if(!this.state.validation.bodyValid) return;
+        console.log("comment object:", commentObject);
+        // write answer to `answers` node
+        fireRef.commentsRef
+        .child(pollID)
         .push()
-        .set(notifObject)
+        .setWithPriority(commentObject, 0 - Date.now())
         .catch(e => console.error(e.val ? e.val() : e));
+        body.value = "";
+
+        // send notification
+        // create notif obejct
+        let notifObject = {
+          type: "newPollComment",
+          info: {
+            senderID: userData._id,
+            pollID,
+            pollURL: `/profile/${pollData.creator}/p/${pollID}`
+          },
+          read: false,
+          date: new Date().getTime(),
+          version: versionData
+        };
+        // send notif
+        // to creator
+        if(pollData.creator !== userData._id) {
+          fireRef.notificationsRef
+          .child(pollData.creator)
+          .push()
+          .set(notifObject)
+          .catch(e => console.error(e.val ? e.val() : e));
+        }
       }
-    }
+    })
+    .catch(e => console.error(e))
   },
   validate(name, e) {
     // name will be the same as a referenced element

@@ -54,6 +54,7 @@ nav {
           position: absolute;
           top: 100%;
           left: 0;
+          min-width: 11*$em;
           max-height: 0;
           background-color: $dimmer;
           overflow: hidden;

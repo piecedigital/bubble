@@ -5,6 +5,7 @@ import { calculateRatings,
 getQuestionData,
 getAnswerData,
 getRatingsData } from "../../../modules/client/helper-tools";
+import loadData from "../../../modules/client/load-data";
 import { Link, browserHistory as History } from "react-router";
 
 const QuestionListItem = React.createClass({
@@ -69,11 +70,14 @@ const QuestionListItem = React.createClass({
       fireRef,
       params
     } = this.props
+    const { questionData } = this.state;
 
     // set listener for new question
-    const usersRefNode = fireRef.usersRef
-    .child(`${this.state.questionData.receiver}/answersFromMe`)
-    .on("child_added", this.newAnswer);
+    if(questionData) {
+      const usersRefNode = fireRef.usersRef
+      .child(`${questionData.receiverID}/answersFromMe`)
+      .on("child_added", this.newAnswer);
+    }
   },
   setupRatingsListeners() {
     const {
@@ -111,9 +115,27 @@ const QuestionListItem = React.createClass({
     .once("value")
     .then(snap => {
       const questionData = snap.val();
-      this._mounted ? this.setState({
-        questionData
-      }, this.setupAnswerListeners) : null;
+
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        userID: questionData.receiverID,
+      })
+      .then(methods => {
+        methods
+        .getUserByName()
+        .then(data => {
+          // console.log("feature data", data);
+          const receiver = data.name;
+          questionData.receiver = receiver;
+          this._mounted ? this.setState({
+            questionData
+          }, this.setupAnswerListeners) : null;
+        })
+        .catch((e = null) => console.error(e));
+      })
+      .catch((e = null) => console.error(e));
+
     });
     // get answer data
     fireRef.answersRef
@@ -124,16 +146,16 @@ const QuestionListItem = React.createClass({
       this._mounted ? this.setState({
         answerData
       }, () => {
-        if(!pageOverride) {
-          // do a possible page redirect if pageOverride is not present
-          if(params.postID === questionID && !answerData) {
-            console.log("no answer data", questionID, this.state);
-            History.push({
-              pathname: `/profile/${params.username || (questionData ? questionData.receiver : "")}`
-            });
-          }
-
-        }
+        // if(!pageOverride) {
+        //   // do a possible page redirect if pageOverride is not present
+        //   if(params.postID === questionID && !answerData) {
+        //     console.log("no answer data", questionID, this.state);
+        //     History.push({
+        //       pathname: `/profile/${params.username || (questionData ? questionData.receiverID : "")}`
+        //     });
+        //   }
+        //
+        // }
       }) : null;
     });
 
@@ -149,7 +171,7 @@ const QuestionListItem = React.createClass({
     // answered question added
     if(this.state.questionData) {
       fireRef.usersRef
-      .child(`${this.state.questionData.receiver}/answersFromMe`)
+      .child(`${this.state.questionData.receiverID}/answersFromMe`)
       .off("child_added", this.newQuestion);
     }
   },
@@ -180,14 +202,14 @@ const QuestionListItem = React.createClass({
       <li className={`question-list-item ${pageOverride}`}>
         <Link href={
           answerData ? (
-            `/profile/${questionData.receiver || (userData ? userData.name : "")}/q/${questionID}`
+            `/profile/${questionData.receiver || (userData ? userData._id : "")}/q/${questionID}`
           ) : (
             URL || `/profile/${questionData.receiver || ""}`
           )
         } to={
           answerData ? (
             {
-              pathname: `/profile/${questionData.receiver || (userData ? userData.name : "")}/q/${questionID}`,
+              pathname: `/profile/${questionData.receiver || (userData ? userData._id : "")}/q/${questionID}`,
               state: {
                 modal: true,
                 returnTo: URL || `/profile/${questionData.receiver || ""}`,
@@ -254,6 +276,7 @@ export default React.createClass({
   displayName: "UserQuestions",
   getInitialState() {
     return Object.assign({
+      paramUserID: null,
       questions: {},
       lastID: null,
       locked: true,
@@ -305,48 +328,72 @@ export default React.createClass({
     this.setState({
       loadingData: true
     }, () => {
-      const { queryLimit } = this.state;
+      const { queryLimit, paramUserID } = this.state;
       const {
         fireRef,
         userData,
         params = {},
         pageOverride
       } = this.props;
-      // if(!userData) return;
-      // console.log("search params", params.username, userData, this.state.lastID);
-      let refNode = fireRef;
-      // for the featured component we want to get all recent questions
-      if(pageOverride === "Featured") {
-        refNode = refNode.answersRef;
-      } else {
-        // if we're on a profile we just want questions for a specific user
-        // if we're on the signed in user's profile we'll get all questions for them
-        // else, we'll get answered questions
-        refNode = refNode.usersRef.child(`${params.username || (userData ? userData.name : undefined)}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`);
-      }
-      // console.log(this.state.lastID);
-      if(this.state.lastID) {
-        refNode = refNode.orderByKey().endAt(this.state.lastID || 0)
-        .limitToLast(queryLimit+1);
-      } else {
-        refNode = refNode.orderByKey()
-        .limitToLast(queryLimit);
-        // console.log(refNode.toString());
-      }
-      refNode.once("value")
-      .then(snap => {
-        const questions = snap.val();
-        const newQuestions = JSON.parse(JSON.stringify(this.state.questions));
-        // console.log("questions", questions);
-        this.setState({
-          questions: Object.assign(newQuestions, questions),
-          lastID: questions ? Object.keys(questions).pop() : null,
-          loadingData: false
-        }, () => {
-          // console.log(this.state);
+
+      // new Promise(function(resolve, reject) {
+      //   loadData.call(this, e => {
+      //     console.error(e.stack);
+      //   }, {
+      //     username: params.username
+      //   })
+      //   .then(methods => {
+      //     methods
+      //     .getUserID()
+      //     .then(data => {
+      //       // console.log("feature data", data);
+      //       const paramUserID = data.users[0]._id;
+      //       resolve(paramUserID);
+      //     })
+      //     .catch((e = null) => console.error(e));
+      //   })
+      //   .catch((e = null) => console.error(e));
+      // })
+      // .then(paramUserID => {
+
+        // if(!userData) return;
+        // console.log("search params", params.username, userData, this.state.lastID);
+        let refNode = fireRef;
+        // for the featured component we want to get all recent questions
+        if(pageOverride === "Featured") {
+          refNode = refNode.answersRef;
+        } else {
+          // if we're on a profile we just want questions for a specific user
+          // if we're on the signed in user's profile we'll get all questions for them
+          // else, we'll get answered questions
+          refNode = refNode.usersRef.child(`${paramUserID || (userData ? userData._id : undefined)}/${!userData || paramUserID && paramUserID !== userData._id ? "answersFromMe" : "questionsForMe"}`);
+        }
+        // console.log(this.state.lastID);
+        if(this.state.lastID) {
+          refNode = refNode.orderByKey().endAt(this.state.lastID || 0)
+          .limitToLast(queryLimit+1);
+        } else {
+          refNode = refNode.orderByKey()
+          .limitToLast(queryLimit);
+          // console.log(refNode.toString());
+        }
+        refNode.once("value")
+        .then(snap => {
+          const questions = snap.val();
+          const newQuestions = JSON.parse(JSON.stringify(this.state.questions));
+          // console.log("questions", questions);
+          this.setState({
+            questions: Object.assign(newQuestions, questions),
+            lastID: questions ? Object.keys(questions).pop() : null,
+            loadingData: false
+          }, () => {
+            // console.log(this.state);
+          });
         });
-      });
-    })
+
+      // })
+      // .catch(e => console.error(e));
+    });
   },
   xrefresh() {},
   refreshList() {
@@ -373,6 +420,31 @@ export default React.createClass({
       loadingData: false
     });
   },
+  getParamUserID() {
+    const {
+      params
+    } = this.props;
+    if(params && params.username) {
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        username: params.username
+      })
+      .then(methods => {
+        methods
+        .getUserID()
+        .then(data => {
+          // console.log("feature data", data);
+          const paramUserID = data.users[0]._id;
+          this.setState({
+            paramUserID
+          })
+        })
+        .catch((e = null) => console.error(e));
+      })
+      .catch((e = null) => console.error(e));
+    }
+  },
   componentWillReceiveProps(nextProps) {
     if(this.props.params) {
       const last = this.props.params.username,
@@ -385,6 +457,7 @@ export default React.createClass({
           last !== curr
         ) {
           this.refreshList();
+          this.getParamUserID();
         }
       }
     }
@@ -445,21 +518,20 @@ export default React.createClass({
           });
         });
       });
-    } else {
-      // fireRef.usersRef
-      // .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
-      // .on("child_added", this.newAnswer);
     }
+
+    this.getParamUserID();
   },
   componentWillUnmount() {
     console.log("unounting question");
+    const { paramUserID } = this.state;
     const {
       fireRef,
       userData,
-      params = {}
     } = this.props;
+
     fireRef.usersRef
-    .child(`${params.username || (userData ? userData.name : "")}/${!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
+    .child(`${paramUserID || (userData ? userData._id : "")}/${!userData || paramUserID && paramUserID !== userData._id ? "answersFromMe" : "questionsForMe"}`)
     .off("child_added", this.newAnswer);
   },
   render() {

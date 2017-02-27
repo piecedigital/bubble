@@ -14,17 +14,17 @@ In addition to necessary data related to the Q&A aggregation this database will 
 
 ## Users
 - `users` node to contain user data for users that have made actions that will write data to the database (bookmarking, etc)
-- `users.<username>.bookmarks` node to contain the ID's of bookmarked users or questions
+- `users.<userID>.bookmarks` node to contain the ID's of bookmarked users or questions
 - `users.<sername>.userConfig` node to contain user specific options
 
 ```js
 "bubble": {
   "appConfig": Object,
   "authIDs": {
-    <username>: <Twitch auth ID>
+    <userID>: <Twitch auth ID>
   },
   "users": {
-    <username>: {
+    <userID>: {
       "questionsAsked": Number,
       "questionsAnswered": Number,
       "questionsForMe": {
@@ -50,8 +50,8 @@ In addition to necessary data related to the Q&A aggregation this database will 
       },
       "bookmarks": {
         "users": {
-          <username>: {
-            "username": <username>,
+          <userID>: {
+            "userID": <userID>,
             "date": [date Number],
             "version": [version Object]
           }
@@ -87,13 +87,13 @@ In addition to necessary data related to the Q&A aggregation this database will 
     }
   },
   "notifications": {
-    <username>: {
+    <userID>: {
       <notifID>: {
         "type": String ("newQuestion" || "newAnswer" || "newQuestionComment" || "questionUpvote" || "answerUpvote" || "commentUpvote"),
         "info": {
-          "sender": <username>, // the person that caused the notification to be sent
+          "sender": <userID>, // the person that caused the notification to be sent
           "questionID": <questionID>,
-          "questionURL": String
+          ["questionURL" || "pollURL"]: String
         },
         "read": Boolean,
         "date": [date Object],
@@ -103,8 +103,8 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "questions": {
     <questionID>: {
-      "creator": <username>: String, //
-      "receiver": <username>: String,
+      "creatorID": <userID>: String, //
+      "receiverID": <userID>: String,
       "title": String or Number // If number it'll be 0. Firebase does not accept null as a value,
       "body": String, // minimum 30 characters
       "AMA": String (<AMAID>) || null,
@@ -115,7 +115,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "answers": {
     <questionID>: {
-      "username": <username>,
+      "userID": <userID>,
       "questionID": <questionID>
       "body": String, // minimum 30 characters
       "date": [date Number],
@@ -128,7 +128,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
       <ratingID>: {
         "for": String ("question" || "answer" || "comment"),
         "commentID": <commentID>, // won't exist for non-comments
-        "username": <username>,
+        "userID": <userID>,
         "upvote": Boolean
       }
     }
@@ -136,7 +136,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   "comments": {
     <questionID || pollID>: {
       <commentID>: {
-        "username": <username>,
+        "userID": <userID>,
         "questionID": <questionID>, // if this is a comment for a question
         "pollID": <pollID>, // if this is a comment for a poll
         "body": String,
@@ -150,14 +150,14 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "polls": {
     <pollID>: {
-      "creator": <username>,
+      "creator": <userID>,
       "title": String,
       "choices": {
         vote_<Number>: String
       },
       "votes": {
-        <username>: {
-          "username": <username>,
+        <userID>: {
+          "userID": <userID>,
           "vote": String (vote_<Number>)
         }
       },
@@ -167,7 +167,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
     }
   },
   "gameQueues": {
-    <username>: {
+    <userID>: {
       "title": String,
       "game": String,
       "subOnly": Boolean,
@@ -175,16 +175,16 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "queueLimit": Number,
       "platform": String ("PC/Steam" || "PC/Uplay" || "PC/Origin" || "PS4/PSN" || "XBox/XBL" || "Wii/NN"), // text will be flattened as values for simplification
       "queue": {
-        <username>: {
+        <userID>: {
           "gamerID": String,
           "date": Number
         }
       },
       "nowPlaying": {
-        <username>: Object // same as queue user object
+        <userID>: Object // same as queue user object
       },
       "alreadyPlayed": {
-        <username>: Object // same as queue user object
+        <userID>: Object // same as queue user object
       },
       "date": Number,
       "version": [version Object]
@@ -192,7 +192,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   }
   "AMAs": {
     <AMAID>: {
-      "creator": <username>,
+      "creator": <userID>,
       "associatedQuestions": {
         <questionID>: true
       },
