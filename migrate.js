@@ -64,15 +64,15 @@ fireRef
               userData.users.map(function (user) {
                 usersToReplace[user.name] = user._id;
               });
-              // rewriteQuestions();
-              // rewriteAnswers();
-              // rewriteRatings();
-              // rewriteComments();
-              // rewriteUsers();
-              // rewriteGameQueues();
-              // rewriteNotifications();
-              // rewritePolls();
-              fixPolls();
+              rewriteQuestions();
+              rewriteAnswers();
+              rewriteRatings();
+              rewriteComments();
+              rewriteUsers();
+              rewriteGameQueues();
+              rewriteNotifications();
+              rewritePolls();
+              // fixPolls();
             } catch (e) {
               console.error(e);
             }
@@ -352,7 +352,8 @@ function rewritePolls() {
           .child(pollID)
           .update({
             auth: null,
-            creator: usersToReplace[pollData.creator] || pollData.creator,
+            creatorID: usersToReplace[pollData.creator] || pollData.creator,
+            creator: null,
             votes: null
           })
         });
