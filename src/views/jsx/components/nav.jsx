@@ -125,6 +125,9 @@ export default React.createClass({
     return (
       <nav ref="nav" className={`${navOpen ? "open" : ""}`}>
         <div>
+          <h1 className="web-name">
+            <Link href={"http://amorrius.net"} to={"http://amorrius.net"}>Amorrius</Link>
+          </h1>
           <span className="inputs">
             <SlideInput ref="addInput" commandValue="add" symbol="+" open={addOpen} placeholder="Add a stream to the Player" callback={(value, bool) => {
               this.toggleNav("close");

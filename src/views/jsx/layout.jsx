@@ -97,6 +97,7 @@ export default React.createClass({
       AMAsRef: Firebase.database().ref("AMAs"),
       pollsRef: Firebase.database().ref("polls"),
       gameQueuesRef: Firebase.database().ref("gameQueues"),
+      feedbackRef: Firebase.database().ref("feedback"),
     };
     // console.log("got auth token", token, typeof token);
     Firebase.auth().signInWithCustomToken(token)
@@ -329,6 +330,7 @@ export default React.createClass({
       case "viewPoll":
       case "viewCreatedPolls":
       case "viewGameQueue":
+      case "feedback":
       default:
         newState = {
           overlay: action,
@@ -609,6 +611,8 @@ export default React.createClass({
                 <span className="version">App version: {versionData.major}.{versionData.minor}.{versionData.patch}</span>
               ) : null
             }
+            {" | "}
+            <a href="#" onClick={this.popUpHandler.bind(this, "feedback")}>Feedback</a>
           </div>
         </div>
       </div>

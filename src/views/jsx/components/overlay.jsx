@@ -5,6 +5,7 @@ import { ViewBookmarks } from "./bookmark-tools.jsx";
 import { ViewNotifications } from "./notification-tools.jsx";
 import { MakePoll, VotePoll, ViewPoll, ViewCreatedPolls } from "./poll-tools.jsx";
 import { ViewGameQueue } from "./game-queue-tools.jsx";
+import { Feedback } from "./feedback-tools.jsx";
 
 const components = {
   "askQuestion": AskQuestion,
@@ -18,6 +19,7 @@ const components = {
   "viewPoll": ViewPoll,
   "viewCreatedPolls": ViewCreatedPolls,
   "viewGameQueue": ViewGameQueue,
+  "feedback": Feedback,
 };
 
 export default React.createClass({
@@ -47,6 +49,7 @@ export default React.createClass({
         case "viewQuestion":
         case "viewPoll":
         case "viewGameQueue":
+        case "feedback":
           Component = Component;
         break;
         default:

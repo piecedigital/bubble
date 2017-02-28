@@ -19,6 +19,18 @@ nav {
     > span {
       display: flex;
     }
+    .web-name {
+      position: absolute;
+      top: 0;
+      right: 100%;
+      margin: 0 1*$em;
+      color: $primary;
+      font-size: 2*$em;
+      a {
+        color: $primary;
+        text-decoration: none;
+      }
+    }
     .nav-item {
       position: relative;
       color: black;

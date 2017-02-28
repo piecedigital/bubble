@@ -1,0 +1,15 @@
+.feedback {
+  &.open {}
+  .close {}
+  .title {}
+  form {}
+  .section {
+    &.column {}
+    .label {}
+    .to {}
+    input, textarea {
+      &:not(:last-child) {}
+      &.valid {}
+    }
+  }
+}

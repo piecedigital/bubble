@@ -20,9 +20,13 @@
   - fixed undefined error - 0.11.9
 - Add polish: - 0.12.0
   - Add pages: About, Terms of Service **ok**
+  - UI fixed for user info **ok**
+- Bug fixes: - 0.12.1
+  - Receiver username missing from question URL in question tools **ok**
+  - Add application name **ok**
+  - Add feedback overlay **ok**
+- xxx
   - Add logo
-  - Add application name
-  - Add feedback overlay
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD

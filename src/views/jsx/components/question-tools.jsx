@@ -5,7 +5,8 @@ import { calculateRatings,
 getQuestionData,
 getAnswerData,
 getRatingsData,
-getCommentsData } from "../../../modules/client/helper-tools";
+getCommentsData,
+getUsername } from "../../../modules/client/helper-tools";
 import loadData from "../../../modules/client/load-data";
 import VoteTool from "./vote-tool.jsx";
 import {
@@ -620,7 +621,7 @@ export const ViewQuestion = React.createClass({
           methods
           .getUserByName()
           .then(creatorData => {
-            console.log("feature creatorData", creatorData);
+            // console.log("feature creatorData", creatorData);
             // then, receiver
             loadData.call(this, e => {
               console.error(e.stack);
@@ -631,7 +632,7 @@ export const ViewQuestion = React.createClass({
               methods
               .getUserByName()
               .then(receiverData => {
-                console.log("feature receiverData", receiverData);
+                // console.log("feature receiverData", receiverData);
                 resolve(Object.assign(questionData, {
                   creator: creatorData.name,
                   receiver: receiverData.name
@@ -785,10 +786,12 @@ export const ViewQuestion = React.createClass({
 const QuestionItem = React.createClass({
   displayName: "QuestionItem",
   getInitialState: () => ({
-    answerData: null
+    answerData: null,
+    receiverName: null
   }),
   componentDidMount() {
     const {
+      questionData,
       questionID,
       fireRef
     } = this.props;
@@ -796,6 +799,13 @@ const QuestionItem = React.createClass({
       console.log("got answer data");
       this.setState({
         answerData
+      });
+    });
+    // get username for receiver since it's not here yet
+    getUsername([questionData.receiverID])
+    .then(dataArr => {
+      this.setState({
+        receiverName: dataArr[0].name
       });
     });
   },
@@ -810,16 +820,17 @@ const QuestionItem = React.createClass({
     } = this.props;
 
     const {
-      answerData
+      answerData,
+      receiverName
     } = this.state;
 
     return (
       <div className="question-item">
         {
-          answerData ? (
+          answerData && receiverName ? (
             <label>
               <Link className="name" to={{
-                pathname: `/profile/${questionData.receiver}/q/${questionID}`,
+                pathname: `/profile/${receiverName}/q/${questionID}`,
                 state: {
                   modal: true,
                   returnTo: location.pathname
@@ -853,8 +864,14 @@ const AnswerItem = React.createClass({
     } = this.props;
     getQuestionData(questionID, fireRef, null, questionData => {
       console.log("got question data");
-      this.setState({
-        questionData
+      getUsername([questionData.receiverID])
+      .then(dataArr => {
+        questionData = Object.assign(questionData, {
+          receiver: dataArr[0].name
+        });
+        this.setState({
+          questionData
+        });
       });
     });
   },
