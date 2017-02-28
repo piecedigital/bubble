@@ -24,6 +24,8 @@ var _pollToolsJsx = require("./poll-tools.jsx");
 
 var _gameQueueToolsJsx = require("./game-queue-tools.jsx");
 
+var _feedbackToolsJsx = require("./feedback-tools.jsx");
+
 var components = {
   "askQuestion": _questionToolsJsx.AskQuestion,
   "answerQuestion": _questionToolsJsx.AnswerQuestion,
@@ -35,7 +37,8 @@ var components = {
   "votePoll": _pollToolsJsx.VotePoll,
   "viewPoll": _pollToolsJsx.ViewPoll,
   "viewCreatedPolls": _pollToolsJsx.ViewCreatedPolls,
-  "viewGameQueue": _gameQueueToolsJsx.ViewGameQueue
+  "viewGameQueue": _gameQueueToolsJsx.ViewGameQueue,
+  "feedback": _feedbackToolsJsx.Feedback
 };
 
 exports["default"] = _react2["default"].createClass({
@@ -63,6 +66,7 @@ exports["default"] = _react2["default"].createClass({
         case "viewQuestion":
         case "viewPoll":
         case "viewGameQueue":
+        case "feedback":
           Component = Component;
           break;
         default:

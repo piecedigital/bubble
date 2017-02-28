@@ -82,7 +82,7 @@ app
     }
   }));
 }).get("/profile", function (req, res) {
-  res.send((0, _renderJsx.renderHTML)("profile"));
+  res.redirect("/");
 }).get("/profile/:username", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("profile", {
     params: {

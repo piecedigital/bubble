@@ -150,6 +150,15 @@ exports["default"] = _react2["default"].createClass({
         "div",
         null,
         _react2["default"].createElement(
+          "h1",
+          { className: "web-name" },
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { href: "http://amorrius.net", to: "http://amorrius.net" },
+            "Amorrius"
+          )
+        ),
+        _react2["default"].createElement(
           "span",
           { className: "inputs" },
           _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: function (value, bool) {

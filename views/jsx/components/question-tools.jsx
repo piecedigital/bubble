@@ -827,7 +827,7 @@ var ViewQuestion = _react2["default"].createClass({
           userID: questionData.creatorID
         }).then(function (methods) {
           methods.getUserByName().then(function (creatorData) {
-            console.log("feature creatorData", creatorData);
+            // console.log("feature creatorData", creatorData);
             // then, receiver
             _modulesClientLoadData2["default"].call(_this5, function (e) {
               console.error(e.stack);
@@ -835,7 +835,7 @@ var ViewQuestion = _react2["default"].createClass({
               userID: questionData.receiverID
             }).then(function (methods) {
               methods.getUserByName().then(function (receiverData) {
-                console.log("feature receiverData", receiverData);
+                // console.log("feature receiverData", receiverData);
                 resolve(Object.assign(questionData, {
                   creator: creatorData.name,
                   receiver: receiverData.name
@@ -1054,13 +1054,15 @@ var QuestionItem = _react2["default"].createClass({
   displayName: "QuestionItem",
   getInitialState: function getInitialState() {
     return {
-      answerData: null
+      answerData: null,
+      receiverName: null
     };
   },
   componentDidMount: function componentDidMount() {
     var _this7 = this;
 
     var _props9 = this.props;
+    var questionData = _props9.questionData;
     var questionID = _props9.questionID;
     var fireRef = _props9.fireRef;
 
@@ -1070,6 +1072,12 @@ var QuestionItem = _react2["default"].createClass({
         answerData: answerData
       });
     });
+    // get username for receiver since it's not here yet
+    (0, _modulesClientHelperTools.getUsername)([questionData.receiverID]).then(function (dataArr) {
+      _this7.setState({
+        receiverName: dataArr[0].name
+      });
+    });
   },
   render: function render() {
     var _props10 = this.props;
@@ -1077,18 +1085,20 @@ var QuestionItem = _react2["default"].createClass({
     var questionData = _props10.questionData;
     var locations = _props10.locations;
     var popUpHandler = _props10.methods.popUpHandler;
-    var answerData = this.state.answerData;
+    var _state5 = this.state;
+    var answerData = _state5.answerData;
+    var receiverName = _state5.receiverName;
 
     return _react2["default"].createElement(
       "div",
       { className: "question-item" },
-      answerData ? _react2["default"].createElement(
+      answerData && receiverName ? _react2["default"].createElement(
         "label",
         null,
         _react2["default"].createElement(
           _reactRouter.Link,
           { className: "name", to: {
-              pathname: "/profile/" + questionData.receiver + "/q/" + questionID,
+              pathname: "/profile/" + receiverName + "/q/" + questionID,
               state: {
                 modal: true,
                 returnTo: location.pathname
@@ -1139,8 +1149,13 @@ var AnswerItem = _react2["default"].createClass({
 
     (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
       console.log("got question data");
-      _this8.setState({
-        questionData: questionData
+      (0, _modulesClientHelperTools.getUsername)([questionData.receiverID]).then(function (dataArr) {
+        questionData = Object.assign(questionData, {
+          receiver: dataArr[0].name
+        });
+        _this8.setState({
+          questionData: questionData
+        });
       });
     });
   },
@@ -1225,10 +1240,10 @@ var ViewAskedQuestions = _react2["default"].createClass({
     var userData = _props14.userData;
     var methods = _props14.methods;
     var popUpHandler = _props14.methods.popUpHandler;
-    var _state5 = this.state;
-    var questionData = _state5.questionData;
-    var answerData = _state5.answerData;
-    var toggle = _state5.toggle;
+    var _state6 = this.state;
+    var questionData = _state6.questionData;
+    var answerData = _state6.answerData;
+    var toggle = _state6.toggle;
 
     var data = toggle === "asked" ? questionData : answerData;
     var Component = toggle === "asked" ? QuestionItem : AnswerItem;

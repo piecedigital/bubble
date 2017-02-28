@@ -42,6 +42,16 @@ nav {
     pointer-events: auto; }
     nav > div > span {
       display: flex; }
+    nav > div .web-name {
+      position: absolute;
+      top: 0;
+      right: 100%;
+      margin: 0 16px;
+      color: #00c8fa;
+      font-size: 32px; }
+      nav > div .web-name a {
+        color: #00c8fa;
+        text-decoration: none; }
     nav > div .nav-item {
       position: relative;
       color: black;

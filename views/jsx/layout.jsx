@@ -130,7 +130,8 @@ exports["default"] = _react2["default"].createClass({
       commentsRef: _firebase2["default"].database().ref("comments"),
       AMAsRef: _firebase2["default"].database().ref("AMAs"),
       pollsRef: _firebase2["default"].database().ref("polls"),
-      gameQueuesRef: _firebase2["default"].database().ref("gameQueues")
+      gameQueuesRef: _firebase2["default"].database().ref("gameQueues"),
+      feedbackRef: _firebase2["default"].database().ref("feedback")
     };
     // console.log("got auth token", token, typeof token);
     _firebase2["default"].auth().signInWithCustomToken(token)["catch"](function (e) {
@@ -368,6 +369,7 @@ exports["default"] = _react2["default"].createClass({
       case "viewPoll":
       case "viewCreatedPolls":
       case "viewGameQueue":
+      case "feedback":
       default:
         newState = {
           overlay: action,
@@ -655,7 +657,13 @@ exports["default"] = _react2["default"].createClass({
             versionData.minor,
             ".",
             versionData.patch
-          ) : null
+          ) : null,
+          " | ",
+          _react2["default"].createElement(
+            "a",
+            { href: "#", onClick: this.popUpHandler.bind(this, "feedback") },
+            "Feedback"
+          )
         )
       )
     );
