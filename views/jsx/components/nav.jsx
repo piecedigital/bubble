@@ -194,7 +194,7 @@ exports["default"] = _react2["default"].createClass({
               { className: "submenu" },
               _react2["default"].createElement(
                 _reactRouter.Link,
-                { key: "profile", className: "nav-item", href: "/profile", to: "/profile", onClick: this.toggleNav.bind(null, "close") },
+                { key: "profile", className: "nav-item", href: "/profile/" + userData.name, to: "/profile/" + userData.name, onClick: this.toggleNav.bind(null, "close") },
                 "Profile"
               ),
               _react2["default"].createElement(

@@ -8,8 +8,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _react = require("react");
@@ -24,8 +22,7 @@ var _reactRouter = require('react-router');
 
 var _commentToolsJsx = require("./comment-tools.jsx");
 
-// import VoteTool from "./vote-tool.jsx";
-// import { ajax } from "../../../modules/client/ajax";
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 
 // poll creation related components
 var ChoiceInput = _react2["default"].createClass({
@@ -97,11 +94,11 @@ var MakePoll = _react2["default"].createClass({
 
     var pollObject = {
       title: title.value,
-      creator: userData.name,
+      creatorID: userData._id,
       choices: choices,
       // "votes": {
-      //   <username>: {
-      //     "username": <username>,
+      //   <userID>: {
+      //     "userID": <userID>,
       //     "vote": String (vote_<Number>)
       //   }
       // },
@@ -111,7 +108,7 @@ var MakePoll = _react2["default"].createClass({
     };
 
     if (!this.state.validation.titleValid) return;
-    console.log("poll object:", pollObject);
+    // console.log("poll object:", pollObject);
     // return console.log("poll object:", pollObject);
 
     // write question to `questions` node
@@ -468,11 +465,11 @@ var ChoiceOption = _react2["default"].createClass({
     var popUpHandler = _props4.methods.popUpHandler;
 
     console.log(this.props);
-    fireRef.pollsRef.child(pollID).child("votes").child(userData.name).set({
-      username: userData.name,
+    fireRef.pollsRef.child(pollID).child("votes").child(userData._id).set({
+      userID: userData._id,
       vote: choiceID
     });
-    fireRef.usersRef.child(userData.name).child("pollsParticipated").child(pollID).set(true);
+    fireRef.usersRef.child(userData._id).child("pollsParticipated").child(pollID).set(true);
     popUpHandler("viewPoll", { pollID: pollID });
   },
   render: function render() {
@@ -514,7 +511,8 @@ var VotePoll = _react2["default"].createClass({
   displayName: "VotePoll",
   getInitialState: function getInitialState() {
     return {
-      pollData: null
+      pollData: null,
+      creatorName: null
     };
   },
   getPollData: function getPollData() {
@@ -529,13 +527,18 @@ var VotePoll = _react2["default"].createClass({
     fireRef.pollsRef.child(pollID).once("value").then(function (snap) {
       var pollData = snap.val();
       if (!pollData) return;
-      if (pollData.votes && pollData.votes[userData.name]) {
+      if (pollData.votes && pollData.votes[userData._id]) {
         return popUpHandler("viewPoll", {
           pollID: pollID
         });
       }
-      _this3.setState({
-        pollData: pollData
+      (0, _modulesClientHelperTools.getUsername)([pollData.creatorID]).then(function (dataArr) {
+        pollData = Object.assign(pollData, {
+          creator: dataArr[0].name
+        });
+        _this3.setState({
+          pollData: pollData
+        });
       });
     });
   },
@@ -722,13 +725,19 @@ var ViewPoll = _react2["default"].createClass({
     fireRef.pollsRef.child(pollID).once("value").then(function (snap) {
       var pollData = snap.val();
       if (!pollData) return;
-      _this4.setState({
-        pollData: pollData
-      }, function () {
-        if (pollData) {
-          _this4.timeTicker();
-          _this4.initVoteListener();
-        }
+
+      (0, _modulesClientHelperTools.getUsername)([pollData.creatorID]).then(function (dataArr) {
+        pollData = Object.assign(pollData, {
+          creator: dataArr[0].name
+        });
+        _this4.setState({
+          pollData: pollData
+        }, function () {
+          if (pollData) {
+            _this4.timeTicker();
+            _this4.initVoteListener();
+          }
+        });
       });
     });
   },
@@ -972,7 +981,7 @@ var ViewPoll = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "section" },
-            !userData ? "Login to vote!" : Date.now() >= pollData.endDate ? "Voting closed" : !pollData.votes || !pollData.votes[userData.name] ? _react2["default"].createElement(
+            !userData ? "Login to vote!" : Date.now() >= pollData.endDate ? "Voting closed" : !pollData.votes || !pollData.votes[userData._id] ? _react2["default"].createElement(
               "button",
               { className: "submit btn-default", onClick: popUpHandler.bind(null, "votePoll", { pollID: pollID }) },
               "Vote On Poll"
@@ -1029,8 +1038,18 @@ var CreatedItem = _react2["default"].createClass({
   displayName: "CreatedItem",
   getInitialState: function getInitialState() {
     return {
-      pollData: null
+      pollData: null,
+      creatorName: null
     };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this8 = this;
+
+    (0, _modulesClientHelperTools.getUsername)([this.props.pollData.creatorID]).then(function (dataArr) {
+      _this8.setState({
+        creatorName: dataArr[0].name
+      });
+    });
   },
   render: function render() {
     var _props15 = this.props;
@@ -1038,10 +1057,9 @@ var CreatedItem = _react2["default"].createClass({
     var pollData = _props15.pollData;
     var locations = _props15.locations;
     var popUpHandler = _props15.methods.popUpHandler;
+    var creatorName = this.state.creatorName;
 
-    _objectDestructuringEmpty(
-    // pollData
-    this.state);
+    if (!creatorName) return null;
 
     var completed = undefined,
         symbol = "&#x2716;";
@@ -1060,7 +1078,7 @@ var CreatedItem = _react2["default"].createClass({
         _react2["default"].createElement(
           _reactRouter.Link,
           { className: "name", to: {
-              pathname: "/profile/" + pollData.creator + "/p/" + pollID,
+              pathname: "/profile/" + creatorName + "/p/" + pollID,
               state: {
                 modal: true,
                 returnTo: location.pathname
@@ -1071,8 +1089,7 @@ var CreatedItem = _react2["default"].createClass({
               });
             } },
           pollData.title
-        ),
-        _react2["default"].createElement("span", { className: completed, dangerouslySetInnerHTML: { __html: symbol } })
+        )
       )
     );
   }
@@ -1086,7 +1103,7 @@ var ParticipatedItem = _react2["default"].createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    var _this8 = this;
+    var _this9 = this;
 
     var _props16 = this.props;
     var pollID = _props16.pollID;
@@ -1095,8 +1112,12 @@ var ParticipatedItem = _react2["default"].createClass({
     fireRef.pollsRef.child(pollID).once("value").then(function (snap) {
       var pollData = snap.val();
       console.log("got poll data", pollData);
-      _this8.setState({
-        pollData: pollData
+      (0, _modulesClientHelperTools.getUsername)([pollData.creatorID]).then(function (dataArr) {
+        console.log(dataArr);
+        pollData.creator = dataArr[0].name;
+        _this9.setState({
+          pollData: pollData
+        });
       });
     });
   },
@@ -1137,8 +1158,7 @@ var ParticipatedItem = _react2["default"].createClass({
               });
             } },
           pollData.title
-        ),
-        _react2["default"].createElement("span", { className: completed, dangerouslySetInnerHTML: { __html: symbol } })
+        )
       )
     );
   }
@@ -1154,21 +1174,21 @@ var ViewCreatedPolls = _react2["default"].createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    var _this9 = this;
+    var _this10 = this;
 
     var _props18 = this.props;
     var fireRef = _props18.fireRef;
     var userData = _props18.userData;
 
-    fireRef.pollsRef.orderByChild("creator").equalTo(userData.name).once("value").then(function (snap) {
+    fireRef.pollsRef.orderByChild("creatorID").equalTo(userData._id).once("value").then(function (snap) {
       var polls = snap.val();
-      _this9.setState({
+      _this10.setState({
         polls: polls
       });
     });
-    fireRef.usersRef.child(userData.name).child("pollsParticipated").once("value").then(function (snap) {
+    fireRef.usersRef.child(userData._id).child("pollsParticipated").once("value").then(function (snap) {
       var participated = snap.val();
-      _this9.setState({
+      _this10.setState({
         participated: participated
       });
     });
@@ -1203,7 +1223,7 @@ var ViewCreatedPolls = _react2["default"].createClass({
         location: location,
         methods: methods
       }));
-    }) : [];
+    }).reverse() : [];
 
     return _react2["default"].createElement(
       "div",
@@ -1255,20 +1275,21 @@ var ViewCreatedPolls = _react2["default"].createClass({
             { className: "list" },
             list.length > 0 ? list : "You haven't " + toggle + " any polls yet."
           )
-        ),
-        _react2["default"].createElement("div", { className: "separator-4-dim" }),
-        _react2["default"].createElement("div", { className: "separator-4-dim" }),
+        )
+      ),
+      _react2["default"].createElement("div", { className: "separator-4-dim" }),
+      _react2["default"].createElement("div", { className: "separator-4-dim" }),
+      _react2["default"].createElement(
+        "div",
+        { className: "section" },
         _react2["default"].createElement(
-          "div",
-          { className: "section" },
-          _react2["default"].createElement(
-            "button",
-            { className: "submit btn-default", onClick: popUpHandler.bind(null, "makePoll") },
-            "Make New Poll"
-          )
+          "button",
+          { className: "submit btn-default", onClick: popUpHandler.bind(null, "makePoll") },
+          "Make New Poll"
         )
       )
     );
   }
 });
 exports.ViewCreatedPolls = ViewCreatedPolls;
+/* <span className={completed} dangerouslySetInnerHTML={{ __html: symbol }}></span> */ /* <span className={completed} dangerouslySetInnerHTML={{ __html: symbol }}></span> */

@@ -18,17 +18,35 @@ var _modulesClientLoadData = require("../../../modules/client/load-data");
 
 var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
+
 var UserItem = _react2["default"].createClass({
   displayName: "UserItem",
+  getInitialState: function getInitialState() {
+    return {
+      username: null
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    (0, _modulesClientHelperTools.getUsername)([this.props.userID]).then(function (dataArr) {
+      _this.setState({
+        username: dataArr[0].name
+      });
+    });
+  },
   render: function render() {
     var _props = this.props;
     var list = _props.list;
-    var username = _props.username;
     var data = _props.data;
     var controls = _props.controls;
     var _props$methods = _props.methods;
     var removeFromList = _props$methods.removeFromList;
     var moveToList = _props$methods.moveToList;
+    var username = this.state.username;
+
+    if (!username) return null;
 
     return _react2["default"].createElement(
       "div",
@@ -87,6 +105,7 @@ var ViewGameQueue = _react2["default"].createClass({
   displayName: "ViewGameQueue",
   getInitialState: function getInitialState() {
     return {
+      queueHostID: null,
       userDataPresent: false,
       fireRefPresent: false,
       propsPresent: false,
@@ -127,17 +146,19 @@ var ViewGameQueue = _react2["default"].createClass({
     var _props2 = this.props;
     var userData = _props2.userData;
     var fireRef = _props2.fireRef;
+    var queueHostID = this.state.queueHostID;
 
+    // console.log(queueHostID);
     var propsPresent =
     // !!userData &&
-    !!fireRef;
+    !!fireRef && !!queueHostID;
     // console.log(propsPresent);
     if (propsPresent && !this.state.propsPresent) {
       this.setState({
         fireRefPresent: !!fireRef,
         propsPresent: propsPresent
       });
-
+      // console.log(propsPresent, fireRef, queueHostID);
       if (!this.state.propsPresent) this.prepListener();
     }
     if (!!userData) {
@@ -148,7 +169,7 @@ var ViewGameQueue = _react2["default"].createClass({
     }
   },
   checkSub: function checkSub() {
-    var _this = this;
+    var _this2 = this;
 
     var _props3 = this.props;
     var userData = _props3.userData;
@@ -157,6 +178,7 @@ var ViewGameQueue = _react2["default"].createClass({
 
     // for the viewer, check if they are subbed to the channel
     if (userData && userData.name !== queueHost) {
+      // console.log(userData.name, queueHost);
       _modulesClientLoadData2["default"].call(this, function (e) {
         console.error(e.stack);
       }, {
@@ -168,7 +190,7 @@ var ViewGameQueue = _react2["default"].createClass({
           // if they're a sub then set confirmedSub to true
           // otherwise this will trigger a bad request response and we don't have to do anything else
           console.log("subscribed");
-          _this.setState({
+          _this2.setState({
             confirmedSub: true
           });
         })["catch"](function () {
@@ -191,8 +213,8 @@ var ViewGameQueue = _react2["default"].createClass({
         methods.getChannelByName().then(function (data) {
           // if they're a sub then set confirmedSub to true
           // otherwise this will trigger a bad request response and we don't have to do anything else
-          console.log("partnered", data.partner);
-          _this.setState({
+          // console.log("partnered", data.partner);
+          _this2.setState({
             partnered: data.partner
           });
         })["catch"](function () {
@@ -206,24 +228,24 @@ var ViewGameQueue = _react2["default"].createClass({
     }
   },
   prepListener: function prepListener() {
-    var _this2 = this;
-
     // console.log("init prep 2");
     var _props4 = this.props;
     var fireRef = _props4.fireRef;
     var queueHost = _props4.queueHost;
+    var queueHostID = this.state.queueHostID;
 
     var temp = function temp(snap) {
       // console.log("prep 2");
       var key = snap.getKey();
       var val = snap.val();
-      if (key === queueHost) {
+      if (key === queueHostID) {
         fireRef.gameQueuesRef.off("child_added", temp);
-        _this2.initListener();
       }
     };
 
-    fireRef.gameQueuesRef.on("child_added", temp);
+    this.initListener();
+    // fireRef.gameQueuesRef
+    // .on("child_added", temp);
   },
   initListener: function initListener() {
     var _this3 = this;
@@ -232,10 +254,17 @@ var ViewGameQueue = _react2["default"].createClass({
     var fireRef = _props5.fireRef;
     var userData = _props5.userData;
     var queueHost = _props5.queueHost;
+    var queueHostID = this.state.queueHostID;
 
-    var nodeRef = fireRef.gameQueuesRef.child(queueHost);
+    // console.log(queueHostID);
+    var nodeRef = fireRef.gameQueuesRef.child(queueHostID);
     nodeRef.once("value").then(function (snap) {
-      var queueInfo = snap.val();
+      var queueInfo = snap.val() || {
+        title: "",
+        game: "",
+        rank: ""
+      };
+      // console.log(queueInfo);
       // console.log(snap.getKey(), snap.val());
       // set some initial value for the count in validation
       // not doing this would leave the inputs false since the validation woud not otherise be up todate
@@ -306,7 +335,7 @@ var ViewGameQueue = _react2["default"].createClass({
         break;
     }
   },
-  validate: function validate(name, e) {
+  validate: function validate(e, name) {
     var _Object$assign4;
 
     // name will be the same as a referenced element
@@ -326,10 +355,11 @@ var ViewGameQueue = _react2["default"].createClass({
     var fireRef = _props6.fireRef;
     var userData = _props6.userData;
     var queueHost = _props6.queueHost;
+    var queueHostID = this.state.queueHostID;
 
     switch (type) {
       case "update":
-        fireRef.gameQueuesRef.child(userData.name).update({
+        fireRef.gameQueuesRef.child(userData._id).update({
           title: this.refs.title.value,
           game: this.refs.game.value,
           rank: this.refs.rank.value,
@@ -339,14 +369,14 @@ var ViewGameQueue = _react2["default"].createClass({
         });
         break;
       case "reset":
-        fireRef.gameQueuesRef.child(userData.name).update({
+        fireRef.gameQueuesRef.child(userData._id).update({
           queue: null,
           nowPlaying: null,
           alreadyPlayed: null
         });
         break;
       case "queueUp":
-        fireRef.gameQueuesRef.child(queueHost).child("queue").child(userData.name).update({
+        fireRef.gameQueuesRef.child(queueHostID).child("queue").child(userData._id).update({
           gamerID: this.refs.gamerID.value,
           date: Date.now()
         });
@@ -402,21 +432,23 @@ var ViewGameQueue = _react2["default"].createClass({
     var _props7 = this.props;
     var fireRef = _props7.fireRef;
     var queueHost = _props7.queueHost;
+    var queueHostID = this.state.queueHostID;
 
-    fireRef.gameQueuesRef.child(queueHost).child(list).update(_defineProperty({}, username, null));
+    fireRef.gameQueuesRef.child(queueHostID).child(list).update(_defineProperty({}, username, null));
   },
   moveToList: function moveToList(username, userData, currList, nextList) {
     var _props8 = this.props;
     var fireRef = _props8.fireRef;
     var queueHost = _props8.queueHost;
+    var queueHostID = this.state.queueHostID;
 
-    fireRef.gameQueuesRef.child(queueHost).child(nextList).update(_defineProperty({}, username, userData))["catch"](function () {
+    fireRef.gameQueuesRef.child(queueHostID).child(nextList).update(_defineProperty({}, username, userData))["catch"](function () {
       var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
       return console.error(e.stack || e);
     });
 
     setTimeout(function () {
-      fireRef.gameQueuesRef.child(queueHost).child(currList).update(_defineProperty({}, username, null))["catch"](function () {
+      fireRef.gameQueuesRef.child(queueHostID).child(currList).update(_defineProperty({}, username, null))["catch"](function () {
         var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
         return console.error(e.stack || e);
       });
@@ -427,27 +459,39 @@ var ViewGameQueue = _react2["default"].createClass({
     // console.log(e.target.value, e.target.checked, ref);
     if (ref === "subOnly") {
       this.setState({
-        queueInfo: Object.assign(this.state.queueInfo, {
+        queueInfo: Object.assign(this.state.queueInfo || {}, {
           subOnly: e.target.checked || null
         })
       });
     } else {
       this.setState({
-        queueInfo: Object.assign(this.state.queueInfo, _defineProperty({}, ref, e.target.value))
+        queueInfo: Object.assign(this.state.queueInfo || {}, _defineProperty({}, ref, e.target.value))
       });
     }
   },
   componentDidMount: function componentDidMount() {
-    if (!this.state.propsPresent || !this.state.userDataPresent) this.checkForProps();
+    var _this4 = this;
+
+    if (!this.state.queueHostID) {
+      (0, _modulesClientHelperTools.getUserID)([this.props.queueHost]).then(function (dataArr) {
+        // console.log(dataArr[0]._id);
+        _this4.setState({
+          queueHostID: dataArr[0]._id
+        });
+      });
+    }
+    // if(!this.state.propsPresent || !this.state.userDataPresent || !this.state.queueHostID) this.checkForProps();
   },
   componentDidUpdate: function componentDidUpdate() {
-    if (!this.state.propsPresent || !this.state.userDataPresent) this.checkForProps();
+    if (this.state.queueHostID) {
+      if (!this.state.propsPresent || !this.state.userDataPresent) this.checkForProps();
+    }
   },
   componentWillUnmount: function componentWillUnmount() {
     if (this.killListener === "function") this.killListener();
   },
   render: function render() {
-    var _this4 = this;
+    var _this5 = this;
 
     var _props9 = this.props;
     var fireRef = _props9.fireRef;
@@ -487,53 +531,53 @@ var ViewGameQueue = _react2["default"].createClass({
     var nowPlaying = _ref.nowPlaying;
     var alreadyPlayed = _ref.alreadyPlayed;
 
-    var queueList = queue ? Object.keys(queue).map(function (username) {
-      var data = queue[username];
+    var queueList = queue ? Object.keys(queue).map(function (userID) {
+      var data = queue[userID];
       return _react2["default"].createElement(UserItem, {
         controls: userData && userData.name === queueHost,
-        key: username,
-        username: username,
+        key: userID,
+        userID: userID,
         data: data,
         list: "queue",
         methods: {
-          removeFromList: _this4.removeFromList.bind(_this4, username, "queue"),
-          moveToList: _this4.moveToList.bind(_this4, username, data, "queue")
+          removeFromList: _this5.removeFromList.bind(_this5, userID, "queue"),
+          moveToList: _this5.moveToList.bind(_this5, userID, data, "queue")
         } });
-    }) : _react2["default"].createElement(
+    }).reverse() : _react2["default"].createElement(
       "span",
       { className: "bold" },
       "No one in this queue"
     );
-    var nowPlayingList = nowPlaying ? Object.keys(nowPlaying).map(function (username) {
-      var data = nowPlaying[username];
+    var nowPlayingList = nowPlaying ? Object.keys(nowPlaying).map(function (userID) {
+      var data = nowPlaying[userID];
       return _react2["default"].createElement(UserItem, {
         controls: userData && userData.name === queueHost,
-        key: username,
-        username: username,
+        key: userID,
+        userID: userID,
         data: data,
         list: "nowPlaying",
         methods: {
-          removeFromList: _this4.removeFromList.bind(_this4, username, "nowPlaying"),
-          moveToList: _this4.moveToList.bind(_this4, username, data, "nowPlaying")
+          removeFromList: _this5.removeFromList.bind(_this5, userID, "nowPlaying"),
+          moveToList: _this5.moveToList.bind(_this5, userID, data, "nowPlaying")
         } });
-    }) : _react2["default"].createElement(
+    }).reverse() : _react2["default"].createElement(
       "span",
       { className: "bold" },
       "No one in this queue"
     );
-    var alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).map(function (username) {
-      var data = alreadyPlayed[username];
+    var alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).map(function (userID) {
+      var data = alreadyPlayed[userID];
       return _react2["default"].createElement(UserItem, {
         controls: userData && userData.name === queueHost,
-        key: username,
-        username: username,
+        key: userID,
+        userID: userID,
         data: data,
         list: "alreadyPlayed",
         methods: {
-          removeFromList: _this4.removeFromList.bind(_this4, username, "alreadyPlayed"),
-          moveToList: _this4.moveToList.bind(_this4, username, data, "alreadyPlayed")
+          removeFromList: _this5.removeFromList.bind(_this5, userID, "alreadyPlayed"),
+          moveToList: _this5.moveToList.bind(_this5, userID, data, "alreadyPlayed")
         } });
-    }) : _react2["default"].createElement(
+    }).reverse() : _react2["default"].createElement(
       "span",
       { className: "bold" },
       "No one in this queue"
@@ -576,8 +620,8 @@ var ViewGameQueue = _react2["default"].createClass({
             ),
             userData && userData.name === queueHost ? [_react2["default"].createElement("input", { key: "input", type: "text", ref: "title", className: "" + (this.state.validation["titleValid"] ? " valid" : ""), value: queueInfo ? queueInfo.title : "",
               onChange: function (e) {
-                _this4.setChange(e, "title");
-                _this4.validate.bind(null, "title");
+                _this5.setChange(e, "title");
+                _this5.validate(e, "title");
               } }), _react2["default"].createElement(
               "div",
               { key: "validity" },
@@ -615,8 +659,8 @@ var ViewGameQueue = _react2["default"].createClass({
             ),
             userData && userData.name === queueHost ? [_react2["default"].createElement("input", { key: "input", type: "text", ref: "game", className: "" + (this.state.validation["gameValid"] ? " valid" : ""), value: queueInfo ? queueInfo.game : "",
               onChange: function (e) {
-                _this4.setChange(e, "game");
-                _this4.validate.bind(null, "game");
+                _this5.setChange(e, "game");
+                _this5.validate(e, "game");
               } }), _react2["default"].createElement(
               "div",
               { key: "validity" },
@@ -654,8 +698,8 @@ var ViewGameQueue = _react2["default"].createClass({
             ),
             userData && userData.name === queueHost ? [_react2["default"].createElement("input", { key: "input", type: "text", ref: "rank", className: "" + (this.state.validation["rankValid"] ? " valid" : ""), value: queueInfo ? queueInfo.rank : "",
               onChange: function (e) {
-                _this4.setChange(e, "rank");
-                _this4.validate.bind(null, "rank");
+                _this5.setChange(e, "rank");
+                _this5.validate(e, "rank");
               } }), _react2["default"].createElement(
               "div",
               { key: "validity" },
@@ -693,8 +737,8 @@ var ViewGameQueue = _react2["default"].createClass({
             ),
             userData && userData.name === queueHost ? [_react2["default"].createElement("input", { key: "input", type: "number", min: this.state.validation["queueLimitMin"], max: this.state.validation["queueLimitMax"], ref: "queueLimit", className: "" + (this.state.validation["queueLimitValid"] ? " valid" : ""), value: queueInfo ? queueInfo.queueLimit : this.state.validation["queueLimitMax"],
               onChange: function (e) {
-                _this4.setChange(e, "queueLimit");
-                _this4.validate.bind(null, "queueLimit");
+                _this5.setChange(e, "queueLimit");
+                _this5.validate(e, "queueLimit");
               } }), _react2["default"].createElement(
               "div",
               { key: "validity" },
@@ -742,8 +786,8 @@ var ViewGameQueue = _react2["default"].createClass({
                 "select",
                 { ref: "platform", value: queueInfo ? queueInfo.platform : "PC/Steam",
                   onChange: function (e) {
-                    _this4.setChange(e, "platform");
-                    _this4.changeIcon();
+                    _this5.setChange(e, "platform");
+                    _this5.changeIcon();
                   } },
                 ["None", "PC/Steam", "PC/Uplay", "PC/Origin", "PS4/PSN", "XBox/XBL", "Wii/NN"].map(function (text) {
                   return _react2["default"].createElement(
@@ -773,7 +817,7 @@ var ViewGameQueue = _react2["default"].createClass({
               "Subscriber Only? "
             ),
             userData && userData.name === queueHost ? partnered ? _react2["default"].createElement("input", { key: "input", type: "checkbox", ref: "subOnly", onChange: function (e) {
-                _this4.setChange(e, "subOnly");
+                _this5.setChange(e, "subOnly");
               }, checked: queueInfo ? queueInfo.subOnly : false }) : "You must be a Twitch partner to change this option" : queueInfo ? queueInfo.subOnly ? "Yes" : "No" : "No"
           )
         ),
@@ -854,7 +898,9 @@ var ViewGameQueue = _react2["default"].createClass({
                   { className: "label bold" },
                   "Gamer ID (Steam, PSN, XBL, etc.)"
                 ),
-                _react2["default"].createElement("input", { key: "input", type: "text", ref: "gamerID", className: "" + (this.state.validation["gamerIDValid"] ? " valid" : ""), defaultValue: queueInfo.gamerID, onChange: this.validate.bind(null, "gamerID") }),
+                _react2["default"].createElement("input", { key: "input", type: "text", ref: "gamerID", className: "" + (this.state.validation["gamerIDValid"] ? " valid" : ""), defaultValue: queueInfo.gamerID, onChange: function (e) {
+                    _this5.validate(e, "gamerID");
+                  } }),
                 _react2["default"].createElement(
                   "div",
                   { key: "validity" },

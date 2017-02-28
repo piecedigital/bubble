@@ -26,6 +26,10 @@ var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
 var _modulesClientAjax = require("../../../modules/client/ajax");
 
+var _modulesClientLoadData = require("../../../modules/client/load-data");
+
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
+
 var CommentTool = _react2["default"].createClass({
   displayName: "CommentTool",
   getInitialState: function getInitialState() {
@@ -41,6 +45,8 @@ var CommentTool = _react2["default"].createClass({
     };
   },
   submit: function submit(e) {
+    var _this = this;
+
     e.preventDefault();
     var _props = this.props;
     var auth = _props.auth;
@@ -62,105 +68,127 @@ var CommentTool = _react2["default"].createClass({
     var title = _refs.title;
     var body = _refs.body;
 
-    // if for a question post
-    if (questionID) {
-      var commentObject = {
-        "username": userData.name,
-        // to be truthy only if this is a comment reply
-        "reply": !!commentID,
-        "commentID": commentID || null,
-        //----------------------------------------
-        "body": body.value,
-        questionID: questionID,
-        "date": new Date().getTime(),
-        "sentStatuses": {
-          "email": false,
-          "notification": false
-        },
-        "version": versionData
-      };
-      if (!this.state.validation.bodyValid) return;
-      console.log("comment object:", commentObject);
-      // write answer to `answers` node
-      fireRef.commentsRef.child(questionID).push().setWithPriority(commentObject, 0 - Date.now())["catch"](function (e) {
-        return console.error(e.val ? e.val() : e);
+    new Promise(function (resolve, reject) {
+      _modulesClientLoadData2["default"].call(this, function (e) {
+        console.error(e.stack);
+      }, {
+        username: questionData.receiver
+      }).then(function (methods) {
+        methods.getUserID().then(function (data) {
+          // console.log("feature data", data);
+          var receiverID = data.users[0]._id;
+          resolve(receiverID);
+        })["catch"](function () {
+          var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+          return console.error(e);
+        });
+      })["catch"](function () {
+        var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        return console.error(e);
       });
-      body.value = "";
-
-      // send notification
-      // create notif obejct
-      var notifObject = {
-        type: "newQuestionComment",
-        info: {
-          sender: userData.name,
+    }).then(function (receiverID) {
+      // if for a question post
+      if (questionID) {
+        var commentObject = {
+          "userID": userData._id,
+          // to be truthy only if this is a comment reply
+          "reply": !!commentID,
+          "commentID": commentID || null,
+          //----------------------------------------
+          "body": body.value,
           questionID: questionID,
-          questionURL: "/profile/" + questionData.receiver + "/q/" + questionID
-        },
-        read: false,
-        date: new Date().getTime(),
-        version: versionData
-      };
-      // send notif
-      // to creator
-      if (questionData.creator !== userData.name) {
-        fireRef.notificationsRef.child(questionData.creator).push().set(notifObject)["catch"](function (e) {
+          "date": new Date().getTime(),
+          "sentStatuses": {
+            "email": false,
+            "notification": false
+          },
+          "version": versionData
+        };
+        if (!_this.state.validation.bodyValid) return;
+        console.log("comment object:", commentObject);
+        // write answer to `answers` node
+        fireRef.commentsRef.child(questionID).push().setWithPriority(commentObject, 0 - Date.now())["catch"](function (e) {
           return console.error(e.val ? e.val() : e);
         });
-      }
-      // to receiver
-      if (questionData.receiver !== userData.name) {
-        fireRef.notificationsRef.child(questionData.receiver).push().set(notifObject)["catch"](function (e) {
-          return console.error(e.val ? e.val() : e);
-        });
-      }
-    }
+        body.value = "";
 
-    // if for a poll post
-    if (pollID) {
-      var commentObject = {
-        "username": userData.name,
-        // to be truthy only if this is a comment reply
-        "reply": !!commentID,
-        "commentID": commentID || null,
-        //----------------------------------------
-        "body": body.value,
-        pollID: pollID,
-        "date": new Date().getTime(),
-        "sentStatuses": {
-          "email": false,
-          "notification": false
-        },
-        "version": versionData
-      };
-      if (!this.state.validation.bodyValid) return;
-      console.log("comment object:", commentObject);
-      // write answer to `answers` node
-      fireRef.commentsRef.child(pollID).push().setWithPriority(commentObject, 0 - Date.now())["catch"](function (e) {
-        return console.error(e.val ? e.val() : e);
-      });
-      body.value = "";
+        // send notification
+        // create notif obejct
+        var notifObject = {
+          type: "newQuestionComment",
+          info: {
+            sender: userData._id,
+            questionID: questionID,
+            questionURL: "/profile/" + receiverID + "/q/" + questionID
+          },
+          read: false,
+          date: new Date().getTime(),
+          version: versionData
+        };
+        // send notif
+        // to creator
+        if (questionData.creator !== userData._id) {
+          fireRef.notificationsRef.child(questionData.creator).push().set(notifObject)["catch"](function (e) {
+            return console.error(e.val ? e.val() : e);
+          });
+        }
+        // to receiver
+        if (receiverID !== userData._id) {
+          fireRef.notificationsRef.child(receiverID).push().set(notifObject)["catch"](function (e) {
+            return console.error(e.val ? e.val() : e);
+          });
+        }
+      }
 
-      // send notification
-      // create notif obejct
-      var notifObject = {
-        type: "newPollComment",
-        info: {
-          sender: userData.name,
+      // if for a poll post
+      if (pollID) {
+        var commentObject = {
+          "userID": userData._id,
+          // to be truthy only if this is a comment reply
+          "reply": !!commentID,
+          "commentID": commentID || null,
+          //----------------------------------------
+          "body": body.value,
           pollID: pollID,
-          pollURL: "/profile/" + pollData.creator + "/p/" + pollID
-        },
-        read: false,
-        date: new Date().getTime(),
-        version: versionData
-      };
-      // send notif
-      // to creator
-      if (pollData.creator !== userData.name) {
-        fireRef.notificationsRef.child(pollData.creator).push().set(notifObject)["catch"](function (e) {
+          "date": new Date().getTime(),
+          "sentStatuses": {
+            "email": false,
+            "notification": false
+          },
+          "version": versionData
+        };
+        if (!_this.state.validation.bodyValid) return;
+        console.log("comment object:", commentObject);
+        // write answer to `answers` node
+        fireRef.commentsRef.child(pollID).push().setWithPriority(commentObject, 0 - Date.now())["catch"](function (e) {
           return console.error(e.val ? e.val() : e);
         });
+        body.value = "";
+
+        // send notification
+        // create notif obejct
+        var notifObject = {
+          type: "newPollComment",
+          info: {
+            senderID: userData._id,
+            pollID: pollID,
+            pollURL: "/profile/" + pollData.creator + "/p/" + pollID
+          },
+          read: false,
+          date: new Date().getTime(),
+          version: versionData
+        };
+        // send notif
+        // to creator
+        if (pollData.creator !== userData._id) {
+          fireRef.notificationsRef.child(pollData.creator).push().set(notifObject)["catch"](function (e) {
+            return console.error(e.val ? e.val() : e);
+          });
+        }
       }
-    }
+    })["catch"](function (e) {
+      return console.error(e);
+    });
   },
   validate: function validate(name, e) {
     var _Object$assign;
@@ -255,6 +283,32 @@ var CommentTool = _react2["default"].createClass({
 exports.CommentTool = CommentTool;
 var CommentItem = _react2["default"].createClass({
   displayName: "CommentItem",
+  getInitialState: function getInitialState() {
+    return { username: null };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this2 = this;
+
+    var commentData = this.props.commentData;
+
+    _modulesClientLoadData2["default"].call(this, function (e) {
+      console.error(e.stack);
+    }, {
+      userID: commentData.userID
+    }).then(function (methods) {
+      methods.getUserByName().then(function (data) {
+        _this2.setState({
+          username: data.name
+        });
+      })["catch"](function () {
+        var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        return console.error(e);
+      });
+    })["catch"](function () {
+      var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+      return console.error(e);
+    });
+  },
   render: function render() {
     var _props3 = this.props;
     var auth = _props3.auth;
@@ -270,7 +324,9 @@ var CommentItem = _react2["default"].createClass({
     var pollData = _props3.pollData;
     var commentID = _props3.commentID;
     var commentData = _props3.commentData;
+    var username = this.state.username;
 
+    if (!username) return null;
     // console.log("commentitem", commentID);
     return _react2["default"].createElement(
       "div",
@@ -286,8 +342,8 @@ var CommentItem = _react2["default"].createClass({
             { className: "label username" },
             _react2["default"].createElement(
               _reactRouter.Link,
-              { to: "/profile/" + commentData.username },
-              commentData.username
+              { to: "/profile/" + username },
+              username
             )
           ),
           _react2["default"].createElement(

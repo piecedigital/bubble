@@ -49,7 +49,7 @@ if (typeof location === "object" && location.host.match("amorrius.net")) {
   redirectURI = "http://amorrius.dev";
   clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
 }
-console.log(redirectURI, clientID);
+// console.log(redirectURI, clientID);
 
 // Initialize Firebase
 
@@ -322,7 +322,9 @@ exports["default"] = _react2["default"].createClass({
         });
     }
   },
-  popUpHandler: function popUpHandler(action, options) {
+  popUpHandler: function popUpHandler(action) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
     // console.log("pop up handler", action, options);
     var newState = undefined;
     switch (action) {
@@ -332,8 +334,9 @@ exports["default"] = _react2["default"].createClass({
         });
         // console.log(this.props.location);
         if (this.props.location.state && this.props.location.state.modal) {
-          _reactRouter.browserHistory.push({
-            pathname: this.props.location.state.returnTo
+          // console.log("returnTo");
+          _reactRouter.browserHistory[options.newReturn ? "replace" : "push"]({
+            pathname: options.newReturn || this.props.location.state.returnTo
           });
         }
         break;
@@ -393,7 +396,10 @@ exports["default"] = _react2["default"].createClass({
           });
           break;
         default:
-          if (!overlay) _this3.popUpHandler("close", null);
+          // console.log(nextProps.location.state);
+          if (!overlay) _this3.popUpHandler("close", {
+            newReturn: nextProps.location.state && nextProps.location.state.returnTo ? nextProps.location.state.returnTo : null
+          });
       }
     };
 
@@ -411,7 +417,7 @@ exports["default"] = _react2["default"].createClass({
           pathname: nextProps.location.pathname,
           state: {
             modal: true,
-            returnTo: nextProps.location.state ? nextProps.location.state.returnTo || "/profile/" + (nextProps.params.username || "") : "/profile/" + (nextProps.params.username || "")
+            returnTo: nextProps.location.state ? nextProps.location.state.returnTo : nextProps.params.username ? "/profile/" + nextProps.params.username : nextProps.location.pathname
           }
         });
         // console.log("change overlay");
@@ -427,7 +433,7 @@ exports["default"] = _react2["default"].createClass({
             pathname: nextProps.location.pathname,
             state: {
               modal: true,
-              returnTo: nextProps.location.state ? nextProps.location.state.returnTo || "/profile/" + (nextProps.params.username || "") : "/profile/" + (nextProps.params.username || "")
+              returnTo: nextProps.location.state ? nextProps.location.state.returnTo : nextProps.params.username ? "/profile/" + nextProps.params.username : nextProps.location.pathname
             }
           });
           // console.log("change overlay");
@@ -614,10 +620,10 @@ exports["default"] = _react2["default"].createClass({
         methods: {
           popUpHandler: this.popUpHandler
         } }),
+      _react2["default"].createElement("div", { className: "separator-4-black" }),
       _react2["default"].createElement(
         "div",
         { className: "created-by" },
-        _react2["default"].createElement("div", { className: "separator-4-black" }),
         _react2["default"].createElement(
           "div",
           { className: "by" },
@@ -628,10 +634,22 @@ exports["default"] = _react2["default"].createClass({
             "Piece Digital"
           ),
           " | ",
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { href: "/about", to: "/about" },
+            "About Amorrius"
+          ),
+          " | ",
+          _react2["default"].createElement(
+            _reactRouter.Link,
+            { href: "/terms-of-service", to: "/terms-of-service" },
+            "Terms of Service and Privacy Policy"
+          ),
+          " | ",
           versionData ? _react2["default"].createElement(
             "span",
             { className: "version" },
-            "Current version: ",
+            "App version: ",
             versionData.major,
             ".",
             versionData.minor,

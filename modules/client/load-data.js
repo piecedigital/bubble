@@ -3,10 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = loadData;
 
 var _ajax = require("./ajax");
 
-exports["default"] = function (errorCB) {
+function loadData(errorCB) {
   var _this = this;
 
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -16,10 +17,20 @@ exports["default"] = function (errorCB) {
   options.limit = options.limit || 20;
   options.headers = options.headers || {};
   // accept v3 api
-  options.headers["Accept"] = "application/vnd.twitchtv.v3+json";
+  // options.headers["Accept"] = "application/vnd.twitchtv.v3+json";
+  // accept v5 api
+  options.headers["Accept"] = "application/vnd.twitchtv.v5+json";
 
-  var redirectURI = typeof location === "object" ? "http://" + location.host : "http://localhost:8080";
-  var clientID = redirectURI === "http://localhost:8080" ? "cye2hnlwj24qq7fezcbq9predovf6yy" : "2lbl5iik3q140d45q5bddj3paqekpbi";
+  var redirectURI = undefined,
+      clientID = undefined;
+  var match = location.host === "amorrius.net";
+  if (match) {
+    redirectURI = "http://" + location.host;
+    clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
+  } else {
+    redirectURI = "http://amorrius.dev";
+    clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
+  }
 
   options.headers["Client-ID"] = clientID;
   var baseURL = "https://api.twitch.tv/kraken/";
@@ -73,13 +84,17 @@ exports["default"] = function (errorCB) {
         // console.log(this);
         return makeRequest(okayCB, "/get-firebase-config", true);
       },
-      getUserID: function getUserID() {
-        options.login = options.username;
+      getUserID: function getUserID(okayCB) {
+        if (options.usernameList) {
+          options.login = options.usernameList.join(",");
+        } else {
+          options.login = options.username;
+        }
         options.api_version = 5;
         delete options.username;
         // options.client_id = options.headers["Client-ID"];
         // options.headers = options.headers || {};
-        return makeRequest(okayCB, "/users");
+        return makeRequest(okayCB, "users");
       },
       featured: function featured(okayCB) {
         // console.log(this);
@@ -100,12 +115,86 @@ exports["default"] = function (errorCB) {
       getUserByName: function getUserByName(okayCB) {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, "users/" + options.username);
+        return new Promise(function (resolve, reject) {
+
+          if (options.userID) {
+
+            makeRequest(okayCB, "users/" + options.userID).then(function (data) {
+              return resolve(data);
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return reject(e);
+            });
+          } else {
+
+            // start by getting the user ID
+            loadData(function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+              console.error(e.stack || e);
+            }, {
+              username: options.username
+            }).then(function (methods) {
+              methods.getUserID().then(function (data) {
+                // console.log("user id", data);
+                // real request
+                makeRequest(okayCB, "users/" + data.users[0]._id).then(function (data) {
+                  return resolve(data);
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                  return reject(e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return console.error(e.stack || e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          }
+        });
       },
       getChannelByName: function getChannelByName(okayCB) {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, "channels/" + options.username);
+        return new Promise(function (resolve, reject) {
+
+          if (options.userID) {
+            makeRequest(okayCB, "channels/" + options.userID).then(function (data) {
+              return resolve(data);
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return reject(e);
+            });
+          } else {
+            // start by getting the user ID
+            loadData(function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+              console.error(e.stack || e);
+            }, {
+              username: options.username
+            }).then(function (methods) {
+              methods.getUserID().then(function (data) {
+                // console.log("user id", data);
+                // real request
+                makeRequest(okayCB, "channels/" + data.users[0]._id).then(function (data) {
+                  return resolve(data);
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                  return reject(e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return console.error(e.stack || e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          }
+        });
       },
       getCurrentUser: function getCurrentUser(okayCB) {
         delete options.stream_type;
@@ -120,20 +209,146 @@ exports["default"] = function (errorCB) {
       getStreamByName: function getStreamByName(okayCB) {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, "streams/" + options.username);
+        return new Promise(function (resolve, reject) {
+
+          if (options.userID) {
+            makeRequest(okayCB, "streams/" + options.userID).then(function (data) {
+              return resolve(data);
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return reject(e);
+            });
+          } else {
+            // start by getting the user ID
+            loadData(function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+              console.error(e.stack || e);
+            }, {
+              username: options.username
+            }).then(function (methods) {
+              methods.getUserID().then(function (data) {
+                // console.log("user id", data);
+                // real request
+                makeRequest(okayCB, "streams/" + data.users[0]._id).then(function (data) {
+                  return resolve(data);
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                  return reject(e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return console.error(e.stack || e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          }
+        });
       },
       getFollowStatus: function getFollowStatus(okayCB) {
         delete options.stream_type;
         delete options.limit;
-        return makeRequest(okayCB, "users/" + options.username + "/follows/channels/" + options.target);
+        return new Promise(function (resolve, reject) {
+
+          // start by getting the first user ID
+          loadData(function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            console.error(e.stack || e);
+          }, {
+            username: options.username
+          }).then(function (methods) {
+            methods.getUserID().then(function (data) {
+              // console.log("user id", data);
+              // get the target user ID
+              loadData(function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+                console.error(e.stack || e);
+              }, {
+                username: options.target
+              }).then(function (methods) {
+                methods.getUserID().then(function (data2) {
+                  // console.log("target id", data2);
+                  // real request
+                  makeRequest(okayCB, "users/" + data.users[0]._id + "/follows/channels/" + data2.users[0]._id).then(function (data) {
+                    return resolve(data);
+                  })["catch"](function () {
+                    var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                    return reject(e);
+                  });
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                  return console.error(e.stack || e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return console.error(e.stack || e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          })["catch"](function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            return console.error(e.stack || e);
+          });
+        });
       },
       getSubscriptionStatus: function getSubscriptionStatus(okayCB) {
         delete options.stream_type;
         delete options.limit;
         options = needAuth(options);
         options.to = options.to || "user";
-        var url = options.to === "channel" ? "channels/" + options.target + "/subscriptions/" + options.username : "users/" + options.username + "/subscriptions/" + options.target;
-        return makeRequest(okayCB, url);
+        return new Promise(function (resolve, reject) {
+
+          // start by getting the first user ID
+          loadData(function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            console.error(e.stack || e);
+          }, {
+            username: options.username
+          }).then(function (methods) {
+            methods.getUserID().then(function (data) {
+              // console.log("user id", data);
+              // get the target user ID
+              loadData(function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+                console.error(e.stack || e);
+              }, {
+                username: options.target
+              }).then(function (methods) {
+                methods.getUserID().then(function (data2) {
+                  // console.log("target id", data2);
+                  // real request
+                  var url = options.to === "channel" ? "channels/" + data2.users[0]._id + "/subscriptions/" + data.users[0]._id : "users/" + data.users[0]._id + "/subscriptions/" + data2.users[0]._id;
+                  return makeRequest(okayCB, url).then(function (data) {
+                    return resolve(data);
+                  })["catch"](function () {
+                    var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                    return reject(e);
+                  });
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                  return console.error(e.stack || e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return console.error(e.stack || e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          })["catch"](function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            return console.error(e.stack || e);
+          });
+        });
       },
       getPanels: function getPanels(okayCB) {
         delete options.stream_type;
@@ -151,7 +366,44 @@ exports["default"] = function (errorCB) {
         delete options.username;
         // options.client_id = options.headers["Client-ID"];
         // options.headers = options.headers || {};
-        return makeRequest(okayCB, "channels/" + username + "/videos");
+        return new Promise(function (resolve, reject) {
+
+          if (options.userID) {
+            makeRequest(okayCB, "channels/" + options.userID + "/videos").then(function (data) {
+              return resolve(data);
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return reject(e);
+            });
+          } else {
+            // start by getting the user ID
+            loadData(function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+              console.error(e.stack || e);
+            }, {
+              username: username
+            }).then(function (methods) {
+              methods.getUserID().then(function (data) {
+                // console.log("user id", data);
+                // console.log(data.users[0]._id);
+                // real request
+                makeRequest(okayCB, "channels/" + data.users[0]._id + "/videos").then(function (data) {
+                  return resolve(data);
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                  return reject(e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return console.error(e.stack || e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          }
+        });
       },
       followStream: function followStream(okayCB) {
         delete options.stream_type;
@@ -163,7 +415,54 @@ exports["default"] = function (errorCB) {
             target = options.target;
         delete options.username;
         delete options.target;
-        return makeRequest(okayCB, "users/" + username + "/follows/channels/" + target);
+        return new Promise(function (resolve, reject) {
+
+          // start by getting the user ID
+          loadData(function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            console.error(e.stack || e);
+          }, {
+            username: username
+          }).then(function (methods) {
+            methods.getUserID().then(function (data) {
+              // console.log("user id", data);
+
+              // getting the target user ID
+              loadData(function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+                console.error(e.stack || e);
+              }, {
+                username: target
+              }).then(function (methods) {
+                methods.getUserID().then(function (data2) {
+                  // console.log("target id", data2);
+                  console.log(data, data2);
+                  // real request
+                  makeRequest(okayCB, "users/" + data.users[0]._id + "/follows/channels/" + data2.users[0]._id).then(function (data) {
+                    return resolve(data);
+                  })["catch"](function () {
+                    var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                    return reject(e);
+                  });
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                  return console.error(e.stack || e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return console.error(e.stack || e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          })["catch"](function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            return console.error(e.stack || e);
+          });
+        });
       },
       unfollowStream: function unfollowStream(okayCB) {
         delete options.stream_type;
@@ -174,19 +473,119 @@ exports["default"] = function (errorCB) {
             target = options.target;
         delete options.username;
         delete options.target;
-        return makeRequest(okayCB, "users/" + username + "/follows/channels/" + target);
+        return new Promise(function (resolve, reject) {
+
+          // start by getting the user ID
+          loadData(function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            console.error(e.stack || e);
+          }, {
+            username: username
+          }).then(function (methods) {
+            methods.getUserID().then(function (data) {
+              // console.log("user id", data);
+
+              // start by getting the user ID
+              loadData(function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+                console.error(e.stack || e);
+              }, {
+                username: target
+              }).then(function (methods) {
+                methods.getUserID().then(function (data2) {
+                  // console.log("target id", data2);
+                  // real request
+                  makeRequest(okayCB, "users/" + data.users[0]._id + "/follows/channels/" + data2.users[0]._id).then(function (data) {
+                    return resolve(data);
+                  })["catch"](function () {
+                    var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                    return reject(e);
+                  });
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                  return console.error(e.stack || e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return console.error(e.stack || e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          })["catch"](function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            return console.error(e.stack || e);
+          });
+        });
       },
       followedStreams: function followedStreams(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         options.headers = options.headers || {};
         options.headers.Authorization = "OAuth " + (options.access_token || _this.props.auth.access_token);
-        return makeRequest(okayCB, "users/" + (options.username || _this.props.userData.name) + "/follows/channels");
+        return new Promise(function (resolve, reject) {
+
+          // start by getting the user ID
+          loadData(function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            console.error(e.stack || e);
+          }, {
+            username: options.username || this.props.userData.name
+          }).then(function (methods) {
+            methods.getUserID().then(function (data) {
+              // console.log("user id", data);
+              // real request
+              makeRequest(okayCB, "users/" + data.users[0]._id + "/follows/channels").then(function (data) {
+                return resolve(data);
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return reject(e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          })["catch"](function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            return console.error(e.stack || e);
+          });
+        });
       },
       followingStreams: function followingStreams(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         options.headers = options.headers || {};
         options.headers.Authorization = "OAuth " + (options.access_token || _this.props.auth.access_token);
-        return makeRequest(okayCB, "channels/" + (options.username || _this.props.userData.name) + "/follows");
+        return new Promise(function (resolve, reject) {
+
+          // start by getting the user ID
+          loadData(function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            console.error(e.stack || e);
+          }, {
+            username: options.username || this.props.userData.name
+          }).then(function (methods) {
+            methods.getUserID().then(function (data) {
+              // console.log("user id", data);
+              // real request
+              makeRequest(okayCB, "channels/" + data.users[0]._id + "/follows").then(function (data) {
+                return resolve(data);
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return reject(e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          })["catch"](function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            return console.error(e.stack || e);
+          });
+        });
       },
       followedVideos: function followedVideos(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
@@ -206,7 +605,7 @@ exports["default"] = function (errorCB) {
       }
     });
   });
-};
+}
 
 ;
 module.exports = exports["default"];

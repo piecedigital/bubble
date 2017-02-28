@@ -61,12 +61,15 @@ var components = {
       });
     },
     followCallback: function followCallback(follow) {
-      if (follow) {
-        // following channel
-        if (typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
-      } else {
-        // unfollowing channel
-        if (typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
+      console.log(this.props.follow);
+      if (this.props.follow === "IFollow") {
+        if (follow) {
+          // following channel
+          if (typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
+        } else {
+          // unfollowing channel
+          if (typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
+        }
       }
     },
     appendStream: function appendStream(name, display_name) {
@@ -78,10 +81,12 @@ var components = {
       var _props = this.props;
       var data = _props.data;
       var params = _props.params;
+      var userData = _props.userData;
 
       // I wouldn't care to receive desktop notifications regarding someone elses followings
       // this should keep that from happening
-      if (params && params.username) return;
+      if (params && userData && params.username !== userData.name) console.log("not my follows, not my interest");
+      if (params && userData && params.username !== userData.name) return;
 
       var _ref2 = data.channel || data.user;
 
@@ -439,19 +444,27 @@ exports["default"] = _react2["default"].createClass({
       _this7.scrollEvent();
     }, 100);
     // rerun gather data if...
-    var last = this.props.params.username,
-        curr = nextProps.params.username,
-        signedIn = this.props.userData ? this.props.userData.name : "";
-    // console.log("new name", last, curr, signedIn);
-    if (last || curr) {
-      if (
-      // ... username changes
-      last !== signedIn && curr !== signedIn && last !== curr ||
-      // ... auth changes
-      !!this.props.auth !== !!nextProps.auth) {
-        this.gatherData(this.state.limit, 0, null, true);
-      }
+
+    if (this.props.params.username !== nextProps.params.username) {
+      this.gatherData(this.state.limit, 0, null, true);
     }
+
+    // const last = this.props.params.username,
+    // curr = nextProps.params.username,
+    // signedIn = this.props.userData ? this.props.userData.name : "";
+    // // console.log("new name", last, curr, signedIn);
+    // if(last || curr) {
+    //   if(
+    //     // ... username changes
+    //     (last !== signedIn &&
+    //     curr !== signedIn &&
+    //     last !== curr) ||
+    //     // ... auth changes
+    //     !!this.props.auth !== !!nextProps.auth
+    //   ) {
+    //     this.gatherData(this.state.limit, 0, null, true);
+    //   }
+    // }
   },
   componentDidMount: function componentDidMount() {
     // console.log("auth", this.props.auth);

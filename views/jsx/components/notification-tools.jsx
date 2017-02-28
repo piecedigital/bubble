@@ -16,12 +16,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
+
 var NotifItem = _react2["default"].createClass({
   displayName: "NotifItem",
   getInitialState: function getInitialState() {
     return {
       questionData: null,
-      pollData: null
+      pollData: null,
+      senderName: null
     };
   },
   markRead: function markRead() {
@@ -31,7 +34,7 @@ var NotifItem = _react2["default"].createClass({
     var notifID = _props.notifID;
     var data = _props.data;
 
-    fireRef.notificationsRef.child(userData.name + "/" + notifID + "/read").set(true);
+    fireRef.notificationsRef.child(userData._id + "/" + notifID + "/read").set(true);
   },
   getMessage: function getMessage() {
     var _props2 = this.props;
@@ -41,6 +44,7 @@ var NotifItem = _react2["default"].createClass({
     var _state = this.state;
     var questionData = _state.questionData;
     var pollData = _state.pollData;
+    var senderName = _state.senderName;
 
     var object = {
       "message": "You have a new notification"
@@ -50,19 +54,19 @@ var NotifItem = _react2["default"].createClass({
 
     switch (data.type) {
       case "newQuestion":
-        object.message = data.info.sender + " asked a question: \"" + postData.title + "\"";
+        object.message = senderName + " asked a question: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
         break;
       case "newAnswer":
-        object.message = data.info.sender + " answered your question: \"" + postData.title + "\"";
+        object.message = senderName + " answered your question: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = "answerQuestion";
         break;
       case "newQuestionComment":
-        object.message = data.info.sender + " commented on a question: \"" + postData.title + "\"";
+        object.message = senderName + " commented on a question: \"" + postData.title + "\"";
         object.modal = true;
         object.returnTo = location.pathname;
         object.overlay = questionData ? "viewQuestion" : "viewPoll";
@@ -95,6 +99,12 @@ var NotifItem = _react2["default"].createClass({
     var fireRef = _props3.fireRef;
     var data = _props3.data;
 
+    (0, _modulesClientHelperTools.getUsername)([data.info.sender]).then(function (dataArr) {
+      _this.setState({
+        senderName: dataArr[0].name
+      });
+    });
+
     if (data && data.info && data.info.questionID) {
       fireRef.questionsRef.child(data.info.questionID).child("title").once("value").then(function (snap) {
         _this.setState({
@@ -123,6 +133,9 @@ var NotifItem = _react2["default"].createClass({
     var _state2 = this.state;
     var questionData = _state2.questionData;
     var pollData = _state2.pollData;
+    var senderName = _state2.senderName;
+
+    if (!questionData || !senderName) return null;
 
     switch (data.type) {
       case "newQuestion":
@@ -206,7 +219,7 @@ var ViewNotifications = _react2["default"].createClass({
       // console.log("prep 2");
       var key = snap.getKey();
       var val = snap.val();
-      if (key === userData.name) {
+      if (key === userData._id) {
         fireRef.notificationsRef.off("child_added", temp);
         _this3.initListener();
       }
@@ -221,7 +234,7 @@ var ViewNotifications = _react2["default"].createClass({
     var fireRef = _props7.fireRef;
     var userData = _props7.userData;
 
-    var nodeRef = fireRef.notificationsRef.child(userData.name);
+    var nodeRef = fireRef.notificationsRef.child(userData._id);
     nodeRef.once("value").then(function (snap) {
       _this4.setState({
         notifications: snap.val()
@@ -238,7 +251,7 @@ var ViewNotifications = _react2["default"].createClass({
   newNotif: function newNotif(snap) {
     var key = snap.getKey();
     var val = snap.val();
-    console.log("new notif", key, val);
+    // console.log("new notif", key, val);
     var newNotifications = Object.assign(JSON.parse(JSON.stringify(this.state.notifications || {})), _defineProperty({}, key, val));
 
     var notifCount = Object.keys(newNotifications).filter(function (notifID) {

@@ -129,11 +129,13 @@ var FeaturedStream = _react2["default"].createClass({
             displayName: data.display_name,
             bio: data.bio
           });
-        })["catch"](function (e) {
-          return console.error(e.stack);
+        })["catch"](function () {
+          var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+          return console.error(e.stack || e);
         });
-      })["catch"](function (e) {
-        return console.error(e.stack);
+      })["catch"](function () {
+        var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+        return console.error(e.stack || e);
       });
     });
   },

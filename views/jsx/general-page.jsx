@@ -166,6 +166,7 @@ exports["default"] = _react2["default"].createClass({
   displayName: "StreamsPage",
   getInitialState: function getInitialState() {
     return {
+      page: this.props.params ? this.props.params.page : null,
       requestOffset: 0,
       dataArray: []
     };
@@ -182,6 +183,7 @@ exports["default"] = _react2["default"].createClass({
     params = _props3.params;
     var location = _props3.location;
 
+    if (!params.page) return;
     if (_modulesClientLoadData2["default"]) {
       (function () {
         var capitalType = params.page.replace(/^(.)/, function (_, letter) {
@@ -216,18 +218,24 @@ exports["default"] = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     this.gatherData();
   },
+  shouldComponentUpdate: function shouldComponentUpdate(nextProps) {
+    return !!this.props.params.page || !!nextProps.params.page;
+  },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    // console.log("updated");
+    this.setState({
+      page: nextProps.params.page || this.state.page
+    });
+  },
+  componentDidUpdate: function componentDidUpdate(_, oldState) {
     var _this2 = this;
 
-    console.log("updated");
-    if (this.props.params.page !== nextProps.params.page) {
-      setTimeout(function () {
-        _this2.setState({
-          dataArray: [],
-          requestOffset: 0
-        }, function () {
-          _this2.gatherData();
-        });
+    if (this.state.page !== oldState.page) {
+      this.setState({
+        dataArray: [],
+        requestOffset: 0
+      }, function () {
+        _this2.gatherData();
       });
     }
   },
@@ -238,6 +246,7 @@ exports["default"] = _react2["default"].createClass({
     var requestOffset = _state.requestOffset;
     var dataArray = _state.dataArray;
     var component = _state.component;
+    var page = _state.page;
     var _props4 = this.props;
     var auth = _props4.auth;
     var fireRef = _props4.fireRef;
@@ -254,7 +263,7 @@ exports["default"] = _react2["default"].createClass({
         return {
           v: _react2["default"].createElement(
             "div",
-            { className: "top-level-component " + (params ? params.page : data.page) },
+            { className: "top-level-component " + (page || (params ? params.page : data.page)) },
             _react2["default"].createElement(
               "div",
               { className: "general-page" },

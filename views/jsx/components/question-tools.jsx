@@ -24,6 +24,10 @@ var _reactRouter = require('react-router');
 
 var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 
+var _modulesClientLoadData = require("../../../modules/client/load-data");
+
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
+
 var _voteToolJsx = require("./vote-tool.jsx");
 
 var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
@@ -67,62 +71,90 @@ var AskQuestion = _react2["default"].createClass({
     var title = _refs.title;
     var body = _refs.body;
 
-    var questionObject = {
-      // true if `access_token` exists
-      creator: from,
-      receiver: to,
-      title: title.value,
-      body: body.value,
-      date: new Date().getTime(),
-      sentStatuses: {
-        "email": false,
-        "notification": false
-      },
-      version: versionData
-    };
+    // get IDs for usernames
+    new Promise(function (resolve, reject) {
+      _modulesClientLoadData2["default"].call(this, function (e) {
+        console.error(e.stack);
+      }, {
+        usernameList: [to, from]
+      }).then(function (methods) {
+        methods.getUserID().then(function (data) {
+          // console.log("feature data", data);
+          var toID = data.users[0]._id;
+          var fromID = data.users[1]._id;
+          resolve({ toID: toID, fromID: fromID });
+        })["catch"](function () {
+          var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+          return console.error(e);
+        });
+      })["catch"](function () {
+        var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        return console.error(e);
+      });
+    }).then(function (_ref) {
+      var toID = _ref.toID;
+      var fromID = _ref.fromID;
 
-    if (!this.state.validation.titleValid && !this.state.validation.bodyValid) return;
-    // console.log("question object:", questionObject);
-    // write question to `questions` node
-    var questionID = fireRef.root.push().getKey();
-    // console.log(questionID);
-    fireRef.questionsRef.child(questionID).setWithPriority(questionObject, 0 - Date.now())["catch"](function (e) {
-      return console.error(e.val ? e.val() : e);
-    });
+      var questionObject = {
+        // true if `access_token` exists
+        creatorID: fromID,
+        receiverID: toID,
+        title: title.value,
+        body: body.value,
+        date: new Date().getTime(),
+        sentStatuses: {
+          "email": false,
+          "notification": false
+        },
+        version: versionData
+      };
 
-    // send notification
-    // create notif obejct
-    var notifObject = {
-      type: "newQuestion",
-      info: {
-        sender: from,
-        questionID: questionID,
-        questionURL: "/profile/" + to + "/a/" + questionID
-      },
-      read: false,
-      date: new Date().getTime(),
-      version: versionData
-    };
-    // send notif
-    fireRef.notificationsRef.child(to).push().set(notifObject)["catch"](function (e) {
-      return console.error(e.val ? e.val() : e);
-    });
-    // write question ID reference to user.<username>.questionsForMe
-    fireRef.usersRef.child(to + "/questionsForMe/" + questionID).setWithPriority(questionObject.date, 0 - Date.now())["catch"](function (e) {
-      return console.error(e.val ? e.val() : e);
-    });
-    // write question ID reference to user.<username>.questionsForThem
-    fireRef.usersRef.child(from + "/questionsForThem/" + questionID).setWithPriority(questionObject.date, 0 - Date.now())["catch"](function (e) {
-      return console.error(e.val ? e.val() : e);
-    });
+      if (!_this.state.validation.titleValid && !_this.state.validation.bodyValid) return;
+      // return console.log("question object:", questionObject);
+      // write question to `questions` node
+      var questionID = fireRef.root.push().getKey();
+      // console.log(questionID);
+      fireRef.questionsRef.child(questionID).set(questionObject)["catch"](function (e) {
+        return console.error(e.val ? e.val() : e);
+      });
 
-    // close the pop up
-    this.setState({
-      success: true
-    }, function () {
-      setTimeout(function () {
-        _this.props.methods.popUpHandler("close");
-      }, 2000);
+      // send notification
+      // create notif obejct
+      var notifObject = {
+        type: "newQuestion",
+        info: {
+          sender: fromID,
+          questionID: questionID,
+          questionURL: "/profile/" + toID + "/a/" + questionID
+        },
+        read: false,
+        date: new Date().getTime(),
+        version: versionData
+      };
+      // send notif
+      fireRef.notificationsRef.child(toID).push().set(notifObject)["catch"](function (e) {
+        return console.error(e.val ? e.val() : e);
+      });
+      // write question ID reference to user.<username>.questionsForMe
+      fireRef.usersRef.child(toID + "/questionsForMe/" + questionID).set(questionObject.date)["catch"](function (e) {
+        return console.error(e.val ? e.val() : e);
+      });
+      // write question ID reference to user.<username>.questionsForThem
+      fireRef.usersRef.child(fromID + "/questionsForThem/" + questionID).set(questionObject.date)["catch"](function (e) {
+        return console.error(e.val ? e.val() : e);
+      });
+
+      // close the pop up
+      _this.setState({
+        success: true
+      }, function () {
+        setTimeout(function () {
+          _this.props.methods.popUpHandler("close");
+        }, 2000);
+      });
+    })["catch"](function () {
+      var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      return console.error(e);
     });
   },
   validate: function validate(name, e) {
@@ -369,7 +401,7 @@ var AnswerQuestion = _react2["default"].createClass({
     }
 
     var answerObject = {
-      "username": userData.name,
+      "userID": userData._id,
       "body": body.value + t,
       answerType: answerType,
       "questionID": questionID,
@@ -383,11 +415,11 @@ var AnswerQuestion = _react2["default"].createClass({
     if (!this.state.validation.bodyValid) return;
     // return console.log("question object:", answerObject);
     // write answer to `answers` node
-    fireRef.answersRef.child(questionID).setWithPriority(answerObject, 0 - Date.now())["catch"](function (e) {
+    fireRef.answersRef.child(questionID).set(answerObject)["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
     // write answer reference to user account
-    fireRef.usersRef.child(questionData.receiver).child("answersFromMe").child(questionID).setWithPriority(answerObject.date, 0 - Date.now())["catch"](function (e) {
+    fireRef.usersRef.child(questionData.receiverID).child("answersFromMe").child(questionID).set(answerObject.date)["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
 
@@ -396,7 +428,7 @@ var AnswerQuestion = _react2["default"].createClass({
     var notifObject = {
       type: "newAnswer",
       info: {
-        sender: userData.name,
+        sender: userData._id,
         questionID: questionID,
         questionURL: "/profile/" + userData.name + "/q/" + questionID
       },
@@ -405,7 +437,7 @@ var AnswerQuestion = _react2["default"].createClass({
       version: versionData
     };
     // send notif
-    fireRef.notificationsRef.child(questionData.creator).push().set(notifObject)["catch"](function (e) {
+    fireRef.notificationsRef.child(questionData.creatorID).push().set(notifObject)["catch"](function (e) {
       return console.error(e.val ? e.val() : e);
     });
 
@@ -477,14 +509,39 @@ var AnswerQuestion = _react2["default"].createClass({
       (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
         // console.log("got answer data", answerData);
 
+        // immediately show the answer if there is one
         if (answerData) {
           popUpHandler("viewQuestion", {
             questionID: questionID
           });
         } else {
-          if (questionData.receiver === userData.name) {
-            _this4.setState({
-              questionData: questionData
+          // else, thiw question needs to be answered
+          // get the username of the creator
+          if (questionData.receiverID === userData._id) {
+            new Promise(function (resolve, reject) {
+              _modulesClientLoadData2["default"].call(this, function (e) {
+                console.error(e.stack);
+              }, {
+                userID: questionData.creatorID
+              }).then(function (methods) {
+                methods.getUserByName().then(function (data) {
+                  resolve(Object.assign(questionData, {
+                    creator: data.name
+                  }));
+                })["catch"](function () {
+                  var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+                  return console.error(e);
+                });
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+                return console.error(e);
+              });
+            }).then(function (questionData) {
+              _this4.setState({
+                questionData: questionData
+              });
+            })["catch"](function (e) {
+              return console.error(e);
             });
           }
         }
@@ -750,7 +807,7 @@ var ViewQuestion = _react2["default"].createClass({
     fireRef.commentsRef.child(questionID).orderByChild("reply").equalTo(false).on("child_added", this.newComment);
   },
   componentDidMount: function componentDidMount() {
-    var _this5 = this;
+    var _this6 = this;
 
     var _props7 = this.props;
     var questionID = _props7.questionID;
@@ -760,12 +817,55 @@ var ViewQuestion = _react2["default"].createClass({
 
     // get question data
     (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
-      _this5.setState({
-        questionData: questionData
+      new Promise(function (resolve, reject) {
+        var _this5 = this;
+
+        // first, creator
+        _modulesClientLoadData2["default"].call(this, function (e) {
+          console.error(e.stack);
+        }, {
+          userID: questionData.creatorID
+        }).then(function (methods) {
+          methods.getUserByName().then(function (creatorData) {
+            console.log("feature creatorData", creatorData);
+            // then, receiver
+            _modulesClientLoadData2["default"].call(_this5, function (e) {
+              console.error(e.stack);
+            }, {
+              userID: questionData.receiverID
+            }).then(function (methods) {
+              methods.getUserByName().then(function (receiverData) {
+                console.log("feature receiverData", receiverData);
+                resolve(Object.assign(questionData, {
+                  creator: creatorData.name,
+                  receiver: receiverData.name
+                }));
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+                return console.error(e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+              return console.error(e);
+            });
+          })["catch"](function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+            return console.error(e);
+          });
+        })["catch"](function () {
+          var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+          return console.error(e);
+        });
+      }).then(function (questionData) {
+        _this6.setState({
+          questionData: questionData
+        });
+      })["catch"](function (e) {
+        return console.error(e);
       });
     });
     (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
-      _this5.setState({
+      _this6.setState({
         answerData: answerData
       });
     });
@@ -773,9 +873,9 @@ var ViewQuestion = _react2["default"].createClass({
       return refNode.orderByChild("reply").equalTo(false);
     }, function (commentsData) {
       // console.log("got commentsData", commentsData);
-      _this5.setState({
+      _this6.setState({
         comments: commentsData
-      }, _this5.initListener);
+      }, _this6.initListener);
     });
   },
   componentWillUnmount: function componentWillUnmount() {
@@ -818,13 +918,23 @@ var ViewQuestion = _react2["default"].createClass({
           { className: "title" },
           _react2["default"].createElement(
             _reactRouter.Link,
-            { href: "/profile/" + questionData.creator, to: "/profile/" + questionData.creator },
+            { href: "/profile/" + questionData.creator, to: {
+                pathname: "/profile/" + questionData.creator,
+                state: {
+                  returnTo: "/profile/" + questionData.creator
+                }
+              } },
             questionData.creator
           ),
           "'s Question To ",
           _react2["default"].createElement(
             _reactRouter.Link,
-            { href: "/profile/" + questionData.receiver, to: "/profile/" + questionData.receiver },
+            { href: "/profile/" + questionData.receiver, to: {
+                pathname: "/profile/" + questionData.receiver,
+                state: {
+                  returnTo: "/profile/" + questionData.receiver
+                }
+              } },
             questionData.receiver
           )
         ),
@@ -948,7 +1058,7 @@ var QuestionItem = _react2["default"].createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    var _this6 = this;
+    var _this7 = this;
 
     var _props9 = this.props;
     var questionID = _props9.questionID;
@@ -956,7 +1066,7 @@ var QuestionItem = _react2["default"].createClass({
 
     (0, _modulesClientHelperTools.getAnswerData)(questionID, fireRef, null, function (answerData) {
       console.log("got answer data");
-      _this6.setState({
+      _this7.setState({
         answerData: answerData
       });
     });
@@ -1021,7 +1131,7 @@ var AnswerItem = _react2["default"].createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    var _this7 = this;
+    var _this8 = this;
 
     var _props11 = this.props;
     var questionID = _props11.questionID;
@@ -1029,7 +1139,7 @@ var AnswerItem = _react2["default"].createClass({
 
     (0, _modulesClientHelperTools.getQuestionData)(questionID, fireRef, null, function (questionData) {
       console.log("got question data");
-      _this7.setState({
+      _this8.setState({
         questionData: questionData
       });
     });
@@ -1085,21 +1195,21 @@ var ViewAskedQuestions = _react2["default"].createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    var _this8 = this;
+    var _this9 = this;
 
     var _props13 = this.props;
     var fireRef = _props13.fireRef;
     var userData = _props13.userData;
 
-    fireRef.questionsRef.orderByChild("creator").equalTo(userData.name).once("value").then(function (snap) {
+    fireRef.questionsRef.orderByChild("creatorID").equalTo(userData._id).once("value").then(function (snap) {
       var questionData = snap.val();
-      _this8.setState({
+      _this9.setState({
         questionData: questionData
       });
     });
-    fireRef.answersRef.orderByChild("username").equalTo(userData.name).once("value").then(function (snap) {
+    fireRef.answersRef.orderByChild("userID").equalTo(userData._id).once("value").then(function (snap) {
       var answerData = snap.val();
-      _this8.setState({
+      _this9.setState({
         answerData: answerData
       });
     });

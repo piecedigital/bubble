@@ -78,7 +78,11 @@ var components = {
             { className: "image" },
             _react2["default"].createElement(_modulesClientHelperTools.CImg, {
               "for": "video-list-item",
-              src: preview })
+              style: {
+                width: 136,
+                height: 102
+              },
+              src: preview.template.replace("{width}", 136).replace("{height}", 102) })
           ),
           _react2["default"].createElement(
             "div",
@@ -139,9 +143,9 @@ exports["default"] = _react2["default"].createClass({
       var _props2 = _this.props;
       var params = _props2.params;
       var userData = _props2.userData;
-      var broadcasts = _this.props.broadcasts;
+      var archive = _this.props.archive;
 
-      broadcasts = typeof broadcasts !== "boolean" ? true : broadcasts;
+      archive = typeof archive !== "boolean" ? true : archive;
       var username = undefined;
       if (params && params.username) {
         username = params.username;
@@ -161,7 +165,7 @@ exports["default"] = _react2["default"].createClass({
           offset: offset,
           limit: limit,
           username: username,
-          broadcasts: broadcasts,
+          archive: archive,
           stream_type: "all"
         }).then(function (methods) {
           methods["getVideos"]().then(function (data) {
@@ -246,17 +250,23 @@ exports["default"] = _react2["default"].createClass({
       _this4.scrollEvent();
     }, 100);
     // rerun gather data if...
-    var last = this.props.params.username,
-        curr = nextProps.params.username,
-        signedIn = this.props.userData ? this.props.userData.name : "";
-    // console.log("new name", last, curr, signedIn);
-    if (last || curr) {
-      if (
-      // ... username changes
-      last !== signedIn && curr !== signedIn && last !== curr) {
-        this.gatherData(this.state.limit, 0, null, true);
-      }
+    if (this.props.params.username !== nextProps.params.username) {
+      this.gatherData(this.state.limit, 0, null, true);
     }
+    // const last = this.props.params.username,
+    // curr = nextProps.params.username,
+    // signedIn = this.props.userData ? this.props.userData.name : "";
+    // // console.log("new name", last, curr, signedIn);
+    // if(last || curr) {
+    //   if(
+    //     // ... username changes
+    //     last !== signedIn &&
+    //     curr !== signedIn &&
+    //     last !== curr
+    //   ) {
+    //     this.gatherData(this.state.limit, 0, null, true);
+    //   }
+    // }
   },
   componentDidMount: function componentDidMount() {
     this.gatherData();

@@ -28,7 +28,7 @@ var BookmarkItem = _react2["default"].createClass({
     var userData = _props.userData;
     var username = _props.username;
 
-    fireRef.usersRef.child(userData.name + "/bookmarks/users/" + username).set(null);
+    fireRef.usersRef.child(userData._id + "/bookmarks/users/" + username).set(null);
   },
   render: function render() {
     var username = this.props.username;
@@ -97,7 +97,7 @@ var ViewBookmarks = _react2["default"].createClass({
       "version": versionData
     };
 
-    fireRef.usersRef.child(userData.name + "/bookmarks/users/" + username).set(bookmarkObject);
+    fireRef.usersRef.child(userData._id + "/bookmarks/users/" + username).set(bookmarkObject);
 
     this.refs["new-bookmark"].value = "";
   },
@@ -108,13 +108,13 @@ var ViewBookmarks = _react2["default"].createClass({
     var fireRef = _props3.fireRef;
     var userData = _props3.userData;
 
-    fireRef.usersRef.child(userData.name + "/bookmarks/users").once("value").then(function (snap) {
+    fireRef.usersRef.child(userData._id + "/bookmarks/users").once("value").then(function (snap) {
       _this.setState({
         bookmarks: snap.val() || {}
       });
     });
 
-    var refNode = fireRef.usersRef.child(userData.name + "/bookmarks/users");
+    var refNode = fireRef.usersRef.child(userData._id + "/bookmarks/users");
     refNode.on("child_added", this.newBookmark);
     refNode.on("child_removed", this.removedBookmark);
   },
@@ -123,7 +123,7 @@ var ViewBookmarks = _react2["default"].createClass({
     var fireRef = _props4.fireRef;
     var userData = _props4.userData;
 
-    var refNode = fireRef.usersRef.child(userData.name + "/bookmarks/users");
+    var refNode = fireRef.usersRef.child(userData._id + "/bookmarks/users");
     refNode.off("child_added", this.newBookmark);
     refNode.off("child_removed", this.removedBookmark);
   },

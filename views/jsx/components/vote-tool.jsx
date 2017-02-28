@@ -41,7 +41,7 @@ exports["default"] = _react2["default"].createClass({
 
     var voteData = {
       "for": place,
-      "username": userData.name,
+      "userID": userData._id,
       "upvote": vote
     };
     // return console.log("vote data:", voteData);
@@ -63,7 +63,7 @@ exports["default"] = _react2["default"].createClass({
       // checks each rating for their place (for)
       Object.keys(votes || {}).map(function (ratingID) {
         var ratingData = votes[ratingID];
-        if (ratingData.username !== userData.name) return;
+        if (ratingData.userID !== userData._id) return;
         if (place === "comment") {
           // console.log("comment IDs", ratingData.commentID, commentID, ratingData.commentID === commentID);
           voteTypes[ratingData["for"]] = commentID === ratingData.commentID ? ratingID : voteTypes[ratingData["for"]];
@@ -90,9 +90,9 @@ exports["default"] = _react2["default"].createClass({
       };
       // depending on the `place` gets the username of the question creator, receiver, or commenter
       var receiverObject = {
-        "question": questionID ? questionData.creator : null,
-        "answer": questionID ? questionData.receiver : null,
-        "comment": commentData ? commentData.username : null
+        "question": questionID ? questionData.creatorID : null,
+        "answer": questionID ? questionData.receiverID : null,
+        "comment": commentData ? commentData.userID : null
       };
 
       // send notification
@@ -101,7 +101,7 @@ exports["default"] = _react2["default"].createClass({
       var notifObject = {
         type: placeObject[place],
         info: {
-          sender: userData.name,
+          sender: userData._id,
           questionID: questionID || null,
           pollID: pollID || null,
           commentID: commentID || null,
@@ -112,7 +112,7 @@ exports["default"] = _react2["default"].createClass({
       };
       // console.log("sending object");
       // send notif
-      if (receiverObject[place] !== userData.name) {
+      if (receiverObject[place] !== userData._id) {
         if (voteData.upvote) {
           // check if the user already sent an upvote notification
           fireRef.notificationsRef.child(receiverObject[place]).orderByChild("type").equalTo(placeObject[place]).once("value").then(function (snap) {

@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -21,6 +19,10 @@ var _voteToolJsx = require("./vote-tool.jsx");
 var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
 var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
+
+var _modulesClientLoadData = require("../../../modules/client/load-data");
+
+var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
 var _reactRouter = require("react-router");
 
@@ -81,9 +83,12 @@ var QuestionListItem = _react2["default"].createClass({
     var questionID = _props3.questionID;
     var fireRef = _props3.fireRef;
     var params = _props3.params;
+    var questionData = this.state.questionData;
 
     // set listener for new question
-    var usersRefNode = fireRef.usersRef.child(this.state.questionData.receiver + "/answersFromMe").on("child_added", this.newAnswer);
+    if (questionData) {
+      var usersRefNode = fireRef.usersRef.child(questionData.receiverID + "/answersFromMe").on("child_added", this.newAnswer);
+    }
   },
   setupRatingsListeners: function setupRatingsListeners() {
     var _props4 = this.props;
@@ -112,25 +117,33 @@ var QuestionListItem = _react2["default"].createClass({
     // get question data
     fireRef.questionsRef.child(questionID).once("value").then(function (snap) {
       var questionData = snap.val();
-      _this2._mounted ? _this2.setState({
-        questionData: questionData
-      }, _this2.setupAnswerListeners) : null;
+
+      _modulesClientLoadData2["default"].call(_this2, function (e) {
+        console.error(e.stack);
+      }, {
+        userID: questionData.receiverID
+      }).then(function (methods) {
+        methods.getUserByName().then(function (data) {
+          // console.log("feature data", data);
+          var receiver = data.name;
+          questionData.receiver = receiver;
+          _this2._mounted ? _this2.setState({
+            questionData: questionData
+          }, _this2.setupAnswerListeners) : null;
+        })["catch"](function () {
+          var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+          return console.error(e);
+        });
+      })["catch"](function () {
+        var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        return console.error(e);
+      });
     });
     // get answer data
     fireRef.answersRef.child(questionID).once("value").then(function (snap) {
       var answerData = snap.val();
       _this2._mounted ? _this2.setState({
         answerData: answerData
-      }, function () {
-        if (!pageOverride) {
-          // do a possible page redirect if pageOverride is not present
-          if (params.postID === questionID && !answerData) {
-            console.log("no answer data", questionID, _this2.state);
-            _reactRouter.browserHistory.push({
-              pathname: "/profile/" + (params.username || (questionData ? questionData.receiver : ""))
-            });
-          }
-        }
       }) : null;
     });
 
@@ -145,7 +158,7 @@ var QuestionListItem = _react2["default"].createClass({
     // remove listener on ratings data
     // answered question added
     if (this.state.questionData) {
-      fireRef.usersRef.child(this.state.questionData.receiver + "/answersFromMe").off("child_added", this.newQuestion);
+      fireRef.usersRef.child(this.state.questionData.receiverID + "/answersFromMe").off("child_added", this.newQuestion);
     }
   },
   render: function render() {
@@ -173,8 +186,8 @@ var QuestionListItem = _react2["default"].createClass({
       { className: "question-list-item " + pageOverride },
       _react2["default"].createElement(
         _reactRouter.Link,
-        { href: answerData ? "/profile/" + (questionData.receiver || (userData ? userData.name : "")) + "/q/" + questionID : URL || "/profile/" + (questionData.receiver || ""), to: answerData ? {
-            pathname: "/profile/" + (questionData.receiver || (userData ? userData.name : "")) + "/q/" + questionID,
+        { href: answerData ? "/profile/" + (questionData.receiver || (userData ? userData._id : "")) + "/q/" + questionID : URL || "/profile/" + (questionData.receiver || ""), to: answerData ? {
+            pathname: "/profile/" + (questionData.receiver || (userData ? userData._id : "")) + "/q/" + questionID,
             state: {
               modal: true,
               returnTo: URL || "/profile/" + (questionData.receiver || "")
@@ -245,6 +258,8 @@ exports["default"] = _react2["default"].createClass({
   displayName: "UserQuestions",
   getInitialState: function getInitialState() {
     return Object.assign({
+      initialLoad: false,
+      paramUserID: null,
       questions: {},
       lastID: null,
       locked: true,
@@ -296,11 +311,13 @@ exports["default"] = _react2["default"].createClass({
   getQuestions: function getQuestions() {
     var _this4 = this;
 
-    // console.log("tryna get questions", this.props);
+    // console.log("tryna get questions", this.props.params, this.state.paramUserID);
     this.setState({
       loadingData: true
     }, function () {
-      var queryLimit = _this4.state.queryLimit;
+      var _state3 = _this4.state;
+      var queryLimit = _state3.queryLimit;
+      var paramUserID = _state3.paramUserID;
       var _props8 = _this4.props;
       var fireRef = _props8.fireRef;
       var userData = _props8.userData;
@@ -318,7 +335,7 @@ exports["default"] = _react2["default"].createClass({
         // if we're on a profile we just want questions for a specific user
         // if we're on the signed in user's profile we'll get all questions for them
         // else, we'll get answered questions
-        refNode = refNode.usersRef.child((params.username || (userData ? userData.name : undefined)) + "/" + (!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"));
+        refNode = refNode.usersRef.child((paramUserID || (userData ? userData._id : undefined)) + "/" + (!userData || paramUserID && paramUserID !== userData._id ? "answersFromMe" : "questionsForMe"));
       }
       // console.log(this.state.lastID);
       if (_this4.state.lastID) {
@@ -343,6 +360,7 @@ exports["default"] = _react2["default"].createClass({
   },
   xrefresh: function xrefresh() {},
   refreshList: function refreshList() {
+    // console.trace("refreshing list");
     this.setState({
       questions: {},
       lastID: null
@@ -352,37 +370,56 @@ exports["default"] = _react2["default"].createClass({
     this.getQuestions();
   },
   xapplyFilter: function xapplyFilter() {},
-  newAnswer: function newAnswer(snap) {
-    var questionKey = snap.getKey();
-    var questionData = snap.val();
-    console.log("new question", questionKey, questionData);
-    var newQuestions = JSON.parse(JSON.stringify(this.state.questions || {}));
+  getParamUserID: function getParamUserID(cb) {
+    var _this5 = this;
 
-    this.setState({
-      questions: Object.assign(newQuestions, _defineProperty({}, questionKey, questionData)),
-      lastID: questionKey,
-      loadingData: false
-    });
+    var params = this.props.params;
+
+    if (params && params.username) {
+      _modulesClientLoadData2["default"].call(this, function (e) {
+        console.error(e.stack);
+      }, {
+        username: params.username
+      }).then(function (methods) {
+        methods.getUserID().then(function (data) {
+          // console.log("param user id data", data.users[0]._id);
+          var paramUserID = data.users[0]._id;
+          _this5.setState({
+            paramUserID: paramUserID
+          }, cb);
+        })["catch"](function () {
+          var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+          return console.error(e);
+        });
+      })["catch"](function () {
+        var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        return console.error(e);
+      });
+    }
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    if (this.props.params) {
-      var last = this.props.params.username,
-          curr = nextProps.params.username,
-          signedIn = this.props.userData ? this.props.userData.name : "";
-      if (last || curr) {
-        if (last !== signedIn && curr !== signedIn && last !== curr) {
-          this.refreshList();
-        }
-      }
-    }
+    var _this6 = this;
+
     if (!this.props.pageOverride) {
-      if (nextProps.userData && nextProps.userData.name === nextProps.params.username) {
+      if (!this.state.initialLoad) {
+        this.setState({
+          initialLoad: true
+        });
         this.refreshList();
+      }
+
+      if (this.props.params.username !== nextProps.params.username) {
+        setTimeout(function () {
+
+          _this6.getParamUserID(function () {
+            _this6.refreshList();
+          });
+        });
       }
     }
   },
   componentDidMount: function componentDidMount(prevProps) {
-    var _this5 = this;
+    var _this7 = this;
 
     // console.log("mounted user quesions");
     var _props9 = this.props;
@@ -418,43 +455,35 @@ exports["default"] = _react2["default"].createClass({
             });
           });
         }).then(function () {
-          _this5.setState({
+          _this7.setState({
             questions: questions
           });
         });
       });
-    } else {
-      // fireRef.usersRef
-      // .child(`${params.username || userData.name}/${params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe"}`)
-      // .on("child_added", this.newAnswer);
     }
+
+    this.getParamUserID();
   },
   componentWillUnmount: function componentWillUnmount() {
-    console.log("unounting question");
-    var _props10 = this.props;
-    var fireRef = _props10.fireRef;
-    var userData = _props10.userData;
-    var _props10$params = _props10.params;
-    var params = _props10$params === undefined ? {} : _props10$params;
-
-    fireRef.usersRef.child((params.username || (userData ? userData.name : "")) + "/" + (!userData || params.username && params.username !== userData.name ? "answersFromMe" : "questionsForMe")).off("child_added", this.newAnswer);
+    console.log("unounting UserQuestions");
+    // this.killListeners()
   },
   render: function render() {
-    var _state3 = this.state;
-    var locked = _state3.locked;
-    var lockedTop = _state3.lockedTop;
-    var loadingData = _state3.loadingData;
-    var questions = _state3.questions;
-    var _props11 = this.props;
-    var auth = _props11.auth;
-    var userData = _props11.userData;
-    var params = _props11.params;
-    var location = _props11.location;
-    var fireRef = _props11.fireRef;
-    var overlay = _props11.overlay;
-    var methods = _props11.methods;
-    var pageOverride = _props11.pageOverride;
-    var initState = _props11.initState;
+    var _state4 = this.state;
+    var locked = _state4.locked;
+    var lockedTop = _state4.lockedTop;
+    var loadingData = _state4.loadingData;
+    var questions = _state4.questions;
+    var _props10 = this.props;
+    var auth = _props10.auth;
+    var userData = _props10.userData;
+    var params = _props10.params;
+    var location = _props10.location;
+    var fireRef = _props10.fireRef;
+    var overlay = _props10.overlay;
+    var methods = _props10.methods;
+    var pageOverride = _props10.pageOverride;
+    var initState = _props10.initState;
 
     // make an array of questions
     var list = questions ? Object.keys(questions).map(function (questionID) {

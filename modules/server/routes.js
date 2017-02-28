@@ -25,7 +25,12 @@ try {
 } catch (e) {
   console.error("error initializing firebase", e.stack);
 }
-app.get("/", function (req, res) {
+app
+// .get("*", function (req, res, next) {
+//   console.log(req.url);
+//   next();
+// })
+.get("/", function (req, res) {
   var initState = {
     layout: {
       fireRef: true, // to get a certain compunent to render with truthiness
@@ -59,6 +64,15 @@ app.get("/", function (req, res) {
       initState: initState
     }));
   });
+}).get("/about", function (req, res) {
+  res.send((0, _renderJsx.renderHTML)("about"));
+}).get("/tos", function (req, res) {
+  res.redirect("/terms-of-service");
+}).get("/terms", function (req, res) {
+  res.redirect("/terms-of-service");
+}).get("/terms-of-service", function (req, res) {
+  console.log("git him");
+  res.send((0, _renderJsx.renderHTML)("tos"));
 }).get("/search/:searchtype", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("search", {
     location: {
@@ -155,7 +169,7 @@ app.get("/", function (req, res) {
   // console.log("getting panels for:", req.params.username);
   // res.send(["test"]);
 }).get("*", function (req, res) {
-  res.status(404).send("not found");
+  res.status(404).send("Page not found: " + req.url);
 });
 
 exports["default"] = app;

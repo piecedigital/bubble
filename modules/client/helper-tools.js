@@ -14,6 +14,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _ajax = require("./ajax");
 
+var _loadData = require("./load-data");
+
+var _loadData2 = _interopRequireDefault(_loadData);
+
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 exports.missingLogo = missingLogo;
@@ -105,7 +109,7 @@ var calculateRatings = function calculateRatings(options, cb) {
 
     if (ratingsData[vote].upvote) calculatedRatings[place].upvotes.push(true);
     if (!ratingsData[vote].upvote) calculatedRatings[place].downvotes.push(true);
-    if (userData && voteData.username === userData.name) {
+    if (userData && voteData.userID === userData._id) {
       calculatedRatings[place].myVote = voteData.upvote;
       calculatedRatings[place]["for"] = voteData["for"];
     }
@@ -164,7 +168,7 @@ var listenOnNewRatings = function listenOnNewRatings(postID, fireRef, modCB, cb)
   refNode.on("child_changed", cb);
   refNode.on("child_removed", cb);
   return function kill() {
-    console.log("killing ratings listeners");
+    // console.log("killing ratings listeners");
     refNode.off("child_added", cb);
     refNode.off("child_changed", cb);
     refNode.off("child_removed", cb);
@@ -216,7 +220,7 @@ var CImg = _react2["default"].createClass({
     this.makeBlankImage();
     if (!this.props.noImgRequest) {
       setTimeout(function () {
-        _this.setImage(src);
+        if (src) _this.setImage(src);
       }, 100);
     }
   },
@@ -307,4 +311,54 @@ var CImg = _react2["default"].createClass({
     }));
   }
 });
+
 exports.CImg = CImg;
+var getUsername = function getUsername(userIDList, needIDInstead) {
+  return new Promise(function (resolve, reject) {
+    var _this2 = this;
+
+    // only want to work with an array
+    // if it's a string, put it in an array
+    if (!Array.isArray(userIDList)) {
+      userIDList = [userIDList];
+    }
+
+    var users = [];
+
+    userIDList.map(function (userText, ind) {
+      var username = undefined,
+          userID = undefined;
+      if (needIDInstead) {
+        username = userText;
+      } else {
+        userID = userText;
+      }
+
+      _loadData2["default"].call(_this2, function (e) {
+        console.error(e.stack);
+      }, {
+        userID: userID,
+        username: username
+      }).then(function (methods) {
+        methods.getUserByName().then(function (data) {
+          users.push(data);
+
+          // resolve
+          if (ind >= userIDList.length - 1) resolve(users);
+        })["catch"](function () {
+          var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+          return console.error(e);
+        });
+      })["catch"](function () {
+        var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        return console.error(e);
+      });
+    });
+  });
+};
+
+exports.getUsername = getUsername;
+var getUserID = function getUserID(data) {
+  return getUsername(data, true);
+};
+exports.getUserID = getUserID;

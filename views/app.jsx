@@ -18,6 +18,14 @@ var _jsxHomeJsx = require("./jsx/home.jsx");
 
 var _jsxHomeJsx2 = _interopRequireDefault(_jsxHomeJsx);
 
+var _jsxAboutJsx = require("./jsx/about.jsx");
+
+var _jsxAboutJsx2 = _interopRequireDefault(_jsxAboutJsx);
+
+var _jsxTosJsx = require("./jsx/tos.jsx");
+
+var _jsxTosJsx2 = _interopRequireDefault(_jsxTosJsx);
+
 var _jsxProfileJsx = require("./jsx/profile.jsx");
 
 var _jsxProfileJsx2 = _interopRequireDefault(_jsxProfileJsx);
@@ -58,6 +66,7 @@ function checkAuth(Component, props) {
     }
   }
 }
+
 (0, _reactDom.render)(_react2["default"].createElement(
   _reactRouter.Router,
   { history: _reactRouter.browserHistory },
@@ -65,7 +74,11 @@ function checkAuth(Component, props) {
     _reactRouter.Route,
     { path: "", page: "root", component: _jsxLayoutJsx2["default"] },
     _react2["default"].createElement(_reactRouter.Route, { path: "/", page: "home", component: _jsxHomeJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/profile(/:username(/:q/:postID))", page: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/about", page: "about", component: _jsxAboutJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/tos", page: "about", component: _jsxTosJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/terms", page: "about", component: _jsxTosJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/terms-of-service", page: "about", component: _jsxTosJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile/:username(/:q/:postID)", page: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "streams", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "games", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", page: "search", component: _jsxSearchJsx2["default"] })
