@@ -34,7 +34,7 @@ fireRef
 .then(snap => {
   // console.log(snap.val());
   var userList = Object.keys(snap.val());
-  // console.log("list", userList);
+  console.log("list", userList);
 
   var uniqueOptions = JSON.parse(JSON.stringify(options))
   var opt = Object.assign(uniqueOptions, {
@@ -90,7 +90,7 @@ fireRef
 });
 
 function rewriteQuestions() {
-  // console.log("usersToReplace", usersToReplace);
+  console.log("usersToReplace", usersToReplace);
   Object.keys(usersToReplace).map(function (name) {
     var id = usersToReplace[name];
     ["creator", "receiver"].map(function (place) {
@@ -120,7 +120,7 @@ function rewriteQuestions() {
 }
 
 function rewriteAnswers() {
-  // console.log("usersToReplace", usersToReplace);
+  console.log("usersToReplace", usersToReplace);
   Object.keys(usersToReplace).map(function (name) {
     var id = usersToReplace[name];
     fireRef
@@ -189,7 +189,7 @@ function rewriteRatings() {
 }
 
 function rewriteComments() {
-  // console.log("usersToReplace", usersToReplace);
+  console.log("usersToReplace", usersToReplace);
   fireRef
   .commentsRef
   .once("value")
@@ -232,7 +232,7 @@ function rewriteComments() {
 }
 
 function rewriteUsers() {
-  // console.log("usersToReplace", usersToReplace);
+  console.log("usersToReplace", usersToReplace);
   Object.keys(usersToReplace).map(function (name) {
     var id = usersToReplace[name];
 
@@ -260,7 +260,7 @@ function rewriteUsers() {
 }
 
 function rewriteGameQueues() {
-  // console.log("usersToReplace", usersToReplace);
+  console.log("usersToReplace", usersToReplace);
   Object.keys(usersToReplace).map(function (name) {
     var id = usersToReplace[name];
 
@@ -288,7 +288,7 @@ function rewriteGameQueues() {
 }
 
 function rewriteNotifications() {
-  // console.log("usersToReplace", usersToReplace);
+  console.log("usersToReplace", usersToReplace);
   Object.keys(usersToReplace).map(function (name) {
     // console.log("replacing", name);
     var id = usersToReplace[name];
@@ -332,7 +332,7 @@ function rewriteNotifications() {
 }
 
 function rewritePolls() {
-  // console.log("usersToReplace", usersToReplace);
+  console.log("usersToReplace", usersToReplace);
   Object.keys(usersToReplace).map(function (name) {
     // console.log("replacing", name);
     var id = usersToReplace[name];

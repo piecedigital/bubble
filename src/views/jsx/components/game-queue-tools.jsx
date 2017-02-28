@@ -1,14 +1,24 @@
 import React from "react";
 import { Link } from 'react-router';
 import loadData from "../../../modules/client/load-data";
-import { getUserID } from "../../../modules/client/helper-tools";
+import { getUserID, getUsername } from "../../../modules/client/helper-tools";
 
 const UserItem = React.createClass({
   displayName: "UserItem",
+  getInitialState: () => ({
+    username: null
+  }),
+  componentDidMount() {
+    getUsername([this.props.userID])
+    .then(dataArr => {
+      this.setState({
+        username: dataArr[0].name
+      });
+    });
+  },
   render() {
     const {
       list,
-      username,
       data,
       controls,
       methods: {
@@ -16,6 +26,9 @@ const UserItem = React.createClass({
         moveToList
       }
     } = this.props;
+    const { username } = this.state;
+
+    if(!username) return null;
 
     return (
       <div className={`user-item`}>
@@ -126,7 +139,7 @@ export const ViewGameQueue = React.createClass({
 
     // for the viewer, check if they are subbed to the channel
     if(userData && (userData.name !== queueHost)) {
-      console.log(userData.name, queueHost);
+      // console.log(userData.name, queueHost);
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
@@ -163,7 +176,7 @@ export const ViewGameQueue = React.createClass({
         .then(data => {
           // if they're a sub then set confirmedSub to true
           // otherwise this will trigger a bad request response and we don't have to do anything else
-          console.log("partnered", data.partner);
+          // console.log("partnered", data.partner);
           this.setState({
             partnered: data.partner
           });
@@ -208,8 +221,12 @@ export const ViewGameQueue = React.createClass({
     .child(queueHostID);
     nodeRef.once("value")
     .then(snap => {
-      const queueInfo = snap.val();
-      console.log(queueInfo);
+      const queueInfo = snap.val() || {
+        title: (``),
+        game: (``),
+        rank: (``),
+      };
+      // console.log(queueInfo);
       // console.log(snap.getKey(), snap.val());
       // set some initial value for the count in validation
       // not doing this would leave the inputs false since the validation woud not otherise be up todate
@@ -286,7 +303,7 @@ export const ViewGameQueue = React.createClass({
         break;
     }
   },
-  validate(name, e) {
+  validate(e, name) {
     // name will be the same as a referenced element
     // the name will be used to be validated, matched with a variable "suffix"
     let value = e.target.value;
@@ -410,6 +427,7 @@ export const ViewGameQueue = React.createClass({
       fireRef,
       queueHost
     } = this.props;
+    const { queueHostID } = this.state;
 
     fireRef.gameQueuesRef
     .child(queueHostID)
@@ -450,7 +468,7 @@ export const ViewGameQueue = React.createClass({
     if(!this.state.queueHostID) {
       getUserID([this.props.queueHost])
       .then(dataArr => {
-        console.log(dataArr[0]._id);
+        // console.log(dataArr[0]._id);
         this.setState({
           queueHostID: dataArr[0]._id
         });
@@ -500,51 +518,51 @@ export const ViewGameQueue = React.createClass({
       nowPlaying,
       alreadyPlayed,
     } = queueInfo || {};
-    const queueList = queue ? Object.keys(queue).map(username => {
-      const data = queue[username];
+    const queueList = queue ? Object.keys(queue).map(userID => {
+      const data = queue[userID];
       return (
         <UserItem
           controls={userData && (userData.name === queueHost)}
-          key={username}
-          username={username}
+          key={userID}
+          userID={userID}
           data={data}
           list="queue"
           methods={{
-            removeFromList: this.removeFromList.bind(this, username, "queue"),
-            moveToList: this.moveToList.bind(this, username, data, "queue"),
+            removeFromList: this.removeFromList.bind(this, userID, "queue"),
+            moveToList: this.moveToList.bind(this, userID, data, "queue"),
           }} />
       );
-    }) : <span className="bold">No one in this queue</span>;
-    const nowPlayingList = nowPlaying ? Object.keys(nowPlaying).map(username => {
-      const data = nowPlaying[username];
+    }).reverse() : <span className="bold">No one in this queue</span>;
+    const nowPlayingList = nowPlaying ? Object.keys(nowPlaying).map(userID => {
+      const data = nowPlaying[userID];
       return (
         <UserItem
           controls={userData && (userData.name === queueHost)}
-          key={username}
-          username={username}
+          key={userID}
+          userID={userID}
           data={data}
           list="nowPlaying"
           methods={{
-            removeFromList: this.removeFromList.bind(this, username, "nowPlaying"),
-            moveToList: this.moveToList.bind(this, username, data, "nowPlaying"),
+            removeFromList: this.removeFromList.bind(this, userID, "nowPlaying"),
+            moveToList: this.moveToList.bind(this, userID, data, "nowPlaying"),
           }} />
       );
-    }) : <span className="bold">No one in this queue</span>;
-    const alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).map(username => {
-      const data = alreadyPlayed[username];
+    }).reverse() : <span className="bold">No one in this queue</span>;
+    const alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).map(userID => {
+      const data = alreadyPlayed[userID];
         return (
           <UserItem
             controls={userData && (userData.name === queueHost)}
-            key={username}
-            username={username}
+            key={userID}
+            userID={userID}
             data={data}
             list="alreadyPlayed"
             methods={{
-              removeFromList: this.removeFromList.bind(this, username, "alreadyPlayed"),
-              moveToList: this.moveToList.bind(this, username, data, "alreadyPlayed"),
+              removeFromList: this.removeFromList.bind(this, userID, "alreadyPlayed"),
+              moveToList: this.moveToList.bind(this, userID, data, "alreadyPlayed"),
             }} />
       );
-    }) : <span className="bold">No one in this queue</span>;
+    }).reverse() : <span className="bold">No one in this queue</span>;
     const queueLimitMet = queueInfo && queueInfo.queue ? ( Object.keys(queueInfo.queue).length >= (queueInfo.queueLimit || 1) ) : false;
 
     return (
@@ -567,7 +585,7 @@ export const ViewGameQueue = React.createClass({
                     <input key="input" type="text" ref="title" className={`${this.state.validation["titleValid"] ? " valid" : ""}`} value={queueInfo ? queueInfo.title : ""}
                       onChange={e => {
                         this.setChange(e, "title");
-                        this.validate.bind(null, "title");
+                        this.validate(e, "title");
                       }}/>,
                     <div key="validity">{this.state.validation["titleCount"]}/<span className={`${this.state.validation["titleCount"] < this.state.validation["titleMin"] ? "color-red" : ""}`}>{this.state.validation["titleMin"]}</span>-<span className={`${this.state.validation["titleCount"] > this.state.validation["titleMax"] ? "color-red" : ""}`}>{this.state.validation["titleMax"]}</span></div>
                   ]
@@ -585,7 +603,7 @@ export const ViewGameQueue = React.createClass({
                     <input key="input" type="text" ref="game" className={`${this.state.validation["gameValid"] ? " valid" : ""}`} value={queueInfo ? queueInfo.game : ""}
                       onChange={e => {
                         this.setChange(e, "game");
-                        this.validate.bind(null, "game");
+                        this.validate(e, "game");
                       }}/>,
                     <div key="validity">{this.state.validation["gameCount"]}/<span className={`${this.state.validation["gameCount"] < this.state.validation["gameMin"] ? "color-red" : ""}`}>{this.state.validation["gameMin"]}</span>-<span className={`${this.state.validation["gameCount"] > this.state.validation["gameMax"] ? "color-red" : ""}`}>{this.state.validation["gameMax"]}</span></div>
                   ]
@@ -603,7 +621,7 @@ export const ViewGameQueue = React.createClass({
                     <input key="input" type="text" ref="rank" className={`${this.state.validation["rankValid"] ? " valid" : ""}`} value={queueInfo ? queueInfo.rank : ""}
                       onChange={e => {
                         this.setChange(e, "rank");
-                        this.validate.bind(null, "rank");
+                        this.validate(e, "rank");
                       }}/>,
                     <div key="validity">{this.state.validation["rankCount"]}/<span className={`${this.state.validation["rankCount"] < this.state.validation["rankMin"] ? "color-red" : ""}`}>{this.state.validation["rankMin"]}</span>-<span className={`${this.state.validation["rankCount"] > this.state.validation["rankMax"] ? "color-red" : ""}`}>{this.state.validation["rankMax"]}</span></div>
                   ]
@@ -621,7 +639,7 @@ export const ViewGameQueue = React.createClass({
                     <input key="input" type="number" min={this.state.validation["queueLimitMin"]} max={this.state.validation["queueLimitMax"]} ref="queueLimit" className={`${this.state.validation["queueLimitValid"] ? " valid" : ""}`} value={queueInfo ? queueInfo.queueLimit : this.state.validation["queueLimitMax"]}
                       onChange={e => {
                         this.setChange(e, "queueLimit");
-                        this.validate.bind(null, "queueLimit");
+                        this.validate(e, "queueLimit");
                       }}/>,
                     <div key="validity">{this.state.validation["queueLimitCount"]}/<span className={`${this.state.validation["queueLimitCount"] < this.state.validation["queueLimitMin"] ? "color-red" : ""}`}>{this.state.validation["queueLimitMin"]}</span>-<span className={`${this.state.validation["queueLimitCount"] > this.state.validation["queueLimitMax"] ? "color-red" : ""}`}>{this.state.validation["queueLimitMax"]}</span></div>
                   ]
@@ -712,7 +730,9 @@ export const ViewGameQueue = React.createClass({
                     <div className="section">
                       <label>
                         <div className="label bold">Gamer ID (Steam, PSN, XBL, etc.)</div>
-                        <input key="input" type="text" ref="gamerID" className={`${this.state.validation["gamerIDValid"] ? " valid" : ""}`} defaultValue={queueInfo.gamerID} onChange={this.validate.bind(null, "gamerID")}/>
+                        <input key="input" type="text" ref="gamerID" className={`${this.state.validation["gamerIDValid"] ? " valid" : ""}`} defaultValue={queueInfo.gamerID} onChange={e => {
+                          this.validate(e, "gamerID")
+                        }}/>
                         <div key="validity">{this.state.validation["gamerIDCount"]}/<span className={`${this.state.validation["gamerIDCount"] < this.state.validation["gamerIDMin"] ? "color-red" : ""}`}>{this.state.validation["gamerIDMin"]}</span>-<span className={`${this.state.validation["gamerIDCount"] > this.state.validation["gamerIDMax"] ? "color-red" : ""}`}>{this.state.validation["gamerIDMax"]}</span></div>
                       </label>
                     </div>

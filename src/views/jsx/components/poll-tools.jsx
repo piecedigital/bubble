@@ -878,7 +878,8 @@ const CreatedItem = React.createClass({
             popUpHandler("viewPoll", {
               pollID
             });
-          }}>{pollData.title}</Link><span className={completed} dangerouslySetInnerHTML={{ __html: symbol }}></span>
+          }}>{pollData.title}</Link>
+          {/* <span className={completed} dangerouslySetInnerHTML={{ __html: symbol }}></span> */}
         </label>
       </div>
     );
@@ -947,7 +948,8 @@ const ParticipatedItem = React.createClass({
             popUpHandler("viewPoll", {
               pollID
             });
-          }}>{pollData.title}</Link><span className={completed} dangerouslySetInnerHTML={{ __html: symbol }}></span>
+          }}>{pollData.title}</Link>
+          {/* <span className={completed} dangerouslySetInnerHTML={{ __html: symbol }}></span> */}
         </label>
       </div>
     );
@@ -1025,7 +1027,7 @@ export const ViewCreatedPolls = React.createClass({
           methods
         }} />
       );
-    }) : [];
+    }).reverse() : [];
 
     return (
       <div className={`overlay-ui-default view-created-polls open`} onClick={e => e.stopPropagation()}>
@@ -1050,11 +1052,11 @@ export const ViewCreatedPolls = React.createClass({
               {list.length > 0 ? list : `You haven't ${toggle} any polls yet.`}
             </div>
           </div>
-          <div className="separator-4-dim" />
-          <div className="separator-4-dim" />
-          <div className="section">
-            <button className="submit btn-default" onClick={popUpHandler.bind(null, "makePoll")}>Make New Poll</button>
-          </div>
+        </div>
+        <div className="separator-4-dim" />
+        <div className="separator-4-dim" />
+        <div className="section">
+          <button className="submit btn-default" onClick={popUpHandler.bind(null, "makePoll")}>Make New Poll</button>
         </div>
       </div>
     );

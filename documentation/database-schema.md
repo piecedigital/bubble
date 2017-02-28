@@ -150,7 +150,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   },
   "polls": {
     <pollID>: {
-      "creator": <userID>,
+      "creatorID": <userID>,
       "title": String,
       "choices": {
         vote_<Number>: String
@@ -192,7 +192,7 @@ In addition to necessary data related to the Q&A aggregation this database will 
   }
   "AMAs": {
     <AMAID>: {
-      "creator": <userID>,
+      "creatorID": <userID>,
       "associatedQuestions": {
         <questionID>: true
       },

@@ -17,7 +17,7 @@ if( typeof location === "object" && location.host.match("amorrius.net") ) {
   redirectURI = "http://amorrius.dev";
   clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
 }
-console.log(redirectURI, clientID);
+// console.log(redirectURI, clientID);
 
 // Initialize Firebase
 
