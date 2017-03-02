@@ -206,7 +206,7 @@ exports["default"] = _react2["default"].createClass({
 
     username ? username.replace(/\s/g, "") : null;
     displayName ? displayName.replace(/\s/g, "") : null;
-    // console.log("appending stream", username, isSolo);
+    console.log("appending stream", username, isSolo);
     // only append if below the mas
     if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
@@ -224,7 +224,7 @@ exports["default"] = _react2["default"].createClass({
 
     var isSolo = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-    // console.log("appending VOD", username, isSolo);
+    console.log("appending VOD", username, isSolo);
     // only append if below the max
     new Promise(function (resolve, reject) {
       if (!username && !displayName) {
@@ -251,7 +251,8 @@ exports["default"] = _react2["default"].createClass({
       } else {
         resolve({
           username: username,
-          displayName: displayName
+          displayName: displayName,
+          id: id
         });
       }
     }).then(function (_ref) {
