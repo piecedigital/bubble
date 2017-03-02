@@ -65,16 +65,33 @@ export default React.createClass({
   getHashData() {
     let queryData = {};
     // console.log(window.location.hash);
-    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, (_, symbol, key, value) => {
+    window.location.hash.replace(/(\#|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, (_, symbol, key, value) => {
       queryData[key] = value;
       // set token for 2 hours
       document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
     });
-    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, (_, key, value, symbol) => {
+    document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)/g, (_, key, value, symbol) => {
       queryData[key] = value;
     });
-    window.location.hash = "";
+    // window.location.hash = "";
     return queryData;
+  },
+  getMS() {
+    let hashData = this.getHashData();
+    console.log("hash Data", hashData);
+
+    const sss = {};
+
+    ["ms", "multistream", "multitwitch"].map(prop => {
+      if(hashData[prop]) {
+        hashData[prop].split(",").map(name => {
+          name = name.replace(" ", "");
+          sss[name] = name;
+        });
+      }
+    });
+
+    console.log(sss);
   },
   initAuthAndFirebase(data, token) {
     let authData = this.getHashData();
@@ -406,6 +423,9 @@ export default React.createClass({
     }
   },
   componentDidMount() {
+    // check hash for multistream stuff
+    this.getMS();
+
     // get auth token
     ajax({
       url: "/get-auth-token",

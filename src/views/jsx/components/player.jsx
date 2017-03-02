@@ -9,7 +9,7 @@ import BookmarkButton from "./bookmark-btn.jsx";
 // stream component for player
 const PlayerStream = React.createClass({
   displayName: "PlayerStream",
-  getInitialState: () => ({ chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0, time: 0, playing: true }),
+  getInitialState: () => ({ chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0, time: 0, playing: true, playerReady: false }),
   toggleMenu(type) {
     switch (type) {
       case "close":
@@ -105,13 +105,17 @@ const PlayerStream = React.createClass({
   },
   makePlayer() {
     const { vod, name } = this.props;
-    var options = {};
+    let options = {};
     vod ? options.video = vod : options.channel = name;
     // console.log("player options", options);
-    var player = new Twitch.Player(this.refs.video, options);
+    const player = new Twitch.Player(this.refs.video, options);
+    this.player = player;
     player.setMuted(true);
     player.addEventListener(Twitch.Player.READY, () => {
       console.log('Player is ready!');
+      this.setState({
+        playerReady: true
+      });
       if(vod) {
         this.ticker = setInterval(() => {
           const time = player.getCurrentTime();
@@ -133,7 +137,7 @@ const PlayerStream = React.createClass({
         this.setState({
           playing: false
         });
-        console.log('Player is playing!');
+        console.log('Player is paused!');
       });
     }
   },
@@ -155,6 +159,9 @@ const PlayerStream = React.createClass({
       second,
       formatted
     }
+  },
+  pauseVOD() {
+    this.player.pause();
   },
   componentDidMount() {
     this._mounted = true;
@@ -196,7 +203,8 @@ const PlayerStream = React.createClass({
       nameScroll1,
       nameScroll2,
       time,
-      playing
+      playing,
+      playerReady,
     } = this.state;
     switch (isFor) {
       case "video": return (
@@ -311,13 +319,13 @@ const PlayerStream = React.createClass({
                 )
               }
               {
-                vod ? (
+                vod && playerReady ? (
                   <div className="closer">
                     {
                       !playing ? (
-                        <input type="text" value={`https://www.twitch.tv/videos/122450470?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
+                        <input type="text" value={`https://www.twitch.tv/videos/${vod}?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
                       ) : (
-                        <span>Pause VOD For Timestamped Link</span>
+                        <span onClick={this.pauseVOD}>Click/Pause VOD For Timestamped Link</span>
                       )
                     }
                   </div>

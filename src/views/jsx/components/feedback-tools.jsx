@@ -74,10 +74,11 @@ export const Feedback = React.createClass({
   validate(name, e) {
     // name will be the same as a referenced element
     // the name will be used to be validated, matched with a variable "suffix"
+    let value = e.target.value;
+    let thisValid = `${name}Valid`;
+
     if(name === "email") {
-      let value = e.target.value;
       let thisRegex = this.state.validation[`${name}Regex`];
-      let thisValid = `${name}Valid`;
       this.setState({
         validation: Object.assign(this.state.validation, {
           [thisValid]: !value || !!value.match(thisRegex),
@@ -86,10 +87,8 @@ export const Feedback = React.createClass({
         // console.log(name, this.state.validation[thisValid])
       });
     } else {
-      let value = e.target.value;
       let thisMin = this.state.validation[`${name}Min`];
       let thisMax = this.state.validation[`${name}Max`];
-      let thisValid = `${name}Valid`;
       let thisCount = `${name}Count`;
       this.setState({
         validation: Object.assign(this.state.validation, {

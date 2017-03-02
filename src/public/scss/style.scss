@@ -28,7 +28,6 @@ green: $green // 8
   display: -ms-inline-flex unquote($mod);
   display: -moz-inline-flex unquote($mod);
   display: -webkit-inline-box unquote($mod);
-  display: -webkit-inline-flex unquote($mod);
   display: inline-flex unquote($mod);
 }
 
@@ -36,7 +35,6 @@ green: $green // 8
   display: -ms-flex unquote($mod);
   display: -moz-flex unquote($mod);
   display: -webkit-box unquote($mod);
-  display: -webkit-flex unquote($mod);
   display: flex unquote($mod);
 }
 @mixin userSelect {
@@ -66,6 +64,7 @@ green: $green // 8
 
 *, *:before, *:after {
   box-sizing: border-box;
+  -webkit-transition: .2s all;
   transition: .2s all;
 }
 
@@ -154,7 +153,7 @@ body {
     background-color: black;
   }
   @each $name, $color in $allColors {
-    // $i: index($allColors, $color);
+    /* $i: index($allColors, $color);*/
     .separator-#{$L}-#{$name} {
       height: #{$L}px;
       background-color: #{$color};
@@ -191,7 +190,7 @@ body {
 }
 
 @each $name, $color in $allColors {
-  // $i: index($allColors, $color);
+  /* $i: index($allColors, $color);*/
   .color-#{$name} {
     color: #{$color};
   }
@@ -200,7 +199,7 @@ body {
   }
 }
 @each $name, $color in $allColors {
-  // $i: index($allColors, $color);
+  /* $i: index($allColors, $color);*/
   .bgc-#{$name} {
     background-color: #{$color};
   }
