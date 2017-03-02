@@ -170,7 +170,7 @@ export default React.createClass({
   appendStream(username, displayName, isSolo = false) {
     username ? username.replace(/\s/g, "") : null;
     displayName ? displayName.replace(/\s/g, "") : null;
-    // console.log("appending stream", username, isSolo);
+    console.log("appending stream", username, isSolo);
     // only append if below the mas
     if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if(!this.state.streamersInPlayer.hasOwnProperty(username)) {
@@ -184,7 +184,7 @@ export default React.createClass({
     }
   },
   appendVOD(username, displayName, id, isSolo = false) {
-    // console.log("appending VOD", username, isSolo);
+    console.log("appending VOD", username, isSolo);
     // only append if below the max
     new Promise(function(resolve, reject) {
       if(!username && !displayName) {
@@ -213,7 +213,8 @@ export default React.createClass({
       } else {
         resolve({
           username,
-          displayName
+          displayName,
+          id
         });
       }
     })
