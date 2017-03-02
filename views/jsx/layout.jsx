@@ -97,19 +97,53 @@ exports["default"] = _react2["default"].createClass({
   getHashData: function getHashData() {
     var queryData = {};
     // console.log(window.location.hash);
-    window.location.hash.replace(/(\#|\&)([\w\d\_\-]+)=([\w\d\_\-]+)/g, function (_, symbol, key, value) {
+    window.location.hash.replace(/(\#|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, function (_, symbol, key, value) {
       queryData[key] = value;
       // set token for 2 hours
-      document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
+      if (["ms", "multistream", "multitwitch"].indexOf(key) < 0) {
+        document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
+      }
     });
-    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-]+)(;)/g, function (_, key, value, symbol) {
+    document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)/g, function (_, key, value, symbol) {
       queryData[key] = value;
     });
-    window.location.hash = "";
+    // window.location.hash = "";
     return queryData;
   },
-  initAuthAndFirebase: function initAuthAndFirebase(data, token) {
+  getMS: function getMS() {
     var _this = this;
+
+    var hashData = this.getHashData();
+    // console.log("hash Data", hashData);
+
+    var MSObject = {};
+
+    ["ms", "multistream", "multitwitch"].map(function (prop) {
+      if (hashData[prop]) {
+        hashData[prop].split(",").map(function (name) {
+          if (name) {
+            name = name.replace(" ", "");
+            MSObject[name] = name;
+          }
+        });
+      }
+    });
+
+    // console.log(MSObject);
+    Object.keys(MSObject).map(function (name) {
+      if (name.match(/^v/)) {
+        setTimeout(function () {
+          _this.appendVOD(null, null, name);
+        });
+      } else {
+        setTimeout(function () {
+          _this.appendStream(name, name);
+        });
+      }
+    });
+  },
+  initAuthAndFirebase: function initAuthAndFirebase(data, token) {
+    var _this2 = this;
 
     var authData = this.getHashData();
     // console.log("init firebase", this.state.fireRef);
@@ -145,13 +179,13 @@ exports["default"] = _react2["default"].createClass({
         console.log("current user is authed with Firebase");
         clearInterval(interval);
 
-        _modulesClientLoadData2["default"].call(_this, function (e) {
+        _modulesClientLoadData2["default"].call(_this2, function (e) {
           console.error(e.stack);
         }, {
           access_token: authData.access_token
         }).then(function (methods) {
           methods.getCurrentUser().then(function (data) {
-            _this.setState({
+            _this2.setState({
               userData: data
             });
           })["catch"](function (e) {
@@ -172,7 +206,7 @@ exports["default"] = _react2["default"].createClass({
 
     username ? username.replace(/\s/g, "") : null;
     displayName ? displayName.replace(/\s/g, "") : null;
-    console.log("appending stream", username, isSolo);
+    // console.log("appending stream", username, isSolo);
     // only append if below the mas
     if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if (!this.state.streamersInPlayer.hasOwnProperty(username)) {
@@ -186,25 +220,63 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   appendVOD: function appendVOD(username, displayName, id) {
+    var _this3 = this;
+
     var isSolo = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-    console.log("appending VOD", username, isSolo);
+    // console.log("appending VOD", username, isSolo);
     // only append if below the max
-    if (Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
-      if (!this.state.streamersInPlayer.hasOwnProperty(id)) {
-        var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-        streamersInPlayer[id] = {
-          vod: true,
-          id: id,
+    new Promise(function (resolve, reject) {
+      if (!username && !displayName) {
+
+        console.log("no name for VOD. getting it");
+        _modulesClientLoadData2["default"].call(this, function (e) {
+          console.error(e.stack);
+        }, {
+          id: id
+        }).then(function (methods) {
+          methods.getVODData().then(function (data) {
+            console.log("got data for VOD", data);
+            resolve({
+              username: data.channel.name,
+              displayName: data.channel.display_name,
+              id: id
+            });
+          })["catch"](function (e) {
+            return console.error(e.stack || e);
+          });
+        })["catch"](function (e) {
+          return console.error(e.stack || e);
+        });
+      } else {
+        resolve({
           username: username,
           displayName: displayName
-        };
-        console.log("New streamersInPlayer:", streamersInPlayer);
-        this.setState({
-          streamersInPlayer: streamersInPlayer
         });
       }
-    }
+    }).then(function (_ref) {
+      var username = _ref.username;
+      var displayName = _ref.displayName;
+      var id = _ref.id;
+
+      if (Object.keys(_this3.state.streamersInPlayer).length < _this3.state.playerStreamMax) {
+        if (!_this3.state.streamersInPlayer.hasOwnProperty(id)) {
+          var streamersInPlayer = JSON.parse(JSON.stringify(_this3.state.streamersInPlayer));
+          streamersInPlayer[id] = {
+            vod: true,
+            id: id,
+            username: username,
+            displayName: displayName
+          };
+          console.log("New streamersInPlayer:", streamersInPlayer);
+          _this3.setState({
+            streamersInPlayer: streamersInPlayer
+          });
+        }
+      }
+    })["catch"](function (e) {
+      return console.error(e);
+    });
   },
   search: function search(query) {
     _reactRouter.browserHistory.push(encodeURI("/search/streams?q=" + query));
@@ -270,7 +342,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   panelsHandler: function panelsHandler(type, name) {
-    var _this2 = this;
+    var _this4 = this;
 
     switch (type) {
       case "open":
@@ -285,7 +357,7 @@ exports["default"] = _react2["default"].createClass({
           methods.getPanels().then(function (data) {
             console.log("panel data", data);
             if (data.length > 0) {
-              _this2.setState({
+              _this4.setState({
                 panelDataFor: name,
                 panelData: data
               });
@@ -381,25 +453,25 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   checkURL: function checkURL(nextProps, nextState) {
-    var _this3 = this;
+    var _this5 = this;
 
     // console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
     var changeOverlay = function changeOverlay(overlay, q, postID) {
       // console.log(overlay);
       switch (q) {
         case "q":
-          _this3.popUpHandler(overlay || "viewQuestion", {
+          _this5.popUpHandler(overlay || "viewQuestion", {
             questionID: postID
           });
           break;
         case "p":
-          _this3.popUpHandler(overlay || "viewPoll", {
+          _this5.popUpHandler(overlay || "viewPoll", {
             pollID: postID
           });
           break;
         default:
           // console.log(nextProps.location.state);
-          if (!overlay) _this3.popUpHandler("close", {
+          if (!overlay) _this5.popUpHandler("close", {
             newReturn: nextProps.location.state && nextProps.location.state.returnTo ? nextProps.location.state.returnTo : null
           });
       }
@@ -446,7 +518,10 @@ exports["default"] = _react2["default"].createClass({
       }
   },
   componentDidMount: function componentDidMount() {
-    var _this4 = this;
+    var _this6 = this;
+
+    // check hash for multistream stuff
+    this.getMS();
 
     // get auth token
     (0, _modulesClientAjax.ajax)({
@@ -454,12 +529,12 @@ exports["default"] = _react2["default"].createClass({
       success: function success(authToken) {
         // load firebase config
         // console.log("auth token", authToken);
-        _modulesClientLoadData2["default"].call(_this4, function (e) {
+        _modulesClientLoadData2["default"].call(_this6, function (e) {
           console.error(e.stack);
         }).then(function (methods) {
           methods.getFirebaseConfig().then(function (data) {
             // console.log("firebase data", data);
-            _this4.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
+            _this6.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
           })["catch"](function (e) {
             return console.error(e.stack || e);
           });
@@ -469,7 +544,7 @@ exports["default"] = _react2["default"].createClass({
       },
       error: function error(err) {
         console.error(err);
-        _this4.setState({
+        _this6.setState({
           error: true
         });
       }
@@ -478,13 +553,13 @@ exports["default"] = _react2["default"].createClass({
     (0, _modulesClientAjax.ajax)({
       url: "/get-version",
       success: function success(data) {
-        _this4.setState({
+        _this6.setState({
           versionData: JSON.parse(data)
         });
       },
       error: function error(err) {
         console.error(err);
-        _this4.setState({
+        _this6.setState({
           error: true
         });
       }

@@ -82,10 +82,11 @@ var Feedback = _react2["default"].createClass({
   validate: function validate(name, e) {
     // name will be the same as a referenced element
     // the name will be used to be validated, matched with a variable "suffix"
+    var value = e.target.value;
+    var thisValid = name + "Valid";
+
     if (name === "email") {
-      var value = e.target.value;
       var thisRegex = this.state.validation[name + "Regex"];
-      var thisValid = name + "Valid";
       this.setState({
         validation: Object.assign(this.state.validation, _defineProperty({}, thisValid, !value || !!value.match(thisRegex)))
       }, function () {
@@ -94,10 +95,8 @@ var Feedback = _react2["default"].createClass({
     } else {
         var _Object$assign2;
 
-        var value = e.target.value;
         var thisMin = this.state.validation[name + "Min"];
         var thisMax = this.state.validation[name + "Max"];
-        var thisValid = name + "Valid";
         var thisCount = name + "Count";
         this.setState({
           validation: Object.assign(this.state.validation, (_Object$assign2 = {}, _defineProperty(_Object$assign2, thisValid, value.length >= thisMin && value.length <= thisMax), _defineProperty(_Object$assign2, thisCount, value.length), _Object$assign2))

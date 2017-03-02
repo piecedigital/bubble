@@ -405,6 +405,13 @@ function loadData(errorCB) {
           }
         });
       },
+      getVODData: function getVODData(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        var id = options.id;
+        delete options.id;
+        return makeRequest(okayCB, "videos/" + id);
+      },
       followStream: function followStream(okayCB) {
         delete options.stream_type;
         delete options.limit;

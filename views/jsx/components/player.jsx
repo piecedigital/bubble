@@ -40,7 +40,7 @@ var _bookmarkBtnJsx2 = _interopRequireDefault(_bookmarkBtnJsx);
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
   getInitialState: function getInitialState() {
-    return { chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0, time: 0, playing: true };
+    return { chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0, time: 0, playing: true, playerReady: false };
   },
   toggleMenu: function toggleMenu(type) {
     switch (type) {
@@ -143,9 +143,13 @@ var PlayerStream = _react2["default"].createClass({
     vod ? options.video = vod : options.channel = name;
     // console.log("player options", options);
     var player = new Twitch.Player(this.refs.video, options);
+    this.player = player;
     player.setMuted(true);
     player.addEventListener(Twitch.Player.READY, function () {
       console.log('Player is ready!');
+      _this2.setState({
+        playerReady: true
+      });
       if (vod) {
         _this2.ticker = setInterval(function () {
           var time = player.getCurrentTime();
@@ -167,7 +171,7 @@ var PlayerStream = _react2["default"].createClass({
         _this2.setState({
           playing: false
         });
-        console.log('Player is playing!');
+        console.log('Player is paused!');
       });
     }
   },
@@ -189,6 +193,9 @@ var PlayerStream = _react2["default"].createClass({
       second: second,
       formatted: formatted
     };
+  },
+  pauseVOD: function pauseVOD() {
+    this.player.pause();
   },
   componentDidMount: function componentDidMount() {
     var _this3 = this;
@@ -233,6 +240,7 @@ var PlayerStream = _react2["default"].createClass({
     var nameScroll2 = _state.nameScroll2;
     var time = _state.time;
     var playing = _state.playing;
+    var playerReady = _state.playerReady;
 
     switch (isFor) {
       case "video":
@@ -406,15 +414,15 @@ var PlayerStream = _react2["default"].createClass({
                 "Follow ",
                 name
               ),
-              vod ? _react2["default"].createElement(
+              vod && playerReady ? _react2["default"].createElement(
                 "div",
                 { className: "closer" },
-                !playing ? _react2["default"].createElement("input", { type: "text", value: "https://www.twitch.tv/videos/122450470?t=" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : ""), onClick: function (e) {
+                !playing ? _react2["default"].createElement("input", { type: "text", value: "https://www.twitch.tv/videos/" + vod + "?t=" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : ""), onClick: function (e) {
                     return e.target.select();
                   }, readOnly: true }) : _react2["default"].createElement(
                   "span",
-                  null,
-                  "Pause VOD For Timestamped Link"
+                  { onClick: this.pauseVOD },
+                  "Click/Pause VOD For Timestamped Link"
                 )
               ) : null,
               _react2["default"].createElement(

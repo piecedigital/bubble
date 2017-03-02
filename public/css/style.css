@@ -1,5 +1,6 @@
 *, *:before, *:after {
   box-sizing: border-box;
+  -webkit-transition: .2s all;
   transition: .2s all; }
 
 html {
@@ -34,7 +35,6 @@ nav {
     display: -ms-inline-flex ;
     display: -moz-inline-flex ;
     display: -webkit-inline-box ;
-    display: -webkit-inline-flex ;
     display: inline-flex ;
     flex-direction: row;
     justify-content: flex-end;
@@ -80,7 +80,6 @@ nav {
           display: -ms-flex ;
           display: -moz-flex ;
           display: -webkit-box ;
-          display: -webkit-flex ;
           display: flex ;
           flex-direction: column;
           position: absolute;
@@ -228,7 +227,6 @@ nav {
     display: -ms-flex ;
     display: -moz-flex ;
     display: -webkit-box ;
-    display: -webkit-flex ;
     display: flex ;
     position: relative;
     width: 100%;
@@ -248,7 +246,6 @@ nav {
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
-      display: -webkit-flex ;
       display: flex ;
       position: absolute;
       bottom: 100%;
@@ -272,7 +269,6 @@ nav {
           display: -ms-flex ;
           display: -moz-flex ;
           display: -webkit-box ;
-          display: -webkit-flex ;
           display: flex ;
           align-items: center;
           justify-content: center;
@@ -306,7 +302,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   position: relative;
   height: 100%; }
@@ -336,7 +331,6 @@ nav {
     display: -ms-flex ;
     display: -moz-flex ;
     display: -webkit-box ;
-    display: -webkit-flex ;
     display: flex ;
     position: absolute;
     top: 0;
@@ -357,7 +351,6 @@ nav {
         display: -ms-flex ;
         display: -moz-flex ;
         display: -webkit-box ;
-        display: -webkit-flex ;
         display: flex ;
         cursor: default; }
         .player-stream .tools > *.refresh:hover {
@@ -433,7 +426,6 @@ nav {
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
-      display: -webkit-flex ;
       display: flex ;
       flex-direction: row;
       position: absolute;
@@ -465,7 +457,6 @@ nav {
         display: -ms-flex ;
         display: -moz-flex ;
         display: -webkit-box ;
-        display: -webkit-flex ;
         display: flex ;
         flex-direction: column;
         justify-content: space-around;
@@ -510,14 +501,12 @@ nav {
     display: -ms-inline-flex ;
     display: -moz-inline-flex ;
     display: -webkit-inline-box ;
-    display: -webkit-inline-flex ;
     display: inline-flex ;
     width: 50%; }
 .root.player-open.layout-4 .player > .wrapper .list.video-list {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   flex-wrap: wrap;
   overflow-y: hidden; }
@@ -525,7 +514,6 @@ nav {
     display: -ms-inline-flex ;
     display: -moz-inline-flex ;
     display: -webkit-inline-box ;
-    display: -webkit-inline-flex ;
     display: inline-flex ;
     width: 50%;
     height: 50%; }
@@ -533,7 +521,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   flex-wrap: wrap;
   overflow-y: hidden; }
@@ -541,7 +528,6 @@ nav {
     display: -ms-inline-flex ;
     display: -moz-inline-flex ;
     display: -webkit-inline-box ;
-    display: -webkit-inline-flex ;
     display: inline-flex ;
     width: 50%;
     height: 33.3333333%; }
@@ -553,7 +539,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   flex-wrap: wrap;
   overflow-y: hidden; }
@@ -561,7 +546,6 @@ nav {
     display: -ms-inline-flex ;
     display: -moz-inline-flex ;
     display: -webkit-inline-box ;
-    display: -webkit-inline-flex ;
     display: inline-flex ;
     width: 50%;
     height: 33.3333333%; }
@@ -641,7 +625,6 @@ nav {
         display: -ms-flex ;
         display: -moz-flex ;
         display: -webkit-box ;
-        display: -webkit-flex ;
         display: flex ;
         flex-direction: row;
         flex-wrap: wrap;
@@ -701,7 +684,6 @@ nav {
         display: -ms-flex ;
         display: -moz-flex ;
         display: -webkit-box ;
-        display: -webkit-flex ;
         display: flex ;
         flex-direction: column; }
         .top-level-component.about .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.about .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.about .general-page .tools .parent .scroll .btn-default, .top-level-component.about .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.about .user-info .tools .parent .scroll .btn-default, .top-level-component.about .user-questions .tools .parent .scroll .btn-default, .top-level-component.tos .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.tos .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.tos .general-page .tools .parent .scroll .btn-default, .top-level-component.tos .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.tos .user-info .tools .parent .scroll .btn-default, .top-level-component.tos .user-questions .tools .parent .scroll .btn-default, .top-level-component.profile .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.profile .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.profile .general-page .tools .parent .scroll .btn-default, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.profile .user-info .tools .parent .scroll .btn-default, .top-level-component.profile .user-questions .tools .parent .scroll .btn-default, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.streams .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.streams .general-page .tools .parent .scroll .btn-default, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.streams .user-info .tools .parent .scroll .btn-default, .top-level-component.streams .user-questions .tools .parent .scroll .btn-default, .top-level-component.games .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.games .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.games .general-page .tools .parent .scroll .btn-default, .top-level-component.games .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.games .user-info .tools .parent .scroll .btn-default, .top-level-component.games .user-questions .tools .parent .scroll .btn-default, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .general-page .tools .parent .scroll .btn-default, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .btn-default, .top-level-component.search-page .user-info .tools .parent .scroll .btn-default, .top-level-component.search-page .user-questions .tools .parent .scroll .btn-default {
@@ -715,7 +697,6 @@ nav {
               display: -ms-flex ;
               display: -moz-flex ;
               display: -webkit-box ;
-              display: -webkit-flex ;
               display: flex ;
               padding-top: 1.6px; }
               .top-level-component.about .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.about .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.about .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.about .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.about .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.about .user-questions .tools .parent .scroll .option.filters .filter-status label, .top-level-component.tos .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.tos .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.tos .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.tos .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.tos .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.tos .user-questions .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.profile .user-questions .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.streams .user-questions .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.games .user-questions .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .followed-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .following-streams.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .general-page .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .videos-listing.profile .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .user-info .tools .parent .scroll .option.filters .filter-status label, .top-level-component.search-page .user-questions .tools .parent .scroll .option.filters .filter-status label {
@@ -746,7 +727,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   height: 672px;
   margin-bottom: 16px; }
@@ -754,7 +734,6 @@ nav {
     display: -ms-inline-flex ;
     display: -moz-inline-flex ;
     display: -webkit-inline-box ;
-    display: -webkit-inline-flex ;
     display: inline-flex ;
     flex-direction: column;
     width: 100%; }
@@ -768,7 +747,6 @@ nav {
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
-      display: -webkit-flex ;
       display: flex ;
       width: 100%;
       height: 160px;
@@ -850,7 +828,6 @@ nav {
     display: -ms-flex ;
     display: -moz-flex ;
     display: -webkit-box ;
-    display: -webkit-flex ;
     display: flex ;
     flex-direction: row;
     flex-wrap: wrap;
@@ -874,7 +851,6 @@ nav {
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
-      display: -webkit-flex ;
       display: flex ;
       flex-direction: column;
       position: absolute;
@@ -914,7 +890,6 @@ nav {
         display: -ms-flex ;
         display: -moz-flex ;
         display: -webkit-box ;
-        display: -webkit-flex ;
         display: flex ;
         flex-direction: column;
         justify-content: center;
@@ -924,7 +899,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   max-width: 880px;
   margin: 16px auto 12px;
@@ -934,7 +908,6 @@ nav {
     display: -ms-flex ;
     display: -moz-flex ;
     display: -webkit-box ;
-    display: -webkit-flex ;
     display: flex ;
     flex-direction: column;
     width: 192px;
@@ -1198,7 +1171,6 @@ nav {
     display: -ms-flex ;
     display: -moz-flex ;
     display: -webkit-box ;
-    display: -webkit-flex ;
     display: flex ;
     flex-direction: column;
     align-items: center;
@@ -1249,7 +1221,6 @@ nav {
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
-      display: -webkit-flex ;
       display: flex ;
       flex-wrap: wrap;
       height: initial; }
@@ -1302,7 +1273,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   flex-direction: column;
   position: absolute;
@@ -1340,7 +1310,6 @@ nav {
     display: -ms-flex ;
     display: -moz-flex ;
     display: -webkit-box ;
-    display: -webkit-flex ;
     display: flex ;
     padding: 8px; }
     .overlay-ui-default .section label {
@@ -1358,7 +1327,6 @@ nav {
         display: -ms-inline-flex ;
         display: -moz-inline-flex ;
         display: -webkit-inline-box ;
-        display: -webkit-inline-flex ;
         display: inline-flex ;
         flex-direction: column;
         justify-content: space-between; }
@@ -1427,7 +1395,6 @@ nav {
   display: -ms-flex !important;
   display: -moz-flex !important;
   display: -webkit-box !important;
-  display: -webkit-flex !important;
   display: flex !important;
   justify-content: space-between;
   align-items: center; }
@@ -1452,7 +1419,6 @@ nav {
   display: -ms-flex !important;
   display: -moz-flex !important;
   display: -webkit-box !important;
-  display: -webkit-flex !important;
   display: flex !important;
   justify-content: space-between;
   align-items: center; }
@@ -1473,7 +1439,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   justify-content: space-around;
   padding: 16px;
@@ -1491,7 +1456,6 @@ nav {
   display: -ms-flex !important;
   display: -moz-flex !important;
   display: -webkit-box !important;
-  display: -webkit-flex !important;
   display: flex !important;
   justify-content: space-between;
   align-items: center; }
@@ -1514,7 +1478,6 @@ nav {
   display: -ms-flex !important;
   display: -moz-flex !important;
   display: -webkit-box !important;
-  display: -webkit-flex !important;
   display: flex !important;
   justify-content: space-between;
   align-items: center; }
@@ -1538,7 +1501,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   justify-content: space-between; }
   .vote-poll .section .spread .text {
@@ -1564,7 +1526,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   justify-content: space-between; }
   .view-poll .section .spread .text {
@@ -1576,7 +1537,6 @@ nav {
   display: -ms-flex !important;
   display: -moz-flex !important;
   display: -webkit-box !important;
-  display: -webkit-flex !important;
   display: flex !important;
   justify-content: space-between;
   align-items: center; }
@@ -1596,7 +1556,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   justify-content: space-between; }
   .poll-choice:not(:last-child) {
@@ -1618,7 +1577,6 @@ nav {
   display: -ms-flex ;
   display: -moz-flex ;
   display: -webkit-box ;
-  display: -webkit-flex ;
   display: flex ;
   justify-content: space-around;
   padding: 16px;
@@ -1636,7 +1594,6 @@ nav {
   display: -ms-flex !important;
   display: -moz-flex !important;
   display: -webkit-box !important;
-  display: -webkit-flex !important;
   display: flex !important;
   justify-content: space-between;
   align-items: center; }
@@ -1669,7 +1626,6 @@ nav {
     display: -ms-flex ;
     display: -moz-flex ;
     display: -webkit-box ;
-    display: -webkit-flex ;
     display: flex ;
     height: 100%;
     color: inherit;
@@ -1769,14 +1725,12 @@ nav {
   display: -ms-inline-flex ;
   display: -moz-inline-flex ;
   display: -webkit-inline-box ;
-  display: -webkit-inline-flex ;
   display: inline-flex ;
   align-items: center; }
   .view-game-queue .section .align.wide {
     display: -ms-flex ;
     display: -moz-flex ;
     display: -webkit-box ;
-    display: -webkit-flex ;
     display: flex ;
     justify-content: space-around;
     width: 100%; }
@@ -1787,7 +1741,6 @@ nav {
   display: -ms-flex !important;
   display: -moz-flex !important;
   display: -webkit-box !important;
-  display: -webkit-flex !important;
   display: flex !important;
   justify-content: space-between;
   align-items: center; }
@@ -1799,7 +1752,6 @@ nav {
     display: -ms-inline-flex ;
     display: -moz-inline-flex ;
     display: -webkit-inline-box ;
-    display: -webkit-inline-flex ;
     display: inline-flex ;
     flex-direction: column;
     justify-content: space-between; }
@@ -1873,46 +1825,57 @@ nav {
   height: 1px;
   background-color: black; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-midGrey {
   height: 1px;
   background-color: #7d7d7d; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-offWhite {
   height: 1px;
   background-color: #ebebeb; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-offBlack {
   height: 1px;
   background-color: #1e1e1e; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-purple {
   height: 1px;
   background-color: #6441a4; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-primary {
   height: 1px;
   background-color: #00c8fa; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-dim {
   height: 1px;
   background-color: #00aadc; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-dimmer {
   height: 1px;
   background-color: #0082b4; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-light {
   height: 1px;
   background-color: #96e6ff; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-orange {
   height: 1px;
   background-color: #fa7800; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-red {
   height: 1px;
   background-color: #fa0000; }
 
+/* $i: index($allColors, $color);*/
 .separator-1-green {
   height: 1px;
   background-color: #00fa96; }
@@ -1925,46 +1888,57 @@ nav {
   height: 2px;
   background-color: black; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-midGrey {
   height: 2px;
   background-color: #7d7d7d; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-offWhite {
   height: 2px;
   background-color: #ebebeb; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-offBlack {
   height: 2px;
   background-color: #1e1e1e; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-purple {
   height: 2px;
   background-color: #6441a4; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-primary {
   height: 2px;
   background-color: #00c8fa; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-dim {
   height: 2px;
   background-color: #00aadc; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-dimmer {
   height: 2px;
   background-color: #0082b4; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-light {
   height: 2px;
   background-color: #96e6ff; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-orange {
   height: 2px;
   background-color: #fa7800; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-red {
   height: 2px;
   background-color: #fa0000; }
 
+/* $i: index($allColors, $color);*/
 .separator-2-green {
   height: 2px;
   background-color: #00fa96; }
@@ -1977,46 +1951,57 @@ nav {
   height: 3px;
   background-color: black; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-midGrey {
   height: 3px;
   background-color: #7d7d7d; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-offWhite {
   height: 3px;
   background-color: #ebebeb; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-offBlack {
   height: 3px;
   background-color: #1e1e1e; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-purple {
   height: 3px;
   background-color: #6441a4; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-primary {
   height: 3px;
   background-color: #00c8fa; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-dim {
   height: 3px;
   background-color: #00aadc; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-dimmer {
   height: 3px;
   background-color: #0082b4; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-light {
   height: 3px;
   background-color: #96e6ff; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-orange {
   height: 3px;
   background-color: #fa7800; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-red {
   height: 3px;
   background-color: #fa0000; }
 
+/* $i: index($allColors, $color);*/
 .separator-3-green {
   height: 3px;
   background-color: #00fa96; }
@@ -2029,46 +2014,57 @@ nav {
   height: 4px;
   background-color: black; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-midGrey {
   height: 4px;
   background-color: #7d7d7d; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-offWhite {
   height: 4px;
   background-color: #ebebeb; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-offBlack {
   height: 4px;
   background-color: #1e1e1e; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-purple {
   height: 4px;
   background-color: #6441a4; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-primary {
   height: 4px;
   background-color: #00c8fa; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-dim {
   height: 4px;
   background-color: #00aadc; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-dimmer {
   height: 4px;
   background-color: #0082b4; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-light {
   height: 4px;
   background-color: #96e6ff; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-orange {
   height: 4px;
   background-color: #fa7800; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-red {
   height: 4px;
   background-color: #fa0000; }
 
+/* $i: index($allColors, $color);*/
 .separator-4-green {
   height: 4px;
   background-color: #00fa96; }
@@ -2290,132 +2286,154 @@ nav {
 .color-red {
   color: red; }
 
+/* $i: index($allColors, $color);*/
 .color-midGrey {
   color: #7d7d7d; }
 
 .color-midGrey-priority {
   color: #7d7d7d !important; }
 
+/* $i: index($allColors, $color);*/
 .color-offWhite {
   color: #ebebeb; }
 
 .color-offWhite-priority {
   color: #ebebeb !important; }
 
+/* $i: index($allColors, $color);*/
 .color-offBlack {
   color: #1e1e1e; }
 
 .color-offBlack-priority {
   color: #1e1e1e !important; }
 
+/* $i: index($allColors, $color);*/
 .color-purple {
   color: #6441a4; }
 
 .color-purple-priority {
   color: #6441a4 !important; }
 
+/* $i: index($allColors, $color);*/
 .color-primary {
   color: #00c8fa; }
 
 .color-primary-priority {
   color: #00c8fa !important; }
 
+/* $i: index($allColors, $color);*/
 .color-dim {
   color: #00aadc; }
 
 .color-dim-priority {
   color: #00aadc !important; }
 
+/* $i: index($allColors, $color);*/
 .color-dimmer {
   color: #0082b4; }
 
 .color-dimmer-priority {
   color: #0082b4 !important; }
 
+/* $i: index($allColors, $color);*/
 .color-light {
   color: #96e6ff; }
 
 .color-light-priority {
   color: #96e6ff !important; }
 
+/* $i: index($allColors, $color);*/
 .color-orange {
   color: #fa7800; }
 
 .color-orange-priority {
   color: #fa7800 !important; }
 
+/* $i: index($allColors, $color);*/
 .color-red {
   color: #fa0000; }
 
 .color-red-priority {
   color: #fa0000 !important; }
 
+/* $i: index($allColors, $color);*/
 .color-green {
   color: #00fa96; }
 
 .color-green-priority {
   color: #00fa96 !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-midGrey {
   background-color: #7d7d7d; }
 
 .bgc-midGrey-priority {
   background-color: #7d7d7d !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-offWhite {
   background-color: #ebebeb; }
 
 .bgc-offWhite-priority {
   background-color: #ebebeb !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-offBlack {
   background-color: #1e1e1e; }
 
 .bgc-offBlack-priority {
   background-color: #1e1e1e !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-purple {
   background-color: #6441a4; }
 
 .bgc-purple-priority {
   background-color: #6441a4 !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-primary {
   background-color: #00c8fa; }
 
 .bgc-primary-priority {
   background-color: #00c8fa !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-dim {
   background-color: #00aadc; }
 
 .bgc-dim-priority {
   background-color: #00aadc !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-dimmer {
   background-color: #0082b4; }
 
 .bgc-dimmer-priority {
   background-color: #0082b4 !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-light {
   background-color: #96e6ff; }
 
 .bgc-light-priority {
   background-color: #96e6ff !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-orange {
   background-color: #fa7800; }
 
 .bgc-orange-priority {
   background-color: #fa7800 !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-red {
   background-color: #fa0000; }
 
 .bgc-red-priority {
   background-color: #fa0000 !important; }
 
+/* $i: index($allColors, $color);*/
 .bgc-green {
   background-color: #00fa96; }
 
