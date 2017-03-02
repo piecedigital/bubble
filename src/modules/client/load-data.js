@@ -348,6 +348,13 @@ export default function loadData(errorCB, options = {}) {
 
         });
       },
+      getVODData: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        const id = options.id;
+        delete options.id;
+        return makeRequest(okayCB, `videos/${id}`);
+      },
       followStream: (okayCB) => {
         delete options.stream_type;
         delete options.limit;

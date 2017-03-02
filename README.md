@@ -25,6 +25,9 @@
   - Receiver username missing from question URL in question tools **ok**
   - Add application name **ok**
   - Add feedback overlay **ok**
+- Bug fixes: 0.12.2
+  - Fixed VOD linking **ok**
+  - Added multistream via fragment identifier
 - xxx
   - Add logo
 

@@ -68,7 +68,9 @@ export default React.createClass({
     window.location.hash.replace(/(\#|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, (_, symbol, key, value) => {
       queryData[key] = value;
       // set token for 2 hours
-      document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
+      if(["ms", "multistream", "multitwitch"].indexOf(key) < 0) {
+        document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
+      }
     });
     document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)/g, (_, key, value, symbol) => {
       queryData[key] = value;
@@ -78,20 +80,33 @@ export default React.createClass({
   },
   getMS() {
     let hashData = this.getHashData();
-    console.log("hash Data", hashData);
+    // console.log("hash Data", hashData);
 
-    const sss = {};
+    const MSObject = {};
 
     ["ms", "multistream", "multitwitch"].map(prop => {
       if(hashData[prop]) {
         hashData[prop].split(",").map(name => {
-          name = name.replace(" ", "");
-          sss[name] = name;
+          if(name) {
+            name = name.replace(" ", "");
+            MSObject[name] = name;
+          }
         });
       }
     });
 
-    console.log(sss);
+    // console.log(MSObject);
+    Object.keys(MSObject).map(name => {
+      if(name.match(/^v/)) {
+        setTimeout(() => {
+          this.appendVOD(null, null, name)
+        });
+        } else {
+        setTimeout(() => {
+          this.appendStream(name, name);
+        });
+      }
+    })
   },
   initAuthAndFirebase(data, token) {
     let authData = this.getHashData();
@@ -155,7 +170,7 @@ export default React.createClass({
   appendStream(username, displayName, isSolo = false) {
     username ? username.replace(/\s/g, "") : null;
     displayName ? displayName.replace(/\s/g, "") : null;
-    console.log("appending stream", username, isSolo);
+    // console.log("appending stream", username, isSolo);
     // only append if below the mas
     if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
       if(!this.state.streamersInPlayer.hasOwnProperty(username)) {
@@ -169,23 +184,59 @@ export default React.createClass({
     }
   },
   appendVOD(username, displayName, id, isSolo = false) {
-    console.log("appending VOD", username, isSolo);
+    // console.log("appending VOD", username, isSolo);
     // only append if below the max
-    if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
-      if(!this.state.streamersInPlayer.hasOwnProperty(id)) {
-        let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-        streamersInPlayer[id] = {
-          vod: true,
-          id,
+    new Promise(function(resolve, reject) {
+      if(!username && !displayName) {
+
+        console.log("no name for VOD. getting it");
+        loadData.call(this, e => {
+          console.error(e.stack);
+        }, {
+          id
+        })
+        .then(methods => {
+          methods
+          .getVODData()
+          .then(data => {
+            console.log("got data for VOD", data);
+            resolve({
+              username: data.channel.name,
+              displayName: data.channel.display_name,
+              id
+            });
+          })
+          .catch(e => console.error(e.stack || e));
+        })
+        .catch(e => console.error(e.stack || e));
+
+      } else {
+        resolve({
           username,
           displayName
-        };
-        console.log("New streamersInPlayer:", streamersInPlayer);
-        this.setState({
-          streamersInPlayer
         });
       }
-    }
+    })
+    .then(({username, displayName, id}) => {
+
+      if(Object.keys(this.state.streamersInPlayer).length < this.state.playerStreamMax) {
+        if(!this.state.streamersInPlayer.hasOwnProperty(id)) {
+          let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+          streamersInPlayer[id] = {
+            vod: true,
+            id,
+            username,
+            displayName
+          };
+          console.log("New streamersInPlayer:", streamersInPlayer);
+          this.setState({
+            streamersInPlayer
+          });
+        }
+      }
+
+    })
+    .catch(e => console.error(e))
   },
   search(query) {
     History.push(encodeURI(`/search/streams?q=${query}`));
