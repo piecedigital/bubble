@@ -29,14 +29,17 @@
   - Fixed VOD appending **ok**
 - Bug fixes: 0.12.3
   - Fixed VOD linking **ok**
+- Bug fixes: 0.12.4
+  - Fixed potential issue with multistreamfeature **ok**
 - xxx
   - Add logo
 
 # Things to add eventually
-- PVP card game
+- PVP card game - TBD
 - Meta data update and full server-side rendering - TBD
 - AMAs - TBD
 - Share stream - TBD
+- Stream reordering - TBD
 
 
 Latin words:
