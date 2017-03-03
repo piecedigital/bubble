@@ -100,7 +100,7 @@ exports["default"] = _react2["default"].createClass({
     window.location.hash.replace(/(\#|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, function (_, symbol, key, value) {
       queryData[key] = value;
       // set token for 2 hours
-      if (["ms", "multistream", "multitwitch"].indexOf(key) < 0) {
+      if (["access_token"].indexOf(key) >= 0) {
         document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
       }
     });
@@ -131,7 +131,7 @@ exports["default"] = _react2["default"].createClass({
 
     // console.log(MSObject);
     Object.keys(MSObject).map(function (name) {
-      if (name.match(/^v/)) {
+      if (name.match(/^v[0-9]+/)) {
         setTimeout(function () {
           _this.appendVOD(null, null, name);
         });
