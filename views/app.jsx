@@ -40,6 +40,7 @@ var _jsxSearchJsx2 = _interopRequireDefault(_jsxSearchJsx);
 
 var container = document.querySelector(".react-app");
 
+// unused. keeping for possible future usage
 function checkAuth(Component, props) {
   // console.log("check auth", props);
   if (props.auth !== null) {
@@ -78,7 +79,7 @@ function checkAuth(Component, props) {
     _react2["default"].createElement(_reactRouter.Route, { path: "/tos", page: "about", component: _jsxTosJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/terms", page: "about", component: _jsxTosJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/terms-of-service", page: "about", component: _jsxTosJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/profile/:username(/:q/:postID)", page: "profile", component: checkAuth.bind(null, _jsxProfileJsx2["default"]) }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/profile/:username(/:q/:postID)", page: "profile", component: _jsxProfileJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "streams", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "games", component: _jsxGeneralPageJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/search/:searchtype", page: "search", component: _jsxSearchJsx2["default"] })
