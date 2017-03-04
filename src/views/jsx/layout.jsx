@@ -72,10 +72,12 @@ export default React.createClass({
         document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
       }
     });
-    document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)/g, (_, key, value, symbol) => {
+    console.log(document.cookie);
+    document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)?/g, (_, key, value, symbol) => {
       queryData[key] = value;
     });
     // window.location.hash = "";
+    // console.log("queryData", queryData);
     return queryData;
   },
   getMS() {
