@@ -104,10 +104,12 @@ exports["default"] = _react2["default"].createClass({
         document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
       }
     });
-    document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)/g, function (_, key, value, symbol) {
+    console.log(document.cookie);
+    document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)?/g, function (_, key, value, symbol) {
       queryData[key] = value;
     });
     // window.location.hash = "";
+    // console.log("queryData", queryData);
     return queryData;
   },
   getMS: function getMS() {
@@ -131,15 +133,7 @@ exports["default"] = _react2["default"].createClass({
 
     // console.log(MSObject);
     Object.keys(MSObject).map(function (name) {
-      if (name.match(/^v[0-9]+/)) {
-        setTimeout(function () {
-          _this.appendVOD(null, null, name);
-        });
-      } else {
-        setTimeout(function () {
-          _this.appendStream(name, name);
-        });
-      }
+      _this.decideStreamAppend(name);
     });
   },
   initAuthAndFirebase: function initAuthAndFirebase(data, token) {
@@ -201,6 +195,19 @@ exports["default"] = _react2["default"].createClass({
       fireRef: ref
     });
   },
+  decideStreamAppend: function decideStreamAppend(name) {
+    var _this3 = this;
+
+    if (name.match(/^v[0-9]+/)) {
+      setTimeout(function () {
+        _this3.appendVOD(null, null, name);
+      });
+    } else {
+      setTimeout(function () {
+        _this3.appendStream(name, name);
+      });
+    }
+  },
   appendStream: function appendStream(username, displayName) {
     var isSolo = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
@@ -220,7 +227,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   appendVOD: function appendVOD(username, displayName, id) {
-    var _this3 = this;
+    var _this4 = this;
 
     var isSolo = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
@@ -260,9 +267,9 @@ exports["default"] = _react2["default"].createClass({
       var displayName = _ref.displayName;
       var id = _ref.id;
 
-      if (Object.keys(_this3.state.streamersInPlayer).length < _this3.state.playerStreamMax) {
-        if (!_this3.state.streamersInPlayer.hasOwnProperty(id)) {
-          var streamersInPlayer = JSON.parse(JSON.stringify(_this3.state.streamersInPlayer));
+      if (Object.keys(_this4.state.streamersInPlayer).length < _this4.state.playerStreamMax) {
+        if (!_this4.state.streamersInPlayer.hasOwnProperty(id)) {
+          var streamersInPlayer = JSON.parse(JSON.stringify(_this4.state.streamersInPlayer));
           streamersInPlayer[id] = {
             vod: true,
             id: id,
@@ -270,7 +277,7 @@ exports["default"] = _react2["default"].createClass({
             displayName: displayName
           };
           console.log("New streamersInPlayer:", streamersInPlayer);
-          _this3.setState({
+          _this4.setState({
             streamersInPlayer: streamersInPlayer
           });
         }
@@ -343,7 +350,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   panelsHandler: function panelsHandler(type, name) {
-    var _this4 = this;
+    var _this5 = this;
 
     switch (type) {
       case "open":
@@ -358,7 +365,7 @@ exports["default"] = _react2["default"].createClass({
           methods.getPanels().then(function (data) {
             console.log("panel data", data);
             if (data.length > 0) {
-              _this4.setState({
+              _this5.setState({
                 panelDataFor: name,
                 panelData: data
               });
@@ -454,25 +461,25 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   checkURL: function checkURL(nextProps, nextState) {
-    var _this5 = this;
+    var _this6 = this;
 
     // console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
     var changeOverlay = function changeOverlay(overlay, q, postID) {
       // console.log(overlay);
       switch (q) {
         case "q":
-          _this5.popUpHandler(overlay || "viewQuestion", {
+          _this6.popUpHandler(overlay || "viewQuestion", {
             questionID: postID
           });
           break;
         case "p":
-          _this5.popUpHandler(overlay || "viewPoll", {
+          _this6.popUpHandler(overlay || "viewPoll", {
             pollID: postID
           });
           break;
         default:
           // console.log(nextProps.location.state);
-          if (!overlay) _this5.popUpHandler("close", {
+          if (!overlay) _this6.popUpHandler("close", {
             newReturn: nextProps.location.state && nextProps.location.state.returnTo ? nextProps.location.state.returnTo : null
           });
       }
@@ -519,7 +526,7 @@ exports["default"] = _react2["default"].createClass({
       }
   },
   componentDidMount: function componentDidMount() {
-    var _this6 = this;
+    var _this7 = this;
 
     // check hash for multistream stuff
     this.getMS();
@@ -530,12 +537,12 @@ exports["default"] = _react2["default"].createClass({
       success: function success(authToken) {
         // load firebase config
         // console.log("auth token", authToken);
-        _modulesClientLoadData2["default"].call(_this6, function (e) {
+        _modulesClientLoadData2["default"].call(_this7, function (e) {
           console.error(e.stack);
         }).then(function (methods) {
           methods.getFirebaseConfig().then(function (data) {
             // console.log("firebase data", data);
-            _this6.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
+            _this7.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
           })["catch"](function (e) {
             return console.error(e.stack || e);
           });
@@ -545,7 +552,7 @@ exports["default"] = _react2["default"].createClass({
       },
       error: function error(err) {
         console.error(err);
-        _this6.setState({
+        _this7.setState({
           error: true
         });
       }
@@ -554,13 +561,13 @@ exports["default"] = _react2["default"].createClass({
     (0, _modulesClientAjax.ajax)({
       url: "/get-version",
       success: function success(data) {
-        _this6.setState({
+        _this7.setState({
           versionData: JSON.parse(data)
         });
       },
       error: function error(err) {
         console.error(err);
-        _this6.setState({
+        _this7.setState({
           error: true
         });
       }
@@ -615,7 +622,7 @@ exports["default"] = _react2["default"].createClass({
         initState: initState,
         methods: {
           search: this.search,
-          appendStream: this.appendStream,
+          decideStreamAppend: this.decideStreamAppend,
           logout: this.logout,
           popUpHandler: this.popUpHandler
         } }),

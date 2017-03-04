@@ -139,7 +139,7 @@ exports["default"] = _react2["default"].createClass({
     var url = _props3.url;
     var _props3$methods = _props3.methods;
     var logout = _props3$methods.logout;
-    var appendStream = _props3$methods.appendStream;
+    var decideStreamAppend = _props3$methods.decideStreamAppend;
     var search = _props3$methods.search;
     var popUpHandler = _props3$methods.popUpHandler;
 
@@ -163,7 +163,7 @@ exports["default"] = _react2["default"].createClass({
           { className: "inputs" },
           _react2["default"].createElement(SlideInput, { ref: "addInput", commandValue: "add", symbol: "+", open: addOpen, placeholder: "Add a stream to the Player", callback: function (value, bool) {
               _this2.toggleNav("close");
-              appendStream(value, undefined, bool);
+              decideStreamAppend(value, undefined, bool);
             }, methods: {
               focusCallback: this.focusInput,
               toggleCallback: this.toggleInput
