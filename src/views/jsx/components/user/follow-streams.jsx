@@ -42,7 +42,7 @@ let components = {
       .catch(e => console.error(e ? e.stack : e));
     },
     followCallback(follow) {
-      console.log(this.props.follow);
+      // console.log(this.props.follow);
       if(this.props.follow === "IFollow") {
         if(follow) {
           // following channel
@@ -112,7 +112,7 @@ let components = {
       // console.log(this.state.streamData, nextState.streamData);
       if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
         // console.log(this.state.streamData.stream !== nextState.streamData.stream);
-        if(nextState.streamData && nextState.streamData.stream && this.props.follow === "IFollow") {
+        if(this.props.userData && nextState.streamData && nextState.streamData.stream && this.props.follow === "IFollow") {
           this.notify();
         }
       }

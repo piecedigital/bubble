@@ -11,6 +11,7 @@ import SearchPage from "./jsx/search.jsx";
 
 const container = document.querySelector(".react-app");
 
+// unused. keeping for possible future usage
 function checkAuth(Component, props) {
   // console.log("check auth", props);
   if(props.auth !== null) {
@@ -47,7 +48,7 @@ render((
       </Route>
       <Route path="/terms-of-service" page="about" component={TOS}>
       </Route>
-      <Route path="/profile/:username(/:q/:postID)" page="profile" component={checkAuth.bind(null, Profile)}>
+      <Route path="/profile/:username(/:q/:postID)" page="profile" component={Profile}>
       </Route>
       <Route path="/:page" page="streams" component={GeneralPage}>
       </Route>

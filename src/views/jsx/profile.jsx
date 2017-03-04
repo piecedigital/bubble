@@ -40,21 +40,11 @@ export default React.createClass({
                   <UserQuestions key="4" {...this.props} />
                 ) : null,
 
-                auth && auth.access_token &&
-                (userData || params.username) ? (
-                  [
-                    <div key="sep-IFollow" className="separator-4-black" />,
-                    <FollowStreams key="comp-IFollow" follow={"IFollow"} {...this.props} />
-                  ]
-                ) : null,
+                <div key="sep-IFollow" className="separator-4-black" />,
+                <FollowStreams key="comp-IFollow" follow={"IFollow"} {...this.props} />,
 
-                auth && auth.access_token &&
-                (userData || params.username) ? (
-                  [
-                    <div key="sep-followMe" className="separator-4-black" />,
-                    <FollowStreams key="comp-followMe" follow={"followMe"} {...this.props}/>
-                  ]
-                ) : null,
+                <div key="sep-followMe" className="separator-4-black" />,
+                <FollowStreams key="comp-followMe" follow={"followMe"} {...this.props}/>,
 
                 <div key="5" className="separator-4-black" />,
 

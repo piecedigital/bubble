@@ -32,8 +32,12 @@
 - Bug fixes: 0.12.4
   - Fixed potential issue with multistreamfeature **ok**
 - Bug fixes and improvements: 0.12.5 **ok**
-  - Improved stream/VOD appending logic
-  - Fixed cookie regex
+  - Improved stream/VOD appending logic **ok**
+  - Fixed cookie regex **ok**
+- Bug fixes: 0.12.6
+  - Fixed profiles not being visible to non-authed users **ok**
+  - Follow list can now be viewed oon profile without being authed **ok**
+  - Notifications only for people you follow **ok**
 - xxx
   - Add logo
 
