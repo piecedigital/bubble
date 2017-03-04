@@ -31,6 +31,9 @@
   - Fixed VOD linking **ok**
 - Bug fixes: 0.12.4
   - Fixed potential issue with multistreamfeature **ok**
+- Bug fixes and improvements: 0.12.5 **ok**
+  - Improved stream/VOD appending logic
+  - Fixed cookie regex
 - xxx
   - Add logo
 
