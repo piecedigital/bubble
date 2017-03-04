@@ -97,15 +97,7 @@ export default React.createClass({
 
     // console.log(MSObject);
     Object.keys(MSObject).map(name => {
-      if(name.match(/^v[0-9]+/)) {
-        setTimeout(() => {
-          this.appendVOD(null, null, name)
-        });
-        } else {
-        setTimeout(() => {
-          this.appendStream(name, name);
-        });
-      }
+      this.decideStreamAppend(name)
     })
   },
   initAuthAndFirebase(data, token) {
@@ -166,6 +158,17 @@ export default React.createClass({
     this.setState({
       fireRef: ref
     });
+  },
+  decideStreamAppend(name) {
+    if(name.match(/^v[0-9]+/)) {
+      setTimeout(() => {
+        this.appendVOD(null, null, name)
+      });
+      } else {
+      setTimeout(() => {
+        this.appendStream(name, name);
+      });
+    }
   },
   appendStream(username, displayName, isSolo = false) {
     username ? username.replace(/\s/g, "") : null;
@@ -576,7 +579,7 @@ export default React.createClass({
           initState={initState}
           methods={{
             search: this.search,
-            appendStream: this.appendStream,
+            decideStreamAppend: this.decideStreamAppend,
             logout: this.logout,
             popUpHandler: this.popUpHandler,
           }} />

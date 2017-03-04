@@ -117,7 +117,7 @@ export default React.createClass({
       url,
       methods: {
         logout,
-        appendStream,
+        decideStreamAppend,
         search,
         popUpHandler
       }
@@ -131,7 +131,7 @@ export default React.createClass({
           <span className="inputs">
             <SlideInput ref="addInput" commandValue="add" symbol="+" open={addOpen} placeholder="Add a stream to the Player" callback={(value, bool) => {
               this.toggleNav("close");
-              appendStream(value, undefined, bool);
+              decideStreamAppend(value, undefined, bool);
             }} methods={{
               focusCallback: this.focusInput,
               toggleCallback: this.toggleInput,
