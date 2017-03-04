@@ -104,7 +104,6 @@ exports["default"] = _react2["default"].createClass({
         document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
       }
     });
-    console.log(document.cookie);
     document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)?/g, function (_, key, value, symbol) {
       queryData[key] = value;
     });
