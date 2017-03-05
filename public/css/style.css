@@ -4,7 +4,8 @@
   transition: .2s all; }
 
 html {
-  font-family: Helvetica, sans-serif, arial; }
+  font-family: Helvetica, sans-serif, arial;
+  font-size: 16px; }
 
 body {
   margin: 0;
@@ -48,10 +49,23 @@ nav {
       right: 100%;
       margin: 0 16px;
       color: #00c8fa;
-      font-size: 32px; }
+      font-size: 32px;
+      height: 36px;
+      pointer-events: none; }
       nav > div .web-name a {
+        display: -ms-flex ;
+        display: -moz-flex ;
+        display: -webkit-box ;
+        display: flex ;
+        align-items: center;
+        height: 100%;
         color: #00c8fa;
         text-decoration: none; }
+        nav > div .web-name a img {
+          display: inline-block;
+          width: 23.2px; }
+        nav > div .web-name a .text {
+          display: inline-block; }
     nav > div .nav-item {
       position: relative;
       color: black;
@@ -138,6 +152,27 @@ nav {
           nav > div .nav-item.input input:focus {
             background-color: rgba(0, 0, 0, 0.1); }
 
+.root.player-open nav > div .web-name {
+  position: absolute;
+  left: initial;
+  right: 100%; }
+  .root.player-open nav > div .web-name a {
+    color: #1e1e1e; }
+    .root.player-open nav > div .web-name a .text {
+      display: none; }
+.root.player-open nav > div .nav-item.input input:-moz-placeholder {
+  /* Firefox 18- */ }
+.root.player-open nav > div .nav-item.input input::-moz-placeholder {
+  /* Firefox 19+ */ }
+.root.player-open.player-collapsed nav > div .web-name a {
+  color: #00c8fa; }
+  .root.player-open.player-collapsed nav > div .web-name a .text {
+    display: inline-block; }
+.root.player-open.player-collapsed nav > div .nav-item.input input:-moz-placeholder {
+  /* Firefox 18- */ }
+.root.player-open.player-collapsed nav > div .nav-item.input input::-moz-placeholder {
+  /* Firefox 19+ */ }
+
 .notif {
   display: inline-block;
   margin-left: 8px;
@@ -147,12 +182,20 @@ nav {
   color: white;
   text-shadow: 2px 2px 2px black; }
 
-@media (max-width: 1190px) {
+@media (max-width: 1245px) {
   nav {
     min-width: 224px;
     height: 100%;
     max-height: 0;
     overflow: visible; }
+    nav .web-name {
+      position: fixed !important;
+      right: 216px !important;
+      left: initial !important; }
+      nav .web-name a {
+        color: #00c8fa; }
+        nav .web-name a .text {
+          display: none !important; }
     nav.open {
       max-height: 241.6px; }
       nav.open > div {

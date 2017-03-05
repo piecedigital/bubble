@@ -16,6 +16,8 @@ var _notificationsJsx = require("./notifications.jsx");
 
 var _notificationsJsx2 = _interopRequireDefault(_notificationsJsx);
 
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
+
 var SlideInput = _react2["default"].createClass({
   displayName: "SlideInput",
   submit: function submit(e) {
@@ -155,7 +157,17 @@ exports["default"] = _react2["default"].createClass({
           _react2["default"].createElement(
             _reactRouter.Link,
             { href: "http://amorrius.net", to: "http://amorrius.net" },
-            "Amorrius"
+            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+              src: "/media/logo-png.png",
+              style: {
+                width: 800,
+                height: 800
+              } }),
+            _react2["default"].createElement(
+              "span",
+              { className: "text" },
+              "Amorrius"
+            )
           )
         ),
         _react2["default"].createElement(

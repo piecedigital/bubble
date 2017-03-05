@@ -133,10 +133,10 @@ var components = {
             _react2["default"].createElement(
               "div",
               { className: "image" },
-              _react2["default"].createElement("img", {
+              _react2["default"].createElement(_modulesClientHelperTools.CImg, {
                 style: {
                   width: 168,
-                  height: 234.7
+                  height: 235
                 },
                 src: box ? box.medium : "" })
             ),
