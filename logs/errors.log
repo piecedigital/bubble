@@ -1326,3 +1326,6 @@ Error: Cannot find module '../../../../../modules/client/helper-tools' from 'E:\
 [1488226634526] [Mon, 27 Feb 2017 20:17:14 GMT] [error] [Command failed: C:\WINDOWS\system32\cmd.exe /s /c "browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js"
 The process cannot access the file because it is being used by another process.
 ]
+[1488699141293] [Sun, 05 Mar 2017 07:32:21 GMT] [error] [stderr maxBuffer exceeded]
+[1488700849278] [Sun, 05 Mar 2017 08:00:49 GMT] [error] [stderr maxBuffer exceeded]
+[1488701488111] [Sun, 05 Mar 2017 08:11:28 GMT] [error] [stderr maxBuffer exceeded]

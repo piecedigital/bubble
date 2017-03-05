@@ -16,8 +16,8 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
       `<meta name="classification" content="multistream, multiple stream, multiple broadcast viewing, question and answer aggregation" />`+
       `<meta property="og:description" content="Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session."/>`+
       `<link rel="stylesheet" href="/css/style.css" media="screen" title="no title" charSet="utf-8"/>`+
-      `<link rel="shortcut icon" type="image/x-icon" href="/media/logo-ico.ico"/>`+
-      `<link rel="apple-touch-icon" type="image/x-icon" href="/media/logo-ico.ico"/>`+
+      `<link rel="shortcut icon" type="image/x-icon" href="/media/logo-png.png"/>`+
+      `<link rel="apple-touch-icon" type="image/x-icon" href="/media/logo-png.png"/>`+
       `<title>${prePlaceData.title}</title>`+
     `</head>`+
     `<body>`+

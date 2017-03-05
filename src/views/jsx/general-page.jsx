@@ -102,10 +102,10 @@ let components = {
           <div className="wrapper">
             <Link to={`/search/streams?q=${encodeURIComponent(name)}`}>
               <div className="image">
-                <img
+                <CImg
                   style={{
                     width: 168,
-                    height: 234.7,
+                    height: 235,
                   }}
                   src={box ? box.medium : ""} />
               </div>

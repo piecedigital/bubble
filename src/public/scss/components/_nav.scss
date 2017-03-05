@@ -26,9 +26,21 @@ nav {
       margin: 0 1*$em;
       color: $primary;
       font-size: 2*$em;
+      height: 2.25*$em;
+      pointer-events: none;
       a {
+        @include displayFlex;
+        align-items: center;
+        height: 100%;
         color: $primary;
         text-decoration: none;
+        img {
+          display: inline-block;
+          width: 1.45*$em;
+        }
+        .text {
+          display: inline-block;
+        }
       }
     }
     .nav-item {
@@ -126,6 +138,90 @@ nav {
   }
 }
 
+.root {
+  &.player-open {
+    nav {
+      > div {
+        > span {}
+        .web-name {
+          position: absolute;
+          left: initial;
+          right: 100%;
+          a {
+            color: $offBlack;
+            .text {
+              display: none;
+            }
+          }
+        }
+        .nav-item {
+          &.with-submenu {
+            &:before {}
+            &:hover {
+              &:before {}
+              .submenu {}
+            }
+            .submenu {
+              .nav-item {
+                &:first-child {}
+              }
+            }
+          }
+          &:hover {}
+          &.login {}
+          &.input {
+            &.open {}
+            .symbol {}
+            input {
+              @include placeholder {}
+              &:focus {}
+            }
+          }
+        }
+      }
+    }
+    &.player-collapsed {
+      nav {
+        > div {
+          > span {}
+          .web-name {
+            a {
+              color: $primary;
+              .text {
+                display: inline-block;
+              }
+            }
+          }
+          .nav-item {
+            &.with-submenu {
+              &:before {}
+              &:hover {
+                &:before {}
+                .submenu {}
+              }
+              .submenu {
+                .nav-item {
+                  &:first-child {}
+                }
+              }
+            }
+            &:hover {}
+            &.login {}
+            &.input {
+              &.open {}
+              .symbol {}
+              input {
+                @include placeholder {}
+                &:focus {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 .notif {
   display: inline-block;
   margin-left: .5*$em;
@@ -136,12 +232,23 @@ nav {
   text-shadow: 2px 2px 2px black;
 }
 
-@media (max-width: 1190px) {
+@media (max-width: 1245px) {
   nav {
     min-width: 14*$em;
     height: 100%;
     max-height: 0;
     overflow: visible;
+    .web-name {
+      position: fixed !important;
+      right: 13.5*$em !important;
+      left: initial !important;
+      a {
+        color: $primary;
+        .text {
+          display: none !important;
+        }
+      }
+    }
     &.open {
       max-height: 15.1*$em;
       > div {

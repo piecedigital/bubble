@@ -38,8 +38,8 @@
   - Fixed profiles not being visible to non-authed users **ok**
   - Follow list can now be viewed oon profile without being authed **ok**
   - Notifications only for people you follow **ok**
-- xxx
-  - Add logo
+- Improvements: 0.12.7
+  - Add logo **ok**
 
 # Things to add eventually
 - PVP card game - TBD

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router';
 import Notifications from "./notifications.jsx";
+import { CImg } from "../../../modules/client/helper-tools";
 
 const SlideInput = React.createClass({
   displayName: "SlideInput",
@@ -126,7 +127,15 @@ export default React.createClass({
       <nav ref="nav" className={`${navOpen ? "open" : ""}`}>
         <div>
           <h1 className="web-name">
-            <Link href={"http://amorrius.net"} to={"http://amorrius.net"}>Amorrius</Link>
+            <Link href={"http://amorrius.net"} to={"http://amorrius.net"}>
+              <CImg
+                src={"/media/logo-png.png"}
+                style={{
+                  width: 800,
+                  height: 800
+                }} />
+              <span className="text">Amorrius</span>
+            </Link>
           </h1>
           <span className="inputs">
             <SlideInput ref="addInput" commandValue="add" symbol="+" open={addOpen} placeholder="Add a stream to the Player" callback={(value, bool) => {
