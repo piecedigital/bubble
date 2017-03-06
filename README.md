@@ -43,7 +43,9 @@
 - Improvements: 0.12.8
   - Refactored code for modularity and reusability **ok**
   - Share stream button **ok**
-  - Link in stream panels should open up in their own damn tab now
+  - Link in stream panels should open up in their own damn tab now **ok**
+- Bug Fixes: 0.12.9
+  - Fixed bug preventing live streams from listing **ok**
 
 # Things to add eventually
 - Stream reordering - TBD

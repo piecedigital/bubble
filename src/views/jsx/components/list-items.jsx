@@ -10,6 +10,7 @@ import {
 } from "../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "./hover-options.jsx";
 
+let currentNotifs = 0;
 
 export const StreamListItem = React.createClass({
   displayName: "feat-StreamListItem",

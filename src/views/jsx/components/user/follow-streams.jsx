@@ -7,7 +7,6 @@ import { ChannelListItem } from '../list-items.jsx';
 
 // const missingLogo = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
-let currentNotifs = 0;
 // components
 let components = {
   // list item for streams matching the search
