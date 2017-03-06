@@ -24,7 +24,6 @@ var _listItemsJsx = require('../list-items.jsx');
 
 // const missingLogo = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
-var currentNotifs = 0;
 // components
 var components = {
   // list item for streams matching the search

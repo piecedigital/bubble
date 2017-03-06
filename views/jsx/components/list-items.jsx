@@ -23,6 +23,8 @@ var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 
 var _hoverOptionsJsx = require("./hover-options.jsx");
 
+var currentNotifs = 0;
+
 var StreamListItem = _react2["default"].createClass({
   displayName: "feat-StreamListItem",
   render: function render() {
