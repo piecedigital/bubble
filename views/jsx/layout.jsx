@@ -746,6 +746,12 @@ exports["default"] = _react2["default"].createClass({
           ),
           " | ",
           _react2["default"].createElement(
+            "a",
+            { href: "https://twitter.com/amorrius" },
+            "Twitter"
+          ),
+          " | ",
+          _react2["default"].createElement(
             _reactRouter.Link,
             { href: "/about", to: "/about" },
             "About Amorrius"
