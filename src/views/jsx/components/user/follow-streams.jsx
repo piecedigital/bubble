@@ -3,6 +3,7 @@ import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/client/load-data";
 import { browserNotification as notification, missingLogo, CImg } from "../../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "../hover-options.jsx";
+import { ChannelListItem } from '../list-items.jsx';
 
 // const missingLogo = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
@@ -10,218 +11,7 @@ let currentNotifs = 0;
 // components
 let components = {
   // list item for streams matching the search
-  ChannelsListItem: React.createClass({
-    displayName: "channel-ListItem",
-    getInitialState: () => ({ streamData: null }),
-    getStreamData() {
-      const {
-        data
-      } = this.props;
-      const {
-        name,
-        display_name
-      } = data.channel || data.user;
-      // console.log(`getting stream data for ${name}`);
-      loadData.call(this, e => {
-        console.error(e.stack);
-      }, {
-        username: name
-      })
-      .then(methods => {
-        methods
-        .getStreamByName()
-        .then(data => {
-          // console.log(name, ", data:", data);
-          // if(name === "spawnofodd") console.log(data);
-          this.setState({
-            streamData: data
-          });
-        })
-        .catch(e => console.error(e ? e.stack : e) );
-      })
-      .catch(e => console.error(e ? e.stack : e));
-    },
-    followCallback(follow) {
-      // console.log(this.props.follow);
-      if(this.props.follow === "IFollow") {
-        if(follow) {
-          // following channel
-          if(typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
-        } else {
-          // unfollowing channel
-          if(typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
-        }
-      }
-    },
-    appendStream(name, display_name) {
-      this.props.methods.appendStream(name, display_name);
-    },
-    notify() {
-      const {
-        data,
-        params,
-        userData
-      } = this.props;
-      // I wouldn't care to receive desktop notifications regarding someone elses followings
-      // this should keep that from happening
-      if((params && userData) && (params.username !== userData.name)) console.log("not my follows, not my interest");
-      if((params && userData) && (params.username !== userData.name)) return;
-      const {
-        name,
-        display_name
-      } = data.channel || data.user;
-      const timeout = 2;
-      // setTimeout(() => {
-      //   notification({
-      //     type: "stream_online",
-      //     channelName: display_name,
-      //     timeout,
-      //     callback: () => {
-      //       this.appendStream(name, display_name);
-      //     }
-      //   });
-      // }, (timeout * 1000) * (multiplier % 3));
-      const action = notification.bind(this, {
-        type: "stream_online",
-        channelName: display_name,
-        timeout,
-        callback: () => {
-          this.appendStream(name, display_name);
-        },
-        finishCB: () => {
-          currentNotifs--;
-        }
-      });
-      if(currentNotifs < 3) {
-        console.log("Notifying now:", name, ", ahead:", currentNotifs);
-        currentNotifs++;
-        action();
-      } else {
-        const multiplier = Math.floor(currentNotifs / 3);
-        const time = (2000 * multiplier) + 700;
-        console.log("Queuing notify:", name, "; ahead:", currentNotifs, "; time:", time, "; multiplier:", multiplier);
-        currentNotifs++;
-        setTimeout(() => {
-          action();
-        }, time);
-      }
-
-      // this.props.methods.notify(name, display_name);
-    },
-    componentWillUpdate(_, nextState) {
-      // console.log(this.state.streamData, nextState.streamData);
-      if(!this.state.streamData || this.state.streamData && this.state.streamData.stream === null && nextState.streamData && nextState.streamData.stream !== null) {
-        // console.log(this.state.streamData.stream !== nextState.streamData.stream);
-        if(this.props.userData && nextState.streamData && nextState.streamData.stream && this.props.follow === "IFollow") {
-          this.notify();
-        }
-      }
-    },
-    componentDidMount() { this.getStreamData() },
-    render() {
-      if(!this.state.streamData) return null;
-      // console.log(this.props);
-      const {
-        auth,
-        fireRef,
-        index,
-        filter,
-        userData,
-        versionData,
-        data
-      } = this.props;
-      const {
-        mature,
-        logo,
-        name,
-        display_name,
-        language
-      } = data.channel || data.user;
-      const {
-        streamData: {
-          stream
-        }
-      } = this.state;
-
-      let hoverOptions = <ListItemHoverOptions
-      auth={auth}
-      fireRef={fireRef}
-      stream={stream}
-      name={name}
-      display_name={display_name}
-      userData={userData}
-      versionData={versionData}
-      callback={this.followCallback}
-      clickCallback={this.appendStream} />;
-
-      if(!stream) {
-        if(filter === "all" || filter === "offline") {
-          return (
-            <li className={`channel-list-item null`}>
-              <div className="wrapper">
-                <div className="image">
-                  <CImg
-                    for="channel-list-item"
-                    src={logo || missingLogo} />
-                </div>
-                <div className="info">
-                  <div className={`live-indicator offline`} />
-                  <div className="channel-name">
-                    {name}
-                  </div>
-                  <div className="game">
-                    {`Offline`}
-                  </div>
-                </div>
-                {hoverOptions}
-              </div>
-            </li>
-          );
-        } else {
-          return null;
-        }
-      }
-      const {
-        game,
-        viewers,
-        title,
-        _id: id,
-        preview,
-      } = stream;
-      let viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
-      if(filter === "all" || filter === "online") {
-        return (
-          <li className={`channel-list-item`}>
-            <div className="wrapper">
-              <div className="image">
-                <CImg
-                  for="channel-list-item"
-                  src={logo || missingLogo} />
-              </div>
-              <div className="info">
-                <div className={`live-indicator online`} />
-                <div className="channel-name">
-                  {name}
-                </div>
-                <div className="title">
-                  {title}
-                </div>
-                <div className="game">
-                  {`Live with "${game}"`}
-                </div>
-                <div className="viewers">
-                  {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-                </div>
-              </div>
-              {hoverOptions}
-            </div>
-          </li>
-        );
-      } else {
-        return null;
-      }
-    }
-  })
+  ChannelListItem
 };
 
 // primary section for the search component
@@ -245,7 +35,7 @@ export default React.createClass({
   gatherData(limit, offset, callback, wipe) {
     // console.log("auth", this.props.auth);
     if(!this.props.auth ) return this.setState({
-      component: `ChannelsListItem`,
+      component: `ChannelListItem`,
     });
     this.setState(Object.assign({
       loadingData: true,
@@ -289,7 +79,7 @@ export default React.createClass({
             this._mounted ? this.setState({
               dataArray: newDataArray,
               requestOffset: newDataArray.length,
-              component: `ChannelsListItem`,
+              component: `ChannelListItem`,
               loadingData: false
             }, () => {
               // console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
@@ -476,7 +266,7 @@ export default React.createClass({
       const s = params.username === undefined || (userData && userData.name === params.username) ? "" : "s";
       return (
         <div ref="root" className={`${this.props.follow === "IFollow" ? "following-streams" : "followed-streams"} profile${locked ? " locked" : ""}`}>
-          <div className={`title`}>Channels {this.props.follow === "IFollow" ? `${person} Follow${s}` : `Following ${person}`}{!userData ? " (login required for this feature)" : ""}</div>
+          <div className={`title`}>Channels {this.props.follow === "IFollow" ? `${person} Follow${s}` : `Following ${person}`}</div>
           <div className="wrapper">
             <ul className="list">
               {list}

@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Player from "./components/player.jsx";
 import Overlay from "./components/overlay.jsx";
+import Alert from "./components/alert.jsx";
 import loadData from "../../modules/client/load-data";
 import { ajax } from "../../modules/client/ajax";
 import Nav from "./components/nav.jsx";
@@ -57,6 +58,7 @@ export default React.createClass({
       panelData: [],
       overlay,
       overlayState,
+      alert: null,
       fireRef: null,
       versionData: null,
       registeredAuth: false,
@@ -65,6 +67,7 @@ export default React.createClass({
   getHashData() {
     let queryData = {};
     // console.log(window.location.hash);
+    // get hash data
     window.location.hash.replace(/(\#|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, (_, symbol, key, value) => {
       queryData[key] = value;
       // set token for 2 hours
@@ -72,11 +75,15 @@ export default React.createClass({
         document.cookie = `${key}=${value}; expires=${new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString()}`
       }
     });
+    // get queries
+    window.location.search.replace(/(\?|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, (_, symbol, key, value) => {
+      queryData[key] = value;
+    });
     document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)?/g, (_, key, value, symbol) => {
       queryData[key] = value;
     });
     // window.location.hash = "";
-    // console.log("queryData", queryData);
+    console.log("queryData", queryData);
     return queryData;
   },
   getMS() {
@@ -414,6 +421,19 @@ export default React.createClass({
       break;
     }
   },
+  alertHandler(data) {
+    if(
+      data === null ||
+      (data.message &&
+      data.options)
+    ) {
+      this.setState({
+        alert: data
+      });
+    } else {
+      console.error(`alert component requires missing data: ${!data.message ? "message" : "options"}`);
+    }
+  },
   checkURL(nextProps, nextState) {
     // console.log("Surly this gives us something", this.state.overlay || "empty", nextState.overlay || "empty");
     const changeOverlay = (overlay, q, postID) => {
@@ -554,7 +574,7 @@ export default React.createClass({
       overlayState,
       fireRef,
       versionData,
-
+      alert,
       // server unique
     } = this.state;
 
@@ -611,6 +631,7 @@ export default React.createClass({
               setLayout: this.setLayout,
               panelsHandler: this.panelsHandler,
               popUpHandler: this.popUpHandler,
+              alertHandler: this.alertHandler,
             }}/>
         }
         {
@@ -661,18 +682,25 @@ export default React.createClass({
           )
         }
         <Overlay
-        auth={authData}
-        userData={userData}
-        overlay={overlay}
-        overlayState={overlayState}
-        fireRef={fireRef}
-        versionData={versionData}
-        params={this.props.params}
-        location={this.props.location}
-        initState={initState}
-        methods={{
-          popUpHandler: this.popUpHandler
-        }} />
+          auth={authData}
+          userData={userData}
+          overlay={overlay}
+          overlayState={overlayState}
+          fireRef={fireRef}
+          versionData={versionData}
+          params={this.props.params}
+          location={this.props.location}
+          initState={initState}
+          methods={{
+            popUpHandler: this.popUpHandler
+          }}
+        />
+        <Alert
+          data={alert}
+          methods={{
+            alertHandler: this.alertHandler
+          }}
+        />
         <div className="separator-4-black" />
         <div className="created-by">
           <div className="by">

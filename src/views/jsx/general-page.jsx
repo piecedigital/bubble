@@ -3,129 +3,8 @@ import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../modules/client/load-data";
 import { ListItemHoverOptions } from "./components/hover-options.jsx";
 import { CImg } from "../../modules/client/helper-tools";
+import * as components from './components/list-items.jsx';
 
-// components
-let components = {
-  // list item for streams matching the search
-  StreamsListItem: React.createClass({
-    displayName: "stream-ListItem",
-    render() {
-      // console.log(this.props);
-      const {
-        auth,
-        fireRef,
-        userData,
-        index,
-        methods: {
-          appendStream
-        },
-        data: {
-          game,
-          viewers,
-          title,
-          _id: id,
-          preview,
-          channel: {
-            mature,
-            logo,
-            name,
-            display_name,
-            language
-          }
-        }
-      } = this.props;
-      // let viewersString = viewers.toString().split("").reverse().join("").replace(/(\d{3})/g, function(_, group) {
-      //   console.log(arguments)
-      //   return `${group},`;
-      // }).replace(/,$/, "").split("").reverse().join("");
-
-      // let viewersString = viewers.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2') // https://www.livecoding.tv/efleming969/
-
-      let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      let hoverOptions = <ListItemHoverOptions auth={auth} fireRef={fireRef} stream={true} name={name} display_name={display_name} userData={userData} clickCallback={appendStream} />;
-
-      return (
-        <li className={`stream-list-item`}>
-          <div className="wrapper">
-            <div className="image">
-              <CImg
-                style={{
-                  width: 136,
-                  height: 76.5,
-                }}
-                src={preview.medium} />
-            </div>
-            <div className="info">
-              <div className="channel-name">
-                {name}
-              </div>
-              <div className="title">
-                {title}
-              </div>
-              <div className="game">
-                {`Live with "${game}"`}
-              </div>
-              <div className="viewers">
-                {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-              </div>
-            </div>
-            {hoverOptions}
-          </div>
-        </li>
-      )
-    }
-  }),
-  GamesListItem: React.createClass({
-    displayName: "games-ListItem",
-    render() {
-      // console.log(this.props);
-      const {
-        index,
-        methods: {
-          appendStream
-        },
-        data: {
-          game: {
-            name,
-            box,
-            _id: id
-          },
-          viewers,
-          channels
-        }
-      } = this.props;
-      let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      let channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-
-      return (
-        <li className={`game-list-item`}>
-          <div className="wrapper">
-            <Link to={`/search/streams?q=${encodeURIComponent(name)}`}>
-              <div className="image">
-                <CImg
-                  style={{
-                    width: 168,
-                    height: 235,
-                  }}
-                  src={box ? box.medium : ""} />
-              </div>
-              <div className="info">
-                <div className="game-name">
-                  {name}
-                </div>
-                <div className="count">
-                  {`${channelsString} streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-                </div>
-              </div>
-            </Link>
-          </div>
-        </li>
-      )
-    }
-  })
-};
-
-// primary section for the search component
 export default React.createClass({
   displayName: "StreamsPage",
   getInitialState() {
@@ -145,10 +24,14 @@ export default React.createClass({
     } = this.props;
     if(!params.page) return;
     if(loadData) {
-      let capitalType = params.page.replace(/^(.)/, (_, letter) => {
-        return letter.toUpperCase();
-      });
-      let searchType = `top${capitalType}`;
+      let capitalType;
+      switch (params.page.toLowerCase()) {
+        case "streams": capitalType = "Stream"; break;
+        case "games": capitalType = "Game"; break;
+        default:
+
+      }
+      let searchType = `top${capitalType}s`;
       let offset = this.state.requestOffset;
       this.setState({
         requestOffset: this.state.requestOffset + 25
@@ -163,6 +46,7 @@ export default React.createClass({
         methods
         [searchType]()
         .then(data => {
+          // console.log(components, components.GameListItem, components.StreamListItem);
           this.setState({
             // offset: this.state.requestOffset + 25,
             dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top),
@@ -215,6 +99,7 @@ export default React.createClass({
 
     if(component) {
       const ListItem = components[component];
+
       return (
         <div className={`top-level-component ${page || (params ? params.page : data.page)}`}>
           <div className="general-page">
@@ -223,16 +108,19 @@ export default React.createClass({
                 {
                   dataArray.map((itemData, ind) => {
                     return (
-                      <ListItem
-                      key={ind}
-                      fireRef={fireRef}
-                      auth={auth}
-                      userData={userData}
-                      data={itemData}
-                      index={ind}
-                      methods={{
-                        appendStream
-                      }} />
+                      [
+                        <ListItem
+                          key={ind}
+                          fireRef={fireRef}
+                          auth={auth}
+                          userData={userData}
+                          data={itemData}
+                          index={ind}
+                          methods={{
+                            appendStream
+                          }} />,
+                          <div key={`sep-${ind}`} className={`separator-4-dim`}></div>
+                      ]
                     );
                   })
                 }

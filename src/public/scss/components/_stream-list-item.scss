@@ -34,7 +34,8 @@
       width: 100%;
     }
   }
-  .info {
+  > .info {
+    word-break: break-word;
     color: black;
     .channel-name {
       font-weight: bold;

@@ -40,13 +40,15 @@
   - Notifications only for people you follow **ok**
 - Improvements: 0.12.7
   - Add logo **ok**
+- Improvements: 0.12.8
+  - Refactored code for modularity and reusability **ok**
+  - Share stream button **ok**
 
 # Things to add eventually
-- PVP card game - TBD
-- Meta data update and full server-side rendering - TBD
-- AMAs - TBD
-- Share stream - TBD
 - Stream reordering - TBD
+- Meta data update and full server-side rendering - TBD
+- PVP card game - TBD
+- AMAs - TBD
 
 
 Latin words:

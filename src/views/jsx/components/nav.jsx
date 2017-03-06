@@ -131,8 +131,8 @@ export default React.createClass({
               <CImg
                 src={"/media/logo-png.png"}
                 style={{
-                  width: 800,
-                  height: 800
+                  width: 23,
+                  height: 23
                 }} />
               <span className="text">Amorrius</span>
             </Link>

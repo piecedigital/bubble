@@ -2,11 +2,22 @@ import React from "react";
 
 const Panel = React.createClass({
   displayName: "Panel",
+  componentDidMount() {
+    const { description: elem } = this.refs;
+
+    // links in stream pannels don't open in a new tab, unless they are a panel link
+    elem.addEventListener("click", e => {
+      e.preventDefault();
+      if( e.target.tagName.match(/a/i) ) {
+        window.open(e.target.href, "_blank");
+      }
+    });
+  },
   render() {
     const {
       data
     } = this.props;
-    console.log("PANEL", data);
+    // console.log("PANEL", data);
     let content = (
       <div className="wrapper">
         {
@@ -36,7 +47,7 @@ const Panel = React.createClass({
         <div className="pad">
           {
             data.html_description ? (
-              <div className="description" dangerouslySetInnerHTML={{ __html: data.html_description }} />
+              <div ref="description" className="description" dangerouslySetInnerHTML={{ __html: data.html_description }} />
             ) : null
           }
         </div>
@@ -65,8 +76,8 @@ export default React.createClass({
         <div className="wrapper">
           <div className="list">
             {
-              panelData.map(data => (
-                <Panel data={data} />
+              panelData.map((data, ind) => (
+                <Panel key={ind} data={data} />
               ))
             }
           </div>

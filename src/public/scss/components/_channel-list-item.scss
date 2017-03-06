@@ -30,8 +30,10 @@
     }
   }
   .info {
+    word-break: break-word;
     color: black;
     .live-indicator {
+      word-break: normal;
       &.offline, &.online {
         display: inline-block;
         position: absolute;

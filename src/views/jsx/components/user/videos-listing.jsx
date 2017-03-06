@@ -3,91 +3,14 @@ import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../../modules/client/load-data";
 import { browserNotification as notification, CImg } from "../../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "../hover-options.jsx";
+import { VideoListItem } from '../list-items.jsx';
 
 const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 // components
 let components = {
   // list item for streams matching the search
-  VideosListItem: React.createClass({
-    displayName: "video-ListItem",
-    readableDate(givenDate) {
-      const date = new Date(givenDate);
-      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      let hours = date.getHours();
-      const dayHalf = hours > 12 ? "PM" : "AM";
-      hours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
-      let minutes = date.getMinutes();
-      minutes = minutes < 10 ? `0${minutes}` : minutes;
-      return `${date.getDate()} ${months[date.getMonth()]}, ${date.getFullYear()} - ${hours}:${minutes} ${dayHalf}`;
-    },
-    render() {
-      // console.log(this.props);
-      const {
-        auth,
-        fireRef,
-        versionData,
-        index,
-        userData,
-        methods: {
-          appendVOD
-        },
-        data: {
-          preview,
-          animated_preview,
-          title,
-          game,
-          recorded_at,
-          // url,
-          _id: id,
-          channel: {
-            name,
-            display_name
-          }
-        }
-      } = this.props;
-      let hoverOptions = <ListItemHoverOptions
-      auth={auth}
-      fireRef={fireRef}
-      userData={userData}
-      versionData={versionData}
-      vod={id}
-      name={name}
-      display_name={display_name}
-      clickCallback={appendVOD} />;
-
-      return (
-        <li className="video-list-item">
-          <div className="wrapper">
-            <div className="image">
-              <CImg
-                for="video-list-item"
-                style={{
-                  width: 136,
-                  height: 102
-                }}
-                src={preview.template.replace("{width}", 136).replace("{height}", 102)} />
-            </div>
-            <div className="info">
-              <div className="channel-name">
-                {name}
-              </div>
-              <div className="title">
-                "{title}"
-              </div>
-              <div className="game">
-                {`VOD of "${game}"`}
-              </div>
-              <div className="date">
-                {this.readableDate(recorded_at)}
-              </div>
-            </div>
-            {hoverOptions}
-          </div>
-        </li>
-      )
-    }
-  }),
+  VideoListItem
 };
 
 // primary section for the search component
@@ -148,7 +71,7 @@ export default React.createClass({
             // console.log("data", data);
             this.setState({
               dataArray: Array.from(this.state.dataArray).concat(data.videos),
-              component: `VideosListItem`
+              component: `VideoListItem`
             }, () => {
               // console.log("total data getVideos", this.state.dataArray.length);
               if(typeof callback === "function") callback();

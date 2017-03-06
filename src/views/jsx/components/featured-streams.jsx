@@ -1,71 +1,72 @@
 import React from "react";
+import { Link } from 'react-router';
 import loadData from "../../../modules/client/load-data";
 import { missingLogo } from "../../../modules/client/helper-tools";
 import BookmarkButton from "./bookmark-btn.jsx";
 import UserQuestions from "./user-questions.jsx";
 import { CImg } from "../../../modules/client/helper-tools";
-import { Link } from 'react-router';
+import { StreamListItem } from './list-items.jsx';
 
 // list item for featured streams
-const StreamListItem = React.createClass({
-  displayName: "feat-StreamListItem",
-  render() {
-    const {
-      index,
-      methods: {
-        displayStream
-      },
-      data: {
-        stream,
-        stream: {
-          game,
-          viewers,
-          title,
-          _id: id,
-          preview,
-          channel: {
-            mature,
-            logo,
-            name,
-            language
-          }
-        }
-      }
-    } = this.props;
-    let viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
-    return (
-      <span>
-        <li className={`stream-list-item clickable home`} onClick={() => {
-          displayStream(index)
-        }}>
-          <div className="wrapper">
-            <div className="image">
-              <CImg
-                style={{
-                  width: 215,
-                  height: 121
-                }}
-                src={preview.medium || missingLogo} />
-            </div>
-            <div className="info">
-              <div className="channel-name">
-                {name}
-              </div>
-              <div className={`separator-1-7`}></div>
-              <div className="title">
-                {title}
-              </div>
-              <div className="game">
-                {`Live with "${game || null}", streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-              </div>
-            </div>
-          </div>
-        </li>
-        <div className={`separator-4-dim`}></div>
-      </span>
-    )
-  }
-});
+// const StreamListItem = React.createClass({
+//   displayName: "feat-StreamListItem",
+//   render() {
+//     const {
+//       index,
+//       methods: {
+//         displayStream
+//       },
+//       data: {
+//         stream,
+//         stream: {
+//           game,
+//           viewers,
+//           title,
+//           _id: id,
+//           preview,
+//           channel: {
+//             mature,
+//             logo,
+//             name,
+//             language
+//           }
+//         }
+//       }
+//     } = this.props;
+//     let viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
+//     return (
+//       <span>
+//         <li className={`stream-list-item clickable home`} onClick={() => {
+//           displayStream(index)
+//         }}>
+//           <div className="wrapper">
+//             <div className="image">
+//               <CImg
+//                 style={{
+//                   width: 215,
+//                   height: 121
+//                 }}
+//                 src={preview.medium || missingLogo} />
+//             </div>
+//             <div className="info">
+//               <div className="channel-name">
+//                 {name}
+//               </div>
+//               <div className={`separator-1-7`}></div>
+//               <div className="title">
+//                 {title}
+//               </div>
+//               <div className="game">
+//                 {`Live with "${game || null}", streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+//               </div>
+//             </div>
+//           </div>
+//         </li>
+//         <div className={`separator-4-dim`}></div>
+//       </span>
+//     )
+//   }
+// });
 
 // the displayed stream of the feature streams
 const FeaturedStream = React.createClass({
@@ -277,7 +278,7 @@ export default React.createClass({
             <ul className="list">
               {
                 streamDataArray.map((itemData, ind) => {
-                  return <StreamListItem key={ind} index={ind} data={itemData} methods={{
+                  return <StreamListItem key={ind} index={ind} data={itemData} homepage={true} methods={{
                     appendStream,
                     displayStream: this.displayStream
                   }} />

@@ -196,6 +196,7 @@ const PlayerStream = React.createClass({
         panelsHandler,
         putInView,
         popUpHandler,
+        alertHandler,
       }
     } = this.props;
     const {
@@ -318,6 +319,18 @@ const PlayerStream = React.createClass({
                   </div>
                 )
               }
+              <div className="open-alert" onClick={() => {
+                alertHandler({
+                  message: `Share ${display_name || name}&#39;s Stream`,
+                  options: ["close"],
+                  links: ["twitter", "facebook"],
+                  state: {
+                    name
+                  }
+                });
+                this.toggleMenu("close"); }}>
+                Share {display_name || name}&#39;s Stream
+              </div>
               {
                 vod && playerReady ? (
                   <div className="closer">
@@ -476,6 +489,7 @@ export default React.createClass({
         setLayout,
         panelsHandler,
         popUpHandler,
+        alertHandler,
       },
       data: {
         dataObject
@@ -528,6 +542,7 @@ export default React.createClass({
                         panelsHandler,
                         alertAuthNeeded,
                         popUpHandler,
+                        alertHandler,
                         layoutTools: this.layoutTools,
                         putInView: this.putInView,
                         refreshChat: this.refreshChat }} />
