@@ -46,6 +46,8 @@
   - Link in stream panels should open up in their own damn tab now **ok**
 - Bug Fixes: 0.12.9
   - Fixed bug preventing live streams from listing **ok**
+- Improvement: 0.12.10
+  - Added Twitter link
 
 # Things to add eventually
 - Stream reordering - TBD

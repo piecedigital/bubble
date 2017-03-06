@@ -706,6 +706,8 @@ export default React.createClass({
           <div className="by">
             Created by <a href="http://piecedigital.net" rel="nofollow" target="_blank">Piece Digital</a>
             {" | "}
+            <a href="https://twitter.com/amorrius">Twitter</a>
+            {" | "}
             <Link href="/about" to="/about">About Amorrius</Link>
             {" | "}
             <Link href="/terms-of-service" to="/terms-of-service">Terms of Service and Privacy Policy</Link>
