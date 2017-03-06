@@ -747,7 +747,7 @@ exports["default"] = _react2["default"].createClass({
           " | ",
           _react2["default"].createElement(
             "a",
-            { href: "https://twitter.com/amorrius" },
+            { href: "https://twitter.com/amorrius", target: "_blank", rel: "nofollow" },
             "Twitter"
           ),
           " | ",
