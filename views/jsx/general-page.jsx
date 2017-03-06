@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
@@ -22,146 +24,10 @@ var _componentsHoverOptionsJsx = require("./components/hover-options.jsx");
 
 var _modulesClientHelperTools = require("../../modules/client/helper-tools");
 
-// components
-var components = {
-  // list item for streams matching the search
-  StreamsListItem: _react2["default"].createClass({
-    displayName: "stream-ListItem",
-    render: function render() {
-      // console.log(this.props);
-      var _props = this.props;
-      var auth = _props.auth;
-      var fireRef = _props.fireRef;
-      var userData = _props.userData;
-      var index = _props.index;
-      var appendStream = _props.methods.appendStream;
-      var _props$data = _props.data;
-      var game = _props$data.game;
-      var viewers = _props$data.viewers;
-      var title = _props$data.title;
-      var id = _props$data._id;
-      var preview = _props$data.preview;
-      var _props$data$channel = _props$data.channel;
-      var mature = _props$data$channel.mature;
-      var logo = _props$data$channel.logo;
-      var name = _props$data$channel.name;
-      var display_name = _props$data$channel.display_name;
-      var language = _props$data$channel.language;
+var _componentsListItemsJsx = require('./components/list-items.jsx');
 
-      // let viewersString = viewers.toString().split("").reverse().join("").replace(/(\d{3})/g, function(_, group) {
-      //   console.log(arguments)
-      //   return `${group},`;
-      // }).replace(/,$/, "").split("").reverse().join("");
+var components = _interopRequireWildcard(_componentsListItemsJsx);
 
-      // let viewersString = viewers.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2') // https://www.livecoding.tv/efleming969/
-
-      var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      var hoverOptions = _react2["default"].createElement(_componentsHoverOptionsJsx.ListItemHoverOptions, { auth: auth, fireRef: fireRef, stream: true, name: name, display_name: display_name, userData: userData, clickCallback: appendStream });
-
-      return _react2["default"].createElement(
-        "li",
-        { className: "stream-list-item" },
-        _react2["default"].createElement(
-          "div",
-          { className: "wrapper" },
-          _react2["default"].createElement(
-            "div",
-            { className: "image" },
-            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
-              style: {
-                width: 136,
-                height: 76.5
-              },
-              src: preview.medium })
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "info" },
-            _react2["default"].createElement(
-              "div",
-              { className: "channel-name" },
-              name
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "title" },
-              title
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "game" },
-              "Live with \"" + game + "\""
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "viewers" },
-              "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-            )
-          ),
-          hoverOptions
-        )
-      );
-    }
-  }),
-  GamesListItem: _react2["default"].createClass({
-    displayName: "games-ListItem",
-    render: function render() {
-      // console.log(this.props);
-      var _props2 = this.props;
-      var index = _props2.index;
-      var appendStream = _props2.methods.appendStream;
-      var _props2$data = _props2.data;
-      var _props2$data$game = _props2$data.game;
-      var name = _props2$data$game.name;
-      var box = _props2$data$game.box;
-      var id = _props2$data$game._id;
-      var viewers = _props2$data.viewers;
-      var channels = _props2$data.channels;
-
-      var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-      var channelsString = channels.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-
-      return _react2["default"].createElement(
-        "li",
-        { className: "game-list-item" },
-        _react2["default"].createElement(
-          "div",
-          { className: "wrapper" },
-          _react2["default"].createElement(
-            _reactRouter.Link,
-            { to: "/search/streams?q=" + encodeURIComponent(name) },
-            _react2["default"].createElement(
-              "div",
-              { className: "image" },
-              _react2["default"].createElement(_modulesClientHelperTools.CImg, {
-                style: {
-                  width: 168,
-                  height: 235
-                },
-                src: box ? box.medium : "" })
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "info" },
-              _react2["default"].createElement(
-                "div",
-                { className: "game-name" },
-                name
-              ),
-              _react2["default"].createElement(
-                "div",
-                { className: "count" },
-                channelsString + " streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-              )
-            )
-          )
-        )
-      );
-    }
-  })
-};
-
-// primary section for the search component
 exports["default"] = _react2["default"].createClass({
   displayName: "StreamsPage",
   getInitialState: function getInitialState() {
@@ -174,22 +40,28 @@ exports["default"] = _react2["default"].createClass({
   gatherData: function gatherData() {
     var _this = this;
 
-    var _props3 = this.props;
+    var _props = this.props;
 
-    _objectDestructuringEmpty(_props3.methods);
+    _objectDestructuringEmpty(_props.methods);
 
     var
     // loadData
-    params = _props3.params;
-    var location = _props3.location;
+    params = _props.params;
+    var location = _props.location;
 
     if (!params.page) return;
     if (_modulesClientLoadData2["default"]) {
       (function () {
-        var capitalType = params.page.replace(/^(.)/, function (_, letter) {
-          return letter.toUpperCase();
-        });
-        var searchType = "top" + capitalType;
+        var capitalType = undefined;
+        switch (params.page.toLowerCase()) {
+          case "streams":
+            capitalType = "Stream";break;
+          case "games":
+            capitalType = "Game";break;
+          default:
+
+        }
+        var searchType = "top" + capitalType + "s";
         var offset = _this.state.requestOffset;
         _this.setState({
           requestOffset: _this.state.requestOffset + 25
@@ -201,6 +73,7 @@ exports["default"] = _react2["default"].createClass({
           limit: 25
         }).then(function (methods) {
           methods[searchType]().then(function (data) {
+            // console.log(components, components.GameListItem, components.StreamListItem);
             _this.setState({
               // offset: this.state.requestOffset + 25,
               dataArray: Array.from(_this.state.dataArray).concat(data.channels || data.streams || data.games || data.top),
@@ -247,19 +120,20 @@ exports["default"] = _react2["default"].createClass({
     var dataArray = _state.dataArray;
     var component = _state.component;
     var page = _state.page;
-    var _props4 = this.props;
-    var auth = _props4.auth;
-    var fireRef = _props4.fireRef;
-    var userData = _props4.userData;
-    var data = _props4.data;
-    var _props4$methods = _props4.methods;
-    var appendStream = _props4$methods.appendStream;
-    var loadData = _props4$methods.loadData;
-    var params = _props4.params;
+    var _props2 = this.props;
+    var auth = _props2.auth;
+    var fireRef = _props2.fireRef;
+    var userData = _props2.userData;
+    var data = _props2.data;
+    var _props2$methods = _props2.methods;
+    var appendStream = _props2$methods.appendStream;
+    var loadData = _props2$methods.loadData;
+    var params = _props2.params;
 
     if (component) {
       var _ret2 = (function () {
         var ListItem = components[component];
+
         return {
           v: _react2["default"].createElement(
             "div",
@@ -274,7 +148,7 @@ exports["default"] = _react2["default"].createClass({
                   "ul",
                   { className: "list" },
                   dataArray.map(function (itemData, ind) {
-                    return _react2["default"].createElement(ListItem, {
+                    return [_react2["default"].createElement(ListItem, {
                       key: ind,
                       fireRef: fireRef,
                       auth: auth,
@@ -283,7 +157,7 @@ exports["default"] = _react2["default"].createClass({
                       index: ind,
                       methods: {
                         appendStream: appendStream
-                      } });
+                      } }), _react2["default"].createElement("div", { key: "sep-" + ind, className: "separator-4-dim" })];
                   })
                 )
               ),

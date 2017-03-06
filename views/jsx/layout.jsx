@@ -24,6 +24,10 @@ var _componentsOverlayJsx = require("./components/overlay.jsx");
 
 var _componentsOverlayJsx2 = _interopRequireDefault(_componentsOverlayJsx);
 
+var _componentsAlertJsx = require("./components/alert.jsx");
+
+var _componentsAlertJsx2 = _interopRequireDefault(_componentsAlertJsx);
+
 var _modulesClientLoadData = require("../../modules/client/load-data");
 
 var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
@@ -89,6 +93,7 @@ exports["default"] = _react2["default"].createClass({
       panelData: [],
       overlay: overlay,
       overlayState: overlayState,
+      alert: null,
       fireRef: null,
       versionData: null,
       registeredAuth: false
@@ -97,6 +102,7 @@ exports["default"] = _react2["default"].createClass({
   getHashData: function getHashData() {
     var queryData = {};
     // console.log(window.location.hash);
+    // get hash data
     window.location.hash.replace(/(\#|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, function (_, symbol, key, value) {
       queryData[key] = value;
       // set token for 2 hours
@@ -104,11 +110,15 @@ exports["default"] = _react2["default"].createClass({
         document.cookie = key + "=" + value + "; expires=" + new Date(new Date().getTime() * 1000 * 60 * 60 * 2).toUTCString();
       }
     });
+    // get queries
+    window.location.search.replace(/(\?|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, function (_, symbol, key, value) {
+      queryData[key] = value;
+    });
     document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)?/g, function (_, key, value, symbol) {
       queryData[key] = value;
     });
     // window.location.hash = "";
-    // console.log("queryData", queryData);
+    console.log("queryData", queryData);
     return queryData;
   },
   getMS: function getMS() {
@@ -459,6 +469,15 @@ exports["default"] = _react2["default"].createClass({
         break;
     }
   },
+  alertHandler: function alertHandler(data) {
+    if (data === null || data.message && data.options) {
+      this.setState({
+        alert: data
+      });
+    } else {
+      console.error("alert component requires missing data: " + (!data.message ? "message" : "options"));
+    }
+  },
   checkURL: function checkURL(nextProps, nextState) {
     var _this6 = this;
 
@@ -591,7 +610,6 @@ exports["default"] = _react2["default"].createClass({
   },
   render: function render() {
     var _state =
-
     // server unique
     this.state;
     var authData = _state.authData;
@@ -604,6 +622,7 @@ exports["default"] = _react2["default"].createClass({
     var overlayState = _state.overlayState;
     var fireRef = _state.fireRef;
     var versionData = _state.versionData;
+    var alert = _state.alert;
     var initState = this.props.initState;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
@@ -650,7 +669,8 @@ exports["default"] = _react2["default"].createClass({
           alertAuthNeeded: this.alertAuthNeeded,
           setLayout: this.setLayout,
           panelsHandler: this.panelsHandler,
-          popUpHandler: this.popUpHandler
+          popUpHandler: this.popUpHandler,
+          alertHandler: this.alertHandler
         } }),
       this.child ? _react2["default"].cloneElement(this.child, _extends({
         ref: "page",
@@ -703,7 +723,14 @@ exports["default"] = _react2["default"].createClass({
         initState: initState,
         methods: {
           popUpHandler: this.popUpHandler
-        } }),
+        }
+      }),
+      _react2["default"].createElement(_componentsAlertJsx2["default"], {
+        data: alert,
+        methods: {
+          alertHandler: this.alertHandler
+        }
+      }),
       _react2["default"].createElement("div", { className: "separator-4-black" }),
       _react2["default"].createElement(
         "div",

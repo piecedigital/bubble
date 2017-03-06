@@ -996,17 +996,18 @@ nav {
     .stream-list-item .image img {
       display: block;
       width: 100%; }
-  .stream-list-item .info {
+  .stream-list-item > .info {
+    word-break: break-word;
     color: black; }
-    .stream-list-item .info .channel-name {
+    .stream-list-item > .info .channel-name {
       font-weight: bold;
       margin-bottom: 3.2px;
       word-wrap: break-word; }
-    .stream-list-item .info .game-name {
+    .stream-list-item > .info .game-name {
       min-height: 48px; }
-    .stream-list-item .info .title {
+    .stream-list-item > .info .title {
       place: holder; }
-    .stream-list-item .info .game {
+    .stream-list-item > .info .game {
       margin-top: 3.2px; }
 
 @media (max-width: 1024px) {
@@ -1060,6 +1061,7 @@ nav {
       display: block;
       width: 100%; }
   .video-list-item .info {
+    word-break: break-word;
     color: black; }
     .video-list-item .info .channel-name {
       font-weight: bold;
@@ -1123,29 +1125,32 @@ nav {
       display: block;
       width: 100%; }
   .channel-list-item .info {
+    word-break: break-word;
     color: black; }
-    .channel-list-item .info .live-indicator.offline, .channel-list-item .info .live-indicator.online {
-      display: inline-block;
-      position: absolute;
-      width: 16px;
-      top: 8px;
-      left: 16px;
-      height: 16px;
-      margin: 8px 8px 0 0;
-      border-radius: 100%; }
-      .channel-list-item .info .live-indicator.offline:after, .channel-list-item .info .live-indicator.online:after {
-        border-radius: 6.4px;
-        background-color: rgba(0, 0, 0, 0.2);
-        color: white;
-        margin-left: 24px; }
-    .channel-list-item .info .live-indicator.offline {
-      background-color: red; }
-      .channel-list-item .info .live-indicator.offline:after {
-        content: "Offline"; }
-    .channel-list-item .info .live-indicator.online {
-      background-color: #00c8fa; }
-      .channel-list-item .info .live-indicator.online:after {
-        content: "Live"; }
+    .channel-list-item .info .live-indicator {
+      word-break: normal; }
+      .channel-list-item .info .live-indicator.offline, .channel-list-item .info .live-indicator.online {
+        display: inline-block;
+        position: absolute;
+        width: 16px;
+        top: 8px;
+        left: 16px;
+        height: 16px;
+        margin: 8px 8px 0 0;
+        border-radius: 100%; }
+        .channel-list-item .info .live-indicator.offline:after, .channel-list-item .info .live-indicator.online:after {
+          border-radius: 6.4px;
+          background-color: rgba(0, 0, 0, 0.2);
+          color: white;
+          margin-left: 24px; }
+      .channel-list-item .info .live-indicator.offline {
+        background-color: red; }
+        .channel-list-item .info .live-indicator.offline:after {
+          content: "Offline"; }
+      .channel-list-item .info .live-indicator.online {
+        background-color: #00c8fa; }
+        .channel-list-item .info .live-indicator.online:after {
+          content: "Live"; }
     .channel-list-item .info .channel-name {
       font-weight: bold;
       margin-bottom: 3.2px;
@@ -1237,6 +1242,7 @@ nav {
       background-color: #00e47d; }
 
 .stream-panels {
+  z-index: 2;
   position: absolute;
   top: 1.6px;
   left: 0;
@@ -1248,6 +1254,8 @@ nav {
   .stream-panels.empty {
     top: 100%;
     height: 0; }
+    .stream-panels.empty .tools {
+      display: none; }
   .stream-panels > .wrapper {
     position: relative;
     background-color: #ebebeb;
@@ -1257,8 +1265,8 @@ nav {
     pointer-events: all;
     overflow-y: auto; }
     .stream-panels > .wrapper .tools {
-      position: absolute;
-      top: 16px;
+      position: fixed;
+      top: 48px;
       left: 16px; }
     .stream-panels > .wrapper .list {
       display: -ms-flex ;
@@ -1814,6 +1822,94 @@ nav {
         .user-item label .wrap span.danger:hover {
           background-color: rgba(255, 0, 0, 0.8);
           color: white; }
+
+.alert {
+  z-index: 12;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; }
+  .alert .backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    pointer-events: none; }
+  .alert.open .backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    pointer-events: auto; }
+  .alert.open .box {
+    transform: translate(-50%, -50%) scale(1); }
+  .alert .box {
+    display: -ms-flex ;
+    display: -moz-flex ;
+    display: -webkit-box ;
+    display: flex ;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 416px;
+    height: 224px;
+    background-color: #0082b4;
+    box-shadow: 0 0 0 3.2px rgba(0, 0, 0, 0.8);
+    pointer-events: auto; }
+    .alert .box .message {
+      padding: 1em;
+      font-weight: bold;
+      text-align: center; }
+    .alert .box .options {
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: flex ;
+      justify-content: space-around;
+      padding: 16px;
+      border-radius: 1.6px; }
+      .alert .box .options button {
+        padding: 12.8px 24px;
+        border: none;
+        border-radius: 6px;
+        box-shadow: 0 0 6px 0 black;
+        background-color: #00c8fa;
+        color: #1e1e1e;
+        cursor: pointer; }
+        .alert .box .options button:hover {
+          box-shadow: 0 0 8px 0 black;
+          transform: scale(1.1); }
+    .alert .box .links {
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: flex ;
+      justify-content: space-around;
+      padding: 16px;
+      margin: 0; }
+      .alert .box .links li {
+        box-shadow: 0 0 2px 0 black;
+        border-radius: 6px;
+        list-style: none; }
+        .alert .box .links li:hover {
+          box-shadow: 0 0 4px 0 black;
+          transform: scale(1.1); }
+        .alert .box .links li.twitter {
+          background-color: #1b95e0; }
+          .alert .box .links li.twitter a {
+            padding: 8px 12.8px; }
+        .alert .box .links li a {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          text-decoration: none;
+          color: white; }
+        .alert .box .links li img {
+          max-width: 64px; }
 
 .clickable {
   cursor: pointer; }

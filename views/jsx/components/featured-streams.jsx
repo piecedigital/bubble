@@ -12,6 +12,8 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
 var _modulesClientLoadData = require("../../../modules/client/load-data");
 
 var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
@@ -26,77 +28,68 @@ var _userQuestionsJsx = require("./user-questions.jsx");
 
 var _userQuestionsJsx2 = _interopRequireDefault(_userQuestionsJsx);
 
-var _reactRouter = require('react-router');
+var _listItemsJsx = require('./list-items.jsx');
 
 // list item for featured streams
-var StreamListItem = _react2["default"].createClass({
-  displayName: "feat-StreamListItem",
-  render: function render() {
-    var _props = this.props;
-    var index = _props.index;
-    var displayStream = _props.methods.displayStream;
-    var _props$data = _props.data;
-    var stream = _props$data.stream;
-    var _props$data$stream = _props$data.stream;
-    var game = _props$data$stream.game;
-    var viewers = _props$data$stream.viewers;
-    var title = _props$data$stream.title;
-    var id = _props$data$stream._id;
-    var preview = _props$data$stream.preview;
-    var _props$data$stream$channel = _props$data$stream.channel;
-    var mature = _props$data$stream$channel.mature;
-    var logo = _props$data$stream$channel.logo;
-    var name = _props$data$stream$channel.name;
-    var language = _props$data$stream$channel.language;
-
-    var viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
-    return _react2["default"].createElement(
-      "span",
-      null,
-      _react2["default"].createElement(
-        "li",
-        { className: "stream-list-item clickable home", onClick: function () {
-            displayStream(index);
-          } },
-        _react2["default"].createElement(
-          "div",
-          { className: "wrapper" },
-          _react2["default"].createElement(
-            "div",
-            { className: "image" },
-            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
-              style: {
-                width: 215,
-                height: 121
-              },
-              src: preview.medium || _modulesClientHelperTools.missingLogo })
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "info" },
-            _react2["default"].createElement(
-              "div",
-              { className: "channel-name" },
-              name
-            ),
-            _react2["default"].createElement("div", { className: "separator-1-7" }),
-            _react2["default"].createElement(
-              "div",
-              { className: "title" },
-              title
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "game" },
-              "Live with \"" + (game || null) + "\", streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-            )
-          )
-        )
-      ),
-      _react2["default"].createElement("div", { className: "separator-4-dim" })
-    );
-  }
-});
+// const StreamListItem = React.createClass({
+//   displayName: "feat-StreamListItem",
+//   render() {
+//     const {
+//       index,
+//       methods: {
+//         displayStream
+//       },
+//       data: {
+//         stream,
+//         stream: {
+//           game,
+//           viewers,
+//           title,
+//           _id: id,
+//           preview,
+//           channel: {
+//             mature,
+//             logo,
+//             name,
+//             language
+//           }
+//         }
+//       }
+//     } = this.props;
+//     let viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
+//     return (
+//       <span>
+//         <li className={`stream-list-item clickable home`} onClick={() => {
+//           displayStream(index)
+//         }}>
+//           <div className="wrapper">
+//             <div className="image">
+//               <CImg
+//                 style={{
+//                   width: 215,
+//                   height: 121
+//                 }}
+//                 src={preview.medium || missingLogo} />
+//             </div>
+//             <div className="info">
+//               <div className="channel-name">
+//                 {name}
+//               </div>
+//               <div className={`separator-1-7`}></div>
+//               <div className="title">
+//                 {title}
+//               </div>
+//               <div className="game">
+//                 {`Live with "${game || null}", streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+//               </div>
+//             </div>
+//           </div>
+//         </li>
+//         <div className={`separator-4-dim`}></div>
+//       </span>
+//     )
+//   }
+// });
 
 // the displayed stream of the feature streams
 var FeaturedStream = _react2["default"].createClass({
@@ -114,9 +107,9 @@ var FeaturedStream = _react2["default"].createClass({
       // displayName: "",
       // bio: ""
     }, function () {
-      var _props$data$stream$channel2 = _this.props.data.stream.channel;
-      var name = _props$data$stream$channel2.name;
-      var logo = _props$data$stream$channel2.logo;
+      var _props$data$stream$channel = _this.props.data.stream.channel;
+      var name = _props$data$stream$channel.name;
+      var logo = _props$data$stream$channel.logo;
 
       _modulesClientLoadData2["default"].call(_this, function (e) {
         console.error(e.stack);
@@ -146,14 +139,14 @@ var FeaturedStream = _react2["default"].createClass({
     this.fetchUserData();
   },
   render: function render() {
-    var _props2 = this.props;
-    var fireRef = _props2.fireRef;
-    var userData = _props2.userData;
-    var versionData = _props2.versionData;
-    var appendStream = _props2.methods.appendStream;
-    var _props2$data$stream$channel = _props2.data.stream.channel;
-    var name = _props2$data$stream$channel.name;
-    var logo = _props2$data$stream$channel.logo;
+    var _props = this.props;
+    var fireRef = _props.fireRef;
+    var userData = _props.userData;
+    var versionData = _props.versionData;
+    var appendStream = _props.methods.appendStream;
+    var _props$data$stream$channel2 = _props.data.stream.channel;
+    var name = _props$data$stream$channel2.name;
+    var logo = _props$data$stream$channel2.logo;
     var _state = this.state;
     var displayName = _state.displayName;
     var bio = _state.bio;
@@ -253,11 +246,11 @@ exports["default"] = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this2 = this;
 
-    var _props3 = this.props;
-    var fireRef = _props3.fireRef;
-    var _props3$methods = _props3.methods;
-    var loadData = _props3$methods.loadData;
-    var appendStream = _props3$methods.appendStream;
+    var _props2 = this.props;
+    var fireRef = _props2.fireRef;
+    var _props2$methods = _props2.methods;
+    var loadData = _props2$methods.loadData;
+    var appendStream = _props2$methods.appendStream;
 
     if (loadData) {
       loadData.call(this, function (e) {
@@ -284,15 +277,15 @@ exports["default"] = _react2["default"].createClass({
     var _state2 = this.state;
     var requestOffset = _state2.requestOffset;
     var streamDataArray = _state2.streamDataArray;
-    var _props4 = this.props;
-    var auth = _props4.auth;
-    var userData = _props4.userData;
-    var fireRef = _props4.fireRef;
-    var versionData = _props4.versionData;
-    var _props4$methods = _props4.methods;
-    var appendStream = _props4$methods.appendStream;
-    var loadData = _props4$methods.loadData;
-    var popUpHandler = _props4$methods.popUpHandler;
+    var _props3 = this.props;
+    var auth = _props3.auth;
+    var userData = _props3.userData;
+    var fireRef = _props3.fireRef;
+    var versionData = _props3.versionData;
+    var _props3$methods = _props3.methods;
+    var appendStream = _props3$methods.appendStream;
+    var loadData = _props3$methods.loadData;
+    var popUpHandler = _props3$methods.popUpHandler;
 
     return _react2["default"].createElement(
       "div",
@@ -322,7 +315,7 @@ exports["default"] = _react2["default"].createClass({
             "ul",
             { className: "list" },
             streamDataArray.map(function (itemData, ind) {
-              return _react2["default"].createElement(StreamListItem, { key: ind, index: ind, data: itemData, methods: {
+              return _react2["default"].createElement(_listItemsJsx.StreamListItem, { key: ind, index: ind, data: itemData, homepage: true, methods: {
                   appendStream: appendStream,
                   displayStream: _this3.displayStream
                 } });

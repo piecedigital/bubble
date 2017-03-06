@@ -20,101 +20,14 @@ var _modulesClientHelperTools = require("../../../../modules/client/helper-tools
 
 var _hoverOptionsJsx = require("../hover-options.jsx");
 
+var _listItemsJsx = require('../list-items.jsx');
+
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 // components
 var components = {
   // list item for streams matching the search
-  VideosListItem: _react2["default"].createClass({
-    displayName: "video-ListItem",
-    readableDate: function readableDate(givenDate) {
-      var date = new Date(givenDate);
-      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      var hours = date.getHours();
-      var dayHalf = hours > 12 ? "PM" : "AM";
-      hours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
-      var minutes = date.getMinutes();
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      return date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear() + " - " + hours + ":" + minutes + " " + dayHalf;
-    },
-    render: function render() {
-      // console.log(this.props);
-      var _props = this.props;
-      var auth = _props.auth;
-      var fireRef = _props.fireRef;
-      var versionData = _props.versionData;
-      var index = _props.index;
-      var userData = _props.userData;
-      var appendVOD = _props.methods.appendVOD;
-      var _props$data = _props.data;
-      var preview = _props$data.preview;
-      var animated_preview = _props$data.animated_preview;
-      var title = _props$data.title;
-      var game = _props$data.game;
-      var recorded_at = _props$data.recorded_at;
-      var id = _props$data._id;
-      var _props$data$channel = _props$data.channel;
-      var name = _props$data$channel.name;
-      var display_name = _props$data$channel.display_name;
-
-      var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, {
-        auth: auth,
-        fireRef: fireRef,
-        userData: userData,
-        versionData: versionData,
-        vod: id,
-        name: name,
-        display_name: display_name,
-        clickCallback: appendVOD });
-
-      return _react2["default"].createElement(
-        "li",
-        { className: "video-list-item" },
-        _react2["default"].createElement(
-          "div",
-          { className: "wrapper" },
-          _react2["default"].createElement(
-            "div",
-            { className: "image" },
-            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
-              "for": "video-list-item",
-              style: {
-                width: 136,
-                height: 102
-              },
-              src: preview.template.replace("{width}", 136).replace("{height}", 102) })
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "info" },
-            _react2["default"].createElement(
-              "div",
-              { className: "channel-name" },
-              name
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "title" },
-              "\"",
-              title,
-              "\""
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "game" },
-              "VOD of \"" + game + "\""
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "date" },
-              this.readableDate(recorded_at)
-            )
-          ),
-          hoverOptions
-        )
-      );
-    }
-  })
+  VideoListItem: _listItemsJsx.VideoListItem
 };
 
 // primary section for the search component
@@ -140,9 +53,9 @@ exports["default"] = _react2["default"].createClass({
     } : {}, function () {
       limit = typeof limit === "number" ? limit : _this.state.limit || 25;
       offset = typeof offset === "number" ? offset : _this.state.requestOffset;
-      var _props2 = _this.props;
-      var params = _props2.params;
-      var userData = _props2.userData;
+      var _props = _this.props;
+      var params = _props.params;
+      var userData = _props.userData;
       var archive = _this.props.archive;
 
       archive = typeof archive !== "boolean" ? true : archive;
@@ -172,7 +85,7 @@ exports["default"] = _react2["default"].createClass({
             // console.log("data", data);
             _this.setState({
               dataArray: Array.from(_this.state.dataArray).concat(data.videos),
-              component: "VideosListItem"
+              component: "VideoListItem"
             }, function () {
               // console.log("total data getVideos", this.state.dataArray.length);
               if (typeof callback === "function") callback();
@@ -289,16 +202,16 @@ exports["default"] = _react2["default"].createClass({
     var loadingQueue = _state.loadingQueue;
     var locked = _state.locked;
     var lockedTop = _state.lockedTop;
-    var _props3 = this.props;
-    var auth = _props3.auth;
-    var fireRef = _props3.fireRef;
-    var data = _props3.data;
-    var params = _props3.params;
-    var userData = _props3.userData;
-    var versionData = _props3.versionData;
-    var _props3$methods = _props3.methods;
-    var appendVOD = _props3$methods.appendVOD;
-    var loadData = _props3$methods.loadData;
+    var _props2 = this.props;
+    var auth = _props2.auth;
+    var fireRef = _props2.fireRef;
+    var data = _props2.data;
+    var params = _props2.params;
+    var userData = _props2.userData;
+    var versionData = _props2.versionData;
+    var _props2$methods = _props2.methods;
+    var appendVOD = _props2$methods.appendVOD;
+    var loadData = _props2$methods.loadData;
 
     if (component) {
       var _ret = (function () {
@@ -405,6 +318,4 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-
-// url,
 /*loadingQueue.length > 0 ? `Loading ${limit * loadingQueue.length} More` : "Load More"*/

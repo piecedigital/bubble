@@ -12,10 +12,21 @@ var _react2 = _interopRequireDefault(_react);
 
 var Panel = _react2["default"].createClass({
   displayName: "Panel",
+  componentDidMount: function componentDidMount() {
+    var elem = this.refs.description;
+
+    // links in stream pannels don't open in a new tab, unless they are a panel link
+    elem.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (e.target.tagName.match(/a/i)) {
+        window.open(e.target.href, "_blank");
+      }
+    });
+  },
   render: function render() {
     var data = this.props.data;
 
-    console.log("PANEL", data);
+    // console.log("PANEL", data);
     var content = _react2["default"].createElement(
       "div",
       { className: "wrapper" },
@@ -44,7 +55,7 @@ var Panel = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "pad" },
-        data.html_description ? _react2["default"].createElement("div", { className: "description", dangerouslySetInnerHTML: { __html: data.html_description } }) : null
+        data.html_description ? _react2["default"].createElement("div", { ref: "description", className: "description", dangerouslySetInnerHTML: { __html: data.html_description } }) : null
       )
     );
     return _react2["default"].createElement(
@@ -71,8 +82,8 @@ exports["default"] = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "list" },
-          panelData.map(function (data) {
-            return _react2["default"].createElement(Panel, { data: data });
+          panelData.map(function (data, ind) {
+            return _react2["default"].createElement(Panel, { key: ind, data: data });
           })
         ),
         _react2["default"].createElement(

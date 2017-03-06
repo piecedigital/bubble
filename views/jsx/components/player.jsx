@@ -234,6 +234,7 @@ var PlayerStream = _react2["default"].createClass({
     var panelsHandler = _props3$methods.panelsHandler;
     var putInView = _props3$methods.putInView;
     var popUpHandler = _props3$methods.popUpHandler;
+    var alertHandler = _props3$methods.alertHandler;
     var _state = this.state;
     var menuOpen = _state.menuOpen;
     var nameScroll1 = _state.nameScroll1;
@@ -414,6 +415,23 @@ var PlayerStream = _react2["default"].createClass({
                 "Follow ",
                 name
               ),
+              _react2["default"].createElement(
+                "div",
+                { className: "open-alert", onClick: function () {
+                    alertHandler({
+                      message: "Share " + (display_name || name) + "&#39;s Stream",
+                      options: ["close"],
+                      links: ["twitter", "facebook"],
+                      state: {
+                        name: name
+                      }
+                    });
+                    _this4.toggleMenu("close");
+                  } },
+                "Share ",
+                display_name || name,
+                "'s Stream"
+              ),
               vod && playerReady ? _react2["default"].createElement(
                 "div",
                 { className: "closer" },
@@ -576,6 +594,7 @@ exports["default"] = _react2["default"].createClass({
     var setLayout = _props4$methods.setLayout;
     var panelsHandler = _props4$methods.panelsHandler;
     var popUpHandler = _props4$methods.popUpHandler;
+    var alertHandler = _props4$methods.alertHandler;
     var dataObject = _props4.data.dataObject;
     var layout = this.props.layout;
     var _state2 = this.state;
@@ -623,6 +642,7 @@ exports["default"] = _react2["default"].createClass({
                 panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
                 popUpHandler: popUpHandler,
+                alertHandler: alertHandler,
                 layoutTools: _this6.layoutTools,
                 putInView: _this6.putInView,
                 refreshChat: _this6.refreshChat } });

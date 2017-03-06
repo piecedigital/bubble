@@ -160,8 +160,8 @@ exports["default"] = _react2["default"].createClass({
             _react2["default"].createElement(_modulesClientHelperTools.CImg, {
               src: "/media/logo-png.png",
               style: {
-                width: 800,
-                height: 800
+                width: 23,
+                height: 23
               } }),
             _react2["default"].createElement(
               "span",
