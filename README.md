@@ -43,6 +43,7 @@
 - Improvements: 0.12.8
   - Refactored code for modularity and reusability **ok**
   - Share stream button **ok**
+  - Link in stream panels should open up in their own damn tab now
 
 # Things to add eventually
 - Stream reordering - TBD
