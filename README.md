@@ -48,6 +48,8 @@
   - Fixed bug preventing live streams from listing **ok**
 - Improvement: 0.12.10
   - Added Twitter link
+- Bug fixed: 0.12.11
+  - Fixed links in panels not opening in new window due to some not having an HTML description
 
 # Things to add eventually
 - Stream reordering - TBD
