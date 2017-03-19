@@ -16,12 +16,14 @@ var Panel = _react2["default"].createClass({
     var elem = this.refs.description;
 
     // links in stream pannels don't open in a new tab, unless they are a panel link
-    elem.addEventListener("click", function (e) {
-      e.preventDefault();
-      if (e.target.tagName.match(/a/i)) {
-        window.open(e.target.href, "_blank");
-      }
-    });
+    if (elem) {
+      elem.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (e.target.tagName.match(/a/i)) {
+          window.open(e.target.href, "_blank");
+        }
+      });
+    }
   },
   render: function render() {
     var data = this.props.data;
