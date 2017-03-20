@@ -18,7 +18,7 @@ export default React.createClass({
           `?text=Come watch ${this.props.data.state.name} on Twitch!`+
           `&url=https://www.amorrius.net?ms=${this.props.data.state.name}`+
           `&hashtags=twitch,amorrius`+
-          `&via=PieceDigital`);
+          `&via=Amorrius`);
         return (
           <li className={`${name}`}>
             <a

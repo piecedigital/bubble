@@ -50,6 +50,8 @@
   - Added Twitter link
 - Bug fixed: 0.12.11
   - Fixed links in panels not opening in new window due to some not having an HTML description
+- Bug fixed: 0.12.12
+  - Share link "via" now accurate
 
 # Things to add eventually
 - Stream reordering - TBD
