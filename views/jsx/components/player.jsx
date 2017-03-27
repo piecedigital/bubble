@@ -163,7 +163,7 @@ var PlayerStream = _react2["default"].createClass({
         playerReady: true
       });
       if (vod) {
-        _this2.ticker = setInterval(function () {
+        _this2.VODTimeTicker = setInterval(function () {
           var time = player.getCurrentTime();
           // console.log("time", time);
           _this2.setState({
@@ -189,13 +189,10 @@ var PlayerStream = _react2["default"].createClass({
     });
     player.addEventListener(Twitch.Player.OFFLINE, function () {
       console.log('Player is offline!');
-      setTimeout(function () {
-        _this2.checkOnlineStatus().then(function (bool) {
-          if (!bool) {
-            _this2.checkHost().then(function (data) {
-              if (data.hosts[0].target_login) _this2.suggestHost(data);
-            });
-          }
+      _this2.hostTicker = setInterval(function () {
+        if (_this2.state.suggestedHost) return clearInterval(_this2.hostTicker);
+        _this2.checkHost().then(function (data) {
+          if (data.hosts[0].target_login) _this2.suggestHost(data);
         });
       }, 1000 * 5);
     });
@@ -326,7 +323,8 @@ var PlayerStream = _react2["default"].createClass({
   },
   componentWillUnmount: function componentWillUnmount() {
     delete this._mounted;
-    clearInterval(this.ticker);
+    clearInterval(this.VODTimeTicker);
+    clearInterval(this.hostTicker);
   },
   render: function render() {
     var _this4 = this;
