@@ -55,8 +55,10 @@
 - Bug fixed, Improvement: 0.13.0
   - Fixed bookmarks **ok**
   - New host suggestion when a channel goes offline
-- Path: 0.13.1
-  - Checking for host should happen constantly after the stream goes offline
+- Patch: 0.13.1
+  - Checking for host should happen constantly after the stream goes offline **ok**
+- Patch: 0.13.2
+  - Fixed CSS for host suggestion **ok**
 
 
 # Things to add eventually
