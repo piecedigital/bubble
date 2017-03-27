@@ -36,7 +36,7 @@
       position: absolute;
       bottom: 100%;
       left: 0;
-      > *:not(.wrap), select {
+      > *:not(.wrap), .main-tool {
         background-color: $primary;
         max-height: 2*$em;
         padding: .45*$em .5*$em;

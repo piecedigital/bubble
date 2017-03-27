@@ -49,7 +49,7 @@ export default React.createClass({
         alertHandler(null);
       }}>
         <div className="box" onClick={e => e.nativeEvent.stopImmediatePropagation()}>
-          <div className="message"></div>
+          <div className="message">Problem Loading Alert</div>
           <ul className="links"></ul>
           <div className="options"></div>
         </div>
@@ -60,20 +60,21 @@ export default React.createClass({
       message,
       options,
 
-      links
+      links,
+      inputData,
     } = data;
 
-    const optionsList = options.map(opt => {
+    const optionsList = options ? options.map(opt => {
       return (
         <button key={opt} onClick={this[`${opt}Option`]}>
           {opt}
         </button>
       );
-    });
+    }) : ["close"];
 
-    const linksList = links.map(name => {
+    const linksList = links ? links.map(name => {
       return this.getLink(name);
-    });
+    }) : [];
 
     return (
       <div className="alert open">
@@ -84,6 +85,13 @@ export default React.createClass({
           <div className="message">
             <span dangerouslySetInnerHTML={{ __html: message }} />
           </div>
+          {
+            inputData ? (
+              <div className="input">
+                <input type="text" value={inputData} onClick={e => e.target.select()} readOnly />
+              </div>
+            ) : null
+          }
           <ul className="links">
             {linksList}
           </ul>

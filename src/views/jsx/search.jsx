@@ -2,79 +2,82 @@ import React from "react";
 import loadData from "../../modules/client/load-data";
 import { ListItemHoverOptions } from "./components/hover-options.jsx";
 import { CImg } from "../../modules/client/helper-tools";
+import { StreamListItem } from "./components/list-items.jsx";
+
 // components
 let components = {};
 
 // list item for streams matching the search
-components.StreamsListItem = React.createClass({
-  displayName: "stream-ListItem",
-  render() {
-    // console.log(this.props);
-    const {
-      auth,
-      fireRef,
-      index,
-      userData,
-      methods: {
-        appendStream
-      },
-      data: {
-        game,
-        viewers,
-        title,
-        _id: id,
-        preview,
-        channel: {
-          mature,
-          logo,
-          name,
-          display_name,
-          language
-        }
-      }
-    } = this.props;
-    let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-    let hoverOptions = <ListItemHoverOptions
-                        auth={auth}
-                        fireRef={fireRef}
-                        stream={true}
-                        name={name}
-                        display_name={display_name}
-                        userData={userData}
-                        clickCallback={appendStream} />;
-
-    return (
-      <li className={`stream-list-item search`}>
-        <div className="wrapper">
-          <div className="image">
-            <CImg
-              style={{
-                width: 216,
-                height: 121.5,
-              }}
-              className="test"
-              src={preview.medium} />
-          </div>
-          <div className="info">
-            <div className="channel-name">
-              {name}
-            </div>
-            <div className="title">
-              {title}
-            </div>
-            <div className="game">
-              {`Live with "${game}"`}
-            </div>
-            <div className="viewers">
-              {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-            </div>
-          </div>
-          {hoverOptions}
-        </div>
-      </li>
-    )
-  }
-})
+// components.StreamsListItem = React.createClass({
+//   displayName: "stream-ListItem",
+//   render() {
+//     // console.log(this.props);
+//     const {
+//       auth,
+//       fireRef,
+//       index,
+//       userData,
+//       methods: {
+//         appendStream
+//       },
+//       data: {
+//         game,
+//         viewers,
+//         title,
+//         _id: id,
+//         preview,
+//         channel: {
+//           mature,
+//           logo,
+//           name,
+//           display_name,
+//           language
+//         }
+//       }
+//     } = this.props;
+//     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+//     let hoverOptions = <ListItemHoverOptions
+//                         auth={auth}
+//                         fireRef={fireRef}
+//                         stream={true}
+//                         name={name}
+//                         display_name={display_name}
+//                         userData={userData}
+//                         clickCallback={appendStream} />;
+//
+//     return (
+//       <li className={`stream-list-item search`}>
+//         <div className="wrapper">
+//           <div className="image">
+//             <CImg
+//               style={{
+//                 width: 216,
+//                 height: 121.5,
+//               }}
+//               className="test"
+//               src={preview.medium} />
+//           </div>
+//           <div className="info">
+//             <div className="channel-name">
+//               {name}
+//             </div>
+//             <div className="title">
+//               {title}
+//             </div>
+//             <div className="game">
+//               {`Live with "${game}"`}
+//             </div>
+//             <div className="viewers">
+//               {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+//             </div>
+//           </div>
+//           {hoverOptions}
+//         </div>
+//       </li>
+//     )
+//   }
+// })
+components.StreamsListItem = StreamListItem
 
 // primary section for the search component
 export default React.createClass({
@@ -155,6 +158,7 @@ export default React.createClass({
       auth,
       fireRef,
       userData,
+      versionData,
       data,
       methods: {
         appendStream,
@@ -175,6 +179,7 @@ export default React.createClass({
                       auth={auth}
                       fireRef={fireRef}
                       userData={userData}
+                      versionData={versionData}
                       key={ind}
                       data={itemData}
                       index={ind}

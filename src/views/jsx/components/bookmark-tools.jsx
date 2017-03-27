@@ -16,12 +16,24 @@ const BookmarkItem = React.createClass({
   },
   render() {
     const {
-      username
+      username,
+      methods: {
+        appendStream
+      }
     } = this.props;
+
     return (
       <div className="bookmark-item">
         <label>
-          <Link className="name" to={`/profile/${username}`}>{username}</Link><span className="unmark" onClick={this.unmark}>x</span>
+          <Link className="name" to={`/profile/${username}`}>{username}</Link>
+          <div className="tools">
+            <span className="unmark warning" onClick={this.unmark}>x</span>
+            {
+              appendStream ? (
+                <span className="unmark" onClick={appendStream.bind(null, username, username)}>watch</span>
+              ) : null
+            }
+          </div>
         </label>
       </div>
     );
@@ -112,6 +124,7 @@ export const ViewBookmarks = React.createClass({
       fireRef,
       userData,
       methods: {
+        appendStream,
         popUpHandler
       }
     } = this.props;
@@ -119,12 +132,15 @@ export const ViewBookmarks = React.createClass({
     const bookmarkList = Object.keys(this.state.bookmarks).map(bookmarkID => {
       return (
         <BookmarkItem
-        key={bookmarkID}
-        {...{
-          fireRef,
-          userData,
-          username: bookmarkID
-        }}
+          key={bookmarkID}
+          {...{
+            fireRef,
+            userData,
+            username: bookmarkID,
+            methods: {
+              appendStream
+            }
+          }}
         />
       );
     }).reverse();

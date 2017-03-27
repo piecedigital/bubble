@@ -47,11 +47,14 @@
 - Bug Fixes: 0.12.9
   - Fixed bug preventing live streams from listing **ok**
 - Improvement: 0.12.10
-  - Added Twitter link
+  - Added Twitter link **ok**
 - Bug fixed: 0.12.11
-  - Fixed links in panels not opening in new window due to some not having an HTML description
+  - Fixed links in panels not opening in new window due to some not having an HTML description **ok**
 - Bug fixed: 0.12.12
-  - Share link "via" now accurate
+  - Share link "via" now accurate **ok**
+- Bug fixed: 0.13.0
+  - Fixed bookmarks **ok**
+  - New host suggestion when a channel goes offline
 
 # Things to add eventually
 - Stream reordering - TBD

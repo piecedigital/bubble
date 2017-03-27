@@ -577,17 +577,17 @@ export default React.createClass({
             }
           </ul>
           <div className={`tools`}>
-            <div title="Closes all streams in the player" className="closer bold bgc-red-priority" onClick={clearPlayer}>
+            <div title="Closes all streams in the player" className="main-tool closer bold bgc-red-priority" onClick={clearPlayer}>
               x
             </div>
-            <div title="Shrink the player to the side of the browser" className="flexer" onClick={togglePlayer.bind(null, "toggle")}>
+            <div title="Shrink the player to the side of the browser" className="main-tool flexer" onClick={togglePlayer.bind(null, "toggle")}>
               {playerState.playerCollapsed ? "Expand" : "Collapse"}
             </div>
-            <div className="hide" onClick={this.toggleChat.bind(this, "toggle")}>
+            <div className="main-tool hide" onClick={this.toggleChat.bind(this, "toggle")}>
               {chatOpen ? "Hide" : "Show"} Chat
             </div>
             <div className="wrap">
-              <select title="Choose a layout for the streams" ref="selectLayout" className="layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setLayout")}>
+              <select title="Choose a layout for the streams" ref="selectLayout" className="main-tool  layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setLayout")}>
                 {
                   ["",
                   "Singular",
@@ -608,7 +608,7 @@ export default React.createClass({
               layout !== "layout-by-2" ||
               layout !== "layout-by-3" ? (
                 <div className="wrap">
-                  <select title="Choose which stream and chat appears as the main or in-view stream" ref="selectStream" className="streamers" defaultValue={0} onChange={this.layoutTools.bind(null, "setStreamToView")}>
+                  <select title="Choose which stream and chat appears as the main or in-view stream" ref="selectStream" className="main-tool streamers" defaultValue={0} onChange={this.layoutTools.bind(null, "setStreamToView")}>
                     {
                       dataObject ? (
                         dataArray.map((key, ind) => {
@@ -623,6 +623,16 @@ export default React.createClass({
                 </div>
               )  : null
             }
+            <div className="wrap">
+              <div className="main-tool multistream" onClick={() => {
+                alertHandler({
+                  message: `Share this link with your friends!`,
+                  options: ["close"],
+                  inputData: `https://www.amorrius.net?ms=${dataArray.join(",")}`
+                });
+              }}><span>Generate Multistream Link</span></div>
+              <div className="hover-msg"><span>Generate Multistream Link</span></div>
+            </div>
           </div>
           <StreamPanels panelData={panelData} methods={{
             panelsHandler

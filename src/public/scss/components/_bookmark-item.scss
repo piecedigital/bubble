@@ -11,13 +11,25 @@
       color: black;
       margin-right: 1*$em;
     }
+    .tools {
+      display: inline-block;
+    }
     span {
       display: inline-block;
       padding: .25*$em .5*$em;
-      background-color: rgba(orange, .8);
+      background-color: rgba($primary, .8);
       cursor: pointer;
+      &:not(:last-child) {
+        border-right: 1px solid black;
+      }
+      &.warning {
+        background-color: rgba(orange, .8);
+        &:hover {
+          background-color: rgba(red, .8);
+        }
+      }
       &:hover {
-        background-color: rgba(red, .8);
+        background-color: rgba($dim, .8);
         color: white;
       }
     }

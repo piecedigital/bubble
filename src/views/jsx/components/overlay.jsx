@@ -33,11 +33,11 @@ export default React.createClass({
       fireRef,
       overlay,
       overlayState,
-      methods,
       params,
       location,
+      methods,
       methods: {
-        popUpHandler
+        popUpHandler,
       }
     } = this.props;
     let Component = components[overlay] || null;

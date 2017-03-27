@@ -692,7 +692,8 @@ export default React.createClass({
           location={this.props.location}
           initState={initState}
           methods={{
-            popUpHandler: this.popUpHandler
+            appendStream: this.appendStream,
+            popUpHandler: this.popUpHandler,
           }}
         />
         <Alert
