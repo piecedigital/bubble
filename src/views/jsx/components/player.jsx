@@ -155,16 +155,12 @@ const PlayerStream = React.createClass({
     });
     player.addEventListener(Twitch.Player.OFFLINE, () => {
       console.log('Player is offline!');
-      setTimeout(() => {
-        this.checkOnlineStatus()
-        .then(bool => {
-          if(!bool) {
-            this.checkHost()
-            .then(data => {
-              if(data.hosts[0].target_login) this.suggestHost(data);
-            });
-          }
-        })
+      let interval = setInterval(() => {
+        if(this.state.suggestedHost) return clearInterval(interval);
+        this.checkHost()
+        .then(data => {
+          if(data.hosts[0].target_login) this.suggestHost(data);
+        });
       }, 1000 * 5);
     });
   },
