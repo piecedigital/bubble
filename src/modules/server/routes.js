@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import https from "https";
 import { renderHTML } from "./render-jsx";
 import { initFirebase, getAuthToken } from "./firebase-config";
@@ -141,14 +142,38 @@ app
 })
 .get("/get-panels/:username", function (req, res) {
   // https://api.twitch.tv/api/channels/${username}/panels`
-  let options = {
-    host: "api.twitch.tv",
-    port: 443,
-    path: `/api/channels/${req.params.username}/panels?client_id=${req.query.client_id}`,
-    method: "GET"
-  };
+  request({
+    url: `/api/channels/${req.params.username}/panels?client_id=${req.query.client_id}`
+  }, function (buffer) {
+    res.send(buffer);
+  })
+})
+.get("/get-host/:userID", function (req, res) {
+  // http://tmi.twitch.tv/hosts?include_logins=1&host=83101325
+  request({
+    protocol: "http",
+    host: "tmi.twitch.tv",
+    url: `/hosts?include_logins=1&host=${req.params.userID}&client_id=${req.query.client_id}`
+  }, function (buffer) {
+    res.send(buffer);
+  })
+})
+.get("*", function (req, res) {
+  res.status(404).send("Page not found: " + req.url);
+});
 
-  var req = https.request(options, function(XHRResponse) {
+function request({protocol, host, url}, cb) {
+  let options = {
+    host: host || "api.twitch.tv",
+    port: protocol === "http" ? 80 : 443,
+    path: url,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  const proto = protocol === "http" ? http : https;
+  var req = proto.request(options, function(XHRResponse) {
     // console.log("statusCode: ", XHRResponse.statusCode);
     // console.log("headers: ", XHRResponse.headers);
 
@@ -159,7 +184,7 @@ app
     });
     XHRResponse.on("end", function () {
       // console.log("res end", buffer);
-      res.send(buffer);
+      cb(buffer);
     })
   });
   req.end();
@@ -167,12 +192,6 @@ app
   req.on('error', function(e) {
     console.error(e);
   });
-
-  // console.log("getting panels for:", req.params.username);
-  // res.send(["test"]);
-})
-.get("*", function (req, res) {
-  res.status(404).send("Page not found: " + req.url);
-});
+}
 
 export default app;

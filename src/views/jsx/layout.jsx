@@ -250,9 +250,6 @@ export default React.createClass({
     })
     .catch(e => console.error(e))
   },
-  search(query) {
-    History.push(encodeURI(`/search/streams?q=${query}`));
-  },
   spliceStream(username, id) {
     console.log("removing stream", username);
     let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
@@ -269,11 +266,41 @@ export default React.createClass({
       });
     }
     if(Object.keys(streamersInPlayer).length === 0) {
+      console.log("no streams in player. collapsing");
       stateObj = Object.assign(stateObj, {
         playerCollapsed: true
       });
     }
     this.setState(stateObj);
+  },
+  replaceStream(username, id, replaceUsername, replaceDisplayName) {
+    console.log("removing stream", username);
+    let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    const streamersInPlayerArray = Object.keys(streamersInPlayer);
+    const indexOfOld = streamersInPlayerArray.indexOf(username);
+    delete streamersInPlayer[id || username];
+    streamersInPlayer[replaceUsername] = replaceDisplayName || replaceUsername;
+    streamersInPlayerArray.splice(indexOfOld,1,replaceUsername);
+    let newObject = {};
+    streamersInPlayerArray.map(usernameOrID => {
+      newObject[usernameOrID] = streamersInPlayer[usernameOrID];
+    });
+    console.log("New streamersInPlayer:", newObject);
+
+    let stateObj = {
+      streamersInPlayer: newObject
+    };
+    if(username === this.state.panelDataFor) {
+      stateObj = Object.assign(stateObj, {
+        panelData: [],
+        panelDataFor: ""
+      });
+    }
+
+    this.setState(stateObj);
+  },
+  search(query) {
+    History.push(encodeURI(`/search/streams?q=${query}`));
   },
   clearPlayer() {
     this.setState({
@@ -622,7 +649,9 @@ export default React.createClass({
             versionData={versionData}
             initState={initState}
             methods={{
+              appendStream: this.appendStream,
               spliceStream: this.spliceStream,
+              replaceStream: this.replaceStream,
               clearPlayer: this.clearPlayer,
               expandPlayer: this.expandPlayer,
               collapsePlayer: this.collapsePlayer,

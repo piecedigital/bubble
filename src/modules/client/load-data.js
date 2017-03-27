@@ -355,6 +355,37 @@ export default function loadData(errorCB, options = {}) {
         delete options.id;
         return makeRequest(okayCB, `videos/${id}`);
       },
+      getHostingByName: (okayCB) => {
+        delete options.stream_type;
+        delete options.limit;
+        let username = options.username;
+        delete options.username;
+        options.client_id = options.headers["Client-ID"];
+        // options.headers = options.headers || {};
+        return new Promise(function(resolve, reject) {
+
+          // start by getting the first user ID
+          loadData((e = {}) => {
+            console.error(e.stack || e);
+          }, {
+            username
+          })
+          .then(methods => {
+            methods
+            .getUserID()
+            .then(data => {
+              // console.log("user id", data);
+              // get the target user ID
+              return makeRequest(okayCB, `/get-host/${data.users[0]._id}`, true)
+              .then(data => resolve(data))
+              .catch((e = {}) => reject(e));
+            })
+            .catch((e = {}) => console.error(e.stack || e));
+          })
+          .catch((e = {}) => console.error(e.stack || e));
+
+        });
+      },
       followStream: (okayCB) => {
         delete options.stream_type;
         delete options.limit;

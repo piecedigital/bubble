@@ -9,7 +9,19 @@ import BookmarkButton from "./bookmark-btn.jsx";
 // stream component for player
 const PlayerStream = React.createClass({
   displayName: "PlayerStream",
-  getInitialState: () => ({ chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0, time: 0, playing: true, playerReady: false }),
+  getInitialState: () => ({
+    chatOpen: true,
+    menuOpen: false,
+    doScroll: true,
+    nameScroll1: 0,
+    nameScroll2: 0,
+    time: 0,
+    playing: true,
+    playerReady: false,
+    suggestedHost: null,
+    watchingHost: false,
+    overrideStreamName: null,
+  }),
   toggleMenu(type) {
     switch (type) {
       case "close":
@@ -103,10 +115,10 @@ const PlayerStream = React.createClass({
       }
     }, 10);
   },
-  makePlayer() {
+  makePlayer(overrideName) {
     const { vod, name } = this.props;
     let options = {};
-    vod ? options.video = vod : options.channel = name;
+    vod ? options.video = vod : options.channel = overrideName || name;
     // console.log("player options", options);
     const player = new Twitch.Player(this.refs.video, options);
     this.player = player;
@@ -143,7 +155,48 @@ const PlayerStream = React.createClass({
     });
     player.addEventListener(Twitch.Player.OFFLINE, () => {
       console.log('Player is offline!');
+      setTimeout(() => {
+        this.checkOnlineStatus()
+        .then(bool => {
+          if(!bool) {
+            this.checkHost()
+            .then(data => {
+              if(data.hosts[0].target_login) this.suggestHost(data);
+            });
+          }
+        })
+      }, 1000 * 5);
     });
+  },
+  replaceVideo(username) {
+    this.player = null;
+    this.makePlayer(username);
+    this.setState({
+      watchingHost: true
+    })
+  },
+  migrateStream(username, displayName) {
+    const {
+      name,
+      vod,
+      methods: {
+        replaceStream,
+        appendStream,
+        spliceStream,
+        layoutTools
+      }
+    } = this.props;
+    // appendStream(username, displayName);
+    // setTimeout(() => {
+    //   spliceStream(name, vod);
+    //   setTimeout(() => {
+    //     layoutTools("setStreamToView");
+    //   }, 100);
+    // }, 100);
+    replaceStream(name, vod, username, displayName);
+    setTimeout(() => {
+      layoutTools("setStreamToView");
+    }, 100);
   },
   makeTime(time) {
     // http://stackoverflow.com/a/11486026/4107851
@@ -167,6 +220,65 @@ const PlayerStream = React.createClass({
   pauseVOD() {
     this.player.pause();
   },
+  checkOnlineStatus() {
+    const { name } = this.props;
+
+    return new Promise(function(resolve, reject) {
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        username: name
+      })
+      .then(methods => {
+        methods
+        .getStreamByName()
+        .then(data => {
+          // console.log(name, ", data:", data);
+          // if(name === "spawnofodd") console.log(data);
+          console.log("Check online status", data);
+          resolve(!!data.stream);
+        })
+        .catch(e => console.error(e ? e.stack : e) );
+      })
+      .catch(e => console.error(e ? e.stack : e));
+    });
+
+  },
+  checkHost() {
+    const { name } = this.props;
+
+    return new Promise(function(resolve, reject) {
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        username: name
+      })
+      .then(methods => {
+        methods
+        .getHostingByName()
+        .then(data => {
+          // console.log(name, ", data:", data);
+          // if(name === "spawnofodd") console.log(data);
+          console.log("Check host", data);
+          resolve(data);
+        })
+        .catch(e => console.error(e ? e.stack : e) );
+      })
+      .catch(e => console.error(e ? e.stack : e));
+    });
+
+  },
+  suggestHost(data) {
+    // console.log("Suggest host", data);
+    var username = data.hosts[0].target_login;
+    var displayName = data.hosts[0].target_display_name;
+    this.setState({
+      suggestedHost: {
+        username,
+        displayName
+      }
+    });
+  },
   componentDidMount() {
     this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", () => {
@@ -174,6 +286,16 @@ const PlayerStream = React.createClass({
       this.toggleMenu("close");
     }, false) : null;
     if(this.props.isFor === "video") this.makePlayer();
+
+    this.checkOnlineStatus()
+    .then(bool => {
+      if(!bool) {
+        this.checkHost()
+        .then(data => {
+          if(data.hosts[0].target_login) this.suggestHost(data);
+        });
+      }
+    })
   },
   componentWillUnmount() {
     delete this._mounted;
@@ -193,6 +315,7 @@ const PlayerStream = React.createClass({
       vod,
       versionData,
       methods: {
+        appendStream,
         spliceStream,
         togglePlayer,
         alertAuthNeeded,
@@ -210,6 +333,8 @@ const PlayerStream = React.createClass({
       time,
       playing,
       playerReady,
+      suggestedHost,
+      watchingHost,
     } = this.state;
     switch (isFor) {
       case "video": return (
@@ -246,6 +371,52 @@ const PlayerStream = React.createClass({
                   <div></div>
                 </div>
               </div>
+              {
+                suggestedHost ? (
+                  <div className="host">
+                    <span>
+                      {
+                        watchingHost ? (
+                          `Now watching ${suggestedHost.displayName} via ${display_name}.`
+                        ) : (
+                          `${display_name} is hosting ${suggestedHost.displayName}.`
+                        )
+                      }
+                      {" "}
+                      <span
+                        title="Add this stream to the player"
+                        className="btn"
+                        onClick={() => {
+                          appendStream(suggestedHost.username, suggestedHost.displayName)
+                        }}>
+                        Add To Player
+                      </span>
+                      {" "}
+                      {
+                        !watchingHost ? (
+                          <span
+                            title="Replaces the current video with the hosted video, but doesn't change the chat"
+                            className="btn"
+                            onClick={() => {
+                              this.replaceVideo(suggestedHost.username)
+                            }}>
+                            Replace Video
+                          </span>
+                        ) : (
+                          <span
+                            title="Closes the current stream player and adds the hosted stream"
+                            className="btn"
+                            onClick={() => {
+                              this.migrateStream(suggestedHost.username, suggestedHost.displayName)
+                            }}>
+                            Migrate Stream
+                          </span>
+                        )
+                      }
+                    </span>
+                  </div>
+                ) : null
+              }
               <div onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")} className="streamer">
                 <span ref="streamerName2" style={{
                   position: "relative",
@@ -388,7 +559,7 @@ export default React.createClass({
     switch (type) {
       case "setStreamToView":
         let count = 1;
-        console.log("layout", this.props.layout);
+        // console.log("layout", this.props.layout);
         switch (this.props.layout) {
           case "by-2":
             count = 2;
@@ -397,8 +568,8 @@ export default React.createClass({
             count = 3;
           break;
         }
-        console.log("scroll value", (videoList.offsetHeight / count) * this.refs.selectStream.value);
-        console.log("select value", this.refs.selectStream.value);
+        // console.log("scroll value", (videoList.offsetHeight / count) * this.refs.selectStream.value);
+        // console.log("select value", this.refs.selectStream.value);
         videoList.scrollTop = (videoList.offsetHeight / count) * this.refs.selectStream.value;
         // chatList.scrollTop = chatList.offsetHeight * this.refs.selectStream.value
         this.setState({
@@ -486,7 +657,9 @@ export default React.createClass({
       panelData,
       versionData,
       methods: {
+        appendStream,
         spliceStream,
+        replaceStream,
         clearPlayer,
         togglePlayer,
         alertAuthNeeded,
@@ -541,7 +714,9 @@ export default React.createClass({
                       isFor="video"
                       index={ind}
                       methods={{
+                        appendStream,
                         spliceStream,
+                        replaceStream,
                         togglePlayer,
                         panelsHandler,
                         alertAuthNeeded,
