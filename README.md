@@ -52,9 +52,12 @@
   - Fixed links in panels not opening in new window due to some not having an HTML description **ok**
 - Bug fixed: 0.12.12
   - Share link "via" now accurate **ok**
-- Bug fixed: 0.13.0
+- Bug fixed, Improvement: 0.13.0
   - Fixed bookmarks **ok**
   - New host suggestion when a channel goes offline
+- Path: 0.13.1
+  - Checking for host should happen constantly after the stream goes offline
+
 
 # Things to add eventually
 - Stream reordering - TBD
