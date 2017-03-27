@@ -129,7 +129,7 @@ const PlayerStream = React.createClass({
         playerReady: true
       });
       if(vod) {
-        this.ticker = setInterval(() => {
+        this.VODTimeTicker = setInterval(() => {
           const time = player.getCurrentTime();
           // console.log("time", time);
           this.setState({
@@ -155,8 +155,8 @@ const PlayerStream = React.createClass({
     });
     player.addEventListener(Twitch.Player.OFFLINE, () => {
       console.log('Player is offline!');
-      let interval = setInterval(() => {
-        if(this.state.suggestedHost) return clearInterval(interval);
+      this.hostTicker = setInterval(() => {
+        if(this.state.suggestedHost) return clearInterval(this.hostTicker);
         this.checkHost()
         .then(data => {
           if(data.hosts[0].target_login) this.suggestHost(data);
@@ -295,7 +295,8 @@ const PlayerStream = React.createClass({
   },
   componentWillUnmount() {
     delete this._mounted;
-    clearInterval(this.ticker);
+    clearInterval(this.VODTimeTicker);
+    clearInterval(this.hostTicker);
   },
   render() {
     // console.log(this.props);
