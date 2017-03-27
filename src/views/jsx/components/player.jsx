@@ -110,8 +110,8 @@ const PlayerStream = React.createClass({
     // console.log("player options", options);
     const player = new Twitch.Player(this.refs.video, options);
     this.player = player;
-    player.setMuted(true);
     player.addEventListener(Twitch.Player.READY, () => {
+      player.setMuted(true);
       console.log('Player is ready!');
       this.setState({
         playerReady: true
@@ -132,14 +132,18 @@ const PlayerStream = React.createClass({
       });
       console.log('Player is playing!');
     });
-    if(vod) {
-      player.addEventListener(Twitch.Player.PAUSE, () => {
-        this.setState({
-          playing: false
-        });
-        console.log('Player is paused!');
+    player.addEventListener(Twitch.Player.PAUSE, () => {
+      this.setState({
+        playing: false
       });
-    }
+      console.log('Player is paused!');
+    });
+    player.addEventListener(Twitch.Player.ONLINE, () => {
+      console.log('Player is online!');
+    });
+    player.addEventListener(Twitch.Player.OFFLINE, () => {
+      console.log('Player is offline!');
+    });
   },
   makeTime(time) {
     // http://stackoverflow.com/a/11486026/4107851

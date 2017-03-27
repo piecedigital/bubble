@@ -88,3 +88,13 @@ Latin words:
 <!-- - FluTorius - Flumine + Torrens + Penitus -->
 
 Officially this application is called Amorrius. https://amorrius.net
+
+
+returns a list of channel that are hosting :target
+http://tmi.twitch.tv/hosts?include_logins=1&target=29020039
+
+returns only who is hosted by :host
+http://tmi.twitch.tv/hosts?include_logins=1&host=83101325
+
+returns a list of followers that are hosting somebody
+https://api.twitch.tv/api/users/piecedigital/followed/hosting?client_id=cye2hnlwj24qq7fezcbq9predovf6yy

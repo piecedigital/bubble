@@ -18,6 +18,7 @@ export const StreamListItem = React.createClass({
     const {
       auth,
       userData,
+      versionData,
       fireRef,
       index,
       homepage,
@@ -64,11 +65,11 @@ export const StreamListItem = React.createClass({
     }
 
     let viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
-    let hoverOptions = !homepage ? <ListItemHoverOptions auth={auth} fireRef={fireRef} stream={true} name={name} display_name={display_name} userData={userData} clickCallback={appendStream} /> : null;
+    let hoverOptions = !homepage ? <ListItemHoverOptions auth={auth} fireRef={fireRef} stream={true} name={name} display_name={display_name} userData={userData} clickCallback={appendStream} versionData={versionData} /> : null;
 
     return (
       <li className={`stream-list-item${homepage ? " clickable home" : ""}`} onClick={() => {
-        displayStream(index)
+        if(typeof displayStream === "function") displayStream(index)
       }}>
         <div className="wrapper">
           <div className="image">

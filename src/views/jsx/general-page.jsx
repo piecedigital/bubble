@@ -90,7 +90,9 @@ export default React.createClass({
       fireRef,
       userData,
       data,
+      versionData,
       methods: {
+        displayStream,
         appendStream,
         loadData
       },
@@ -114,6 +116,7 @@ export default React.createClass({
                           fireRef={fireRef}
                           auth={auth}
                           userData={userData}
+                          versionData={versionData}
                           data={itemData}
                           index={ind}
                           methods={{

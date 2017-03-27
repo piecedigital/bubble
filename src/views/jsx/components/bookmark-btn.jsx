@@ -67,7 +67,7 @@ export default React.createClass({
         };
 
         fireRef.usersRef
-        .child(`${userData.name}/bookmarks/users/${givenUsername}`)
+        .child(`${userData._id}/bookmarks/users/${givenUsername}`)
         .set(bookmarkObject);
         this.setState({
           bookmarked: true
@@ -75,7 +75,7 @@ export default React.createClass({
         break;
       case "unmark":
         fireRef.usersRef
-        .child(`${userData.name}/bookmarks/users/${givenUsername}`)
+        .child(`${userData._id}/bookmarks/users/${givenUsername}`)
         .set(null);
         this.setState({
           bookmarked: false
@@ -110,7 +110,7 @@ export default React.createClass({
       givenUsername,
     } = this.props;
     let refNode = fireRef.usersRef
-    .child(`${userData.name}/bookmarks/users`);
+    .child(`${userData._id}/bookmarks/users`);
     refNode.on("child_added", this.newBookmark);
     refNode.on("child_removed", this.removedBookmark);
   },
@@ -126,9 +126,10 @@ export default React.createClass({
       userData,
       givenUsername,
     } = this.props;
-    fireRef.usersRef
-    .child(`${userData.name}/bookmarks/users/${givenUsername}`)
-    .on("changed", this.removedBookmark);
+    let refNode = fireRef.usersRef
+    .child(`${userData._id}/bookmarks/users`);
+    refNode.off("child_added", this.newBookmark);
+    refNode.off("child_removed", this.removedBookmark);
   },
   render() {
     const {
@@ -139,9 +140,11 @@ export default React.createClass({
       userData,
       givenUsername,
       named,
+      versionData
     } = this.props;
     // console.log(userData, fireRef, bookmarked);
     if(!userData || !fireRef) return null;
+    if(!versionData) return null;
     if(bookmarked === null) return null;
     if(userData.name === givenUsername) return null;
     return (
