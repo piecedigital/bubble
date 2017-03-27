@@ -52,9 +52,9 @@ exports["default"] = _react2["default"].createClass({
     var fireRef = _props.fireRef;
     var overlay = _props.overlay;
     var overlayState = _props.overlayState;
-    var methods = _props.methods;
     var params = _props.params;
     var location = _props.location;
+    var methods = _props.methods;
     var popUpHandler = _props.methods.popUpHandler;
 
     var Component = components[overlay] || null;

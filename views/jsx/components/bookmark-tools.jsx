@@ -31,7 +31,9 @@ var BookmarkItem = _react2["default"].createClass({
     fireRef.usersRef.child(userData._id + "/bookmarks/users/" + username).set(null);
   },
   render: function render() {
-    var username = this.props.username;
+    var _props2 = this.props;
+    var username = _props2.username;
+    var appendStream = _props2.methods.appendStream;
 
     return _react2["default"].createElement(
       "div",
@@ -45,9 +47,18 @@ var BookmarkItem = _react2["default"].createClass({
           username
         ),
         _react2["default"].createElement(
-          "span",
-          { className: "unmark", onClick: this.unmark },
-          "x"
+          "div",
+          { className: "tools" },
+          _react2["default"].createElement(
+            "span",
+            { className: "unmark warning", onClick: this.unmark },
+            "x"
+          ),
+          appendStream ? _react2["default"].createElement(
+            "span",
+            { className: "unmark", onClick: appendStream.bind(null, username, username) },
+            "watch"
+          ) : null
         )
       )
     );
@@ -82,10 +93,10 @@ var ViewBookmarks = _react2["default"].createClass({
   },
   addBookmark: function addBookmark(e) {
     e.preventDefault();
-    var _props2 = this.props;
-    var fireRef = _props2.fireRef;
-    var userData = _props2.userData;
-    var versionData = _props2.versionData;
+    var _props3 = this.props;
+    var fireRef = _props3.fireRef;
+    var userData = _props3.userData;
+    var versionData = _props3.versionData;
 
     var username = this.refs["new-bookmark"].value;
 
@@ -104,9 +115,9 @@ var ViewBookmarks = _react2["default"].createClass({
   componentDidMount: function componentDidMount() {
     var _this = this;
 
-    var _props3 = this.props;
-    var fireRef = _props3.fireRef;
-    var userData = _props3.userData;
+    var _props4 = this.props;
+    var fireRef = _props4.fireRef;
+    var userData = _props4.userData;
 
     fireRef.usersRef.child(userData._id + "/bookmarks/users").once("value").then(function (snap) {
       _this.setState({
@@ -119,19 +130,21 @@ var ViewBookmarks = _react2["default"].createClass({
     refNode.on("child_removed", this.removedBookmark);
   },
   componentWillUnmount: function componentWillUnmount() {
-    var _props4 = this.props;
-    var fireRef = _props4.fireRef;
-    var userData = _props4.userData;
+    var _props5 = this.props;
+    var fireRef = _props5.fireRef;
+    var userData = _props5.userData;
 
     var refNode = fireRef.usersRef.child(userData._id + "/bookmarks/users");
     refNode.off("child_added", this.newBookmark);
     refNode.off("child_removed", this.removedBookmark);
   },
   render: function render() {
-    var _props5 = this.props;
-    var fireRef = _props5.fireRef;
-    var userData = _props5.userData;
-    var popUpHandler = _props5.methods.popUpHandler;
+    var _props6 = this.props;
+    var fireRef = _props6.fireRef;
+    var userData = _props6.userData;
+    var _props6$methods = _props6.methods;
+    var appendStream = _props6$methods.appendStream;
+    var popUpHandler = _props6$methods.popUpHandler;
 
     var bookmarkList = Object.keys(this.state.bookmarks).map(function (bookmarkID) {
       return _react2["default"].createElement(BookmarkItem, _extends({
@@ -139,7 +152,10 @@ var ViewBookmarks = _react2["default"].createClass({
       }, {
         fireRef: fireRef,
         userData: userData,
-        username: bookmarkID
+        username: bookmarkID,
+        methods: {
+          appendStream: appendStream
+        }
       }));
     }).reverse();
 

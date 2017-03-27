@@ -40,7 +40,19 @@ var _bookmarkBtnJsx2 = _interopRequireDefault(_bookmarkBtnJsx);
 var PlayerStream = _react2["default"].createClass({
   displayName: "PlayerStream",
   getInitialState: function getInitialState() {
-    return { chatOpen: true, menuOpen: false, doScroll: true, nameScroll1: 0, nameScroll2: 0, time: 0, playing: true, playerReady: false };
+    return {
+      chatOpen: true,
+      menuOpen: false,
+      doScroll: true,
+      nameScroll1: 0,
+      nameScroll2: 0,
+      time: 0,
+      playing: true,
+      playerReady: false,
+      suggestedHost: null,
+      watchingHost: false,
+      overrideStreamName: null
+    };
   },
   toggleMenu: function toggleMenu(type) {
     switch (type) {
@@ -132,7 +144,7 @@ var PlayerStream = _react2["default"].createClass({
       }
     }, 10);
   },
-  makePlayer: function makePlayer() {
+  makePlayer: function makePlayer(overrideName) {
     var _this2 = this;
 
     var _props2 = this.props;
@@ -140,12 +152,12 @@ var PlayerStream = _react2["default"].createClass({
     var name = _props2.name;
 
     var options = {};
-    vod ? options.video = vod : options.channel = name;
+    vod ? options.video = vod : options.channel = overrideName || name;
     // console.log("player options", options);
     var player = new Twitch.Player(this.refs.video, options);
     this.player = player;
-    player.setMuted(true);
     player.addEventListener(Twitch.Player.READY, function () {
+      player.setMuted(true);
       console.log('Player is ready!');
       _this2.setState({
         playerReady: true
@@ -166,14 +178,56 @@ var PlayerStream = _react2["default"].createClass({
       });
       console.log('Player is playing!');
     });
-    if (vod) {
-      player.addEventListener(Twitch.Player.PAUSE, function () {
-        _this2.setState({
-          playing: false
-        });
-        console.log('Player is paused!');
+    player.addEventListener(Twitch.Player.PAUSE, function () {
+      _this2.setState({
+        playing: false
       });
-    }
+      console.log('Player is paused!');
+    });
+    player.addEventListener(Twitch.Player.ONLINE, function () {
+      console.log('Player is online!');
+    });
+    player.addEventListener(Twitch.Player.OFFLINE, function () {
+      console.log('Player is offline!');
+      setTimeout(function () {
+        _this2.checkOnlineStatus().then(function (bool) {
+          if (!bool) {
+            _this2.checkHost().then(function (data) {
+              if (data.hosts[0].target_login) _this2.suggestHost(data);
+            });
+          }
+        });
+      }, 1000 * 5);
+    });
+  },
+  replaceVideo: function replaceVideo(username) {
+    this.player = null;
+    this.makePlayer(username);
+    this.setState({
+      watchingHost: true
+    });
+  },
+  migrateStream: function migrateStream(username, displayName) {
+    var _props3 = this.props;
+    var name = _props3.name;
+    var vod = _props3.vod;
+    var _props3$methods = _props3.methods;
+    var replaceStream = _props3$methods.replaceStream;
+    var appendStream = _props3$methods.appendStream;
+    var spliceStream = _props3$methods.spliceStream;
+    var layoutTools = _props3$methods.layoutTools;
+
+    // appendStream(username, displayName);
+    // setTimeout(() => {
+    //   spliceStream(name, vod);
+    //   setTimeout(() => {
+    //     layoutTools("setStreamToView");
+    //   }, 100);
+    // }, 100);
+    replaceStream(name, vod, username, displayName);
+    setTimeout(function () {
+      layoutTools("setStreamToView");
+    }, 100);
   },
   makeTime: function makeTime(time) {
     // http://stackoverflow.com/a/11486026/4107851
@@ -197,6 +251,61 @@ var PlayerStream = _react2["default"].createClass({
   pauseVOD: function pauseVOD() {
     this.player.pause();
   },
+  checkOnlineStatus: function checkOnlineStatus() {
+    var name = this.props.name;
+
+    return new Promise(function (resolve, reject) {
+      _modulesClientLoadData2["default"].call(this, function (e) {
+        console.error(e.stack);
+      }, {
+        username: name
+      }).then(function (methods) {
+        methods.getStreamByName().then(function (data) {
+          // console.log(name, ", data:", data);
+          // if(name === "spawnofodd") console.log(data);
+          console.log("Check online status", data);
+          resolve(!!data.stream);
+        })["catch"](function (e) {
+          return console.error(e ? e.stack : e);
+        });
+      })["catch"](function (e) {
+        return console.error(e ? e.stack : e);
+      });
+    });
+  },
+  checkHost: function checkHost() {
+    var name = this.props.name;
+
+    return new Promise(function (resolve, reject) {
+      _modulesClientLoadData2["default"].call(this, function (e) {
+        console.error(e.stack);
+      }, {
+        username: name
+      }).then(function (methods) {
+        methods.getHostingByName().then(function (data) {
+          // console.log(name, ", data:", data);
+          // if(name === "spawnofodd") console.log(data);
+          console.log("Check host", data);
+          resolve(data);
+        })["catch"](function (e) {
+          return console.error(e ? e.stack : e);
+        });
+      })["catch"](function (e) {
+        return console.error(e ? e.stack : e);
+      });
+    });
+  },
+  suggestHost: function suggestHost(data) {
+    // console.log("Suggest host", data);
+    var username = data.hosts[0].target_login;
+    var displayName = data.hosts[0].target_display_name;
+    this.setState({
+      suggestedHost: {
+        username: username,
+        displayName: displayName
+      }
+    });
+  },
   componentDidMount: function componentDidMount() {
     var _this3 = this;
 
@@ -206,6 +315,14 @@ var PlayerStream = _react2["default"].createClass({
       _this3.toggleMenu("close");
     }, false) : null;
     if (this.props.isFor === "video") this.makePlayer();
+
+    this.checkOnlineStatus().then(function (bool) {
+      if (!bool) {
+        _this3.checkHost().then(function (data) {
+          if (data.hosts[0].target_login) _this3.suggestHost(data);
+        });
+      }
+    });
   },
   componentWillUnmount: function componentWillUnmount() {
     delete this._mounted;
@@ -215,26 +332,27 @@ var PlayerStream = _react2["default"].createClass({
     var _this4 = this;
 
     // console.log(this.props);
-    var _props3 = this.props;
-    var fireRef = _props3.fireRef;
-    var userData = _props3.userData;
-    var name = _props3.name;
-    var display_name = _props3.display_name;
-    var auth = _props3.auth;
-    var inView = _props3.inView;
-    var isFor = _props3.isFor;
-    var index = _props3.index;
-    var vod = _props3.vod;
-    var versionData = _props3.versionData;
-    var _props3$methods = _props3.methods;
-    var spliceStream = _props3$methods.spliceStream;
-    var togglePlayer = _props3$methods.togglePlayer;
-    var alertAuthNeeded = _props3$methods.alertAuthNeeded;
-    var layoutTools = _props3$methods.layoutTools;
-    var panelsHandler = _props3$methods.panelsHandler;
-    var putInView = _props3$methods.putInView;
-    var popUpHandler = _props3$methods.popUpHandler;
-    var alertHandler = _props3$methods.alertHandler;
+    var _props4 = this.props;
+    var fireRef = _props4.fireRef;
+    var userData = _props4.userData;
+    var name = _props4.name;
+    var display_name = _props4.display_name;
+    var auth = _props4.auth;
+    var inView = _props4.inView;
+    var isFor = _props4.isFor;
+    var index = _props4.index;
+    var vod = _props4.vod;
+    var versionData = _props4.versionData;
+    var _props4$methods = _props4.methods;
+    var appendStream = _props4$methods.appendStream;
+    var spliceStream = _props4$methods.spliceStream;
+    var togglePlayer = _props4$methods.togglePlayer;
+    var alertAuthNeeded = _props4$methods.alertAuthNeeded;
+    var layoutTools = _props4$methods.layoutTools;
+    var panelsHandler = _props4$methods.panelsHandler;
+    var putInView = _props4$methods.putInView;
+    var popUpHandler = _props4$methods.popUpHandler;
+    var alertHandler = _props4$methods.alertHandler;
     var _state = this.state;
     var menuOpen = _state.menuOpen;
     var nameScroll1 = _state.nameScroll1;
@@ -242,6 +360,8 @@ var PlayerStream = _react2["default"].createClass({
     var time = _state.time;
     var playing = _state.playing;
     var playerReady = _state.playerReady;
+    var suggestedHost = _state.suggestedHost;
+    var watchingHost = _state.watchingHost;
 
     switch (isFor) {
       case "video":
@@ -297,6 +417,46 @@ var PlayerStream = _react2["default"].createClass({
                   _react2["default"].createElement("div", null)
                 )
               ),
+              suggestedHost ? _react2["default"].createElement(
+                "div",
+                { className: "host" },
+                _react2["default"].createElement(
+                  "span",
+                  null,
+                  watchingHost ? "Now watching " + suggestedHost.displayName + " via " + display_name + "." : display_name + " is hosting " + suggestedHost.displayName + ".",
+                  " ",
+                  _react2["default"].createElement(
+                    "span",
+                    {
+                      title: "Add this stream to the player",
+                      className: "btn",
+                      onClick: function () {
+                        appendStream(suggestedHost.username, suggestedHost.displayName);
+                      } },
+                    "Add To Player"
+                  ),
+                  " ",
+                  !watchingHost ? _react2["default"].createElement(
+                    "span",
+                    {
+                      title: "Replaces the current video with the hosted video, but doesn't change the chat",
+                      className: "btn",
+                      onClick: function () {
+                        _this4.replaceVideo(suggestedHost.username);
+                      } },
+                    "Replace Video"
+                  ) : _react2["default"].createElement(
+                    "span",
+                    {
+                      title: "Closes the current stream player and adds the hosted stream",
+                      className: "btn",
+                      onClick: function () {
+                        _this4.migrateStream(suggestedHost.username, suggestedHost.displayName);
+                      } },
+                    "Migrate Stream"
+                  )
+                )
+              ) : null,
               _react2["default"].createElement(
                 "div",
                 { onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave"), className: "streamer" },
@@ -489,7 +649,7 @@ exports["default"] = _react2["default"].createClass({
     switch (type) {
       case "setStreamToView":
         var count = 1;
-        console.log("layout", this.props.layout);
+        // console.log("layout", this.props.layout);
         switch (this.props.layout) {
           case "by-2":
             count = 2;
@@ -498,8 +658,8 @@ exports["default"] = _react2["default"].createClass({
             count = 3;
             break;
         }
-        console.log("scroll value", videoList.offsetHeight / count * this.refs.selectStream.value);
-        console.log("select value", this.refs.selectStream.value);
+        // console.log("scroll value", (videoList.offsetHeight / count) * this.refs.selectStream.value);
+        // console.log("select value", this.refs.selectStream.value);
         videoList.scrollTop = videoList.offsetHeight / count * this.refs.selectStream.value;
         // chatList.scrollTop = chatList.offsetHeight * this.refs.selectStream.value
         this.setState({
@@ -579,23 +739,25 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     var _this6 = this;
 
-    var _props4 = this.props;
-    var fireRef = _props4.fireRef;
-    var userData = _props4.userData;
-    var auth = _props4.auth;
-    var playerState = _props4.playerState;
-    var panelData = _props4.panelData;
-    var versionData = _props4.versionData;
-    var _props4$methods = _props4.methods;
-    var spliceStream = _props4$methods.spliceStream;
-    var clearPlayer = _props4$methods.clearPlayer;
-    var togglePlayer = _props4$methods.togglePlayer;
-    var alertAuthNeeded = _props4$methods.alertAuthNeeded;
-    var setLayout = _props4$methods.setLayout;
-    var panelsHandler = _props4$methods.panelsHandler;
-    var popUpHandler = _props4$methods.popUpHandler;
-    var alertHandler = _props4$methods.alertHandler;
-    var dataObject = _props4.data.dataObject;
+    var _props5 = this.props;
+    var fireRef = _props5.fireRef;
+    var userData = _props5.userData;
+    var auth = _props5.auth;
+    var playerState = _props5.playerState;
+    var panelData = _props5.panelData;
+    var versionData = _props5.versionData;
+    var _props5$methods = _props5.methods;
+    var appendStream = _props5$methods.appendStream;
+    var spliceStream = _props5$methods.spliceStream;
+    var replaceStream = _props5$methods.replaceStream;
+    var clearPlayer = _props5$methods.clearPlayer;
+    var togglePlayer = _props5$methods.togglePlayer;
+    var alertAuthNeeded = _props5$methods.alertAuthNeeded;
+    var setLayout = _props5$methods.setLayout;
+    var panelsHandler = _props5$methods.panelsHandler;
+    var popUpHandler = _props5$methods.popUpHandler;
+    var alertHandler = _props5$methods.alertHandler;
+    var dataObject = _props5.data.dataObject;
     var layout = this.props.layout;
     var _state2 = this.state;
     var streamInView = _state2.streamInView;
@@ -637,7 +799,9 @@ exports["default"] = _react2["default"].createClass({
               isFor: "video",
               index: ind,
               methods: {
+                appendStream: appendStream,
                 spliceStream: spliceStream,
+                replaceStream: replaceStream,
                 togglePlayer: togglePlayer,
                 panelsHandler: panelsHandler,
                 alertAuthNeeded: alertAuthNeeded,
@@ -669,17 +833,17 @@ exports["default"] = _react2["default"].createClass({
           { className: "tools" },
           _react2["default"].createElement(
             "div",
-            { title: "Closes all streams in the player", className: "closer bold bgc-red-priority", onClick: clearPlayer },
+            { title: "Closes all streams in the player", className: "main-tool closer bold bgc-red-priority", onClick: clearPlayer },
             "x"
           ),
           _react2["default"].createElement(
             "div",
-            { title: "Shrink the player to the side of the browser", className: "flexer", onClick: togglePlayer.bind(null, "toggle") },
+            { title: "Shrink the player to the side of the browser", className: "main-tool flexer", onClick: togglePlayer.bind(null, "toggle") },
             playerState.playerCollapsed ? "Expand" : "Collapse"
           ),
           _react2["default"].createElement(
             "div",
-            { className: "hide", onClick: this.toggleChat.bind(this, "toggle") },
+            { className: "main-tool hide", onClick: this.toggleChat.bind(this, "toggle") },
             chatOpen ? "Hide" : "Show",
             " Chat"
           ),
@@ -688,7 +852,7 @@ exports["default"] = _react2["default"].createClass({
             { className: "wrap" },
             _react2["default"].createElement(
               "select",
-              { title: "Choose a layout for the streams", ref: "selectLayout", className: "layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setLayout") },
+              { title: "Choose a layout for the streams", ref: "selectLayout", className: "main-tool  layout", defaultValue: 0, onChange: this.layoutTools.bind(null, "setLayout") },
               ["", "Singular", dataArray.length > 2 ? "By 2" : null, dataArray.length > 3 ? "By 3" : null].map(function (layoutName) {
                 if (layoutName !== null) return _react2["default"].createElement(
                   "option",
@@ -712,7 +876,7 @@ exports["default"] = _react2["default"].createClass({
             { className: "wrap" },
             _react2["default"].createElement(
               "select",
-              { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "streamers", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
+              { title: "Choose which stream and chat appears as the main or in-view stream", ref: "selectStream", className: "main-tool streamers", defaultValue: 0, onChange: this.layoutTools.bind(null, "setStreamToView") },
               dataObject ? dataArray.map(function (key, ind) {
                 return _react2["default"].createElement(
                   "option",
@@ -730,7 +894,35 @@ exports["default"] = _react2["default"].createClass({
                 "Change In-View Stream/Chat"
               )
             )
-          ) : null
+          ) : null,
+          _react2["default"].createElement(
+            "div",
+            { className: "wrap" },
+            _react2["default"].createElement(
+              "div",
+              { className: "main-tool multistream", onClick: function () {
+                  alertHandler({
+                    message: "Share this link with your friends!",
+                    options: ["close"],
+                    inputData: "https://www.amorrius.net?ms=" + dataArray.join(",")
+                  });
+                } },
+              _react2["default"].createElement(
+                "span",
+                null,
+                "Generate Multistream Link"
+              )
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "hover-msg" },
+              _react2["default"].createElement(
+                "span",
+                null,
+                "Generate Multistream Link"
+              )
+            )
+          )
         ),
         _react2["default"].createElement(_streamPanelsJsx2["default"], { panelData: panelData, methods: {
             panelsHandler: panelsHandler

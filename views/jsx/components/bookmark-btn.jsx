@@ -79,13 +79,13 @@ exports["default"] = _react2["default"].createClass({
           "version": versionData
         };
 
-        fireRef.usersRef.child(userData.name + "/bookmarks/users/" + givenUsername).set(bookmarkObject);
+        fireRef.usersRef.child(userData._id + "/bookmarks/users/" + givenUsername).set(bookmarkObject);
         this.setState({
           bookmarked: true
         });
         break;
       case "unmark":
-        fireRef.usersRef.child(userData.name + "/bookmarks/users/" + givenUsername).set(null);
+        fireRef.usersRef.child(userData._id + "/bookmarks/users/" + givenUsername).set(null);
         this.setState({
           bookmarked: false
         });
@@ -120,7 +120,7 @@ exports["default"] = _react2["default"].createClass({
     var userData = _props4.userData;
     var givenUsername = _props4.givenUsername;
 
-    var refNode = fireRef.usersRef.child(userData.name + "/bookmarks/users");
+    var refNode = fireRef.usersRef.child(userData._id + "/bookmarks/users");
     refNode.on("child_added", this.newBookmark);
     refNode.on("child_removed", this.removedBookmark);
   },
@@ -136,7 +136,9 @@ exports["default"] = _react2["default"].createClass({
     var userData = _props5.userData;
     var givenUsername = _props5.givenUsername;
 
-    fireRef.usersRef.child(userData.name + "/bookmarks/users/" + givenUsername).on("changed", this.removedBookmark);
+    var refNode = fireRef.usersRef.child(userData._id + "/bookmarks/users");
+    refNode.off("child_added", this.newBookmark);
+    refNode.off("child_removed", this.removedBookmark);
   },
   render: function render() {
     var bookmarked = this.state.bookmarked;
@@ -145,9 +147,11 @@ exports["default"] = _react2["default"].createClass({
     var userData = _props6.userData;
     var givenUsername = _props6.givenUsername;
     var named = _props6.named;
+    var versionData = _props6.versionData;
 
     // console.log(userData, fireRef, bookmarked);
     if (!userData || !fireRef) return null;
+    if (!versionData) return null;
     if (bookmarked === null) return null;
     if (userData.name === givenUsername) return null;
     return _react2["default"].createElement(

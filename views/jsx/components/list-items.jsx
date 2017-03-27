@@ -31,6 +31,7 @@ var StreamListItem = _react2["default"].createClass({
     var _props = this.props;
     var auth = _props.auth;
     var userData = _props.userData;
+    var versionData = _props.versionData;
     var fireRef = _props.fireRef;
     var index = _props.index;
     var homepage = _props.homepage;
@@ -77,12 +78,12 @@ var StreamListItem = _react2["default"].createClass({
     }
 
     var viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
-    var hoverOptions = !homepage ? _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, { auth: auth, fireRef: fireRef, stream: true, name: name, display_name: display_name, userData: userData, clickCallback: appendStream }) : null;
+    var hoverOptions = !homepage ? _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, { auth: auth, fireRef: fireRef, stream: true, name: name, display_name: display_name, userData: userData, clickCallback: appendStream, versionData: versionData }) : null;
 
     return _react2["default"].createElement(
       "li",
       { className: "stream-list-item" + (homepage ? " clickable home" : ""), onClick: function () {
-          displayStream(index);
+          if (typeof displayStream === "function") displayStream(index);
         } },
       _react2["default"].createElement(
         "div",

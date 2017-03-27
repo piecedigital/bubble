@@ -182,7 +182,7 @@ nav {
   color: white;
   text-shadow: 2px 2px 2px black; }
 
-@media (max-width: 1245px) {
+@media (max-width: 1470) {
   nav {
     min-width: 224px;
     height: 100%;
@@ -293,16 +293,16 @@ nav {
       position: absolute;
       bottom: 100%;
       left: 0; }
-      .player > .wrapper > .tools > *:not(.wrap), .player > .wrapper > .tools select {
+      .player > .wrapper > .tools > *:not(.wrap), .player > .wrapper > .tools .main-tool {
         background-color: #00c8fa;
         max-height: 32px;
         padding: 7.2px 8px;
         border: none;
         cursor: pointer;
         border-right: 2px solid #0082b4; }
-        .player > .wrapper > .tools > *:not(.wrap).streamers, .player > .wrapper > .tools select.streamers {
+        .player > .wrapper > .tools > *:not(.wrap).streamers, .player > .wrapper > .tools .main-tool.streamers {
           font-weight: bold; }
-        .player > .wrapper > .tools > *:not(.wrap):hover, .player > .wrapper > .tools select:hover {
+        .player > .wrapper > .tools > *:not(.wrap):hover, .player > .wrapper > .tools .main-tool:hover {
           background-color: #96e6ff; }
       .player > .wrapper > .tools .wrap {
         position: relative; }
@@ -421,6 +421,29 @@ nav {
     .player-stream .tools .mobile {
       display: none;
       text-align: left; }
+    .player-stream .tools .host {
+      display: -ms-flex ;
+      display: -moz-flex ;
+      display: -webkit-box ;
+      display: flex ;
+      flex-direction: row;
+      position: absolute;
+      bottom: 100%;
+      left: 224px;
+      width: 576px;
+      height: 32px;
+      border: none;
+      box-shadow: inset 0 0 0 2px #0082b4;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      cursor: default; }
+      .player-stream .tools .host .btn {
+        padding: 0 8px;
+        background-color: #00aadc;
+        color: #1e1e1e;
+        cursor: pointer; }
     .player-stream .tools .follow.need-auth {
       color: rgba(0, 0, 0, 0.5);
       text-decoration: none; }
@@ -434,7 +457,7 @@ nav {
     background-color: #0082b4;
     padding: 0;
     text-align: center; }
-    .player-stream .tools > *:not(.mobile) {
+    .player-stream .tools > *:not(.mobile):not(.host) {
       width: 100%;
       max-height: 0;
       height: 0;
@@ -442,7 +465,7 @@ nav {
       padding-bottom: 0;
       border-right: none;
       overflow: hidden; }
-      .player-stream .tools > *:not(.mobile):not(:last-child) {
+      .player-stream .tools > *:not(.mobile):not(.host):not(:last-child) {
         border-bottom: 0px solid #0082b4; }
     .player-stream .tools.menu-open {
       padding: 2px; }
@@ -1453,13 +1476,21 @@ nav {
     display: inline-block;
     color: black;
     margin-right: 16px; }
+  .bookmark-item label .tools {
+    display: inline-block; }
   .bookmark-item label span {
     display: inline-block;
     padding: 4px 8px;
-    background-color: rgba(255, 165, 0, 0.8);
+    background-color: rgba(0, 200, 250, 0.8);
     cursor: pointer; }
+    .bookmark-item label span:not(:last-child) {
+      border-right: 1px solid black; }
+    .bookmark-item label span.warning {
+      background-color: rgba(255, 165, 0, 0.8); }
+      .bookmark-item label span.warning:hover {
+        background-color: rgba(255, 0, 0, 0.8); }
     .bookmark-item label span:hover {
-      background-color: rgba(255, 0, 0, 0.8);
+      background-color: rgba(0, 170, 220, 0.8);
       color: white; }
 
 .notif-item:not(:last-child) {
@@ -1883,6 +1914,8 @@ nav {
         .alert .box .options button:hover {
           box-shadow: 0 0 8px 0 black;
           transform: scale(1.1); }
+    .alert .box .input {
+      text-align: center; }
     .alert .box .links {
       display: -ms-flex ;
       display: -moz-flex ;

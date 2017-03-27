@@ -125,7 +125,9 @@ exports["default"] = _react2["default"].createClass({
     var fireRef = _props2.fireRef;
     var userData = _props2.userData;
     var data = _props2.data;
+    var versionData = _props2.versionData;
     var _props2$methods = _props2.methods;
+    var displayStream = _props2$methods.displayStream;
     var appendStream = _props2$methods.appendStream;
     var loadData = _props2$methods.loadData;
     var params = _props2.params;
@@ -153,6 +155,7 @@ exports["default"] = _react2["default"].createClass({
                       fireRef: fireRef,
                       auth: auth,
                       userData: userData,
+                      versionData: versionData,
                       data: itemData,
                       index: ind,
                       methods: {

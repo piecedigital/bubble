@@ -24,7 +24,7 @@ exports["default"] = _react2["default"].createClass({
   getLink: function getLink(name) {
     switch (name) {
       case "twitter":
-        var url = encodeURI("https://twitter.com/share" + ("?text=Come watch " + this.props.data.state.name + " on Twitch!") + ("&url=https://www.amorrius.net?ms=" + this.props.data.state.name) + "&hashtags=twitch,amorrius" + "&via=PieceDigital");
+        var url = encodeURI("https://twitter.com/share" + ("?text=Come watch " + this.props.data.state.name + " on Twitch!") + ("&url=https://www.amorrius.net?ms=" + this.props.data.state.name) + "&hashtags=twitch,amorrius" + "&via=Amorrius");
         return _react2["default"].createElement(
           "li",
           { className: "" + name },
@@ -61,7 +61,11 @@ exports["default"] = _react2["default"].createClass({
         { className: "box", onClick: function (e) {
             return e.nativeEvent.stopImmediatePropagation();
           } },
-        _react2["default"].createElement("div", { className: "message" }),
+        _react2["default"].createElement(
+          "div",
+          { className: "message" },
+          "Problem Loading Alert"
+        ),
         _react2["default"].createElement("ul", { className: "links" }),
         _react2["default"].createElement("div", { className: "options" })
       )
@@ -70,18 +74,19 @@ exports["default"] = _react2["default"].createClass({
     var message = data.message;
     var options = data.options;
     var links = data.links;
+    var inputData = data.inputData;
 
-    var optionsList = options.map(function (opt) {
+    var optionsList = options ? options.map(function (opt) {
       return _react2["default"].createElement(
         "button",
         { key: opt, onClick: _this[opt + "Option"] },
         opt
       );
-    });
+    }) : ["close"];
 
-    var linksList = links.map(function (name) {
+    var linksList = links ? links.map(function (name) {
       return _this.getLink(name);
-    });
+    }) : [];
 
     return _react2["default"].createElement(
       "div",
@@ -99,6 +104,13 @@ exports["default"] = _react2["default"].createClass({
           { className: "message" },
           _react2["default"].createElement("span", { dangerouslySetInnerHTML: { __html: message } })
         ),
+        inputData ? _react2["default"].createElement(
+          "div",
+          { className: "input" },
+          _react2["default"].createElement("input", { type: "text", value: inputData, onClick: function (e) {
+              return e.target.select();
+            }, readOnly: true })
+        ) : null,
         _react2["default"].createElement(
           "ul",
           { className: "links" },

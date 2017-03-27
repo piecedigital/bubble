@@ -295,9 +295,6 @@ exports["default"] = _react2["default"].createClass({
       return console.error(e);
     });
   },
-  search: function search(query) {
-    _reactRouter.browserHistory.push(encodeURI("/search/streams?q=" + query));
-  },
   spliceStream: function spliceStream(username, id) {
     console.log("removing stream", username);
     var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
@@ -314,11 +311,41 @@ exports["default"] = _react2["default"].createClass({
       });
     }
     if (Object.keys(streamersInPlayer).length === 0) {
+      console.log("no streams in player. collapsing");
       stateObj = Object.assign(stateObj, {
         playerCollapsed: true
       });
     }
     this.setState(stateObj);
+  },
+  replaceStream: function replaceStream(username, id, replaceUsername, replaceDisplayName) {
+    console.log("removing stream", username);
+    var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    var streamersInPlayerArray = Object.keys(streamersInPlayer);
+    var indexOfOld = streamersInPlayerArray.indexOf(username);
+    delete streamersInPlayer[id || username];
+    streamersInPlayer[replaceUsername] = replaceDisplayName || replaceUsername;
+    streamersInPlayerArray.splice(indexOfOld, 1, replaceUsername);
+    var newObject = {};
+    streamersInPlayerArray.map(function (usernameOrID) {
+      newObject[usernameOrID] = streamersInPlayer[usernameOrID];
+    });
+    console.log("New streamersInPlayer:", newObject);
+
+    var stateObj = {
+      streamersInPlayer: newObject
+    };
+    if (username === this.state.panelDataFor) {
+      stateObj = Object.assign(stateObj, {
+        panelData: [],
+        panelDataFor: ""
+      });
+    }
+
+    this.setState(stateObj);
+  },
+  search: function search(query) {
+    _reactRouter.browserHistory.push(encodeURI("/search/streams?q=" + query));
   },
   clearPlayer: function clearPlayer() {
     this.setState({
@@ -661,7 +688,9 @@ exports["default"] = _react2["default"].createClass({
         versionData: versionData,
         initState: initState,
         methods: {
+          appendStream: this.appendStream,
           spliceStream: this.spliceStream,
+          replaceStream: this.replaceStream,
           clearPlayer: this.clearPlayer,
           expandPlayer: this.expandPlayer,
           collapsePlayer: this.collapsePlayer,
@@ -722,6 +751,7 @@ exports["default"] = _react2["default"].createClass({
         location: this.props.location,
         initState: initState,
         methods: {
+          appendStream: this.appendStream,
           popUpHandler: this.popUpHandler
         }
       }),

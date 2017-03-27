@@ -18,89 +18,82 @@ var _componentsHoverOptionsJsx = require("./components/hover-options.jsx");
 
 var _modulesClientHelperTools = require("../../modules/client/helper-tools");
 
+var _componentsListItemsJsx = require("./components/list-items.jsx");
+
 // components
 var components = {};
 
 // list item for streams matching the search
-components.StreamsListItem = _react2["default"].createClass({
-  displayName: "stream-ListItem",
-  render: function render() {
-    // console.log(this.props);
-    var _props = this.props;
-    var auth = _props.auth;
-    var fireRef = _props.fireRef;
-    var index = _props.index;
-    var userData = _props.userData;
-    var appendStream = _props.methods.appendStream;
-    var _props$data = _props.data;
-    var game = _props$data.game;
-    var viewers = _props$data.viewers;
-    var title = _props$data.title;
-    var id = _props$data._id;
-    var preview = _props$data.preview;
-    var _props$data$channel = _props$data.channel;
-    var mature = _props$data$channel.mature;
-    var logo = _props$data$channel.logo;
-    var name = _props$data$channel.name;
-    var display_name = _props$data$channel.display_name;
-    var language = _props$data$channel.language;
-
-    var viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-    var hoverOptions = _react2["default"].createElement(_componentsHoverOptionsJsx.ListItemHoverOptions, {
-      auth: auth,
-      fireRef: fireRef,
-      stream: true,
-      name: name,
-      display_name: display_name,
-      userData: userData,
-      clickCallback: appendStream });
-
-    return _react2["default"].createElement(
-      "li",
-      { className: "stream-list-item search" },
-      _react2["default"].createElement(
-        "div",
-        { className: "wrapper" },
-        _react2["default"].createElement(
-          "div",
-          { className: "image" },
-          _react2["default"].createElement(_modulesClientHelperTools.CImg, {
-            style: {
-              width: 216,
-              height: 121.5
-            },
-            className: "test",
-            src: preview.medium })
-        ),
-        _react2["default"].createElement(
-          "div",
-          { className: "info" },
-          _react2["default"].createElement(
-            "div",
-            { className: "channel-name" },
-            name
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "title" },
-            title
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "game" },
-            "Live with \"" + game + "\""
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "viewers" },
-            "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
-          )
-        ),
-        hoverOptions
-      )
-    );
-  }
-});
+// components.StreamsListItem = React.createClass({
+//   displayName: "stream-ListItem",
+//   render() {
+//     // console.log(this.props);
+//     const {
+//       auth,
+//       fireRef,
+//       index,
+//       userData,
+//       methods: {
+//         appendStream
+//       },
+//       data: {
+//         game,
+//         viewers,
+//         title,
+//         _id: id,
+//         preview,
+//         channel: {
+//           mature,
+//           logo,
+//           name,
+//           display_name,
+//           language
+//         }
+//       }
+//     } = this.props;
+//     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
+//     let hoverOptions = <ListItemHoverOptions
+//                         auth={auth}
+//                         fireRef={fireRef}
+//                         stream={true}
+//                         name={name}
+//                         display_name={display_name}
+//                         userData={userData}
+//                         clickCallback={appendStream} />;
+//
+//     return (
+//       <li className={`stream-list-item search`}>
+//         <div className="wrapper">
+//           <div className="image">
+//             <CImg
+//               style={{
+//                 width: 216,
+//                 height: 121.5,
+//               }}
+//               className="test"
+//               src={preview.medium} />
+//           </div>
+//           <div className="info">
+//             <div className="channel-name">
+//               {name}
+//             </div>
+//             <div className="title">
+//               {title}
+//             </div>
+//             <div className="game">
+//               {`Live with "${game}"`}
+//             </div>
+//             <div className="viewers">
+//               {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+//             </div>
+//           </div>
+//           {hoverOptions}
+//         </div>
+//       </li>
+//     )
+//   }
+// })
+components.StreamsListItem = _componentsListItemsJsx.StreamListItem;
 
 // primary section for the search component
 exports["default"] = _react2["default"].createClass({
@@ -116,9 +109,9 @@ exports["default"] = _react2["default"].createClass({
 
     limit = typeof limit === "number" ? limit : this.state.limit || 25;
     offset = typeof offset === "number" ? offset : this.state.requestOffset;
-    var _props2 = this.props;
-    var params = _props2.params;
-    var location = _props2.location;
+    var _props = this.props;
+    var params = _props.params;
+    var location = _props.location;
 
     if (_modulesClientLoadData2["default"]) {
       (function () {
@@ -183,15 +176,16 @@ exports["default"] = _react2["default"].createClass({
     var requestOffset = _state.requestOffset;
     var dataArray = _state.dataArray;
     var component = _state.component;
-    var _props3 = this.props;
-    var auth = _props3.auth;
-    var fireRef = _props3.fireRef;
-    var userData = _props3.userData;
-    var data = _props3.data;
-    var _props3$methods = _props3.methods;
-    var appendStream = _props3$methods.appendStream;
-    var loadData = _props3$methods.loadData;
-    var location = _props3.location;
+    var _props2 = this.props;
+    var auth = _props2.auth;
+    var fireRef = _props2.fireRef;
+    var userData = _props2.userData;
+    var versionData = _props2.versionData;
+    var data = _props2.data;
+    var _props2$methods = _props2.methods;
+    var appendStream = _props2$methods.appendStream;
+    var loadData = _props2$methods.loadData;
+    var location = _props2.location;
 
     if (component) {
       var _ret2 = (function () {
@@ -214,6 +208,7 @@ exports["default"] = _react2["default"].createClass({
                       auth: auth,
                       fireRef: fireRef,
                       userData: userData,
+                      versionData: versionData,
                       key: ind,
                       data: itemData,
                       index: ind,

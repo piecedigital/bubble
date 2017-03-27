@@ -412,6 +412,42 @@ function loadData(errorCB) {
         delete options.id;
         return makeRequest(okayCB, "videos/" + id);
       },
+      getHostingByName: function getHostingByName(okayCB) {
+        delete options.stream_type;
+        delete options.limit;
+        var username = options.username;
+        delete options.username;
+        options.client_id = options.headers["Client-ID"];
+        // options.headers = options.headers || {};
+        return new Promise(function (resolve, reject) {
+
+          // start by getting the first user ID
+          loadData(function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            console.error(e.stack || e);
+          }, {
+            username: username
+          }).then(function (methods) {
+            methods.getUserID().then(function (data) {
+              // console.log("user id", data);
+              // get the target user ID
+              return makeRequest(okayCB, "/get-host/" + data.users[0]._id, true).then(function (data) {
+                return resolve(data);
+              })["catch"](function () {
+                var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                return reject(e);
+              });
+            })["catch"](function () {
+              var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+              return console.error(e.stack || e);
+            });
+          })["catch"](function () {
+            var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            return console.error(e.stack || e);
+          });
+        });
+      },
       followStream: function followStream(okayCB) {
         delete options.stream_type;
         delete options.limit;
