@@ -444,7 +444,7 @@ nav {
         color: white !important; }
       .player-stream .tools .host .btn {
         padding: 8px;
-        background-color: #0082b4;
+        background-color: #00aadc;
         cursor: pointer; }
     .player-stream .tools .follow.need-auth {
       color: rgba(0, 0, 0, 0.5);
@@ -541,6 +541,8 @@ nav {
           margin: auto 0;
           background-color: black;
           text-align: center; }
+  .player-stream.in-view > .tools-wrapper .tools .mobile {
+    background-color: #00e1c8; }
 
 .chat-list.hide-chat {
   width: 0 !important;
