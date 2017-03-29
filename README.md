@@ -54,11 +54,13 @@
   - Share link "via" now accurate **ok**
 - Bug fixed, Improvement: 0.13.0
   - Fixed bookmarks **ok**
-  - New host suggestion when a channel goes offline
+  - New host suggestion when a channel goes offline **ok**
 - Patch: 0.13.1
   - Checking for host should happen constantly after the stream goes offline **ok**
 - Patch: 0.13.2
   - Fixed CSS for host suggestion **ok**
+- Improvements: 0.13.3
+  - Improved CSS for host suggestion **ok**
 
 
 # Things to add eventually

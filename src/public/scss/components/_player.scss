@@ -119,7 +119,7 @@
     }
     &.menu-open {
       padding: 2px;
-      > *:not(.mobile) {
+      > *:not(.mobile):not(.host) {
         max-height: 100%;
         height: auto;
         padding-top: .25*$em;
@@ -330,16 +330,21 @@
       position: absolute;
       bottom: 100%;
       left: 14*$em;
-      width: 44*$em;
+      width: 60*$em;
       height: 2*$em;
       border: none;
-      box-shadow: inset 0 0 0 2px $dimmer;
+      // box-shadow: inset 0 0 0 2px $dimmer;
+      background-color: transparent;
+      color: white;
       @include userSelect;
       cursor: default;
+      a {
+        color: white !important;
+      }
       .btn {
-        padding: 0 8px;
-        background-color: $dim;
-        color: $offBlack;
+        padding:  8px;
+        background-color: $dimmer;
+        // color: $offBlack;
         cursor: pointer;
       }
     }
