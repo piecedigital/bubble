@@ -430,19 +430,21 @@ nav {
       position: absolute;
       bottom: 100%;
       left: 224px;
-      width: 704px;
+      width: 960px;
       height: 32px;
       border: none;
-      box-shadow: inset 0 0 0 2px #0082b4;
+      background-color: transparent;
+      color: white;
       -webkit-user-select: none;
       -ms-user-select: none;
       -moz-user-select: none;
       user-select: none;
       cursor: default; }
+      .player-stream .tools .host a {
+        color: white !important; }
       .player-stream .tools .host .btn {
-        padding: 0 8px;
-        background-color: #00aadc;
-        color: #1e1e1e;
+        padding: 8px;
+        background-color: #0082b4;
         cursor: pointer; }
     .player-stream .tools .follow.need-auth {
       color: rgba(0, 0, 0, 0.5);
@@ -469,15 +471,15 @@ nav {
         border-bottom: 0px solid #0082b4; }
     .player-stream .tools.menu-open {
       padding: 2px; }
-      .player-stream .tools.menu-open > *:not(.mobile) {
+      .player-stream .tools.menu-open > *:not(.mobile):not(.host) {
         max-height: 100%;
         height: auto;
         padding-top: 4px;
         padding-bottom: 4px;
         overflow: hidden; }
-        .player-stream .tools.menu-open > *:not(.mobile).streamer {
+        .player-stream .tools.menu-open > *:not(.mobile):not(.host).streamer {
           display: none; }
-        .player-stream .tools.menu-open > *:not(.mobile):not(:last-child) {
+        .player-stream .tools.menu-open > *:not(.mobile):not(.host):not(:last-child) {
           border-bottom: 2px solid #0082b4; }
       .player-stream .tools.menu-open .mobile div.lines div:nth-child(1) {
         position: relative;
