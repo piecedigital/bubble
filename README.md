@@ -60,7 +60,7 @@
 - Patch: 0.13.2
   - Fixed CSS for host suggestion **ok**
 - Improvements: 0.13.3
-  - Improved CSS for host suggestion **ok**
+  - Improved UI for host suggestion **ok**
 
 
 # Things to add eventually
