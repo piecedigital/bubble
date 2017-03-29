@@ -148,20 +148,6 @@
                 position: relative;
                 top: -12px;
               }
-              // &:nth-child(1) {
-              //   position: relative;
-              //   top: 6px;
-              //   transform: rotateZ(45deg);
-              // }
-              // &:nth-child(2) {
-              //   left: 50%;
-              //   max-width: 0;
-              // }
-              // &:nth-child(3) {
-              //   position: relative;
-              //   top: -6px;
-              //   transform: rotateZ(-45deg);
-              // }
             }
           }
         }
@@ -343,7 +329,7 @@
       }
       .btn {
         padding:  8px;
-        background-color: $dimmer;
+        background-color: $dim;
         // color: $offBlack;
         cursor: pointer;
       }
@@ -359,6 +345,15 @@
     .closer {}
   }
   @include streamTools;
+  &.in-view {
+    > .tools-wrapper {
+      .tools {
+        .mobile {
+          background-color: mix($primary, $green);
+        }
+      }
+    }
+  }
 }
 
 .chat-list.hide-chat {
