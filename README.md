@@ -61,8 +61,10 @@
   - Fixed CSS for host suggestion **ok**
 - Improvements: 0.13.3
   - Improved UI for host suggestion **ok**
-- Improvements: 0.13.3
+- Improvements: 0.13.4
   - In-view stream now have a hint of green in the menu **ok**
+- Improvements: 0.13.5
+  - Host suggestion goes away when returning to hoster **ok**
 
 
 # Things to add eventually

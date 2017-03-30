@@ -18,9 +18,11 @@ const PlayerStream = React.createClass({
     time: 0,
     playing: true,
     playerReady: false,
-    suggestedHost: null,
+    suggestedHost: {
+      name: "foo",
+      displayName: "FOO"
+    },
     watchingHost: false,
-    overrideStreamName: null,
   }),
   toggleMenu(type) {
     switch (type) {
@@ -152,6 +154,13 @@ const PlayerStream = React.createClass({
     });
     player.addEventListener(Twitch.Player.ONLINE, () => {
       console.log('Player is online!');
+      if(this.state.suggestedHost) {
+        if(!this.state.watchingHost) {
+          this.setState({
+            suggestedHost: null
+          });
+        }
+      }
     });
     player.addEventListener(Twitch.Player.OFFLINE, () => {
       console.log('Player is offline!');
