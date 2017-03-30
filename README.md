@@ -65,6 +65,8 @@
   - In-view stream now have a hint of green in the menu **ok**
 - Improvements: 0.13.5
   - Host suggestion goes away when returning to hoster **ok**
+- Improvements: 0.13.6
+  - Changed multistream parsing. Should be complient with normal URL parsers **ok**
 
 
 # Things to add eventually

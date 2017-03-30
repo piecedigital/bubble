@@ -18,10 +18,7 @@ const PlayerStream = React.createClass({
     time: 0,
     playing: true,
     playerReady: false,
-    suggestedHost: {
-      name: "foo",
-      displayName: "FOO"
-    },
+    suggestedHost: null,
     watchingHost: false,
   }),
   toggleMenu(type) {
@@ -878,7 +875,7 @@ export default React.createClass({
                 alertHandler({
                   message: `Share this link with your friends!`,
                   options: ["close"],
-                  inputData: `https://www.amorrius.net?ms=${dataArray.join(",")}`
+                  inputData: `${window ? window.location.protocol : "http:"}//${window ? window.location.host : "amorrius.net"}${window ? window.location.pathname : ""}?ms=${dataArray.join("+")}`
                 });
               }}><span>Generate Multistream Link</span></div>
               <div className="hover-msg"><span>Generate Multistream Link</span></div>
