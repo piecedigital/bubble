@@ -111,10 +111,10 @@ exports["default"] = _react2["default"].createClass({
       }
     });
     // get queries
-    window.location.search.replace(/(\?|\&)([\w\d\_\-,]+)=([\w\d\_\-,]+)/g, function (_, symbol, key, value) {
+    window.location.search.replace(/(\?|\&)([\w\d\_\-]+)=([\w\d\_\-,\+]+)/g, function (_, symbol, key, value) {
       queryData[key] = value;
     });
-    document.cookie.replace(/([\w\d\_\-,]+)=([\w\d\_\-,]+)(;)?/g, function (_, key, value, symbol) {
+    document.cookie.replace(/([\w\d\_\-]+)=([\w\d\_\-,\+]+)(;)?/g, function (_, key, value, symbol) {
       queryData[key] = value;
     });
     // window.location.hash = "";
@@ -131,7 +131,8 @@ exports["default"] = _react2["default"].createClass({
 
     ["ms", "multistream", "multitwitch"].map(function (prop) {
       if (hashData[prop]) {
-        hashData[prop].split(",").map(function (name) {
+        hashData[prop].split("+").map(function (name) {
+          console.log(name);
           if (name) {
             name = name.replace(" ", "");
             MSObject[name] = name;

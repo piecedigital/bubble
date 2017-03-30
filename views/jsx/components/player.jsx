@@ -49,10 +49,7 @@ var PlayerStream = _react2["default"].createClass({
       time: 0,
       playing: true,
       playerReady: false,
-      suggestedHost: {
-        name: "foo",
-        displayName: "FOO"
-      },
+      suggestedHost: null,
       watchingHost: false
     };
   },
@@ -981,7 +978,7 @@ exports["default"] = _react2["default"].createClass({
                   alertHandler({
                     message: "Share this link with your friends!",
                     options: ["close"],
-                    inputData: "https://www.amorrius.net?ms=" + dataArray.join(",")
+                    inputData: (window ? window.location.protocol : "http:") + "//" + (window ? window.location.host : "amorrius.net") + (window ? window.location.pathname : "") + "?ms=" + dataArray.join("+")
                   });
                 } },
               _react2["default"].createElement(
