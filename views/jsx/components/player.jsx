@@ -49,9 +49,11 @@ var PlayerStream = _react2["default"].createClass({
       time: 0,
       playing: true,
       playerReady: false,
-      suggestedHost: null,
-      watchingHost: false,
-      overrideStreamName: null
+      suggestedHost: {
+        name: "foo",
+        displayName: "FOO"
+      },
+      watchingHost: false
     };
   },
   toggleMenu: function toggleMenu(type) {
@@ -186,6 +188,13 @@ var PlayerStream = _react2["default"].createClass({
     });
     player.addEventListener(Twitch.Player.ONLINE, function () {
       console.log('Player is online!');
+      if (_this2.state.suggestedHost) {
+        if (!_this2.state.watchingHost) {
+          _this2.setState({
+            suggestedHost: null
+          });
+        }
+      }
     });
     player.addEventListener(Twitch.Player.OFFLINE, function () {
       console.log('Player is offline!');
