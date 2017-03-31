@@ -228,21 +228,15 @@ var PlayerStream = _react2["default"].createClass({
     var _props3 = this.props;
     var name = _props3.name;
     var vod = _props3.vod;
+    var index = _props3.index;
     var _props3$methods = _props3.methods;
     var replaceStream = _props3$methods.replaceStream;
-    var appendStream = _props3$methods.appendStream;
-    var spliceStream = _props3$methods.spliceStream;
+    var putInView = _props3$methods.putInView;
     var layoutTools = _props3$methods.layoutTools;
 
-    // appendStream(username, displayName);
-    // setTimeout(() => {
-    //   spliceStream(name, vod);
-    //   setTimeout(() => {
-    //     layoutTools("setStreamToView");
-    //   }, 100);
-    // }, 100);
     replaceStream(name, vod, username, displayName);
     setTimeout(function () {
+      putInView(index);
       layoutTools("setStreamToView");
     }, 100);
   },
@@ -279,7 +273,6 @@ var PlayerStream = _react2["default"].createClass({
       }).then(function (methods) {
         methods.getStreamByName().then(function (data) {
           // console.log(name, ", data:", data);
-          // if(name === "spawnofodd") console.log(data);
           console.log("Check online status", data);
           resolve(!!data.stream);
         })["catch"](function (e) {
@@ -301,7 +294,6 @@ var PlayerStream = _react2["default"].createClass({
       }).then(function (methods) {
         methods.getHostingByName().then(function (data) {
           // console.log(name, ", data:", data);
-          // if(name === "spawnofodd") console.log(data);
           console.log("Check host", data);
           resolve(data);
         })["catch"](function (e) {
