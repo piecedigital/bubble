@@ -69,6 +69,8 @@
   - Changed multistream parsing. Should be complient with normal URL parsers **ok**
 - Improvements: 0.13.7
   - Improved host suggestion feature **ok**
+- Bug fix: 0.13.8
+  - Fixed bug with host suggestion not working when a stream goes offline **ok**
 
 
 # Things to add eventually

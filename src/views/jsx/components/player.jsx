@@ -173,7 +173,7 @@ const PlayerStream = React.createClass({
         this.checkHost()
         .then(data => {
           if(data.hosts[0].target_login) {
-            clearInterval(hostTicker);
+            clearInterval(this.hostTicker);
             this.suggestHost(data)
           };
         });
