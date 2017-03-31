@@ -67,6 +67,8 @@
   - Host suggestion goes away when returning to hoster **ok**
 - Improvements: 0.13.6
   - Changed multistream parsing. Should be complient with normal URL parsers **ok**
+- Improvements: 0.13.7
+  - Improved host suggestion feature **ok**
 
 
 # Things to add eventually

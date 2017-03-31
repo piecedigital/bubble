@@ -18,6 +18,7 @@ const PlayerStream = React.createClass({
     time: 0,
     playing: true,
     playerReady: false,
+    // related to hosting
     suggestedHost: null,
     watchingHost: false,
   }),
@@ -42,7 +43,7 @@ const PlayerStream = React.createClass({
     }
   },
   refresh(iframe) {
-    console.log("iframe:", iframe);
+    // console.log("iframe:", iframe);
     switch (iframe) {
       case "video":
         this.refs.video.getElementsByTagName("iframe")[0].src = this.refs.video.getElementsByTagName("iframe")[0].src;
@@ -51,6 +52,12 @@ const PlayerStream = React.createClass({
         this.props.methods.refreshChat(this.props.vod || this.props.name);
         break;
     }
+
+    this._mounted ? this.setState({
+      suggestedHost: null,
+      watchingHost: false
+    }) : null;
+    this.fullHostingCheck();
   },
   swapOut() {
     const {
@@ -165,17 +172,24 @@ const PlayerStream = React.createClass({
         if(this.state.suggestedHost) return clearInterval(this.hostTicker);
         this.checkHost()
         .then(data => {
-          if(data.hosts[0].target_login) this.suggestHost(data);
+          if(data.hosts[0].target_login) {
+            clearInterval(hostTicker);
+            this.suggestHost(data)
+          };
         });
       }, 1000 * 5);
     });
   },
   replaceVideo(username, returnToHoster) {
-    this.player = null;
-    this.makePlayer(username);
+    this.player.setChannel(username);
     this.setState({
       watchingHost: !returnToHoster
     })
+
+    // recheck hosting
+    if(returnToHoster) {
+      this.fullHostingCheck()
+    }
   },
   migrateStream(username, displayName) {
     const {
@@ -280,6 +294,31 @@ const PlayerStream = React.createClass({
         displayName
       }
     });
+  },
+  fullHostingCheck() {
+    this.checkOnlineStatus()
+    .then(bool => {
+      if(!bool) {
+        this.checkHost()
+        .then(data => {
+          if(data.hosts[0].target_login) {
+            this.suggestHost(data)
+          };
+        });
+      }
+    })
+  },
+  addToPlayer() {
+    const {
+      methods: {
+        appendStream
+      }
+    } = this.props;
+    const { suggestedHost } = this.state;
+    this.setState({
+      suggestedHost: null
+    });
+    appendStream(suggestedHost.username, suggestedHost.displayName)
   },
   componentDidMount() {
     this._mounted = true;
@@ -432,9 +471,7 @@ const PlayerStream = React.createClass({
                       <span
                         title="Add this stream to the player"
                         className="btn"
-                        onClick={() => {
-                          appendStream(suggestedHost.username, suggestedHost.displayName)
-                        }}>
+                        onClick={this.addToPlayer}>
                         Add To Player
                       </span>
                       {" "}
