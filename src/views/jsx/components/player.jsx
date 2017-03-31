@@ -195,22 +195,16 @@ const PlayerStream = React.createClass({
     const {
       name,
       vod,
+      index,
       methods: {
         replaceStream,
-        appendStream,
-        spliceStream,
+        putInView,
         layoutTools
       }
     } = this.props;
-    // appendStream(username, displayName);
-    // setTimeout(() => {
-    //   spliceStream(name, vod);
-    //   setTimeout(() => {
-    //     layoutTools("setStreamToView");
-    //   }, 100);
-    // }, 100);
     replaceStream(name, vod, username, displayName);
     setTimeout(() => {
+      putInView(index);
       layoutTools("setStreamToView");
     }, 100);
   },
@@ -250,7 +244,6 @@ const PlayerStream = React.createClass({
         .getStreamByName()
         .then(data => {
           // console.log(name, ", data:", data);
-          // if(name === "spawnofodd") console.log(data);
           console.log("Check online status", data);
           resolve(!!data.stream);
         })
@@ -274,7 +267,6 @@ const PlayerStream = React.createClass({
         .getHostingByName()
         .then(data => {
           // console.log(name, ", data:", data);
-          // if(name === "spawnofodd") console.log(data);
           console.log("Check host", data);
           resolve(data);
         })
