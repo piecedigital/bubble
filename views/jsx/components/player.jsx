@@ -206,7 +206,7 @@ var PlayerStream = _react2["default"].createClass({
         if (_this2.state.suggestedHost) return clearInterval(_this2.hostTicker);
         _this2.checkHost().then(function (data) {
           if (data.hosts[0].target_login) {
-            clearInterval(hostTicker);
+            clearInterval(_this2.hostTicker);
             _this2.suggestHost(data);
           };
         });
