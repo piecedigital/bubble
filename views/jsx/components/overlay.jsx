@@ -26,6 +26,8 @@ var _gameQueueToolsJsx = require("./game-queue-tools.jsx");
 
 var _feedbackToolsJsx = require("./feedback-tools.jsx");
 
+var _streamReorderToolsJsx = require("./stream-reorder-tools.jsx");
+
 var components = {
   "askQuestion": _questionToolsJsx.AskQuestion,
   "answerQuestion": _questionToolsJsx.AnswerQuestion,
@@ -38,7 +40,8 @@ var components = {
   "viewPoll": _pollToolsJsx.ViewPoll,
   "viewCreatedPolls": _pollToolsJsx.ViewCreatedPolls,
   "viewGameQueue": _gameQueueToolsJsx.ViewGameQueue,
-  "feedback": _feedbackToolsJsx.Feedback
+  "feedback": _feedbackToolsJsx.Feedback,
+  "streamReorderer": _streamReorderToolsJsx.StreamReorderer
 };
 
 exports["default"] = _react2["default"].createClass({
@@ -52,6 +55,7 @@ exports["default"] = _react2["default"].createClass({
     var fireRef = _props.fireRef;
     var overlay = _props.overlay;
     var overlayState = _props.overlayState;
+    var streamersInPlayer = _props.streamersInPlayer;
     var params = _props.params;
     var location = _props.location;
     var methods = _props.methods;
@@ -67,6 +71,7 @@ exports["default"] = _react2["default"].createClass({
         case "viewPoll":
         case "viewGameQueue":
         case "feedback":
+        case "streamReorderer":
           Component = Component;
           break;
         default:
@@ -83,6 +88,7 @@ exports["default"] = _react2["default"].createClass({
         }, overlayState, {
           fireRef: fireRef,
           versionData: versionData,
+          streamersInPlayer: streamersInPlayer,
           params: params,
           location: location,
           userData: userData,

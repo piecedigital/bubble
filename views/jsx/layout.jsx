@@ -345,6 +345,20 @@ exports["default"] = _react2["default"].createClass({
 
     this.setState(stateObj);
   },
+  reorderStreams: function reorderStreams(array, moverPlace) {
+    var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    var newStreamersInPlayer = {};
+
+    array.map(function (nameOrID) {
+      newStreamersInPlayer[nameOrID] = streamersInPlayer[nameOrID];
+    });
+
+    this.refs.player.putInView(moverPlace);
+
+    this.setState({
+      streamersInPlayer: newStreamersInPlayer
+    });
+  },
   search: function search(query) {
     _reactRouter.browserHistory.push(encodeURI("/search/streams?q=" + query));
   },
@@ -487,6 +501,7 @@ exports["default"] = _react2["default"].createClass({
       case "viewCreatedPolls":
       case "viewGameQueue":
       case "feedback":
+      case "streamReorderer":
       default:
         newState = {
           overlay: action,
@@ -673,6 +688,7 @@ exports["default"] = _react2["default"].createClass({
           popUpHandler: this.popUpHandler
         } }),
       _react2["default"].createElement(_componentsPlayerJsx2["default"], {
+        ref: "player",
         fireRef: fireRef,
         versionData: versionData,
         data: {
@@ -746,6 +762,7 @@ exports["default"] = _react2["default"].createClass({
         userData: userData,
         overlay: overlay,
         overlayState: overlayState,
+        streamersInPlayer: dataObject,
         fireRef: fireRef,
         versionData: versionData,
         params: this.props.params,
@@ -753,7 +770,8 @@ exports["default"] = _react2["default"].createClass({
         initState: initState,
         methods: {
           appendStream: this.appendStream,
-          popUpHandler: this.popUpHandler
+          popUpHandler: this.popUpHandler,
+          reorderStreams: this.reorderStreams
         }
       }),
       _react2["default"].createElement(_componentsAlertJsx2["default"], {

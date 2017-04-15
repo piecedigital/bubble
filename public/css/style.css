@@ -182,7 +182,7 @@ nav {
   color: white;
   text-shadow: 2px 2px 2px black; }
 
-@media (max-width: 1470) {
+@media (max-width: 1615px) {
   nav {
     min-width: 224px;
     height: 100%;
@@ -421,25 +421,53 @@ nav {
     .player-stream .tools .mobile {
       display: none;
       text-align: left; }
+    .player-stream .tools.host {
+      left: 224px;
+      background-color: transparent; }
     .player-stream .tools .host {
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
       display: flex ;
       flex-direction: row;
+      justify-content: center;
       position: absolute;
-      bottom: 100%;
-      left: 224px;
-      width: 960px;
+      top: -32px;
+      left: 0;
+      width: 384px;
       height: 32px;
       border: none;
-      background-color: transparent;
+      box-shadow: inset 0 0 0 2px #0082b4;
       color: white;
       -webkit-user-select: none;
       -ms-user-select: none;
       -moz-user-select: none;
       user-select: none;
-      cursor: default; }
+      cursor: default;
+      overflow: hidden; }
+      .player-stream .tools .host:before, .player-stream .tools .host:after {
+        content: "";
+        position: absolute;
+        top: 11.2px;
+        width: 0;
+        height: 0;
+        border-top: 12px solid #0082b4;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent; }
+      .player-stream .tools .host:before {
+        left: 16px; }
+      .player-stream .tools .host:after {
+        right: 16px; }
+      .player-stream .tools .host:hover {
+        height: 72px; }
+        .player-stream .tools .host:hover:before {
+          border-top: none;
+          border-bottom: 12px solid #0082b4; }
+        .player-stream .tools .host:hover:after {
+          border-top: none;
+          border-bottom: 12px solid #0082b4; }
+      .player-stream .tools .host .main {
+        margin-bottom: 16px; }
       .player-stream .tools .host a {
         color: white !important; }
       .player-stream .tools .host .btn {
@@ -491,6 +519,7 @@ nav {
         position: relative;
         top: -12px; }
     .player-stream .tools .mobile {
+      z-index: 1;
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
@@ -641,6 +670,14 @@ nav {
   .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(4n) {
     display: none; }
   .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(5n) {
+    display: none; }
+  .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(6n) {
+    display: none; }
+  .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(7n) {
+    display: none; }
+  .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(8n) {
+    display: none; }
+  .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n), .root.player-open.player-collapsed .player > .wrapper > .tools > *:nth-child(9n) {
     display: none; }
   .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels, .root.player-open.player-collapsed .player > .wrapper .stream-panels {
     padding-right: 0; }
@@ -1947,6 +1984,34 @@ nav {
           color: white; }
         .alert .box .links li img {
           max-width: 64px; }
+
+.streamer-item:not(:last-child) {
+  margin-bottom: 8px; }
+.streamer-item.read {
+  opacity: .6; }
+.streamer-item label {
+  display: -ms-flex !important;
+  display: -moz-flex !important;
+  display: -webkit-box !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center; }
+  .streamer-item label a {
+    display: inline-block;
+    color: black;
+    margin-right: 16px; }
+  .streamer-item label > span {
+    display: inline-block;
+    margin-right: 4px; }
+    .streamer-item label > span.tools span {
+      padding: 4px 8px;
+      margin-right: 2px;
+      background-color: rgba(0, 200, 250, 0.8);
+      cursor: pointer;
+      font-weight: bold; }
+      .streamer-item label > span.tools span:hover {
+        background-color: rgba(0, 170, 220, 0.8);
+        color: white; }
 
 .clickable {
   cursor: pointer; }

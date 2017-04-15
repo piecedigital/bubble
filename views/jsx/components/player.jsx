@@ -449,114 +449,6 @@ var PlayerStream = _react2["default"].createClass({
                   _react2["default"].createElement("div", null)
                 )
               ),
-              suggestedHost ? _react2["default"].createElement(
-                "div",
-                { className: "host" },
-                _react2["default"].createElement(
-                  "span",
-                  null,
-                  watchingHost ? ["Now watching ", _react2["default"].createElement(
-                    _reactRouter.Link,
-                    {
-                      key: "0",
-                      title: "Go to " + suggestedHost.displayName + "' profile",
-                      className: "bold",
-                      to: "/profile/" + suggestedHost.displayName,
-                      onClick: function () {
-                        togglePlayer("collapse");
-                        _this5.toggleMenu("close");
-                      } },
-                    suggestedHost.displayName
-                  ), " via ", _react2["default"].createElement(
-                    _reactRouter.Link,
-                    {
-                      key: "1",
-                      title: "Go to " + display_name + "' profile",
-                      className: "bold",
-                      to: "/profile/" + display_name,
-                      onClick: function () {
-                        togglePlayer("collapse");
-                        _this5.toggleMenu("close");
-                      } },
-                    display_name
-                  ), "."] : [_react2["default"].createElement(
-                    _reactRouter.Link,
-                    {
-                      key: "0",
-                      title: "Go to " + display_name + "' profile",
-                      className: "bold",
-                      to: "/profile/" + display_name,
-                      onClick: function () {
-                        togglePlayer("collapse");
-                        _this5.toggleMenu("close");
-                      } },
-                    display_name
-                  ), " is hosting ", _react2["default"].createElement(
-                    _reactRouter.Link,
-                    {
-                      key: "1",
-                      title: "Go to " + suggestedHost.displayName + "' profile",
-                      className: "bold",
-                      to: "/profile/" + suggestedHost.displayName,
-                      onClick: function () {
-                        togglePlayer("collapse");
-                        _this5.toggleMenu("close");
-                      } },
-                    suggestedHost.displayName
-                  ), "."],
-                  " ",
-                  _react2["default"].createElement(
-                    "span",
-                    {
-                      title: "Add this stream to the player",
-                      className: "btn",
-                      onClick: this.addToPlayer },
-                    "Add To Player"
-                  ),
-                  " ",
-                  !watchingHost ? [_react2["default"].createElement(
-                    "span",
-                    {
-                      key: "0",
-                      title: "Replaces the current video with the hosted video, but doesn't change the chat",
-                      className: "btn",
-                      onClick: function () {
-                        _this5.replaceVideo(suggestedHost.username);
-                      } },
-                    "Replace Video"
-                  ), " ", _react2["default"].createElement(
-                    "span",
-                    {
-                      key: "1",
-                      title: "Switch the current stream player to the hosted stream",
-                      className: "btn",
-                      onClick: function () {
-                        _this5.migrateStream(suggestedHost.username, suggestedHost.displayName);
-                      } },
-                    "Migrate Stream"
-                  )] : [_react2["default"].createElement(
-                    "span",
-                    {
-                      key: "0",
-                      title: "Return the video to the hosting streamer",
-                      className: "btn",
-                      onClick: function () {
-                        _this5.replaceVideo(name, true);
-                      } },
-                    "Return To Hoster"
-                  ), " ", _react2["default"].createElement(
-                    "span",
-                    {
-                      key: "1",
-                      title: "Switch the current stream player to the hosted stream",
-                      className: "btn",
-                      onClick: function () {
-                        _this5.migrateStream(suggestedHost.username, suggestedHost.displayName);
-                      } },
-                    "Migrate Stream"
-                  )]
-                )
-              ) : null,
               _react2["default"].createElement(
                 "div",
                 { onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave"), className: "streamer" },
@@ -711,6 +603,129 @@ var PlayerStream = _react2["default"].createClass({
                   } },
                 "Close This Stream"
               )
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "tools host" + (suggestedHost ? " menu-open" : "") },
+              suggestedHost ? _react2["default"].createElement(
+                "div",
+                { className: "host" },
+                _react2["default"].createElement(
+                  "span",
+                  null,
+                  watchingHost ? _react2["default"].createElement(
+                    "div",
+                    { className: "main" },
+                    "Now watching ",
+                    _react2["default"].createElement(
+                      _reactRouter.Link,
+                      {
+                        title: "Go to " + suggestedHost.displayName + "' profile",
+                        className: "bold",
+                        to: "/profile/" + suggestedHost.displayName,
+                        onClick: function () {
+                          togglePlayer("collapse");
+                          _this5.toggleMenu("close");
+                        } },
+                      suggestedHost.displayName
+                    ),
+                    " via ",
+                    _react2["default"].createElement(
+                      _reactRouter.Link,
+                      {
+                        title: "Go to " + display_name + "' profile",
+                        className: "bold",
+                        to: "/profile/" + display_name,
+                        onClick: function () {
+                          togglePlayer("collapse");
+                          _this5.toggleMenu("close");
+                        } },
+                      display_name
+                    ),
+                    "."
+                  ) : _react2["default"].createElement(
+                    "div",
+                    { className: "main" },
+                    _react2["default"].createElement(
+                      _reactRouter.Link,
+                      {
+                        title: "Go to " + display_name + "' profile",
+                        className: "bold",
+                        to: "/profile/" + display_name,
+                        onClick: function () {
+                          togglePlayer("collapse");
+                          _this5.toggleMenu("close");
+                        } },
+                      display_name
+                    ),
+                    " is hosting ",
+                    _react2["default"].createElement(
+                      _reactRouter.Link,
+                      {
+                        title: "Go to " + suggestedHost.displayName + "' profile",
+                        className: "bold",
+                        to: "/profile/" + suggestedHost.displayName,
+                        onClick: function () {
+                          togglePlayer("collapse");
+                          _this5.toggleMenu("close");
+                        } },
+                      suggestedHost.displayName
+                    ),
+                    "."
+                  ),
+                  " ",
+                  _react2["default"].createElement(
+                    "span",
+                    {
+                      title: "Add this stream to the player",
+                      className: "btn",
+                      onClick: this.addToPlayer },
+                    "Add To Player"
+                  ),
+                  " ",
+                  !watchingHost ? [_react2["default"].createElement(
+                    "span",
+                    {
+                      key: "0",
+                      title: "Replaces the current video with the hosted video, but doesn't change the chat",
+                      className: "btn",
+                      onClick: function () {
+                        _this5.replaceVideo(suggestedHost.username);
+                      } },
+                    "Replace Video"
+                  ), " ", _react2["default"].createElement(
+                    "span",
+                    {
+                      key: "1",
+                      title: "Switch the current stream player to the hosted stream",
+                      className: "btn",
+                      onClick: function () {
+                        _this5.migrateStream(suggestedHost.username, suggestedHost.displayName);
+                      } },
+                    "Migrate Stream"
+                  )] : [_react2["default"].createElement(
+                    "span",
+                    {
+                      key: "0",
+                      title: "Return the video to the hosting streamer",
+                      className: "btn",
+                      onClick: function () {
+                        _this5.replaceVideo(name, true);
+                      } },
+                    "Return To Hoster"
+                  ), " ", _react2["default"].createElement(
+                    "span",
+                    {
+                      key: "1",
+                      title: "Switch the current stream player to the hosted stream",
+                      className: "btn",
+                      onClick: function () {
+                        _this5.migrateStream(suggestedHost.username, suggestedHost.displayName);
+                      } },
+                    "Migrate Stream"
+                  )]
+                )
+              ) : null
             )
           )
         );
@@ -793,7 +808,7 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   putInView: function putInView(index) {
-    console.log(this.refs.selectStream, this.refs.selectStream.value, index);
+    // console.log(this.refs.selectStream, this.refs.selectStream.value, index);
     if (this.refs.selectStream) {
       this.refs.selectStream.value = index;
       this.setState({
@@ -1020,6 +1035,30 @@ exports["default"] = _react2["default"].createClass({
                 "span",
                 null,
                 "Generate Multistream Link"
+              )
+            )
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "wrap" },
+            _react2["default"].createElement(
+              "div",
+              { className: "main-tool reorder", onClick: function () {
+                  popUpHandler("streamReorderer");
+                } },
+              _react2["default"].createElement(
+                "span",
+                null,
+                "Re-Order Streams"
+              )
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "hover-msg" },
+              _react2["default"].createElement(
+                "span",
+                null,
+                "Re-Order Streams"
               )
             )
           )
