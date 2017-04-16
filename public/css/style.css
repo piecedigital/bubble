@@ -434,7 +434,7 @@ nav {
       position: absolute;
       top: -32px;
       left: 0;
-      width: 384px;
+      width: 416px;
       height: 32px;
       border: none;
       box-shadow: inset 0 0 0 2px #0082b4;
@@ -1984,6 +1984,9 @@ nav {
           color: white; }
         .alert .box .links li img {
           max-width: 64px; }
+
+.view-stream-reorderer .list {
+  width: 60%; }
 
 .streamer-item:not(:last-child) {
   margin-bottom: 8px; }

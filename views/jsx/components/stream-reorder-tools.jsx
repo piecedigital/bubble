@@ -23,7 +23,10 @@ var StreamerItem = _react2["default"].createClass({
     this.props.methods.move(direction, this.props.index);
   },
   render: function render() {
-    var data = this.props.data;
+    var _props = this.props;
+    var data = _props.data;
+    var canMoveUp = _props.canMoveUp;
+    var canMoveDown = _props.canMoveDown;
 
     var displayName = undefined;
     if (typeof data === "object") {
@@ -46,16 +49,16 @@ var StreamerItem = _react2["default"].createClass({
         _react2["default"].createElement(
           "span",
           { className: "tools" },
-          _react2["default"].createElement(
+          canMoveUp ? _react2["default"].createElement(
             "span",
             { className: "move-up", onClick: this.move.bind(this, "up") },
             "↑"
-          ),
-          _react2["default"].createElement(
+          ) : null,
+          canMoveDown ? _react2["default"].createElement(
             "span",
             { className: "move-down", onClick: this.move.bind(this, "down") },
             "↓"
-          )
+          ) : null
         )
       )
     );
@@ -103,9 +106,9 @@ var StreamReorderer = _react2["default"].createClass({
   render: function render() {
     var _this = this;
 
-    var _props = this.props;
-    var streamersInPlayer = _props.streamersInPlayer;
-    var popUpHandler = _props.methods.popUpHandler;
+    var _props2 = this.props;
+    var streamersInPlayer = _props2.streamersInPlayer;
+    var popUpHandler = _props2.methods.popUpHandler;
     var streamersArray = this.state.streamersArray;
 
     var list = streamersArray.map(function (nameOrID, ind) {
@@ -115,6 +118,8 @@ var StreamReorderer = _react2["default"].createClass({
         name: nameOrID,
         id: nameOrID,
         data: streamersInPlayer[nameOrID],
+        canMoveUp: ind > 0,
+        canMoveDown: ind < streamersArray.length - 1,
         methods: {
           move: _this.move
         }
