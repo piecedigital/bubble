@@ -154,6 +154,7 @@
       }
     }
     .mobile {
+      z-index: 1;
       @include displayFlex;
       flex-direction: row;
       position: absolute;
@@ -310,20 +311,58 @@
       display: none;
       text-align: left;
     }
+    &.host {
+      left: 14*$em;
+      background-color: transparent;
+    }
     .host {
       @include displayFlex;
       flex-direction: row;
+      justify-content: center;
       position: absolute;
-      bottom: 100%;
-      left: 14*$em;
-      width: 60*$em;
+      top: -2*$em;
+      left: 0;
+      width: 26*$em;
       height: 2*$em;
       border: none;
-      // box-shadow: inset 0 0 0 2px $dimmer;
-      background-color: transparent;
+      box-shadow: inset 0 0 0 2px $dimmer;
+      // background-color: transparent;
       color: white;
       @include userSelect;
       cursor: default;
+      overflow: hidden;
+      &:before, &:after {
+        content: "";
+        position: absolute;
+        top: .7*$em;
+        // left: 1*$em;
+        // right: 1*$em;
+        width: 0;
+        height: 0;
+        border-top: 12px solid $dimmer;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+      }
+      &:before {
+        left: 1*$em;
+      }
+      &:after {
+        right: 1*$em;
+      }
+      &:hover {
+        height: 4.5*$em;
+        &:before {
+          border-top: none;
+          border-bottom: 12px solid $dimmer;
+        }
+        &:after {
+          border-top: none;
+          border-bottom: 12px solid $dimmer;
+        }
+      }
+      .main {
+        margin-bottom: 1*$em;
+      }
       a {
         color: white !important;
       }
@@ -539,7 +578,7 @@
         }
         > .tools {
           > * {
-            @for $i from 3 to 6 {
+            @for $i from 3 to 10 {
               &:nth-child(#{$i}n) {
                 display: none;
               }

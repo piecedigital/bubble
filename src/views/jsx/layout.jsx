@@ -300,6 +300,20 @@ export default React.createClass({
 
     this.setState(stateObj);
   },
+  reorderStreams(array, moverPlace) {
+    const streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    const newStreamersInPlayer = {};
+
+    array.map(nameOrID => {
+      newStreamersInPlayer[nameOrID] = streamersInPlayer[nameOrID];
+    });
+
+    this.refs.player.putInView(moverPlace);
+
+    this.setState({
+      streamersInPlayer: newStreamersInPlayer
+    });
+  },
   search(query) {
     History.push(encodeURI(`/search/streams?q=${query}`));
   },
@@ -439,6 +453,7 @@ export default React.createClass({
       case "viewCreatedPolls":
       case "viewGameQueue":
       case "feedback":
+      case "streamReorderer":
       default:
         newState = {
           overlay: action,
@@ -634,6 +649,7 @@ export default React.createClass({
           }} />
         {
           <Player
+            ref="player"
             fireRef={fireRef}
             versionData={versionData}
             data={{
@@ -716,6 +732,7 @@ export default React.createClass({
           userData={userData}
           overlay={overlay}
           overlayState={overlayState}
+          streamersInPlayer={dataObject}
           fireRef={fireRef}
           versionData={versionData}
           params={this.props.params}
@@ -724,6 +741,7 @@ export default React.createClass({
           methods={{
             appendStream: this.appendStream,
             popUpHandler: this.popUpHandler,
+            reorderStreams: this.reorderStreams,
           }}
         />
         <Alert

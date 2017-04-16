@@ -6,6 +6,7 @@ import { ViewNotifications } from "./notification-tools.jsx";
 import { MakePoll, VotePoll, ViewPoll, ViewCreatedPolls } from "./poll-tools.jsx";
 import { ViewGameQueue } from "./game-queue-tools.jsx";
 import { Feedback } from "./feedback-tools.jsx";
+import { StreamReorderer } from "./stream-reorder-tools.jsx";
 
 const components = {
   "askQuestion": AskQuestion,
@@ -20,6 +21,7 @@ const components = {
   "viewCreatedPolls": ViewCreatedPolls,
   "viewGameQueue": ViewGameQueue,
   "feedback": Feedback,
+  "streamReorderer": StreamReorderer,
 };
 
 export default React.createClass({
@@ -33,6 +35,7 @@ export default React.createClass({
       fireRef,
       overlay,
       overlayState,
+      streamersInPlayer,
       params,
       location,
       methods,
@@ -50,6 +53,7 @@ export default React.createClass({
         case "viewPoll":
         case "viewGameQueue":
         case "feedback":
+        case "streamReorderer":
           Component = Component;
         break;
         default:
@@ -67,6 +71,7 @@ export default React.createClass({
                 {...overlayState}
                 fireRef={fireRef}
                 versionData={versionData}
+                streamersInPlayer={streamersInPlayer}
                 params={params}
                 location={location}
                 userData={userData}

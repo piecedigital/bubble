@@ -71,6 +71,14 @@
   - Improved host suggestion feature **ok**
 - Bug fix: 0.13.8
   - Fixed bug with host suggestion not working when a stream goes offline **ok**
+- Bug fix: 0.13.9
+  - Migrating streams should should now be in focus if they were before **ok**
+- Improvement and fix: 0.14.0
+  - Added stream re-ordering **ok**
+  - Fixed host suggestion UI **ok**
+- Improvements: 0.14.1
+  - UI adjustment to host suggestion **ok**
+  - UI adjustment to stream reorder view **ok**
 
 
 # Things to add eventually

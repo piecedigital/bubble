@@ -1,0 +1,16 @@
+.view-stream-reorderer {
+  &.open {}
+  .close {}
+  .title {}
+  .list {
+    width: 60%;
+  }
+  form {}
+  .section {
+    .label {}
+    .to {}
+    input, textarea {
+      &.valid {}
+    }
+  }
+}

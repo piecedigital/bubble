@@ -1,0 +1,35 @@
+.streamer-item {
+  &:not(:last-child) {
+    margin-bottom: .5*$em;
+  }
+  &.read {
+    opacity: .6;
+  }
+  label {
+    @include displayFlex(!important);
+    justify-content: space-between;
+    align-items: center;
+    a {
+      display: inline-block;
+      color: black;
+      margin-right: 1*$em;
+    }
+    > span {
+      display: inline-block;
+      margin-right: 4px;
+      &.tools {
+        span {
+          padding: .25*$em .5*$em;
+          margin-right: 2px;
+          background-color: rgba($primary, .8);
+          cursor: pointer;
+          font-weight: bold;
+          &:hover {
+            background-color: rgba($dim, .8);
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

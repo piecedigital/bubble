@@ -405,119 +405,6 @@ const PlayerStream = React.createClass({
                   <div></div>
                 </div>
               </div>
-              {
-                suggestedHost ? (
-                  <div className="host">
-                    <span>
-                      {
-                        watchingHost ? (
-                          [
-                            "Now watching ",
-                            <Link
-                              key="0"
-                              title={`Go to ${suggestedHost.displayName}' profile`}
-                              className="bold"
-                              to={`/profile/${suggestedHost.displayName}`}
-                              onClick={() => {
-                                togglePlayer("collapse");
-                                this.toggleMenu("close");
-                              }}>{suggestedHost.displayName}</Link>,
-                            " via ",
-                            <Link
-                              key="1"
-                              title={`Go to ${display_name}' profile`}
-                              className="bold"
-                              to={`/profile/${display_name}`}
-                              onClick={() => {
-                                togglePlayer("collapse");
-                                this.toggleMenu("close");
-                              }}>{display_name}</Link>,
-                            "."
-                          ]
-                        ) : (
-                          [
-                            <Link
-                              key="0"
-                              title={`Go to ${display_name}' profile`}
-                              className="bold"
-                              to={`/profile/${display_name}`}
-                              onClick={() => {
-                                togglePlayer("collapse");
-                                this.toggleMenu("close");
-                              }}>{display_name}</Link>,
-                            " is hosting ",
-                            <Link
-                              key="1"
-                              title={`Go to ${suggestedHost.displayName}' profile`}
-                              className="bold"
-                              to={`/profile/${suggestedHost.displayName}`}
-                              onClick={() => {
-                                togglePlayer("collapse");
-                                this.toggleMenu("close");
-                              }}>{suggestedHost.displayName}</Link>,
-                            "."
-                          ]
-                        )
-                      }
-                      {" "}
-                      <span
-                        title="Add this stream to the player"
-                        className="btn"
-                        onClick={this.addToPlayer}>
-                        Add To Player
-                      </span>
-                      {" "}
-                      {
-                        !watchingHost ? (
-                          [
-                            <span
-                              key="0"
-                              title="Replaces the current video with the hosted video, but doesn't change the chat"
-                              className="btn"
-                              onClick={() => {
-                                this.replaceVideo(suggestedHost.username)
-                              }}>
-                              Replace Video
-                            </span>,
-                            " ",
-                            <span
-                              key="1"
-                              title="Switch the current stream player to the hosted stream"
-                              className="btn"
-                              onClick={() => {
-                                this.migrateStream(suggestedHost.username, suggestedHost.displayName)
-                              }}>
-                              Migrate Stream
-                            </span>
-                          ]
-                        ) : (
-                          [
-                            <span
-                              key="0"
-                              title="Return the video to the hosting streamer"
-                              className="btn"
-                              onClick={() => {
-                                this.replaceVideo(name, true)
-                              }}>
-                              Return To Hoster
-                            </span>,
-                            " ",
-                            <span
-                              key="1"
-                              title="Switch the current stream player to the hosted stream"
-                              className="btn"
-                              onClick={() => {
-                                this.migrateStream(suggestedHost.username, suggestedHost.displayName)
-                              }}>
-                              Migrate Stream
-                            </span>
-                          ]
-                        )
-                      }
-                    </span>
-                  </div>
-                ) : null
-              }
               <div onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")} className="streamer">
                 <span ref="streamerName2" style={{
                   position: "relative",
@@ -626,6 +513,117 @@ const PlayerStream = React.createClass({
                 Close This Stream
               </div>
             </div>
+            <div className={`tools host${suggestedHost ? " menu-open" : ""}`}>
+              {
+                suggestedHost ? (
+                  <div className="host">
+                    <span>
+                      {
+                        watchingHost ? (
+                          <div className="main">
+                            {"Now watching "}
+                            <Link
+                              title={`Go to ${suggestedHost.displayName}' profile`}
+                              className="bold"
+                              to={`/profile/${suggestedHost.displayName}`}
+                              onClick={() => {
+                                togglePlayer("collapse");
+                                this.toggleMenu("close");
+                              }}>{suggestedHost.displayName}</Link>
+                            {" via "}
+                            <Link
+                              title={`Go to ${display_name}' profile`}
+                              className="bold"
+                              to={`/profile/${display_name}`}
+                              onClick={() => {
+                                togglePlayer("collapse");
+                                this.toggleMenu("close");
+                              }}>{display_name}</Link>
+                            {"."}
+                          </div>
+                        ) : (
+                          <div className="main">
+                            <Link
+                              title={`Go to ${display_name}' profile`}
+                              className="bold"
+                              to={`/profile/${display_name}`}
+                              onClick={() => {
+                                togglePlayer("collapse");
+                                this.toggleMenu("close");
+                              }}>{display_name}</Link>
+                            {" is hosting "}
+                            <Link
+                              title={`Go to ${suggestedHost.displayName}' profile`}
+                              className="bold"
+                              to={`/profile/${suggestedHost.displayName}`}
+                              onClick={() => {
+                                togglePlayer("collapse");
+                                this.toggleMenu("close");
+                              }}>{suggestedHost.displayName}</Link>
+                            {"."}
+                          </div>
+                        )
+                      }
+                      {" "}
+                      <span
+                        title="Add this stream to the player"
+                        className="btn"
+                        onClick={this.addToPlayer}>
+                        Add To Player
+                      </span>
+                      {" "}
+                      {
+                        !watchingHost ? (
+                          [
+                            <span
+                              key="0"
+                              title="Replaces the current video with the hosted video, but doesn't change the chat"
+                              className="btn"
+                              onClick={() => {
+                                this.replaceVideo(suggestedHost.username)
+                              }}>
+                              Replace Video
+                            </span>,
+                            " ",
+                            <span
+                              key="1"
+                              title="Switch the current stream player to the hosted stream"
+                              className="btn"
+                              onClick={() => {
+                                this.migrateStream(suggestedHost.username, suggestedHost.displayName)
+                              }}>
+                              Migrate Stream
+                            </span>
+                          ]
+                        ) : (
+                          [
+                            <span
+                              key="0"
+                              title="Return the video to the hosting streamer"
+                              className="btn"
+                              onClick={() => {
+                                this.replaceVideo(name, true)
+                              }}>
+                              Return To Hoster
+                            </span>,
+                            " ",
+                            <span
+                              key="1"
+                              title="Switch the current stream player to the hosted stream"
+                              className="btn"
+                              onClick={() => {
+                                this.migrateStream(suggestedHost.username, suggestedHost.displayName)
+                              }}>
+                              Migrate Stream
+                            </span>
+                          ]
+                        )
+                      }
+                    </span>
+                  </div>
+                ) : null
+              }
+            </div>
           </div>
         </li>
       );
@@ -704,7 +702,7 @@ export default React.createClass({
     }
   },
   putInView(index) {
-    console.log(this.refs.selectStream, this.refs.selectStream.value, index);
+    // console.log(this.refs.selectStream, this.refs.selectStream.value, index);
     if(this.refs.selectStream) {
       this.refs.selectStream.value = index;
       this.setState({
@@ -908,6 +906,12 @@ export default React.createClass({
                 });
               }}><span>Generate Multistream Link</span></div>
               <div className="hover-msg"><span>Generate Multistream Link</span></div>
+            </div>
+            <div className="wrap">
+              <div className="main-tool reorder" onClick={() => {
+                popUpHandler("streamReorderer");
+              }}><span>Re-Order Streams</span></div>
+              <div className="hover-msg"><span>Re-Order Streams</span></div>
             </div>
           </div>
           <StreamPanels panelData={panelData} methods={{
