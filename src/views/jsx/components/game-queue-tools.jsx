@@ -518,7 +518,11 @@ export const ViewGameQueue = React.createClass({
       nowPlaying,
       alreadyPlayed,
     } = queueInfo || {};
-    const queueList = queue ? Object.keys(queue).map(userID => {
+    const queueList = queue ? Object.keys(queue).sort((user1, user2) => {
+      const data1 = queue[user1];
+      const data2 = queue[user2];
+      return data1.date < date2.date;
+    }).map(userID => {
       const data = queue[userID];
       return (
         <UserItem
@@ -532,8 +536,12 @@ export const ViewGameQueue = React.createClass({
             moveToList: this.moveToList.bind(this, userID, data, "queue"),
           }} />
       );
-    }).reverse() : <span className="bold">No one in this queue</span>;
-    const nowPlayingList = nowPlaying ? Object.keys(nowPlaying).map(userID => {
+    }) : <span className="bold">No one in this queue</span>;
+    const nowPlayingList = nowPlaying ? Object.keys(nowPlaying).sort((user1, user2) => {
+      const data1 = nowPlaying[user1];
+      const data2 = nowPlaying[user2];
+      return data1.date < date2.date;
+    }).map(userID => {
       const data = nowPlaying[userID];
       return (
         <UserItem
@@ -547,8 +555,12 @@ export const ViewGameQueue = React.createClass({
             moveToList: this.moveToList.bind(this, userID, data, "nowPlaying"),
           }} />
       );
-    }).reverse() : <span className="bold">No one in this queue</span>;
-    const alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).map(userID => {
+    }) : <span className="bold">No one in this queue</span>;
+    const alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).sort((user1, user2) => {
+      const data1 = alreadyPlayed[user1];
+      const data2 = alreadyPlayed[user2];
+      return data1.date < date2.date;
+    }).map(userID => {
       const data = alreadyPlayed[userID];
         return (
           <UserItem
@@ -562,7 +574,7 @@ export const ViewGameQueue = React.createClass({
               moveToList: this.moveToList.bind(this, userID, data, "alreadyPlayed"),
             }} />
       );
-    }).reverse() : <span className="bold">No one in this queue</span>;
+    }) : <span className="bold">No one in this queue</span>;
     const queueLimitMet = queueInfo && queueInfo.queue ? ( Object.keys(queueInfo.queue).length >= (queueInfo.queueLimit || 1) ) : false;
 
     return (
