@@ -376,10 +376,12 @@ var ViewGameQueue = _react2["default"].createClass({
         });
         break;
       case "queueUp":
-        fireRef.gameQueuesRef.child(queueHostID).child("queue").child(userData._id).update({
-          gamerID: this.refs.gamerID.value,
-          date: Date.now()
-        });
+        if (this.refs.gamerID.value) {
+          fireRef.gameQueuesRef.child(queueHostID).child("queue").child(userData._id).update({
+            gamerID: this.refs.gamerID.value,
+            date: Date.now()
+          });
+        }
         break;
     }
   },
@@ -531,7 +533,11 @@ var ViewGameQueue = _react2["default"].createClass({
     var nowPlaying = _ref.nowPlaying;
     var alreadyPlayed = _ref.alreadyPlayed;
 
-    var queueList = queue ? Object.keys(queue).map(function (userID) {
+    var queueList = queue ? Object.keys(queue).sort(function (user1, user2) {
+      var data1 = queue[user1];
+      var data2 = queue[user2];
+      return data1.date > date2.date;
+    }).map(function (userID) {
       var data = queue[userID];
       return _react2["default"].createElement(UserItem, {
         controls: userData && userData.name === queueHost,
@@ -543,12 +549,16 @@ var ViewGameQueue = _react2["default"].createClass({
           removeFromList: _this5.removeFromList.bind(_this5, userID, "queue"),
           moveToList: _this5.moveToList.bind(_this5, userID, data, "queue")
         } });
-    }).reverse() : _react2["default"].createElement(
+    }) : _react2["default"].createElement(
       "span",
       { className: "bold" },
       "No one in this queue"
     );
-    var nowPlayingList = nowPlaying ? Object.keys(nowPlaying).map(function (userID) {
+    var nowPlayingList = nowPlaying ? Object.keys(nowPlaying).sort(function (user1, user2) {
+      var data1 = nowPlaying[user1];
+      var data2 = nowPlaying[user2];
+      return data1.date > date2.date;
+    }).map(function (userID) {
       var data = nowPlaying[userID];
       return _react2["default"].createElement(UserItem, {
         controls: userData && userData.name === queueHost,
@@ -560,12 +570,16 @@ var ViewGameQueue = _react2["default"].createClass({
           removeFromList: _this5.removeFromList.bind(_this5, userID, "nowPlaying"),
           moveToList: _this5.moveToList.bind(_this5, userID, data, "nowPlaying")
         } });
-    }).reverse() : _react2["default"].createElement(
+    }) : _react2["default"].createElement(
       "span",
       { className: "bold" },
       "No one in this queue"
     );
-    var alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).map(function (userID) {
+    var alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).sort(function (user1, user2) {
+      var data1 = alreadyPlayed[user1];
+      var data2 = alreadyPlayed[user2];
+      return data1.date > date2.date;
+    }).map(function (userID) {
       var data = alreadyPlayed[userID];
       return _react2["default"].createElement(UserItem, {
         controls: userData && userData.name === queueHost,
@@ -577,12 +591,18 @@ var ViewGameQueue = _react2["default"].createClass({
           removeFromList: _this5.removeFromList.bind(_this5, userID, "alreadyPlayed"),
           moveToList: _this5.moveToList.bind(_this5, userID, data, "alreadyPlayed")
         } });
-    }).reverse() : _react2["default"].createElement(
+    }) : _react2["default"].createElement(
       "span",
       { className: "bold" },
       "No one in this queue"
     );
     var queueLimitMet = queueInfo && queueInfo.queue ? Object.keys(queueInfo.queue).length >= (queueInfo.queueLimit || 1) : false;
+
+    console.log(!queueLimitMet);
+    console.log(!queueInfo.queue || !queueInfo.queue[userData._id]);
+    console.log(!queueInfo.nowPlaying || !queueInfo.nowPlaying[userData._id]);
+    console.log(!queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData._id]);
+    console.log(!queueLimitMet && (!queueInfo.queue || !queueInfo.queue[userData.name]) && (!queueInfo.nowPlaying || !queueInfo.nowPlaying[userData.name]) && (!queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData.name]));
 
     return _react2["default"].createElement(
       "div",
@@ -876,7 +896,7 @@ var ViewGameQueue = _react2["default"].createClass({
               )
             )
           )
-        ) : !queueLimitMet && (!queueInfo.queue || !queueInfo.queue[userData.name]) && (!queueInfo.nowPlaying || !queueInfo.nowPlaying[userData.name]) && (!queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData.name]) ? _react2["default"].createElement(
+        ) : !queueLimitMet && (!queueInfo.queue || !queueInfo.queue[userData._id]) && (!queueInfo.nowPlaying || !queueInfo.nowPlaying[userData._id]) && (!queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData._id]) ? _react2["default"].createElement(
           "div",
           { className: "section" },
           _react2["default"].createElement(
