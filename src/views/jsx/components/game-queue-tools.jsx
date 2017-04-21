@@ -350,14 +350,16 @@ export const ViewGameQueue = React.createClass({
         })
       break;
       case "queueUp":
-        fireRef.gameQueuesRef
-        .child(queueHostID)
-        .child("queue")
-        .child(userData._id)
-        .update({
-          gamerID: this.refs.gamerID.value,
-          date: Date.now()
-        })
+        if(this.refs.gamerID.value) {
+          fireRef.gameQueuesRef
+          .child(queueHostID)
+          .child("queue")
+          .child(userData._id)
+          .update({
+            gamerID: this.refs.gamerID.value,
+            date: Date.now()
+          });
+        }
       break;
     }
   },
@@ -521,7 +523,7 @@ export const ViewGameQueue = React.createClass({
     const queueList = queue ? Object.keys(queue).sort((user1, user2) => {
       const data1 = queue[user1];
       const data2 = queue[user2];
-      return data1.date < date2.date;
+      return data1.date > date2.date;
     }).map(userID => {
       const data = queue[userID];
       return (
@@ -540,7 +542,7 @@ export const ViewGameQueue = React.createClass({
     const nowPlayingList = nowPlaying ? Object.keys(nowPlaying).sort((user1, user2) => {
       const data1 = nowPlaying[user1];
       const data2 = nowPlaying[user2];
-      return data1.date < date2.date;
+      return data1.date > date2.date;
     }).map(userID => {
       const data = nowPlaying[userID];
       return (
@@ -559,7 +561,7 @@ export const ViewGameQueue = React.createClass({
     const alreadyPlayedList = alreadyPlayed ? Object.keys(alreadyPlayed).sort((user1, user2) => {
       const data1 = alreadyPlayed[user1];
       const data2 = alreadyPlayed[user2];
-      return data1.date < date2.date;
+      return data1.date > date2.date;
     }).map(userID => {
       const data = alreadyPlayed[userID];
         return (
@@ -576,6 +578,18 @@ export const ViewGameQueue = React.createClass({
       );
     }) : <span className="bold">No one in this queue</span>;
     const queueLimitMet = queueInfo && queueInfo.queue ? ( Object.keys(queueInfo.queue).length >= (queueInfo.queueLimit || 1) ) : false;
+
+
+    console.log( !queueLimitMet )
+    console.log( !queueInfo.queue || !queueInfo.queue[userData._id] )
+    console.log( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData._id] )
+    console.log( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData._id] )
+    console.log(
+      ( !queueLimitMet ) &&
+      ( !queueInfo.queue || !queueInfo.queue[userData.name] ) &&
+      ( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData.name] ) &&
+      ( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData.name] )
+    );
 
     return (
       <div className={`overlay-ui-default view-game-queue open`} onClick={e => e.stopPropagation()}>
@@ -733,9 +747,9 @@ export const ViewGameQueue = React.createClass({
                 </div>
               ) :
               ( !queueLimitMet ) &&
-              ( !queueInfo.queue || !queueInfo.queue[userData.name] ) &&
-              ( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData.name] ) &&
-              ( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData.name] ) ? (
+              ( !queueInfo.queue || !queueInfo.queue[userData._id] ) &&
+              ( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData._id] ) &&
+              ( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData._id] ) ? (
                 <div className="section">
                   <label>
                     <div className="label bold">Queue Up</div>
