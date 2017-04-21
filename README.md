@@ -79,7 +79,7 @@
 - Improvements: 0.14.1
   - UI adjustment to host suggestion **ok**
   - UI adjustment to stream reorder view **ok**
-- Improvements: 0.14.2
+- Improvements and bug fixes: 0.14.2
   - Making sure queuing up users are put in the correct order **ok**
   - Fixed "queue up" input not going away after queuing up **ok**
 
