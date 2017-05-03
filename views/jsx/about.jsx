@@ -48,7 +48,7 @@ exports["default"] = _react2["default"].createClass({
                   { href: "http://twitch.tv", target: "_blank", rel: "nofollow" },
                   "Twitch"
                 ),
-                " users to enjoy the Twitch experience in a better or different way. Twitch streamers and viewers get a better to interact, and the viewing experience is pretty dope as well.",
+                " users to enjoy the Twitch experience in a better or different way. Twitch streamers and viewers get a better way to interact with each other, and the viewing experience is pretty dope as well.",
                 _react2["default"].createElement("br", null),
                 _react2["default"].createElement("br", null),
                 "Have a question for you favorite streamer? Ask them and receive and answer.",

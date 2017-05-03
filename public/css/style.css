@@ -519,7 +519,7 @@ nav {
         position: relative;
         top: -12px; }
     .player-stream .tools .mobile {
-      z-index: 1;
+      z-index: 0;
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
