@@ -91,7 +91,6 @@
 
 
 # Things to add eventually
-- Stream reordering - TBD
 - Meta data update and full server-side rendering - TBD
 - PVP card game - TBD
 - AMAs - TBD
