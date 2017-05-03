@@ -14,7 +14,7 @@ export default React.createClass({
               </p>
               <p>
                 <span className="limit">
-                  Amorrius is a platform for <a href="http://twitch.tv" target="_blank" rel="nofollow">Twitch</a> users to enjoy the Twitch experience in a better or different way. Twitch streamers and viewers get a better to interact, and the viewing experience is pretty dope as well.
+                  Amorrius is a platform for <a href="http://twitch.tv" target="_blank" rel="nofollow">Twitch</a> users to enjoy the Twitch experience in a better or different way. Twitch streamers and viewers get a better way to interact with each other, and the viewing experience is pretty dope as well.
                   <br/><br/>
                   Have a question for you favorite streamer? Ask them and receive and answer.
                   <br/><br/>

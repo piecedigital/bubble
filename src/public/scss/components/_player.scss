@@ -154,7 +154,7 @@
       }
     }
     .mobile {
-      z-index: 1;
+      z-index: 0;
       @include displayFlex;
       flex-direction: row;
       position: absolute;

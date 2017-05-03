@@ -173,12 +173,16 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "subOnly": Boolean,
       "rank": String,
       "queueLimit": Number,
+      "queueOpen": Boolean,
       "platform": String ("PC/Steam" || "PC/Uplay" || "PC/Origin" || "PS4/PSN" || "XBox/XBL" || "Wii/NN"), // text will be flattened as values for simplification
       "queue": {
         <userID>: {
           "gamerID": String,
           "date": Number
         }
+      },
+      "notes": {
+        <userID>: String, // optional. edited by queue hoster
       },
       "nowPlaying": {
         <userID>: Object // same as queue user object

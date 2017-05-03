@@ -18,8 +18,9 @@
     . **server/** - modules for the server
       - **firebase-config.js** - sets up all server config for the server. Also used for creating user auth tokens. Not Browserified
       - **render-jsx.js** - renders JSX files for HTML serving. Not Browserified
-      - **routes.js** - refines routes for the application. Not Browserified
-      - **subdomain-routes.js** - refines subdomain routes for the application. Not Browserified
+      - **routes.js** - defines routes for the application. Not Browserified
+      - **subdomain-routes.js** - defines subdomain routes for the application. Not Browserified
+      - **subdomain.js** - defines subdomain routes for the application. Not Browserified
   - **private/** - contains private data for the server or client. Is not included in the repo itself; it must be manually added with the correct data
   - **public/**
     - **scss/** - Sass files
@@ -30,20 +31,37 @@
       - **components/** - smaller components. No pages
         - **user/** - components related to user profiles
           - **follow-streams.jsx** - lists followed channels and followers
+          - **side-tools.jsx** - for sections with lists of channels/videos/etc., these are options to load more, filter, refresh, etc
           - **user-info.jsx** - top section with user profile info (bio, views, partnership, etc)
           - **videos-listing.jsx** - list channel videos
+        - **alert.jsx** - an on-page dialog box
+        - **bookmark-btn.jsx** - the bookmark button
+        - **bookmark-tools.jsx** - overlay view to handle bookmarks
+        - **comment-tools.jsx** - a reusable comment component
         - **featured-streams.jsx** - simple list of featured streams
-        - **follow-btn.jsx** - self explanitory
+        - **feedback-tools.jsx** - overlay view to submit feedback
+        - **follow-btn.jsx** - self explanatory
+        - **game-queue-tools.jsx** - overlay view to interact with a user's game queue, for both a streamer and viewer
         - **hovor-options.jsx** - for streams and channels, a list of options that get revealed on hover ("View Profile", "Follow/Unfollow", "Watch Stream", "Send Message")
-        - **nav.jsx** - navagation bar
+        - **list-items.jsx** - various listing items
+        - **nav.jsx** - navigation bar
+        - **notification-tools.jsx** - overlay view for viewing notifications
+        - **notifications.jsx** - number counter display unread notifications
         - **player.jsx** - the stream player
+        - **pool-tools.jsx** - overlay view for creating, viewing, and voting on polls
+        - **question-tools.jsx** - overlay view for creating, answering, viewing, and commenting on questions
         - **stream-panels.jsx** - overlays the streams in the player. Contains the stream of a channel
+        - **stream-reorder-tools.jsx** - overlay view for managing the order of streams in the player
         - **top-games.jsx** - top 10 featured games
+        - **user-questions.jsx** - on-page listing of user questions that have been answered. If the viewer is one who has been asked a question they may see it unaswered on their own page
+        - **vote-tool.jsx** - reusable component for voting on a post (question, comment, etc)
+      - **about.jsx** - about the app
       - **general-page.jsx** - general page component for top streams and top games
       - **home.jsx** - home page
       - **layout.jsx** - application layout
       - **profile.jsx** - profile page
       - **search.jsx** - search page
+      - **tos.jsx** - terms of service page
     - **app.jsx** - source JSX file. Defines routes for React Router
 - **babel-watcher.js** - build step module. Used to trans- and compile all files
 - **index.js** - used to start the server with any environmental variables that I need

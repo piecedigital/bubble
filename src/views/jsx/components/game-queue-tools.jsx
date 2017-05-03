@@ -8,6 +8,9 @@ const UserItem = React.createClass({
   getInitialState: () => ({
     username: null
   }),
+  updateNote() {
+    if(this.refs.note) this.props.methods.updateNote(this.refs.note.value || "");
+  },
   componentDidMount() {
     getUsername([this.props.userID])
     .then(dataArr => {
@@ -23,7 +26,8 @@ const UserItem = React.createClass({
       controls,
       methods: {
         removeFromList,
-        moveToList
+        moveToList,
+        updateNote
       }
     } = this.props;
     const { username } = this.state;
@@ -37,6 +41,8 @@ const UserItem = React.createClass({
             <Link href={`/profile/${username}`} to={`/profile/${username}`}>{username}</Link>
             <div className="section" />
             <div className="game-id">Gamer ID: {data.gamerID}</div>
+            <div className="section" />
+            <div className="game-id">Leave a note</div>
           </span>
           {
             controls ? (
@@ -55,6 +61,7 @@ const UserItem = React.createClass({
                   ) : null
                 }
                 <span className="danger" onClick={removeFromList} title="Will remove this person from the queue completely">Remove</span>
+                <textarea ref="note" onChange={this.updateNote} defaultValue={data.note} placeholder="Write your note here..."></textarea>
               </span>
             ) : null
           }
@@ -75,6 +82,7 @@ export const ViewGameQueue = React.createClass({
     icon: ("PC/Steam").toLowerCase(),
     confirmedSub: false,
     partnered: false,
+    queueAvailable: false,
     validation: {
       // title
       titleMin: 2,
@@ -221,10 +229,16 @@ export const ViewGameQueue = React.createClass({
     .child(queueHostID);
     nodeRef.once("value")
     .then(snap => {
+      if(snap.val()) {
+        this.setState({
+          queueAvailable: true
+        });
+      }
       const queueInfo = snap.val() || {
         title: (``),
         game: (``),
         rank: (``),
+        queueLimit: this.state.validation.queueLimitMax
       };
       // console.log(queueInfo);
       // console.log(snap.getKey(), snap.val());
@@ -338,7 +352,11 @@ export const ViewGameQueue = React.createClass({
           queueLimit: parseInt(this.refs.queueLimit.value),
           platform: this.refs.platform.value,
           subOnly: this.state.partnered ? this.refs.subOnly.checked : false,
+          queueOpen: this.refs.queueOpen.checked,
         })
+        this.setState({
+          queueAvailable: true
+        });
       break;
       case "reset":
         fireRef.gameQueuesRef
@@ -449,22 +467,39 @@ export const ViewGameQueue = React.createClass({
       .catch((e = {}) => console.error(e.stack || e))
     });
   },
+  updateNote(username, data) {
+    const {
+      fireRef,
+      queueHost
+    } = this.props;
+    const { queueHostID } = this.state;
+
+    fireRef.gameQueuesRef
+    .child(queueHostID)
+    .child("notes")
+    .update({
+      [username]: data
+    })
+    .catch((e = {}) => console.error(e.stack || e));
+  },
   setChange(e, ref) {
     // console.log("change");
     // console.log(e.target.value, e.target.checked, ref);
-    if(ref === "subOnly") {
-      this.setState({
-        queueInfo: Object.assign(this.state.queueInfo || {}, {
-          subOnly: e.target.checked || null
-        })
-      });
-    } else {
-      this.setState({
-        queueInfo: Object.assign(this.state.queueInfo || {}, {
-          [ref]: e.target.value
-        })
-      });
+    let checkInput = false;
+    switch (ref) {
+      case "subOnly":
+      case "queueOpen":
+        checkInput = true;
+        break;
     }
+    this.setState({
+      queueInfo: Object.assign(this.state.queueInfo || {}, {
+        [ref]: e.target[checkInput ? "checked" : "value"]
+      })
+    });
+  },
+  killListener() {
+    console.log("If you're sing this, the game queue listeners we're not properly killed.");
   },
   componentDidMount() {
     if(!this.state.queueHostID) {
@@ -502,15 +537,29 @@ export const ViewGameQueue = React.createClass({
       icon,
       confirmedSub,
       partnered,
+      queueAvailable,
     } = this.state;
 
     if(!propsPresent) return null;
 
-    if(!queueInfo && (!userData || userData.name !== queueHost)) return (
+    if(
+      !queueInfo && (!userData || userData.name !== queueHost)
+    ) return (
       <div className={`overlay-ui-default view-game-queue open`} onClick={e => e.stopPropagation()}>
         <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
         <div className="title">
           There is no queue info ready
+        </div>
+      </div>
+    );
+
+    if(
+      queueInfo && (!userData || userData.name !== queueHost) && !queueInfo.queueOpen
+    ) return (
+      <div className={`overlay-ui-default view-game-queue open`} onClick={e => e.stopPropagation()}>
+        <div className="close" onClick={popUpHandler.bind(null, "close")}>x</div>
+        <div className="title">
+          {queueHost}'s game queue is currently closed
         </div>
       </div>
     );
@@ -526,6 +575,7 @@ export const ViewGameQueue = React.createClass({
       return data1.date > date2.date;
     }).map(userID => {
       const data = queue[userID];
+      if(queueInfo.notes) data.note = queueInfo.notes[userID]
       return (
         <UserItem
           controls={userData && (userData.name === queueHost)}
@@ -536,6 +586,7 @@ export const ViewGameQueue = React.createClass({
           methods={{
             removeFromList: this.removeFromList.bind(this, userID, "queue"),
             moveToList: this.moveToList.bind(this, userID, data, "queue"),
+            updateNote: this.updateNote.bind(this, userID),
           }} />
       );
     }) : <span className="bold">No one in this queue</span>;
@@ -545,6 +596,7 @@ export const ViewGameQueue = React.createClass({
       return data1.date > date2.date;
     }).map(userID => {
       const data = nowPlaying[userID];
+      if(queueInfo.notes) data.note = queueInfo.notes[userID]
       return (
         <UserItem
           controls={userData && (userData.name === queueHost)}
@@ -555,6 +607,7 @@ export const ViewGameQueue = React.createClass({
           methods={{
             removeFromList: this.removeFromList.bind(this, userID, "nowPlaying"),
             moveToList: this.moveToList.bind(this, userID, data, "nowPlaying"),
+            updateNote: this.updateNote.bind(this, userID),
           }} />
       );
     }) : <span className="bold">No one in this queue</span>;
@@ -562,8 +615,9 @@ export const ViewGameQueue = React.createClass({
       const data1 = alreadyPlayed[user1];
       const data2 = alreadyPlayed[user2];
       return data1.date > date2.date;
-    }).map(userID => {
+        }).map(userID => {
       const data = alreadyPlayed[userID];
+      if(queueInfo.notes) data.note = queueInfo.notes[userID]
         return (
           <UserItem
             controls={userData && (userData.name === queueHost)}
@@ -574,22 +628,23 @@ export const ViewGameQueue = React.createClass({
             methods={{
               removeFromList: this.removeFromList.bind(this, userID, "alreadyPlayed"),
               moveToList: this.moveToList.bind(this, userID, data, "alreadyPlayed"),
+              updateNote: this.updateNote.bind(this, userID),
             }} />
       );
     }) : <span className="bold">No one in this queue</span>;
     const queueLimitMet = queueInfo && queueInfo.queue ? ( Object.keys(queueInfo.queue).length >= (queueInfo.queueLimit || 1) ) : false;
 
 
-    console.log( !queueLimitMet )
-    console.log( !queueInfo.queue || !queueInfo.queue[userData._id] )
-    console.log( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData._id] )
-    console.log( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData._id] )
-    console.log(
-      ( !queueLimitMet ) &&
-      ( !queueInfo.queue || !queueInfo.queue[userData.name] ) &&
-      ( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData.name] ) &&
-      ( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData.name] )
-    );
+    // console.log( !queueLimitMet )
+    // console.log( !queueInfo.queue || !queueInfo.queue[userData._id] )
+    // console.log( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData._id] )
+    // console.log( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData._id] )
+    // console.log(
+    //   ( !queueLimitMet ) &&
+    //   ( !queueInfo.queue || !queueInfo.queue[userData.name] ) &&
+    //   ( !queueInfo.nowPlaying || !queueInfo.nowPlaying[userData.name] ) &&
+    //   ( !queueInfo.alreadyPlayed || !queueInfo.alreadyPlayed[userData.name] )
+    // );
 
     return (
       <div className={`overlay-ui-default view-game-queue open`} onClick={e => e.stopPropagation()}>
@@ -717,6 +772,28 @@ export const ViewGameQueue = React.createClass({
             </label>
           </div>
           <div className="separator-1-dim" />
+          <div className="section">
+            <label>
+              <span className="label bold">Queue Is Open </span>
+              {
+                (userData && userData.name === queueHost) ? (
+                  <input key="input" type="checkbox" ref="queueOpen" onChange={e => {
+                    this.setChange(e, "queueOpen");
+                  }} checked={queueInfo ? queueInfo.queueOpen : true} />
+                ) : (
+                  queueInfo ? ( queueInfo.subOnly ? "Yes" : "No" ) : "No"
+                )
+              }
+            </label>
+          </div>
+          <div className="separator-1-dim" />
+          {
+            !queueAvailable ? (
+              <div className="section">
+                <div className="label bold color-red">The queue is closed</div>
+              </div>
+            ) : null
+          }
           {
             userData && userData.name === queueHost ? (
               <div className="section">
@@ -742,7 +819,7 @@ export const ViewGameQueue = React.createClass({
               ( queueInfo.subOnly && !confirmedSub) ? (
                 <div className="section">
                   <label>
-                    <div className="label bold">Sorry! You have to be a subscriber to join this queue. <a href={`https://www.twitch.tv/${queueHost}/subscribe`} target="_blank" rel="nofollow">Click here to subscribe to {queueHost}</a></div>
+                    <div className="label bold">Sorry! You have to be a subscriber to join this queue. <a href={`http://twitch.tv/${queueHost}/subscribe`} target="_blank" rel="nofollow">Click here to subscribe to {queueHost}</a></div>
                   </label>
                 </div>
               ) :

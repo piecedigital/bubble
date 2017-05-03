@@ -82,6 +82,12 @@
 - Improvements and bug fixes: 0.14.2
   - Making sure queuing up users are put in the correct order **ok**
   - Fixed "queue up" input not going away after queuing up **ok**
+- Improvements and bug fixes: 0.14.3
+  - Fixed overlap of player stream tools menu **ok**
+  - Added notes for players in game queue **ok**
+  - Fixed typo in "about" page **ok**
+  - Queue creator will know if their queue is now available **ok**
+  - Queue creator can close the game queue so no one can sign up **ok**
 
 
 # Things to add eventually
