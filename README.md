@@ -88,6 +88,8 @@
   - Fixed typo in "about" page **ok**
   - Queue creator will know if their queue is now available **ok**
   - Queue creator can close the game queue so no one can sign up **ok**
+- Improvements: 0.14.4
+  - Improved stream reordering
 
 
 # Things to add eventually

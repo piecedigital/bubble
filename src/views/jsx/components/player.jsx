@@ -346,6 +346,7 @@ const PlayerStream = React.createClass({
       inView,
       isFor,
       index,
+      order,
       vod,
       versionData,
       methods: {
@@ -370,9 +371,14 @@ const PlayerStream = React.createClass({
       suggestedHost,
       watchingHost,
     } = this.state;
+
+    console.log(`Name: ${name}; Order: ${order}`);
+
     switch (isFor) {
       case "video": return (
-        <li className={`player-stream${inView ? " in-view" : ""}`}>
+        <li className={`player-stream${inView ? " in-view" : ""}${order === 0 ? " top-player" : ""}`} style={{
+          order
+        }}>
           <div className="video">
             <div ref="video" className="nested player-div">
               {/* <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen /> */}
@@ -768,7 +774,8 @@ export default React.createClass({
         alertHandler,
       },
       data: {
-        dataObject
+        dataObject,
+        streamOrderMap
       },
     } = this.props;
     let {
@@ -799,6 +806,12 @@ export default React.createClass({
                   }
                   let channelData = dataObject[key];
                   // console.log(streamInView, ind, streamInView === ind);
+
+                  const getOrder = function (fallbackIndex) {
+                    let order = streamOrderMap.indexOf(key);
+                    return order >= 0 ? order : fallbackIndex;
+                  }
+
                   return (
                     <PlayerStream
                       key={key}
@@ -812,6 +825,7 @@ export default React.createClass({
                       inView={streamInView === ind}
                       isFor="video"
                       index={ind}
+                      order={getOrder(ind)}
                       methods={{
                         appendStream,
                         spliceStream,

@@ -402,6 +402,28 @@
 
 .root {
   &.player-open {
+    // &.layout-by-2 .player,
+    // &.layout-2 .player,
+    &.layout-by-3 .player,
+    &.layout-3 .player,
+    // &.layout-4 .player,
+    &.layout-5 .player//,
+    // &.layout-6 .player
+    {
+      > .wrapper {
+        .list.video-list {
+          @include displayFlex;
+          flex-wrap: wrap;
+          .player-stream {
+            width: 100%;
+            &.top-player {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+
     .player, &.layout-singular .player, &.layout-1 .player {
       width: 100%;
       height: 100%;
@@ -449,10 +471,10 @@
         .list.video-list {
           .player-stream {
             height: 50%;
-            // &:not(:first-child) {
-            //   @include displayInlineFlex;
-            //   width: 50%;
-            // }
+            &:not(.top-player) {
+              // @include displayInlineFlex;
+              width: 50%;
+            }
           }
         }
         .list.chat-list {
@@ -467,8 +489,8 @@
         .list.video-list {
           .player-stream {
             height: 50%;
-            &:not(:first-child) {
-              @include displayInlineFlex;
+            &:not(.top-player) {
+              // @include displayInlineFlex;
               width: 50%;
             }
           }
@@ -509,8 +531,9 @@
             @include displayInlineFlex;
             width: 50%;
             height: 33.3333333%;
-            &:first-child {
-              width: 100%;
+            &:not(.top-player) {
+              // @include displayInlineFlex;
+              width: 50%;
             }
           }
         }

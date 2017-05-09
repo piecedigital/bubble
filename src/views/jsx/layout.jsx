@@ -51,6 +51,7 @@ export default React.createClass({
       authData: (this.props.data && this.props.data.authData) || null,
       userData: null,
       streamersInPlayer: {},
+      streamOrderMap: [],
       playerCollapsed: true,
       layout: "",
       playerStreamMax: 6,
@@ -302,16 +303,20 @@ export default React.createClass({
   },
   reorderStreams(array, moverPlace) {
     const streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-    const newStreamersInPlayer = {};
+    // const streamOrderMap = JSON.parse(JSON.stringify(this.state.streamOrderMap));
+    // const newStreamersInPlayer = {};
+    //
+    // array.map(nameOrID => {
+    //   newStreamersInPlayer[nameOrID] = streamersInPlayer[nameOrID];
+    // });
+    //
+    // this.refs.player.putInView(moverPlace);
 
-    array.map(nameOrID => {
-      newStreamersInPlayer[nameOrID] = streamersInPlayer[nameOrID];
-    });
-
-    this.refs.player.putInView(moverPlace);
+    console.log(streamersInPlayer, array);
 
     this.setState({
-      streamersInPlayer: newStreamersInPlayer
+      // streamersInPlayer: newStreamersInPlayer,
+      streamOrderMap: array,
     });
   },
   search(query) {
@@ -610,6 +615,7 @@ export default React.createClass({
       authData,
       userData,
       streamersInPlayer: dataObject,
+      streamOrderMap,
       playerCollapsed,
       layout,
       panelData,
@@ -653,7 +659,8 @@ export default React.createClass({
             fireRef={fireRef}
             versionData={versionData}
             data={{
-              dataObject
+              dataObject,
+              streamOrderMap
             }}
             userData={userData}
             auth={authData}
