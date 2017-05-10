@@ -169,6 +169,12 @@ const PlayerStream = React.createClass({
     player.addEventListener(Twitch.Player.OFFLINE, () => {
       console.log('Player is offline!');
       this.hostTicker = setInterval(() => {
+        if(!this._mounted) {
+          clearInterval(this.hostTicker);
+          delete this.hostTicker;
+          return;
+        }
+
         if(this.state.suggestedHost) return clearInterval(this.hostTicker);
         this.checkHost()
         .then(data => {
@@ -371,8 +377,6 @@ const PlayerStream = React.createClass({
       suggestedHost,
       watchingHost,
     } = this.state;
-
-    console.log(`Name: ${name}; Order: ${order}`);
 
     switch (isFor) {
       case "video": return (

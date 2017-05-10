@@ -253,13 +253,21 @@ export default React.createClass({
     .catch(e => console.error(e))
   },
   spliceStream(username, id) {
-    console.log("removing stream", username);
+    console.log("removing stream", id || username);
     let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    let streamOrderMap = JSON.parse(JSON.stringify(this.state.streamOrderMap));
     delete streamersInPlayer[id || username];
+
+    let indexOfStream = streamOrderMap.indexOf(id || username);
+    indexOfStream = indexOfStream >= 0 ? indexOfStream : null;
+    if(indexOfStream !== null) streamOrderMap.splice(indexOfStream, 1);
+
     console.log("New streamersInPlayer:", streamersInPlayer);
+    console.log(`"${id || username}"`, streamOrderMap);
 
     let stateObj = {
-      streamersInPlayer
+      streamersInPlayer,
+      streamOrderMap
     };
     if(username === this.state.panelDataFor) {
       stateObj = Object.assign(stateObj, {
@@ -279,10 +287,16 @@ export default React.createClass({
     console.log("removing stream", username);
     let streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
     const streamersInPlayerArray = Object.keys(streamersInPlayer);
+    let streamOrderMap = JSON.parse(JSON.stringify(this.state.streamOrderMap));
     const indexOfOld = streamersInPlayerArray.indexOf(username);
     delete streamersInPlayer[id || username];
+
+    let indexOfStream = streamOrderMap.indexOf(id || username);
+    indexOfStream = indexOfStream >= 0 ? indexOfStream : null;
+    if(indexOfStream !== null) streamOrderMap.splice(indexOfStream, 1, replaceUsername);
+
     streamersInPlayer[replaceUsername] = replaceDisplayName || replaceUsername;
-    streamersInPlayerArray.splice(indexOfOld,1,replaceUsername);
+    streamersInPlayerArray.splice(indexOfOld, 1, replaceUsername);
     let newObject = {};
     streamersInPlayerArray.map(usernameOrID => {
       newObject[usernameOrID] = streamersInPlayer[usernameOrID];
@@ -290,7 +304,8 @@ export default React.createClass({
     console.log("New streamersInPlayer:", newObject);
 
     let stateObj = {
-      streamersInPlayer: newObject
+      streamersInPlayer: newObject,
+      streamOrderMap
     };
     if(username === this.state.panelDataFor) {
       stateObj = Object.assign(stateObj, {

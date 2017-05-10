@@ -26,6 +26,10 @@
       //   @include displayFlex;
       //   flex-direction: column;
       // }
+      &.video-list {
+        @include displayFlex;
+        flex-wrap: wrap;
+      }
       &.chat-list {
         width: 24*$em;
         min-width: 24*$em;
@@ -407,13 +411,11 @@
     &.layout-by-3 .player,
     &.layout-3 .player,
     // &.layout-4 .player,
-    &.layout-5 .player//,
+    &.layout-5 .player //,
     // &.layout-6 .player
     {
       > .wrapper {
         .list.video-list {
-          @include displayFlex;
-          flex-wrap: wrap;
           .player-stream {
             width: 100%;
             &.top-player {
@@ -457,6 +459,7 @@
         .list.video-list {
           .player-stream {
             height: 50%;
+            width: 100%;
           }
         }
         .list.chat-list {

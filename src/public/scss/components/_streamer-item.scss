@@ -24,7 +24,11 @@
           background-color: rgba($primary, .8);
           cursor: pointer;
           font-weight: bold;
-          &:hover {
+          &.still {
+            cursor: default;
+            opacity: .5;
+          }
+          &:not(.still):hover {
             background-color: rgba($dim, .8);
             color: white;
           }

@@ -89,7 +89,8 @@
   - Queue creator will know if their queue is now available **ok**
   - Queue creator can close the game queue so no one can sign up **ok**
 - Improvements: 0.14.4
-  - Improved stream reordering
+  - Improved stream reordering **ok**
+  - Fixed host checking. It no longer checks for hosts for unmounted components **observing**
 
 
 # Things to add eventually

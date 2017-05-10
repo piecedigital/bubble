@@ -31,12 +31,16 @@ const StreamerItem = React.createClass({
             {
               canMoveUp ? (
                 <span className="move-up" onClick={this.move.bind(this, "up")}>&#8593;</span>
-              ) : null
+              ) : (
+                <span className="move-up still" style={{ opacity: .5 }}>&#8593;</span>
+              )
             }
             {
               canMoveDown ? (
                 <span className="move-down" onClick={this.move.bind(this, "down")}>&#8595;</span>
-              ) : null
+              ) : (
+                <span className="move-down still" style={{ opacity: .5 }}>&#8595;</span>
+              )
             }
           </span>
         </label>
