@@ -353,9 +353,10 @@ nav {
   display: -webkit-box ;
   display: flex ;
   position: relative;
+  width: 100%;
   height: 100%; }
   .player-stream:hover {
-    z-index: 1; }
+    z-index: 2; }
   .player-stream .video, .player-stream .chat {
     position: relative;
     background-color: black; }
@@ -525,7 +526,7 @@ nav {
         position: relative;
         top: -12px; }
     .player-stream .tools .mobile {
-      z-index: 0;
+      z-index: 1;
       display: -ms-flex ;
       display: -moz-flex ;
       display: -webkit-box ;
@@ -596,10 +597,12 @@ nav {
     width: 0;
     height: 0;
     overflow: hidden; }
-.root.player-open.layout-singular:not(.player-collapsed) .player > .wrapper .list.video-list .player-stream:not(.in-view) {
-  width: 0;
-  height: 0;
-  overflow: hidden; }
+.root.player-open.layout-singular:not(.player-collapsed) .player > .wrapper .list.video-list .player-stream {
+  width: 100%; }
+  .root.player-open.layout-singular:not(.player-collapsed) .player > .wrapper .list.video-list .player-stream:not(.in-view) {
+    width: 0;
+    height: 0;
+    overflow: hidden; }
 .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream {
   height: 50%;
   width: 100%; }
