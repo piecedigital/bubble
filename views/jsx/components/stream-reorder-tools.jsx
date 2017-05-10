@@ -53,12 +53,20 @@ var StreamerItem = _react2["default"].createClass({
             "span",
             { className: "move-up", onClick: this.move.bind(this, "up") },
             "↑"
-          ) : null,
+          ) : _react2["default"].createElement(
+            "span",
+            { className: "move-up still", style: { opacity: .5 } },
+            "↑"
+          ),
           canMoveDown ? _react2["default"].createElement(
             "span",
             { className: "move-down", onClick: this.move.bind(this, "down") },
             "↓"
-          ) : null
+          ) : _react2["default"].createElement(
+            "span",
+            { className: "move-down still", style: { opacity: .5 } },
+            "↓"
+          )
         )
       )
     );

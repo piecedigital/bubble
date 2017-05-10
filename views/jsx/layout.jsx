@@ -86,6 +86,7 @@ exports["default"] = _react2["default"].createClass({
       authData: this.props.data && this.props.data.authData || null,
       userData: null,
       streamersInPlayer: {},
+      streamOrderMap: [],
       playerCollapsed: true,
       layout: "",
       playerStreamMax: 6,
@@ -297,13 +298,21 @@ exports["default"] = _react2["default"].createClass({
     });
   },
   spliceStream: function spliceStream(username, id) {
-    console.log("removing stream", username);
+    console.log("removing stream", id || username);
     var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
+    var streamOrderMap = JSON.parse(JSON.stringify(this.state.streamOrderMap));
     delete streamersInPlayer[id || username];
+
+    var indexOfStream = streamOrderMap.indexOf(id || username);
+    indexOfStream = indexOfStream >= 0 ? indexOfStream : null;
+    if (indexOfStream !== null) streamOrderMap.splice(indexOfStream, 1);
+
     console.log("New streamersInPlayer:", streamersInPlayer);
+    console.log("\"" + (id || username) + "\"", streamOrderMap);
 
     var stateObj = {
-      streamersInPlayer: streamersInPlayer
+      streamersInPlayer: streamersInPlayer,
+      streamOrderMap: streamOrderMap
     };
     if (username === this.state.panelDataFor) {
       stateObj = Object.assign(stateObj, {
@@ -323,8 +332,14 @@ exports["default"] = _react2["default"].createClass({
     console.log("removing stream", username);
     var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
     var streamersInPlayerArray = Object.keys(streamersInPlayer);
+    var streamOrderMap = JSON.parse(JSON.stringify(this.state.streamOrderMap));
     var indexOfOld = streamersInPlayerArray.indexOf(username);
     delete streamersInPlayer[id || username];
+
+    var indexOfStream = streamOrderMap.indexOf(id || username);
+    indexOfStream = indexOfStream >= 0 ? indexOfStream : null;
+    if (indexOfStream !== null) streamOrderMap.splice(indexOfStream, 1, replaceUsername);
+
     streamersInPlayer[replaceUsername] = replaceDisplayName || replaceUsername;
     streamersInPlayerArray.splice(indexOfOld, 1, replaceUsername);
     var newObject = {};
@@ -334,7 +349,8 @@ exports["default"] = _react2["default"].createClass({
     console.log("New streamersInPlayer:", newObject);
 
     var stateObj = {
-      streamersInPlayer: newObject
+      streamersInPlayer: newObject,
+      streamOrderMap: streamOrderMap
     };
     if (username === this.state.panelDataFor) {
       stateObj = Object.assign(stateObj, {
@@ -347,16 +363,20 @@ exports["default"] = _react2["default"].createClass({
   },
   reorderStreams: function reorderStreams(array, moverPlace) {
     var streamersInPlayer = JSON.parse(JSON.stringify(this.state.streamersInPlayer));
-    var newStreamersInPlayer = {};
+    // const streamOrderMap = JSON.parse(JSON.stringify(this.state.streamOrderMap));
+    // const newStreamersInPlayer = {};
+    //
+    // array.map(nameOrID => {
+    //   newStreamersInPlayer[nameOrID] = streamersInPlayer[nameOrID];
+    // });
+    //
+    // this.refs.player.putInView(moverPlace);
 
-    array.map(function (nameOrID) {
-      newStreamersInPlayer[nameOrID] = streamersInPlayer[nameOrID];
-    });
-
-    this.refs.player.putInView(moverPlace);
+    console.log(streamersInPlayer, array);
 
     this.setState({
-      streamersInPlayer: newStreamersInPlayer
+      // streamersInPlayer: newStreamersInPlayer,
+      streamOrderMap: array
     });
   },
   search: function search(query) {
@@ -658,6 +678,7 @@ exports["default"] = _react2["default"].createClass({
     var authData = _state.authData;
     var userData = _state.userData;
     var dataObject = _state.streamersInPlayer;
+    var streamOrderMap = _state.streamOrderMap;
     var playerCollapsed = _state.playerCollapsed;
     var layout = _state.layout;
     var panelData = _state.panelData;
@@ -692,7 +713,8 @@ exports["default"] = _react2["default"].createClass({
         fireRef: fireRef,
         versionData: versionData,
         data: {
-          dataObject: dataObject
+          dataObject: dataObject,
+          streamOrderMap: streamOrderMap
         },
         userData: userData,
         auth: authData,

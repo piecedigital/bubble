@@ -282,6 +282,12 @@ nav {
       margin: 0;
       padding: 0;
       overflow: hidden; }
+      .player > .wrapper .list.video-list {
+        display: -ms-flex ;
+        display: -moz-flex ;
+        display: -webkit-box ;
+        display: flex ;
+        flex-wrap: wrap; }
       .player > .wrapper .list.chat-list {
         width: 384px;
         min-width: 384px; }
@@ -577,6 +583,10 @@ nav {
   width: 0 !important;
   min-width: 0 !important; }
 
+.root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream, .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream {
+  width: 100%; }
+  .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream.top-player, .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream.top-player, .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream.top-player {
+    width: 100%; }
 .root.player-open .player, .root.player-open.layout-singular .player, .root.player-open.layout-1 .player {
   width: 100%;
   height: 100%;
@@ -591,16 +601,15 @@ nav {
   height: 0;
   overflow: hidden; }
 .root.player-open.layout-by-2 .player > .wrapper .list.video-list .player-stream, .root.player-open.layout-2 .player > .wrapper .list.video-list .player-stream {
-  height: 50%; }
+  height: 50%;
+  width: 100%; }
 .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream {
   height: 50%; }
+  .root.player-open.layout-by-3 .player > .wrapper .list.video-list .player-stream:not(.top-player) {
+    width: 50%; }
 .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream {
   height: 50%; }
-  .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(:first-child) {
-    display: -ms-inline-flex ;
-    display: -moz-inline-flex ;
-    display: -webkit-inline-box ;
-    display: inline-flex ;
+  .root.player-open.layout-3 .player > .wrapper .list.video-list .player-stream:not(.top-player) {
     width: 50%; }
 .root.player-open.layout-4 .player > .wrapper .list.video-list {
   display: -ms-flex ;
@@ -630,8 +639,8 @@ nav {
     display: inline-flex ;
     width: 50%;
     height: 33.3333333%; }
-    .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream:first-child {
-      width: 100%; }
+    .root.player-open.layout-5 .player > .wrapper .list.video-list .player-stream:not(.top-player) {
+      width: 50%; }
 .root.player-open.layout-5 .player > .wrapper .list.chat-list {
   overflow-y: hidden; }
 .root.player-open.layout-6 .player > .wrapper .list.video-list {
@@ -2012,7 +2021,10 @@ nav {
       background-color: rgba(0, 200, 250, 0.8);
       cursor: pointer;
       font-weight: bold; }
-      .streamer-item label > span.tools span:hover {
+      .streamer-item label > span.tools span.still {
+        cursor: default;
+        opacity: .5; }
+      .streamer-item label > span.tools span:not(.still):hover {
         background-color: rgba(0, 170, 220, 0.8);
         color: white; }
 

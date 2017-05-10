@@ -203,6 +203,12 @@ var PlayerStream = _react2["default"].createClass({
     player.addEventListener(Twitch.Player.OFFLINE, function () {
       console.log('Player is offline!');
       _this2.hostTicker = setInterval(function () {
+        if (!_this2._mounted) {
+          clearInterval(_this2.hostTicker);
+          delete _this2.hostTicker;
+          return;
+        }
+
         if (_this2.state.suggestedHost) return clearInterval(_this2.hostTicker);
         _this2.checkHost().then(function (data) {
           if (data.hosts[0].target_login) {
@@ -373,6 +379,7 @@ var PlayerStream = _react2["default"].createClass({
     var inView = _props4.inView;
     var isFor = _props4.isFor;
     var index = _props4.index;
+    var order = _props4.order;
     var vod = _props4.vod;
     var versionData = _props4.versionData;
     var _props4$methods = _props4.methods;
@@ -399,7 +406,9 @@ var PlayerStream = _react2["default"].createClass({
       case "video":
         return _react2["default"].createElement(
           "li",
-          { className: "player-stream" + (inView ? " in-view" : "") },
+          { className: "player-stream" + (inView ? " in-view" : "") + (order === 0 ? " top-player" : ""), style: {
+              order: order
+            } },
           _react2["default"].createElement(
             "div",
             { className: "video" },
@@ -872,7 +881,9 @@ exports["default"] = _react2["default"].createClass({
     var panelsHandler = _props5$methods.panelsHandler;
     var popUpHandler = _props5$methods.popUpHandler;
     var alertHandler = _props5$methods.alertHandler;
-    var dataObject = _props5.data.dataObject;
+    var _props5$data = _props5.data;
+    var dataObject = _props5$data.dataObject;
+    var streamOrderMap = _props5$data.streamOrderMap;
     var layout = this.props.layout;
     var _state2 = this.state;
     var streamInView = _state2.streamInView;
@@ -901,6 +912,12 @@ exports["default"] = _react2["default"].createClass({
             }
             var channelData = dataObject[key];
             // console.log(streamInView, ind, streamInView === ind);
+
+            var getOrder = function getOrder(fallbackIndex) {
+              var order = streamOrderMap.indexOf(key);
+              return order >= 0 ? order : fallbackIndex;
+            };
+
             return _react2["default"].createElement(PlayerStream, {
               key: key,
               fireRef: fireRef,
@@ -913,6 +930,7 @@ exports["default"] = _react2["default"].createClass({
               inView: streamInView === ind,
               isFor: "video",
               index: ind,
+              order: getOrder(ind),
               methods: {
                 appendStream: appendStream,
                 spliceStream: spliceStream,
