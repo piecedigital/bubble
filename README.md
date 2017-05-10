@@ -91,6 +91,8 @@
 - Improvements: 0.14.4
   - Improved stream reordering **ok**
   - Fixed host checking. It no longer checks for hosts for unmounted components **observing**
+- Bug Fix: 0.14.5
+  - Fixed a bug where a single stream was not visible **ok**
 
 
 # Things to add eventually
