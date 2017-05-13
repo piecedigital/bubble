@@ -14,19 +14,21 @@ const app = express();
 const PORT = process.env["PORT"] || 8080;
 
 // // let's encrypt
-// const letsEncryptReponse = process.env.CERTBOT_RESPONSE;
-// const letsEncryptReponse2 = process.env.CERTBOT_RESPONSE2;
+const letsEncryptReponse = process.env.CERTBOT_RESPONSE;
+const letsEncryptReponse2 = process.env.CERTBOT_RESPONSE2;
 //
 // // Return the Let's Encrypt certbot response:
-// app.get('/.well-known/acme-challenge/:content', function(req, res) {
-//   if(req.headers.host.match("www")) {
-//     // www.amorrius.net
-//     res.send(letsEncryptReponse2);
-//   } else {
-//     // amorrius.net
-//     res.send(letsEncryptReponse);
-//   }
-// });
+app.get('/.well-known/acme-challenge/:content', function(req, res) {
+  if(req.headers.host.match("www")) {
+    // www.amorrius.net
+    console.log("challenge", req.url);
+    res.send(letsEncryptReponse2);
+  } else {
+    // amorrius.net
+    console.log("challenge", req.url);
+    res.send(letsEncryptReponse);
+  }
+});
 // // end let's encrypt
 
 app.use(express.static(path.join(__dirname, "public")));
