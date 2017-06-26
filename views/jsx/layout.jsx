@@ -785,6 +785,7 @@ exports["default"] = _react2["default"].createClass({
         overlay: overlay,
         overlayState: overlayState,
         streamersInPlayer: dataObject,
+        streamOrderMap: streamOrderMap,
         fireRef: fireRef,
         versionData: versionData,
         params: this.props.params,

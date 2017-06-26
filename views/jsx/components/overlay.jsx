@@ -56,6 +56,7 @@ exports["default"] = _react2["default"].createClass({
     var overlay = _props.overlay;
     var overlayState = _props.overlayState;
     var streamersInPlayer = _props.streamersInPlayer;
+    var streamOrderMap = _props.streamOrderMap;
     var params = _props.params;
     var location = _props.location;
     var methods = _props.methods;
@@ -89,6 +90,7 @@ exports["default"] = _react2["default"].createClass({
           fireRef: fireRef,
           versionData: versionData,
           streamersInPlayer: streamersInPlayer,
+          streamOrderMap: streamOrderMap,
           params: params,
           location: location,
           userData: userData,
