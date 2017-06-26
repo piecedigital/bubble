@@ -80,8 +80,10 @@ export const StreamReorderer = React.createClass({
     }
   },
   componentDidMount() {
+    const streamersArray = this.props.streamOrderMap.length > 0 ? this.props.streamOrderMap :  Object.keys(this.props.streamersInPlayer);
+
     this.setState({
-      streamersArray: Object.keys(this.props.streamersInPlayer)
+      streamersArray
     });
   },
   render() {

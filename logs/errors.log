@@ -1427,3 +1427,6 @@ The process cannot access the file because it is being used by another process.
 [1492215791112] [Sat, 15 Apr 2017 00:23:11 GMT] [error] [stderr maxBuffer exceeded]
 [1492218611696] [Sat, 15 Apr 2017 01:10:11 GMT] [error] [stderr maxBuffer exceeded]
 [1494395574901] [Wed, 10 May 2017 05:52:54 GMT] [error] [stderr maxBuffer exceeded]
+[1498515979555] [Mon, 26 Jun 2017 22:26:19 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]

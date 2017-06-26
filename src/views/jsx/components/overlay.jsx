@@ -36,6 +36,7 @@ export default React.createClass({
       overlay,
       overlayState,
       streamersInPlayer,
+      streamOrderMap,
       params,
       location,
       methods,
@@ -72,6 +73,7 @@ export default React.createClass({
                 fireRef={fireRef}
                 versionData={versionData}
                 streamersInPlayer={streamersInPlayer}
+                streamOrderMap={streamOrderMap}
                 params={params}
                 location={location}
                 userData={userData}

@@ -21,11 +21,11 @@ const letsEncryptReponse2 = process.env.CERTBOT_RESPONSE2;
 app.get('/.well-known/acme-challenge/:content', function(req, res) {
   if(req.headers.host.match("www")) {
     // www.amorrius.net
-    console.log("challenge", req.url);
+    console.log("challenge", req.headers.host);
     res.send(letsEncryptReponse2);
   } else {
     // amorrius.net
-    console.log("challenge", req.url);
+    console.log("challenge", req.headers.host);
     res.send(letsEncryptReponse);
   }
 });
