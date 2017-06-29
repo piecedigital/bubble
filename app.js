@@ -1,3 +1,5 @@
+require("newrelic");
+
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -31,8 +33,6 @@ var _modulesServerSubdomainRoutes = require("./modules/server/subdomain-routes")
 var _modulesServerSubdomainRoutes2 = _interopRequireDefault(_modulesServerSubdomainRoutes);
 
 var _logOut = require("./log-out");
-
-require("newrelic");
 
 console.log("Environment:", process.env["NODE_ENV"]);
 console.log("App version:", process.env["V_MAJOR"] + "." + process.env["V_MINOR"] + "." + process.env["V_PATCH"]);
