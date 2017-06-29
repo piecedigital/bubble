@@ -1,5 +1,3 @@
-require("newrelic");
-
 import express from "express";
 import https from "https";
 import path from "path";
@@ -44,6 +42,15 @@ app.use(routes);
 app.listen(PORT);
 
 logOut(`Listening on port ${PORT}`, true);
+
+process.on('UnhandledPromiseRejectionWarning', function (err) {
+  logOut("**Uncaught Exception event**", true, {
+    type: "error"
+  });
+  logOut(err, true, {
+    type: "error"
+  });
+});
 
 process.on('uncaughtException', function (err) {
   logOut("**Uncaught Exception event**", true, {
