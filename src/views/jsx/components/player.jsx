@@ -589,7 +589,7 @@ const PlayerStream = React.createClass({
                       !playing ? (
                         <input type="text" value={`https://www.twitch.tv/videos/${vod || concurrentVOD || null}?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
                       ) : (
-                        <span onClick={this.pauseVOD}>Click/Pause VOD For Timestamped Link</span>
+                        <span onClick={this.pauseVOD}>Get Timestamped VOD Link</span>
                       )
                     }
                   </div>

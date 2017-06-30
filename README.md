@@ -100,7 +100,8 @@
   - Fixed duplication error with channels lists on user profiles
   - Added live VOD time stamp (still monitoring integrity)
   - Improved default image performance
-
+- Improvements: 0.14.8
+  - Changed text for VOD link button to be more relevant
 
 
 # Things to add eventually
