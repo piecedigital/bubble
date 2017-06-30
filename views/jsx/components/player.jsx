@@ -696,7 +696,7 @@ var PlayerStream = _react2["default"].createClass({
                   }, readOnly: true }) : _react2["default"].createElement(
                   "span",
                   { onClick: this.pauseVOD },
-                  "Click/Pause VOD For Timestamped Link"
+                  "Get Timestamped VOD Link"
                 )
               ) : null,
               _react2["default"].createElement(
