@@ -36,14 +36,12 @@ var dimensions = [
 
 if(typeof document !== "undefined") {
   dimensions.map(function (obj) {
-    console.log("making image for", obj.name);
+    // console.log("making image for", obj.name);
     const value = makeBlankImage(obj);
-    console.log(value);
+    // console.log(value);
     imageDefaults[obj.name] = value;
   })
 }
-
-console.log("image default", imageDefaults);
 
 function makeBlankImage(optionsObj) {
   // don't bother continuing without style
@@ -235,33 +233,35 @@ export const CImg = React.createClass({
   displayName: "CImg",
   getInitialState() {
     let style, src;
-    switch (this.props.for) {
-      case "channel-list-item":
-        style = {
-          width: 136,
-          height: 136,
-        };
-      break;
-      case "video-list-item":
-        style = {
-          width: 136,
-          height: 102,
-        };
-      break;
-      case "banner":
-      case undefined:
-        style = {
-          width: 880,
-          height: 380,
-        };
-      break;
-      case "fill":
-        style = this.props.style;
-      break;
-      default: src = imageDefaults[`${this.props.for}-DefaultImg`] || this.props.src;
-    }
+    // switch (this.props.for) {
+    //   case "channel-list-item":
+    //     style = {
+    //       width: 136,
+    //       height: 136,
+    //     };
+    //   break;
+    //   case "video-list-item":
+    //     style = {
+    //       width: 136,
+    //       height: 102,
+    //     };
+    //   break;
+    //   case "banner":
+    //   case undefined:
+    //     style = {
+    //       width: 880,
+    //       height: 380,
+    //     };
+    //   break;
+    //   case "fill":
+    //     style = this.props.style;
+    //   break;
+    //   default: src = imageDefaults[`${this.props.for}-DefaultImg`] || this.props.src;
+    // }
+    src = imageDefaults[`${this.props.for}-DefaultImg`] || this.props.src;
+
     return {
-      style,
+      // style,
       src
     }
   },
@@ -277,59 +277,6 @@ export const CImg = React.createClass({
       }, 100);
     }
   },
-  makeBlankImage() {
-    // // don't bother continuing without style
-    // // console.log(this.state.style);
-    // if(!this.state.style || !this.state.style.width || !this.state.style.height) return;
-    // // http://stackoverflow.com/a/22824493/4107851
-    // // create canvas and canvas context
-    // const canvas = document.createElement("canvas");
-    // const ctx = canvas.getContext("2d");
-    //
-    // // set dimensions of the canvas
-    // if(!this.state.style) console.log(this.props, this.state);
-    // canvas.width = this.state.style.width;
-    // canvas.height = this.state.style.height;
-    //
-    // // get image data from the canvas
-    // const imageData = ctx.getImageData(0,0,this.state.style.width,this.state.style.height);
-    // const data = imageData.data;
-    //
-    // // set pixel color data
-    // for(let i = 0; i < data.length; i+=4) {
-    //   data[i] = 0; // set R pixel to 0
-    //   data[i+2] = 0; // set G pixel to 0
-    //   data[i+2] = 0; // set B pixel to 0
-    //   data[i+3] = 255; // set opacity to full
-    // }
-    // ctx.putImageData(imageData, 0, 0);
-    //
-    // // set image
-    // this.setState({
-    //   src: canvas.toDataURL()
-    // });
-  },
-  getImage() {
-    // ajax({
-    //   url: this.props.src,
-    //   success: (data) => {
-    //     // console.log(data);
-    //     // this.makeImageBlob(data);
-    //   },
-    //   error(data) {
-    //     console.error(data);
-    //   },
-    // })
-  },
-  makeImageBlob(response) {
-    // const urlCreator = window.URL || window.webkitURL;
-    // const blob = new Blob([response]);
-    // const imageUrl = urlCreator.createObjectURL(blob);
-    // // console.log("blob", blob);
-    // // console.log("image URL", imageUrl);
-    // // this.setImage(imageUrl);
-    // // http://stackoverflow.com/a/27737668/4107851
-  },
   setImage(src) {
     this.setState({
       src
@@ -342,11 +289,6 @@ export const CImg = React.createClass({
   },
   componentDidMount() {
     this.init();
-    // none of the below-related code is working
-    // setTimeout(() => {
-    //   console.log("getting image");
-    //   this.getImage();
-    // }, 3000);
   },
   render() {
     if(!this.state.src) return null;

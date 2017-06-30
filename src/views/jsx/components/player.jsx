@@ -15,12 +15,13 @@ const PlayerStream = React.createClass({
     doScroll: true,
     nameScroll1: 0,
     nameScroll2: 0,
-    time: 0,
+    time: null,
     playing: true,
     playerReady: false,
     // related to hosting
     suggestedHost: null,
     watchingHost: false,
+    concurrentVOD: "test"
   }),
   toggleMenu(type) {
     switch (type) {
@@ -142,6 +143,15 @@ const PlayerStream = React.createClass({
             time: this.makeTime(time)
           });
         }, 1000);
+      } else {
+        this.VODTimeTicker = setInterval(() => {
+          if(!this.state.playing) return;
+          const time = this.state.time.raw + 1;
+          console.log("time", this.state.time);
+          this.setState({
+            time: this.makeTime(time)
+          });
+        }, 1000);
       }
     });
     player.addEventListener(Twitch.Player.PLAY, () => {
@@ -227,6 +237,7 @@ const PlayerStream = React.createClass({
     formatted += `${minute}:${second < 10 ? "0" : ""}${second}`;
     // console.log(formatted);
     return {
+      raw: time,
       hour,
       minute,
       second,
@@ -251,13 +262,12 @@ const PlayerStream = React.createClass({
         .then(data => {
           // console.log(name, ", data:", data);
           console.log("Check online status", data);
-          resolve(!!data.stream);
+          resolve([!!data.stream, data.stream]);
         })
         .catch(e => console.error(e ? e.stack : e) );
       })
       .catch(e => console.error(e ? e.stack : e));
     });
-
   },
   checkHost() {
     const { name } = this.props;
@@ -327,12 +337,24 @@ const PlayerStream = React.createClass({
     if(this.props.isFor === "video") this.makePlayer();
 
     this.checkOnlineStatus()
-    .then(bool => {
+    .then(([bool, stream]) => {
       if(!bool) {
         this.checkHost()
         .then(data => {
           if(data.hosts[0].target_login) this.suggestHost(data);
         });
+      }
+      if(bool) {
+        console.log("created stream time", stream.created_at);
+        const date = new Date(stream.created_at);
+        const ms = date.getTime();
+        console.log("ms", ms);
+        const s = Math.abs(ms / 1000);
+        console.log("s", s);
+
+        this.setState({
+          time: this.makeTime((Date.now() / 1000) - s)
+        })
       }
     })
   },
@@ -376,6 +398,7 @@ const PlayerStream = React.createClass({
       playerReady,
       suggestedHost,
       watchingHost,
+      concurrentVOD
     } = this.state;
 
     switch (isFor) {
@@ -505,7 +528,8 @@ const PlayerStream = React.createClass({
                 Share {display_name || name}&#39;s Stream
               </div>
               {
-                vod && playerReady ? (
+                // vod && playerReady ? (
+                (vod || concurrentVOD) && playerReady ? (
                   <div className="closer">
                     {
                       !playing ? (

@@ -16,14 +16,13 @@ export default React.createClass({
     } = this.props;
     let name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
 
-    // don't render without this data
     return (
       <div className="top-level-component profile">
         <div className="general-page profile">
           <div className="page-header">
             <div className="title">
               {`Profile: `}
-              {name ? <a target="_blank" rel="nofollow" href={`//twitch.com/${name}`}>{name}</a> : null}
+              {name ? <a target="_blank" rel="nofollow" href={`http://twitch.com/${name}`}>{name}</a> : null}
             </div>
           </div>
           {
