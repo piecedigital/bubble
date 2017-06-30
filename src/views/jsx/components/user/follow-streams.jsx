@@ -21,6 +21,7 @@ export default React.createClass({
       requestOffset: 0,
       limit: 25,
       dataArray: [],
+      dataObject: {},
       filter: "all",
       notifArray: [],
       // locked: this.props.follow === "IFollow" ? false : true,
@@ -39,7 +40,7 @@ export default React.createClass({
     this.setState(Object.assign({
       loadingData: true,
     }, wipe ? {
-      dataArray: []
+      dataObject: {}
     } : {}), () => {
       limit = typeof limit === "number" ? limit : this.state.limit || 25;
       offset = typeof offset === "number" ? offset : this.state.requestOffset;
@@ -74,15 +75,24 @@ export default React.createClass({
           methods
           [this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]()
           .then(data => {
-            let newDataArray = Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
+            // let newDataArray = Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
+            const obj = {};
+            const itemsData = data.follows;
+
+            itemsData.map(data => {
+              var itemData = data.user || data.channel;
+              const name = data.user ? data.user.name : data.channel.name;
+
+              obj[name] = itemData;
+            });
+
+            let newDataObject = Object.assign(this.state.dataObject, obj);
             this._mounted ? this.setState({
-              dataArray: newDataArray,
-              requestOffset: newDataArray.length,
+              dataObject: newDataObject,
+              requestOffset: Object.keys(newDataObject).length,
               component: `ChannelListItem`,
               loadingData: false
             }, () => {
-              // console.log(`total data ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, this.state.dataArray.length);
-              // console.log("final offset:", this.state.requestOffset);
               if(typeof callback === "function") callback();
             }) : null;
           })
@@ -92,19 +102,22 @@ export default React.createClass({
       }
     })
   },
-  removeFromDataArray(index) {
+  removeFromDataObject(/*index*/ name) {
     console.log("removing", index);
-    let newDataArray = this.state.dataArray;
-    let removed = newDataArray.splice(parseInt(index), 1);
+    // let newDataArray = this.state.dataArray;
+    let newDataObject = this.state.dataObject;
+    // let removed = newDataArray.splice(parseInt(index), 1);
+    let removed = newDataObject[name];
+    delete newDataObject[name];
     this._mounted ? this.setState({
-      dataArray: newDataArray,
-      requestOffset: newDataArray.length
+      dataObject: newDataObject,
+      requestOffset: Object.keys(newDataObject).length
     }, () => console.log("final offset:", this.state.requestOffset) ) : null;
     console.log(removed);
   },
   refresh() {
-    this.state.dataArray.map(stream => {
-      stream.ref.getStreamData();
+    Object.keys(this.state.dataObject).map(streamName => {
+      this.state.dataObject[streamName].ref.getStreamData();
     });
   },
   capitalize(string) {
@@ -120,12 +133,13 @@ export default React.createClass({
     }) : null;
   },
   refreshList(reset, length, offset) {
-    length = length || this.state.dataArray.length;
+    length = length || Object.keys(this.state.dataObject).length;
     offset = offset || 0;
     console.log(reset, length, offset);
     let requestOffset = reset ? 0 : offset;
     let obj = {};
-    if(reset) obj.dataArray = [];
+    // if(reset) obj.dataArray = [];
+    if(reset) obj.dataObject = {};
     this._mounted ? this.setState(obj, () => {
       if(length > 100) {
         this.gatherData(100, offset, this.refreshList.bind(this, false, length - 100, requestOffset + 100));
@@ -216,6 +230,7 @@ export default React.createClass({
     const {
       requestOffset,
       dataArray,
+      dataObject,
       component,
       filter,
       limit,
@@ -240,11 +255,13 @@ export default React.createClass({
 
     if(component) {
       const ListItem = components[component];
-      const list = dataArray.map((itemData, ind) => {
+      const list = Object.keys(dataObject).map((itemName, ind) => {
+        const itemData = dataObject[itemName];
+
         return (
           <ListItem ref={r => {
-            dataArray[ind] ? dataArray[ind].ref = r : null
-          }} key={`${itemData.channel ? itemData.channel.name : itemData.user.name}${""}`}
+            itemData ? dataObject[itemName].ref = r : null
+          }} key={`${itemData.channel ? itemData.name : itemData.name}`}
           data={itemData}
           fireRef={fireRef}
           userData={userData}
@@ -256,7 +273,7 @@ export default React.createClass({
           params={this.props.params} follow={follow} methods={{
             appendStream,
             notify: this.notify,
-            removeFromDataArray: this.removeFromDataArray
+            removeFromDataObject: this.removeFromDataObject
           }} />
         )
       });

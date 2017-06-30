@@ -110,7 +110,8 @@ export const ChannelListItem = React.createClass({
     const {
       name,
       display_name
-    } = data.channel || data.user;
+    // } = data.channel || data.user;
+  } = data;
     // console.log(`getting stream data for ${name}`);
     loadData.call(this, e => {
       console.error(e.stack);
@@ -159,7 +160,7 @@ export const ChannelListItem = React.createClass({
     const {
       name,
       display_name
-    } = data.channel || data.user;
+    } = data || data;
     const timeout = 2;
     // setTimeout(() => {
     //   notification({
@@ -226,7 +227,7 @@ export const ChannelListItem = React.createClass({
       name,
       display_name,
       language
-    } = data.channel || data.user;
+    } = data || data;
     const {
       streamData: {
         stream
