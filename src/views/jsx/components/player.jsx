@@ -15,7 +15,8 @@ const PlayerStream = React.createClass({
     doScroll: true,
     nameScroll1: 0,
     nameScroll2: 0,
-    time: null,
+    timeOff: 0,
+    time: {},
     playing: true,
     playerReady: false,
     // related to hosting
@@ -145,11 +146,18 @@ const PlayerStream = React.createClass({
         }, 1000);
       } else {
         this.VODTimeTicker = setInterval(() => {
-          if(!this.state.playing) return;
-          const time = this.state.time.raw + 1;
-          console.log("time", this.state.time);
+          if(!this.state.playing) {
+            this.setState({
+              timeOff: this.state.timeOff + 1
+            });
+            return;
+          }
+          const timeInSeconds = (this.state.time.raw || 0) + 1 + this.state.timeOff;
+          const timeObject = this.makeTime(timeInSeconds);
+          console.log("time", timeObject.formatted);
           this.setState({
-            time: this.makeTime(time)
+            timeOff: 0,
+            time: timeObject
           });
         }, 1000);
       }
@@ -175,6 +183,24 @@ const PlayerStream = React.createClass({
           });
         }
       }
+      this.checkOnlineStatus()
+      .then(([bool, stream]) => {
+        if(bool) {
+          const date = new Date(stream.created_at);
+          const ms = date.getTime();
+          const s = Math.abs(ms / 1000);
+
+          this.setState({
+            time: this.makeTime((Date.now() / 1000) - s)
+          });
+        } else {
+          this.setState({
+            time: 0
+          });
+        }
+      });
+
+      this.getLatestVOD();
     });
     player.addEventListener(Twitch.Player.OFFLINE, () => {
       console.log('Player is offline!');
@@ -206,6 +232,9 @@ const PlayerStream = React.createClass({
     if(returnToHoster) {
       this.fullHostingCheck()
     }
+  },
+  getLatestVOD(shouldReturn) {
+    console.log("should return:", shouldReturn);
   },
   migrateStream(username, displayName) {
     const {
@@ -345,12 +374,12 @@ const PlayerStream = React.createClass({
         });
       }
       if(bool) {
-        console.log("created stream time", stream.created_at);
+        // console.log("created stream time", stream.created_at);
         const date = new Date(stream.created_at);
         const ms = date.getTime();
-        console.log("ms", ms);
+        // console.log("ms", ms);
         const s = Math.abs(ms / 1000);
-        console.log("s", s);
+        // console.log("s", s);
 
         this.setState({
           time: this.makeTime((Date.now() / 1000) - s)
@@ -533,7 +562,7 @@ const PlayerStream = React.createClass({
                   <div className="closer">
                     {
                       !playing ? (
-                        <input type="text" value={`https://www.twitch.tv/videos/${vod}?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
+                        <input type="text" value={`https://www.twitch.tv/videos/${vod || concurrentVOD || null}?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
                       ) : (
                         <span onClick={this.pauseVOD}>Click/Pause VOD For Timestamped Link</span>
                       )
