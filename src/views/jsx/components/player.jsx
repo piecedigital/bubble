@@ -154,7 +154,7 @@ const PlayerStream = React.createClass({
           }
           const timeInSeconds = (this.state.time.raw || 0) + 1 + this.state.timeOff;
           const timeObject = this.makeTime(timeInSeconds);
-          console.log("time", timeObject.formatted);
+          // console.log("time", timeObject.formatted);
           this.setState({
             timeOff: 0,
             time: timeObject
