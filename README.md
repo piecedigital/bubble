@@ -93,6 +93,14 @@
   - Fixed host checking. It no longer checks for hosts for unmounted components **observing**
 - Bug Fix: 0.14.5
   - Fixed a bug where a single stream was not visible **ok**
+- Improvements: 0.14.6
+  - Fixed stream reordering
+- Addon: newrelic
+- Improvements and bug fixes: 0.14.7
+  - Fixed duplication error with channels lists on user profiles
+  - Added live VOD time stamp (still monitoring integrity)
+  - Improved default image performance
+
 
 
 # Things to add eventually
