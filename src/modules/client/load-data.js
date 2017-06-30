@@ -311,8 +311,14 @@ export default function loadData(errorCB, options = {}) {
         return makeRequest(okayCB, `/get-panels/${username}`, true);
       },
       getVideos: (okayCB) => {
+        // limit - integer -	Maximum number of objects to return. Default: 10. Maximum: 100.
+        // offset -	integer -	Object offset for pagination of results. Default: 0.
+        // broadcast_type -	comma-separated list -Constrains the type of videos returned. Valid values: (any combination of) archive, highlight, upload. Default: all types (no filter).
+        // language -	comma-separated list -Constrains the language of the videos that are returned; for example, en,es. Default: all languages.
+        // sort -	string -Sorting order of the returned objects. Valid values: views, time. Default: time (most recent first).
+
         delete options.stream_type;
-        delete options.limit;
+        // delete options.limit;
         let username = options.username;
         delete options.username;
         // options.client_id = options.headers["Client-ID"];

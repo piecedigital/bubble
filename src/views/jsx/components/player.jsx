@@ -22,7 +22,7 @@ const PlayerStream = React.createClass({
     // related to hosting
     suggestedHost: null,
     watchingHost: false,
-    concurrentVOD: "test"
+    concurrentVOD: ""
   }),
   toggleMenu(type) {
     switch (type) {
@@ -233,8 +233,33 @@ const PlayerStream = React.createClass({
       this.fullHostingCheck()
     }
   },
-  getLatestVOD(shouldReturn) {
-    console.log("should return:", shouldReturn);
+  getLatestVOD(shouldReturn, tries) {
+    const {
+      name
+    } = this.props;
+
+    loadData.call(this, e => console.error(e.stack || e), {
+      username: name,
+      limit: 1
+    })
+    .then(({getVideos}) => {
+      getVideos()
+      .then(data => {
+        const videoData = data.videos.pop();
+        // let's see if the video is still recording
+        if(videoData && videoData.status === "recording") {
+          this.setState({
+            concurrentVOD: videoData._id
+          })
+        } else {
+          if(tries < 1000) {
+            setTimeout(this.getLatestVOD.bind(this, false, (tries || 0) + 1), 1000 * 30);
+          }
+        }
+      })
+      .catch(e => console.error(e))
+    })
+    .catch(e => console.error(e))
   },
   migrateStream(username, displayName) {
     const {
