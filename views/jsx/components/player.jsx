@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -46,12 +48,14 @@ var PlayerStream = _react2["default"].createClass({
       doScroll: true,
       nameScroll1: 0,
       nameScroll2: 0,
-      time: 0,
+      timeOff: 0,
+      time: {},
       playing: true,
       playerReady: false,
       // related to hosting
       suggestedHost: null,
-      watchingHost: false
+      watchingHost: false,
+      concurrentVOD: ""
     };
   },
   toggleMenu: function toggleMenu(type) {
@@ -176,6 +180,22 @@ var PlayerStream = _react2["default"].createClass({
             time: _this2.makeTime(time)
           });
         }, 1000);
+      } else {
+        _this2.VODTimeTicker = setInterval(function () {
+          if (!_this2.state.playing) {
+            _this2.setState({
+              timeOff: _this2.state.timeOff + 1
+            });
+            return;
+          }
+          var timeInSeconds = (_this2.state.time.raw || 0) + 1 + _this2.state.timeOff;
+          var timeObject = _this2.makeTime(timeInSeconds);
+          console.log("time", timeObject.formatted);
+          _this2.setState({
+            timeOff: 0,
+            time: timeObject
+          });
+        }, 1000);
       }
     });
     player.addEventListener(Twitch.Player.PLAY, function () {
@@ -199,6 +219,28 @@ var PlayerStream = _react2["default"].createClass({
           });
         }
       }
+      _this2.checkOnlineStatus().then(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2);
+
+        var bool = _ref2[0];
+        var stream = _ref2[1];
+
+        if (bool) {
+          var date = new Date(stream.created_at);
+          var ms = date.getTime();
+          var s = Math.abs(ms / 1000);
+
+          _this2.setState({
+            time: _this2.makeTime(Date.now() / 1000 - s)
+          });
+        } else {
+          _this2.setState({
+            time: 0
+          });
+        }
+      });
+
+      _this2.getLatestVOD();
     });
     player.addEventListener(Twitch.Player.OFFLINE, function () {
       console.log('Player is offline!');
@@ -230,6 +272,38 @@ var PlayerStream = _react2["default"].createClass({
       this.fullHostingCheck();
     }
   },
+  getLatestVOD: function getLatestVOD(shouldReturn, tries) {
+    var _this3 = this;
+
+    var name = this.props.name;
+
+    _modulesClientLoadData2["default"].call(this, function (e) {
+      return console.error(e.stack || e);
+    }, {
+      username: name,
+      limit: 1
+    }).then(function (_ref3) {
+      var getVideos = _ref3.getVideos;
+
+      getVideos().then(function (data) {
+        var videoData = data.videos.pop();
+        // let's see if the video is still recording
+        if (videoData && videoData.status === "recording") {
+          _this3.setState({
+            concurrentVOD: videoData._id
+          });
+        } else {
+          if (tries < 1000) {
+            setTimeout(_this3.getLatestVOD.bind(_this3, false, (tries || 0) + 1), 1000 * 30);
+          }
+        }
+      })["catch"](function (e) {
+        return console.error(e);
+      });
+    })["catch"](function (e) {
+      return console.error(e);
+    });
+  },
   migrateStream: function migrateStream(username, displayName) {
     var _props3 = this.props;
     var name = _props3.name;
@@ -259,6 +333,7 @@ var PlayerStream = _react2["default"].createClass({
     formatted += minute + ":" + (second < 10 ? "0" : "") + second;
     // console.log(formatted);
     return {
+      raw: time,
       hour: hour,
       minute: minute,
       second: second,
@@ -280,7 +355,7 @@ var PlayerStream = _react2["default"].createClass({
         methods.getStreamByName().then(function (data) {
           // console.log(name, ", data:", data);
           console.log("Check online status", data);
-          resolve(!!data.stream);
+          resolve([!!data.stream, data.stream]);
         })["catch"](function (e) {
           return console.error(e ? e.stack : e);
         });
@@ -322,13 +397,13 @@ var PlayerStream = _react2["default"].createClass({
     });
   },
   fullHostingCheck: function fullHostingCheck() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.checkOnlineStatus().then(function (bool) {
       if (!bool) {
-        _this3.checkHost().then(function (data) {
+        _this4.checkHost().then(function (data) {
           if (data.hosts[0].target_login) {
-            _this3.suggestHost(data);
+            _this4.suggestHost(data);
           };
         });
       }
@@ -344,19 +419,36 @@ var PlayerStream = _react2["default"].createClass({
     appendStream(suggestedHost.username, suggestedHost.displayName);
   },
   componentDidMount: function componentDidMount() {
-    var _this4 = this;
+    var _this5 = this;
 
     this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", function () {
       // console.log("leave");
-      _this4.toggleMenu("close");
+      _this5.toggleMenu("close");
     }, false) : null;
     if (this.props.isFor === "video") this.makePlayer();
 
-    this.checkOnlineStatus().then(function (bool) {
+    this.checkOnlineStatus().then(function (_ref4) {
+      var _ref42 = _slicedToArray(_ref4, 2);
+
+      var bool = _ref42[0];
+      var stream = _ref42[1];
+
       if (!bool) {
-        _this4.checkHost().then(function (data) {
-          if (data.hosts[0].target_login) _this4.suggestHost(data);
+        _this5.checkHost().then(function (data) {
+          if (data.hosts[0].target_login) _this5.suggestHost(data);
+        });
+      }
+      if (bool) {
+        // console.log("created stream time", stream.created_at);
+        var date = new Date(stream.created_at);
+        var ms = date.getTime();
+        // console.log("ms", ms);
+        var s = Math.abs(ms / 1000);
+        // console.log("s", s);
+
+        _this5.setState({
+          time: _this5.makeTime(Date.now() / 1000 - s)
         });
       }
     });
@@ -367,7 +459,7 @@ var PlayerStream = _react2["default"].createClass({
     clearInterval(this.hostTicker);
   },
   render: function render() {
-    var _this5 = this;
+    var _this6 = this;
 
     // console.log(this.props);
     var _props4 = this.props;
@@ -401,6 +493,7 @@ var PlayerStream = _react2["default"].createClass({
     var playerReady = _state.playerReady;
     var suggestedHost = _state.suggestedHost;
     var watchingHost = _state.watchingHost;
+    var concurrentVOD = _state.concurrentVOD;
 
     switch (isFor) {
       case "video":
@@ -440,7 +533,7 @@ var PlayerStream = _react2["default"].createClass({
                         to: "/profile/" + name,
                         onClick: function () {
                           togglePlayer("collapse");
-                          _this5.toggleMenu("close");
+                          _this6.toggleMenu("close");
                         } },
                       display_name || name,
                       vod ? "/" + vod : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? "(" + name + ")" : ""
@@ -475,7 +568,7 @@ var PlayerStream = _react2["default"].createClass({
                       to: "/profile/" + name,
                       onClick: function () {
                         togglePlayer("collapse");
-                        _this5.toggleMenu("close");
+                        _this6.toggleMenu("close");
                       } },
                     vod ? _react2["default"].createElement(
                       "span",
@@ -493,7 +586,7 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   _reactRouter.Link,
                   { to: "https://twitch.tv/" + name, target: "_blank", onClick: function () {
-                      _this5.toggleMenu("close");
+                      _this6.toggleMenu("close");
                     } },
                   "Visit On Twitch"
                 )
@@ -502,7 +595,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "put-in-view bgc-green-priority", onClick: function () {
                     putInView(index);
-                    _this5.toggleMenu("close");
+                    _this6.toggleMenu("close");
                   } },
                 "Put In View"
               ),
@@ -517,8 +610,8 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "span",
                   { className: "video", onClick: function () {
-                      _this5.refresh("video");
-                      _this5.toggleMenu("close");
+                      _this6.refresh("video");
+                      _this6.toggleMenu("close");
                     } },
                   "Video"
                 ),
@@ -526,8 +619,8 @@ var PlayerStream = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "span",
                   { className: "chat", onClick: function () {
-                      _this5.refresh("chat");
-                      _this5.toggleMenu("close");
+                      _this6.refresh("chat");
+                      _this6.toggleMenu("close");
                     } },
                   "Chat"
                 )
@@ -536,7 +629,7 @@ var PlayerStream = _react2["default"].createClass({
                 "div",
                 { className: "open-panels", onClick: function () {
                     panelsHandler("open", name);
-                    _this5.toggleMenu("close");
+                    _this6.toggleMenu("close");
                   } },
                 "Open Stream Panels"
               ),
@@ -564,14 +657,14 @@ var PlayerStream = _react2["default"].createClass({
                       receiver: name,
                       sender: userData.name
                     });
-                    _this5.toggleMenu("close");
+                    _this6.toggleMenu("close");
                   } },
                 "Ask A Question"
               )] : _react2["default"].createElement(
                 "div",
                 { className: "follow need-auth", onClick: function () {
                     alertAuthNeeded();
-                    _this5.toggleMenu("close");
+                    _this6.toggleMenu("close");
                   } },
                 "Follow ",
                 name
@@ -587,16 +680,18 @@ var PlayerStream = _react2["default"].createClass({
                         name: name
                       }
                     });
-                    _this5.toggleMenu("close");
+                    _this6.toggleMenu("close");
                   } },
                 "Share ",
                 display_name || name,
                 "'s Stream"
               ),
-              vod && playerReady ? _react2["default"].createElement(
+
+              // vod && playerReady ? (
+              (vod || concurrentVOD) && playerReady ? _react2["default"].createElement(
                 "div",
                 { className: "closer" },
-                !playing ? _react2["default"].createElement("input", { type: "text", value: "https://www.twitch.tv/videos/" + vod + "?t=" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : ""), onClick: function (e) {
+                !playing ? _react2["default"].createElement("input", { type: "text", value: "https://www.twitch.tv/videos/" + (vod || concurrentVOD || null) + "?t=" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : ""), onClick: function (e) {
                     return e.target.select();
                   }, readOnly: true }) : _react2["default"].createElement(
                   "span",
@@ -607,8 +702,8 @@ var PlayerStream = _react2["default"].createClass({
               _react2["default"].createElement(
                 "div",
                 { className: "closer bgc-orange-priority", onClick: function () {
-                    _this5.swapOut();
-                    _this5.toggleMenu("close");
+                    _this6.swapOut();
+                    _this6.toggleMenu("close");
                   } },
                 "Close This Stream"
               )
@@ -634,7 +729,7 @@ var PlayerStream = _react2["default"].createClass({
                         to: "/profile/" + suggestedHost.displayName,
                         onClick: function () {
                           togglePlayer("collapse");
-                          _this5.toggleMenu("close");
+                          _this6.toggleMenu("close");
                         } },
                       suggestedHost.displayName
                     ),
@@ -647,7 +742,7 @@ var PlayerStream = _react2["default"].createClass({
                         to: "/profile/" + display_name,
                         onClick: function () {
                           togglePlayer("collapse");
-                          _this5.toggleMenu("close");
+                          _this6.toggleMenu("close");
                         } },
                       display_name
                     ),
@@ -663,7 +758,7 @@ var PlayerStream = _react2["default"].createClass({
                         to: "/profile/" + display_name,
                         onClick: function () {
                           togglePlayer("collapse");
-                          _this5.toggleMenu("close");
+                          _this6.toggleMenu("close");
                         } },
                       display_name
                     ),
@@ -676,7 +771,7 @@ var PlayerStream = _react2["default"].createClass({
                         to: "/profile/" + suggestedHost.displayName,
                         onClick: function () {
                           togglePlayer("collapse");
-                          _this5.toggleMenu("close");
+                          _this6.toggleMenu("close");
                         } },
                       suggestedHost.displayName
                     ),
@@ -699,7 +794,7 @@ var PlayerStream = _react2["default"].createClass({
                       title: "Replaces the current video with the hosted video, but doesn't change the chat",
                       className: "btn",
                       onClick: function () {
-                        _this5.replaceVideo(suggestedHost.username);
+                        _this6.replaceVideo(suggestedHost.username);
                       } },
                     "Replace Video"
                   ), " ", _react2["default"].createElement(
@@ -709,7 +804,7 @@ var PlayerStream = _react2["default"].createClass({
                       title: "Switch the current stream player to the hosted stream",
                       className: "btn",
                       onClick: function () {
-                        _this5.migrateStream(suggestedHost.username, suggestedHost.displayName);
+                        _this6.migrateStream(suggestedHost.username, suggestedHost.displayName);
                       } },
                     "Migrate Stream"
                   )] : [_react2["default"].createElement(
@@ -719,7 +814,7 @@ var PlayerStream = _react2["default"].createClass({
                       title: "Return the video to the hosting streamer",
                       className: "btn",
                       onClick: function () {
-                        _this5.replaceVideo(name, true);
+                        _this6.replaceVideo(name, true);
                       } },
                     "Return To Hoster"
                   ), " ", _react2["default"].createElement(
@@ -729,7 +824,7 @@ var PlayerStream = _react2["default"].createClass({
                       title: "Switch the current stream player to the hosted stream",
                       className: "btn",
                       onClick: function () {
-                        _this5.migrateStream(suggestedHost.username, suggestedHost.displayName);
+                        _this6.migrateStream(suggestedHost.username, suggestedHost.displayName);
                       } },
                     "Migrate Stream"
                   )]
@@ -849,10 +944,10 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   componentDidMount: function componentDidMount() {
-    var _this6 = this;
+    var _this7 = this;
 
     this.rescroll = setInterval(function () {
-      var videoList = _this6.refs.videoList;
+      var videoList = _this7.refs.videoList;
 
       // videoList.scrollTop = 0;
     }, 1000);
@@ -861,7 +956,7 @@ exports["default"] = _react2["default"].createClass({
     this.rescroll = null;
   },
   render: function render() {
-    var _this7 = this;
+    var _this8 = this;
 
     var _props5 = this.props;
     var fireRef = _props5.fireRef;
@@ -940,9 +1035,9 @@ exports["default"] = _react2["default"].createClass({
                 alertAuthNeeded: alertAuthNeeded,
                 popUpHandler: popUpHandler,
                 alertHandler: alertHandler,
-                layoutTools: _this7.layoutTools,
-                putInView: _this7.putInView,
-                refreshChat: _this7.refreshChat } });
+                layoutTools: _this8.layoutTools,
+                putInView: _this8.putInView,
+                refreshChat: _this8.refreshChat } });
           }) : null
         ),
         _react2["default"].createElement(

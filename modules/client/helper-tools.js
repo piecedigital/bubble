@@ -21,6 +21,71 @@ var _loadData2 = _interopRequireDefault(_loadData);
 var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
 
 exports.missingLogo = missingLogo;
+var imageDefaults = {
+  "channel-list-item-DefaultImg": "",
+  "video-list-item-DefaultImg": "",
+  "banner-DefaultImg": "",
+  "undefined-DefaultImg": ""
+};
+
+var dimensions = [{
+  name: "channel-list-item-DefaultImg",
+  width: 136,
+  height: 136
+}, {
+  name: "video-list-item-DefaultImg",
+  width: 136,
+  height: 102
+}, {
+  name: "banner-DefaultImg",
+  width: 880,
+  height: 380
+}, {
+  name: "undefined-DefaultImg",
+  width: 880,
+  height: 380
+}];
+
+if (typeof document !== "undefined") {
+  dimensions.map(function (obj) {
+    // console.log("making image for", obj.name);
+    var value = makeBlankImage(obj);
+    // console.log(value);
+    imageDefaults[obj.name] = value;
+  });
+}
+
+function makeBlankImage(optionsObj) {
+  // don't bother continuing without style
+  // console.log(this.state.style);
+  if (!optionsObj || !optionsObj.width || !optionsObj.height) return;
+  // http://stackoverflow.com/a/22824493/4107851
+  // create canvas and canvas context
+  var canvas = document.createElement("canvas");
+  var ctx = canvas.getContext("2d");
+
+  // set dimensions of the canvas
+  if (!optionsObj) console.log(this.props, this.state);
+  canvas.width = optionsObj.width;
+  canvas.height = optionsObj.height;
+
+  // get image data from the canvas
+  var imageData = ctx.getImageData(0, 0, optionsObj.width, optionsObj.height);
+  var data = imageData.data;
+
+  // set pixel color data
+  for (var i = 0; i < data.length; i += 4) {
+    data[i] = 0; // set R pixel to 0
+    data[i + 2] = 0; // set G pixel to 0
+    data[i + 2] = 0; // set B pixel to 0
+    data[i + 3] = 255; // set opacity to full
+  }
+  ctx.putImageData(imageData, 0, 0);
+
+  // set image
+  return canvas.toDataURL();
+}
+
 var browserNotification = function browserNotification(options) {
   if (!("Notification" in window)) {
     console.log("Notilfications are not supported");
@@ -181,34 +246,35 @@ var CImg = _react2["default"].createClass({
   getInitialState: function getInitialState() {
     var style = undefined,
         src = undefined;
-    switch (this.props["for"]) {
-      case "channel-list-item":
-        style = {
-          width: 136,
-          height: 136
-        };
-        break;
-      case "video-list-item":
-        style = {
-          width: 136,
-          height: 102
-        };
-        break;
-      case "banner":
-      case undefined:
-        style = {
-          width: 880,
-          height: 380
-        };
-        break;
-      case "fill":
-        style = this.props.style;
-        break;
-      default:
-        src = this.props.src;
-    }
+    // switch (this.props.for) {
+    //   case "channel-list-item":
+    //     style = {
+    //       width: 136,
+    //       height: 136,
+    //     };
+    //   break;
+    //   case "video-list-item":
+    //     style = {
+    //       width: 136,
+    //       height: 102,
+    //     };
+    //   break;
+    //   case "banner":
+    //   case undefined:
+    //     style = {
+    //       width: 880,
+    //       height: 380,
+    //     };
+    //   break;
+    //   case "fill":
+    //     style = this.props.style;
+    //   break;
+    //   default: src = imageDefaults[`${this.props.for}-DefaultImg`] || this.props.src;
+    // }
+    src = imageDefaults[this.props["for"] + "-DefaultImg"] || this.props.src;
+
     return {
-      style: style,
+      // style,
       src: src
     };
   },
@@ -217,65 +283,16 @@ var CImg = _react2["default"].createClass({
 
     var src = arguments.length <= 0 || arguments[0] === undefined ? this.props.src : arguments[0];
 
-    this.makeBlankImage();
+    // this.makeBlankImage();
+    // console.log(this.props.for, imageDefaults[`${this.props.for}-DefaultImg`]);
+    this.setState({
+      src: imageDefaults[this.props["for"] + "-DefaultImg"]
+    });
     if (!this.props.noImgRequest) {
       setTimeout(function () {
         if (src) _this.setImage(src);
       }, 100);
     }
-  },
-  makeBlankImage: function makeBlankImage() {
-    // don't bother continuing without style
-    // console.log(this.state.style);
-    if (!this.state.style || !this.state.style.width || !this.state.style.height) return;
-    // http://stackoverflow.com/a/22824493/4107851
-    // create canvas and canvas context
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d");
-
-    // set dimensions of the canvas
-    if (!this.state.style) console.log(this.props, this.state);
-    canvas.width = this.state.style.width;
-    canvas.height = this.state.style.height;
-
-    // get image data from the canvas
-    var imageData = ctx.getImageData(0, 0, this.state.style.width, this.state.style.height);
-    var data = imageData.data;
-
-    // set pixel color data
-    for (var i = 0; i < data.length; i += 4) {
-      data[i] = 0; // set R pixel to 0
-      data[i + 2] = 0; // set G pixel to 0
-      data[i + 2] = 0; // set B pixel to 0
-      data[i + 3] = 255; // set opacity to full
-    }
-    ctx.putImageData(imageData, 0, 0);
-
-    // set image
-    this.setState({
-      src: canvas.toDataURL()
-    });
-  },
-  getImage: function getImage() {
-    (0, _ajax.ajax)({
-      url: this.props.src,
-      success: function success(data) {
-        // console.log(data);
-        // this.makeImageBlob(data);
-      },
-      error: function error(data) {
-        console.error(data);
-      }
-    });
-  },
-  makeImageBlob: function makeImageBlob(response) {
-    var urlCreator = window.URL || window.webkitURL;
-    var blob = new Blob([response]);
-    var imageUrl = urlCreator.createObjectURL(blob);
-    // console.log("blob", blob);
-    // console.log("image URL", imageUrl);
-    // this.setImage(imageUrl);
-    // http://stackoverflow.com/a/27737668/4107851
   },
   setImage: function setImage(src) {
     this.setState({
@@ -289,11 +306,6 @@ var CImg = _react2["default"].createClass({
   },
   componentDidMount: function componentDidMount() {
     this.init();
-    // none of the below-related code is working
-    // setTimeout(() => {
-    //   console.log("getting image");
-    //   this.getImage();
-    // }, 3000);
   },
   render: function render() {
     if (!this.state.src) return null;

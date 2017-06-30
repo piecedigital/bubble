@@ -135,11 +135,10 @@ var ChannelListItem = _react2["default"].createClass({
     var _this = this;
 
     var data = this.props.data;
-
-    var _ref = data.channel || data.user;
-
-    var name = _ref.name;
-    var display_name = _ref.display_name;
+    var name =
+    // } = data.channel || data.user;
+    data.name;
+    var display_name = data.display_name;
 
     // console.log(`getting stream data for ${name}`);
     _modulesClientLoadData2["default"].call(this, function (e) {
@@ -188,10 +187,10 @@ var ChannelListItem = _react2["default"].createClass({
     if (params && userData && params.username !== userData.name) console.log("not my follows, not my interest");
     if (params && userData && params.username !== userData.name) return;
 
-    var _ref2 = data.channel || data.user;
+    var _ref = data || data;
 
-    var name = _ref2.name;
-    var display_name = _ref2.display_name;
+    var name = _ref.name;
+    var display_name = _ref.display_name;
 
     var timeout = 2;
     // setTimeout(() => {
@@ -255,13 +254,13 @@ var ChannelListItem = _react2["default"].createClass({
     var versionData = _props3.versionData;
     var data = _props3.data;
 
-    var _ref3 = data.channel || data.user;
+    var _ref2 = data || data;
 
-    var mature = _ref3.mature;
-    var logo = _ref3.logo;
-    var name = _ref3.name;
-    var display_name = _ref3.display_name;
-    var language = _ref3.language;
+    var mature = _ref2.mature;
+    var logo = _ref2.logo;
+    var name = _ref2.name;
+    var display_name = _ref2.display_name;
+    var language = _ref2.language;
     var stream = this.state.streamData.stream;
 
     var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, {

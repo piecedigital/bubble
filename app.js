@@ -1,5 +1,3 @@
-require("newrelic");
-
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -69,6 +67,15 @@ app.use(_modulesServerRoutes2["default"]);
 app.listen(PORT);
 
 (0, _logOut.logOut)("Listening on port " + PORT, true);
+
+process.on('UnhandledPromiseRejectionWarning', function (err) {
+  (0, _logOut.logOut)("**Uncaught Exception event**", true, {
+    type: "error"
+  });
+  (0, _logOut.logOut)(err, true, {
+    type: "error"
+  });
+});
 
 process.on('uncaughtException', function (err) {
   (0, _logOut.logOut)("**Uncaught Exception event**", true, {

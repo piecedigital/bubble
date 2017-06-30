@@ -42,7 +42,6 @@ exports["default"] = _react2["default"].createClass({
 
     var name = (params.username ? params.username : userData ? userData.name : "").toLowerCase();
 
-    // don't render without this data
     return _react2["default"].createElement(
       "div",
       { className: "top-level-component profile" },
@@ -58,7 +57,7 @@ exports["default"] = _react2["default"].createClass({
             "Profile: ",
             name ? _react2["default"].createElement(
               "a",
-              { target: "_blank", rel: "nofollow", href: "//twitch.com/" + name },
+              { target: "_blank", rel: "nofollow", href: "http://twitch.com/" + name },
               name
             ) : null
           )
