@@ -190,7 +190,7 @@ var PlayerStream = _react2["default"].createClass({
           }
           var timeInSeconds = (_this2.state.time.raw || 0) + 1 + _this2.state.timeOff;
           var timeObject = _this2.makeTime(timeInSeconds);
-          console.log("time", timeObject.formatted);
+          // console.log("time", timeObject.formatted);
           _this2.setState({
             timeOff: 0,
             time: timeObject
