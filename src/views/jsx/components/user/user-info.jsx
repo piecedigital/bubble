@@ -76,7 +76,9 @@ export default React.createClass({
       userStreamData,
     } = this.state;
 
-    let name = params && params.username ? params.username : userData ? userData.name : null;
+    const name = params && params.username ? params.username : userData ? userData.name : null;
+    const type = userChannelData ? userChannelData.broadcaster_type : "";
+    const canSub = type === "affiliate" || type === "partner" ? true : false;
 
     return (
       <div ref="root" className={`user-info`}>
@@ -114,7 +116,7 @@ export default React.createClass({
                       <div className="name">{userChannelData.display_name}</div>
                       <div className="views">Views: {userChannelData.views.toLocaleString("en")}</div>
                       <div className="followers">Followers: {userChannelData.followers.toLocaleString("en")}</div>
-                      <div className="partner">Partnered?: {userChannelData.partner ? <a href={`https://www.twitch.tv/${userChannelData.name}/subscribe`} className="color-white" target="_blank" rel="nofollow">Yes</a> : "No"}</div>
+                      <div className="partner">Twitch Assn.?: {canSub ? <a href={`https://www.twitch.tv/${userChannelData.name}/subscribe`} className="color-white" target="_blank" rel="nofollow">{userChannelData.broadcaster_type.replace(/^(.)/, (_,l) => l.toUpperCase())}</a> : "Regular"}</div>
                       <div className="partner">Live?: {userStreamData && userStreamData.stream ? (
                         <a href={`https://www.twitch.tv/${name}`} className="color-white" target="_blank" rel="nofollow" onClick={e => {
                           e.preventDefault();

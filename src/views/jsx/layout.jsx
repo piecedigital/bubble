@@ -680,6 +680,7 @@ export default React.createClass({
             userData={userData}
             auth={authData}
             panelData={panelData}
+            streamersInPlayer={dataObject}
             playerState={{
               playerCollapsed
             }}

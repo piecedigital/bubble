@@ -94,15 +94,18 @@
 - Bug Fix: 0.14.5
   - Fixed a bug where a single stream was not visible **ok**
 - Improvements: 0.14.6
-  - Fixed stream reordering
+  - Fixed stream reordering **ok**
 - Addon: newrelic
-- Improvements and bug fixes: 0.14.7
-  - Fixed duplication error with channels lists on user profiles
-  - Added live VOD time stamp (still monitoring integrity)
-  - Improved default image performance
+- Improvements and bug fixes: 0.14.7 **ok**
+  - Fixed duplication error with channels lists on user profiles **ok**
+  - Added live VOD time stamp (still monitoring integrity) **ok**
+  - Improved default image performance **ok**
 - Improvements: 0.14.8
-  - Changed text for VOD link button to be more relevant
-
+  - Changed text for VOD link button to be more relevant **ok**
+- Bug fixes: 0.14.9
+  - "Change in-view stream" is not behaving well with stream re-ordering. This'll fix that. **ok**
+  - Stream reordering is not getting new streams after first use. Fix **ok**
+  - Affiliate recognition on profiles (affiliate, partner) **ok**
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
