@@ -102,10 +102,12 @@
   - Improved default image performance **ok**
 - Improvements: 0.14.8
   - Changed text for VOD link button to be more relevant **ok**
-- Bug fixes: 0.14.9
+- Bug fixes and Improvement: 0.14.9
   - "Change in-view stream" is not behaving well with stream re-ordering. This'll fix that. **ok**
   - Stream reordering is not getting new streams after first use. Fix **ok**
   - Affiliate recognition on profiles (affiliate, partner) **ok**
+- Bug Fix: 0.14.10
+  - Fixed a bug preventing stream chat elements from closing **ok**
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
