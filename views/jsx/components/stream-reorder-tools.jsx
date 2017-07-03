@@ -107,7 +107,12 @@ var StreamReorderer = _react2["default"].createClass({
     }
   },
   componentDidMount: function componentDidMount() {
-    var streamersArray = this.props.streamOrderMap.length > 0 ? this.props.streamOrderMap : Object.keys(this.props.streamersInPlayer);
+    var streamersArray = this.props.streamOrderMap.length > 0 ? this.props.streamOrderMap : [];
+    var currentStreamersArray = Object.keys(this.props.streamersInPlayer);
+
+    currentStreamersArray.map(function (streamer) {
+      if (streamersArray.indexOf(streamer) === -1) streamersArray.push(streamer);
+    });
 
     this.setState({
       streamersArray: streamersArray

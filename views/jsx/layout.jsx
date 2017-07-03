@@ -719,6 +719,7 @@ exports["default"] = _react2["default"].createClass({
         userData: userData,
         auth: authData,
         panelData: panelData,
+        streamersInPlayer: dataObject,
         playerState: {
           playerCollapsed: playerCollapsed
         },

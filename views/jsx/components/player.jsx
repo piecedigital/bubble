@@ -454,7 +454,9 @@ var PlayerStream = _react2["default"].createClass({
     });
   },
   componentWillUnmount: function componentWillUnmount() {
+    this.refs.video.src = "about:blank";
     delete this._mounted;
+    this.player = null;
     clearInterval(this.VODTimeTicker);
     clearInterval(this.hostTicker);
   },
@@ -864,11 +866,13 @@ exports["default"] = _react2["default"].createClass({
   layoutTools: function layoutTools(type) {
     var videoList = this.refs.videoList;
     var chatList = this.refs.chatList;
+    var _props$data = this.props.data;
+    var streamersInPlayer = _props$data.dataObject;
+    var streamOrderMap = _props$data.streamOrderMap;
 
     switch (type) {
       case "setStreamToView":
         var count = 1;
-        // console.log("layout", this.props.layout);
         switch (this.props.layout) {
           case "by-2":
             count = 2;
@@ -877,10 +881,14 @@ exports["default"] = _react2["default"].createClass({
             count = 3;
             break;
         }
-        // console.log("scroll value", (videoList.offsetHeight / count) * this.refs.selectStream.value);
-        // console.log("select value", this.refs.selectStream.value);
-        videoList.scrollTop = videoList.offsetHeight / count * this.refs.selectStream.value;
-        // chatList.scrollTop = chatList.offsetHeight * this.refs.selectStream.value
+        // make reference array. should match the selectStream element
+        var streamersRef = Object.keys(streamersInPlayer);
+        // get value based on index of streamOrderMap
+        var value = streamOrderMap.indexOf(streamersRef[this.refs.selectStream.value]);
+        value = value === -1 ? this.refs.selectStream.value : value;
+        // console.log("in-viewing:", streamersRef, streamOrderMap, value);
+
+        videoList.scrollTop = videoList.offsetHeight / count * value;
         this.setState({
           streamInView: parseInt(this.refs.selectStream.value || 0)
         });
@@ -912,7 +920,6 @@ exports["default"] = _react2["default"].createClass({
     }
   },
   putInView: function putInView(index) {
-    // console.log(this.refs.selectStream, this.refs.selectStream.value, index);
     if (this.refs.selectStream) {
       this.refs.selectStream.value = index;
       this.setState({

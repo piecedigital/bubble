@@ -100,6 +100,8 @@ exports["default"] = _react2["default"].createClass({
     var userStreamData = _state.userStreamData;
 
     var name = params && params.username ? params.username : userData ? userData.name : null;
+    var type = userChannelData ? userChannelData.broadcaster_type : "";
+    var canSub = type === "affiliate" || type === "partner" ? true : false;
 
     return _react2["default"].createElement(
       "div",
@@ -171,12 +173,14 @@ exports["default"] = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "div",
                   { className: "partner" },
-                  "Partnered?: ",
-                  userChannelData.partner ? _react2["default"].createElement(
+                  "Twitch Assn.?: ",
+                  canSub ? _react2["default"].createElement(
                     "a",
                     { href: "https://www.twitch.tv/" + userChannelData.name + "/subscribe", className: "color-white", target: "_blank", rel: "nofollow" },
-                    "Yes"
-                  ) : "No"
+                    userChannelData.broadcaster_type.replace(/^(.)/, function (_, l) {
+                      return l.toUpperCase();
+                    })
+                  ) : "Regular"
                 ),
                 _react2["default"].createElement(
                   "div",
