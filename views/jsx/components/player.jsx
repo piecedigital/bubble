@@ -454,7 +454,7 @@ var PlayerStream = _react2["default"].createClass({
     });
   },
   componentWillUnmount: function componentWillUnmount() {
-    this.refs.video.src = "about:blank";
+    this.refs.video ? this.refs.video.src = "about:blank" : null;
     delete this._mounted;
     this.player = null;
     clearInterval(this.VODTimeTicker);
