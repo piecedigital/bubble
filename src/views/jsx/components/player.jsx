@@ -736,6 +736,7 @@ const PlayerStream = React.createClass({
 })
 
 // player component to house streams
+
 export default React.createClass({
   displayName: "Player",
   getInitialState() {
@@ -966,10 +967,20 @@ export default React.createClass({
               x
             </div>
             <div title="Shrink the player to the side of the browser" className="main-tool flexer" onClick={togglePlayer.bind(null, "toggle")}>
-              {playerState.playerCollapsed ? "Expand" : "Collapse"}
+              <div className="image-hold">
+                <img src={`/media/expand-collapse-icon.png`} style={{
+                  transform: playerState.playerCollapsed ? "scaleX(-1)" : ""
+                }}/>
+              </div>
+              {/* {playerState.playerCollapsed ? "Expand" : "Collapse"} */}
             </div>
-            <div className="main-tool hide" onClick={this.toggleChat.bind(this, "toggle")}>
-              {chatOpen ? "Hide" : "Show"} Chat
+            <div className="main-tool hide" title={`${chatOpen ? "Hide" : "Show"} Chat`} onClick={this.toggleChat.bind(this, "toggle")}>
+              {/* {chatOpen ? "Hide" : "Show"} Chat */}
+              <div className="image-hold">
+                <img src={`/media/hide-chat-icon.png`} style={{
+                  transform: chatOpen ? "scaleX(-1)" : ""
+                }}/>
+              </div>
             </div>
             <div className="wrap">
               <select title="Choose a layout for the streams" ref="selectLayout" className="main-tool  layout" defaultValue={0} onChange={this.layoutTools.bind(null, "setLayout")}>
@@ -984,7 +995,12 @@ export default React.createClass({
                   })
                 }
               </select>
-              <div className="hover-msg"><span>Change Layout</span></div>
+              <div className="hover-msg" title="Choose a layout for the streams"><span>
+                <div className="image-hold">
+                  <img src={`/media/layout-icon.png`}/>
+                </div>
+              </span></div>
+              {/* <div className="hover-msg"><span>Change Layout</span></div> */}
             </div>
             {
               dataObject &&
@@ -1004,7 +1020,12 @@ export default React.createClass({
                       ) : null
                     }
                   </select>
-                  <div className="hover-msg"><span>Change In-View Stream/Chat</span></div>
+                  <div className="hover-msg" title="Choose which stream and chat appears as the main or in-view stream"><span>
+                    <div className="image-hold">
+                      <img src={`/media/in-view-icon.png`}/>
+                    </div>
+                  </span></div>
+                  {/* <div className="hover-msg"><span>Change In-View Stream/Chat</span></div> */}
                 </div>
               )  : null
             }
@@ -1016,13 +1037,23 @@ export default React.createClass({
                   inputData: `${window ? window.location.protocol : "http:"}//${window ? window.location.host : "amorrius.net"}${window ? window.location.pathname : ""}?ms=${dataArray.join("+")}`
                 });
               }}><span>Generate Multistream Link</span></div>
-              <div className="hover-msg"><span>Generate Multistream Link</span></div>
+              <div className="hover-msg" title="Generate Multistream Link"><span>
+                <div className="image-hold">
+                  <img src={`/media/multi-icon.png`}/>
+                </div>
+              </span></div>
+              {/* <div className="hover-msg"><span>Generate Multistream Link</span></div> */}
             </div>
             <div className="wrap">
               <div className="main-tool reorder" onClick={() => {
                 popUpHandler("streamReorderer");
               }}><span>Re-Order Streams</span></div>
-              <div className="hover-msg"><span>Re-Order Streams</span></div>
+              <div className="hover-msg" title="Re-Order Streams"><span>
+                <div className="image-hold">
+                  <img src={`/media/reorder-icon.png`}/>
+                </div>
+              </span></div>
+              {/* <div className="hover-msg"><span>Re-Order Streams</span></div> */}
             </div>
           </div>
           <StreamPanels panelData={panelData} methods={{

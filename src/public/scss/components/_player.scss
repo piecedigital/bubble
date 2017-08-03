@@ -40,6 +40,15 @@
       position: absolute;
       bottom: 100%;
       left: 0;
+      box-shadow: 0 2px 0 0 $dimmer;
+      .image-hold {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        img {
+          max-height: 1.5*$em;
+        }
+      }
       > *:not(.wrap), .main-tool {
         background-color: $primary;
         max-height: 2*$em;
@@ -57,23 +66,32 @@
       .wrap {
         position: relative;
         > * {
+          position: absolute;
+          top: 0;
+          left: 0;
           min-width: 14*$em;
+          opacity: 0;
         }
         .hover-msg {
           @include displayFlex;
           align-items: center;
           justify-content: center;
-          position: absolute;
-          top: 0;
-          left: 0;
+          position: relative;
+          z-index: 1;
           height: 100%;
-          box-shadow: inset -2px 0 0 0 $dimmer;
+          min-width: 3*$em;
+          margin-right: 2px;
+          box-shadow: 2px 0 0 0 $dimmer;
           background-color: $primary;
           color: $offBlack;
           pointer-events: none;
           opacity: 1;
         }
         &:hover {
+          > * {
+            z-index: 2;
+            opacity: 1;
+          }
           .hover-msg {
             opacity: 0;
           }
