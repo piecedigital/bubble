@@ -59,10 +59,8 @@ export default React.createClass({
           isFollowing: bool
         });
         if(typeof callback === "function") callback(bool);
-      })
-      .catch(e => console.error(e.stack || e));
-    })
-    .catch(e => console.error(e.stack || e));
+      });
+    });
   },
   toggleFollow() {
     switch (this.state.isFollowing) {

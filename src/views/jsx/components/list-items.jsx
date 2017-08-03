@@ -111,7 +111,7 @@ export const ChannelListItem = React.createClass({
       name,
       display_name
     // } = data.channel || data.user;
-  } = data;
+    } = data;
     // console.log(`getting stream data for ${name}`);
     loadData.call(this, e => {
       console.error(e.stack);
@@ -133,14 +133,14 @@ export const ChannelListItem = React.createClass({
     .catch(e => console.error(e ? e.stack : e));
   },
   followCallback(follow) {
-    // console.log(this.props.follow);
+    console.log(this.props);
     if(this.props.follow === "IFollow") {
       if(follow) {
         // following channel
-        if(typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
+        if(typeof this.props.methods.addToDataObject === "function") this.props.methods.addToDataObject(this.props.data.name);
       } else {
         // unfollowing channel
-        if(typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
+        if(typeof this.props.methods.removeFromDataObject === "function") this.props.methods.removeFromDataObject(this.props.data.name);
       }
     }
   },

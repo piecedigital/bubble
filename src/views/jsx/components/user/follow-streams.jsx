@@ -103,9 +103,10 @@ export default React.createClass({
     })
   },
   removeFromDataObject(/*index*/ name) {
-    console.log("removing", index);
+    console.log("removing", name);
     // let newDataArray = this.state.dataArray;
     let newDataObject = this.state.dataObject;
+    console.log(newDataObject);
     // let removed = newDataArray.splice(parseInt(index), 1);
     let removed = newDataObject[name];
     delete newDataObject[name];
@@ -260,7 +261,7 @@ export default React.createClass({
 
         return (
           <ListItem ref={r => {
-            itemData ? dataObject[itemName].ref = r : null
+            itemData ? itemData.ref = r : null
           }} key={`${itemData.channel ? itemData.name : itemData.name}`}
           data={itemData}
           fireRef={fireRef}
