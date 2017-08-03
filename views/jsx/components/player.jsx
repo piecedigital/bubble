@@ -129,16 +129,17 @@ var PlayerStream = _react2["default"].createClass({
 
     var node1 = this.refs.streamerName1;
     var node2 = this.refs.streamerName2;
-    // console.log(node1);
-    // console.log(node2);
+    var node3 = this.refs.streamerFollow;
+    var node4 = this.refs.streamerShare;
+    var nodesToScroll = [node1, node2, node3, node4];
     setTimeout(function () {
-      [node1, node2].map(function (node, ind) {
-        if (node.offsetWidth > _this.refs.mobileName.offsetWidth) {
+      nodesToScroll.map(function (node, ind) {
+        if (node.offsetWidth > node.parentNode.offsetWidth) {
           var newLeft = parseInt(node.style.left || 0) - 1;
           _this._mounted ? _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), newLeft), function () {
             var nodeRight = parseInt(node.style.left) + node.offsetWidth;
             if (nodeRight <= 0) {
-              _this._mounted ? _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), _this.refs.mobileName.offsetWidth)) : null;
+              _this._mounted ? _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), node.parentNode.offsetWidth)) : null;
             }
           }) : null;
         }
@@ -147,10 +148,9 @@ var PlayerStream = _react2["default"].createClass({
       if (_this.state.doScroll) {
         _this.nameScroll();
       } else {
-        _this._mounted ? _this.setState({
-          nameScroll1: 0,
-          nameScroll2: 0
-        }) : null;
+        _this._mounted ? _this.setState(Object.assign.apply(null, [{}].concat(nodesToScroll.map(function (_, ind) {
+          return _defineProperty({}, "nameScroll" + (ind + 1), 0);
+        })))) : null;
       }
     }, 10);
   },
@@ -219,11 +219,11 @@ var PlayerStream = _react2["default"].createClass({
           });
         }
       }
-      _this2.checkOnlineStatus().then(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2);
+      _this2.checkOnlineStatus().then(function (_ref2) {
+        var _ref22 = _slicedToArray(_ref2, 2);
 
-        var bool = _ref2[0];
-        var stream = _ref2[1];
+        var bool = _ref22[0];
+        var stream = _ref22[1];
 
         if (bool) {
           var date = new Date(stream.created_at);
@@ -309,6 +309,7 @@ var PlayerStream = _react2["default"].createClass({
     var name = _props3.name;
     var vod = _props3.vod;
     var index = _props3.index;
+    var inVew = _props3.inVew;
     var _props3$methods = _props3.methods;
     var replaceStream = _props3$methods.replaceStream;
     var putInView = _props3$methods.putInView;
@@ -316,8 +317,10 @@ var PlayerStream = _react2["default"].createClass({
 
     replaceStream(name, vod, username, displayName);
     setTimeout(function () {
-      putInView(index);
-      layoutTools("setStreamToView");
+      if (inVew) {
+        putInView(index);
+        layoutTools("setStreamToView");
+      }
     }, 100);
   },
   makeTime: function makeTime(time) {
@@ -490,6 +493,8 @@ var PlayerStream = _react2["default"].createClass({
     var menuOpen = _state.menuOpen;
     var nameScroll1 = _state.nameScroll1;
     var nameScroll2 = _state.nameScroll2;
+    var nameScroll3 = _state.nameScroll3;
+    var nameScroll4 = _state.nameScroll4;
     var time = _state.time;
     var playing = _state.playing;
     var playerReady = _state.playerReady;
@@ -565,7 +570,7 @@ var PlayerStream = _react2["default"].createClass({
                   _react2["default"].createElement(
                     _reactRouter.Link,
                     {
-                      title: "Go to " + name + "'s profile",
+                      title: "Go to " + name + "&#39;s profile",
                       className: "bold",
                       to: "/profile/" + name,
                       onClick: function () {
@@ -642,14 +647,25 @@ var PlayerStream = _react2["default"].createClass({
                 userData: userData,
                 givenUsername: name,
                 versionData: versionData }),
-              userData ? [_react2["default"].createElement(_followBtnJsx2["default"], {
-                key: "follow",
-                className: "no-underline",
-                name: userData.name,
-                targetName: name,
-                targetDisplay: display_name,
-                auth: auth
-              }), _react2["default"].createElement(
+              userData ? [_react2["default"].createElement(
+                "div",
+                { onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave") },
+                _react2["default"].createElement(
+                  "span",
+                  { ref: "streamerFollow", style: {
+                      position: "relative",
+                      left: nameScroll3,
+                      transition: "0s all" } },
+                  _react2["default"].createElement(_followBtnJsx2["default"], {
+                    key: "follow",
+                    className: "no-underline",
+                    name: userData.name,
+                    targetName: name,
+                    targetDisplay: display_name,
+                    auth: auth
+                  })
+                )
+              ), _react2["default"].createElement(
                 "div",
                 {
                   key: "ask",
@@ -683,10 +699,17 @@ var PlayerStream = _react2["default"].createClass({
                       }
                     });
                     _this6.toggleMenu("close");
-                  } },
-                "Share ",
-                display_name || name,
-                "'s Stream"
+                  }, onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave") },
+                _react2["default"].createElement(
+                  "span",
+                  { ref: "streamerShare", style: {
+                      position: "relative",
+                      left: nameScroll4,
+                      transition: "0s all" } },
+                  "Share ",
+                  display_name || name,
+                  "'s Stream"
+                )
               ),
 
               // vod && playerReady ? (
@@ -853,6 +876,7 @@ var PlayerStream = _react2["default"].createClass({
 });
 
 // player component to house streams
+
 exports["default"] = _react2["default"].createClass({
   displayName: "Player",
   getInitialState: function getInitialState() {
@@ -1074,13 +1098,24 @@ exports["default"] = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { title: "Shrink the player to the side of the browser", className: "main-tool flexer", onClick: togglePlayer.bind(null, "toggle") },
-            playerState.playerCollapsed ? "Expand" : "Collapse"
+            _react2["default"].createElement(
+              "div",
+              { className: "image-hold" },
+              _react2["default"].createElement("img", { src: "/media/expand-collapse-icon.png", style: {
+                  transform: playerState.playerCollapsed ? "scaleX(-1)" : ""
+                } })
+            )
           ),
           _react2["default"].createElement(
             "div",
-            { className: "main-tool hide", onClick: this.toggleChat.bind(this, "toggle") },
-            chatOpen ? "Hide" : "Show",
-            " Chat"
+            { className: "main-tool hide", title: (chatOpen ? "Hide" : "Show") + " Chat", onClick: this.toggleChat.bind(this, "toggle") },
+            _react2["default"].createElement(
+              "div",
+              { className: "image-hold" },
+              _react2["default"].createElement("img", { src: "/media/hide-chat-icon.png", style: {
+                  transform: chatOpen ? "scaleX(-1)" : ""
+                } })
+            )
           ),
           _react2["default"].createElement(
             "div",
@@ -1098,11 +1133,15 @@ exports["default"] = _react2["default"].createClass({
             ),
             _react2["default"].createElement(
               "div",
-              { className: "hover-msg" },
+              { className: "hover-msg", title: "Choose a layout for the streams" },
               _react2["default"].createElement(
                 "span",
                 null,
-                "Change Layout"
+                _react2["default"].createElement(
+                  "div",
+                  { className: "image-hold" },
+                  _react2["default"].createElement("img", { src: "/media/layout-icon.png" })
+                )
               )
             )
           ),
@@ -1122,11 +1161,15 @@ exports["default"] = _react2["default"].createClass({
             ),
             _react2["default"].createElement(
               "div",
-              { className: "hover-msg" },
+              { className: "hover-msg", title: "Choose which stream and chat appears as the main or in-view stream" },
               _react2["default"].createElement(
                 "span",
                 null,
-                "Change In-View Stream/Chat"
+                _react2["default"].createElement(
+                  "div",
+                  { className: "image-hold" },
+                  _react2["default"].createElement("img", { src: "/media/in-view-icon.png" })
+                )
               )
             )
           ) : null,
@@ -1150,11 +1193,15 @@ exports["default"] = _react2["default"].createClass({
             ),
             _react2["default"].createElement(
               "div",
-              { className: "hover-msg" },
+              { className: "hover-msg", title: "Generate Multistream Link" },
               _react2["default"].createElement(
                 "span",
                 null,
-                "Generate Multistream Link"
+                _react2["default"].createElement(
+                  "div",
+                  { className: "image-hold" },
+                  _react2["default"].createElement("img", { src: "/media/multi-icon.png" })
+                )
               )
             )
           ),
@@ -1174,11 +1221,15 @@ exports["default"] = _react2["default"].createClass({
             ),
             _react2["default"].createElement(
               "div",
-              { className: "hover-msg" },
+              { className: "hover-msg", title: "Re-Order Streams" },
               _react2["default"].createElement(
                 "span",
                 null,
-                "Re-Order Streams"
+                _react2["default"].createElement(
+                  "div",
+                  { className: "image-hold" },
+                  _react2["default"].createElement("img", { src: "/media/reorder-icon.png" })
+                )
               )
             )
           )
@@ -1191,4 +1242,4 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-/* <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen /> */
+/* <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen /> */ /* {playerState.playerCollapsed ? "Expand" : "Collapse"} */ /* {chatOpen ? "Hide" : "Show"} Chat */ /* <div className="hover-msg"><span>Change Layout</span></div> */ /* <div className="hover-msg"><span>Change In-View Stream/Chat</span></div> */ /* <div className="hover-msg"><span>Generate Multistream Link</span></div> */ /* <div className="hover-msg"><span>Re-Order Streams</span></div> */

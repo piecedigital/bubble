@@ -160,14 +160,14 @@ var ChannelListItem = _react2["default"].createClass({
     });
   },
   followCallback: function followCallback(follow) {
-    // console.log(this.props.follow);
+    console.log(this.props);
     if (this.props.follow === "IFollow") {
       if (follow) {
         // following channel
-        if (typeof this.props.methods.addToDataArray === "function") this.props.methods.addToDataArray(this.props.index);
+        if (typeof this.props.methods.addToDataObject === "function") this.props.methods.addToDataObject(this.props.data.name);
       } else {
         // unfollowing channel
-        if (typeof this.props.methods.removeFromDataArray === "function") this.props.methods.removeFromDataArray(this.props.index);
+        if (typeof this.props.methods.removeFromDataObject === "function") this.props.methods.removeFromDataObject(this.props.data.name);
       }
     }
   },

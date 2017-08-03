@@ -122,9 +122,10 @@ exports["default"] = _react2["default"].createClass({
   removeFromDataObject: function removeFromDataObject( /*index*/name) {
     var _this2 = this;
 
-    console.log("removing", index);
+    console.log("removing", name);
     // let newDataArray = this.state.dataArray;
     var newDataObject = this.state.dataObject;
+    console.log(newDataObject);
     // let removed = newDataArray.splice(parseInt(index), 1);
     var removed = newDataObject[name];
     delete newDataObject[name];
@@ -290,7 +291,7 @@ exports["default"] = _react2["default"].createClass({
           var itemData = dataObject[itemName];
 
           return _react2["default"].createElement(ListItem, { ref: function (r) {
-              itemData ? dataObject[itemName].ref = r : null;
+              itemData ? itemData.ref = r : null;
             }, key: "" + (itemData.channel ? itemData.name : itemData.name),
             data: itemData,
             fireRef: fireRef,

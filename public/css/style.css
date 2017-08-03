@@ -182,7 +182,7 @@ nav {
   color: white;
   text-shadow: 2px 2px 2px black; }
 
-@media (max-width: 1615px) {
+@media (max-width: 1076px) {
   nav {
     min-width: 224px;
     height: 100%;
@@ -298,7 +298,14 @@ nav {
       display: flex ;
       position: absolute;
       bottom: 100%;
-      left: 0; }
+      left: 0;
+      box-shadow: 0 2px 0 0 #0082b4; }
+      .player > .wrapper > .tools .image-hold {
+        display: flex;
+        align-items: center;
+        height: 100%; }
+        .player > .wrapper > .tools .image-hold img {
+          max-height: 24px; }
       .player > .wrapper > .tools > *:not(.wrap), .player > .wrapper > .tools .main-tool {
         background-color: #00c8fa;
         max-height: 32px;
@@ -313,7 +320,11 @@ nav {
       .player > .wrapper > .tools .wrap {
         position: relative; }
         .player > .wrapper > .tools .wrap > * {
-          min-width: 224px; }
+          position: absolute;
+          top: 0;
+          left: 0;
+          min-width: 224px;
+          opacity: 0; }
         .player > .wrapper > .tools .wrap .hover-msg {
           display: -ms-flex ;
           display: -moz-flex ;
@@ -321,14 +332,18 @@ nav {
           display: flex ;
           align-items: center;
           justify-content: center;
-          position: absolute;
-          top: 0;
-          left: 0;
+          position: relative;
+          z-index: 1;
           height: 100%;
-          box-shadow: inset -2px 0 0 0 #0082b4;
+          min-width: 48px;
+          margin-right: 2px;
+          box-shadow: 2px 0 0 0 #0082b4;
           background-color: #00c8fa;
           color: #1e1e1e;
           pointer-events: none;
+          opacity: 1; }
+        .player > .wrapper > .tools .wrap:hover > * {
+          z-index: 2;
           opacity: 1; }
         .player > .wrapper > .tools .wrap:hover .hover-msg {
           opacity: 0; }
@@ -384,7 +399,8 @@ nav {
     display: flex ;
     position: absolute;
     top: 0;
-    left: 0; }
+    left: 0;
+    max-height: 254px; }
     .player-stream .tools > * {
       background-color: #00c8fa;
       padding: 7.2px 8px;
@@ -507,10 +523,11 @@ nav {
     .player-stream .tools.menu-open {
       padding: 2px; }
       .player-stream .tools.menu-open > *:not(.mobile):not(.host) {
+        flex-shrink: 0;
         max-height: 100%;
         height: auto;
-        padding-top: 4px;
-        padding-bottom: 4px;
+        padding-top: 1.6px;
+        padding-bottom: 1.6px;
         overflow: hidden; }
         .player-stream .tools.menu-open > *:not(.mobile):not(.host).streamer {
           display: none; }

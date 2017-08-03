@@ -72,11 +72,7 @@ exports["default"] = _react2["default"].createClass({
           isFollowing: bool
         });
         if (typeof callback === "function") callback(bool);
-      })["catch"](function (e) {
-        return console.error(e.stack || e);
       });
-    })["catch"](function (e) {
-      return console.error(e.stack || e);
     });
   },
   toggleFollow: function toggleFollow() {
@@ -104,7 +100,7 @@ exports["default"] = _react2["default"].createClass({
         "a",
         { href: "#", className: this.props.className, onClick: this.toggleFollow },
         isFollowing ? "Unfollow" : "Follow",
-        " ",
+        " ",
         targetDisplay || targetName
       )
     );
