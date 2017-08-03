@@ -94,11 +94,12 @@ const PlayerStream = React.createClass({
   nameScroll() {
     const node1 = (this.refs.streamerName1);
     const node2 = (this.refs.streamerName2);
-    // console.log(node1);
-    // console.log(node2);
+    const node3 = (this.refs.streamerFollow);
+    const node4 = (this.refs.streamerShare);
+    const nodesToScroll = [node1, node2, node3, node4];
     setTimeout(() => {
-      [node1, node2].map((node, ind) => {
-        if(node.offsetWidth > this.refs.mobileName.offsetWidth) {
+      nodesToScroll.map((node, ind) => {
+        if(node.offsetWidth > node.parentNode.offsetWidth) {
           let newLeft = (parseInt(node.style.left || 0) - 1);
           this._mounted ? this.setState({
             [`nameScroll${ind + 1}`]: newLeft
@@ -106,7 +107,7 @@ const PlayerStream = React.createClass({
             let nodeRight = parseInt(node.style.left) + node.offsetWidth;
             if(nodeRight <= 0) {
               this._mounted ? this.setState({
-                [`nameScroll${ind + 1}`]: this.refs.mobileName.offsetWidth
+                [`nameScroll${ind + 1}`]: node.parentNode.offsetWidth
               }) : null;
             }
           }) : null;
@@ -116,10 +117,11 @@ const PlayerStream = React.createClass({
       if(this.state.doScroll) {
         this.nameScroll();
       } else {
-        this._mounted ? this.setState({
-          nameScroll1: 0,
-          nameScroll2: 0,
-        }) : null;
+        this._mounted ? this.setState(Object.assign.apply(null, [{}].concat(nodesToScroll.map(function (_, ind) {
+          return {
+            ["nameScroll" + (ind + 1)]: 0,
+          };
+        })) )) : null;
       }
     }, 10);
   },
@@ -453,6 +455,8 @@ const PlayerStream = React.createClass({
       menuOpen,
       nameScroll1,
       nameScroll2,
+      nameScroll3,
+      nameScroll4,
       time,
       playing,
       playerReady,
@@ -489,10 +493,11 @@ const PlayerStream = React.createClass({
                     }}>{display_name || name}{vod ? `/${vod}` : display_name && !display_name.match(/^[a-z0-9\_]+$/i) ? `(${name})` : ""}</Link>
                   </span>
                 </div>
-                <div className="lines" {...{
-                  onClick: this.toggleMenu.bind(this, "toggle"),
-                  onMouseEnter: this.toggleMenu.bind(this, "open"),
-                }}>
+                <div className="lines" {
+                  ...{
+                    onClick: this.toggleMenu.bind(this, "toggle"),
+                    onMouseEnter: this.toggleMenu.bind(this, "open"),
+                  }}>
                   <div></div>
                   <div></div>
                   <div></div>
@@ -504,7 +509,7 @@ const PlayerStream = React.createClass({
                   left: nameScroll2,
                   transition: "0s all" }}>
                   <Link
-                    title={`Go to ${name}'s profile`}
+                    title={`Go to ${name}&#39;s profile`}
                     className="bold"
                     to={`/profile/${name}`}
                     onClick={() => {
@@ -547,14 +552,21 @@ const PlayerStream = React.createClass({
               {
                 userData ? (
                   [
-                    <FollowButton
-                      key="follow"
-                      className="no-underline"
-                      name={userData.name}
-                      targetName={name}
-                      targetDisplay={display_name}
-                      auth={auth}
-                    />,
+                    <div onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")}>
+                      <span ref="streamerFollow" style={{
+                        position: "relative",
+                        left: nameScroll3,
+                        transition: "0s all" }}>
+                        <FollowButton
+                          key="follow"
+                          className="no-underline"
+                          name={userData.name}
+                          targetName={name}
+                          targetDisplay={display_name}
+                          auth={auth}
+                        />
+                      </span>
+                    </div>,
                     <div
                       key="ask"
                       className="ask"
@@ -584,8 +596,13 @@ const PlayerStream = React.createClass({
                     name
                   }
                 });
-                this.toggleMenu("close"); }}>
-                Share {display_name || name}&#39;s Stream
+                this.toggleMenu("close"); }} onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")}>
+                <span ref="streamerShare" style={{
+                  position: "relative",
+                  left: nameScroll4,
+                  transition: "0s all" }}>
+                  Share&nbsp;{display_name || name}&#39;s&nbsp;Stream
+                </span>
               </div>
               {
                 // vod && playerReady ? (

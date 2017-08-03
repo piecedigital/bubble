@@ -142,10 +142,12 @@
     &.menu-open {
       padding: 2px;
       > *:not(.mobile):not(.host) {
+        flex-shrink: 0;
         max-height: 100%;
         height: auto;
-        padding-top: .25*$em;
-        padding-bottom: .25*$em;
+        // height: 28px;
+        padding-top: .1*$em;
+        padding-bottom: .1*$em;
         overflow: hidden;
         &.streamer {
           display: none;
@@ -275,6 +277,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    max-height: 254px;
     > * {
       background-color: $primary;
       padding: .45*$em .5*$em;
