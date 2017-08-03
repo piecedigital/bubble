@@ -266,16 +266,20 @@ const PlayerStream = React.createClass({
       name,
       vod,
       index,
+      inVew,
       methods: {
         replaceStream,
         putInView,
         layoutTools
       }
     } = this.props;
+
     replaceStream(name, vod, username, displayName);
     setTimeout(() => {
-      putInView(index);
-      layoutTools("setStreamToView");
+      if(inVew) {
+        putInView(index);
+        layoutTools("setStreamToView");
+      }
     }, 100);
   },
   makeTime(time) {
