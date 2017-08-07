@@ -25,12 +25,15 @@ var SlideInput = _react2["default"].createClass({
     var _props = this.props;
     var callback = _props.callback;
     var commandValue = _props.commandValue;
-    var toggleCallback = _props.methods.toggleCallback;
+    var _props$methods = _props.methods;
+    var toggleCallback = _props$methods.toggleCallback;
+    var blurCallback = _props$methods.blurCallback;
     var value = this.refs.input.value;
 
     value.replace(/\s/g, "");
     if (callback) callback(value, false);
     toggleCallback(commandValue);
+    blurCallback(commandValue);
     this.refs.input.value = "";
   },
   render: function render() {
@@ -41,11 +44,12 @@ var SlideInput = _react2["default"].createClass({
     var placeholder = _props2.placeholder;
     var _props2$methods = _props2.methods;
     var focusCallback = _props2$methods.focusCallback;
+    var blurCallback = _props2$methods.blurCallback;
     var toggleCallback = _props2$methods.toggleCallback;
 
     return _react2["default"].createElement(
       "div",
-      { className: "nav-item input" + (open ? " open" : ""), onClick: focusCallback.bind(null, commandValue) },
+      { className: "nav-item input" + (open ? " open" : ""), onClick: focusCallback.bind(null, commandValue), onBlur: blurCallback.bind(null, commandValue) },
       _react2["default"].createElement(
         "div",
         { title: placeholder, className: "symbol", onClick: toggleCallback.bind(null, commandValue) },
@@ -74,6 +78,22 @@ exports["default"] = _react2["default"].createClass({
         this.refs.searchInput.refs.input.focus();
         break;
     }
+    this.setState({
+      inputInFocus: true
+    });
+  },
+  blurInput: function blurInput(input) {
+    switch (input) {
+      case "add":
+        this.refs.addInput.refs.input.blur();
+        break;
+      case "search":
+        this.refs.searchInput.refs.input.blur();
+        break;
+    }
+    this.setState({
+      inputInFocus: false
+    });
   },
   toggleInput: function toggleInput(input) {
     switch (input) {
@@ -123,6 +143,7 @@ exports["default"] = _react2["default"].createClass({
     }, false);
     this.refs.nav.addEventListener("mouseleave", function () {
       // console.log("leave");
+      if (true) {}
       _this.toggleNav("close");
     }, false);
   },
@@ -133,6 +154,7 @@ exports["default"] = _react2["default"].createClass({
     var addOpen = _state.addOpen;
     var searchOpen = _state.searchOpen;
     var navOpen = _state.navOpen;
+    var inputInFocus = _state.inputInFocus;
     var _props3 = this.props;
     var auth = _props3.auth;
     var fireRef = _props3.fireRef;
@@ -147,7 +169,7 @@ exports["default"] = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "nav",
-      { ref: "nav", className: "" + (navOpen ? "open" : "") },
+      { ref: "nav", className: "" + (navOpen || inputInFocus ? "open" : "") },
       _react2["default"].createElement(
         "div",
         null,
@@ -178,6 +200,7 @@ exports["default"] = _react2["default"].createClass({
               decideStreamAppend(value, undefined, bool);
             }, methods: {
               focusCallback: this.focusInput,
+              blurCallback: this.blurInput,
               toggleCallback: this.toggleInput
             } }),
           _react2["default"].createElement(SlideInput, { ref: "searchInput", commandValue: "search", symbol: "S", open: searchOpen, placeholder: "Search Twitch", callback: function (value, bool) {
@@ -185,6 +208,7 @@ exports["default"] = _react2["default"].createClass({
               search(value, undefined, bool);
             }, methods: {
               focusCallback: this.focusInput,
+              blurCallback: this.blurInput,
               toggleCallback: this.toggleInput
             } })
         ),

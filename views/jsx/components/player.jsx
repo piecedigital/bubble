@@ -659,6 +659,7 @@ var PlayerStream = _react2["default"].createClass({
                   _react2["default"].createElement(_followBtnJsx2["default"], {
                     key: "follow",
                     className: "no-underline",
+                    nbps: true,
                     name: userData.name,
                     targetName: name,
                     targetDisplay: display_name,
