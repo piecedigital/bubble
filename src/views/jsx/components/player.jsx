@@ -560,6 +560,7 @@ const PlayerStream = React.createClass({
                         <FollowButton
                           key="follow"
                           className="no-underline"
+                          nbps={true}
                           name={userData.name}
                           targetName={name}
                           targetDisplay={display_name}

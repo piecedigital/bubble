@@ -11,13 +11,15 @@ const SlideInput = React.createClass({
       callback,
       commandValue,
       methods: {
-        toggleCallback
+        toggleCallback,
+        blurCallback
       }
     } = this.props;
     let { value } = this.refs.input;
     value.replace(/\s/g, "");
     if(callback) callback(value, false);
     toggleCallback(commandValue);
+    blurCallback(commandValue);
     this.refs.input.value = "";
   },
   render() {
@@ -28,11 +30,12 @@ const SlideInput = React.createClass({
       placeholder,
       methods: {
         focusCallback,
+        blurCallback,
         toggleCallback,
       }
     } = this.props;
     return (
-      <div className={`nav-item input${open ? " open" : ""}`} onClick={focusCallback.bind(null, commandValue)}>
+      <div className={`nav-item input${open ? " open" : ""}`} onClick={focusCallback.bind(null, commandValue)} onBlur={blurCallback.bind(null, commandValue)}>
         <div title={placeholder} className="symbol" onClick={toggleCallback.bind(null, commandValue)}>{symbol}</div>
         <form title={placeholder} onSubmit={this.submit}>
           <input placeholder={placeholder} ref="input" type="text"/>
@@ -54,6 +57,22 @@ export default React.createClass({
         this.refs.searchInput.refs.input.focus();
         break;
     }
+    this.setState({
+      inputInFocus: true
+    });
+  },
+  blurInput(input) {
+    switch (input) {
+      case "add":
+        this.refs.addInput.refs.input.blur();
+        break;
+      case "search":
+        this.refs.searchInput.refs.input.blur();
+        break;
+    }
+    this.setState({
+      inputInFocus: false
+    });
   },
   toggleInput(input) {
     switch (input) {
@@ -101,6 +120,7 @@ export default React.createClass({
     }, false);
     this.refs.nav.addEventListener("mouseleave", () => {
       // console.log("leave");
+      if(true) {}
       this.toggleNav("close");
     }, false);
   },
@@ -109,6 +129,7 @@ export default React.createClass({
       addOpen,
       searchOpen,
       navOpen,
+      inputInFocus
     } = this.state
     const {
       auth,
@@ -124,7 +145,7 @@ export default React.createClass({
       }
     } = this.props;
     return (
-      <nav ref="nav" className={`${navOpen ? "open" : ""}`}>
+      <nav ref="nav" className={`${navOpen || inputInFocus ? "open" : ""}`}>
         <div>
           <h1 className="web-name">
             <Link href={"http://amorrius.net"} to={"http://amorrius.net"}>
@@ -143,13 +164,15 @@ export default React.createClass({
               decideStreamAppend(value, undefined, bool);
             }} methods={{
               focusCallback: this.focusInput,
+              blurCallback: this.blurInput,
               toggleCallback: this.toggleInput,
             }} />
-              <SlideInput ref="searchInput" commandValue="search" symbol="S" open={searchOpen} placeholder="Search Twitch" callback={(value, bool) => {
+            <SlideInput ref="searchInput" commandValue="search" symbol="S" open={searchOpen} placeholder="Search Twitch" callback={(value, bool) => {
               this.toggleNav("close");
               search(value, undefined, bool);
             }} methods={{
               focusCallback: this.focusInput,
+              blurCallback: this.blurInput,
               toggleCallback: this.toggleInput,
             }} />
           </span>

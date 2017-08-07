@@ -71,6 +71,7 @@
           left: 0;
           min-width: 14*$em;
           opacity: 0;
+          pointer-events: none;
         }
         .hover-msg {
           @include displayFlex;
@@ -86,14 +87,17 @@
           color: $offBlack;
           pointer-events: none;
           opacity: 1;
+          pointer-events: none;
         }
         &:hover {
           > * {
             z-index: 2;
             opacity: 1;
+            pointer-events: all;
           }
           .hover-msg {
             opacity: 0;
+            pointer-events: none;
           }
         }
       }
