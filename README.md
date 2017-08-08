@@ -108,6 +108,15 @@
   - Affiliate recognition on profiles (affiliate, partner) **ok**
 - Bug Fix: 0.14.10
   - Fixed a bug preventing stream chat elements from closing **ok**
+- Bug Fixes and Improvements: 0.14.11
+  - Added new icons to the player
+  - Fixed channel not being removed when unfollowed (from follow-streams.jsx)
+  - Migrating a stream no longer focuses it if the host stream wasn't already in focus
+  - Improved name scrolling in player stream menu
+- Bug Fixes and Improvements: 0.14.12
+  - Fixed a minor UI overlap issue in the player nav
+  - Fixed the follow button having a non-breakable space
+  - When the nav is collapsed into mobile mode it stays open when an input is in focus
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
