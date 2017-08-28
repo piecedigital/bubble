@@ -81,9 +81,17 @@ export default React.createClass({
       targetDisplay
     } = this.props;
     if(isFollowing === null) return null;
+
+    var text = "follow", color = " bgc-green-priority";
+
+    if(isFollowing) {
+      text = "Unfollow";
+      color = " bgc-orange-priority";
+    }
+
     return (
-      <div className={`${this.props.className} follow`}>
-        <a href="#" className={this.props.className} onClick={this.toggleFollow}>{isFollowing ? "Unfollow" : "Follow"}{nbps ? <span>&nbsp;</span> : " "}{targetDisplay || targetName}</a>
+      <div className={`${this.props.className} follow${color}`}>
+        <a href="#" className={"color-black no-underline"} onClick={this.toggleFollow}>{text}{nbps ? <span>&nbsp;</span> : " "}{targetDisplay || targetName}</a>
       </div>
     );
   }

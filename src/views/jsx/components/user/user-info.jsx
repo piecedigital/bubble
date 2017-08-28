@@ -132,6 +132,15 @@ export default React.createClass({
           <div className="user">
             <div className="button-wrapper">
               {
+                userChannelData ? (
+                  [
+                    " ",
+                    <div key="open" className="btn-default color-black bold no-underline" onClick={appendStream.bind(null, userChannelData.name, userChannelData.display_name)}>Open Stream</div>,
+                    <div key="gamequeue" className="btn-default color-black bold no-underline" onClick={popUpHandler.bind(null, "viewGameQueue", { queueHost: userChannelData.name })}>Open Game Queue</div>,
+                  ]
+                ) : null
+              }
+              {
                 name && userData && userData.name !== name ? (
                   [
                     <a key="msg" className="btn-default color-black bold no-underline" href={`https://www.twitch.tv/message/compose?to=${name}`} target="_blank">Send Message</a>,
@@ -154,16 +163,7 @@ export default React.createClass({
                 userData && userData.name !== name ? (
                   [
                     " ",
-                    <FollowButton key="follow" name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default color-black bold no-underline" />
-                  ]
-                ) : null
-              }
-              {
-                userChannelData ? (
-                  [
-                    " ",
-                    <div key="open" className="btn-default color-black bold no-underline" onClick={appendStream.bind(null, userChannelData.name, userChannelData.display_name)}>Open Stream</div>,
-                    <div key="gamequeue" className="btn-default color-black bold no-underline" onClick={popUpHandler.bind(null, "viewGameQueue", { queueHost: userChannelData.name })}>Open Game Queue</div>,
+                    <FollowButton key="follow" name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default" />
                   ]
                 ) : null
               }

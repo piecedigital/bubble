@@ -37,6 +37,13 @@
   .info {
     word-break: break-word;
     color: black;
+    .time {
+      background-color: rgba(0,0,0,.5);
+      color: white;
+      position: absolute;
+      top: 1*$em;
+      right: 1*$em;
+    }
     .channel-name {
       font-weight: bold;
       margin-bottom: .2*$em;

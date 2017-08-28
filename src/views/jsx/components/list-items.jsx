@@ -1,12 +1,14 @@
 import React from "react";
 import loadData from "../../../modules/client/load-data";
+// import { makeTime } from "../../../modules/client/helper-tools";
 // import BookmarkButton from "./bookmark-btn.jsx";
 // import UserQuestions from "./user-questions.jsx";
 import { Link } from 'react-router';
 import {
   browserNotification as notification,
   missingLogo,
-  CImg
+  CImg,
+  makeTime
 } from "../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "./hover-options.jsx";
 
@@ -211,7 +213,7 @@ export const ChannelListItem = React.createClass({
   componentDidMount() { this.getStreamData() },
   render() {
     if(!this.state.streamData) return null;
-    // console.log(this.props);
+    // console.log(this.props.data);
     const {
       auth,
       fireRef,
@@ -316,6 +318,7 @@ export const ChannelListItem = React.createClass({
 
 export const VideoListItem = React.createClass({
   displayName: "video-ListItem",
+  getInitialState: () => ({ time: null }),
   readableDate(givenDate) {
     const date = new Date(givenDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -325,6 +328,11 @@ export const VideoListItem = React.createClass({
     let minutes = date.getMinutes();
     minutes = minutes < 10 ? `0${minutes}` : minutes;
     return `${date.getDate()} ${months[date.getMonth()]}, ${date.getFullYear()} - ${hours}:${minutes} ${dayHalf}`;
+  },
+  componentDidMount() {
+    this.setState({
+      time: makeTime(this.props.data.length)
+    })
   },
   render() {
     // console.log(this.props);
@@ -345,12 +353,17 @@ export const VideoListItem = React.createClass({
         recorded_at,
         // url,
         _id: id,
+        length,
         channel: {
           name,
           display_name
         }
       }
     } = this.props;
+    const {
+      time
+    } = this.state;
+
     let hoverOptions = <ListItemHoverOptions
     auth={auth}
     fireRef={fireRef}
@@ -374,6 +387,9 @@ export const VideoListItem = React.createClass({
               src={preview.template.replace("{width}", 136).replace("{height}", 102)} />
           </div>
           <div className="info">
+            <div className="time">
+              {time ? time.formatted : time}
+            </div>
             <div className="channel-name">
               {name}
             </div>

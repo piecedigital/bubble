@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Link, browserHistory as History } from 'react-router';
 import loadData from "../../../modules/client/load-data";
+import { makeTime } from "../../../modules/client/helper-tools";
 import FollowButton from "./follow-btn.jsx";
 import StreamPanels from "./stream-panels.jsx";
 import BookmarkButton from "./bookmark-btn.jsx";
@@ -139,23 +140,23 @@ const PlayerStream = React.createClass({
         playerReady: true
       });
       if(vod) {
-        this.VODTimeTicker = setInterval(() => {
+        this.timestampTimeTicker = setInterval(() => {
           const time = player.getCurrentTime();
           // console.log("time", time);
           this.setState({
-            time: this.makeTime(time)
+            time: makeTime(time)
           });
         }, 1000);
       } else {
-        this.VODTimeTicker = setInterval(() => {
-          if(!this.state.playing) {
+        this.timestampTimeTicker = setInterval(() => {
+          if(this.timestampFocus() || !this.state.playing) {
             this.setState({
               timeOff: this.state.timeOff + 1
             });
             return;
           }
           const timeInSeconds = (this.state.time.raw || 0) + 1 + this.state.timeOff;
-          const timeObject = this.makeTime(timeInSeconds);
+          const timeObject = makeTime(timeInSeconds);
           // console.log("time", timeObject.formatted);
           this.setState({
             timeOff: 0,
@@ -193,7 +194,7 @@ const PlayerStream = React.createClass({
           const s = Math.abs(ms / 1000);
 
           this.setState({
-            time: this.makeTime((Date.now() / 1000) - s)
+            time: makeTime((Date.now() / 1000) - s)
           });
         } else {
           this.setState({
@@ -284,26 +285,6 @@ const PlayerStream = React.createClass({
       }
     }, 100);
   },
-  makeTime(time) {
-    // http://stackoverflow.com/a/11486026/4107851
-    const hour = Math.floor(time / 3600);
-    const minute = Math.floor((time % 3600) / 60);
-    const second = Math.floor(time % 60);
-    let formatted = "";
-
-    if(hour > 0) {
-      formatted += `${hour}:${minute < 10 ? "0" : ""}`;
-    }
-    formatted += `${minute}:${second < 10 ? "0" : ""}${second}`;
-    // console.log(formatted);
-    return {
-      raw: time,
-      hour,
-      minute,
-      second,
-      formatted
-    }
-  },
   pauseVOD() {
     this.player.pause();
   },
@@ -388,10 +369,16 @@ const PlayerStream = React.createClass({
     });
     appendStream(suggestedHost.username, suggestedHost.displayName)
   },
+  timestampFocus(bool) {
+    if(bool === false) this.refs.timestamp.blur();
+    var focus = this.refs.timestamp === document.activeElement;
+    return focus;
+  },
   componentDidMount() {
     this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", () => {
       // console.log("leave");
+      this.timestampFocus(false);
       this.toggleMenu("close");
     }, false) : null;
     if(this.props.isFor === "video") this.makePlayer();
@@ -413,7 +400,7 @@ const PlayerStream = React.createClass({
         // console.log("s", s);
 
         this.setState({
-          time: this.makeTime((Date.now() / 1000) - s)
+          time: makeTime((Date.now() / 1000) - s)
         })
       }
     })
@@ -422,7 +409,7 @@ const PlayerStream = React.createClass({
     this.refs.video ? this.refs.video.src = "about:blank" : null;
     delete this._mounted;
     this.player = null;
-    clearInterval(this.VODTimeTicker);
+    clearInterval(this.timestampTimeTicker);
     clearInterval(this.hostTicker);
   },
   render() {
@@ -605,13 +592,14 @@ const PlayerStream = React.createClass({
                   Share&nbsp;{display_name || name}&#39;s&nbsp;Stream
                 </span>
               </div>
+              {/* VOD time stamp */}
               {
                 // vod && playerReady ? (
                 (vod || concurrentVOD) && playerReady ? (
                   <div className="closer">
                     {
-                      !playing ? (
-                        <input type="text" value={`https://www.twitch.tv/videos/${vod || concurrentVOD || null}?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
+                      !playing || concurrentVOD ? (
+                        <input ref="timestamp" type="text" value={`https://www.twitch.tv/videos/${vod || concurrentVOD || null}?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
                       ) : (
                         <span onClick={this.pauseVOD}>Get Timestamped VOD Link</span>
                       )

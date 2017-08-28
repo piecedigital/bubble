@@ -355,3 +355,24 @@ export const getUsername = function (userIDList, needIDInstead) {
 export const getUserID = function(data) {
   return getUsername(data, true);
 }
+
+export const makeTime = function(time) {
+  // http://stackoverflow.com/a/11486026/4107851
+  const hour = Math.floor(time / 3600);
+  const minute = Math.floor((time % 3600) / 60);
+  const second = Math.floor(time % 60);
+  let formatted = "";
+
+  if(hour > 0) {
+    formatted += `${hour}:${minute < 10 ? "0" : ""}`;
+  }
+  formatted += `${minute}:${second < 10 ? "0" : ""}${second}`;
+  // console.log(formatted);
+  return {
+    raw: time,
+    hour,
+    minute,
+    second,
+    formatted
+  }
+}
