@@ -205,6 +205,15 @@ exports["default"] = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "button-wrapper" },
+            userChannelData ? [" ", _react2["default"].createElement(
+              "div",
+              { key: "open", className: "btn-default color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
+              "Open Stream"
+            ), _react2["default"].createElement(
+              "div",
+              { key: "gamequeue", className: "btn-default color-black bold no-underline", onClick: popUpHandler.bind(null, "viewGameQueue", { queueHost: userChannelData.name }) },
+              "Open Game Queue"
+            )] : null,
             name && userData && userData.name !== name ? [_react2["default"].createElement(
               "a",
               { key: "msg", className: "btn-default color-black bold no-underline", href: "https://www.twitch.tv/message/compose?to=" + name, target: "_blank" },
@@ -223,16 +232,7 @@ exports["default"] = _react2["default"].createClass({
               userData: userData,
               givenUsername: name,
               versionData: versionData })] : null,
-            userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default color-black bold no-underline" })] : null,
-            userChannelData ? [" ", _react2["default"].createElement(
-              "div",
-              { key: "open", className: "btn-default color-black bold no-underline", onClick: appendStream.bind(null, userChannelData.name, userChannelData.display_name) },
-              "Open Stream"
-            ), _react2["default"].createElement(
-              "div",
-              { key: "gamequeue", className: "btn-default color-black bold no-underline", onClick: popUpHandler.bind(null, "viewGameQueue", { queueHost: userChannelData.name }) },
-              "Open Game Queue"
-            )] : null,
+            userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default" })] : null,
             (function () {
               var give = false;
               if (userData) {

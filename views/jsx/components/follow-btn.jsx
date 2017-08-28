@@ -94,13 +94,22 @@ exports["default"] = _react2["default"].createClass({
     var targetDisplay = _props3.targetDisplay;
 
     if (isFollowing === null) return null;
+
+    var text = "follow",
+        color = " bgc-green-priority";
+
+    if (isFollowing) {
+      text = "Unfollow";
+      color = " bgc-orange-priority";
+    }
+
     return _react2["default"].createElement(
       "div",
-      { className: this.props.className + " follow" },
+      { className: this.props.className + " follow" + color },
       _react2["default"].createElement(
         "a",
-        { href: "#", className: this.props.className, onClick: this.toggleFollow },
-        isFollowing ? "Unfollow" : "Follow",
+        { href: "#", className: "color-black no-underline", onClick: this.toggleFollow },
+        text,
         nbps ? _react2["default"].createElement(
           "span",
           null,

@@ -373,4 +373,26 @@ exports.getUsername = getUsername;
 var getUserID = function getUserID(data) {
   return getUsername(data, true);
 };
+
 exports.getUserID = getUserID;
+var makeTime = function makeTime(time) {
+  // http://stackoverflow.com/a/11486026/4107851
+  var hour = Math.floor(time / 3600);
+  var minute = Math.floor(time % 3600 / 60);
+  var second = Math.floor(time % 60);
+  var formatted = "";
+
+  if (hour > 0) {
+    formatted += hour + ":" + (minute < 10 ? "0" : "");
+  }
+  formatted += minute + ":" + (second < 10 ? "0" : "") + second;
+  // console.log(formatted);
+  return {
+    raw: time,
+    hour: hour,
+    minute: minute,
+    second: second,
+    formatted: formatted
+  };
+};
+exports.makeTime = makeTime;

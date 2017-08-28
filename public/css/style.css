@@ -1160,6 +1160,12 @@ nav {
   .video-list-item .info {
     word-break: break-word;
     color: black; }
+    .video-list-item .info .time {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      position: absolute;
+      top: 16px;
+      right: 16px; }
     .video-list-item .info .channel-name {
       font-weight: bold;
       margin-bottom: 3.2px;
@@ -1333,8 +1339,6 @@ nav {
       .hover-options .wrapper > * a {
         text-decoration: none;
         word-wrap: break-word; }
-    .hover-options .wrapper .follow {
-      background-color: #fea501; }
     .hover-options .wrapper .append-stream {
       background-color: #00e47d; }
 

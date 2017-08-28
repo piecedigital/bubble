@@ -26,6 +26,8 @@ var _modulesClientLoadData = require("../../../modules/client/load-data");
 
 var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
+var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
+
 var _followBtnJsx = require("./follow-btn.jsx");
 
 var _followBtnJsx2 = _interopRequireDefault(_followBtnJsx);
@@ -173,23 +175,23 @@ var PlayerStream = _react2["default"].createClass({
         playerReady: true
       });
       if (vod) {
-        _this2.VODTimeTicker = setInterval(function () {
+        _this2.timestampTimeTicker = setInterval(function () {
           var time = player.getCurrentTime();
           // console.log("time", time);
           _this2.setState({
-            time: _this2.makeTime(time)
+            time: (0, _modulesClientHelperTools.makeTime)(time)
           });
         }, 1000);
       } else {
-        _this2.VODTimeTicker = setInterval(function () {
-          if (!_this2.state.playing) {
+        _this2.timestampTimeTicker = setInterval(function () {
+          if (_this2.timestampFocus() || !_this2.state.playing) {
             _this2.setState({
               timeOff: _this2.state.timeOff + 1
             });
             return;
           }
           var timeInSeconds = (_this2.state.time.raw || 0) + 1 + _this2.state.timeOff;
-          var timeObject = _this2.makeTime(timeInSeconds);
+          var timeObject = (0, _modulesClientHelperTools.makeTime)(timeInSeconds);
           // console.log("time", timeObject.formatted);
           _this2.setState({
             timeOff: 0,
@@ -231,7 +233,7 @@ var PlayerStream = _react2["default"].createClass({
           var s = Math.abs(ms / 1000);
 
           _this2.setState({
-            time: _this2.makeTime(Date.now() / 1000 - s)
+            time: (0, _modulesClientHelperTools.makeTime)(Date.now() / 1000 - s)
           });
         } else {
           _this2.setState({
@@ -323,26 +325,6 @@ var PlayerStream = _react2["default"].createClass({
       }
     }, 100);
   },
-  makeTime: function makeTime(time) {
-    // http://stackoverflow.com/a/11486026/4107851
-    var hour = Math.floor(time / 3600);
-    var minute = Math.floor(time % 3600 / 60);
-    var second = Math.floor(time % 60);
-    var formatted = "";
-
-    if (hour > 0) {
-      formatted += hour + ":" + (minute < 10 ? "0" : "");
-    }
-    formatted += minute + ":" + (second < 10 ? "0" : "") + second;
-    // console.log(formatted);
-    return {
-      raw: time,
-      hour: hour,
-      minute: minute,
-      second: second,
-      formatted: formatted
-    };
-  },
   pauseVOD: function pauseVOD() {
     this.player.pause();
   },
@@ -421,12 +403,18 @@ var PlayerStream = _react2["default"].createClass({
     });
     appendStream(suggestedHost.username, suggestedHost.displayName);
   },
+  timestampFocus: function timestampFocus(bool) {
+    if (bool === false) this.refs.timestamp.blur();
+    var focus = this.refs.timestamp === document.activeElement;
+    return focus;
+  },
   componentDidMount: function componentDidMount() {
     var _this5 = this;
 
     this._mounted = true;
     this.refs.tools ? this.refs.tools.addEventListener("mouseleave", function () {
       // console.log("leave");
+      _this5.timestampFocus(false);
       _this5.toggleMenu("close");
     }, false) : null;
     if (this.props.isFor === "video") this.makePlayer();
@@ -451,7 +439,7 @@ var PlayerStream = _react2["default"].createClass({
         // console.log("s", s);
 
         _this5.setState({
-          time: _this5.makeTime(Date.now() / 1000 - s)
+          time: (0, _modulesClientHelperTools.makeTime)(Date.now() / 1000 - s)
         });
       }
     });
@@ -460,7 +448,7 @@ var PlayerStream = _react2["default"].createClass({
     this.refs.video ? this.refs.video.src = "about:blank" : null;
     delete this._mounted;
     this.player = null;
-    clearInterval(this.VODTimeTicker);
+    clearInterval(this.timestampTimeTicker);
     clearInterval(this.hostTicker);
   },
   render: function render() {
@@ -717,7 +705,7 @@ var PlayerStream = _react2["default"].createClass({
               (vod || concurrentVOD) && playerReady ? _react2["default"].createElement(
                 "div",
                 { className: "closer" },
-                !playing ? _react2["default"].createElement("input", { type: "text", value: "https://www.twitch.tv/videos/" + (vod || concurrentVOD || null) + "?t=" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : ""), onClick: function (e) {
+                !playing || concurrentVOD ? _react2["default"].createElement("input", { ref: "timestamp", type: "text", value: "https://www.twitch.tv/videos/" + (vod || concurrentVOD || null) + "?t=" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : ""), onClick: function (e) {
                     return e.target.select();
                   }, readOnly: true }) : _react2["default"].createElement(
                   "span",
@@ -1243,4 +1231,4 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
-/* <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen /> */ /* {playerState.playerCollapsed ? "Expand" : "Collapse"} */ /* {chatOpen ? "Hide" : "Show"} Chat */ /* <div className="hover-msg"><span>Change Layout</span></div> */ /* <div className="hover-msg"><span>Change In-View Stream/Chat</span></div> */ /* <div className="hover-msg"><span>Generate Multistream Link</span></div> */ /* <div className="hover-msg"><span>Re-Order Streams</span></div> */
+/* <iframe ref="video" src={`https://player.twitch.tv/?${vod ? `video=${vod}` : `channel=${name}`}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen /> */ /* VOD time stamp */ /* {playerState.playerCollapsed ? "Expand" : "Collapse"} */ /* {chatOpen ? "Hide" : "Show"} Chat */ /* <div className="hover-msg"><span>Change Layout</span></div> */ /* <div className="hover-msg"><span>Change In-View Stream/Chat</span></div> */ /* <div className="hover-msg"><span>Generate Multistream Link</span></div> */ /* <div className="hover-msg"><span>Re-Order Streams</span></div> */

@@ -14,6 +14,7 @@ var _modulesClientLoadData = require("../../../modules/client/load-data");
 
 var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
+// import { makeTime } from "../../../modules/client/helper-tools";
 // import BookmarkButton from "./bookmark-btn.jsx";
 // import UserQuestions from "./user-questions.jsx";
 
@@ -244,7 +245,7 @@ var ChannelListItem = _react2["default"].createClass({
   },
   render: function render() {
     if (!this.state.streamData) return null;
-    // console.log(this.props);
+    // console.log(this.props.data);
     var _props3 = this.props;
     var auth = _props3.auth;
     var fireRef = _props3.fireRef;
@@ -369,6 +370,9 @@ var ChannelListItem = _react2["default"].createClass({
 exports.ChannelListItem = ChannelListItem;
 var VideoListItem = _react2["default"].createClass({
   displayName: "video-ListItem",
+  getInitialState: function getInitialState() {
+    return { time: null };
+  },
   readableDate: function readableDate(givenDate) {
     var date = new Date(givenDate);
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -378,6 +382,11 @@ var VideoListItem = _react2["default"].createClass({
     var minutes = date.getMinutes();
     minutes = minutes < 10 ? "0" + minutes : minutes;
     return date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear() + " - " + hours + ":" + minutes + " " + dayHalf;
+  },
+  componentDidMount: function componentDidMount() {
+    this.setState({
+      time: (0, _modulesClientHelperTools.makeTime)(this.props.data.length)
+    });
   },
   render: function render() {
     // console.log(this.props);
@@ -395,9 +404,11 @@ var VideoListItem = _react2["default"].createClass({
     var game = _props4$data.game;
     var recorded_at = _props4$data.recorded_at;
     var id = _props4$data._id;
+    var length = _props4$data.length;
     var _props4$data$channel = _props4$data.channel;
     var name = _props4$data$channel.name;
     var display_name = _props4$data$channel.display_name;
+    var time = this.state.time;
 
     var hoverOptions = _react2["default"].createElement(_hoverOptionsJsx.ListItemHoverOptions, {
       auth: auth,
@@ -429,6 +440,11 @@ var VideoListItem = _react2["default"].createClass({
         _react2["default"].createElement(
           "div",
           { className: "info" },
+          _react2["default"].createElement(
+            "div",
+            { className: "time" },
+            time ? time.formatted : time
+          ),
           _react2["default"].createElement(
             "div",
             { className: "channel-name" },
