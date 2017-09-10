@@ -403,9 +403,30 @@
         cursor: pointer;
       }
     }
-    .follow.need-auth {
-      color: rgba(black, .5);
-      text-decoration: none;
+    .follow {
+      &.need-auth {
+        color: rgba(black, .5);
+        text-decoration: none;
+      }
+    }
+    .timestamp {
+      position: relative;
+      .timeOverlay {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .8;
+        background-color: $primary;
+        pointer-events: none;
+      }
+      &:hover .timeOverlay {
+        opacity: 0;
+      }
     }
     a {
       color: black;

@@ -370,9 +370,11 @@ const PlayerStream = React.createClass({
     appendStream(suggestedHost.username, suggestedHost.displayName)
   },
   timestampFocus(bool) {
-    if(bool === false) this.refs.timestamp.blur();
-    var focus = this.refs.timestamp === document.activeElement;
-    return focus;
+    if(this.refs.timestamp) {
+      if(bool === false) this.refs.timestamp.blur();
+      var focus = this.refs.timestamp === document.activeElement;
+      return focus;
+    }
   },
   componentDidMount() {
     this._mounted = true;
@@ -451,6 +453,8 @@ const PlayerStream = React.createClass({
       watchingHost,
       concurrentVOD
     } = this.state;
+
+    var timestamp = `${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`;
 
     switch (isFor) {
       case "video": return (
@@ -539,22 +543,32 @@ const PlayerStream = React.createClass({
               {
                 userData ? (
                   [
-                    <div onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")}>
-                      <span ref="streamerFollow" style={{
-                        position: "relative",
-                        left: nameScroll3,
-                        transition: "0s all" }}>
-                        <FollowButton
-                          key="follow"
-                          className="no-underline"
-                          nbps={true}
-                          name={userData.name}
-                          targetName={name}
-                          targetDisplay={display_name}
-                          auth={auth}
-                        />
-                      </span>
-                    </div>,
+                    <FollowButton
+                      key="follow"
+                      className="no-underline"
+                      nbps={true}
+                      showname={false}
+                      name={userData.name}
+                      targetName={name}
+                      targetDisplay={display_name}
+                      auth={auth}
+                    />,
+                    // <div className="" onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")}>
+                    //   <span ref="streamerFollow" style={{
+                    //     position: "relative",
+                    //     left: nameScroll3,
+                    //     transition: "0s all" }}>
+                    //     <FollowButton
+                    //       key="follow"
+                    //       className="no-underline"
+                    //       nbps={true}
+                    //       name={userData.name}
+                    //       targetName={name}
+                    //       targetDisplay={display_name}
+                    //       auth={auth}
+                    //     />
+                    //   </span>
+                    // </div>,
                     <div
                       key="ask"
                       className="ask"
@@ -596,14 +610,15 @@ const PlayerStream = React.createClass({
               {
                 // vod && playerReady ? (
                 (vod || concurrentVOD) && playerReady ? (
-                  <div className="closer">
+                  <div className="timestamp">
                     {
                       !playing || concurrentVOD ? (
-                        <input ref="timestamp" type="text" value={`https://www.twitch.tv/videos/${vod || concurrentVOD || null}?t=${time.hour > 0 ? time.hour + "h" : ""}${time.minute > 0 ? time.minute + "m" : ""}${time.second > 0 ? time.second + "s" : ""}`} onClick={e => e.target.select()} readOnly />
+                        <input ref="timestamp" type="text" value={`https://www.twitch.tv/videos/${vod || concurrentVOD || null}?t=${timestamp}`} onClick={e => e.target.select()} readOnly />
                       ) : (
                         <span onClick={this.pauseVOD}>Get Timestamped VOD Link</span>
                       )
                     }
+                    <div className="timeOverlay"><span>{timestamp}</span></div>
                   </div>
                 ) : null
               }

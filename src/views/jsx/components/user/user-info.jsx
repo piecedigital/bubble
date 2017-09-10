@@ -163,7 +163,7 @@ export default React.createClass({
                 userData && userData.name !== name ? (
                   [
                     " ",
-                    <FollowButton key="follow" name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default" />
+                    <FollowButton key="follow" name={userData.name} targetName={name} targetDisplay={null} auth={auth} callback={null} className="btn-default bold" />
                   ]
                 ) : null
               }

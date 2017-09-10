@@ -77,6 +77,7 @@ export default React.createClass({
     } = this.state
     const {
       nbps,
+      showname,
       targetName,
       targetDisplay
     } = this.props;
@@ -91,7 +92,14 @@ export default React.createClass({
 
     return (
       <div className={`${this.props.className} follow${color}`}>
-        <a href="#" className={"color-black no-underline"} onClick={this.toggleFollow}>{text}{nbps ? <span>&nbsp;</span> : " "}{targetDisplay || targetName}</a>
+        <a href="#" className={"color-black no-underline"} onClick={this.toggleFollow}>
+          {text}
+          {
+            showname !== false ? (
+              nbps ? <span>&nbsp;</span> : " " + (targetDisplay || targetName)
+            ) : null
+          }
+        </a>
       </div>
     );
   }

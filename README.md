@@ -121,6 +121,9 @@
   - Display time length on listed videos **ok**
   - Can now get time-stamped live video without pausing **ok**
   - Follow/Unfollow button is orange when it's function is to unfollow, and green for follow **ok**
+- Bug fixes: 0.14.14
+  - Fixed follow button in stream menus **ok**
+  - Fixed stream menus not closing when the timestamped link is not available **ok**
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
