@@ -404,9 +404,11 @@ var PlayerStream = _react2["default"].createClass({
     appendStream(suggestedHost.username, suggestedHost.displayName);
   },
   timestampFocus: function timestampFocus(bool) {
-    if (bool === false) this.refs.timestamp.blur();
-    var focus = this.refs.timestamp === document.activeElement;
-    return focus;
+    if (this.refs.timestamp) {
+      if (bool === false) this.refs.timestamp.blur();
+      var focus = this.refs.timestamp === document.activeElement;
+      return focus;
+    }
   },
   componentDidMount: function componentDidMount() {
     var _this5 = this;
@@ -489,6 +491,8 @@ var PlayerStream = _react2["default"].createClass({
     var suggestedHost = _state.suggestedHost;
     var watchingHost = _state.watchingHost;
     var concurrentVOD = _state.concurrentVOD;
+
+    var timestamp = "" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : "");
 
     switch (isFor) {
       case "video":
@@ -635,26 +639,33 @@ var PlayerStream = _react2["default"].createClass({
                 userData: userData,
                 givenUsername: name,
                 versionData: versionData }),
-              userData ? [_react2["default"].createElement(
-                "div",
-                { onMouseEnter: this.mouseEvent.bind(this, "enter"), onMouseLeave: this.mouseEvent.bind(this, "leave") },
-                _react2["default"].createElement(
-                  "span",
-                  { ref: "streamerFollow", style: {
-                      position: "relative",
-                      left: nameScroll3,
-                      transition: "0s all" } },
-                  _react2["default"].createElement(_followBtnJsx2["default"], {
-                    key: "follow",
-                    className: "no-underline",
-                    nbps: true,
-                    name: userData.name,
-                    targetName: name,
-                    targetDisplay: display_name,
-                    auth: auth
-                  })
-                )
-              ), _react2["default"].createElement(
+              userData ? [_react2["default"].createElement(_followBtnJsx2["default"], {
+                key: "follow",
+                className: "no-underline",
+                nbps: true,
+                showname: false,
+                name: userData.name,
+                targetName: name,
+                targetDisplay: display_name,
+                auth: auth
+              }),
+              // <div className="" onMouseEnter={this.mouseEvent.bind(this, "enter")} onMouseLeave={this.mouseEvent.bind(this, "leave")}>
+              //   <span ref="streamerFollow" style={{
+              //     position: "relative",
+              //     left: nameScroll3,
+              //     transition: "0s all" }}>
+              //     <FollowButton
+              //       key="follow"
+              //       className="no-underline"
+              //       nbps={true}
+              //       name={userData.name}
+              //       targetName={name}
+              //       targetDisplay={display_name}
+              //       auth={auth}
+              //     />
+              //   </span>
+              // </div>,
+              _react2["default"].createElement(
                 "div",
                 {
                   key: "ask",
@@ -704,13 +715,22 @@ var PlayerStream = _react2["default"].createClass({
               // vod && playerReady ? (
               (vod || concurrentVOD) && playerReady ? _react2["default"].createElement(
                 "div",
-                { className: "closer" },
-                !playing || concurrentVOD ? _react2["default"].createElement("input", { ref: "timestamp", type: "text", value: "https://www.twitch.tv/videos/" + (vod || concurrentVOD || null) + "?t=" + (time.hour > 0 ? time.hour + "h" : "") + (time.minute > 0 ? time.minute + "m" : "") + (time.second > 0 ? time.second + "s" : ""), onClick: function (e) {
+                { className: "timestamp" },
+                !playing || concurrentVOD ? _react2["default"].createElement("input", { ref: "timestamp", type: "text", value: "https://www.twitch.tv/videos/" + (vod || concurrentVOD || null) + "?t=" + timestamp, onClick: function (e) {
                     return e.target.select();
                   }, readOnly: true }) : _react2["default"].createElement(
                   "span",
                   { onClick: this.pauseVOD },
                   "Get Timestamped VOD Link"
+                ),
+                _react2["default"].createElement(
+                  "div",
+                  { className: "timeOverlay" },
+                  _react2["default"].createElement(
+                    "span",
+                    null,
+                    timestamp
+                  )
                 )
               ) : null,
               _react2["default"].createElement(

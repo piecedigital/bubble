@@ -90,6 +90,7 @@ exports["default"] = _react2["default"].createClass({
     var isFollowing = this.state.isFollowing;
     var _props3 = this.props;
     var nbps = _props3.nbps;
+    var showname = _props3.showname;
     var targetName = _props3.targetName;
     var targetDisplay = _props3.targetDisplay;
 
@@ -110,12 +111,11 @@ exports["default"] = _react2["default"].createClass({
         "a",
         { href: "#", className: "color-black no-underline", onClick: this.toggleFollow },
         text,
-        nbps ? _react2["default"].createElement(
+        showname !== false ? nbps ? _react2["default"].createElement(
           "span",
           null,
           " "
-        ) : " ",
-        targetDisplay || targetName
+        ) : " " + (targetDisplay || targetName) : null
       )
     );
   }

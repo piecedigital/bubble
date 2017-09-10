@@ -504,6 +504,22 @@ nav {
     .player-stream .tools .follow.need-auth {
       color: rgba(0, 0, 0, 0.5);
       text-decoration: none; }
+    .player-stream .tools .timestamp {
+      position: relative; }
+      .player-stream .tools .timestamp .timeOverlay {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .8;
+        background-color: #00c8fa;
+        pointer-events: none; }
+      .player-stream .tools .timestamp:hover .timeOverlay {
+        opacity: 0; }
     .player-stream .tools a {
       color: black; }
   .player-stream .tools {

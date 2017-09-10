@@ -232,7 +232,7 @@ exports["default"] = _react2["default"].createClass({
               userData: userData,
               givenUsername: name,
               versionData: versionData })] : null,
-            userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default" })] : null,
+            userData && userData.name !== name ? [" ", _react2["default"].createElement(_followBtnJsx2["default"], { key: "follow", name: userData.name, targetName: name, targetDisplay: null, auth: auth, callback: null, className: "btn-default bold" })] : null,
             (function () {
               var give = false;
               if (userData) {
