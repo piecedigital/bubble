@@ -27,7 +27,7 @@ export const ListItemHoverOptions = React.createClass({
           </div>
           {userData ? <FollowButton name={userData.name} targetName={name} targetDisplay={display_name} auth={auth} callback={followCallback}/> : null}
           <div className="append-stream">
-            <a href={vod ? `https://www.twitch.tv/${name}/v/${vod}` : `https://www.twitch.tv/${name}`} target="_blank" rel="nofollow" onClick={e => {
+            <a href={vod ? `https://www.twitch.tv/${name}/v/${vod.replace(/^v/, "")}` : `https://www.twitch.tv/${name}`} target="_blank" rel="nofollow" onClick={e => {
               e.preventDefault();
               clickCallback(name, display_name, vod);
             }}>{stream || vod ? "Watch" : "Open"} {vod ? "VOD" : "Stream"}</a>
