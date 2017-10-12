@@ -716,7 +716,7 @@ var PlayerStream = _react2["default"].createClass({
               (vod || concurrentVOD) && playerReady ? _react2["default"].createElement(
                 "div",
                 { className: "timestamp" },
-                !playing || concurrentVOD ? _react2["default"].createElement("input", { ref: "timestamp", type: "text", value: "https://www.twitch.tv/videos/" + (vod || concurrentVOD || null) + "?t=" + timestamp, onClick: function (e) {
+                !playing || concurrentVOD ? _react2["default"].createElement("input", { ref: "timestamp", type: "text", value: "https://www.twitch.tv/videos/" + (vod || concurrentVOD || "").replace(/^v/, "") + "?t=" + timestamp, onClick: function (e) {
                     return e.target.select();
                   }, readOnly: true }) : _react2["default"].createElement(
                   "span",

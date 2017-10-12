@@ -56,7 +56,7 @@ var ListItemHoverOptions = _react2["default"].createClass({
           { className: "append-stream" },
           _react2["default"].createElement(
             "a",
-            { href: vod ? "https://www.twitch.tv/" + name + "/v/" + vod : "https://www.twitch.tv/" + name, target: "_blank", rel: "nofollow", onClick: function (e) {
+            { href: vod ? "https://www.twitch.tv/" + name + "/v/" + vod.replace(/^v/, "") : "https://www.twitch.tv/" + name, target: "_blank", rel: "nofollow", onClick: function (e) {
                 e.preventDefault();
                 clickCallback(name, display_name, vod);
               } },

@@ -389,7 +389,7 @@ var VideoListItem = _react2["default"].createClass({
     });
   },
   render: function render() {
-    // console.log(this.props);
+    console.log(this.props);
     var _props4 = this.props;
     var auth = _props4.auth;
     var fireRef = _props4.fireRef;
