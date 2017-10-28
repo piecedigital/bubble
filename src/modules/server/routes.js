@@ -54,6 +54,9 @@ app
     );
   });
 })
+.get("/spit-back-auth", function (req, res) {
+  res.send(renderHTML("spit-back-auth"));
+})
 .get("/about", function (req, res) {
   res.send(renderHTML("about"));
 })

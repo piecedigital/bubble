@@ -12,17 +12,15 @@ import Firebase from "firebase";
 
 let redirectURI, clientID;
 if( typeof location === "object" && location.host.match("amorrius.net") ) {
-  redirectURI =`http://${location.host}`;
+  redirectURI =`http://${location.host}/spit-back-auth`;
   clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
 } else {
-  redirectURI = "http://amorrius.dev";
+  redirectURI = "http://amorrius.dev/spit-back-auth";
   clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
 }
 // console.log(redirectURI, clientID);
 
 // Initialize Firebase
-
-
 export default React.createClass({
   displayName: "Layout",
   getInitialState() {
@@ -65,7 +63,7 @@ export default React.createClass({
       registeredAuth: false,
     }, this.props.initState ? this.props.initState.layout || {} : {});
   },
-  getHashData() {
+  getHashAndAuthData() {
     let queryData = {};
     // console.log(window.location.hash);
     // get hash data
@@ -84,11 +82,11 @@ export default React.createClass({
       queryData[key] = value;
     });
     // window.location.hash = "";
-    console.log("queryData", queryData);
+    // console.log("queryData", queryData);
     return queryData;
   },
-  getMS() {
-    let hashData = this.getHashData();
+  getMultiStream() {
+    let hashData = this.getHashAndAuthData();
     // console.log("hash Data", hashData);
 
     const MSObject = {};
@@ -111,7 +109,7 @@ export default React.createClass({
     })
   },
   initAuthAndFirebase(data, token) {
-    let authData = this.getHashData();
+    let authData = this.getHashAndAuthData();
     // console.log("init firebase", this.state.fireRef);
     this.setState({
       authData
@@ -143,7 +141,7 @@ export default React.createClass({
       // console.log("current user:", Firebase.auth().currentUser);
       // finish getting user data once the Firebase auth is confirmed
       if(Firebase.auth().currentUser) {
-        console.log("current user is authed with Firebase");
+        // console.log("current user is authed with Firebase");
         clearInterval(interval);
 
         loadData.call(this, e => {
@@ -168,6 +166,23 @@ export default React.createClass({
     this.setState({
       fireRef: ref
     });
+  },
+  openAuthWindow(url) {
+    const authWin = window.open(url, "TwitchAuth", "menubar,width=500,height=500,centerscreen");
+
+    const msgCB = function(event) {
+      const data = JSON.parse(event.data);
+
+      if(data.res === "auth") {
+        delete data.res;
+        this.setState(data);
+
+        authWin.close();
+        window.removeEventListener("message", msgCB);
+      }
+    }.bind(this);
+
+    window.addEventListener("message", msgCB);
   },
   decideStreamAppend(name) {
     if(name.match(/^v[0-9]+/)) {
@@ -563,7 +578,7 @@ export default React.createClass({
   },
   componentDidMount() {
     // check hash for multistream stuff
-    this.getMS();
+    this.getMultiStream();
 
     // get auth token
     ajax({
@@ -667,6 +682,7 @@ export default React.createClass({
             decideStreamAppend: this.decideStreamAppend,
             logout: this.logout,
             popUpHandler: this.popUpHandler,
+            openAuthWindow: this.openAuthWindow,
           }} />
         {
           <Player

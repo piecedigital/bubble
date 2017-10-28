@@ -141,7 +141,8 @@ export default React.createClass({
         logout,
         decideStreamAppend,
         search,
-        popUpHandler
+        popUpHandler,
+        openAuthWindow
       }
     } = this.props;
     return (
@@ -223,7 +224,11 @@ export default React.createClass({
                 }}>Disconnect</a>
               </span>
             ) : (
-              <a className="nav-item login" href={url} onClick={this.toggleNav.bind(null, "close")}>Connect to Twitch</a>
+              <a className="nav-item login" href={url} onClick={e =>{
+                e.preventDefault();
+                openAuthWindow(url);
+                this.toggleNav.bind(null, "close");
+              }}>Connect to Twitch</a>
             )
           }
         </div>

@@ -26,7 +26,7 @@ export default React.createClass({
         });
       })
       .catch(e => {
-        if(e) console.error(e.stack || e);
+        // if(e) console.error(e.stack || e);
         this.setState({
           isFollowing: false
         });

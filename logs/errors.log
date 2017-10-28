@@ -1452,3 +1452,6 @@ The process cannot access the file because it is being used by another process.
 [1503934347689] [Mon, 28 Aug 2017 15:32:27 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
 The process cannot access the file because it is being used by another process.
 ]
+[1509202915599] [Sat, 28 Oct 2017 15:01:55 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]

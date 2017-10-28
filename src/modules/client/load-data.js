@@ -47,15 +47,25 @@ export default function loadData(errorCB, options = {}) {
           try {
             data = JSON.parse(data);
           } catch (e) {
-            // console.log(data);
-            console.error(e.stack || e);
+            if(e.message.match(/Unexpected token e in JSON at position 0/i)) {
+              console.error("Not JSON");
+            } else {
+              console.error(e.stack || e);
+            }
           } finally {
             resolve(data);
             if(typeof okayCB === "function") okayCB(data);
           }
         },
         error(error) {
-          console.error(error);
+          try {
+            const message = JSON.parse(error.response).message;
+            if(message.match(/\d+ is not following \d+/)) {
+              // console.log("not following");
+            }
+          } catch (e) {
+            console.error(error);
+          }
           reject();
         }
       })

@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { Router, Redirect, Route, Link, browserHistory as History } from 'react-router';
 import Layout from "./jsx/layout.jsx";
 import Home from "./jsx/home.jsx";
+import SpitBackAuth from "./jsx/spit-back-auth.jsx";
 import About from "./jsx/about.jsx";
 import TOS from "./jsx/tos.jsx";
 import Profile from "./jsx/profile.jsx";
@@ -39,6 +40,8 @@ render((
   <Router history={History}>
     <Route path="" page="root" component={Layout}>
       <Route path="/" page="home" component={Home}>
+      </Route>
+      <Route path="/spit-back-auth" page="about" component={SpitBackAuth}>
       </Route>
       <Route path="/about" page="about" component={About}>
       </Route>
