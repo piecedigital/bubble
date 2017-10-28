@@ -39,7 +39,7 @@ exports["default"] = _react2["default"].createClass({
           isFollowing: true
         });
       })["catch"](function (e) {
-        if (e) console.error(e.stack || e);
+        // if(e) console.error(e.stack || e);
         _this.setState({
           isFollowing: false
         });

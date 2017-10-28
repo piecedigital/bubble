@@ -18,6 +18,10 @@ var _jsxHomeJsx = require("./jsx/home.jsx");
 
 var _jsxHomeJsx2 = _interopRequireDefault(_jsxHomeJsx);
 
+var _jsxSpitBackAuthJsx = require("./jsx/spit-back-auth.jsx");
+
+var _jsxSpitBackAuthJsx2 = _interopRequireDefault(_jsxSpitBackAuthJsx);
+
 var _jsxAboutJsx = require("./jsx/about.jsx");
 
 var _jsxAboutJsx2 = _interopRequireDefault(_jsxAboutJsx);
@@ -75,6 +79,7 @@ function checkAuth(Component, props) {
     _reactRouter.Route,
     { path: "", page: "root", component: _jsxLayoutJsx2["default"] },
     _react2["default"].createElement(_reactRouter.Route, { path: "/", page: "home", component: _jsxHomeJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/spit-back-auth", page: "about", component: _jsxSpitBackAuthJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/about", page: "about", component: _jsxAboutJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/tos", page: "about", component: _jsxTosJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/terms", page: "about", component: _jsxTosJsx2["default"] }),

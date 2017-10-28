@@ -166,6 +166,7 @@ exports["default"] = _react2["default"].createClass({
     var decideStreamAppend = _props3$methods.decideStreamAppend;
     var search = _props3$methods.search;
     var popUpHandler = _props3$methods.popUpHandler;
+    var openAuthWindow = _props3$methods.openAuthWindow;
 
     return _react2["default"].createElement(
       "nav",
@@ -306,7 +307,11 @@ exports["default"] = _react2["default"].createClass({
           )
         ) : _react2["default"].createElement(
           "a",
-          { className: "nav-item login", href: url, onClick: this.toggleNav.bind(null, "close") },
+          { className: "nav-item login", href: url, onClick: function (e) {
+              e.preventDefault();
+              openAuthWindow(url);
+              _this2.toggleNav.bind(null, "close");
+            } },
           "Connect to Twitch"
         )
       ),

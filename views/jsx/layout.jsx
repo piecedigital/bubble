@@ -47,16 +47,15 @@ var _firebase2 = _interopRequireDefault(_firebase);
 var redirectURI = undefined,
     clientID = undefined;
 if (typeof location === "object" && location.host.match("amorrius.net")) {
-  redirectURI = "http://" + location.host;
+  redirectURI = "http://" + location.host + "/spit-back-auth";
   clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
 } else {
-  redirectURI = "http://amorrius.dev";
+  redirectURI = "http://amorrius.dev/spit-back-auth";
   clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
 }
 // console.log(redirectURI, clientID);
 
 // Initialize Firebase
-
 exports["default"] = _react2["default"].createClass({
   displayName: "Layout",
   getInitialState: function getInitialState() {
@@ -100,7 +99,7 @@ exports["default"] = _react2["default"].createClass({
       registeredAuth: false
     }, this.props.initState ? this.props.initState.layout || {} : {});
   },
-  getHashData: function getHashData() {
+  getHashAndAuthData: function getHashAndAuthData() {
     var queryData = {};
     // console.log(window.location.hash);
     // get hash data
@@ -119,13 +118,13 @@ exports["default"] = _react2["default"].createClass({
       queryData[key] = value;
     });
     // window.location.hash = "";
-    console.log("queryData", queryData);
+    // console.log("queryData", queryData);
     return queryData;
   },
-  getMS: function getMS() {
+  getMultiStream: function getMultiStream() {
     var _this = this;
 
-    var hashData = this.getHashData();
+    var hashData = this.getHashAndAuthData();
     // console.log("hash Data", hashData);
 
     var MSObject = {};
@@ -150,7 +149,7 @@ exports["default"] = _react2["default"].createClass({
   initAuthAndFirebase: function initAuthAndFirebase(data, token) {
     var _this2 = this;
 
-    var authData = this.getHashData();
+    var authData = this.getHashAndAuthData();
     // console.log("init firebase", this.state.fireRef);
     this.setState({
       authData: authData
@@ -181,7 +180,7 @@ exports["default"] = _react2["default"].createClass({
       // console.log("current user:", Firebase.auth().currentUser);
       // finish getting user data once the Firebase auth is confirmed
       if (_firebase2["default"].auth().currentUser) {
-        console.log("current user is authed with Firebase");
+        // console.log("current user is authed with Firebase");
         clearInterval(interval);
 
         _modulesClientLoadData2["default"].call(_this2, function (e) {
@@ -205,6 +204,23 @@ exports["default"] = _react2["default"].createClass({
     this.setState({
       fireRef: ref
     });
+  },
+  openAuthWindow: function openAuthWindow(url) {
+    var authWin = window.open(url, "TwitchAuth", "menubar,width=500,height=500,centerscreen");
+
+    var msgCB = (function (event) {
+      var data = JSON.parse(event.data);
+
+      if (data.res === "auth") {
+        delete data.res;
+        this.setState(data);
+
+        authWin.close();
+        window.removeEventListener("message", msgCB);
+      }
+    }).bind(this);
+
+    window.addEventListener("message", msgCB);
   },
   decideStreamAppend: function decideStreamAppend(name) {
     var _this3 = this;
@@ -610,7 +626,7 @@ exports["default"] = _react2["default"].createClass({
     var _this7 = this;
 
     // check hash for multistream stuff
-    this.getMS();
+    this.getMultiStream();
 
     // get auth token
     (0, _modulesClientAjax.ajax)({
@@ -706,7 +722,8 @@ exports["default"] = _react2["default"].createClass({
           search: this.search,
           decideStreamAppend: this.decideStreamAppend,
           logout: this.logout,
-          popUpHandler: this.popUpHandler
+          popUpHandler: this.popUpHandler,
+          openAuthWindow: this.openAuthWindow
         } }),
       _react2["default"].createElement(_componentsPlayerJsx2["default"], {
         ref: "player",

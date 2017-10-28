@@ -59,15 +59,25 @@ function loadData(errorCB) {
           try {
             data = JSON.parse(data);
           } catch (e) {
-            // console.log(data);
-            console.error(e.stack || e);
+            if (e.message.match(/Unexpected token e in JSON at position 0/i)) {
+              console.error("Not JSON");
+            } else {
+              console.error(e.stack || e);
+            }
           } finally {
             resolve(data);
             if (typeof okayCB === "function") okayCB(data);
           }
         },
         error: function error(_error) {
-          console.error(_error);
+          try {
+            var message = JSON.parse(_error.response).message;
+            if (message.match(/\d+ is not following \d+/)) {
+              // console.log("not following");
+            }
+          } catch (e) {
+            console.error(_error);
+          }
           reject();
         }
       });

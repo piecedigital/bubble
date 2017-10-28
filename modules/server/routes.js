@@ -68,6 +68,8 @@ app
       initState: initState
     }));
   });
+}).get("/spit-back-auth", function (req, res) {
+  res.send((0, _renderJsx.renderHTML)("spit-back-auth"));
 }).get("/about", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("about"));
 }).get("/tos", function (req, res) {
