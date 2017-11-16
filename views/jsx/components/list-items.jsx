@@ -244,6 +244,7 @@ var ChannelListItem = _react2["default"].createClass({
     this.getStreamData();
   },
   render: function render() {
+    // console.log(this.state, this.props);
     if (!this.state.streamData) return null;
     // console.log(this.props.data);
     var _props3 = this.props;

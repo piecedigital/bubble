@@ -105,11 +105,19 @@ exports["default"] = _react2["default"].createClass({
                 var _setState;
 
                 var componentName = searchType.replace(/^search/i, "") + "ListItem";
-                // console.log(searchType, capitalType, componentName, data);
+                var dataArray = Array.from(_this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods);
+
+                // filter for only truthy data
+                // console.log(searchType, capitalType, componentName, dataArray);
+                dataArray = dataArray.filter(function (d) {
+                  return !!d;
+                });
+
                 if (_this.state.components.indexOf(componentName) < 0) {
                   _this.state.components.push(componentName);
                 }
-                _this._mounted ? _this.setState((_setState = {}, _defineProperty(_setState, componentName, Array.from(_this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods)), _defineProperty(_setState, "components", _this.state.components), _setState)) : null;
+
+                _this._mounted ? _this.setState((_setState = {}, _defineProperty(_setState, componentName, dataArray), _defineProperty(_setState, "components", _this.state.components), _setState)) : null;
               })["catch"](function (e) {
                 return console.error(e.stack);
               });
@@ -175,6 +183,7 @@ exports["default"] = _react2["default"].createClass({
     var location = _props3.location;
     var params = _props3.params;
 
+    console.log(this.state);
     if (components.length > 0) {
       return _react2["default"].createElement(
         "div",
@@ -222,6 +231,9 @@ exports["default"] = _react2["default"].createClass({
                       key: ind,
                       data: itemData,
                       index: ind,
+
+                      filter: "all", // for channels
+
                       methods: {
                         appendStream: appendStream
                       } });

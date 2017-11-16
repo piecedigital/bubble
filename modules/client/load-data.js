@@ -660,6 +660,7 @@ function loadData(errorCB) {
       },
       searchGames: function searchGames(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
+        options.live = "true";
         return makeRequest(okayCB, "search/games");
       },
       searchVideos: function searchVideos(okayCB) {
