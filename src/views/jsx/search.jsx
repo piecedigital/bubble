@@ -83,13 +83,19 @@ export default React.createClass({
             func()
             .then(data => {
               const componentName = `${searchType.replace(/^search/i, "")}ListItem`;
-              // console.log(searchType, capitalType, componentName, data);
+              let dataArray = Array.from(this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods);
+
+              // filter for only truthy data
+              // console.log(searchType, capitalType, componentName, dataArray);
+              dataArray = dataArray.filter(d => !!d);
+
               if(this.state.components.indexOf(componentName) < 0) {
                 this.state.components.push(componentName);
               }
+
               this._mounted ? this.setState({
                 // offset: this.state.requestOffset + 25,
-                [componentName]: Array.from(this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods),
+                [componentName]: dataArray,
                 components: this.state.components
               }) : null;
             })
@@ -157,7 +163,7 @@ export default React.createClass({
       location,
       params
     } = this.props;
-
+console.log(this.state);
     if(components.length > 0) {
       return (
         <div className="top-level-component search-page">
@@ -199,6 +205,9 @@ export default React.createClass({
                                 key={ind}
                                 data={itemData}
                                 index={ind}
+
+                                filter={"all"} // for channels
+
                                 methods={{
                                 appendStream
                               }} />

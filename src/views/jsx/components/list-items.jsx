@@ -212,6 +212,7 @@ export const ChannelListItem = React.createClass({
   },
   componentDidMount() { this.getStreamData() },
   render() {
+    // console.log(this.state, this.props);
     if(!this.state.streamData) return null;
     // console.log(this.props.data);
     const {

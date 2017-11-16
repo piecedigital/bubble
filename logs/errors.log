@@ -1479,3 +1479,6 @@ Error: Cannot find module './jsx/search.jsx' from 'E:\GIT FILES\Sites\bubble\dis
     at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
     at FSReqWrap.oncomplete (fs.js:123:15)
 ]
+[1510835270539] [Thu, 16 Nov 2017 12:27:50 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
