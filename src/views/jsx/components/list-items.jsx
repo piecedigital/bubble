@@ -351,6 +351,7 @@ export const VideoListItem = React.createClass({
         title,
         game,
         recorded_at,
+        broadcast_type,
         // url,
         _id: id,
         length,
@@ -397,7 +398,7 @@ export const VideoListItem = React.createClass({
               "{title}"
             </div>
             <div className="game">
-              {`VOD of "${game}"`}
+              {`${broadcast_type} of "${game}"`}
             </div>
             <div className="date">
               {this.readableDate(recorded_at)}

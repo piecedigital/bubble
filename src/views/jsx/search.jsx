@@ -58,6 +58,7 @@ export default React.createClass({
       });
 
       let searchTypes = [];
+      console.log(params);
       if(searchParam === "All") {
         searchTypes.push("searchStreams", "searchGames", "searchChannels", "searchVideos");
       } else {
@@ -83,7 +84,9 @@ export default React.createClass({
             .then(data => {
               const componentName = `${searchType.replace(/^search/i, "")}ListItem`;
               // console.log(searchType, capitalType, componentName, data);
-              this.state.components.push(componentName);
+              if(this.state.components.indexOf(componentName) < 0) {
+                this.state.components.push(componentName);
+              }
               this._mounted ? this.setState({
                 // offset: this.state.requestOffset + 25,
                 [componentName]: Array.from(this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods),
@@ -99,15 +102,16 @@ export default React.createClass({
       .catch(e => console.error(e.stack));
     }
   },
-  refreshLists(reset, length, offset) {
-    let obj = {};
-    if(reset) {
-      obj.StreamsListItem = [];
-      obj.ChannelsListItem = [];
-      obj.VideosListItem = [];
-      obj.GamesListItem = [];
-    }
-    this._mounted ? this.setState(obj) : null;
+  refreshLists(cb) {
+    let obj = {
+      StreamsListItem: [],
+      ChannelsListItem: [],
+      VideosListItem: [],
+      GamesListItem: [],
+      requestOffset: 0,
+      components: []
+    };
+    this._mounted ? this.setState(obj, cb) : null;
   },
   componentDidMount() {
     this._mounted = true;
@@ -125,8 +129,10 @@ export default React.createClass({
       }
     } = this.props;
     if(nextProps.params.searchtype !== searchtype || nextProps.location.query.q !== q) {
-      this.refreshLists();
-      this.gatherData();
+      console.log("refreshing");
+      this.refreshLists(() => {
+        this.gatherData();
+      });
     }
   },
   componentWillUnmount() {
@@ -169,10 +175,16 @@ export default React.createClass({
 
                       <div className="title">
                         <span>{name} Results.</span>
-                        {" "}
-                        <Link className="load-more" to={`/search/${name.toLowerCase()}s?q=${encodeURIComponent(location.query.q)}`}>
-                          See More...
-                        </Link>
+                        {
+                          (!params.searchtype) ? (
+                            [
+                              " ",
+                              <Link className="load-more" to={`/search/${name.toLowerCase()}s?q=${encodeURIComponent(location.query.q)}`}>
+                                See More...
+                              </Link>
+                            ]
+                          ) : null
+                        }
                       </div>
                       <div className="wrapper">
                         <ul className="list">

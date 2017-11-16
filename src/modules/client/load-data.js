@@ -579,6 +579,7 @@ export default function loadData(errorCB, options = {}) {
         options.game = options.query;
         options.period = "all";
         options.sort = "time";
+        options.broadcast_type = "archive,upload";
         return makeRequest(okayCB, "videos/top");
       }
     });
