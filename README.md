@@ -124,6 +124,10 @@
 - Bug fixes: 0.14.14
   - Fixed follow button in stream menus **ok**
   - Fixed stream menus not closing when the timestamped link is not available **ok**
+- ?: 0.15.0 !!! NEEDS DOCUMENTATION
+- Improvements: 0.15.1
+  - Initial search page now contains other search results (videos, games, channels)
+  - Seach inputs take off white space on ends
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD

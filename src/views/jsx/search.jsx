@@ -157,7 +157,7 @@ export default React.createClass({
       location,
       params
     } = this.props;
-    console.log(this.state);
+
     if(components.length > 0) {
       return (
         <div className="top-level-component search-page">
