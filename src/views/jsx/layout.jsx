@@ -350,7 +350,7 @@ export default React.createClass({
     });
   },
   search(query) {
-    History.push(encodeURI(`/search/streams?q=${query}`));
+    History.push(encodeURI(`/search?q=${query}`));
   },
   clearPlayer() {
     this.setState({
