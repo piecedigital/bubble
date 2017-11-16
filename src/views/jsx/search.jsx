@@ -171,7 +171,7 @@ export default React.createClass({
                 if(dataArray.length === 0) return null;
                 return (
                   [
-                    <div className={"search-results"}>
+                    <div key={componentName} className={"search-results"}>
 
                       <div className="title">
                         <span>{name} Results.</span>
@@ -179,7 +179,7 @@ export default React.createClass({
                           (!params.searchtype) ? (
                             [
                               " ",
-                              <Link className="load-more" to={`/search/${name.toLowerCase()}s?q=${encodeURIComponent(location.query.q)}`}>
+                              <Link key="link" className="load-more" to={`/search/${name.toLowerCase()}s?q=${encodeURIComponent(location.query.q)}`}>
                                 See More...
                               </Link>
                             ]
@@ -224,7 +224,7 @@ export default React.createClass({
                         ) : null
                       }
                     </div>,
-                    <div className="separator-4-black"></div>
+                    <div key={`${componentName}-sep`} className="separator-4-black"></div>
                   ]
                 );
               })
