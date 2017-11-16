@@ -396,7 +396,7 @@ exports["default"] = _react2["default"].createClass({
     });
   },
   search: function search(query) {
-    _reactRouter.browserHistory.push(encodeURI("/search/streams?q=" + query));
+    _reactRouter.browserHistory.push(encodeURI("/search?q=" + query));
   },
   clearPlayer: function clearPlayer() {
     this.setState({
