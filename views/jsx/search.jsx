@@ -175,7 +175,6 @@ exports["default"] = _react2["default"].createClass({
     var location = _props3.location;
     var params = _props3.params;
 
-    console.log(this.state);
     if (components.length > 0) {
       return _react2["default"].createElement(
         "div",
