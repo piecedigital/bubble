@@ -58,7 +58,7 @@ export default React.createClass({
       });
 
       let searchTypes = [];
-      console.log(params);
+      // console.log(params);
       if(searchParam === "All") {
         searchTypes.push("searchStreams", "searchGames", "searchChannels", "searchVideos");
       } else {
@@ -163,7 +163,7 @@ export default React.createClass({
       location,
       params
     } = this.props;
-console.log(this.state);
+
     if(components.length > 0) {
       return (
         <div className="top-level-component search-page">
