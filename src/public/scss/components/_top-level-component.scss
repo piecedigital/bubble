@@ -20,12 +20,15 @@
           }
         }
       }
-      > .title {
+      > .title, .search-results > .title {
         margin: .5*$em;
         font-size: 1.6*$em;
         font-weight: bold;
+        .load-more {
+          color: black;
+        }
       }
-      > .wrapper {
+      > .wrapper, .search-results > .wrapper {
         // width: 20*$em;
         // height: 100%;
         padding: .25*$em 0;
@@ -181,7 +184,7 @@
           .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
             .title {
             }
-            > .wrapper {
+            > .wrapper, .search-results > .wrapper {
               .list {}
             }
             .tools {
@@ -240,7 +243,7 @@
         .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .tool-assisted {
           .title {
           }
-          > .wrapper {
+          > .wrapper, .search-results > .wrapper {
             padding-left: 9*$em;
             .list {
               margin: 0;
@@ -298,7 +301,7 @@
         .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .tool-assisted {
           .title {
           }
-          > .wrapper {
+          > .wrapper, .search-results > .wrapper {
             padding-left: 9*$em;
             .list {
               margin: 0;
@@ -357,7 +360,7 @@
 //       .followed-streams.profile, .following-streams.profile, .general-page {
 //         .title {
 //         }
-//         > .wrapper {
+//         > .wrapper, .search-results > .wrapper {
 //           .list {}
 //         }
 //         .tools {

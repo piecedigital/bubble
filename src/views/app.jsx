@@ -39,26 +39,16 @@ function checkAuth(Component, props) {
 render((
   <Router history={History}>
     <Route path="" page="root" component={Layout}>
-      <Route path="/" page="home" component={Home}>
-      </Route>
-      <Route path="/spit-back-auth" page="about" component={SpitBackAuth}>
-      </Route>
-      <Route path="/about" page="about" component={About}>
-      </Route>
-      <Route path="/tos" page="about" component={TOS}>
-      </Route>
-      <Route path="/terms" page="about" component={TOS}>
-      </Route>
-      <Route path="/terms-of-service" page="about" component={TOS}>
-      </Route>
-      <Route path="/profile/:username(/:q/:postID)" page="profile" component={Profile}>
-      </Route>
-      <Route path="/:page" page="streams" component={GeneralPage}>
-      </Route>
-      <Route path="/:page" page="games" component={GeneralPage}>
-      </Route>
-      <Route path="/search/:searchtype" page="search" component={SearchPage}>
-      </Route>
+      <Route path="/" page="home" component={Home}/>
+      <Route path="/spit-back-auth" page="about" component={SpitBackAuth}/>
+      <Route path="/about" page="about" component={About}/>
+      <Route path="/tos" page="about" component={TOS}/>
+      <Route path="/terms" page="about" component={TOS}/>
+      <Route path="/terms-of-service" page="about" component={TOS}/>
+      <Route path="/profile/:username(/:q/:postID)" page="profile" component={Profile}/>
+      <Route path="/search(/:searchtype)" page="search" component={SearchPage}/>
+      <Route path="/:page" page="streams" component={GeneralPage}/>
+      <Route path="/:page" page="games" component={GeneralPage}/>
     </Route>
   </Router>
 ), container);

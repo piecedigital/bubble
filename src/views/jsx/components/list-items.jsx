@@ -335,7 +335,7 @@ export const VideoListItem = React.createClass({
     })
   },
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const {
       auth,
       fireRef,
@@ -450,6 +450,50 @@ export const GameListItem = React.createClass({
               </div>
               <div className="count">
                 {`${channelsString} streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+              </div>
+            </div>
+          </Link>
+        </div>
+      </li>
+    )
+  }
+})
+
+export const SearchGameListItem = React.createClass({
+  displayName: "searchGames-ListItem",
+  render() {
+    // console.log(this.props);
+    const {
+      index,
+      methods: {
+        appendStream
+      },
+      data: {
+        name,
+        box,
+        _id: id,
+        popularity
+      }
+    } = this.props;
+
+    return (
+      <li className={`game-list-item`}>
+        <div className="wrapper">
+          <Link to={`/search/streams?q=${encodeURIComponent(name)}`}>
+            <div className="image">
+              <CImg
+                style={{
+                  width: 168,
+                  height: 235,
+                }}
+                src={box ? box.medium : ""} />
+            </div>
+            <div className="info">
+              <div className="game-name">
+                {name}
+              </div>
+              <div className="count">
+                {`Popularity: ${popularity}`}
               </div>
             </div>
           </Link>

@@ -70,7 +70,7 @@ app
   console.log("git him");
   res.send(renderHTML("tos"));
 })
-.get("/search/:searchtype", function (req, res) {
+.get("/search/:searchtype?", function (req, res) {
   res.send(renderHTML("search", {
     location: {
       query: {

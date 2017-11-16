@@ -1,83 +1,29 @@
 import React from "react";
+import { Link } from 'react-router';
 import loadData from "../../modules/client/load-data";
 import { ListItemHoverOptions } from "./components/hover-options.jsx";
 import { CImg } from "../../modules/client/helper-tools";
-import { StreamListItem } from "./components/list-items.jsx";
+import { StreamListItem, ChannelListItem, VideoListItem, SearchGameListItem } from "./components/list-items.jsx";
 
 // components
-let components = {};
+let searchComponents = {};
 
-// list item for streams matching the search
-// components.StreamsListItem = React.createClass({
-//   displayName: "stream-ListItem",
-//   render() {
-//     // console.log(this.props);
-//     const {
-//       auth,
-//       fireRef,
-//       index,
-//       userData,
-//       methods: {
-//         appendStream
-//       },
-//       data: {
-//         game,
-//         viewers,
-//         title,
-//         _id: id,
-//         preview,
-//         channel: {
-//           mature,
-//           logo,
-//           name,
-//           display_name,
-//           language
-//         }
-//       }
-//     } = this.props;
-//     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-//     let hoverOptions = <ListItemHoverOptions
-//                         auth={auth}
-//                         fireRef={fireRef}
-//                         stream={true}
-//                         name={name}
-//                         display_name={display_name}
-//                         userData={userData}
-//                         clickCallback={appendStream} />;
-//
-//     return (
-//       <li className={`stream-list-item search`}>
-//         <div className="wrapper">
-//           <div className="image">
-//             <CImg
-//               style={{
-//                 width: 216,
-//                 height: 121.5,
-//               }}
-//               className="test"
-//               src={preview.medium} />
-//           </div>
-//           <div className="info">
-//             <div className="channel-name">
-//               {name}
-//             </div>
-//             <div className="title">
-//               {title}
-//             </div>
-//             <div className="game">
-//               {`Live with "${game}"`}
-//             </div>
-//             <div className="viewers">
-//               {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-//             </div>
-//           </div>
-//           {hoverOptions}
-//         </div>
-//       </li>
-//     )
-//   }
-// })
-components.StreamsListItem = StreamListItem
+searchComponents.StreamsListItem = {
+  name: "Stream",
+  comp: StreamListItem,
+};
+searchComponents.ChannelsListItem = {
+  name: "Channel",
+  comp: ChannelListItem,
+};
+searchComponents.VideosListItem = {
+  name: "Video",
+  comp: VideoListItem,
+};
+searchComponents.GamesListItem = {
+  name: "Game",
+  comp: SearchGameListItem,
+};
 
 // primary section for the search component
 export default React.createClass({
@@ -85,65 +31,103 @@ export default React.createClass({
   getInitialState() {
     return {
       requestOffset: 0,
-      dataArray: []
+      // dataArray: [],
+      StreamsListItem: [],
+      ChannelsListItem: [],
+      VideosListItem: [],
+      GamesListItem: [],
+      components: []
     }
   },
   gatherData(limit, offset, callback) {
-    limit = typeof limit === "number" ? limit : this.state.limit || 25;
-    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     const {
       params,
       location
     } = this.props;
+    if(!params.searchtype) {
+      limit = 12;
+    } else {
+      limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    }
+
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     if(loadData) {
-      let capitalType = params.searchtype.replace(/^(.)/, (_, letter) => {
+      const searchParam = params.searchtype || "All";
+      const capitalType = searchParam.replace(/^(.)/, (_, letter) => {
         return letter.toUpperCase();
       });
-      let searchType = `search${capitalType}`;
+
+      let searchTypes = [];
+      if(searchParam === "All") {
+        searchTypes.push("searchStreams", "searchGames", "searchChannels", "searchVideos");
+      } else {
+        searchTypes.push(`search${capitalType}`);
+      }
+
       this._mounted ? this.setState({
         requestOffset: this.state.requestOffset + 25
       }) : null;
-      console.log(this);
+      // console.log(this);
       loadData.call(this, e => {
         console.error(e.stack);
       }, {
-        query: location.query.q,
+        query: encodeURIComponent(location.query.q),
         offset,
-        limit: 25
+        limit
       })
       .then(methods => {
-        methods
-        [searchType]()
-        .then(data => {
-          this._mounted ? this.setState({
-            // offset: this.state.requestOffset + 25,
-            dataArray: Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games),
-            component: `${capitalType}ListItem`
-          }) : null;
-        })
-        .catch(e => console.error(e.stack));
+        searchTypes.map(searchType => {
+          const func = methods[searchType];
+          if(typeof func === "function") {
+            func()
+            .then(data => {
+              const componentName = `${searchType.replace(/^search/i, "")}ListItem`;
+              // console.log(searchType, capitalType, componentName, data);
+              this.state.components.push(componentName);
+              this._mounted ? this.setState({
+                // offset: this.state.requestOffset + 25,
+                [componentName]: Array.from(this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods),
+                components: this.state.components
+              }) : null;
+            })
+            .catch(e => console.error(e.stack));
+          } else {
+            console.error("Cannot get data for method", searchType);
+          }
+        });
       })
       .catch(e => console.error(e.stack));
     }
   },
-  refreshList(reset, length, offset) {
-    length = length || this.state.dataArray.length;
-    offset = offset || 0;
-    console.log(reset, length, offset);
-    let requestOffset = reset ? 0 : offset;
+  refreshLists(reset, length, offset) {
     let obj = {};
-    if(reset) obj.dataArray = [];
-    this._mounted ? this.setState(obj, () => {
-      if(length > 100) {
-        this.gatherData(100, offset, this.refreshList.bind(this, false, length - 100, requestOffset + 100));
-      } else {
-        this.gatherData(length, offset);
-      }
-    }) : null;
+    if(reset) {
+      obj.StreamsListItem = [];
+      obj.ChannelsListItem = [];
+      obj.VideosListItem = [];
+      obj.GamesListItem = [];
+    }
+    this._mounted ? this.setState(obj) : null;
   },
   componentDidMount() {
     this._mounted = true;
     this.gatherData();
+  },
+  componentWillReceiveProps(nextProps) {
+    const {
+      params: {
+        searchtype,
+      },
+      location: {
+        query: {
+          q
+        }
+      }
+    } = this.props;
+    if(nextProps.params.searchtype !== searchtype || nextProps.location.query.q !== q) {
+      this.refreshLists();
+      this.gatherData();
+    }
   },
   componentWillUnmount() {
     delete this._mounted;
@@ -151,8 +135,8 @@ export default React.createClass({
   render() {
     const {
       requestOffset,
-      dataArray,
-      component
+      // dataArray,
+      components
     } = this.state;
     const {
       auth,
@@ -164,44 +148,75 @@ export default React.createClass({
         appendStream,
         loadData
       },
-      location
+      location,
+      params
     } = this.props;
-    if(component) {
-      const ListItem = components[component];
+    console.log(this.state);
+    if(components.length > 0) {
       return (
         <div className="top-level-component search-page">
           <div className="general-page">
-            <div className="wrapper">
-              <ul className="list">
-                {
-                  dataArray.map((itemData, ind) => {
-                    return <ListItem
-                      auth={auth}
-                      fireRef={fireRef}
-                      userData={userData}
-                      versionData={versionData}
-                      key={ind}
-                      data={itemData}
-                      index={ind}
-                      methods={{
-                      appendStream
-                    }} />
-                  })
-                }
-              </ul>
-            </div>
-            <div className="tools">
-              <div className="parent">
-                <div className="scroll">
-                  <div className="option btn-default refresh" onClick={() => this.refreshList(true)}>
-                    Refresh Listing
-                  </div>
-                  <div className="btn-default load-more" onClick={this.gatherData}>
-                    Load More
-                  </div>
-                </div>
-              </div>
-            </div>
+            {
+              components.map(componentName => {
+                const ListItem = searchComponents[componentName].comp;
+                const name = searchComponents[componentName].name;
+                const dataArray = this.state[componentName];
+                // console.log(componentName, dataArray);
+                if(dataArray.length === 0) return null;
+                return (
+                  [
+                    <div className={"search-results"}>
+
+                      <div className="title">
+                        <span>{name} Results.</span>
+                        {" "}
+                        <Link className="load-more" to={`/search/${name.toLowerCase()}s?q=${encodeURIComponent(location.query.q)}`}>
+                          See More...
+                        </Link>
+                      </div>
+                      <div className="wrapper">
+                        <ul className="list">
+                          {
+                            dataArray.map((itemData, ind) => {
+                              if(!itemData) return console.error("no data");
+                              return <ListItem
+                                auth={auth}
+                                fireRef={fireRef}
+                                userData={userData}
+                                versionData={versionData}
+                                key={ind}
+                                data={itemData}
+                                index={ind}
+                                methods={{
+                                appendStream
+                              }} />
+                            })
+                          }
+                        </ul>
+                      </div>
+                      {
+                        (params.searchtype) ? (
+                          <div className="tools">
+                            <div className="parent">
+                              <div className="scroll">
+                                {/* <div className="option btn-default refresh" onClick={() => this.refreshList(true)}>
+                                  Refresh Listing
+                                </div> */}
+                                <div className="btn-default load-more" onClick={this.gatherData}>
+                                  Load More
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        ) : null
+                      }
+                    </div>,
+                    <div className="separator-4-black"></div>
+                  ]
+                );
+              })
+            }
           </div>
         </div>
       );

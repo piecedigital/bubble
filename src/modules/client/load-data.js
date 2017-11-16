@@ -573,6 +573,13 @@ export default function loadData(errorCB, options = {}) {
       searchGames: (okayCB) => {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         return makeRequest(okayCB, "search/games");
+      },
+      searchVideos: (okayCB) => {
+        options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
+        options.game = options.query;
+        options.period = "all";
+        options.sort = "time";
+        return makeRequest(okayCB, "videos/top");
       }
     });
   });
