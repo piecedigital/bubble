@@ -190,7 +190,7 @@ exports["default"] = _react2["default"].createClass({
             if (dataArray.length === 0) return null;
             return [_react2["default"].createElement(
               "div",
-              { className: "search-results" },
+              { key: componentName, className: "search-results" },
               _react2["default"].createElement(
                 "div",
                 { className: "title" },
@@ -202,7 +202,7 @@ exports["default"] = _react2["default"].createClass({
                 ),
                 !params.searchtype ? [" ", _react2["default"].createElement(
                   _reactRouter.Link,
-                  { className: "load-more", to: "/search/" + name.toLowerCase() + "s?q=" + encodeURIComponent(location.query.q) },
+                  { key: "link", className: "load-more", to: "/search/" + name.toLowerCase() + "s?q=" + encodeURIComponent(location.query.q) },
                   "See More..."
                 )] : null
               ),
@@ -245,7 +245,7 @@ exports["default"] = _react2["default"].createClass({
                   )
                 )
               ) : null
-            ), _react2["default"].createElement("div", { className: "separator-4-black" })];
+            ), _react2["default"].createElement("div", { key: componentName + "-sep", className: "separator-4-black" })];
           })
         )
       );
