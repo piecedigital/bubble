@@ -6,9 +6,13 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
 
 var _modulesClientLoadData = require("../../modules/client/load-data");
 
@@ -21,79 +25,24 @@ var _modulesClientHelperTools = require("../../modules/client/helper-tools");
 var _componentsListItemsJsx = require("./components/list-items.jsx");
 
 // components
-var components = {};
+var searchComponents = {};
 
-// list item for streams matching the search
-// components.StreamsListItem = React.createClass({
-//   displayName: "stream-ListItem",
-//   render() {
-//     // console.log(this.props);
-//     const {
-//       auth,
-//       fireRef,
-//       index,
-//       userData,
-//       methods: {
-//         appendStream
-//       },
-//       data: {
-//         game,
-//         viewers,
-//         title,
-//         _id: id,
-//         preview,
-//         channel: {
-//           mature,
-//           logo,
-//           name,
-//           display_name,
-//           language
-//         }
-//       }
-//     } = this.props;
-//     let viewersString = viewers.toLocaleString("en"); // https://www.livecoding.tv/earth_basic/
-//     let hoverOptions = <ListItemHoverOptions
-//                         auth={auth}
-//                         fireRef={fireRef}
-//                         stream={true}
-//                         name={name}
-//                         display_name={display_name}
-//                         userData={userData}
-//                         clickCallback={appendStream} />;
-//
-//     return (
-//       <li className={`stream-list-item search`}>
-//         <div className="wrapper">
-//           <div className="image">
-//             <CImg
-//               style={{
-//                 width: 216,
-//                 height: 121.5,
-//               }}
-//               className="test"
-//               src={preview.medium} />
-//           </div>
-//           <div className="info">
-//             <div className="channel-name">
-//               {name}
-//             </div>
-//             <div className="title">
-//               {title}
-//             </div>
-//             <div className="game">
-//               {`Live with "${game}"`}
-//             </div>
-//             <div className="viewers">
-//               {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
-//             </div>
-//           </div>
-//           {hoverOptions}
-//         </div>
-//       </li>
-//     )
-//   }
-// })
-components.StreamsListItem = _componentsListItemsJsx.StreamListItem;
+searchComponents.StreamsListItem = {
+  name: "Stream",
+  comp: _componentsListItemsJsx.StreamListItem
+};
+searchComponents.ChannelsListItem = {
+  name: "Channel",
+  comp: _componentsListItemsJsx.ChannelListItem
+};
+searchComponents.VideosListItem = {
+  name: "Video",
+  comp: _componentsListItemsJsx.VideoListItem
+};
+searchComponents.GamesListItem = {
+  name: "Game",
+  comp: _componentsListItemsJsx.SearchGameListItem
+};
 
 // primary section for the search component
 exports["default"] = _react2["default"].createClass({
@@ -101,43 +50,72 @@ exports["default"] = _react2["default"].createClass({
   getInitialState: function getInitialState() {
     return {
       requestOffset: 0,
-      dataArray: []
+      // dataArray: [],
+      StreamsListItem: [],
+      ChannelsListItem: [],
+      VideosListItem: [],
+      GamesListItem: [],
+      components: []
     };
   },
   gatherData: function gatherData(limit, offset, callback) {
     var _this = this;
 
-    limit = typeof limit === "number" ? limit : this.state.limit || 25;
-    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     var _props = this.props;
     var params = _props.params;
     var location = _props.location;
 
+    if (!params.searchtype) {
+      limit = 12;
+    } else {
+      limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    }
+
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
     if (_modulesClientLoadData2["default"]) {
       (function () {
-        var capitalType = params.searchtype.replace(/^(.)/, function (_, letter) {
+        var searchParam = params.searchtype || "All";
+        var capitalType = searchParam.replace(/^(.)/, function (_, letter) {
           return letter.toUpperCase();
         });
-        var searchType = "search" + capitalType;
+
+        var searchTypes = [];
+        console.log(params);
+        if (searchParam === "All") {
+          searchTypes.push("searchStreams", "searchGames", "searchChannels", "searchVideos");
+        } else {
+          searchTypes.push("search" + capitalType);
+        }
+
         _this._mounted ? _this.setState({
           requestOffset: _this.state.requestOffset + 25
         }) : null;
-        console.log(_this);
+        // console.log(this);
         _modulesClientLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
         }, {
-          query: location.query.q,
+          query: encodeURIComponent(location.query.q),
           offset: offset,
-          limit: 25
+          limit: limit
         }).then(function (methods) {
-          methods[searchType]().then(function (data) {
-            _this._mounted ? _this.setState({
-              // offset: this.state.requestOffset + 25,
-              dataArray: Array.from(_this.state.dataArray).concat(data.channels || data.streams || data.games),
-              component: capitalType + "ListItem"
-            }) : null;
-          })["catch"](function (e) {
-            return console.error(e.stack);
+          searchTypes.map(function (searchType) {
+            var func = methods[searchType];
+            if (typeof func === "function") {
+              func().then(function (data) {
+                var _setState;
+
+                var componentName = searchType.replace(/^search/i, "") + "ListItem";
+                // console.log(searchType, capitalType, componentName, data);
+                if (_this.state.components.indexOf(componentName) < 0) {
+                  _this.state.components.push(componentName);
+                }
+                _this._mounted ? _this.setState((_setState = {}, _defineProperty(_setState, componentName, Array.from(_this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods)), _defineProperty(_setState, "components", _this.state.components), _setState)) : null;
+              })["catch"](function (e) {
+                return console.error(e.stack);
+              });
+            } else {
+              console.error("Cannot get data for method", searchType);
+            }
           });
         })["catch"](function (e) {
           return console.error(e.stack);
@@ -145,26 +123,34 @@ exports["default"] = _react2["default"].createClass({
       })();
     }
   },
-  refreshList: function refreshList(reset, length, offset) {
-    var _this2 = this;
-
-    length = length || this.state.dataArray.length;
-    offset = offset || 0;
-    console.log(reset, length, offset);
-    var requestOffset = reset ? 0 : offset;
-    var obj = {};
-    if (reset) obj.dataArray = [];
-    this._mounted ? this.setState(obj, function () {
-      if (length > 100) {
-        _this2.gatherData(100, offset, _this2.refreshList.bind(_this2, false, length - 100, requestOffset + 100));
-      } else {
-        _this2.gatherData(length, offset);
-      }
-    }) : null;
+  refreshLists: function refreshLists(cb) {
+    var obj = {
+      StreamsListItem: [],
+      ChannelsListItem: [],
+      VideosListItem: [],
+      GamesListItem: [],
+      requestOffset: 0,
+      components: []
+    };
+    this._mounted ? this.setState(obj, cb) : null;
   },
   componentDidMount: function componentDidMount() {
     this._mounted = true;
     this.gatherData();
+  },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var _this2 = this;
+
+    var _props2 = this.props;
+    var searchtype = _props2.params.searchtype;
+    var q = _props2.location.query.q;
+
+    if (nextProps.params.searchtype !== searchtype || nextProps.location.query.q !== q) {
+      console.log("refreshing");
+      this.refreshLists(function () {
+        _this2.gatherData();
+      });
+    }
   },
   componentWillUnmount: function componentWillUnmount() {
     delete this._mounted;
@@ -174,29 +160,53 @@ exports["default"] = _react2["default"].createClass({
 
     var _state = this.state;
     var requestOffset = _state.requestOffset;
-    var dataArray = _state.dataArray;
-    var component = _state.component;
-    var _props2 = this.props;
-    var auth = _props2.auth;
-    var fireRef = _props2.fireRef;
-    var userData = _props2.userData;
-    var versionData = _props2.versionData;
-    var data = _props2.data;
-    var _props2$methods = _props2.methods;
-    var appendStream = _props2$methods.appendStream;
-    var loadData = _props2$methods.loadData;
-    var location = _props2.location;
+    var
+    // dataArray,
+    components = _state.components;
+    var _props3 = this.props;
+    var auth = _props3.auth;
+    var fireRef = _props3.fireRef;
+    var userData = _props3.userData;
+    var versionData = _props3.versionData;
+    var data = _props3.data;
+    var _props3$methods = _props3.methods;
+    var appendStream = _props3$methods.appendStream;
+    var loadData = _props3$methods.loadData;
+    var location = _props3.location;
+    var params = _props3.params;
 
-    if (component) {
-      var _ret2 = (function () {
-        var ListItem = components[component];
-        return {
-          v: _react2["default"].createElement(
-            "div",
-            { className: "top-level-component search-page" },
-            _react2["default"].createElement(
+    console.log(this.state);
+    if (components.length > 0) {
+      return _react2["default"].createElement(
+        "div",
+        { className: "top-level-component search-page" },
+        _react2["default"].createElement(
+          "div",
+          { className: "general-page" },
+          components.map(function (componentName) {
+            var ListItem = searchComponents[componentName].comp;
+            var name = searchComponents[componentName].name;
+            var dataArray = _this3.state[componentName];
+            // console.log(componentName, dataArray);
+            if (dataArray.length === 0) return null;
+            return [_react2["default"].createElement(
               "div",
-              { className: "general-page" },
+              { className: "search-results" },
+              _react2["default"].createElement(
+                "div",
+                { className: "title" },
+                _react2["default"].createElement(
+                  "span",
+                  null,
+                  name,
+                  " Results."
+                ),
+                !params.searchtype ? [" ", _react2["default"].createElement(
+                  _reactRouter.Link,
+                  { className: "load-more", to: "/search/" + name.toLowerCase() + "s?q=" + encodeURIComponent(location.query.q) },
+                  "See More..."
+                )] : null
+              ),
               _react2["default"].createElement(
                 "div",
                 { className: "wrapper" },
@@ -204,6 +214,7 @@ exports["default"] = _react2["default"].createClass({
                   "ul",
                   { className: "list" },
                   dataArray.map(function (itemData, ind) {
+                    if (!itemData) return console.error("no data");
                     return _react2["default"].createElement(ListItem, {
                       auth: auth,
                       fireRef: fireRef,
@@ -218,7 +229,7 @@ exports["default"] = _react2["default"].createClass({
                   })
                 )
               ),
-              _react2["default"].createElement(
+              params.searchtype ? _react2["default"].createElement(
                 "div",
                 { className: "tools" },
                 _react2["default"].createElement(
@@ -229,25 +240,16 @@ exports["default"] = _react2["default"].createClass({
                     { className: "scroll" },
                     _react2["default"].createElement(
                       "div",
-                      { className: "option btn-default refresh", onClick: function () {
-                          return _this3.refreshList(true);
-                        } },
-                      "Refresh Listing"
-                    ),
-                    _react2["default"].createElement(
-                      "div",
                       { className: "btn-default load-more", onClick: _this3.gatherData },
                       "Load More"
                     )
                   )
                 )
-              )
-            )
-          )
-        };
-      })();
-
-      if (typeof _ret2 === "object") return _ret2.v;
+              ) : null
+            ), _react2["default"].createElement("div", { className: "separator-4-black" })];
+          })
+        )
+      );
     } else {
       return _react2["default"].createElement(
         "div",
@@ -258,3 +260,8 @@ exports["default"] = _react2["default"].createClass({
   }
 });
 module.exports = exports["default"];
+
+// offset: this.state.requestOffset + 25,
+/* <div className="option btn-default refresh" onClick={() => this.refreshList(true)}>
+ Refresh Listing
+</div> */

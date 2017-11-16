@@ -389,7 +389,7 @@ var VideoListItem = _react2["default"].createClass({
     });
   },
   render: function render() {
-    console.log(this.props);
+    // console.log(this.props);
     var _props4 = this.props;
     var auth = _props4.auth;
     var fireRef = _props4.fireRef;
@@ -403,6 +403,7 @@ var VideoListItem = _react2["default"].createClass({
     var title = _props4$data.title;
     var game = _props4$data.game;
     var recorded_at = _props4$data.recorded_at;
+    var broadcast_type = _props4$data.broadcast_type;
     var id = _props4$data._id;
     var length = _props4$data.length;
     var _props4$data$channel = _props4$data.channel;
@@ -460,7 +461,7 @@ var VideoListItem = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "game" },
-            "VOD of \"" + game + "\""
+            broadcast_type + " of \"" + game + "\""
           ),
           _react2["default"].createElement(
             "div",
@@ -531,6 +532,59 @@ var GameListItem = _react2["default"].createClass({
     );
   }
 });
+
 exports.GameListItem = GameListItem;
+var SearchGameListItem = _react2["default"].createClass({
+  displayName: "searchGames-ListItem",
+  render: function render() {
+    // console.log(this.props);
+    var _props6 = this.props;
+    var index = _props6.index;
+    var appendStream = _props6.methods.appendStream;
+    var _props6$data = _props6.data;
+    var name = _props6$data.name;
+    var box = _props6$data.box;
+    var id = _props6$data._id;
+    var popularity = _props6$data.popularity;
+
+    return _react2["default"].createElement(
+      "li",
+      { className: "game-list-item" },
+      _react2["default"].createElement(
+        "div",
+        { className: "wrapper" },
+        _react2["default"].createElement(
+          _reactRouter.Link,
+          { to: "/search/streams?q=" + encodeURIComponent(name) },
+          _react2["default"].createElement(
+            "div",
+            { className: "image" },
+            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+              style: {
+                width: 168,
+                height: 235
+              },
+              src: box ? box.medium : "" })
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "info" },
+            _react2["default"].createElement(
+              "div",
+              { className: "game-name" },
+              name
+            ),
+            _react2["default"].createElement(
+              "div",
+              { className: "count" },
+              "Popularity: " + popularity
+            )
+          )
+        )
+      )
+    );
+  }
+});
+exports.SearchGameListItem = SearchGameListItem;
 
 // url,

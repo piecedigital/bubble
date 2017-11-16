@@ -661,6 +661,14 @@ function loadData(errorCB) {
       searchGames: function searchGames(okayCB) {
         options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
         return makeRequest(okayCB, "search/games");
+      },
+      searchVideos: function searchVideos(okayCB) {
+        options.offset = typeof options.offset === "number" && options.offset !== Infinity ? options.offset : 0;
+        options.game = options.query;
+        options.period = "all";
+        options.sort = "time";
+        options.broadcast_type = "archive,upload";
+        return makeRequest(okayCB, "videos/top");
       }
     });
   });
