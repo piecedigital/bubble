@@ -30,8 +30,7 @@ var SlideInput = _react2["default"].createClass({
     var blurCallback = _props$methods.blurCallback;
     var value = this.refs.input.value;
 
-    value.replace(/^\s+/, "").replace(/\s+$/, "");
-    if (callback) callback(value, false);
+    if (callback) callback(value.replace(/^\s+/, "").replace(/\s+$/, ""), false);
     toggleCallback(commandValue);
     blurCallback(commandValue);
     this.refs.input.value = "";
