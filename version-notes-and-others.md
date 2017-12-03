@@ -128,9 +128,11 @@
   - Improved authentication process **ok**
 - Improvements: 0.15.1
   - Initial search page now contains other search results (videos, games, channels) **ok**
-  - Seach inputs take off white space on ends **ok**
+  - Search inputs take off white space on ends
 - Bug Fixes: 0.15.2
   - Fixed some data gathering and filtering issues **ok**
+- Improvements: 0.15.3
+  - Search inputs take off white space on ends **ok**
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD

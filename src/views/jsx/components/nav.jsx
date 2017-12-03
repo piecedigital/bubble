@@ -16,8 +16,7 @@ const SlideInput = React.createClass({
       }
     } = this.props;
     let { value } = this.refs.input;
-    value.replace(/^\s+/, "").replace(/\s+$/, "");
-    if(callback) callback(value, false);
+    if(callback) callback(value.replace(/^\s+/, "").replace(/\s+$/, ""), false);
     toggleCallback(commandValue);
     blurCallback(commandValue);
     this.refs.input.value = "";
