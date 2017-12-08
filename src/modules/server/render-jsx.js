@@ -15,7 +15,7 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
       `<meta property="og:title" content="${prePlaceData.title}"/>`+
       `<meta property="description" content="${prePlaceData.description || "Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session."}"/>`+
       `<meta property="og:description" content="${prePlaceData.description || "Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session."}"/>`+
-      `<meta property="pg:image" content="${prePlaceData.image || ""}"/>`+
+      `<meta property="og:image" content="${prePlaceData.image || ""}"/>`+
       // other seo
       `<link rel="stylesheet" href="/css/style.css" media="screen" title="no title" charSet="utf-8"/>`+
       `<meta httpEquiv="Content-Type" content="text/html" charSet="UTF-8" />`+
