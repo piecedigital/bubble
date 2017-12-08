@@ -105,7 +105,7 @@ app
   _clientLoadData2["default"].call(this, function (e) {
     console.error(e.stack);
   }, {
-    username: "noxidlyrrad"
+    username: req.params.username.toLowerCase()
   }). // access_token: authData.access_token,
   then(function (methods) {
     methods.getUserByName().then(function (data) {
