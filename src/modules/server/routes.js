@@ -96,7 +96,7 @@ app
   loadData.call(this, e => {
     console.error(e.stack);
   }, {
-    username: "noxidlyrrad",
+    username: req.params.username.toLowerCase(),
     // access_token: authData.access_token,
   })
   .then(methods => {
