@@ -1,5 +1,5 @@
 import React from "react";
-import { ajax } from "./ajax";
+import { ajax } from "../universal/ajax";
 import loadData from "./load-data";
 
 export const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";

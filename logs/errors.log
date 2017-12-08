@@ -1482,3 +1482,78 @@ Error: Cannot find module './jsx/search.jsx' from 'E:\GIT FILES\Sites\bubble\dis
 [1510835270539] [Thu, 16 Nov 2017 12:27:50 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
 The process cannot access the file because it is being used by another process.
 ]
+[1512690278015] [Thu, 07 Dec 2017 23:44:38 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module 'fetch' from 'E:\GIT FILES\Sites\bubble\dist\modules\client'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:46:17
+    at process (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:173:43)
+    at ondir (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:188:17)
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512690905716] [Thu, 07 Dec 2017 23:55:05 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module '../../modules/client/ajax' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512690917749] [Thu, 07 Dec 2017 23:55:17 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module '../../modules/client/ajax' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512691046738] [Thu, 07 Dec 2017 23:57:26 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './ajax' from 'E:\GIT FILES\Sites\bubble\dist\modules\client'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512691074006] [Thu, 07 Dec 2017 23:57:54 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module '../../../modules/client/ajax' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512691130000] [Thu, 07 Dec 2017 23:58:50 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module '../../../modules/client/ajax' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512691188652] [Thu, 07 Dec 2017 23:59:48 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module '../../../modules/client/ajax' from 'E:\GIT FILES\Sites\bubble\dist\views\jsx\components'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512691400169] [Fri, 08 Dec 2017 00:03:20 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './ajax' from 'E:\GIT FILES\Sites\bubble\dist\modules\client'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512693049255] [Fri, 08 Dec 2017 00:30:49 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
+[1512697470664] [Fri, 08 Dec 2017 01:44:30 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
+[1512698247830] [Fri, 08 Dec 2017 01:57:27 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]

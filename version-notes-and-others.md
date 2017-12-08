@@ -133,6 +133,8 @@
   - Fixed some data gathering and filtering issues **ok**
 - Improvements: 0.15.3
   - Search inputs take off white space on ends **ok**
+- Improvements: 0.15.4
+  - Beginning some simple server side adjustments for SEO **ok**
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD

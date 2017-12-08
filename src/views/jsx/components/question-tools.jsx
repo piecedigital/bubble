@@ -13,7 +13,7 @@ import {
   CommentTool,
   CommentItem
 } from "./comment-tools.jsx";
-import { ajax } from "../../../modules/client/ajax";
+// import { ajax } from "../../../modules/universal/ajax";
 
 // for asking a question
 export const AskQuestion = React.createClass({

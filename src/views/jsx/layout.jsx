@@ -5,7 +5,7 @@ import Player from "./components/player.jsx";
 import Overlay from "./components/overlay.jsx";
 import Alert from "./components/alert.jsx";
 import loadData from "../../modules/client/load-data";
-import { ajax } from "../../modules/client/ajax";
+import { default as ajax } from "../../modules/universal/ajax";
 import Nav from "./components/nav.jsx";
 import { Link, browserHistory as History } from 'react-router';
 import Firebase from "firebase";

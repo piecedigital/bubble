@@ -1,4 +1,5 @@
-import { ajax } from "./ajax";
+import { default as ajax } from "../universal/ajax";
+
 export default function loadData(errorCB, options = {}) {
   options = Object.assign({}, options);
   options.stream_type = options.stream_type || "live";
@@ -10,15 +11,20 @@ export default function loadData(errorCB, options = {}) {
   options.headers["Accept"] = "application/vnd.twitchtv.v5+json";
 
   let redirectURI, clientID;
-  const match = location.host === ("amorrius.net");
-  if(match) {
-    redirectURI =`http://${location.host}`;
-    clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
+  if(typeof location === "object") {
+    const match = location.host === ("amorrius.net");
+    if(match) {
+      redirectURI =`http://${location.host}`;
+      clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
+    } else {
+      redirectURI = "http://amorrius.dev";
+      clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
+    }
   } else {
-    redirectURI = "http://amorrius.dev";
+    console.log("load data server side");
+    redirectURI = `http://${options.host || "amorrius.dev"}`;
     clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
   }
-
 
   options.headers["Client-ID"] = clientID;
   let baseURL = "https://api.twitch.tv/kraken/";
@@ -58,14 +64,15 @@ export default function loadData(errorCB, options = {}) {
           }
         },
         error(error) {
-          try {
-            const message = JSON.parse(error.response).message;
-            if(message.match(/\d+ is not following \d+/)) {
-              // console.log("not following");
-            }
-          } catch (e) {
-            console.error(error);
-          }
+          console.log(error);
+          // try {
+          //   const message = JSON.parse(error.response).message;
+          //   if(message.match(/\d+ is not following \d+/)) {
+          //     // console.log("not following");
+          //   }
+          // } catch (e) {
+          //   console.error(error);
+          // }
           reject();
         }
       })
@@ -169,9 +176,13 @@ export default function loadData(errorCB, options = {}) {
               .then(data => {
                 // console.log("user id", data);
                 // real request
-                makeRequest(okayCB, `channels/${data.users[0]._id}`)
-                .then(data => resolve(data))
-                .catch((e = {}) => reject(e));
+                if(data.users && data.users[0]) {
+                  makeRequest(okayCB, `channels/${data.users[0]._id}`)
+                  .then(data => resolve(data))
+                  .catch((e = {}) => reject(e));
+                } else {
+                  reject("No users");
+                }
               })
               .catch((e = {}) => console.error(e.stack || e));
             })

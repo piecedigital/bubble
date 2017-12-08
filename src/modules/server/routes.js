@@ -3,6 +3,7 @@ import http from "http";
 import https from "https";
 import { renderHTML } from "./render-jsx";
 import { initFirebase, getAuthToken } from "./firebase-config";
+import loadData from "../client/load-data";
 
 const app = express();
 let fireRef;
@@ -82,12 +83,41 @@ app
 .get("/profile", function (req, res) {
   res.redirect("/");
 })
+.get("/p/:username", function (req, res) {
+  res.redirect("/p/" + req.params.username);
+})
 .get("/profile/:username", function (req, res) {
-  res.send(renderHTML("profile", {
+  let prePlaceData = {
     params: {
       username: req.params.username
     }
-  }));
+  }
+
+  loadData.call(this, e => {
+    console.error(e.stack);
+  }, {
+    username: "noxidlyrrad",
+    // access_token: authData.access_token,
+  })
+  .then(methods => {
+    methods
+    .getUserByName()
+    .then(data => {
+      // console.log("channel data:", data);
+      prePlaceData.title = data.display_name + "'s profile | Amorrius";
+      prePlaceData.image = data.logo;
+      prePlaceData.description = data.bio;
+      res.send(renderHTML("profile", prePlaceData));
+    })
+    .catch(e => {
+      console.error(e.stack || e);
+      res.send(renderHTML("profile", prePlaceData));
+    });
+  })
+  .catch(e => {
+    console.error(e.stack || e);
+    res.send(renderHTML("profile", prePlaceData));
+  });
 })
 .get("/profile/:username/:q/:questionID", function (req, res) {
   res.send(renderHTML("profile", {
