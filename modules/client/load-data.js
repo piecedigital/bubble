@@ -5,7 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = loadData;
 
-var _ajax = require("./ajax");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _universalAjax = require("../universal/ajax");
+
+var _universalAjax2 = _interopRequireDefault(_universalAjax);
 
 function loadData(errorCB) {
   var _this = this;
@@ -23,12 +27,18 @@ function loadData(errorCB) {
 
   var redirectURI = undefined,
       clientID = undefined;
-  var match = location.host === "amorrius.net";
-  if (match) {
-    redirectURI = "http://" + location.host;
-    clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
+  if (typeof location === "object") {
+    var match = location.host === "amorrius.net";
+    if (match) {
+      redirectURI = "http://" + location.host;
+      clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
+    } else {
+      redirectURI = "http://amorrius.dev";
+      clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
+    }
   } else {
-    redirectURI = "http://amorrius.dev";
+    console.log("load data server side");
+    redirectURI = "http://" + (options.host || "amorrius.dev");
     clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
   }
 
@@ -45,7 +55,7 @@ function loadData(errorCB) {
         }
       });
       requestURL.replace(/&$/, "");
-      (0, _ajax.ajax)({
+      (0, _universalAjax2["default"])({
         url: requestURL,
         type: options.type || null,
         beforeSend: function beforeSend(xhr) {
@@ -70,14 +80,15 @@ function loadData(errorCB) {
           }
         },
         error: function error(_error) {
-          try {
-            var message = JSON.parse(_error.response).message;
-            if (message.match(/\d+ is not following \d+/)) {
-              // console.log("not following");
-            }
-          } catch (e) {
-            console.error(_error);
-          }
+          console.log(_error);
+          // try {
+          //   const message = JSON.parse(error.response).message;
+          //   if(message.match(/\d+ is not following \d+/)) {
+          //     // console.log("not following");
+          //   }
+          // } catch (e) {
+          //   console.error(error);
+          // }
           reject();
         }
       });
@@ -189,12 +200,16 @@ function loadData(errorCB) {
               methods.getUserID().then(function (data) {
                 // console.log("user id", data);
                 // real request
-                makeRequest(okayCB, "channels/" + data.users[0]._id).then(function (data) {
-                  return resolve(data);
-                })["catch"](function () {
-                  var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-                  return reject(e);
-                });
+                if (data.users && data.users[0]) {
+                  makeRequest(okayCB, "channels/" + data.users[0]._id).then(function (data) {
+                    return resolve(data);
+                  })["catch"](function () {
+                    var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+                    return reject(e);
+                  });
+                } else {
+                  reject("No users");
+                }
               })["catch"](function () {
                 var e = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
                 return console.error(e.stack || e);

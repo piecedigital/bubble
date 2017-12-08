@@ -32,7 +32,9 @@ var _modulesClientLoadData = require("../../modules/client/load-data");
 
 var _modulesClientLoadData2 = _interopRequireDefault(_modulesClientLoadData);
 
-var _modulesClientAjax = require("../../modules/client/ajax");
+var _modulesUniversalAjax = require("../../modules/universal/ajax");
+
+var _modulesUniversalAjax2 = _interopRequireDefault(_modulesUniversalAjax);
 
 var _componentsNavJsx = require("./components/nav.jsx");
 
@@ -629,7 +631,7 @@ exports["default"] = _react2["default"].createClass({
     this.getMultiStream();
 
     // get auth token
-    (0, _modulesClientAjax.ajax)({
+    (0, _modulesUniversalAjax2["default"])({
       url: "/get-auth-token",
       success: function success(authToken) {
         // load firebase config
@@ -655,7 +657,7 @@ exports["default"] = _react2["default"].createClass({
       }
     });
 
-    (0, _modulesClientAjax.ajax)({
+    (0, _modulesUniversalAjax2["default"])({
       url: "/get-version",
       success: function success(data) {
         _this7.setState({

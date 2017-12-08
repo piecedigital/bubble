@@ -24,7 +24,7 @@ var _voteToolJsx = require("./vote-tool.jsx");
 
 var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
-var _modulesClientAjax = require("../../../modules/client/ajax");
+// import { ajax } from "../../../modules/universal/ajax";
 
 var _modulesClientLoadData = require("../../../modules/client/load-data");
 

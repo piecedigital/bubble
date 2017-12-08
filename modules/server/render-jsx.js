@@ -17,11 +17,15 @@ var _reactDomServer2 = _interopRequireDefault(_reactDomServer);
 var renderHTML = function renderHTML(fileName) {
   var prePlaceData = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-  prePlaceData.title = prePlaceData.title || "Q&A Aggregator for Twitch streamers | TwiQuA";
+  prePlaceData.title = prePlaceData.title || "Q&A Aggregator for Twitch streamers | Amorrius";
   var Layout = require("../../views/jsx/layout.jsx");
   var Page = require("../../views/jsx/" + fileName + ".jsx");
 
-  var data = "<html>" + "<head>" + "<meta charSet=\"utf-8\" />" + "<meta httpEquiv=\"Content-Type\" content=\"text/html\" charSet=\"UTF-8\" />" + "<meta name=\"language\" content=\"en-us\" />" + "<meta name=\"publisher\" content=\"Piece Digital Studios\" />" + "<meta name=\"classification\" content=\"multistream, multiple stream, multiple broadcast viewing, question and answer aggregation\" />" + "<meta property=\"og:description\" content=\"Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session.\"/>" + "<link rel=\"stylesheet\" href=\"/css/style.css\" media=\"screen\" title=\"no title\" charSet=\"utf-8\"/>" + "<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/media/logo-png.png\"/>" + "<link rel=\"apple-touch-icon\" type=\"image/x-icon\" href=\"/media/logo-png.png\"/>" + ("<title>" + prePlaceData.title + "</title>") + "</head>" + "<body>" + "<div class=\"react-app\">" + _reactDomServer2["default"].renderToStaticMarkup(_react2["default"].createElement(
+  var data = "<html>" + "<head>" + "<meta charSet=\"utf-8\" />" + (
+  // key seo
+  "<title>" + prePlaceData.title + "</title>") + ("<meta property=\"og:title\" content=\"" + prePlaceData.title + "\"/>") + ("<meta property=\"description\" content=\"" + (prePlaceData.description || "Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session.") + "\"/>") + ("<meta property=\"og:description\" content=\"" + (prePlaceData.description || "Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session.") + "\"/>") + ("<meta property=\"pg:image\" content=\"" + (prePlaceData.image || "") + "\"/>") +
+  // other seo
+  "<link rel=\"stylesheet\" href=\"/css/style.css\" media=\"screen\" title=\"no title\" charSet=\"utf-8\"/>" + "<meta httpEquiv=\"Content-Type\" content=\"text/html\" charSet=\"UTF-8\" />" + "<meta name=\"language\" content=\"en-us\" />" + "<meta name=\"publisher\" content=\"Piece Digital Studios\" />" + "<meta name=\"classification\" content=\"multistream, multiple stream, multiple broadcast viewing, question and answer aggregation\" />" + "<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/media/logo-png.png\"/>" + "<link rel=\"apple-touch-icon\" type=\"image/x-icon\" href=\"/media/logo-png.png\"/>" + "</head>" + "<body>" + "<div class=\"react-app\">" + _reactDomServer2["default"].renderToStaticMarkup(_react2["default"].createElement(
     Layout,
     prePlaceData,
     _react2["default"].createElement(Page, null)

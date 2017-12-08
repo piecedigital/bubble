@@ -34,7 +34,7 @@ var _voteToolJsx2 = _interopRequireDefault(_voteToolJsx);
 
 var _commentToolsJsx = require("./comment-tools.jsx");
 
-var _modulesClientAjax = require("../../../modules/client/ajax");
+// import { ajax } from "../../../modules/universal/ajax";
 
 // for asking a question
 var AskQuestion = _react2["default"].createClass({

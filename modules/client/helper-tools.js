@@ -12,7 +12,7 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ajax = require("./ajax");
+var _universalAjax = require("../universal/ajax");
 
 var _loadData = require("./load-data");
 
