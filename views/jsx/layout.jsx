@@ -83,7 +83,7 @@ exports["default"] = _react2["default"].createClass({
     }
     return Object.assign({
       authData: this.props.data && this.props.data.authData || null,
-      userData: this.props.params.userData || null,
+      userData: null,
       streamersInPlayer: {},
       streamOrderMap: [],
       playerCollapsed: true,
@@ -94,7 +94,7 @@ exports["default"] = _react2["default"].createClass({
       overlay: overlay,
       overlayState: overlayState,
       alert: null,
-      fireRef: this.props.fireRef,
+      fireRef: this.props.fireRef || null,
       versionData: null,
       registeredAuth: false
     }, this.props.initState ? this.props.initState.layout || {} : {});
@@ -767,8 +767,8 @@ exports["default"] = _react2["default"].createClass({
         overlay: overlay,
         userData: userData,
         // ...this.props,
-        userData: this.props.userData,
-        channelData: this.props.channelData,
+        pageUserData: this.props.userData,
+        pageChannelData: this.props.channelData,
         params: this.props.params,
         fireRef: fireRef,
         versionData: versionData,
@@ -789,8 +789,8 @@ exports["default"] = _react2["default"].createClass({
         overlay: overlay,
         userData: userData,
         // ...this.props,
-        userData: this.props.userData,
-        channelData: this.props.channelData,
+        pageUserData: this.props.userData,
+        pageChannelData: this.props.channelData,
         params: this.props.params,
         fireRef: fireRef,
         versionData: versionData,
