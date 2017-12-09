@@ -1557,3 +1557,79 @@ The process cannot access the file because it is being used by another process.
 [1512698247830] [Fri, 08 Dec 2017 01:57:27 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
 The process cannot access the file because it is being used by another process.
 ]
+[1512735583032] [Fri, 08 Dec 2017 12:19:43 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
+[1512773174011] [Fri, 08 Dec 2017 22:46:14 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module 'request' from 'E:\GIT FILES\Sites\bubble\dist\node_modules\firebase-admin\lib\database'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:46:17
+    at process (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:173:43)
+    at ondir (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:188:17)
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512773237294] [Fri, 08 Dec 2017 22:47:17 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module 'request' from 'E:\GIT FILES\Sites\bubble\dist\node_modules\firebase-admin\lib\database'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:46:17
+    at process (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:173:43)
+    at ondir (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:188:17)
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512774786935] [Fri, 08 Dec 2017 23:13:06 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module 'request' from 'E:\GIT FILES\Sites\bubble\dist\node_modules\firebase-admin\lib\database'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:46:17
+    at process (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:173:43)
+    at ondir (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:188:17)
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512774805334] [Fri, 08 Dec 2017 23:13:25 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module 'request' from 'E:\GIT FILES\Sites\bubble\dist\node_modules\firebase-admin\lib\database'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:46:17
+    at process (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:173:43)
+    at ondir (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:188:17)
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512774910992] [Fri, 08 Dec 2017 23:15:10 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module 'request' from 'E:\GIT FILES\Sites\bubble\dist\node_modules\firebase-admin\lib\database'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:46:17
+    at process (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:173:43)
+    at ondir (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:188:17)
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512774998267] [Fri, 08 Dec 2017 23:16:38 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module 'request' from 'E:\GIT FILES\Sites\bubble\dist\node_modules\firebase-admin\lib\database'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:46:17
+    at process (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:173:43)
+    at ondir (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:188:17)
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512775043159] [Fri, 08 Dec 2017 23:17:23 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module 'request' from 'E:\GIT FILES\Sites\bubble\dist\node_modules\firebase-admin\lib\database'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:46:17
+    at process (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:173:43)
+    at ondir (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:188:17)
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1512776987794] [Fri, 08 Dec 2017 23:49:47 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]

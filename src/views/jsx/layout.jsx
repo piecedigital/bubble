@@ -15,10 +15,11 @@ if( typeof location === "object" && location.host.match("amorrius.net") ) {
   redirectURI =`http://${location.host}/spit-back-auth`;
   clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
 } else {
-  redirectURI = "http://amorrius.dev/spit-back-auth";
+  redirectURI = `http://amorrius.${process.env["NODE_ENV"] === "prod" ? "net" : "dev"}/spit-back-auth`;
   clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
 }
 // console.log(redirectURI, clientID);
+
 
 // Initialize Firebase
 export default React.createClass({
@@ -47,7 +48,7 @@ export default React.createClass({
     }
     return Object.assign({
       authData: (this.props.data && this.props.data.authData) || null,
-      userData: null,
+      userData: this.props.params.userData || null,
       streamersInPlayer: {},
       streamOrderMap: [],
       playerCollapsed: true,
@@ -58,7 +59,7 @@ export default React.createClass({
       overlay,
       overlayState,
       alert: null,
-      fireRef: null,
+      fireRef: this.props.fireRef,
       versionData: null,
       registeredAuth: false,
     }, this.props.initState ? this.props.initState.layout || {} : {});
@@ -729,7 +730,10 @@ export default React.createClass({
               fireRef: this.fireRef,
               overlay: overlay,
               userData,
-              ...this.props,
+              // ...this.props,
+              userData: this.props.userData,
+              channelData: this.props.channelData,
+              params: this.props.params,
               fireRef,
               versionData,
               initState,
@@ -750,7 +754,10 @@ export default React.createClass({
               fireRef: this.fireRef,
               overlay: overlay,
               userData,
-              ...this.props,
+              // ...this.props,
+              userData: this.props.userData,
+              channelData: this.props.channelData,
+              params: this.props.params,
               fireRef,
               versionData,
               initState,

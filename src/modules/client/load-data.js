@@ -22,7 +22,7 @@ export default function loadData(errorCB, options = {}) {
     }
   } else {
     console.log("load data server side");
-    redirectURI = `http://${options.host || "amorrius.dev"}`;
+    redirectURI = `http://amorrius.${process.env["NODE_ENV"] === "prod" ? "net" : "dev"}`;
     clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
   }
 

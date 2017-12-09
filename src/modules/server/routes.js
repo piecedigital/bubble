@@ -88,6 +88,71 @@ app
 })
 .get("/profile/:username", function (req, res) {
   let prePlaceData = {
+    fireRef,
+    params: {
+      username: req.params.username
+    }
+  }
+
+  // get user data
+  loadData.call(this, e => {
+    console.error(e.stack);
+  }, {
+    username: req.params.username.toLowerCase(),
+    // access_token: authData.access_token,
+  })
+  .then(methods => {
+    methods
+    .getUserByName()
+    .then(data => {
+      // console.log("user data:", data);
+      prePlaceData.title = data.display_name + "'s profile | Amorrius";
+      prePlaceData.image = data.logo;
+      prePlaceData.description = data.bio;
+
+      // prePlaceData.title = data.display_name + "'s profile | Amorrius";
+      prePlaceData.userData = data;
+
+      // get channel data
+      loadData.call(this, e => {
+        console.error(e.stack);
+      }, {
+        username: req.params.username.toLowerCase(),
+        // access_token: authData.access_token,
+      })
+      .then(methods => {
+        methods
+        .getChannelByName()
+        .then(data2 => {
+          // console.log("channel data:", data);
+
+          // prePlaceData.title = data.display_name + "'s profile | Amorrius";
+          prePlaceData.channelData = data2;
+          res.send(renderHTML("profile", prePlaceData));
+        })
+        .catch(e => {
+          console.error(e.stack || e);
+          res.send(renderHTML("profile", prePlaceData));
+        });
+      })
+      .catch(e => {
+        console.error(e.stack || e);
+        res.send(renderHTML("profile", prePlaceData));
+      });
+    })
+    .catch(e => {
+      console.error(e.stack || e);
+      res.send(renderHTML("profile", prePlaceData));
+    });
+  })
+  .catch(e => {
+    console.error(e.stack || e);
+    res.send(renderHTML("profile", prePlaceData));
+  });
+})
+.get("/profile/:username/:q/:questionID", function (req, res) {
+  let prePlaceData = {
+    fireRef,
     params: {
       username: req.params.username
     }
@@ -107,6 +172,9 @@ app
       prePlaceData.title = data.display_name + "'s profile | Amorrius";
       prePlaceData.image = data.logo;
       prePlaceData.description = data.bio;
+
+      // prePlaceData.title = data.display_name + "'s profile | Amorrius";
+      prePlaceData.params.userData = data;
       res.send(renderHTML("profile", prePlaceData));
     })
     .catch(e => {
@@ -118,13 +186,6 @@ app
     console.error(e.stack || e);
     res.send(renderHTML("profile", prePlaceData));
   });
-})
-.get("/profile/:username/:q/:questionID", function (req, res) {
-  res.send(renderHTML("profile", {
-    params: {
-      username: req.params.username
-    }
-  }));
 })
 .get("/streams", function (req, res) {
   res.send(renderHTML("general-page", {

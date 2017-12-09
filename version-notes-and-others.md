@@ -135,6 +135,8 @@
   - Search inputs take off white space on ends **ok**
 - Improvements: 0.15.4
   - Beginning some simple server side adjustments for SEO **ok**
+- Improvements: 0.15.5
+  - SEO upgrades: key profile information renders server side **ok**
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD

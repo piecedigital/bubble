@@ -10,7 +10,13 @@ const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_us
 // primary section for the search component
 export default React.createClass({
   displayName: "UserInfo",
-  getInitialState: () => ({ userUserData: null, userChannelData: null }),
+  getInitialState: function() {
+    return {
+      userUserData: this.props.userData || null,
+      userChannelData: this.props.channelData || null,
+      userStreamData: null,
+    }
+  },
   gatherData() {
     [{ place: "userUserData", method: "getUserByName"}, { place: "userChannelData", method: "getChannelByName" }, { place: "userStreamData", method: "getStreamByName" }].map(({place, method}) => {
       const {
@@ -97,13 +103,22 @@ export default React.createClass({
                   backgroundSize: "100% auto",
                   backgroundRepeat: "no-repeat",
                 }}>
-                  <CImg
-                    for="banner"
-                    style={{
-                      opacity: 0,
-                      pointerEvents: "none",
-                    }}
-                    noImgRequest={true} />
+                  {
+                    typeof location === "object" ? (
+                      <CImg
+                        for="banner"
+                        style={{
+                          opacity: 0,
+                          pointerEvents: "none",
+                        }}
+                        noImgRequest={true} />
+                    ) : (
+                      <img src={`/media/user-info-background.png`} style={{
+                        opacity: 0,
+                        pointerEvents: "none",
+                      }} />
+                    )
+                  }
                   <div className="hover">
                     <div className="logo"><a href={`https://twitch.tv/${userChannelData.name}`} target="_blank" rel="nofollow"><CImg
                       for="fill"
@@ -189,8 +204,7 @@ export default React.createClass({
                     userUserData.bio ? (
                       userUserData.bio
                     ) : (
-                      ["This user has no bio ",
-                      <img key="img" className="sad-face" src="https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true" alt="emojione frowny face" />]
+                      ["This user has no bio "]
                     )
                   }
                 </div>
