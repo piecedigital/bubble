@@ -12,8 +12,8 @@ export default React.createClass({
   displayName: "UserInfo",
   getInitialState: function() {
     return {
-      userUserData: this.props.userData || null,
-      userChannelData: this.props.channelData || null,
+      userUserData: this.props.pageUserData || null,
+      userChannelData: this.props.pageChannelData || null,
       userStreamData: null,
     }
   },

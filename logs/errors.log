@@ -1633,3 +1633,6 @@ Error: Cannot find module 'request' from 'E:\GIT FILES\Sites\bubble\dist\node_mo
 [1512776987794] [Fri, 08 Dec 2017 23:49:47 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
 The process cannot access the file because it is being used by another process.
 ]
+[1512781040933] [Sat, 09 Dec 2017 00:57:20 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
