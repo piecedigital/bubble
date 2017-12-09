@@ -96,7 +96,63 @@ app
 }).get("/p/:username", function (req, res) {
   res.redirect("/p/" + req.params.username);
 }).get("/profile/:username", function (req, res) {
+  var _this = this;
+
   var prePlaceData = {
+    fireRef: fireRef,
+    params: {
+      username: req.params.username
+    }
+  };
+
+  // get user data
+  _clientLoadData2["default"].call(this, function (e) {
+    console.error(e.stack);
+  }, {
+    username: req.params.username.toLowerCase()
+  }). // access_token: authData.access_token,
+  then(function (methods) {
+    methods.getUserByName().then(function (data) {
+      // console.log("user data:", data);
+      prePlaceData.title = data.display_name + "'s profile | Amorrius";
+      prePlaceData.image = data.logo;
+      prePlaceData.description = data.bio;
+
+      // prePlaceData.title = data.display_name + "'s profile | Amorrius";
+      prePlaceData.userData = data;
+
+      // get channel data
+      _clientLoadData2["default"].call(_this, function (e) {
+        console.error(e.stack);
+      }, {
+        username: req.params.username.toLowerCase()
+      }). // access_token: authData.access_token,
+      then(function (methods) {
+        methods.getChannelByName().then(function (data2) {
+          // console.log("channel data:", data);
+
+          // prePlaceData.title = data.display_name + "'s profile | Amorrius";
+          prePlaceData.channelData = data2;
+          res.send((0, _renderJsx.renderHTML)("profile", prePlaceData));
+        })["catch"](function (e) {
+          console.error(e.stack || e);
+          res.send((0, _renderJsx.renderHTML)("profile", prePlaceData));
+        });
+      })["catch"](function (e) {
+        console.error(e.stack || e);
+        res.send((0, _renderJsx.renderHTML)("profile", prePlaceData));
+      });
+    })["catch"](function (e) {
+      console.error(e.stack || e);
+      res.send((0, _renderJsx.renderHTML)("profile", prePlaceData));
+    });
+  })["catch"](function (e) {
+    console.error(e.stack || e);
+    res.send((0, _renderJsx.renderHTML)("profile", prePlaceData));
+  });
+}).get("/profile/:username/:q/:questionID", function (req, res) {
+  var prePlaceData = {
+    fireRef: fireRef,
     params: {
       username: req.params.username
     }
@@ -113,6 +169,9 @@ app
       prePlaceData.title = data.display_name + "'s profile | Amorrius";
       prePlaceData.image = data.logo;
       prePlaceData.description = data.bio;
+
+      // prePlaceData.title = data.display_name + "'s profile | Amorrius";
+      prePlaceData.params.userData = data;
       res.send((0, _renderJsx.renderHTML)("profile", prePlaceData));
     })["catch"](function (e) {
       console.error(e.stack || e);
@@ -122,12 +181,6 @@ app
     console.error(e.stack || e);
     res.send((0, _renderJsx.renderHTML)("profile", prePlaceData));
   });
-}).get("/profile/:username/:q/:questionID", function (req, res) {
-  res.send((0, _renderJsx.renderHTML)("profile", {
-    params: {
-      username: req.params.username
-    }
-  }));
 }).get("/streams", function (req, res) {
   res.send((0, _renderJsx.renderHTML)("general-page", {
     params: {

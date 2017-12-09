@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _react = require("react");
@@ -52,7 +50,7 @@ if (typeof location === "object" && location.host.match("amorrius.net")) {
   redirectURI = "http://" + location.host + "/spit-back-auth";
   clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
 } else {
-  redirectURI = "http://amorrius.dev/spit-back-auth";
+  redirectURI = "http://amorrius." + (process.env["NODE_ENV"] === "prod" ? "net" : "dev") + "/spit-back-auth";
   clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
 }
 // console.log(redirectURI, clientID);
@@ -85,7 +83,7 @@ exports["default"] = _react2["default"].createClass({
     }
     return Object.assign({
       authData: this.props.data && this.props.data.authData || null,
-      userData: null,
+      userData: this.props.params.userData || null,
       streamersInPlayer: {},
       streamOrderMap: [],
       playerCollapsed: true,
@@ -96,7 +94,7 @@ exports["default"] = _react2["default"].createClass({
       overlay: overlay,
       overlayState: overlayState,
       alert: null,
-      fireRef: null,
+      fireRef: this.props.fireRef,
       versionData: null,
       registeredAuth: false
     }, this.props.initState ? this.props.initState.layout || {} : {});
@@ -760,15 +758,18 @@ exports["default"] = _react2["default"].createClass({
           popUpHandler: this.popUpHandler,
           alertHandler: this.alertHandler
         } }),
-      this.child ? _react2["default"].cloneElement(this.child, _extends({
+      this.child ? _react2["default"].cloneElement(this.child, {
         ref: "page",
         // this is a top-level-component
         parent: this,
         auth: authData,
         fireRef: this.fireRef,
         overlay: overlay,
-        userData: userData
-      }, this.props, {
+        userData: userData,
+        // ...this.props,
+        userData: this.props.userData,
+        channelData: this.props.channelData,
+        params: this.props.params,
         fireRef: fireRef,
         versionData: versionData,
         initState: initState,
@@ -779,15 +780,18 @@ exports["default"] = _react2["default"].createClass({
           loadData: _modulesClientLoadData2["default"],
           popUpHandler: this.popUpHandler
         }
-      })) : this.props.children ? _react2["default"].cloneElement(this.props.children, _extends({
+      }) : this.props.children ? _react2["default"].cloneElement(this.props.children, {
         ref: "page",
         // this is a top-level-component
         parent: this,
         auth: authData,
         fireRef: this.fireRef,
         overlay: overlay,
-        userData: userData
-      }, this.props, {
+        userData: userData,
+        // ...this.props,
+        userData: this.props.userData,
+        channelData: this.props.channelData,
+        params: this.props.params,
         fireRef: fireRef,
         versionData: versionData,
         initState: initState,
@@ -798,7 +802,7 @@ exports["default"] = _react2["default"].createClass({
           loadData: _modulesClientLoadData2["default"],
           popUpHandler: this.popUpHandler
         }
-      })) : null,
+      }) : null,
       _react2["default"].createElement(_componentsOverlayJsx2["default"], {
         auth: authData,
         userData: userData,

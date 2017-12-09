@@ -34,7 +34,11 @@ var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user
 exports["default"] = _react2["default"].createClass({
   displayName: "UserInfo",
   getInitialState: function getInitialState() {
-    return { userUserData: null, userChannelData: null };
+    return {
+      userUserData: this.props.userData || null,
+      userChannelData: this.props.channelData || null,
+      userStreamData: null
+    };
   },
   gatherData: function gatherData() {
     var _this = this;
@@ -125,13 +129,16 @@ exports["default"] = _react2["default"].createClass({
                 backgroundSize: "100% auto",
                 backgroundRepeat: "no-repeat"
               } },
-            _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+            typeof location === "object" ? _react2["default"].createElement(_modulesClientHelperTools.CImg, {
               "for": "banner",
               style: {
                 opacity: 0,
                 pointerEvents: "none"
               },
-              noImgRequest: true }),
+              noImgRequest: true }) : _react2["default"].createElement("img", { src: "/media/user-info-background.png", style: {
+                opacity: 0,
+                pointerEvents: "none"
+              } }),
             _react2["default"].createElement(
               "div",
               { className: "hover" },
@@ -250,7 +257,7 @@ exports["default"] = _react2["default"].createClass({
           userUserData ? _react2["default"].createElement(
             "div",
             { className: "bio" + (!userUserData.bio ? " no-bio" : "") },
-            userUserData.bio ? userUserData.bio : ["This user has no bio ", _react2["default"].createElement("img", { key: "img", className: "sad-face", src: "https://github.com/Ranks/emojione/blob/master/assets/png_512x512/1f61e.png?raw=true", alt: "emojione frowny face" })]
+            userUserData.bio ? userUserData.bio : ["This user has no bio "]
           ) : null
         )
       )
