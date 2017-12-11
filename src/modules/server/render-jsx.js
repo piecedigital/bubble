@@ -16,12 +16,12 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
       `<meta property="description" content="${prePlaceData.description || "Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session."}"/>`+
       `<meta property="og:description" content="${prePlaceData.description || "Watch your favorite Twitch.tv livestreams, multistream various Twitch streams, and aggregate questions for a great Q&A session."}"/>`+
       `<meta property="og:image" content="${prePlaceData.image || ""}"/>`+
-      // other seo
-      `<link rel="stylesheet" href="/css/style.css" media="screen" title="no title" charSet="utf-8"/>`+
+      // other
       `<meta httpEquiv="Content-Type" content="text/html" charSet="UTF-8" />`+
       `<meta name="language" content="en-us" />`+
       `<meta name="publisher" content="Piece Digital Studios" />`+
       `<meta name="classification" content="multistream, multiple stream, multiple broadcast viewing, question and answer aggregation" />`+
+      `<link rel="stylesheet" href="/css/style.css" media="screen" title="no title" charSet="utf-8"/>`+
       `<link rel="shortcut icon" type="image/x-icon" href="/media/logo-png.png"/>`+
       `<link rel="apple-touch-icon" type="image/x-icon" href="/media/logo-png.png"/>`+
     `</head>`+
