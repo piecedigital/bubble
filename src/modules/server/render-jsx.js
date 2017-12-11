@@ -39,12 +39,3 @@ export const renderHTML = function(fileName, prePlaceData = {}) {
   `</html>`;
   return `<!DOCTYPE html>${data}`;
 };
-// console.log(renderHTML("home"));
-
-// <meta name="creator" content="Darryl Dixon, Piece Digital" />
-// <meta name="robots" content="index, follow" />
-// <meta name="revisit-after" content="21 days" />
-// <meta property="og:url" content="http://piecedigital.net/"/>
-// <meta property="og:title" content="Piece Digital"/>
-// <meta property="og:image" content="http://piecedigital.net/public/images/1logo.png"/>
-// <meta property="og:site_name" content="Piece Digital Studios"/>
