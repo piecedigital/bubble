@@ -18,7 +18,8 @@ var _loadData = require("./load-data");
 
 var _loadData2 = _interopRequireDefault(_loadData);
 
-var missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+// export const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+var missingLogo = "/media/big-logo-png.png";
 
 exports.missingLogo = missingLogo;
 var imageDefaults = {
@@ -85,6 +86,7 @@ function makeBlankImage(optionsObj) {
   // set image
   return canvas.toDataURL();
 }
+module.exports.makeBlankImage = makeBlankImage;
 
 var browserNotification = function browserNotification(options) {
   if (!("Notification" in window)) {

@@ -25,6 +25,10 @@ var _modulesClientHelperTools = require("../../../modules/client/helper-tools");
 var _hoverOptionsJsx = require("./hover-options.jsx");
 
 var currentNotifs = 0;
+var blankImage = (0, _modulesClientHelperTools.makeBlankImage)({
+  width: 136,
+  height: 136
+});
 
 var StreamListItem = _react2["default"].createClass({
   displayName: "feat-StreamListItem",
@@ -245,7 +249,36 @@ var ChannelListItem = _react2["default"].createClass({
   },
   render: function render() {
     // console.log(this.state, this.props);
-    if (!this.state.streamData) return null;
+    if (!this.state.streamData) return _react2["default"].createElement(
+      "li",
+      { className: "channel-list-item null" },
+      _react2["default"].createElement(
+        "div",
+        { className: "wrapper" },
+        _react2["default"].createElement(
+          "div",
+          { className: "image" },
+          _react2["default"].createElement(_modulesClientHelperTools.CImg, {
+            "for": "channel-list-item",
+            src: blankImage })
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "info" },
+          _react2["default"].createElement("div", { className: "live-indicator offline" }),
+          _react2["default"].createElement(
+            "div",
+            { className: "channel-name" },
+            "Loading..."
+          ),
+          _react2["default"].createElement(
+            "div",
+            { className: "game" },
+            "Offline"
+          )
+        )
+      )
+    );
     // console.log(this.props.data);
     var _props3 = this.props;
     var auth = _props3.auth;

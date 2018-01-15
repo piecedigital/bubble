@@ -56,13 +56,22 @@ exports["default"] = _react2["default"].createClass({
     if (!this.props.auth) return this.setState({
       component: "ChannelListItem"
     });
+
+    limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
+
+    // reserve slots for the user profiles, maintaining their order and allowing people to spam the load more button
+    var reservedSeats = {};
+    for (var i = 0; i < limit; i++) {
+      reservedSeats[i + offset] = { reserved: true };
+    }
+
     this.setState(Object.assign({
-      loadingData: true
+      // loadingData: true,
+      requestOffset: this.state.requestOffset + limit
     }, wipe ? {
-      dataObject: {}
-    } : {}), function () {
-      limit = typeof limit === "number" ? limit : _this.state.limit || 25;
-      offset = typeof offset === "number" ? offset : _this.state.requestOffset;
+      dataObject: reservedSeats
+    } : reservedSeats), function () {
       var _props = _this.props;
       var params = _props.params;
       var location = _props.location;
@@ -78,9 +87,6 @@ exports["default"] = _react2["default"].createClass({
         _this._mounted ? _this.setState({
           requestOffset: offset + limit
         }) : null;
-        // console.log("gathering data", limit, offset);
-        // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
-        // console.log("follow:", this.props.follow);
         _modulesClientLoadData2["default"].call(_this, function (e) {
           console.error(e.stack);
         }, {
@@ -90,24 +96,24 @@ exports["default"] = _react2["default"].createClass({
           username: username
         }).then(function (methods) {
           methods[_this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]().then(function (data) {
-            // let newDataArray = Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
             var obj = {};
             var itemsData = data.follows;
 
-            itemsData.map(function (data) {
+            itemsData.map(function (data, ind) {
               var itemData = data.user || data.channel;
               var name = data.user ? data.user.name : data.channel.name;
 
-              obj[name] = itemData;
+              obj[ind + offset] = itemData;
             });
 
             var newDataObject = Object.assign(_this.state.dataObject, obj);
             _this._mounted ? _this.setState({
               dataObject: newDataObject,
-              requestOffset: Object.keys(newDataObject).length,
+              // requestOffset: Object.keys(newDataObject).length,
               component: "ChannelListItem",
               loadingData: false
             }, function () {
+              // console.log(Object.keys(this.state.dataObject).length);
               if (typeof callback === "function") callback();
             }) : null;
           })["catch"](function (e) {
@@ -292,7 +298,9 @@ exports["default"] = _react2["default"].createClass({
 
           return _react2["default"].createElement(ListItem, { ref: function (r) {
               itemData ? itemData.ref = r : null;
-            }, key: "" + (itemData.channel ? itemData.name : itemData.name),
+            },
+            // key={`${itemData.channel ? itemData.name : itemData.name}`}
+            key: itemData ? "" + (itemData.channel ? itemData.name : itemData.name) : ind,
             data: itemData,
             fireRef: fireRef,
             userData: userData,

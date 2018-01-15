@@ -1,37 +1,8 @@
 {
   "name": "bubble",
-  "version": "0.15.5",
+  "version": "0.15.6",
   "description": "",
   "main": "app.js",
-  "plugins": [
-    [
-      "transform-react-jsx",
-      {
-        "pragma": "h"
-      }
-    ],
-    [
-      "module-resolver",
-      {
-        "root": [
-          "."
-        ],
-        "alias": {
-          "react": "preact-compat",
-          "react-dom": "preact-compat"
-        }
-      }
-    ]
-  ],
-  "presets": [
-    "react"
-  ],
-  "aliasify": {
-    "aliases": {
-      "react": "preact-compat",
-      "react-dom": "preact-compat"
-    }
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -42,9 +13,6 @@
     "express": "^4.14.0",
     "firebase": "^3.2.1",
     "firebase-admin": "^4.0.6",
-    "newrelic": "^1.40.0",
-    "preact": "^7.2.0",
-    "preact-compat": "^3.13.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^2.6.1"

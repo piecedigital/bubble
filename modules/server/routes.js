@@ -91,11 +91,11 @@ app
       }
     }
   }));
-}).get("/profile", function (req, res) {
+}).get(["/p", "/profile"], function (req, res) {
   res.redirect("/");
 }).get("/p/:username", function (req, res) {
-  res.redirect("/p/" + req.params.username);
-}).get("/profile/:username", function (req, res) {
+  res.redirect("/profile/" + req.params.username);
+}).get("/p(rofile)?/:username", function (req, res) {
   var _this = this;
 
   var prePlaceData = {
@@ -150,7 +150,7 @@ app
     console.error(e.stack || e);
     res.send((0, _renderJsx.renderHTML)("profile", prePlaceData));
   });
-}).get("/profile/:username/:q/:questionID", function (req, res) {
+}).get("/p(rofile)?/:username/:q/:questionID", function (req, res) {
   var prePlaceData = {
     fireRef: fireRef,
     params: {

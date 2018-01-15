@@ -6,10 +6,6 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _https = require("https");
-
-var _https2 = _interopRequireDefault(_https);
-
 var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
@@ -59,7 +55,7 @@ app.get('/.well-known/acme-challenge/:content', function (req, res) {
 app.use(_express2["default"]["static"](_path2["default"].join(__dirname, "public")));
 app.use((0, _cookieParser2["default"])());
 app.use((0, _modulesServerSubdomain2["default"])({
-  whiteList: ["amorrius.dev", "amorrius.net"],
+  whiteList: ["amorrius.test", "amorrius.net"],
   blackList: ["www", "twinchill"]
 }, _modulesServerSubdomainRoutes2["default"]));
 app.use(_modulesServerRoutes2["default"]);
