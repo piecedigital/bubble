@@ -45,6 +45,7 @@ render((
       <Route path="/tos" page="about" component={TOS}/>
       <Route path="/terms" page="about" component={TOS}/>
       <Route path="/terms-of-service" page="about" component={TOS}/>
+      <Route path="/p/:username(/:q/:postID)" page="profile" component={Profile}/>
       <Route path="/profile/:username(/:q/:postID)" page="profile" component={Profile}/>
       <Route path="/search(/:searchtype)" page="search" component={SearchPage}/>
       <Route path="/:page" page="streams" component={GeneralPage}/>

@@ -1,5 +1,4 @@
 import express from "express";
-import https from "https";
 import path from "path";
 import cookieParser from "cookie-parser";
 import subdomain from "./modules/server/subdomain";
@@ -34,7 +33,7 @@ app.get('/.well-known/acme-challenge/:content', function(req, res) {
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 app.use( subdomain({
-  whiteList: ["amorrius.dev", "amorrius.net"],
+  whiteList: ["amorrius.test", "amorrius.net"],
   blackList: ["www", "twinchill"],
 }, subdomainRoutes) );
 app.use(routes);

@@ -2,7 +2,8 @@ import React from "react";
 import { ajax } from "../universal/ajax";
 import loadData from "./load-data";
 
-export const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+// export const missingLogo = "https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png";
+export const missingLogo = "/media/big-logo-png.png";
 
 const imageDefaults = {
   "channel-list-item-DefaultImg": "",
@@ -73,6 +74,7 @@ function makeBlankImage(optionsObj) {
   // set image
   return canvas.toDataURL();
 }
+module.exports.makeBlankImage = makeBlankImage;
 
 export const browserNotification = function (options) {
   if(!("Notification" in window)) {

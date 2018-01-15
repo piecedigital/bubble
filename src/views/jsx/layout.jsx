@@ -15,7 +15,7 @@ if( typeof location === "object" && location.host.match("amorrius.net") ) {
   redirectURI =`http://${location.host}/spit-back-auth`;
   clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
 } else {
-  redirectURI = `http://amorrius.${process.env["NODE_ENV"] === "prod" ? "net" : "dev"}/spit-back-auth`;
+  redirectURI = `http://amorrius.${process.env["NODE_ENV"] === "prod" ? "net" : "test"}/spit-back-auth`;
   clientID ="cye2hnlwj24qq7fezcbq9predovf6yy"
 }
 // console.log(redirectURI, clientID);

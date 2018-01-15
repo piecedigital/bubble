@@ -137,6 +137,9 @@
   - Beginning some simple server side adjustments for SEO **ok**
 - Improvements: 0.15.5
   - SEO upgrades: key profile information renders server side **ok**
+- Bug fix and Improvement: 0.15.6
+    - Fix redirect loop for alternate profile path ("/p/<username>")
+    - Improved how followings/followers are loaded
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD

@@ -80,13 +80,13 @@ app
     }
   }));
 })
-.get("/profile", function (req, res) {
+.get(["/p", "/profile"], function (req, res) {
   res.redirect("/");
 })
 .get("/p/:username", function (req, res) {
-  res.redirect("/p/" + req.params.username);
+  res.redirect("/profile/" + req.params.username);
 })
-.get("/profile/:username", function (req, res) {
+.get("/p(rofile)?/:username", function (req, res) {
   let prePlaceData = {
     fireRef,
     params: {
@@ -150,7 +150,7 @@ app
     res.send(renderHTML("profile", prePlaceData));
   });
 })
-.get("/profile/:username/:q/:questionID", function (req, res) {
+.get("/p(rofile)?/:username/:q/:questionID", function (req, res) {
   let prePlaceData = {
     fireRef,
     params: {

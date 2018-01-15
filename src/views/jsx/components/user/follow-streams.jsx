@@ -37,13 +37,25 @@ export default React.createClass({
     if(!this.props.auth ) return this.setState({
       component: `ChannelListItem`,
     });
-    this.setState(Object.assign({
-      loadingData: true,
-    }, wipe ? {
-      dataObject: {}
-    } : {}), () => {
-      limit = typeof limit === "number" ? limit : this.state.limit || 25;
-      offset = typeof offset === "number" ? offset : this.state.requestOffset;
+
+    limit = typeof limit === "number" ? limit : this.state.limit || 25;
+    offset = typeof offset === "number" ? offset : this.state.requestOffset;
+
+    // reserve slots for the user profiles, maintaining their order and allowing people to spam the load more button
+    let reservedSeats = {};
+    for (var i = 0; i < limit; i++) {
+        reservedSeats[i+offset] = { reserved: true };
+    }
+
+    this.setState(Object.assign(
+        {
+          // loadingData: true,
+          requestOffset: this.state.requestOffset + limit,
+        },
+        wipe ? {
+          dataObject: reservedSeats
+        } : reservedSeats
+    ), () => {
       const {
         params,
         location,
@@ -60,9 +72,6 @@ export default React.createClass({
         this._mounted ? this.setState({
           requestOffset: (offset + limit)
         }) : null;
-        // console.log("gathering data", limit, offset);
-        // console.log(`Given Channel Name ${this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"}`, username);
-        // console.log("follow:", this.props.follow);
         loadData.call(this, e => {
           console.error(e.stack);
         }, {
@@ -75,24 +84,24 @@ export default React.createClass({
           methods
           [this.props.follow === "IFollow" ? "followedStreams" : "followingStreams"]()
           .then(data => {
-            // let newDataArray = Array.from(this.state.dataArray).concat(data.channels || data.streams || data.games || data.top || data.follows);
             const obj = {};
             const itemsData = data.follows;
 
-            itemsData.map(data => {
+            itemsData.map((data, ind) => {
               var itemData = data.user || data.channel;
               const name = data.user ? data.user.name : data.channel.name;
 
-              obj[name] = itemData;
+              obj[ind+offset] = itemData;
             });
 
             let newDataObject = Object.assign(this.state.dataObject, obj);
             this._mounted ? this.setState({
               dataObject: newDataObject,
-              requestOffset: Object.keys(newDataObject).length,
+              // requestOffset: Object.keys(newDataObject).length,
               component: `ChannelListItem`,
               loadingData: false
             }, () => {
+                // console.log(Object.keys(this.state.dataObject).length);
               if(typeof callback === "function") callback();
             }) : null;
           })
@@ -262,7 +271,9 @@ export default React.createClass({
         return (
           <ListItem ref={r => {
             itemData ? itemData.ref = r : null
-          }} key={`${itemData.channel ? itemData.name : itemData.name}`}
+          }}
+          // key={`${itemData.channel ? itemData.name : itemData.name}`}
+          key={itemData ? `${itemData.channel ? itemData.name : itemData.name}` : ind}
           data={itemData}
           fireRef={fireRef}
           userData={userData}

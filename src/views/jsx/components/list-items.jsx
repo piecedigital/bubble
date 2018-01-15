@@ -8,11 +8,16 @@ import {
   browserNotification as notification,
   missingLogo,
   CImg,
-  makeTime
+  makeTime,
+  makeBlankImage
 } from "../../../modules/client/helper-tools";
 import { ListItemHoverOptions } from "./hover-options.jsx";
 
 let currentNotifs = 0;
+const blankImage = makeBlankImage({
+    width: 136,
+    height: 136
+})
 
 export const StreamListItem = React.createClass({
   displayName: "feat-StreamListItem",
@@ -213,7 +218,26 @@ export const ChannelListItem = React.createClass({
   componentDidMount() { this.getStreamData() },
   render() {
     // console.log(this.state, this.props);
-    if(!this.state.streamData) return null;
+    if(!this.state.streamData) return (
+      <li className={`channel-list-item null`}>
+        <div className="wrapper">
+          <div className="image">
+            <CImg
+              for="channel-list-item"
+              src={blankImage} />
+          </div>
+          <div className="info">
+            <div className={`live-indicator offline`} />
+            <div className="channel-name">
+              Loading...
+            </div>
+            <div className="game">
+              {`Offline`}
+            </div>
+          </div>
+        </div>
+      </li>
+    );
     // console.log(this.props.data);
     const {
       auth,
