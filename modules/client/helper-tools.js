@@ -57,34 +57,36 @@ if (typeof document !== "undefined") {
 }
 
 function makeBlankImage(optionsObj) {
-  // don't bother continuing without style
-  // console.log(this.state.style);
-  if (!optionsObj || !optionsObj.width || !optionsObj.height) return;
-  // http://stackoverflow.com/a/22824493/4107851
-  // create canvas and canvas context
-  var canvas = document.createElement("canvas");
-  var ctx = canvas.getContext("2d");
+  if (typeof document !== "undefined") {
+    // don't bother continuing without style
+    // console.log(this.state.style);
+    if (!optionsObj || !optionsObj.width || !optionsObj.height) return;
+    // http://stackoverflow.com/a/22824493/4107851
+    // create canvas and canvas context
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
 
-  // set dimensions of the canvas
-  if (!optionsObj) console.log(this.props, this.state);
-  canvas.width = optionsObj.width;
-  canvas.height = optionsObj.height;
+    // set dimensions of the canvas
+    if (!optionsObj) console.log(this.props, this.state);
+    canvas.width = optionsObj.width;
+    canvas.height = optionsObj.height;
 
-  // get image data from the canvas
-  var imageData = ctx.getImageData(0, 0, optionsObj.width, optionsObj.height);
-  var data = imageData.data;
+    // get image data from the canvas
+    var imageData = ctx.getImageData(0, 0, optionsObj.width, optionsObj.height);
+    var data = imageData.data;
 
-  // set pixel color data
-  for (var i = 0; i < data.length; i += 4) {
-    data[i] = 0; // set R pixel to 0
-    data[i + 2] = 0; // set G pixel to 0
-    data[i + 2] = 0; // set B pixel to 0
-    data[i + 3] = 255; // set opacity to full
+    // set pixel color data
+    for (var i = 0; i < data.length; i += 4) {
+      data[i] = 0; // set R pixel to 0
+      data[i + 2] = 0; // set G pixel to 0
+      data[i + 2] = 0; // set B pixel to 0
+      data[i + 3] = 255; // set opacity to full
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    // set image
+    return canvas.toDataURL();
   }
-  ctx.putImageData(imageData, 0, 0);
-
-  // set image
-  return canvas.toDataURL();
 }
 module.exports.makeBlankImage = makeBlankImage;
 
