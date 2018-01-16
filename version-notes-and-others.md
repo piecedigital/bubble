@@ -140,6 +140,8 @@
 - Bug fix and Improvement: 0.15.6
     - Fix redirect loop for alternate profile path ("/p/<username>")
     - Improved how followings/followers are loaded
+- Bug fix: 0.15.7
+    - Fixed bug preventing the loading of profile due to server rendering differences
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
