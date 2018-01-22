@@ -62,7 +62,7 @@ export default React.createClass({
       fireRef: this.props.fireRef || null,
       versionData: null,
       registeredAuth: false,
-    }, this.props.initState ? this.props.initState.layout || {} : {});
+    }, this.props.layout || {});
   },
   getHashAndAuthData() {
     let queryData = {};
@@ -658,10 +658,6 @@ export default React.createClass({
       // server unique
     } = this.state;
 
-    const {
-      initState
-    } = this.props;
-
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
     let url = "https://api.twitch.tv/kraken/oauth2/authorize"+
@@ -677,7 +673,6 @@ export default React.createClass({
           authData={authData}
           userData={userData}
           url={url}
-          initState={initState}
           methods={{
             search: this.search,
             decideStreamAppend: this.decideStreamAppend,
@@ -704,7 +699,6 @@ export default React.createClass({
             layout={layout}
             fireRef={fireRef}
             versionData={versionData}
-            initState={initState}
             methods={{
               appendStream: this.appendStream,
               spliceStream: this.spliceStream,
@@ -736,7 +730,7 @@ export default React.createClass({
               params: this.props.params,
               fireRef,
               versionData,
-              initState,
+              location: this.props.location,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,
@@ -760,7 +754,7 @@ export default React.createClass({
               params: this.props.params,
               fireRef,
               versionData,
-              initState,
+              location: this.props.location,
               methods: {
                 appendStream: this.appendStream,
                 appendVOD: this.appendVOD,
@@ -784,7 +778,6 @@ export default React.createClass({
           versionData={versionData}
           params={this.props.params}
           location={this.props.location}
-          initState={initState}
           methods={{
             appendStream: this.appendStream,
             popUpHandler: this.popUpHandler,
