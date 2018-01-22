@@ -97,7 +97,7 @@ exports["default"] = _react2["default"].createClass({
       fireRef: this.props.fireRef || null,
       versionData: null,
       registeredAuth: false
-    }, this.props.initState ? this.props.initState.layout || {} : {});
+    }, this.props.layout || {});
   },
   getHashAndAuthData: function getHashAndAuthData() {
     var queryData = {};
@@ -703,7 +703,6 @@ exports["default"] = _react2["default"].createClass({
     var fireRef = _state.fireRef;
     var versionData = _state.versionData;
     var alert = _state.alert;
-    var initState = this.props.initState;
 
     var playerHasStreamers = Object.keys(dataObject).length > 0;
 
@@ -717,7 +716,6 @@ exports["default"] = _react2["default"].createClass({
         authData: authData,
         userData: userData,
         url: url,
-        initState: initState,
         methods: {
           search: this.search,
           decideStreamAppend: this.decideStreamAppend,
@@ -743,7 +741,6 @@ exports["default"] = _react2["default"].createClass({
         layout: layout,
         fireRef: fireRef,
         versionData: versionData,
-        initState: initState,
         methods: {
           appendStream: this.appendStream,
           spliceStream: this.spliceStream,
@@ -772,7 +769,7 @@ exports["default"] = _react2["default"].createClass({
         params: this.props.params,
         fireRef: fireRef,
         versionData: versionData,
-        initState: initState,
+        location: this.props.location,
         methods: {
           appendStream: this.appendStream,
           appendVOD: this.appendVOD,
@@ -794,7 +791,7 @@ exports["default"] = _react2["default"].createClass({
         params: this.props.params,
         fireRef: fireRef,
         versionData: versionData,
-        initState: initState,
+        location: this.props.location,
         methods: {
           appendStream: this.appendStream,
           appendVOD: this.appendVOD,
@@ -814,7 +811,6 @@ exports["default"] = _react2["default"].createClass({
         versionData: versionData,
         params: this.props.params,
         location: this.props.location,
-        initState: initState,
         methods: {
           appendStream: this.appendStream,
           popUpHandler: this.popUpHandler,
