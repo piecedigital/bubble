@@ -144,7 +144,8 @@
     - Fixed bug preventing the loading of profile due to server rendering differences **ok**
 - Bug fix: 0.15.8
     - Fixed bug preventing the loading of search results **ok**
-
+- Bug fix: 0.15.9
+    - Fixed bug preventing the loading of profile pages for missing/incorrect usernames **ok**
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
 - PVP card game - TBD
