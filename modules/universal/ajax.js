@@ -6,6 +6,7 @@ var _nodeFetch = require("node-fetch");
 
 var _nodeFetch2 = _interopRequireDefault(_nodeFetch);
 
+// server and browser support for a single point for HTTP requests
 if (typeof window === "object") {
 	module.exports = function (optionsObj) {
 		optionsObj = optionsObj || {};
@@ -50,11 +51,6 @@ if (typeof window === "object") {
 	};
 } else {
 	module.exports = function (optionsObj) {
-		// if(options.headers) {
-		// 	Object.keys(options.headers).map(header => {
-		// 		xhr.setRequestHeader(header, options.headers[header]);
-		// 	});
-		// }
 		var headers = {};
 
 		if (typeof optionsObj.beforeSend == "function") {
@@ -72,7 +68,6 @@ if (typeof window === "object") {
 			res.json().then(function (data) {
 				optionsObj.success(data);
 			});
-			// res.on("data", chunk => console.log(chunk))
 		})["catch"](function (data) {
 			optionsObj.error(data);
 		});

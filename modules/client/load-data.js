@@ -159,6 +159,7 @@ function loadData(errorCB) {
               methods.getUserID().then(function (data) {
                 // console.log("user id", data);
                 // real request
+                if (!data.users || !data.users[0]) return resolve({});
                 makeRequest(okayCB, "users/" + data.users[0]._id).then(function (data) {
                   return resolve(data);
                 })["catch"](function () {
