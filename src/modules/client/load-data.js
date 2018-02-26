@@ -142,6 +142,7 @@ export default function loadData(errorCB, options = {}) {
               .then(data => {
                 // console.log("user id", data);
                 // real request
+                if(!data.users || !data.users[0]) return resolve({});
                 makeRequest(okayCB, `users/${data.users[0]._id}`)
                 .then(data => resolve(data))
                 .catch((e = {}) => reject(e));

@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 
+// server and browser support for a single point for HTTP requests
 if(typeof window === "object") {
 	module.exports = function(optionsObj) {
 		optionsObj = optionsObj || {};
@@ -44,11 +45,6 @@ if(typeof window === "object") {
 	};
 } else {
 	module.exports = function(optionsObj) {
-		// if(options.headers) {
-		// 	Object.keys(options.headers).map(header => {
-		// 		xhr.setRequestHeader(header, options.headers[header]);
-		// 	});
-		// }
 		let headers = {};
 
 		if(typeof optionsObj.beforeSend == "function") {
@@ -68,7 +64,6 @@ if(typeof window === "object") {
 			.then(data => {
 				optionsObj.success(data);
 			})
-			// res.on("data", chunk => console.log(chunk))
 		})
 		.catch(data => {
 			optionsObj.error(data);

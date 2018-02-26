@@ -1636,3 +1636,59 @@ The process cannot access the file because it is being used by another process.
 [1512781040933] [Sat, 09 Dec 2017 00:57:20 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
 The process cannot access the file because it is being used by another process.
 ]
+[1516849369828] [Thu, 25 Jan 2018 03:02:49 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './test.json' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1516849414479] [Thu, 25 Jan 2018 03:03:34 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './test.json' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1516849791439] [Thu, 25 Jan 2018 03:09:51 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './test.json' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1516849831133] [Thu, 25 Jan 2018 03:10:31 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './test.json' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1516849895591] [Thu, 25 Jan 2018 03:11:35 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './test.json' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1516849921852] [Thu, 25 Jan 2018 03:12:01 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './test.json' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
+[1516849931804] [Thu, 25 Jan 2018 03:12:11 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './test.json' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]
