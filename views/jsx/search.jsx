@@ -105,7 +105,9 @@ exports["default"] = _react2["default"].createClass({
                 var _setState;
 
                 var componentName = searchType.replace(/^search/i, "") + "ListItem";
-                var dataArray = Array.from(_this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods);
+                var dataArray = Array.from(_this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods).filter(function (d) {
+                  return !!d;
+                });
 
                 // filter for only truthy data
                 // console.log(searchType, capitalType, componentName, dataArray);
@@ -195,7 +197,21 @@ exports["default"] = _react2["default"].createClass({
             var name = searchComponents[componentName].name;
             var dataArray = _this3.state[componentName];
             // console.log(componentName, dataArray);
-            if (dataArray.length === 0) return null;
+            if (dataArray.length === 0) return [_react2["default"].createElement(
+              "div",
+              { key: componentName, className: "search-results" },
+              _react2["default"].createElement(
+                "div",
+                { className: "title" },
+                _react2["default"].createElement(
+                  "span",
+                  null,
+                  name,
+                  " Results."
+                ),
+                "None"
+              )
+            ), _react2["default"].createElement("div", { key: componentName + "-sep", className: "separator-4-black" })];
             return [_react2["default"].createElement(
               "div",
               { key: componentName, className: "search-results" },
