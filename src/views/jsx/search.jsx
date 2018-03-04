@@ -83,7 +83,7 @@ export default React.createClass({
             func()
             .then(data => {
               const componentName = `${searchType.replace(/^search/i, "")}ListItem`;
-              let dataArray = Array.from(this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods);
+              let dataArray = Array.from(this.state[componentName]).concat(data.channels || data.streams || data.games || data.vods).filter(d => !!d);
 
               // filter for only truthy data
               // console.log(searchType, capitalType, componentName, dataArray);
@@ -174,7 +174,17 @@ export default React.createClass({
                 const name = searchComponents[componentName].name;
                 const dataArray = this.state[componentName];
                 // console.log(componentName, dataArray);
-                if(dataArray.length === 0) return null;
+                if(dataArray.length === 0) return (
+                  [
+                    <div key={componentName} className={"search-results"}>
+                      <div className="title">
+                        <span>{name} Results.</span>
+                        None
+                      </div>
+                    </div>,
+                    <div key={`${componentName}-sep`} className="separator-4-black"></div>
+                  ]
+                );
                 return (
                   [
                     <div key={componentName} className={"search-results"}>

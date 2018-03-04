@@ -146,6 +146,9 @@
     - Fixed bug preventing the loading of search results **ok**
 - Bug fix: 0.15.9
     - Fixed bug preventing the loading of profile pages for missing/incorrect usernames **ok**
+- New Feature: 0.16.0
+    - NEW dedicated multi-stream page **ok**
+      - "/multistream". Also "/ms" and "/multi" are accepted
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
 - PVP card game - TBD

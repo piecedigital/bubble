@@ -1,7 +1,7 @@
 .top-level-component {
   border-width: 0;
   &.home-page {}
-  &.about, &.tos, &.profile, &.streams, &.games, &.search-page {
+  &.about, &.tos, &.profile, &.streams, &.games, &.search-page, &.multistream-page {
     .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info, .user-questions {
       overflow: hidden;
       &.locked {
@@ -148,6 +148,30 @@
       }
     }
   }
+
+  &.multistream-page {
+    .multi-search {
+      padding: 16px;
+      text-align: center;
+      background-color: $offBlack;
+      color: white;
+      .box {
+        max-width: 300px;
+        padding: 8px;
+        margin: 0 auto;
+        border-radius: 10px;
+        background-color: $primary;
+        h3 {
+          margin: 0;
+        }
+        input {
+          border: none;
+          padding: 8px;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
 }
 
 .root {
@@ -180,7 +204,7 @@
             }
           }
         }
-        &.profile, &.streams, &.games, &.search-page {
+        &.profile, &.streams, &.games, &.search-page, &.multistream-page {
           .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .user-info {
             .title {
             }
@@ -239,7 +263,7 @@
           }
         }
       }
-      &.profile, &.streams, &.games, &.search-page {
+      &.profile, &.streams, &.games, &.search-page, &.multistream-page {
         .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .tool-assisted {
           .title {
           }
@@ -297,7 +321,7 @@
           }
         }
       }
-      &.profile, &.streams, &.games, &.search-page {
+      &.profile, &.streams, &.games, &.search-page, &.multistream-page {
         .followed-streams.profile, .following-streams.profile, .general-page, .videos-listing.profile, .tool-assisted {
           .title {
           }
@@ -326,58 +350,3 @@
     }
   }
 }
-
-
-// @media (max-width: xpx) {
-//   .top-level-component {
-//     &.home-page {
-//       .featured-streams {
-//         .featured-stream {
-//           .stream {
-//             iframe {}
-//           }
-//           .stream-info {
-//             .image {
-//               img {}
-//             }
-//             .display-name {}
-//             .watch {}
-//             .bio {}
-//           }
-//         }
-//         > .wrapper {
-//           .list {}
-//         }
-//       }
-//       .top-games {
-//         .title {}
-//         > .wrapper {
-//           .list {}
-//         }
-//       }
-//     }
-//     &.profile, &.streams, &.games {
-//       .followed-streams.profile, .following-streams.profile, .general-page {
-//         .title {
-//         }
-//         > .wrapper, .search-results > .wrapper {
-//           .list {}
-//         }
-//         .tools {
-//           .parent {
-//             .scroll {
-//               .option {
-//                 &.filters {
-//                   .filter-status {
-//                     label {}
-//                     select {}
-//                   }
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }

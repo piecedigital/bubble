@@ -1692,3 +1692,10 @@ Error: Cannot find module './test.json' from 'E:\GIT FILES\Sites\bubble\dist\vie
     at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
     at FSReqWrap.oncomplete (fs.js:123:15)
 ]
+[1520123176269] [Sun, 04 Mar 2018 00:26:16 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
+[1520132348826] [Sun, 04 Mar 2018 02:59:08 GMT] [error] [stderr maxBuffer exceeded]
+[1520134042053] [Sun, 04 Mar 2018 03:27:22 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
