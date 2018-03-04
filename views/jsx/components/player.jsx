@@ -966,6 +966,13 @@ exports["default"] = _react2["default"].createClass({
     console.log(name, chat);
     chat.src = chat.src;
   },
+  generateMultistreamLink: function generateMultistreamLink() {
+    var dataObject = this.props.data.dataObject;
+
+    var dataArray = Object.keys(dataObject);
+
+    return (window ? window.location.protocol : "http:") + "//" + (window ? window.location.host : "amorrius.net") + "/multistream/" + dataArray.join("/");
+  },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var dataObject = nextProps.data.dataObject;
     var streamInView = this.state.streamInView;
@@ -1191,7 +1198,7 @@ exports["default"] = _react2["default"].createClass({
                   alertHandler({
                     message: "Share this link with your friends!",
                     options: ["close"],
-                    inputData: (window ? window.location.protocol : "http:") + "//" + (window ? window.location.host : "amorrius.net") + (window ? window.location.pathname : "") + "?ms=" + dataArray.join("+")
+                    inputData: _this8.generateMultistreamLink()
                   });
                 } },
               _react2["default"].createElement(
