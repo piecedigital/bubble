@@ -840,6 +840,17 @@ export default React.createClass({
     console.log(name, chat);
     chat.src = chat.src;
   },
+  generateMultistreamLink() {
+    const {
+      data: {
+        dataObject
+      }
+    } = this.props;
+
+    var dataArray = Object.keys(dataObject);
+
+    return `${window ? window.location.protocol : "http:"}//${window ? window.location.host : "amorrius.net"}/multistream/${dataArray.join("/")}`
+  },
   componentWillReceiveProps(nextProps) {
     const {
       data: {
@@ -1055,7 +1066,7 @@ export default React.createClass({
                 alertHandler({
                   message: `Share this link with your friends!`,
                   options: ["close"],
-                  inputData: `${window ? window.location.protocol : "http:"}//${window ? window.location.host : "amorrius.net"}${window ? window.location.pathname : ""}?ms=${dataArray.join("+")}`
+                  inputData: this.generateMultistreamLink()
                 });
               }}><span>Generate Multistream Link</span></div>
               <div className="hover-msg" title="Generate Multistream Link"><span>

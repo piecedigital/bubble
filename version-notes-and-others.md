@@ -149,6 +149,9 @@
 - New Feature: 0.16.0
     - NEW dedicated multi-stream page **ok**
       - "/multistream". Also "/ms" and "/multi" are accepted
+- Improvement: 0.16.1
+    - Multi-stream link generator in player now uses dedicated page path **ok***
+
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
 - PVP card game - TBD
