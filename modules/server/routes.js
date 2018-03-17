@@ -243,7 +243,10 @@ app
   var strippedPath = req.path.replace(/^\/(ms|multi)/i, "");
   res.redirect("/multistream" + strippedPath);
 }).get("/multistream(/:stream1)?(/:stream2)?(/:stream3)?(/:stream4)?(/:stream5)?(/:stream6)?", function (req, res) {
-  res.send((0, _renderJsx.renderHTML)("multistream"));
+  res.send((0, _renderJsx.renderHTML)("multistream", {
+    title: "Multistream | Amorrius",
+    description: "Watch multiple livestreams here!"
+  }));
 }).get("*", function (req, res) {
   res.status(404).send("Page not found: " + req.url);
 });

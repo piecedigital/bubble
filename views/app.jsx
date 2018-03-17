@@ -90,9 +90,9 @@ function checkAuth(Component, props) {
     _react2["default"].createElement(_reactRouter.Route, { path: "/terms-of-service", page: "about", component: _jsxTosJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/p/:username(/:q/:postID)", page: "profile", component: _jsxProfileJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/profile/:username(/:q/:postID)", page: "profile", component: _jsxProfileJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/search", page: "search", component: _jsxSearchJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/search(/:searchType)", page: "search", component: _jsxSearchJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/multistream(/:stream1)(/:stream2)(/:stream3)(/:stream4)(/:stream5)(/:stream6)", page: "multistream", component: _jsxMultistreamJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "streams", component: _jsxGeneralPageJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "games", component: _jsxGeneralPageJsx2["default"] })
+    _react2["default"].createElement(_reactRouter.Route, { path: "/streams", page: "streams", component: _jsxGeneralPageJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/games", page: "games", component: _jsxGeneralPageJsx2["default"] })
   )
 ), container);
