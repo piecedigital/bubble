@@ -138,19 +138,22 @@
 - Improvements: 0.15.5
   - SEO upgrades: key profile information renders server side **ok**
 - Bug fix and Improvement: 0.15.6
-    - Fix redirect loop for alternate profile path ("/p/<username>")
-    - Improved how followings/followers are loaded
+  - Fix redirect loop for alternate profile path ("/p/<username>")
+  - Improved how followings/followers are loaded
 - Bug fix: 0.15.7
-    - Fixed bug preventing the loading of profile due to server rendering differences **ok**
+  - Fixed bug preventing the loading of profile due to server rendering differences **ok**
 - Bug fix: 0.15.8
-    - Fixed bug preventing the loading of search results **ok**
+  - Fixed bug preventing the loading of search results **ok**
 - Bug fix: 0.15.9
-    - Fixed bug preventing the loading of profile pages for missing/incorrect usernames **ok**
+  - Fixed bug preventing the loading of profile pages for missing/incorrect usernames **ok**
 - New Feature: 0.16.0
-    - NEW dedicated multi-stream page **ok**
-      - "/multistream". Also "/ms" and "/multi" are accepted
+  - NEW dedicated multi-stream page **ok**
+    - "/multistream". Also "/ms" and "/multi" are accepted
 - Improvement: 0.16.1
-    - Multi-stream link generator in player now uses dedicated page path **ok***
+  - Multi-stream link generator in player now uses dedicated page path **ok***
+- Bug fix and Improvement: 0.16.2
+  - Fixed search child pages not working **ok***
+  - Multistream page has unique description **ok***
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
