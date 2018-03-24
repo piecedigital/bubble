@@ -50,8 +50,7 @@ render((
       <Route path="/profile/:username(/:q/:postID)" page="profile" component={Profile}/>
       <Route path="/search(/:searchType)" page="search" component={SearchPage}/>
       <Route path="/multistream(/:stream1)(/:stream2)(/:stream3)(/:stream4)(/:stream5)(/:stream6)" page="multistream" component={Multistream}/>
-      <Route path="/streams" page="streams" component={GeneralPage}/>
-      <Route path="/games" page="games" component={GeneralPage}/>
+      <Route path="/:page" page="general" component={GeneralPage}/>
     </Route>
   </Router>
 ), container);

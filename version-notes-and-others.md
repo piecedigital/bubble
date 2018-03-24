@@ -150,10 +150,12 @@
   - NEW dedicated multi-stream page **ok**
     - "/multistream". Also "/ms" and "/multi" are accepted
 - Improvement: 0.16.1
-  - Multi-stream link generator in player now uses dedicated page path **ok***
+  - Multi-stream link generator in player now uses dedicated page path **ok**
 - Bug fix and Improvement: 0.16.2
-  - Fixed search child pages not working **ok***
-  - Multistream page has unique description **ok***
+  - Fixed search child pages not working **ok**
+  - Multistream page has unique description **ok**
+- Bug fix: 0.16.3
+  - Fixed a silly bug preventing streams and games pages from loading **ok**
 
 # Things to add eventually
 - Meta data update and full server-side rendering - TBD
