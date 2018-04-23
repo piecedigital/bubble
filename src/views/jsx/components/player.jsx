@@ -100,7 +100,7 @@ const PlayerStream = React.createClass({
     const nodesToScroll = [node1, node2, node3, node4];
     setTimeout(() => {
       nodesToScroll.map((node, ind) => {
-        if(node.offsetWidth > node.parentNode.offsetWidth) {
+        if(node && node.offsetWidth > node.parentNode.offsetWidth) {
           let newLeft = (parseInt(node.style.left || 0) - 1);
           this._mounted ? this.setState({
             [`nameScroll${ind + 1}`]: newLeft

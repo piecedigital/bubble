@@ -204,6 +204,22 @@ In addition to necessary data related to the Q&A aggregation this database will 
       "version": [version Object]
     }
   }
+  "syncLobby": {
+    <lobbyID>: {
+      "hostID": <userID>,
+      "videoType": String ("yt", "ttv"),
+      "videoLink": String, // full required for now
+      "videoState": {
+        "time": Number,
+        "playing": Boolean
+      }
+      "chatMessages": {
+        <msgID>: String
+      },
+      "date": [date Number],
+      "version": [version Object]
+    }
+  }
 }
 ```
 

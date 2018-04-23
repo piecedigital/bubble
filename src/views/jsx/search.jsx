@@ -134,6 +134,7 @@ export default React.createClass({
         }
       }
     } = this.props;
+
     if(nextProps.params.searchtype !== searchtype || nextProps.location.query.q !== q) {
       console.log("refreshing");
       this.refreshLists(() => {

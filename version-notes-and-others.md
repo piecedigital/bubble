@@ -156,8 +156,13 @@
   - Multistream page has unique description **ok**
 - Bug fix: 0.16.3
   - Fixed a silly bug preventing streams and games pages from loading **ok**
+- Bug fix and Improvements: 0.16.4
+  - Fixed issue where selecting "see more" from the search page would not change page **ok**
+  - Fixed name scrolling in player **ok**
+  - NEW FEATURE: synchronize your viewing experience with someone else.
 
 # Things to add eventually
+- Allow users to vote on polls without logging in
 - Meta data update and full server-side rendering - TBD
 - PVP card game - TBD
 - AMAs - TBD

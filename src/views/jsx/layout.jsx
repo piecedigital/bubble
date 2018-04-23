@@ -130,6 +130,7 @@ export default React.createClass({
       pollsRef: Firebase.database().ref("polls"),
       gameQueuesRef: Firebase.database().ref("gameQueues"),
       feedbackRef: Firebase.database().ref("feedback"),
+      syncLobbyRef: Firebase.database().ref("syncLobby"),
     };
     // console.log("got auth token", token, typeof token);
     Firebase.auth().signInWithCustomToken(token)

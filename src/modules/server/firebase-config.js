@@ -42,6 +42,7 @@ export const initFirebase = () => {
     pollsRef: admin.database().ref("polls"),
     gameQueuesRef: admin.database().ref("gameQueues"),
     feedbackRef: admin.database().ref("feedback"),
+    syncLobbyRef: admin.database().ref("syncLobby"),
   };
   return (ref);
 }
