@@ -1,8 +1,7 @@
 import React from "react";
 
-// primary section for the search component
-export default React.createClass({
-  displayName: "SyncPlayer",
+const Container = React.createClass({
+  displayName: "SyncPlayerContainer",
   getInitialState() {
     return {
       playerReady: false
@@ -68,10 +67,49 @@ export default React.createClass({
   },
   render() {
     return (
-      <div className="top-level-component sync-player">
+      <div className="sync-player-container">
         <div ref="video">
 
         </div>
+      </div>
+    );
+  }
+});
+
+const Form = React.createClass({
+  displayName: "SyncPlayerForm",
+  render() {
+    return (
+      <div className="form">
+        <div className="box">
+          <h3 className="title">Create a new lobby</h3>
+          <br />
+          <div className="separator-2-dimmer"></div>
+          <br />
+          <form onSubmit={this.performSearch}>
+            <input ref="searchInput" type="text"/>
+            <br /><br />
+            <button>Search</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+});
+
+// primary section for the search component
+export default React.createClass({
+  displayName: "SyncPlayer",
+  render() {
+    return (
+      <div className="top-level-component sync-player">
+        {
+          (this.props.params && this.props.params.lobbyID) ? (
+            <Container {...this.props} />
+          ) : (
+            <Form />
+          )
+        }
       </div>
     );
   }

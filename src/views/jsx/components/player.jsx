@@ -745,7 +745,7 @@ const PlayerStream = React.createClass({
       case "chat": return (
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className={`chat`}>
-            <iframe ref={`chat`} src={`https://www.twitch.tv/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
+            <iframe ref={`chat`} src={`https://www.twitch.tv/embed/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
           </div>
         </li>
       );

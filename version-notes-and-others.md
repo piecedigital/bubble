@@ -159,6 +159,7 @@
 - Bug fix and Improvements: 0.16.4
   - Fixed issue where selecting "see more" from the search page would not change page **ok**
   - Fixed name scrolling in player **ok**
+- Bug fix and Improvements: 0.16.5
   - NEW FEATURE: synchronize your viewing experience with someone else.
 
 # Things to add eventually
