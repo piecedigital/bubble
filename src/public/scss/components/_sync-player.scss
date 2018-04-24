@@ -1,0 +1,31 @@
+.sync-player-container {
+  display: flex;
+
+  .video {
+    width: 100%;
+  }
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+
+    .controls {
+      height: 100%;
+      padding: 8px;
+
+      .row {
+        padding: 8px;
+        background-color: $primary;
+        border-radius: 5px;
+
+        &:not(:last-child) {
+          margin-bottom: 8px;
+        }
+      }
+    }
+    .messages {
+      height: 100%;
+      background-color: red;
+    }
+  }
+}

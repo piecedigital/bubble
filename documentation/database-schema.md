@@ -214,7 +214,11 @@ In addition to necessary data related to the Q&A aggregation this database will 
         "playing": Boolean
       }
       "chatMessages": {
-        <msgID>: String
+        <msgID>: {
+          username: <username>,
+          userID: <userID>,
+          message: String
+        }
       },
       "date": [date Number],
       "version": [version Object]
