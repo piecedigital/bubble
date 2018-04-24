@@ -48,7 +48,7 @@ searchComponents.VideosListItem = {
 
 // primary section for the search component
 exports["default"] = _react2["default"].createClass({
-  displayName: "SearchPage",
+  displayName: "Multistream",
   getInitialState: function getInitialState() {
     return {
       requestOffset: 0,

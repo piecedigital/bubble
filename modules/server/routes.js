@@ -247,6 +247,11 @@ app
     title: "Multistream | Amorrius",
     description: "Watch multiple livestreams here!"
   }));
+}).get("/sync-player(/:lobbyID)?", function (req, res) {
+  res.send((0, _renderJsx.renderHTML)("sync-player", {
+    title: "Sync Player | Amorrius",
+    description: "Watch a VOD, together, separately and in sync! Synchronous video viewing."
+  }));
 }).get("*", function (req, res) {
   res.status(404).send("Page not found: " + req.url);
 });

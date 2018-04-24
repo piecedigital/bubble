@@ -136,7 +136,7 @@ var PlayerStream = _react2["default"].createClass({
     var nodesToScroll = [node1, node2, node3, node4];
     setTimeout(function () {
       nodesToScroll.map(function (node, ind) {
-        if (node.offsetWidth > node.parentNode.offsetWidth) {
+        if (node && node.offsetWidth > node.parentNode.offsetWidth) {
           var newLeft = parseInt(node.style.left || 0) - 1;
           _this._mounted ? _this.setState(_defineProperty({}, "nameScroll" + (ind + 1), newLeft), function () {
             var nodeRight = parseInt(node.style.left) + node.offsetWidth;
@@ -874,7 +874,7 @@ var PlayerStream = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "chat" },
-            _react2["default"].createElement("iframe", { ref: "chat", src: "https://www.twitch.tv/" + name + "/chat", frameBorder: "0", scrolling: "no" })
+            _react2["default"].createElement("iframe", { ref: "chat", src: "https://www.twitch.tv/embed/" + name + "/chat", frameBorder: "0", scrolling: "no" })
           )
         );
       default:

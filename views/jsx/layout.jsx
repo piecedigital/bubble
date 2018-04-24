@@ -169,7 +169,8 @@ exports["default"] = _react2["default"].createClass({
       AMAsRef: _firebase2["default"].database().ref("AMAs"),
       pollsRef: _firebase2["default"].database().ref("polls"),
       gameQueuesRef: _firebase2["default"].database().ref("gameQueues"),
-      feedbackRef: _firebase2["default"].database().ref("feedback")
+      feedbackRef: _firebase2["default"].database().ref("feedback"),
+      syncLobbyRef: _firebase2["default"].database().ref("syncLobby")
     };
     // console.log("got auth token", token, typeof token);
     _firebase2["default"].auth().signInWithCustomToken(token)["catch"](function (e) {
