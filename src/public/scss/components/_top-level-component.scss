@@ -149,26 +149,25 @@
     }
   }
 
-  &.multistream-page {
-    .multi-search {
-      padding: 16px;
-      text-align: center;
-      background-color: $offBlack;
-      color: white;
-      .box {
-        max-width: 300px;
+  &.multistream-page {}
+  .multi-search, .general-form {
+    padding: 16px;
+    text-align: center;
+    background-color: $offBlack;
+    color: white;
+    .box {
+      max-width: 300px;
+      padding: 8px;
+      margin: 0 auto;
+      border-radius: 10px;
+      background-color: $primary;
+      h3 {
+        margin: 0;
+      }
+      input {
+        border: none;
         padding: 8px;
-        margin: 0 auto;
-        border-radius: 10px;
-        background-color: $primary;
-        h3 {
-          margin: 0;
-        }
-        input {
-          border: none;
-          padding: 8px;
-          border-radius: 5px;
-        }
+        border-radius: 5px;
       }
     }
   }

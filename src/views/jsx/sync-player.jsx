@@ -1,16 +1,17 @@
 import React from "react";
+import { browserHistory as History } from 'react-router';
 
 const Container = React.createClass({
   displayName: "SyncPlayerContainer",
   getInitialState() {
     return {
+      lobbyData: null,
       playerReady: false
     }
   },
   makePlayer(overrideName) {
-    const { link } = this.props;
     let options = {
-      video: link || "https://www.twitch.tv/noxidlyrrad/v/253112858".split("/").slice(-2).join(),
+      video: this.state.lobbyData.videoLink,
       width: "100%",
       height: "800",
     };
@@ -23,11 +24,14 @@ const Container = React.createClass({
         playerReady: true
       });
       console.log('Player is ready!');
-      this.timestampTimeTicker = setInterval(() => {
-        const time = player.getCurrentTime();
-        // console.log("time", time);
-        if(this.props.fireRef) this.props.fireRef.syncLobbyRef.child("videoState/time").set(time);
-      }, 5000);
+      if(this.state.lobbyData.hostID === this.props.userData._id) {
+        console.log("is host");
+        this.timestampTimeTicker = setInterval(() => {
+          const time = player.getCurrentTime();
+          // console.log("time", time);
+          if(this.props.fireRef) this.props.fireRef.syncLobbyRef.child(`${this.state.lobbyKey}/videoState/time`).set(time);
+        }, 5000);
+      }
     });
 
     player.addEventListener(Twitch.Player.PLAY, () => {
@@ -44,25 +48,22 @@ const Container = React.createClass({
       console.log('Player is paused!');
     });
   },
-  componentDidMount() {
-    this.makePlayer();
-  },
+  componentDidMount() {},
   componentWillReceiveProps(nextProps) {
-    console.log(this.props);
-    if(nextProps.userData != null && nextProps.fireRef != null) {
-      console.log("initial lobby commit");
-      this.props.fireRef.syncLobbyRef
-      .update({
-        "hostID": nextProps.userData._id,
-        "videoType": "Twitch",
-        "videoLink": "https://www.twitch.tv/noxidlyrrad/v/253112858".split("/").slice(-2).join(), // full required for now
-        "videoState": {
-          "playing": true
-        },
-        "chatMessages": {},
-        "date": Date.now(),
-        "version": this.props.versionData
-      });
+    if(!this.props.fireRef) {
+      if(nextProps.fireRef) {
+        nextProps.fireRef.syncLobbyRef
+        .child(this.props.params.lobbyID)
+        .once("value")
+        .then(snap => {
+          this.setState({
+            lobbyData: snap.val(),
+            lobbyKey: snap.getKey()
+          }, () => {
+            this.makePlayer();
+          });
+        });
+      }
     }
   },
   render() {
@@ -78,18 +79,50 @@ const Container = React.createClass({
 
 const Form = React.createClass({
   displayName: "SyncPlayerForm",
+  createLobby(e) {
+    e.preventDefault();
+    const vodID = this.refs.linkInput.value.split("/").slice(-2).join();
+
+    var lobbyID = this.props.fireRef.syncLobbyRef.push().getKey();
+    // https://www.twitch.tv/noxidlyrrad/v/253112858
+    console.log(lobbyID);
+    this.props.fireRef.syncLobbyRef
+    .child(lobbyID)
+    .update({
+      "hostID": this.props.userData._id,
+      "videoType": "Twitch",
+      "videoLink": vodID,
+      "videoState": {
+        "time": 0,
+        "playing": true
+      },
+      "chatMessages": {},
+      "date": Date.now(),
+      "version": this.props.versionData
+    });
+
+    History.push(`sync-player/${lobbyID}`);
+  },
   render() {
+    if(!this.props.userData) return (
+      <div className="general-form">
+        <div className="box">
+          <h3 className="title">Loading user auth...</h3>
+        </div>
+      </div>
+    );
     return (
-      <div className="form">
+      <div className="general-form">
         <div className="box">
           <h3 className="title">Create a new lobby</h3>
           <br />
           <div className="separator-2-dimmer"></div>
           <br />
-          <form onSubmit={this.performSearch}>
-            <input ref="searchInput" type="text"/>
+          <label>Link to Twitch VOD</label>
+          <form onSubmit={this.createLobby}>
+            <input ref="linkInput" type="text" placeholder="link to twitch VOD"/>
             <br /><br />
-            <button>Search</button>
+            <button>Create Lobby</button>
           </form>
         </div>
       </div>
@@ -107,7 +140,7 @@ export default React.createClass({
           (this.props.params && this.props.params.lobbyID) ? (
             <Container {...this.props} />
           ) : (
-            <Form />
+            <Form {...this.props} />
           )
         }
       </div>
