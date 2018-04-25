@@ -202,17 +202,17 @@ exports["default"] = _react2["default"].createClass({
                 _react2["default"].createElement(
                   "li",
                   null,
-                  "Comments for questions and polls"
+                  "Bookmarks for channels"
                 ),
                 _react2["default"].createElement(
                   "li",
                   null,
-                  "User queuing"
+                  "Game Queue helps you play with you viewers by keeping track of you have nad haven't played with"
                 ),
                 _react2["default"].createElement(
                   "li",
                   null,
-                  "Bookmarks"
+                  "Sync Lobbies let you watch a VOD, synchonously"
                 )
               )
             )
