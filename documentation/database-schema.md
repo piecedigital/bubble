@@ -217,7 +217,8 @@ In addition to necessary data related to the Q&A aggregation this database will 
         <msgID>: {
           username: <username>,
           userID: <userID>,
-          message: String
+          message: String,
+          timestamp: [date Number]
         }
       },
       "date": [date Number],

@@ -5,6 +5,7 @@ import { ViewBookmarks } from "./bookmark-tools.jsx";
 import { ViewNotifications } from "./notification-tools.jsx";
 import { MakePoll, VotePoll, ViewPoll, ViewCreatedPolls } from "./poll-tools.jsx";
 import { ViewGameQueue } from "./game-queue-tools.jsx";
+import { ViewSyncLobby } from "./sync-lobby-tools.jsx";
 import { Feedback } from "./feedback-tools.jsx";
 import { StreamReorderer } from "./stream-reorder-tools.jsx";
 
@@ -20,6 +21,7 @@ const components = {
   "viewPoll": ViewPoll,
   "viewCreatedPolls": ViewCreatedPolls,
   "viewGameQueue": ViewGameQueue,
+  "viewSyncLobby": ViewSyncLobby,
   "feedback": Feedback,
   "streamReorderer": StreamReorderer,
 };
@@ -53,6 +55,7 @@ export default React.createClass({
         case "viewQuestion":
         case "viewPoll":
         case "viewGameQueue":
+        case "viewSyncLobby":
         case "feedback":
         case "streamReorderer":
           Component = Component;

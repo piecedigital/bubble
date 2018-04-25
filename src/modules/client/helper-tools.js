@@ -380,3 +380,29 @@ export const makeTime = function(time) {
     formatted
   }
 }
+
+export const formatDate = function(time) {
+  var date = new Date(time);
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+  let second = date.getSeconds();
+  let formatted = "";
+  let formattedWithSeconds = "";
+
+  if(hour > 12) {
+    hour = hour - 12;
+  }
+  if(hour === 0) hour = 12;
+
+  formatted += `${hour}:${minute < 10 ? "0" : ""}${minute}`;
+  formattedWithSeconds += `${formatted}:${second < 10 ? "0" : ""}${second}`;
+  // console.log(formatted);
+  return {
+    raw: time,
+    hour,
+    minute,
+    second,
+    formatted,
+    formattedWithSeconds,
+  }
+}

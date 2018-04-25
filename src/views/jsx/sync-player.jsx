@@ -1,5 +1,6 @@
 import React from "react";
-import { browserHistory as History } from 'react-router';
+import { Link, browserHistory as History } from 'react-router';
+import { formatDate } from "../../modules/client/helper-tools.js";
 
 const Container = React.createClass({
   displayName: "SyncPlayerContainer",
@@ -12,14 +13,15 @@ const Container = React.createClass({
       autoSyncPlay: true,
       timeDiff: 1,
       updateInterval: 1,
+      chatMessages: []
     }
   },
   makePlayer(overrideName) {
     let options = {
       video: this.state.lobbyData.videoLink,
       width: "100%",
-      height: "800",
-    };console.log(options);
+      height: "100%",
+    };
 
     const player = new Twitch.Player(this.refs.video, options);
     this.player = player;
@@ -50,14 +52,15 @@ const Container = React.createClass({
           });
           // listen as non host on lobby data
           this.props.fireRef.syncLobbyRef.child(this.props.params.lobbyID).on("child_changed", snap => {
+            var dataKey = snap.getKey();
             var data = snap.val();
-            // console.log(data);
-            const currentTime = player.getCurrentTime();
-            if(data.time && currentTime - data.time >= this.state.timeDiff || currentTime - data.time <= -this.state.timeDiff) {
-              if(this.state.autoSyncTime) player.seek(data.time);
-            }
 
-            if(data.playing != undefined) {
+            const currentTime = player.getCurrentTime();
+            if(dataKey === "videoState") {
+              if(currentTime - data.time >= this.state.timeDiff || currentTime - data.time <= -this.state.timeDiff) {
+                if(this.state.autoSyncTime) player.seek(data.time);
+              }
+
               if(this.state.autoSyncPlay) {
                 if(player.isPaused()) {
                   if(data.playing) player.play();
@@ -67,17 +70,17 @@ const Container = React.createClass({
               }
             }
 
-            if(data.videoLink && data.videoLink != this.state.lobbyData.videoLink) {
+            if(dataKey === "videoLink" && data.videoLink != this.state.lobbyData.videoLink) {
               this.setState({
                 lobbyData: Object.assign(this.state.lobbyData, {
-                  videoLink: data.videoLink,
-                  videoType: data.videoType,
+                  videoLink: data,
+                  // videoType: data,
                 })
               });
-              this.player.setVideo(data.videoLink);
+              this.player.setVideo(data);
             }
           });
-        }, 3000);
+        }, 1000);
       }
     });
 
@@ -112,23 +115,68 @@ const Container = React.createClass({
     .set("Twitch");
   },
   updateOptions(key) {
-    this.state[key] = this.refs[key].value;
+    var value = this.refs[key].value;
+    if(value === "false") value = false;
+    if(value === "true") value = true;
+    console.log(key, value);
+    value = parseInt(value) || value;
+
+    this.state[key] = value;
+  },
+  sendChatMessage(e) {
+    e.preventDefault();
+    this.props.fireRef.syncLobbyRef
+    .child(this.props.params.lobbyID)
+    .child("chatMessages")
+    .push()
+    .set({
+      username: this.props.userData.display_name,
+      userID: this.props.userData._id,
+      message: this.refs.chatMessageInput.value,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    });
+
+    this.refs.chatMessageInput.value = "";
+  },
+  formatTime(time) {
+    var formattedTime = formatDate(time);
+    return formattedTime.formatted;
+  },
+  scrollChat() {
+    console.log("scroll");
+    this.refs.messages.scrollTop = this.refs.messages.scrollHeight - this.refs.messages.offsetHeight;
   },
   componentDidMount() {},
   componentWillReceiveProps(nextProps) {
-    if(nextProps.fireRef) {
-      if(!this.state.lobbyData) {
-        nextProps.fireRef.syncLobbyRef
-        .child(this.props.params.lobbyID)
-        .once("value")
-        .then(snap => {
-          this.setState({
-            lobbyData: snap.val()
-          }, () => {
-            this.makePlayer();
-          });
+    if(!this._fireRefMounted && nextProps.fireRef) {
+      nextProps.fireRef.syncLobbyRef
+      .child(this.props.params.lobbyID)
+      .once("value")
+      .then(snap => {
+        this.setState({
+          lobbyData: snap.val()
+        }, () => {
+          this.makePlayer();
         });
-      }
+      });
+
+      //
+      nextProps.fireRef.syncLobbyRef
+      .child(this.props.params.lobbyID)
+      .child("chatMessages")
+      .on("child_added", snap => {
+        const dataKey = snap.getKey();
+        const data = snap.val();
+
+        var newChatMessages = Array.from(this.state.chatMessages);
+        newChatMessages.push(data);
+        this.setState({
+          chatMessages: newChatMessages
+        }, this.scrollChat);
+      });
+    }
+    if(nextProps.fireRef) {
+      this._fireRefMounted = true;
     }
   },
   render() {
@@ -179,7 +227,28 @@ const Container = React.createClass({
               ) : null
             }
           </div>
-          <div className="messages">
+          <div className="chat-messages">
+            <div className="messages" ref="messages">
+              {
+                this.state.chatMessages.map((msg, ind) => {
+                  return (
+                    <div key={ind} className="chat-msg">
+                      <p>
+                        <span className="timestamp">[{this.formatTime(msg.timestamp)}]</span><span>&nbsp;</span>
+                        <Link to={`/profile/${msg.username.toLowerCase()}`} className="name">{msg.username}</Link><span>:&nbsp;</span>
+                        <span className="body">{msg.message}</span>
+                      </p>
+                    </div>
+                  );
+                })
+              }
+            </div>
+            <div className="form">
+              <form onSubmit={this.sendChatMessage}>
+                <input ref="chatMessageInput" />
+                <button>Send</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -195,6 +264,8 @@ const Form = React.createClass({
 
     var lobbyID = this.props.fireRef.syncLobbyRef.push().getKey();
     // https://www.twitch.tv/noxidlyrrad/v/253112858
+    if(!vodID) return;
+
     console.log(lobbyID);
     this.props.fireRef.syncLobbyRef
     .child(lobbyID)
@@ -207,7 +278,7 @@ const Form = React.createClass({
         "playing": true
       },
       "chatMessages": {},
-      "date": Date.now(),
+      "date": firebase.database.ServerValue.TIMESTAMP,
       "version": this.props.versionData
     });
 

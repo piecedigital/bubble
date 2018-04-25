@@ -210,6 +210,10 @@ export default React.createClass({
                         this.toggleNav("close");
                         popUpHandler("viewGameQueue", { queueHost: userData.name });
                       }}>Game Queue</a>
+                      <a key="synclobby" className="nav-item" href={`#`} onClick={() => {
+                        this.toggleNav("close");
+                        popUpHandler("viewSyncLobby");
+                      }}>Sync Lobby</a>
                     </div>
                     <Notifications
                       auth={auth}
