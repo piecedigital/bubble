@@ -79,9 +79,9 @@ export default React.createClass({
                   </ul>
                   <li>Questions and answers</li>
                   <li>Polls</li>
-                  <li>Comments for questions and polls</li>
-                  <li>User queuing</li>
-                  <li>Bookmarks</li>
+                  <li>Bookmarks for channels</li>
+                  <li>Game Queue helps you play with you viewers by keeping track of you have nad haven't played with</li>
+                  <li>Sync Lobbies let you watch a VOD, synchonously</li>
                 </ul>
               </span>
             </section>
