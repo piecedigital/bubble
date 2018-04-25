@@ -89,7 +89,7 @@ nav {
           top: -12.8px;
           border-color: transparent transparent #0082b4 transparent; }
         nav > div .nav-item.with-submenu:hover .submenu {
-          max-height: 240px; }
+          max-height: 256px; }
         nav > div .nav-item.with-submenu .submenu {
           display: -ms-flex ;
           display: -moz-flex ;
@@ -867,20 +867,20 @@ nav {
                 background-color: transparent;
                 border: none;
                 font-size: 16px; }
-  .top-level-component.multistream-page .multi-search {
+  .top-level-component .multi-search, .top-level-component .general-form {
     padding: 16px;
     text-align: center;
     background-color: #1e1e1e;
     color: white; }
-    .top-level-component.multistream-page .multi-search .box {
+    .top-level-component .multi-search .box, .top-level-component .general-form .box {
       max-width: 300px;
       padding: 8px;
       margin: 0 auto;
       border-radius: 10px;
       background-color: #00c8fa; }
-      .top-level-component.multistream-page .multi-search .box h3 {
+      .top-level-component .multi-search .box h3, .top-level-component .general-form .box h3 {
         margin: 0; }
-      .top-level-component.multistream-page .multi-search .box input {
+      .top-level-component .multi-search .box input, .top-level-component .general-form .box input {
         border: none;
         padding: 8px;
         border-radius: 5px; }
@@ -1492,7 +1492,8 @@ nav {
       text-align: left; }
   .overlay-ui-default .scroll {
     overflow-x: hidden;
-    overflow-y: auto; }
+    overflow-y: auto;
+    height: 100%; }
   .overlay-ui-default .section {
     display: -ms-flex ;
     display: -moz-flex ;
@@ -2090,6 +2091,85 @@ nav {
       .streamer-item label > span.tools span:not(.still):hover {
         background-color: rgba(0, 170, 220, 0.8);
         color: white; }
+
+.sync-player-container {
+  display: flex;
+  height: 100vh;
+  min-height: 400px;
+  padding-bottom: 32px; }
+  .sync-player-container .video {
+    width: 100%;
+    height: 100%; }
+  .sync-player-container .side-panel {
+    display: flex;
+    flex-direction: column;
+    width: 400px; }
+    .sync-player-container .side-panel .controls {
+      height: 100%;
+      padding: 8px; }
+      .sync-player-container .side-panel .controls .row {
+        padding: 8px;
+        background-color: #00c8fa;
+        border-radius: 5px; }
+        .sync-player-container .side-panel .controls .row:not(:last-child) {
+          margin-bottom: 8px; }
+    .sync-player-container .side-panel .chat-messages {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: inset 0 2px 0 0 rgba(30, 30, 30, 0.2); }
+      .sync-player-container .side-panel .chat-messages .messages {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        overflow: auto;
+        word-wrap: break-word; }
+        .sync-player-container .side-panel .chat-messages .messages .chat-msg {
+          width: 100%;
+          padding: 4px; }
+          .sync-player-container .side-panel .chat-messages .messages .chat-msg:nth-child(even) {
+            background-color: rgba(30, 30, 30, 0.2); }
+          .sync-player-container .side-panel .chat-messages .messages .chat-msg p {
+            margin: 0; }
+            .sync-player-container .side-panel .chat-messages .messages .chat-msg p .timestamp {
+              color: rgba(30, 30, 30, 0.8);
+              font-size: 10px; }
+            .sync-player-container .side-panel .chat-messages .messages .chat-msg p .name {
+              color: #00c8fa; }
+      .sync-player-container .side-panel .chat-messages .form {
+        padding: 8px;
+        background-color: #00c8fa; }
+
+.lobby-item:not(:last-child) {
+  margin-bottom: 8px; }
+.lobby-item label {
+  display: -ms-flex !important;
+  display: -moz-flex !important;
+  display: -webkit-box !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center; }
+  .lobby-item label a {
+    display: inline-block;
+    color: black;
+    margin-right: 16px; }
+  .lobby-item label .tools {
+    display: inline-block; }
+  .lobby-item label span {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(0, 200, 250, 0.8);
+    cursor: pointer; }
+    .lobby-item label span:not(:last-child) {
+      border-right: 1px solid black; }
+    .lobby-item label span.warning {
+      background-color: rgba(255, 165, 0, 0.8); }
+      .lobby-item label span.warning:hover {
+        background-color: rgba(255, 0, 0, 0.8); }
+    .lobby-item label span:hover {
+      background-color: rgba(0, 170, 220, 0.8);
+      color: white; }
 
 .clickable {
   cursor: pointer; }

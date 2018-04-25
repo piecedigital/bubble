@@ -289,6 +289,14 @@ exports["default"] = _react2["default"].createClass({
                     popUpHandler("viewGameQueue", { queueHost: userData.name });
                   } },
                 "Game Queue"
+              ),
+              _react2["default"].createElement(
+                "a",
+                { key: "synclobby", className: "nav-item", href: "#", onClick: function () {
+                    _this2.toggleNav("close");
+                    popUpHandler("viewSyncLobby");
+                  } },
+                "Sync Lobby"
               )
             ),
             _react2["default"].createElement(_notificationsJsx2["default"], {

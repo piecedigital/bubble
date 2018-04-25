@@ -24,6 +24,8 @@ var _pollToolsJsx = require("./poll-tools.jsx");
 
 var _gameQueueToolsJsx = require("./game-queue-tools.jsx");
 
+var _syncLobbyToolsJsx = require("./sync-lobby-tools.jsx");
+
 var _feedbackToolsJsx = require("./feedback-tools.jsx");
 
 var _streamReorderToolsJsx = require("./stream-reorder-tools.jsx");
@@ -40,6 +42,7 @@ var components = {
   "viewPoll": _pollToolsJsx.ViewPoll,
   "viewCreatedPolls": _pollToolsJsx.ViewCreatedPolls,
   "viewGameQueue": _gameQueueToolsJsx.ViewGameQueue,
+  "viewSyncLobby": _syncLobbyToolsJsx.ViewSyncLobby,
   "feedback": _feedbackToolsJsx.Feedback,
   "streamReorderer": _streamReorderToolsJsx.StreamReorderer
 };
@@ -71,6 +74,7 @@ exports["default"] = _react2["default"].createClass({
         case "viewQuestion":
         case "viewPoll":
         case "viewGameQueue":
+        case "viewSyncLobby":
         case "feedback":
         case "streamReorderer":
           Component = Component;
