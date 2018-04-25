@@ -7,3 +7,4 @@ Error: Cannot find module './jsx/sync-lobby.jsx' from 'E:\GIT FILES\Sites\bubble
     at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
     at FSReqWrap.oncomplete (fs.js:123:15)
 ]
+[1524626243290] [Wed, 25 Apr 2018 03:17:23 GMT] [error] [stderr maxBuffer exceeded]
