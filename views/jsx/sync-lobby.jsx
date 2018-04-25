@@ -186,7 +186,7 @@ var Container = _react2["default"].createClass({
 
     return _react2["default"].createElement(
       "div",
-      { className: "sync-player-container" },
+      { className: "sync-lobby-container" },
       _react2["default"].createElement("div", { className: "video", ref: "video" }),
       _react2["default"].createElement(
         "div",
@@ -365,7 +365,7 @@ var Form = _react2["default"].createClass({
       "version": this.props.versionData
     });
 
-    _reactRouter.browserHistory.push("sync-player/" + lobbyID);
+    _reactRouter.browserHistory.push("sync-lobby/" + lobbyID);
   },
   render: function render() {
     if (!this.props.userData) return _react2["default"].createElement(
@@ -423,7 +423,7 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     return _react2["default"].createElement(
       "div",
-      { className: "top-level-component sync-player" },
+      { className: "top-level-component sync-lobby" },
       this.props.params && this.props.params.lobbyID ? _react2["default"].createElement(Container, this.props) : _react2["default"].createElement(Form, this.props)
     );
   }

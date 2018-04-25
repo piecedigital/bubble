@@ -38,9 +38,9 @@ var _jsxMultistreamJsx = require("./jsx/multistream.jsx");
 
 var _jsxMultistreamJsx2 = _interopRequireDefault(_jsxMultistreamJsx);
 
-var _jsxSyncPlayerJsx = require("./jsx/sync-player.jsx");
+var _jsxSyncLobbyJsx = require("./jsx/sync-lobby.jsx");
 
-var _jsxSyncPlayerJsx2 = _interopRequireDefault(_jsxSyncPlayerJsx);
+var _jsxSyncLobbyJsx2 = _interopRequireDefault(_jsxSyncLobbyJsx);
 
 var _jsxGeneralPageJsx = require("./jsx/general-page.jsx");
 
@@ -96,7 +96,7 @@ function checkAuth(Component, props) {
     _react2["default"].createElement(_reactRouter.Route, { path: "/profile/:username(/:q/:postID)", page: "profile", component: _jsxProfileJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/search(/:searchtype)", page: "search", component: _jsxSearchJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/multistream(/:stream1)(/:stream2)(/:stream3)(/:stream4)(/:stream5)(/:stream6)", page: "multistream", component: _jsxMultistreamJsx2["default"] }),
-    _react2["default"].createElement(_reactRouter.Route, { path: "/sync-player(/:lobbyID)", page: "sync-player", component: _jsxSyncPlayerJsx2["default"] }),
+    _react2["default"].createElement(_reactRouter.Route, { path: "/sync-lobby(/:lobbyID)", page: "sync-lobby", component: _jsxSyncLobbyJsx2["default"] }),
     _react2["default"].createElement(_reactRouter.Route, { path: "/:page", page: "general", component: _jsxGeneralPageJsx2["default"] })
   )
 ), container);
