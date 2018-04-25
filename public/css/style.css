@@ -1494,11 +1494,9 @@ nav {
     overflow-x: hidden;
     overflow-y: auto;
     height: 100%; }
+  .overlay-ui-default form .section {
+    display: block; }
   .overlay-ui-default .section {
-    display: -ms-flex ;
-    display: -moz-flex ;
-    display: -webkit-box ;
-    display: flex ;
     padding: 8px; }
     .overlay-ui-default .section label {
       display: inline-block;
