@@ -156,11 +156,12 @@
   - Multistream page has unique description **ok**
 - Bug fix: 0.16.3
   - Fixed a silly bug preventing streams and games pages from loading **ok**
-- Bug fix and Improvements: 0.16.4
+- Bug fix: 0.16.4
   - Fixed issue where selecting "see more" from the search page would not change page **ok**
   - Fixed name scrolling in player **ok**
 - Bug fix and Improvements: 0.16.5
   - NEW FEATURE: synchronize your viewing experience with someone else. **ok**
+  - Fixed scrolling issue with overlay **ok**
 
 # Things to add eventually
 - Allow users to vote on polls without logging in
