@@ -1,1 +1,9 @@
 milliseconds;time;error;message
+[1524625995123] [Wed, 25 Apr 2018 03:13:15 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: Cannot find module './jsx/sync-lobby.jsx' from 'E:\GIT FILES\Sites\bubble\dist\views'
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:55:21
+    at load (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:69:43)
+    at onex (C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:92:31)
+    at C:\Users\trash\AppData\Roaming\npm\node_modules\browserify\node_modules\resolve\lib\async.js:22:47
+    at FSReqWrap.oncomplete (fs.js:123:15)
+]

@@ -8,7 +8,7 @@ import About from "./jsx/about.jsx";
 import TOS from "./jsx/tos.jsx";
 import Profile from "./jsx/profile.jsx";
 import Multistream from "./jsx/multistream.jsx";
-import SyncPlayer from "./jsx/sync-player.jsx";
+import SyncPlayer from "./jsx/sync-lobby.jsx";
 import GeneralPage from "./jsx/general-page.jsx";
 import SearchPage from "./jsx/search.jsx";
 
@@ -51,7 +51,7 @@ render((
       <Route path="/profile/:username(/:q/:postID)" page="profile" component={Profile}/>
       <Route path="/search(/:searchtype)" page="search" component={SearchPage}/>
       <Route path="/multistream(/:stream1)(/:stream2)(/:stream3)(/:stream4)(/:stream5)(/:stream6)" page="multistream" component={Multistream}/>
-      <Route path="/sync-player(/:lobbyID)" page="sync-player" component={SyncPlayer}/>
+      <Route path="/sync-lobby(/:lobbyID)" page="sync-lobby" component={SyncPlayer}/>
       <Route path="/:page" page="general" component={GeneralPage}/>
     </Route>
   </Router>

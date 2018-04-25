@@ -21,7 +21,7 @@ const SyncLobbyItem = React.createClass({
     return (
       <div className="lobby-item">
         <label>
-          <Link className="name" to={`/sync-player/${lobbyID}`}>{lobbyID}</Link>
+          <Link className="name" to={`/sync-lobby/${lobbyID}`}>{lobbyID}</Link>
           <div className="tools">
             <span className="unmark warning" onClick={this.remove}>x</span>
           </div>

@@ -181,7 +181,7 @@ const Container = React.createClass({
   },
   render() {
     return (
-      <div className="sync-player-container">
+      <div className="sync-lobby-container">
         <div className="video" ref="video">
         </div>
         <div className="side-panel">
@@ -282,7 +282,7 @@ const Form = React.createClass({
       "version": this.props.versionData
     });
 
-    History.push(`sync-player/${lobbyID}`);
+    History.push(`sync-lobby/${lobbyID}`);
   },
   render() {
     if(!this.props.userData) return (
@@ -316,7 +316,7 @@ export default React.createClass({
   displayName: "SyncPlayer",
   render() {
     return (
-      <div className="top-level-component sync-player">
+      <div className="top-level-component sync-lobby">
         {
           (this.props.params && this.props.params.lobbyID) ? (
             <Container {...this.props} />
