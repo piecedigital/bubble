@@ -43,9 +43,13 @@
     overflow-y: auto;
     height: 100%;
   }
-  form {}
+  form {
+    .section {
+      display: block;
+    }
+  }
   .section {
-    @include displayFlex;
+    // @include displayFlex;
     padding: .5*$em;
     label {
       display: inline-block;
