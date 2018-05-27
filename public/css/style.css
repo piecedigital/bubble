@@ -1267,7 +1267,7 @@ nav {
     color: black; }
     .channel-list-item .info .live-indicator {
       word-break: normal; }
-      .channel-list-item .info .live-indicator.offline, .channel-list-item .info .live-indicator.online {
+      .channel-list-item .info .live-indicator.offline, .channel-list-item .info .live-indicator.online, .channel-list-item .info .live-indicator.rerun {
         display: inline-block;
         position: absolute;
         width: 16px;
@@ -1275,8 +1275,9 @@ nav {
         left: 16px;
         height: 16px;
         margin: 8px 8px 0 0;
-        border-radius: 100%; }
-        .channel-list-item .info .live-indicator.offline:after, .channel-list-item .info .live-indicator.online:after {
+        border-radius: 100%;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3); }
+        .channel-list-item .info .live-indicator.offline:after, .channel-list-item .info .live-indicator.online:after, .channel-list-item .info .live-indicator.rerun:after {
           border-radius: 6.4px;
           background-color: rgba(0, 0, 0, 0.2);
           color: white;
@@ -1289,6 +1290,10 @@ nav {
         background-color: #00c8fa; }
         .channel-list-item .info .live-indicator.online:after {
           content: "Live"; }
+      .channel-list-item .info .live-indicator.rerun {
+        background-color: #ebebeb; }
+        .channel-list-item .info .live-indicator.rerun:after {
+          content: "Rerun"; }
     .channel-list-item .info .channel-name {
       font-weight: bold;
       margin-bottom: 3.2px;

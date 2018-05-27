@@ -371,7 +371,7 @@ var ChannelListItem = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "info" },
-            _react2["default"].createElement("div", { className: "live-indicator online" }),
+            _react2["default"].createElement("div", { className: "live-indicator " + (stream_type == "rerun" ? "rerun" : "online") }),
             _react2["default"].createElement(
               "div",
               { className: "channel-name" },
@@ -390,7 +390,16 @@ var ChannelListItem = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "viewers" },
-              "Streaming " + stream_type + " to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+              "Streaming ",
+              _react2["default"].createElement(
+                "b",
+                null,
+                stream_type
+              ),
+              " to ",
+              viewersString,
+              " viewer",
+              viewers > 1 ? "s" : ""
             )
           ),
           hoverOptions
