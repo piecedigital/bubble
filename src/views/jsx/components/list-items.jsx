@@ -318,7 +318,7 @@ export const ChannelListItem = React.createClass({
                 src={logo || missingLogo} />
             </div>
             <div className="info">
-              <div className={`live-indicator online`} />
+              <div className={`live-indicator ${stream_type == "rerun" ? "rerun" : "online"}`} />
               <div className="channel-name">
                 {name}
               </div>
@@ -329,7 +329,7 @@ export const ChannelListItem = React.createClass({
                 {`Online with "${game}"`}
               </div>
               <div className="viewers">
-                {`Streaming <b>${stream_type}</b> to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+                Streaming <b>{stream_type}</b> to {viewersString} viewer{viewers > 1 ? "s" : ""}
               </div>
             </div>
             {hoverOptions}
