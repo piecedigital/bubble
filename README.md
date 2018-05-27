@@ -7,7 +7,7 @@ This website is dedicating to providing an enhanced [Twitch.tv](http://twitch.tv
 ---
 
 ### Features
-- Multih-stream viewing (up to 6)
+- Multi-stream viewing (up to 6)
 - Tools for asking and answering questions
 - Tools for making polls
 - Bookmarks

@@ -305,6 +305,7 @@ export const ChannelListItem = React.createClass({
       title,
       _id: id,
       preview,
+      stream_type,
     } = stream;
     let viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
     if(filter === "all" || filter === "online") {
@@ -328,7 +329,7 @@ export const ChannelListItem = React.createClass({
                 {`Live with "${game}"`}
               </div>
               <div className="viewers">
-                {`Streaming to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+                {`Streaming ${stream_type} to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
               </div>
             </div>
             {hoverOptions}
