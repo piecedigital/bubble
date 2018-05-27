@@ -351,6 +351,7 @@ var ChannelListItem = _react2["default"].createClass({
     var title = stream.title;
     var id = stream._id;
     var preview = stream.preview;
+    var stream_type = stream.stream_type;
 
     var viewersString = viewers.toLocaleString("en"); // http://www.livecoding.tv/earth_basic/
     if (filter === "all" || filter === "online") {
@@ -389,7 +390,7 @@ var ChannelListItem = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "viewers" },
-              "Streaming to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
+              "Streaming " + stream_type + " to " + viewersString + " viewer" + (viewers > 1 ? "s" : "")
             )
           ),
           hoverOptions
