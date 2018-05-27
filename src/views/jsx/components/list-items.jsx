@@ -326,10 +326,10 @@ export const ChannelListItem = React.createClass({
                 {title}
               </div>
               <div className="game">
-                {`Live with "${game}"`}
+                {`Online with "${game}"`}
               </div>
               <div className="viewers">
-                {`Streaming ${stream_type} to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
+                {`Streaming <b>${stream_type}</b> to ${viewersString} viewer${viewers > 1 ? "s" : ""}`}
               </div>
             </div>
             {hoverOptions}
