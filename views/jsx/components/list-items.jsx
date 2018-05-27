@@ -385,7 +385,7 @@ var ChannelListItem = _react2["default"].createClass({
             _react2["default"].createElement(
               "div",
               { className: "game" },
-              "Live with \"" + game + "\""
+              "Online with \"" + game + "\""
             ),
             _react2["default"].createElement(
               "div",
