@@ -21,8 +21,6 @@ var app = (0, _express2["default"])();
 app.get("/", function (req, res) {
   var subdomain = req.headers.host.match(/^([a-z0-9]*)/i)[1];
 
-  console.log("subdomain");
-  // console.log(req.headers);
   console.log("Sub Domain:", subdomain);
   res.send("Sub Domain Test: " + subdomain);
 });

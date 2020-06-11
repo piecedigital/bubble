@@ -157,7 +157,7 @@ var FeaturedStream = _react2["default"].createClass({
       _react2["default"].createElement(
         "div",
         { className: "stream" },
-        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name + "&muted=true", frameBorder: "0", scrolling: "no", allowFullScreen: true })
+        _react2["default"].createElement("iframe", { src: "https://player.twitch.tv/?channel=" + name + "&muted=true&parent=www.amorrius.net&parent=amorrius.herokuapp.com&parent=www.amorrius.test", frameBorder: "0", scrolling: "no", allowFullScreen: true })
       ),
       displayName ? _react2["default"].createElement(
         "div",
