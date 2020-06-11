@@ -128,7 +128,9 @@ const PlayerStream = React.createClass({
   },
   makePlayer(overrideName) {
     const { vod, name } = this.props;
-    let options = {};
+    let options = {
+      parent: ["amorrius.net", "amorrius.herokuapp.com"]
+    };
     vod ? options.video = vod : options.channel = overrideName || name;
     // console.log("player options", options);
     const player = new Twitch.Player(this.refs.video, options);
@@ -745,7 +747,7 @@ const PlayerStream = React.createClass({
       case "chat": return (
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className={`chat`}>
-            <iframe ref={`chat`} src={`https://www.twitch.tv/embed/${name}/chat`} frameBorder="0" scrolling="no"></iframe>
+            <iframe ref={`chat`} src={`https://www.twitch.tv/embed/${name}/chat?parent=amorrius.net&parent=amorrius.herokuapp.com`} frameBorder="0" scrolling="no"></iframe>
           </div>
         </li>
       );

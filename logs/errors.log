@@ -8,3 +8,711 @@ Error: Cannot find module './jsx/sync-lobby.jsx' from 'E:\GIT FILES\Sites\bubble
     at FSReqWrap.oncomplete (fs.js:123:15)
 ]
 [1524626243290] [Wed, 25 Apr 2018 03:17:23 GMT] [error] [stderr maxBuffer exceeded]
+[1591887403488] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403533] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403594] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403648] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403672] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403697] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403740] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403775] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403810] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403845] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403877] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403918] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403947] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887403982] [Thu, 11 Jun 2020 14:56:43 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404024] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404066] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404106] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404142] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404198] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404246] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404302] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404332] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404362] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404401] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404445] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404477] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404507] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404539] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404571] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404604] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404643] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404698] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404746] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404800] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404835] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404876] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404904] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404941] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887404983] [Thu, 11 Jun 2020 14:56:44 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405025] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405067] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405099] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405137] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405162] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405197] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405230] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405260] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405298] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405331] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405365] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405408] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405443] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405475] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405502] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405535] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405563] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405594] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405626] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405655] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405691] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405768] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405814] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405844] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405883] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405918] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887405959] [Thu, 11 Jun 2020 14:56:45 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406057] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406126] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406157] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406204] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406240] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406272] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406315] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406342] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406375] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406404] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406439] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406466] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406500] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406522] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406549] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406572] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406598] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406628] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406654] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406683] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406728] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406758] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406788] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406817] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406841] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406868] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406896] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406925] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406956] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887406996] [Thu, 11 Jun 2020 14:56:46 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407031] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407061] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407094] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407118] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407142] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407169] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407203] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407226] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407253] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407274] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407302] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407339] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407366] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407397] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407427] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407455] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407483] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407510] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407541] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407572] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407596] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407628] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407652] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407684] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407719] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407748] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407782] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407816] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407848] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407875] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407948] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887407989] [Thu, 11 Jun 2020 14:56:47 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408047] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408089] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408124] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408155] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408187] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408212] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408244] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408271] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408300] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408330] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408355] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408383] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408411] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408439] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408462] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408488] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408510] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408534] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408558] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408581] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408607] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408635] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408666] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408694] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408722] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408749] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591887408773] [Thu, 11 Jun 2020 14:56:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+'sass' is not recognized as an internal or external command,
+operable program or batch file.
+]
+[1591888008796] [Thu, 11 Jun 2020 15:06:48 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888009337] [Thu, 11 Jun 2020 15:06:49 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888009948] [Thu, 11 Jun 2020 15:06:49 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888010485] [Thu, 11 Jun 2020 15:06:50 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888011092] [Thu, 11 Jun 2020 15:06:51 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888011628] [Thu, 11 Jun 2020 15:06:51 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888012184] [Thu, 11 Jun 2020 15:06:52 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888012685] [Thu, 11 Jun 2020 15:06:52 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888013188] [Thu, 11 Jun 2020 15:06:53 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888013730] [Thu, 11 Jun 2020 15:06:53 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888014283] [Thu, 11 Jun 2020 15:06:54 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888014808] [Thu, 11 Jun 2020 15:06:54 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888015389] [Thu, 11 Jun 2020 15:06:55 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888015973] [Thu, 11 Jun 2020 15:06:55 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888016654] [Thu, 11 Jun 2020 15:06:56 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888017231] [Thu, 11 Jun 2020 15:06:57 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888017835] [Thu, 11 Jun 2020 15:06:57 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888018473] [Thu, 11 Jun 2020 15:06:58 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888019085] [Thu, 11 Jun 2020 15:06:59 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888019707] [Thu, 11 Jun 2020 15:06:59 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888020326] [Thu, 11 Jun 2020 15:07:00 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888020919] [Thu, 11 Jun 2020 15:07:00 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888021475] [Thu, 11 Jun 2020 15:07:01 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888022010] [Thu, 11 Jun 2020 15:07:02 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888022515] [Thu, 11 Jun 2020 15:07:02 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888023011] [Thu, 11 Jun 2020 15:07:03 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888023508] [Thu, 11 Jun 2020 15:07:03 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888023988] [Thu, 11 Jun 2020 15:07:03 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888024481] [Thu, 11 Jun 2020 15:07:04 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888024980] [Thu, 11 Jun 2020 15:07:04 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888025478] [Thu, 11 Jun 2020 15:07:05 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888025968] [Thu, 11 Jun 2020 15:07:05 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888026490] [Thu, 11 Jun 2020 15:07:06 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888026973] [Thu, 11 Jun 2020 15:07:06 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888027463] [Thu, 11 Jun 2020 15:07:07 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888027975] [Thu, 11 Jun 2020 15:07:07 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888028467] [Thu, 11 Jun 2020 15:07:08 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888028958] [Thu, 11 Jun 2020 15:07:08 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888029453] [Thu, 11 Jun 2020 15:07:09 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888029934] [Thu, 11 Jun 2020 15:07:09 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888030444] [Thu, 11 Jun 2020 15:07:10 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888030927] [Thu, 11 Jun 2020 15:07:10 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888031448] [Thu, 11 Jun 2020 15:07:11 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591888031943] [Thu, 11 Jun 2020 15:07:11 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
