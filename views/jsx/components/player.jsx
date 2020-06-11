@@ -163,7 +163,9 @@ var PlayerStream = _react2["default"].createClass({
     var vod = _props2.vod;
     var name = _props2.name;
 
-    var options = {};
+    var options = {
+      parent: ["amorrius.net", "amorrius.herokuapp.com"]
+    };
     vod ? options.video = vod : options.channel = overrideName || name;
     // console.log("player options", options);
     var player = new Twitch.Player(this.refs.video, options);
@@ -874,7 +876,7 @@ var PlayerStream = _react2["default"].createClass({
           _react2["default"].createElement(
             "div",
             { className: "chat" },
-            _react2["default"].createElement("iframe", { ref: "chat", src: "https://www.twitch.tv/embed/" + name + "/chat", frameBorder: "0", scrolling: "no" })
+            _react2["default"].createElement("iframe", { ref: "chat", src: "https://www.twitch.tv/embed/" + name + "/chat?parent=amorrius.net&parent=amorrius.herokuapp.com", frameBorder: "0", scrolling: "no" })
           )
         );
       default:
