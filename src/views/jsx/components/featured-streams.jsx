@@ -139,7 +139,7 @@ const FeaturedStream = React.createClass({
     return (
       <div className="featured-stream">
         <div className="stream">
-          <iframe src={`https://player.twitch.tv/?channel=${name}&muted=true`} frameBorder="0" scrolling="no" allowFullScreen />
+          <iframe src={`https://player.twitch.tv/?channel=${name}&muted=true&parent=www.amorrius.net&parent=amorrius.herokuapp.com&parent=www.amorrius.test`} frameBorder="0" scrolling="no" allowFullScreen />
         </div>
         {
           displayName ? (

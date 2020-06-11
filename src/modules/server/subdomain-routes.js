@@ -8,8 +8,6 @@ app
 .get("/", function (req, res) {
   const subdomain = req.headers.host.match(/^([a-z0-9]*)/i)[1];
 
-  console.log("subdomain");
-  // console.log(req.headers);
   console.log("Sub Domain:", subdomain);
   res.send(`Sub Domain Test: ${subdomain}`);
 });

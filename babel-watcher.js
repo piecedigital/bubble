@@ -94,7 +94,7 @@ function babelWatcher() {
 }
 
 function sassWatcher() {
-  cp.exec(`sass --watch src/public/scss:dist/public/css --style=nested`, function (err, stdout, stderr) {
+  cp.exec("sass --watch src/public/scss:dist/public/css --style=compressed", function (err, stdout, stderr) {
     if(err) {
       logOut(err, true, {
         type: "error"
