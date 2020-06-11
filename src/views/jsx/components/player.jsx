@@ -129,7 +129,7 @@ const PlayerStream = React.createClass({
   makePlayer(overrideName) {
     const { vod, name } = this.props;
     let options = {
-      parent: ["amorrius.net", "amorrius.herokuapp.com"]
+      parent: ["www.amorrius.net", "amorrius.herokuapp.com"]
     };
     vod ? options.video = vod : options.channel = overrideName || name;
     // console.log("player options", options);
@@ -747,7 +747,7 @@ const PlayerStream = React.createClass({
       case "chat": return (
         <li className={`player-stream${inView ? " in-view" : ""}`}>
           <div className={`chat`}>
-            <iframe ref={`chat`} src={`https://www.twitch.tv/embed/${name}/chat?parent=amorrius.net&parent=amorrius.herokuapp.com`} frameBorder="0" scrolling="no"></iframe>
+            <iframe ref={`chat`} src={`https://www.twitch.tv/embed/${name}/chat?parent=www.amorrius.net&parent=www.amorrius.herokuapp.com`} frameBorder="0" scrolling="no"></iframe>
           </div>
         </li>
       );
@@ -851,7 +851,7 @@ export default React.createClass({
 
     var dataArray = Object.keys(dataObject);
 
-    return `${window ? window.location.protocol : "http:"}//${window ? window.location.host : "amorrius.net"}/multistream/${dataArray.join("/")}`
+    return `${window ? window.location.protocol : "http:"}//${window ? window.location.host : "www.amorrius.net"}/multistream/${dataArray.join("/")}`
   },
   componentWillReceiveProps(nextProps) {
     const {

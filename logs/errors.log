@@ -716,3 +716,59 @@ operable program or batch file.
 ]
 [1591888031943] [Thu, 11 Jun 2020 15:07:11 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
 ]
+[1591889896268] [Thu, 11 Jun 2020 15:38:16 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889896820] [Thu, 11 Jun 2020 15:38:16 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889897368] [Thu, 11 Jun 2020 15:38:17 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889897905] [Thu, 11 Jun 2020 15:38:17 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889898479] [Thu, 11 Jun 2020 15:38:18 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889899039] [Thu, 11 Jun 2020 15:38:19 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889899622] [Thu, 11 Jun 2020 15:38:19 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889900166] [Thu, 11 Jun 2020 15:38:20 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889900730] [Thu, 11 Jun 2020 15:38:20 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889901400] [Thu, 11 Jun 2020 15:38:21 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889902114] [Thu, 11 Jun 2020 15:38:22 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889902875] [Thu, 11 Jun 2020 15:38:22 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889904363] [Thu, 11 Jun 2020 15:38:24 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889906132] [Thu, 11 Jun 2020 15:38:26 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889908726] [Thu, 11 Jun 2020 15:38:28 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889912043] [Thu, 11 Jun 2020 15:38:32 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889914674] [Thu, 11 Jun 2020 15:38:34 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889915391] [Thu, 11 Jun 2020 15:38:35 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
+[1591889916966] [Thu, 11 Jun 2020 15:38:36 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889917174] [Thu, 11 Jun 2020 15:38:37 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
+[1591889917449] [Thu, 11 Jun 2020 15:38:37 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -o ./dist/public/js/bundle.js
+Error: EPERM: operation not permitted, rename 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js.tmp-browserify-95895983613803048584' -> 'E:\GIT FILES\Sites\bubble\dist\public\js\bundle.js'
+]
+[1591889917914] [Thu, 11 Jun 2020 15:38:37 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]
+[1591889918221] [Thu, 11 Jun 2020 15:38:38 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889919061] [Thu, 11 Jun 2020 15:38:39 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889919723] [Thu, 11 Jun 2020 15:38:39 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
+[1591889920464] [Thu, 11 Jun 2020 15:38:40 GMT] [error] [Command failed: sass --watch src/public/scss:dist/public/css --style=nested
+]
