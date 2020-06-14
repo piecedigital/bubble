@@ -69,12 +69,7 @@ function loadData(errorCB) {
           try {
             data = JSON.parse(data);
           } catch (e) {
-            console.log(data);
-            if (e.message.match(/Unexpected token e in JSON at position 0/i)) {
-              console.error("Not JSON");
-            } else {
-              console.error(e.stack || e);
-            }
+            console.error(e.stack || e);
           } finally {
             resolve(data);
             if (typeof okayCB === "function") okayCB(data);

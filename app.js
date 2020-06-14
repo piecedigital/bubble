@@ -54,10 +54,10 @@ app.get('/.well-known/acme-challenge/:content', function (req, res) {
 
 app.use(_express2["default"]["static"](_path2["default"].join(__dirname, "public")));
 app.use((0, _cookieParser2["default"])());
-app.use((0, _modulesServerSubdomain2["default"])({
-  whiteList: ["amorrius.test", "amorrius.net"],
-  blackList: ["www", "twinchill"]
-}, _modulesServerSubdomainRoutes2["default"]));
+// app.use( subdomain({
+//   whiteList: ["amorrius.test", "amorrius.net"],
+//   blackList: ["www", "twinchill"],
+// }, subdomainRoutes) );
 app.use(_modulesServerRoutes2["default"]);
 
 app.listen(PORT);
