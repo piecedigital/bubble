@@ -216,7 +216,7 @@ app
     messagingSenderId: process.env["MESSAGING_SENDER_ID"],
   };
   const stringified = JSON.stringify(data);
-  const base64Encoded = new Buffer(stringified).toString("base64");
+  const base64Encoded = new Buffer.from(stringified).toString("base64");
   res.send(base64Encoded);
 })
 .get("/get-auth-token", function (req, res) {

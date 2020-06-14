@@ -3500,3 +3500,6 @@ operable program or batch file.
 'sass--watch' is not recognized as an internal or external command,
 operable program or batch file.
 ]
+[1591903424578] [Thu, 11 Jun 2020 19:23:44 GMT] [error] [Command failed: browserify ./dist/views/app.jsx --debug -g [ envify --NODE_ENV 'production' ] | uglifyjs > ./dist/public/js/bundle-live.js
+The process cannot access the file because it is being used by another process.
+]

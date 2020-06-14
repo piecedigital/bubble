@@ -10,16 +10,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "envify": "^4.0.0",
+    "envify": "^4.1.0",
     "flow-bin": "^0.38.0",
     "react-autocomplete-cli": "0.0.3",
-    "uglifyjs": "^2.4.10",
+    "uglifyjs": "^2.4.11",
     "unflowify": "^1.0.1"
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.19.0",
     "node-fetch": "^1.7.3",
-    "shoehornjs": "^2.0.1",
+    "shoehornjs": "^2.0.4",
     "watch-babel": "^0.1.2"
   }
 }
