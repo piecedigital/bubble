@@ -639,8 +639,9 @@ exports["default"] = _react2["default"].createClass({
           console.error(e.stack);
         }).then(function (methods) {
           methods.getFirebaseConfig().then(function (data) {
-            // console.log("firebase data", data);
-            _this7.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
+            console.log("firebase data", data);
+            // this.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
+            _this7.initAuthAndFirebase(data, authToken);
           })["catch"](function (e) {
             return console.error(e.stack || e);
           });

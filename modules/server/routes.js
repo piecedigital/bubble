@@ -207,8 +207,9 @@ app
     messagingSenderId: process.env["MESSAGING_SENDER_ID"]
   };
   var stringified = JSON.stringify(data);
-  var base64Encoded = new Buffer.from(stringified).toString("base64");
-  res.send(base64Encoded);
+  // const base64Encoded = new Buffer.from(stringified).toString("base64");
+  // res.send(base64Encoded);
+  res.send(stringified);
 }).get("/get-auth-token", function (req, res) {
   (0, _firebaseConfig.getAuthToken)().then(function (token) {
     res.send(token);
