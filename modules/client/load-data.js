@@ -33,12 +33,12 @@ function loadData(errorCB) {
       redirectURI = "http://" + location.host;
       clientID = "2lbl5iik3q140d45q5bddj3paqekpbi";
     } else {
-      redirectURI = "http://amorrius.dev";
+      redirectURI = "http://www.amorrius.test";
       clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
     }
   } else {
     // console.log("load data server side");
-    redirectURI = "http://amorrius." + (process.env["NODE_ENV"] === "prod" ? "net" : "dev");
+    redirectURI = "http://www.amorrius." + (process.env["NODE_ENV"] === "prod" ? "net" : "test");
     clientID = "cye2hnlwj24qq7fezcbq9predovf6yy";
   }
 
@@ -69,6 +69,7 @@ function loadData(errorCB) {
           try {
             data = JSON.parse(data);
           } catch (e) {
+            console.log(data);
             if (e.message.match(/Unexpected token e in JSON at position 0/i)) {
               console.error("Not JSON");
             } else {
