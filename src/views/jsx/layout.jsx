@@ -594,8 +594,9 @@ export default React.createClass({
           methods
           .getFirebaseConfig()
           .then(data => {
-            // console.log("firebase data", data);
-            this.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
+            console.log("firebase data", data);
+            // this.initAuthAndFirebase(JSON.parse(atob(data)), authToken);
+            this.initAuthAndFirebase(data, authToken);
           })
           .catch(e => console.error(e.stack || e));
         })

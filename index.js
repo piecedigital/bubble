@@ -1,7 +1,7 @@
 var cp = require('child_process');
 var env = {
   PORT: 80,
-  NODE_ENV: "prod",
+  NODE_ENV: "dev",
   API_KEY: "AIzaSyCKZDymYonde07sD7vMu7RukYhGwau1mm4",
   AUTH_DOMAIN: "bubble-13387.firebaseapp.com",
   DATABASE_URL: "https://bubble-13387.firebaseio.com",
